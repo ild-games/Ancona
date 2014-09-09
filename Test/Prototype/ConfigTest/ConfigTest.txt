@@ -1,0 +1,5 @@
+test1 = tree
+test2 = comment # followed by a comment
+test3 = #whitespace with comment
+test4#only comment line
+test5 = val with = inside

@@ -1,0 +1,62 @@
+#include <string>
+#include <fstream>
+
+#include <Ancona/Engine/Config/Config.hpp>
+#include <Ancona/Util/StrUtil.hpp>
+
+using namespace ild;
+
+std::unordered_map<std::string,std::string> * Config::options = NULL;
+static const std::string EMPTY_OPTION = "";
+
+void Config::Load(const std::string & configFile)
+{
+    if(options != NULL)
+    {
+        return;
+    }
+
+    options = new std::unordered_map<std::string,std::string>();
+
+    std::vector<std::string> pieces;
+    std::ifstream file(configFile, std::ios::out);
+    std::string line;
+    
+    while(!file.eof())
+    {
+        std::getline(file, line);
+        pieces.clear();
+
+        //Remove comments from the string
+        size_t comment_pos = line.find("#");
+        if(comment_pos != std::string::npos)
+        {
+            line.erase(line.begin() + line.find("#"), line.end());
+        }
+
+        //Split the line along the assignment operator
+        StrUtil::Split(line, '=', pieces, 2);
+
+        if(pieces.size() == 2)
+        {
+            //Trim whitespace from both pieces
+            StrUtil::Trim(pieces[0]);
+            StrUtil::Trim(pieces[1]);
+
+            (*options)[pieces[0]] = pieces[1];
+        }
+    }
+}
+
+const std::string & Config::GetOption(const std::string & optionName)
+{
+    //Test if the option is in the map
+    if(options->find(optionName) != options->end())
+    {
+        return options->at(optionName);
+    }
+    else
+    {
+        return EMPTY_OPTION;
+    }
+}
