@@ -2,6 +2,7 @@
 C++ Version of Ancona Engine
 
 To get started on a Posix OS:
+
 	1. Download cmake and sfml
 	2. Open a shell in the project directory
 	3. Create a dir named Build
