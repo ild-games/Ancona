@@ -8,6 +8,9 @@
 build/
 Build/
 
+# Ignore CTags file
+tags
+
 # Ignore Temp Files
 *.swp
 *~
