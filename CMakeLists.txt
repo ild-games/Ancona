@@ -7,7 +7,7 @@ project(ANCONA)
 option(BuildPrototypes "BuildPrototypes" ON)
 
 #Set C++ Version to 11
-SET(CMAKE_CXX_FLAGS "-std=c++0x -g")
+SET(CMAKE_CXX_FLAGS "-std=c++11 -g -lstdc++")
 
 #Define SRC_DIR and INC_DIR incase we choose to separate
 #cpp and hpp files in the future
