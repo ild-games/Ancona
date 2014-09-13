@@ -1,0 +1,148 @@
+#ifndef Ancona_Engine_EntityFramework_UnorderedSystem_H_
+#define Ancona_Engine_EntityFramework_UnorderedSystem_H_
+
+#include <unordered_map>
+
+#include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
+#include <Ancona/Engine/EntityFramework/Entity.hpp>
+#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+
+namespace ild
+{
+
+class SystemManager;
+
+/**
+ * @brief Implements most of the logic needed by a system for tracking components.
+ * Any system that does not need its components stored in a specific order should 
+ * inherit from this class.
+ *
+ * @owner Jeff Swenson
+ *
+ * @tparam ComponentType The type of component that the system manages.
+ */
+template <class ComponentType>
+class UnorderedSystem : public AbstractSystem
+{
+    public:
+        /**
+         * @brief Construct and initialize the UnorderedSystem.  The system will
+         * register itself with the SystemManager.
+         *
+         * @param manager The SystemManager that owns BaseSystem
+         * @param updateStep Determine when the system is updated
+         */
+        UnorderedSystem(SystemManager * manager, UpdateStepEnum updateStep) :
+            AbstractSystem(manager, updateStep)
+        {  }
+
+        /**
+         * @brief Get the component corresponding to the entity.
+         * If the entity does not have a component managed by the system then null
+         * will be returned.
+         *
+         * @param entity Entity whose component is being requested.
+         *
+         * @return A reference to the component if it exists
+         */
+        ComponentType * operator [] (const Entity entity)
+        {
+            auto componentIter = _components.find(entity);
+            if(componentIter != _components.end())
+            {
+                return *componentIter;
+            }
+            return NULL;
+        }
+
+        /**
+         * @brief Implementation for AbstractSystem method
+         */
+        void Update(float delta) = 0;
+
+        /**
+         * @brief Implementation for AbstractSystem method
+         */
+        void RemoveComponent(const Entity & entity)
+        {
+            EntityIsDeleted(entity);
+            _systemManager.UnregisterComponent(entity, this);
+        }
+
+        /**
+         * @brief Implementation for AbstractSystem method
+         *
+         * NOTE: This method should only be called by SystemManager
+         */
+        void EntityIsDeleted(const Entity & entity)
+        {
+            auto componentIter = _components.find(entity);
+            ComponentType * component = *componentIter;
+
+            //Allow a child class to react to the component being removed
+            OnComponentRemove(entity, component);
+
+            _components.erase(componentIter);
+        }
+
+    protected:
+        /**
+         * @brief SystemIterator is an iterator that can be used to iterate over all contained
+         * components.
+         */
+        typedef typename std::unordered_map<Entity, ComponentType *>::const_iterator SystemIterator;
+
+        /**
+         * @brief This method can be overriden to allow a child class to respond when
+         * a component is being removed. It will be called just before the system
+         * removes it and deregisters it.
+         *
+         * @param entity Entity that component is being removed from
+         * @param component Component that is being removed
+         */
+        virtual void OnComponentRemove(Entity entity, ComponentType * component) {}
+
+        /**
+         * @brief Get at iterator to the first component in the system.  No order of 
+         * components is guaranteed
+         *
+         * @return An iterator that can be used to iterate over the components
+         */
+        SystemIterator begin()
+        {
+            return _components.cbegin();
+        }
+
+        /**
+         * @brief Get the end iterator for the system.
+         *
+         * @return The end iterator.
+         */
+        SystemIterator end()
+        {
+            return _components.cend();
+        }
+
+        /**
+         * @brief Used by child classes to add components to an entity.  Attach component will
+         * register the component with SystemManager.
+         *
+         * @param entity Component that should be attached to the entity
+         * @param component Entity to attach the component to
+         */
+        void AttachComponent(const Entity & entity, ComponentType * component)
+        {
+            _components[entity] = component;
+            _systemManager.RegisterComponent(entity, this);
+        }
+
+    private:
+        /**
+         * @brief Used to store components
+         */
+        std::unordered_map<Entity, ComponentType *> _components;
+};
+
+}
+#endif
