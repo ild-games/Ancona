@@ -3,6 +3,7 @@
 
 #include <Ancona/Engine/Config/Config.hpp>
 #include <Ancona/Util/StrUtil.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
 
@@ -58,5 +59,23 @@ const std::string & Config::GetOption(const std::string & optionName)
     else
     {
         return EMPTY_OPTION;
+    }
+}
+
+void Config::_initAssert()
+{
+    const std::string & assertFile = GetOption("Assert_ErrorFile");
+    const std::string & throwException = GetOption("Assert_ThrowException");
+
+    if(assertFile != "")
+    {
+        std::ostream * logFile = new std::ofstream(assertFile);
+        AssertControls::SetErrorStream(logFile);
+    }
+
+    if(throwException != "false")
+    {
+        //Default to throw an exception
+        AssertControls::SetThrowException(true);
     }
 }
