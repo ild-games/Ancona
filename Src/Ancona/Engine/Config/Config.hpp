@@ -30,10 +30,10 @@ class Config
          * @return Value of the option.  If the value was not set the "" is returned.
          */
         static const std::string & GetOption(const std::string & optionName);
-
     private:
         Config() {};
         static std::unordered_map<std::string,std::string> * options;
+        static void _initAssert();
 };
 
 }
