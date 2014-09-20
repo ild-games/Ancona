@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 project(ANCONA)
 
 option(BuildPrototypes "BuildPrototypes" ON)
+option(BuildTests "BuildTests" ON)
 
 #Set C++ Version to 11
 SET(CMAKE_CXX_FLAGS "-std=c++11 -g -lstdc++")
@@ -32,6 +33,5 @@ add_subdirectory(Src/Ancona/Engine)
 add_subdirectory(Src/Ancona/Game)
 add_subdirectory(Src/Ancona/Util)
 
-if(BuildPrototypes)
-    add_subdirectory(Test/Prototype)
-endif(BuildPrototypes)
+#Add test directory
+add_subdirectory(Test)

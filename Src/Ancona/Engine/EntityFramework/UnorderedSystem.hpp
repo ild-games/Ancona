@@ -7,6 +7,7 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 namespace ild
 {
@@ -33,7 +34,7 @@ class UnorderedSystem : public AbstractSystem
          * @param manager The SystemManager that owns BaseSystem
          * @param updateStep Determine when the system is updated
          */
-        UnorderedSystem(SystemManager * manager, UpdateStepEnum updateStep) :
+        UnorderedSystem(SystemManager & manager, UpdateStepEnum updateStep) :
             AbstractSystem(manager, updateStep)
         {  }
 
@@ -66,7 +67,10 @@ class UnorderedSystem : public AbstractSystem
          */
         void RemoveComponent(const Entity & entity)
         {
-            EntityIsDeleted(entity);
+            Assert(_components.find(entity) != _components.end(),
+                    "Can not remove a component that does not exist");
+
+            EntityIsDeleted(entity); 
             _systemManager.UnregisterComponent(entity, this);
         }
 
@@ -77,6 +81,10 @@ class UnorderedSystem : public AbstractSystem
          */
         void EntityIsDeleted(const Entity & entity)
         {
+            Assert(_components.find(entity) != _components.end(),
+                    "A system should not be notified of an entities deletion if the \
+                    system does not contain a component for the entity");
+
             auto componentIter = _components.find(entity);
             ComponentType * component = *componentIter;
 
@@ -133,6 +141,10 @@ class UnorderedSystem : public AbstractSystem
          */
         void AttachComponent(const Entity & entity, ComponentType * component)
         {
+            Assert(component != NULL, "Can not attach a null component");
+            Assert(_components.find(entity) == _components.end(),
+                    "Can not attach two of the same component to an entity");
+
             _components[entity] = component;
             _systemManager.RegisterComponent(entity, this);
         }
