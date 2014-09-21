@@ -3,6 +3,7 @@
 
 #include <string>
 #include <typeindex>
+#include <fstream>
 
 namespace ild
 {
@@ -59,6 +60,30 @@ class AbstractLoader
          * @brief Type of the resource the loader loads
          */
         std::type_index _resourceType;
+
+    protected:
+        /**
+         * @brief Opens a file in the specified resource directory, of the
+         * specified type, with the name of the specified key and then 
+         * returns an istream of the resource.
+         *
+         * @param resourceDir Resource directory where the resource is 
+         * located. Relative to the Resource root directory
+         * @param resourceKey Filename (without extension) of resource to
+         * load
+         * @param fileExtension allowed filetype
+         *
+         * @return pointer to the istream containing the file read in from
+         * disk
+         */
+        std::istream * OpenResource(const std::string & resourceDir, const std::string & resourceKey, const std::string & fileExtension);
+
+        /**
+         * @brief Closes the specified istream
+         *
+         * @param openStream pointer to istream to close
+         */
+        void CloseResource(std::istream * openStream);
 };
 
 }
