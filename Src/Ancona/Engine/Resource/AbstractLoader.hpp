@@ -36,7 +36,7 @@ class AbstractLoader
          *
          * @param resource A pointer to the resource object.
          */
-        virtual void  * DeleteResource(void * resource);
+        virtual void DeleteResource(void * resource) = 0;
 
         /**
          * @brief Get a type_index that refers to the type of resource loaded by the loader.
@@ -51,6 +51,7 @@ class AbstractLoader
          * @return A string that describes the resource type.
          */
         const std::string & GetResourceName();
+
     private:
         /**
          * @brief Name that describes the resource type
@@ -63,9 +64,7 @@ class AbstractLoader
 
     protected:
         /**
-         * @brief Opens a file in the specified resource directory, of the
-         * specified type, with the name of the specified key and then 
-         * returns an istream of the resource.
+         * @brief Return a string that describes the resource file location
          *
          * @param resourceDir Resource directory where the resource is 
          * located. Relative to the Resource root directory
@@ -73,17 +72,12 @@ class AbstractLoader
          * load
          * @param fileExtension allowed filetype
          *
-         * @return pointer to the istream containing the file read in from
-         * disk
+         * @return String that describes the resource file location
          */
-        std::istream * OpenResource(const std::string & resourceDir, const std::string & resourceKey, const std::string & fileExtension);
-
-        /**
-         * @brief Closes the specified istream
-         *
-         * @param openStream pointer to istream to close
-         */
-        void CloseResource(std::istream * openStream);
+        std::string GetResourceFileName(
+                const std::string & resourceDir, 
+                const std::string & resourceKey, 
+                const std::string & fileExtension);
 };
 
 }
