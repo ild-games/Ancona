@@ -24,9 +24,13 @@ class MockSystem : public UnorderedSystem<MockComponent>
 
         void Update(float delta);
 
-        MockComponent * CreateComponent(Entity entity);
+        MockComponent * CreateComponent(const Entity & entity);
 
         int ComponentCount();
+
+        void OnComponentRemove(Entity entity, MockComponent * component);
+
+        bool ComponentRemoved;
 };
 
 }

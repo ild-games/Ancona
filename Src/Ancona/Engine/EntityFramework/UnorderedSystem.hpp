@@ -86,7 +86,7 @@ class UnorderedSystem : public AbstractSystem
                     system does not contain a component for the entity");
 
             auto componentIter = _components.find(entity);
-            ComponentType * component = *componentIter;
+            ComponentType * component = componentIter->second;
 
             //Allow a child class to react to the component being removed
             OnComponentRemove(entity, component);
@@ -96,10 +96,15 @@ class UnorderedSystem : public AbstractSystem
 
     protected:
         /**
-         * @brief SystemIterator is an iterator that can be used to iterate over all contained
+         * @brief EntityComponentIter is an iterator that can be used to iterate over all contained
          * components.
          */
-        typedef typename std::unordered_map<Entity, ComponentType *>::const_iterator SystemIterator;
+        typedef typename std::unordered_map<Entity, ComponentType *>::iterator EntityComponentIter;
+        
+        /**
+         * @brief EntityComponentPair should be used as the types in for each loops iterating over the component
+         */
+        typedef typename std::pair<const Entity, ComponentType *> & EntityComponentPair;
 
         /**
          * @brief This method can be overriden to allow a child class to respond when
@@ -109,7 +114,7 @@ class UnorderedSystem : public AbstractSystem
          * @param entity Entity that component is being removed from
          * @param component Component that is being removed
          */
-        virtual void OnComponentRemove(Entity entity, ComponentType * component) {}
+        virtual void OnComponentRemove(Entity entity, ComponentType * component) {};
 
         /**
          * @brief Get at iterator to the first component in the system.  No order of 
@@ -117,9 +122,9 @@ class UnorderedSystem : public AbstractSystem
          *
          * @return An iterator that can be used to iterate over the components
          */
-        SystemIterator begin()
+        EntityComponentIter begin()
         {
-            return _components.cbegin();
+            return _components.begin();
         }
 
         /**
@@ -127,9 +132,9 @@ class UnorderedSystem : public AbstractSystem
          *
          * @return The end iterator.
          */
-        SystemIterator end()
+        EntityComponentIter end()
         {
-            return _components.cend();
+            return _components.end();
         }
 
         /**

@@ -50,8 +50,8 @@ Entity SystemManager::CreateEntity()
 void SystemManager::RegisterSystem(AbstractSystem * system, UpdateStepEnum updateStep)
 {
     auto & systems = _systems[updateStep]; 
-    Assert(std::find(systems.begin(),systems.end(),system) != systems.end(),
-            "A System Manager can not contain the same system twice");
+    Assert(std::find(systems.begin(),systems.end(),system) == systems.end(),
+            "A System Manager cannot contain the same system twice");
 
     systems.push_back(system);
 }
@@ -59,7 +59,7 @@ void SystemManager::RegisterSystem(AbstractSystem * system, UpdateStepEnum updat
 void SystemManager::RegisterComponent(Entity entity, AbstractSystem * owningSystem)
 {
     Assert(_components.find(entity) != _components.end(),
-            "Can not add a component to an entity that does not exist");
+            "Cannot add a component to an entity that does not exist");
    _components[entity].insert(owningSystem); 
 }
 

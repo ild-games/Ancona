@@ -51,7 +51,7 @@ class AbstractSystem
          * @param entity Entity that is being deleted
          */
         virtual void EntityIsDeleted(const Entity & entity) = 0;
-    private:
+    protected:
         SystemManager & _systemManager;
 
 

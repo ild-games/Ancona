@@ -10,7 +10,7 @@ AssertException::AssertException(const std::string & message) : std::runtime_err
 
 }
 
-bool AssertControls::_throwException = false;
+bool AssertControls::_throwException = true;
 std::ostream * AssertControls::_errorStream = NULL;
 
 void AssertControls::SetThrowException(bool value)
@@ -28,7 +28,8 @@ void AssertControls::_assert(bool condition, const std::string & message, const 
     if(!condition)
     {
         std::stringstream errMsg;
-        errMsg << "Assert Failed In File: " << *fileName << " Line: " << lineNumber << " Message: " << message;
+        errMsg << "Assert Failed In File: " << fileName << " Line: " << lineNumber <<
+            std::endl << "    Message: " << message;
         if(_throwException)
         {
             throw AssertException(errMsg.str());

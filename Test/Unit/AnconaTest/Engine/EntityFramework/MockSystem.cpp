@@ -27,12 +27,12 @@ void MockComponent::Update()
 MockSystem::MockSystem(SystemManager & manager) :
     UnorderedSystem(manager, UpdateStepEnum::Update)
 {
-
+    ComponentRemoved = false;
 }
 
 void MockSystem::Update(float delta)
 {
-    for(std::pair<Entity, MockComponent *> component : *this)
+    for(EntityComponentPair component : *this)
     {
         component.second->Update(); 
     }
@@ -47,5 +47,10 @@ MockComponent * MockSystem::CreateComponent(const Entity & entity)
 
 int MockSystem::ComponentCount()
 {
-    return std::count(begin(), end());
+    return std::distance(begin(), end());
+}
+
+void MockSystem::OnComponentRemove(Entity entity, MockComponent * component)
+{
+    ComponentRemoved = true;
 }
