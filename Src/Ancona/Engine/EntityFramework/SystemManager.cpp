@@ -17,7 +17,7 @@ SystemManager::SystemManager()
 
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
-    for(AbstractSystem * system : _systems.at(updateStep))
+    for(AbstractSystem * system : _systems[updateStep])
     {
         system->Update(delta);
     }
@@ -32,6 +32,7 @@ void SystemManager::DeleteEntity(Entity entity)
     {
         system->EntityIsDeleted(entity);
     }
+
     _components.erase(entity);
 }
 
