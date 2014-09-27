@@ -54,11 +54,11 @@ class ScreenManager
         void Draw();
 
         /**
-         * @brief Getter for _window
+         * @brief Property for _window
          *
          * @return _window
          */
-        sf::RenderWindow & GetWindow();
+        sf::RenderWindow & Window();
 
     private:
         /**

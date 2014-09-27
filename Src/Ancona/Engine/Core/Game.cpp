@@ -26,7 +26,7 @@ void Game::Run()
         sf::Time elapsed = clock.restart();
         _screenManager->Update(elapsed.asSeconds());
             
-        _window.clear(sf::Color::Blue);
+        _window.clear(sf::Color::Black);
         _screenManager->Draw();
         _window.display();
     }

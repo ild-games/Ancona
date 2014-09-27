@@ -30,7 +30,7 @@ void ScreenManager::Draw()
     _screens.top()->Draw();
 }
 
-sf::RenderWindow & ScreenManager::GetWindow()
+sf::RenderWindow & ScreenManager::Window()
 {
     return _window;
 }

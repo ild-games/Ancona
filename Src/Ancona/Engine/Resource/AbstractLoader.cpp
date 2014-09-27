@@ -7,7 +7,7 @@ AbstractLoader::AbstractLoader(const std::string & resourceName,
         const std::type_index & resourceType) :
     _resourceName(resourceName), _resourceType(resourceType)
 {
-     
+    ResourceLibrary::RegisterLoader(this);
 }
 
 const std::type_index & AbstractLoader::GetResourceType()

@@ -1,3 +1,5 @@
+#include <SFML/Window.hpp>
+
 #include <Ancona/Game/Screen/TestScreen.hpp>
 
 using namespace ild;
@@ -13,4 +15,5 @@ void TestScreen::Update(float delta)
 
 void TestScreen::Draw()
 {
+    _manager.Window().clear(sf::Color::Green);
 }
