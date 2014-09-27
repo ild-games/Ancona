@@ -2,6 +2,7 @@
 #define ANCONA_ENGINE_CONFIG_CONFIG_H_
 
 #include <unordered_map>
+#include <string>
 
 namespace ild
 {
