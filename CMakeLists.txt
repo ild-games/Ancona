@@ -30,8 +30,9 @@ include_directories(${INC_DIR}/..)
 #When more folders are added at the Ancona level a CMakeTest file must 
 #be created and a line should be added here.
 add_subdirectory(Src/Ancona/Engine)
-add_subdirectory(Src/Ancona/Game)
 add_subdirectory(Src/Ancona/Util)
+
+add_subdirectory(Src/Ancona/Game)
 
 #Add test directory
 add_subdirectory(Test)

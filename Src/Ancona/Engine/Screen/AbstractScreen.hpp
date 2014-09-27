@@ -33,7 +33,7 @@ class AbstractScreen
          */
         virtual void Draw() = 0;
 
-    private:
+    protected:
         /**
          * @brief Manages all the screens in the game
          */

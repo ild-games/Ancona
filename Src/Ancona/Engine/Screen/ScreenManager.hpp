@@ -1,6 +1,7 @@
 #ifndef Ancona_Engine_Screen_ScreenManager_H_
 #define Ancona_Engine_Screen_ScreenManager_H_
 
+#include <SFML/Graphics.hpp>
 #include <stack>
 
 namespace ild
@@ -21,12 +22,18 @@ class ScreenManager
 {
     public:
         /**
+         * @brief Construct the ScreenManager
+         *
+         * @param window the RenderWindow for the game
+         */
+        ScreenManager(sf::RenderWindow & window);
+
+        /**
          * @brief Pushs a new screen onto the manager
          *
          * @param screen Screen to push
          */
         void Push(AbstractScreen * screen);
-
 
         /**
          * @brief Pops the current screen off the manager. This removes the reference
@@ -46,11 +53,23 @@ class ScreenManager
          */
         void Draw();
 
+        /**
+         * @brief Getter for _window
+         *
+         * @return _window
+         */
+        sf::RenderWindow & GetWindow();
+
     private:
         /**
          * @brief The current screens being managed, in the order they were added
          */
         std::stack<AbstractScreen *> _screens;
+
+        /**
+         * @brief The window instance for the game
+         */
+        sf::RenderWindow & _window;
 };
 
 }
