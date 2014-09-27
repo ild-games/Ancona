@@ -44,14 +44,14 @@ class ScreenManager
         /**
          * @brief Renders the current screen
          */
-        void Render();
+        void Draw();
 
     private:
         /**
          * @brief The current screens being managed, in the order they were added
          */
         std::stack<AbstractScreen *> _screens;
-}
+};
 
 }
 

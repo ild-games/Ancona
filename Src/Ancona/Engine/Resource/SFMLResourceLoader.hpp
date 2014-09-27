@@ -42,7 +42,7 @@ class SFMLResourceLoader : public AbstractLoader
                     _directory, resourceKey, _fileExtension
                     );
 
-            if(!object->openFromFile(fileName))
+            if(!(object->loadFromFile(fileName)))
             {
                 //If the load failed then null should be returned
                 delete object;
@@ -56,7 +56,7 @@ class SFMLResourceLoader : public AbstractLoader
          */
         void DeleteResource(void * resource)
         {
-            SFMLType * object = dynamic_cast<SFMLType *>(resource);
+            SFMLType * object = static_cast<SFMLType *>(resource);
             delete object;
         }
     private:

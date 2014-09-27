@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Screen_AbstractScreen_H_
 #define Ancona_Engine_Screen_AbstractScreen_H_
 
-#include "ScreenManager"
+#include "ScreenManager.hpp"
 
 namespace ild
 {
@@ -26,19 +26,19 @@ class AbstractScreen
          *
          * @param delta time since last update
          */
-        void Update(float delta) = 0;
+        virtual void Update(float delta) = 0;
 
         /**
          * @brief Handles the draw logic on the screen
          */
-        void Draw() = 0;
+        virtual void Draw() = 0;
 
     private:
         /**
          * @brief Manages all the screens in the game
          */
         ScreenManager & _manager;
-}
+};
 
 }
 

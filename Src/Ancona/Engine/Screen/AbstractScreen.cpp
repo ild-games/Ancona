@@ -3,6 +3,6 @@
 using namespace ild;
 
 AbstractScreen::AbstractScreen(ScreenManager & manager)
+    : _manager(manager)
 {
-    this._manager = manager;
 }

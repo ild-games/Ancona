@@ -1,4 +1,5 @@
 #include <Ancona/Engine/Screen/ScreenManager.hpp>
+#include <Ancona/Engine/Screen/AbstractScreen.hpp>
 
 using namespace ild;
 
@@ -18,7 +19,7 @@ void ScreenManager::Update(float delta)
     _screens.top()->Update(delta);
 }
 
-void ScreenManager::Render()
+void ScreenManager::Draw()
 {
-    _screens.top()->Render();
+    _screens.top()->Draw();
 }
