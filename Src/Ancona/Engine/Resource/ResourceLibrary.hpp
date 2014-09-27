@@ -67,6 +67,7 @@ class ResourceLibrary
          * @return Path to the resource root.
          */
         static const std::string & ResourceRoot();
+
     private:
         /**
          * @brief Typedefine to clean up _resources definition

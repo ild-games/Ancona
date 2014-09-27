@@ -5,6 +5,12 @@
 
 using namespace ild;
 
+typedef std::unordered_map<std::string, std::pair<void *,int> > resource_map;
+
+std::unordered_map<std::type_index, resource_map> ResourceLibrary::_resources;
+
+std::unordered_map<std::string, AbstractLoader *> ResourceLibrary::_loaders;
+
 void ResourceLibrary::RegisterLoader(AbstractLoader * loader)
 {
     _loaders[loader->GetResourceName()] = loader;

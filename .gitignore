@@ -9,6 +9,9 @@ build/
 Build/
 Doc/
 
+# Ignore Resource folder
+Resources/
+
 # Ignore CTags file
 tags
 
