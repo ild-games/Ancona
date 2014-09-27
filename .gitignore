@@ -7,6 +7,7 @@
 # Ignore Build folders
 build/
 Build/
+Doc/
 
 # Ignore CTags file
 tags
