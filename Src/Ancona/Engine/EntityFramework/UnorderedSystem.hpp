@@ -52,7 +52,7 @@ class UnorderedSystem : public AbstractSystem
             auto componentIter = _components.find(entity);
             if(componentIter != _components.end())
             {
-                return *componentIter;
+                return componentIter->second;
             }
             return NULL;
         }

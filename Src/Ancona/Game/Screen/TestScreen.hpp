@@ -6,6 +6,10 @@
 namespace ild
 {
 
+class SystemManager;
+class PositionSystem;
+class KeyboardPlayerSystem;
+
 class TestScreen : public AbstractScreen
 {
     public:
@@ -14,6 +18,10 @@ class TestScreen : public AbstractScreen
         void Update(float delta);
 
         void Draw();
+    private:
+        SystemManager * _systemManager;
+        PositionSystem  * _positionSystem;
+        KeyboardPlayerSystem * _keyboardPlayerSystem;
 };
 
 }
