@@ -23,6 +23,12 @@ void Config::Load(const std::string & configFile)
     std::vector<std::string> pieces;
     std::ifstream file(configFile, std::ios::out);
     std::string line;
+
+    if(file.fail())
+    {
+        //If the file did not open then throw an exception.
+        throw new AssertException("Failed to open configuration file.");
+    }
     
     while(!file.eof())
     {
