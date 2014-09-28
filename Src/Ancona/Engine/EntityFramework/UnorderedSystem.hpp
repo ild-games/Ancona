@@ -92,6 +92,8 @@ class UnorderedSystem : public AbstractSystem
             OnComponentRemove(entity, component);
 
             _components.erase(componentIter);
+            //Since the component is now unreachable it should be deleted.
+            delete component; 
         }
 
     protected:
