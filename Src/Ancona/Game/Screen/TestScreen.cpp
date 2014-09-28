@@ -23,9 +23,6 @@ void TestScreen::Update(float delta)
 
 void TestScreen::Draw()
 {
-<<<<<<< HEAD
     _manager.Window().clear(sf::Color::Green);
-=======
->>>>>>> e436c3a89e12c58082b9026c375532810268dcad
     _systemManager->Update(0,UpdateStep::Draw);
 }
