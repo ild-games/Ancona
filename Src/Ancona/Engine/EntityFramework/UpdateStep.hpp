@@ -18,8 +18,9 @@ namespace UpdateStep
      */
     enum UpdateStep
     {
-        Update,
-        Draw
+        Draw,
+        Input,
+        Update
     };
 }
 
