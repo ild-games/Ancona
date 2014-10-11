@@ -26,7 +26,7 @@ class ResourceLibrary
         template <class T>
         static T * Get(const std::string & key)
         {
-            return dynamic_cast<T *>(_resources.at(typeid(T)).at(key).first);
+            return static_cast<T *>(_resources.at(typeid(T)).at(key).first);
         }
 
         /**
