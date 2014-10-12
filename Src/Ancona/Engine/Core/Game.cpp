@@ -1,5 +1,6 @@
 #include <Ancona/Engine/Core/Game.hpp>
 #include <Ancona/Engine/Screen/ScreenManager.hpp>
+#include <Ancona/Engine/InputDevices/Keyboard.hpp>
 
 using namespace ild;
 
@@ -15,11 +16,21 @@ void Game::Run()
     while(_window.isOpen())
     {
         sf::Event event;
+        Keyboard::_ClearKeys(); 
         while(_window.pollEvent(event))
         {
+
             if(event.type == sf::Event::Closed)
             {
                 _window.close();
+            }
+            if(event.type == sf::Event::KeyPressed)
+            {
+                Keyboard::_AddKeyPress(event.key.code); 
+            }
+            if(event.type == sf::Event::KeyReleased)
+            {
+                Keyboard::_AddKeyRelease(event.key.code);
             }
         }
 

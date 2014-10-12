@@ -5,14 +5,15 @@ namespace ild
 {
 
 /**
- * @brief A component used to control the player using a device (keyboard, mouse, ...)
- * Should inherit from this class
+ * @brief  A component used to control the player using a device 
+ *         (keyboard, mouse, ...) should inherit from this class
+ *
  * @author Jeff Swenson
  */
 class InputControlComponent 
 {
     public:
-        virtual void Update(float delta) = 0;
+        void Update(float delta);
 };
 
 }
