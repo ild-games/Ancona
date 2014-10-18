@@ -4,6 +4,8 @@
 #include <Ancona/Engine/Screen/LoadingScreen.hpp>
 #include <Ancona/Game/Core/AnconaGame.hpp>
 
+#include "../Screen/TestScreen.hpp"
+
 using namespace ild;
 
 AnconaGame::AnconaGame(
@@ -25,6 +27,8 @@ AnconaGame::~AnconaGame()
 void AnconaGame::CreateInitialScreen()
 {
     _requestList = new RequestList("TestRequestList.txt");
+    _screenManager->Push(
+            new TestScreen(*_screenManager));
     _screenManager->Push(
             new LoadingScreen(*_screenManager, *_requestList));
 }

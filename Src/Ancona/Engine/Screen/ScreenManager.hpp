@@ -54,6 +54,15 @@ class ScreenManager
         void Draw();
 
         /**
+         * @brief  Checks if the screen manager has any screens
+         *         to run.
+         *
+         * @return True if there aren't any screens on the 
+         *         stack, otherwise false.
+         */
+        bool Empty();
+
+        /**
          * @brief The window instance for the game
          */
         sf::RenderWindow & Window;

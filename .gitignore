@@ -4,13 +4,15 @@
 *.o
 *.obj
 
-# Ignore Build folders
+# Ignore Build folders and Config files
 build/
 Build/
 Doc/
+Config.txt
 
 # Ignore Resource folder
 Resources/
+Resources
 
 # Ignore CTags file
 tags

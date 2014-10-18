@@ -13,7 +13,7 @@ Game::Game(int windowWidth, int windowHeight, const std::string & title)
 void Game::Run()
 {
     sf::Clock clock;
-    while(_window.isOpen())
+    while(_window.isOpen() && !_screenManager->Empty())
     {
         sf::Event event;
         Keyboard::_ClearKeys(); 

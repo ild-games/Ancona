@@ -31,8 +31,17 @@ include_directories(${INC_DIR}/..)
 #be created and a line should be added here.
 add_subdirectory(Src/Ancona/Engine)
 add_subdirectory(Src/Ancona/Util)
-
 add_subdirectory(Src/Ancona/Game)
+
+#Libs is a varialbe containing a reference to all linkable libraries
+set(Libs Ancona_Game Ancona_Engine Ancona_Util ${SFML_LIBS})
 
 #Add test directory
 add_subdirectory(Test)
+
+#Build the game executable
+add_executable(ancona_game Src/Ancona/main.cpp)
+target_link_libraries(ancona_game ${Libs})
+
+#Move files to the build directory
+configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt COPYONLY)

@@ -22,17 +22,27 @@ void ScreenManager::Pop()
 
 void ScreenManager::Update(float delta)
 {
-    auto screen = _screens.top();
-    if(!screen->__Initialized)
+    if(!Empty())
     {
-        screen->Init();
-        screen->__Initialized = true;
+        auto screen = _screens.top();
+        if(!screen->__Initialized)
+        {
+            screen->Init();
+            screen->__Initialized = true;
+        }
+        screen->Update(delta);
     }
-    screen->Update(delta);
 }
 
 void ScreenManager::Draw()
 {
-    _screens.top()->Draw();
+    if(!Empty())
+    {
+        _screens.top()->Draw();
+    }
 }
 
+bool ScreenManager::Empty()
+{
+    return _screens.empty();
+}

@@ -1,6 +1,6 @@
 #include <SFML/Window.hpp>
 
-#include <Ancona/Game/Screen/TestScreen.hpp>
+#include "TestScreen.hpp"
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
