@@ -68,6 +68,7 @@ bool ResourceLibrary::DoneLoading(RequestList & request)
    
        resourceIter->second.second++;
    }
+   return false;
 }
 
 const std::string & ResourceLibrary::ResourceRoot()

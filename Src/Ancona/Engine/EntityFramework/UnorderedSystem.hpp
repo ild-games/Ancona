@@ -47,7 +47,7 @@ class UnorderedSystem : public AbstractSystem
          *
          * @return A reference to the component if it exists
          */
-        ComponentType * operator [] (const Entity entity)
+        ComponentType * operator [] (const Entity & entity)
         {
             auto componentIter = _components.find(entity);
             if(componentIter != _components.end())
@@ -55,6 +55,11 @@ class UnorderedSystem : public AbstractSystem
                 return componentIter->second;
             }
             return NULL;
+        }
+
+        ComponentType * at(const Entity & entity)
+        {
+            return (*this)[entity];
         }
 
         /**

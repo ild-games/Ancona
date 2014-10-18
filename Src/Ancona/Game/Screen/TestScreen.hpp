@@ -2,13 +2,14 @@
 #define Ancona_Game_Screen_TestScreen_H_
 
 #include <Ancona/Engine/Screen/AbstractScreen.hpp>
-
+#include <Ancona/Engine/EntityFramework/Entity.hpp>
 namespace ild
 {
 
 class SystemManager;
 class PositionSystem;
-class KeyboardPlayerSystem;
+class InputControlSystem;
+class SpriteSystem;
 
 class TestScreen : public AbstractScreen
 {
@@ -17,11 +18,15 @@ class TestScreen : public AbstractScreen
 
         void Update(float delta);
 
+        void Init ();
+
         void Draw();
     private:
         SystemManager * _systemManager;
         PositionSystem  * _positionSystem;
-        KeyboardPlayerSystem * _keyboardPlayerSystem;
+        InputControlSystem * _inputSystem;
+        SpriteSystem * _spriteSystem;
+        Entity _player;
 };
 
 }

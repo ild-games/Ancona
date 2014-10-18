@@ -14,7 +14,7 @@ SpriteComponent::SpriteComponent(
 
 void SpriteComponent::Draw(sf::RenderWindow & window)
 {
-    auto & position = _positionComponent.Position();
+    auto & position = _positionComponent.Position;
     _sprite.setPosition(position.x,position.y);
     window.draw(_sprite);
 }

@@ -23,7 +23,7 @@ void LoadingScreen::Update(float delta)
 
 void LoadingScreen::Draw()
 {
-    _manager.Window().clear(sf::Color::White);
+    _manager.Window.clear(sf::Color::White);
     sf::RectangleShape outerBar(sf::Vector2f(750, 30));
     outerBar.setFillColor(sf::Color::Transparent);
     outerBar.setOutlineThickness(1.0f);
@@ -33,7 +33,7 @@ void LoadingScreen::Draw()
     innerBar.setFillColor(sf::Color::Blue);
     innerBar.setOutlineColor(sf::Color::Blue);
     innerBar.setPosition(25, 10);
-    _manager.Window().draw(innerBar);
-    _manager.Window().draw(outerBar);
+    _manager.Window.draw(innerBar);
+    _manager.Window.draw(outerBar);
 }
 

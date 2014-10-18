@@ -22,6 +22,13 @@ class AbstractScreen
         AbstractScreen(ScreenManager & manager);
 
         /**
+         * @brief Can be overridden to initialize the screen.  
+         * Will be called just before Update is called for the
+         * first time.
+         */
+        virtual void Init() { }
+
+        /**
          * @brief Handles the update logic on the screen
          *
          * @param delta time since last update
@@ -32,6 +39,13 @@ class AbstractScreen
          * @brief Handles the draw logic on the screen
          */
         virtual void Draw() = 0;
+
+        
+        /**
+         * @brief Used by the ScreenManager to call the Init
+         * function at the correct time.
+         */
+        bool __Initialized;
 
     protected:
         /**

@@ -15,42 +15,30 @@ class PositionComponent
 {
     public:
         /**
-         * @brief Create a component at the given position with the given velocity.
+         * @brief Create a component at the given position with 
+         *        the given velocity.
          *
          * @param position initial position
          * @param velocity initial velocity
          */
-        PositionComponent(const sf::Vector3f & position, const sf::Vector3f & velocity);
+        PositionComponent(
+                const sf::Vector3f & position, 
+                const sf::Vector3f & velocity);
 
         /**
-         * @brief Property for the components position.
-         *
-         * @return A reference to the position vector.
+         * @brief Defines coordinates for the component
          */
-        sf::Vector3f & Position();
+        sf::Vector3f Position;
 
         /**
-         * @brief Property for the components velocity.
-         *
-         * @return A reference to the velocity vector.
+         * @brief Defines velocity in x, y, and z axes
          */
-        sf::Vector3f & Velocity();
+        sf::Vector3f Velocity;
 
         /**
          * @brief Updates the position based off the velocity
          */
         void Update();
-
-    private:
-        /**
-         * @brief Defines coordinates for the component
-         */
-        sf::Vector3f _position;
-
-        /**
-         * @brief Defines velocity in x, y, and z axes
-         */
-        sf::Vector3f _velocity;
 };
 
 }

@@ -54,11 +54,9 @@ class ScreenManager
         void Draw();
 
         /**
-         * @brief Property for _window
-         *
-         * @return _window
+         * @brief The window instance for the game
          */
-        sf::RenderWindow & Window();
+        sf::RenderWindow & Window;
 
     private:
         /**
@@ -66,10 +64,6 @@ class ScreenManager
          */
         std::stack<AbstractScreen *> _screens;
 
-        /**
-         * @brief The window instance for the game
-         */
-        sf::RenderWindow & _window;
 };
 
 }
