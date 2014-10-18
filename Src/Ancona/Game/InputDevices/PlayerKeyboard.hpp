@@ -6,6 +6,8 @@
 namespace ild 
 {
 
+class PlayerInputComponent;
+
 /**
  * @brief Gathers input for the player using the keyboard.
  *
@@ -18,6 +20,18 @@ class PlayerKeyboard : public InputHandler
          * @see Ancona/Engine/InputDevices/InputHandler.hpp
          */
         void HandleInput();
+
+        /**
+         * @brief 
+         *
+         * @param component
+         */
+        void RegisterInputComponent(
+                PlayerInputComponent * component);
+
+    private:
+        
+        PlayerInputComponent * _component;
 };
 
 }

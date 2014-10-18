@@ -1,1 +1,1 @@
-ResourceRoot = /Users/tlein/ilikeducks/anconacpp/Resources
+ResourceRoot = /home/tucker/Code/anconacpp/Resources

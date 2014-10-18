@@ -5,7 +5,7 @@
 using namespace ild;
 
 ScreenManager::ScreenManager(sf::RenderWindow & window)
-    : _window(window) 
+    : Window(window) 
 {
 }
 
@@ -22,7 +22,13 @@ void ScreenManager::Pop()
 
 void ScreenManager::Update(float delta)
 {
-    _screens.top()->Update(delta);
+    auto screen = _screens.top();
+    if(!screen->__Initialized)
+    {
+        screen->Init();
+        screen->__Initialized = true;
+    }
+    screen->Update(delta);
 }
 
 void ScreenManager::Draw()
@@ -30,7 +36,3 @@ void ScreenManager::Draw()
     _screens.top()->Draw();
 }
 
-sf::RenderWindow & ScreenManager::Window()
-{
-    return _window;
-}

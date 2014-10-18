@@ -6,7 +6,7 @@
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
-#include <Ancona/Game/Systems/KeyboardPlayerSystem.hpp>
+#include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
 
 namespace ild
 {
@@ -23,7 +23,7 @@ class GameSystems
         SystemManager * Manager;
         PositionSystem * Position;
         SpriteSystem * Sprite;
-        KeyboardPlayerSystem * KeyboardPlayer;
+        InputControlSystem * Input; 
 };
 
 }

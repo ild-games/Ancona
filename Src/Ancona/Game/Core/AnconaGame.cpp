@@ -7,7 +7,10 @@
 
 using namespace ild;
 
-AnconaGame::AnconaGame(int windowWidth, int windowHeight, const std::string & title)
+AnconaGame::AnconaGame(
+        int windowWidth, 
+        int windowHeight, 
+        const std::string & title)
     : Game(windowWidth, windowHeight, title)
 {
     ResourceLoaderInit::Init();
@@ -23,6 +26,8 @@ AnconaGame::~AnconaGame()
 void AnconaGame::CreateInitialScreen()
 {
     _requestList = new RequestList("TestRequestList.txt");
-    _screenManager->Push(new TestScreen(*_screenManager));
-    _screenManager->Push(new LoadingScreen(*_screenManager, *_requestList));
+    _screenManager->Push(
+            new TestScreen(*_screenManager));
+    _screenManager->Push(
+            new LoadingScreen(*_screenManager, *_requestList));
 }

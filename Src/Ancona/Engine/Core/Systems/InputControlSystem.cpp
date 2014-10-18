@@ -15,3 +15,9 @@ void InputControlSystem::Update(float delta)
         componentPair.second->Update(delta);
     }
 }
+
+void InputControlSystem::AddComponent(const Entity & entity,
+        InputControlComponent * component)
+{
+    AttachComponent(entity, component);
+}

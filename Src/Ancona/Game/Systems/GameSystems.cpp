@@ -7,5 +7,5 @@ GameSystems::GameSystems(sf::RenderWindow & window)
     Manager = new SystemManager();
     Position = new PositionSystem(*Manager);
     Sprite = new SpriteSystem(window, *Manager,*Position);
-    KeyboardPlayer = new KeyboardPlayerSystem(*Manager, *Position);
+    Input = new InputControlSystem(*Manager);
 }

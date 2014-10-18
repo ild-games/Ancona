@@ -4,6 +4,7 @@
 namespace ild
 {
 
+class InputControlComponent;
 
 /**
  * @brief Abstract input handler used to collect input for 
