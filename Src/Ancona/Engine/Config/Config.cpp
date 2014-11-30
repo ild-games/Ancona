@@ -1,8 +1,10 @@
+#include <iostream>
 #include <string>
 #include <fstream>
 
 #include <Ancona/Engine/Config/Config.hpp>
 #include <Ancona/Util/StrUtil.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
 
@@ -21,6 +23,12 @@ void Config::Load(const std::string & configFile)
     std::vector<std::string> pieces;
     std::ifstream file(configFile, std::ios::out);
     std::string line;
+
+    if(file.fail())
+    {
+        //If the file did not open then throw an exception.
+        throw new AssertException("Failed to open configuration file.");
+    }
     
     while(!file.eof())
     {
@@ -58,5 +66,23 @@ const std::string & Config::GetOption(const std::string & optionName)
     else
     {
         return EMPTY_OPTION;
+    }
+}
+
+void Config::_initAssert()
+{
+    const std::string & assertFile = GetOption("Assert_ErrorFile");
+    const std::string & throwException = GetOption("Assert_ThrowException");
+
+    if(assertFile != "")
+    {
+        std::ostream * logFile = new std::ofstream(assertFile);
+        AssertControls::SetErrorStream(logFile);
+    }
+
+    if(throwException != "false")
+    {
+        //Default to throw an exception
+        AssertControls::SetThrowException(true);
     }
 }

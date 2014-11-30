@@ -14,6 +14,11 @@ namespace ild
 
 class AbstractSystem;
 
+/**
+ * @brief Used to update entity systems and track entity state.
+ *
+ * @author Jeff Swenson
+ */
 class SystemManager
 {
     public:

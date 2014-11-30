@@ -7,6 +7,7 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 namespace ild
 {
@@ -33,7 +34,7 @@ class UnorderedSystem : public AbstractSystem
          * @param manager The SystemManager that owns BaseSystem
          * @param updateStep Determine when the system is updated
          */
-        UnorderedSystem(SystemManager * manager, UpdateStepEnum updateStep) :
+        UnorderedSystem(SystemManager & manager, UpdateStepEnum updateStep) :
             AbstractSystem(manager, updateStep)
         {  }
 
@@ -46,14 +47,19 @@ class UnorderedSystem : public AbstractSystem
          *
          * @return A reference to the component if it exists
          */
-        ComponentType * operator [] (const Entity entity)
+        ComponentType * operator [] (const Entity & entity)
         {
             auto componentIter = _components.find(entity);
             if(componentIter != _components.end())
             {
-                return *componentIter;
+                return componentIter->second;
             }
             return NULL;
+        }
+
+        ComponentType * at(const Entity & entity)
+        {
+            return (*this)[entity];
         }
 
         /**
@@ -66,7 +72,10 @@ class UnorderedSystem : public AbstractSystem
          */
         void RemoveComponent(const Entity & entity)
         {
-            EntityIsDeleted(entity);
+            Assert(_components.find(entity) != _components.end(),
+                    "Can not remove a component that does not exist");
+
+            EntityIsDeleted(entity); 
             _systemManager.UnregisterComponent(entity, this);
         }
 
@@ -77,21 +86,32 @@ class UnorderedSystem : public AbstractSystem
          */
         void EntityIsDeleted(const Entity & entity)
         {
+            Assert(_components.find(entity) != _components.end(),
+                    "A system should not be notified of an entities deletion if the \
+                    system does not contain a component for the entity");
+
             auto componentIter = _components.find(entity);
-            ComponentType * component = *componentIter;
+            ComponentType * component = componentIter->second;
 
             //Allow a child class to react to the component being removed
             OnComponentRemove(entity, component);
 
             _components.erase(componentIter);
+            //Since the component is now unreachable it should be deleted.
+            delete component; 
         }
 
     protected:
         /**
-         * @brief SystemIterator is an iterator that can be used to iterate over all contained
+         * @brief EntityComponentIter is an iterator that can be used to iterate over all contained
          * components.
          */
-        typedef typename std::unordered_map<Entity, ComponentType *>::const_iterator SystemIterator;
+        typedef typename std::unordered_map<Entity, ComponentType *>::iterator EntityComponentIter;
+        
+        /**
+         * @brief EntityComponentPair should be used as the types in for each loops iterating over the component
+         */
+        typedef typename std::pair<const Entity, ComponentType *> & EntityComponentPair;
 
         /**
          * @brief This method can be overriden to allow a child class to respond when
@@ -101,7 +121,7 @@ class UnorderedSystem : public AbstractSystem
          * @param entity Entity that component is being removed from
          * @param component Component that is being removed
          */
-        virtual void OnComponentRemove(Entity entity, ComponentType * component) {}
+        virtual void OnComponentRemove(Entity entity, ComponentType * component) {};
 
         /**
          * @brief Get at iterator to the first component in the system.  No order of 
@@ -109,9 +129,9 @@ class UnorderedSystem : public AbstractSystem
          *
          * @return An iterator that can be used to iterate over the components
          */
-        SystemIterator begin()
+        EntityComponentIter begin()
         {
-            return _components.cbegin();
+            return _components.begin();
         }
 
         /**
@@ -119,9 +139,9 @@ class UnorderedSystem : public AbstractSystem
          *
          * @return The end iterator.
          */
-        SystemIterator end()
+        EntityComponentIter end()
         {
-            return _components.cend();
+            return _components.end();
         }
 
         /**
@@ -133,6 +153,10 @@ class UnorderedSystem : public AbstractSystem
          */
         void AttachComponent(const Entity & entity, ComponentType * component)
         {
+            Assert(component != NULL, "Can not attach a null component");
+            Assert(_components.find(entity) == _components.end(),
+                    "Can not attach two of the same component to an entity");
+
             _components[entity] = component;
             _systemManager.RegisterComponent(entity, this);
         }

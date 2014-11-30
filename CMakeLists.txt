@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 project(ANCONA)
 
 option(BuildPrototypes "BuildPrototypes" ON)
+option(BuildTests "BuildTests" ON)
 
 #Set C++ Version to 11
 SET(CMAKE_CXX_FLAGS "-std=c++11 -g -lstdc++")
@@ -29,9 +30,18 @@ include_directories(${INC_DIR}/..)
 #When more folders are added at the Ancona level a CMakeTest file must 
 #be created and a line should be added here.
 add_subdirectory(Src/Ancona/Engine)
-add_subdirectory(Src/Ancona/Game)
 add_subdirectory(Src/Ancona/Util)
+add_subdirectory(Src/Ancona/Game)
 
-if(BuildPrototypes)
-    add_subdirectory(Test/Prototype)
-endif(BuildPrototypes)
+#Libs is a varialbe containing a reference to all linkable libraries
+set(Libs Ancona_Game Ancona_Engine Ancona_Util ${SFML_LIBS})
+
+#Add test directory
+add_subdirectory(Test)
+
+#Build the game executable
+add_executable(ancona_game Src/Ancona/main.cpp)
+target_link_libraries(ancona_game ${Libs})
+
+#Move files to the build directory
+configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt COPYONLY)
