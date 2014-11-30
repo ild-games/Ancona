@@ -5,7 +5,7 @@ To get started on a Posix OS:
 
 	1. Download cmake and sfml
 	2. Open a shell in the project directory
-	3. Create a dir named Build
+	3. Create a dir named build
 	4. Change into build directory
 	5. Run the command "cmake .."
 	6. Run the command "make"
