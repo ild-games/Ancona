@@ -57,33 +57,11 @@ class Box2
         bool Intersects(const Box2 & box);
 
         /**
-         * @brief Test if the box contains the argument box.
+         * @brief Clear the vertices vector and fill it with vertices for the box.
          *
-         * @param box Box that may be contained.
-         *
-         * @return True if the box is contained.  False otherwise.
+         * @param vertices A vector used as an output parameter for the vertices.
          */
-        bool Contains(const Box2 & box);
-
-        /**
-         * @brief Test if the two boxes intersect.  Note: Rotation
-         * and height of the Box3 is ignored.
-         *
-         * @param box Box to test intersection on
-         *
-         * @return True if they intersect.  False otherwise.
-         */
-        bool Intersects(const Box3 & box);
-
-        /**
-         * @brief Test if the box contains the argument box. Note: Rotation
-         * and height of the Box3 is ignored.
-         *
-         * @param box Box that may be contained.
-         *
-         * @return True if the box is contained.  False otherwise.
-         */
-        bool Contains(const Box3 & box);
+        void GetVertices(std::vector< std::pair<float,float> > & vertices);
 };
 
 }
