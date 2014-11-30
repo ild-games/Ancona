@@ -11,6 +11,8 @@ Doc/
 
 # Ignore Resource folder
 Resources/
+resources/
+resources
 
 # Ignore CTags file
 tags
