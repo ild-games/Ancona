@@ -54,14 +54,14 @@ class Box2
          *
          * @return True if they intersect.  False otherwise.
          */
-        bool Intersects(const Box2 & box);
+        bool Intersects(const Box2 & box) const;
 
         /**
          * @brief Clear the vertices vector and fill it with vertices for the box.
          *
          * @param vertices A vector used as an output parameter for the vertices.
          */
-        void GetVertices(std::vector< std::pair<float,float> > & vertices);
+        void GetVertices(std::vector< std::pair<float,float> > & vertices) const;
 };
 
 }

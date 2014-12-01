@@ -9,11 +9,6 @@
 
 using namespace ild;
 
-TEST(SampleTest, AssertionTrue)
-{
-    ASSERT_EQ(1,1);
-}
-
 TEST(EntitySystem, CreatesUniqueEntities)
 {
     SystemManager manager;

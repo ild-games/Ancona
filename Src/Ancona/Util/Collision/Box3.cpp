@@ -1,4 +1,4 @@
-#include <Ancona/Util/Space/Box3.hpp>
+#include <Ancona/Util/Collision/Box3.hpp>
 
 using namespace ild;
 
@@ -14,10 +14,12 @@ Box3::Box3(const sf::Vector3f & position,
 
 bool Intersects(const Box3 & box)
 {
+    return false;
 
 }
 
 bool Contains(const Box3 & box)
 {
+    return false;
 
 }
