@@ -38,7 +38,7 @@ class PositionComponent
         /**
          * @brief Updates the position based off the velocity
          */
-        void Update();
+        void Update(float delta);
 };
 
 }

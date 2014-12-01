@@ -32,7 +32,6 @@ class Game
          */
         ScreenManager * _screenManager;
 
-    private:
         /**
          * @brief Window used for rendering the game
          */

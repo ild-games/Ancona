@@ -5,7 +5,7 @@ using namespace ild;
 
 int main(int argc, char ** argv)
 {
-    Config::Load("Config.txt"); 
-    AnconaGame game(270, 480, "Ancona Game");
+    Config::Load("Config.txt");
+    AnconaGame game(270, 480, "Flappy Bird");
     game.Run();
 }

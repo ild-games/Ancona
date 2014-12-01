@@ -1,4 +1,7 @@
 # README #
+
+Before build you must symbolic link your Resources/ folder to the root directory of the of ancona. 
+
 C++ Version of Ancona Engine
 
 To get started on a Posix OS:

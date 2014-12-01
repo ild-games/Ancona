@@ -7,7 +7,7 @@ PositionComponent::PositionComponent(const sf::Vector3f & position, const sf::Ve
 {
 }
 
-void PositionComponent::Update()
+void PositionComponent::Update(float delta)
 {
-    Position += Velocity;
+    Position += (Velocity * delta);
 }
