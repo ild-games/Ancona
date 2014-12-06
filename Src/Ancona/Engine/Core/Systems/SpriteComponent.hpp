@@ -2,9 +2,9 @@
 #define Ancona_Engine_Core_Systems_SpriteComponent_H_
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 #include "PositionComponent.hpp"
-#include <iostream>
 
 namespace ild
 {
@@ -68,6 +68,8 @@ class SpriteComponent
         int GetPriorityOffset();
         void SetRotation(float rotation);
         sf::Sprite * GetSprite();
+        void SetOrigin(float x, float y);
+        void SetOrigin(sf::Vector2f newOrigin);
     private:
         /**
          * @brief Component that defines the entities position.

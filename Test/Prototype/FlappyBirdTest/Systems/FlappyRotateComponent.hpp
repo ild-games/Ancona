@@ -29,7 +29,7 @@ class FlappyRotateComponent
          * @brief Updates the rotation of the sprite based on the current rotation and position 
          *        of the flappy bird.
          */
-        void Update();
+        void Update(float delta);
 
         /* getters and setters */
         int GetRotateDir();
@@ -55,7 +55,7 @@ class FlappyRotateComponent
         /**
          * @brief Speed at which the flappy bird rotates, note the backwords rotation will be three times as fast.
          */
-        const float ROTATE_SPEED = 0.125f;
+        const float ROTATE_SPEED = 125.0f;
 };
 
 }

@@ -1,5 +1,7 @@
 #include "FlappyRotateComponent.hpp"
 
+#include <iostream>
+
 using namespace ild;
 
 FlappyRotateComponent::FlappyRotateComponent(
@@ -10,17 +12,19 @@ FlappyRotateComponent::FlappyRotateComponent(
     _rotateDir = 1;
 }
 
-void FlappyRotateComponent::Update()
+void FlappyRotateComponent::Update(float delta)
 {
     if(_rotateDir == 1 && _positionComponent.Velocity.y > 0 && _spriteComponent.GetRotation() <= 90) 
     {
-        _spriteComponent.SetRotation(_spriteComponent.GetRotation() + ROTATE_SPEED);
+        float rotateAmount = ROTATE_SPEED * delta;
+        _spriteComponent.SetRotation(_spriteComponent.GetRotation() + rotateAmount);
     } 
     else 
     {
         if(_rotateDir == -1 && _spriteComponent.GetRotation() >= -30.0f)
         {
-            _spriteComponent.SetRotation(_spriteComponent.GetRotation() - (ROTATE_SPEED * 3));
+            float rotateAmount = (ROTATE_SPEED * 3) * delta;
+            _spriteComponent.SetRotation(_spriteComponent.GetRotation() - rotateAmount);
         } 
         else 
         {

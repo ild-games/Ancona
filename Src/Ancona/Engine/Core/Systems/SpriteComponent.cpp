@@ -1,6 +1,7 @@
 #include <Ancona/Engine/Core/Systems/SpriteComponent.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
+
 using namespace ild;
 
 SpriteComponent::SpriteComponent(
@@ -14,6 +15,7 @@ SpriteComponent::SpriteComponent(
 {
     auto * texture = ResourceLibrary::Get<sf::Texture>(textureKey);
     _sprite.setTexture(*texture);
+    _rotation = 0.0f;
 }
 
 void SpriteComponent::Draw(sf::RenderWindow & window)
@@ -30,6 +32,14 @@ void SpriteComponent::Draw(sf::RenderWindow & window)
 void SpriteComponent::SetRotation(float rotation)
 {
     _rotation = rotation;
+}
+void SpriteComponent::SetOrigin(float x, float y)
+{
+    _sprite.setOrigin(x, y);
+}
+void SpriteComponent::SetOrigin(sf::Vector2f newOrigin)
+{
+    _sprite.setOrigin(newOrigin);
 }
 float SpriteComponent::GetRotation()
 {

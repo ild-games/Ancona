@@ -12,7 +12,7 @@ void FlappyRotateSystem::Update(float delta)
 {
     for(EntityComponentPair component : *this)
     {
-        component.second->Update();
+        component.second->Update(delta);
     }
 }
 

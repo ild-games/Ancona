@@ -13,6 +13,7 @@ Game::Game(int windowWidth, int windowHeight, const std::string & title)
 void Game::Run()
 {
     sf::Clock clock;
+    _window.setFramerateLimit(60);
     while(_window.isOpen() && !_screenManager->Empty())
     {
         sf::Event event;
