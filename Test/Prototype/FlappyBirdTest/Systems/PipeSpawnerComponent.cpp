@@ -19,6 +19,7 @@ PipeSpawnerComponent::PipeSpawnerComponent(
       _pipeColType(pipeColType)
 {
     _clock = new sf::Clock();
+    _stopSpawning = false;
 }
 
 void PipeSpawnerComponent::Update()
@@ -34,9 +35,18 @@ void PipeSpawnerComponent::Update()
     }
 }
 
+void PipeSpawnerComponent::StopMovingPipes()
+{
+    for(Entity pipe : _currentPipes)
+    {
+        _positionSystem[pipe]->Velocity.x = 0;
+    }
+    _stopSpawning = true;
+}
+
 bool PipeSpawnerComponent::TimeToSpawn()
 {
-    return _clock->getElapsedTime().asSeconds() > SECONDS_BETWEEN_SPAWN;
+    return _clock->getElapsedTime().asSeconds() > SECONDS_BETWEEN_SPAWN && !_stopSpawning;
 }
 
 bool PipeSpawnerComponent::TimeToDespawn()
@@ -47,13 +57,14 @@ bool PipeSpawnerComponent::TimeToDespawn()
 void PipeSpawnerComponent::SpawnPipePair()
 {
     Entity bottomPipe = CreatePipe(
-            230, 
+            244, 
             PickBottomPipeY(), 
             false);
     Entity topPipe = CreatePipe(
-            230, 
-            (_positionSystem[bottomPipe]->Position.y - 200 - GAP_HEIGHT), 
+            244, 
+            (_positionSystem[bottomPipe]->Position.y - _spriteSystem[bottomPipe]->GetSprite()->getTexture()->getSize().y - GAP_HEIGHT), 
             true);
+
 }
 
 void PipeSpawnerComponent::DespawnPipePair()
@@ -73,9 +84,9 @@ Entity PipeSpawnerComponent::CreatePipe(float x, float y, bool topPipe)
     pos->Position.x = x;
     pos->Position.y = y;
     pos->Velocity.x = PIPE_SPEED;
-    _spriteSystem.CreateComponent(pipe, SpriteToUse(topPipe), RenderPriority::Player, -2);
+    SpriteComponent * spriteComp = _spriteSystem.CreateComponent(pipe, SpriteToUse(topPipe), RenderPriority::Player, -2);
     _collisionSystem.CreateComponent(pipe, sf::Vector3f(24.0f, 200.0f, 0),_pipeColType);
-    _currentPipes.push_back(topPipe);
+    _currentPipes.push_back(pipe);
     return pipe;
 }
 

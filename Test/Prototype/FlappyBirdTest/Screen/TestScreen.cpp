@@ -42,9 +42,9 @@ void TestScreen::Update(float delta)
     _systemManager->Update(delta,UpdateStep::Input);
 
     //DEBUG
-    if(_positionSystem->at(_ground)->Position.x < -240)
+    if(_positionSystem->at(_ground)->Position.x < 30)
     {
-        _positionSystem->at(_ground)->Position.x = 0;
+        _positionSystem->at(_ground)->Position.x = 270;
     }
     //ENDDEBUG
 }
@@ -61,6 +61,18 @@ void TestScreen::Init()
     CollisionType playerCollisionType = _collisionSystem->CreateType();
     _pipeCollisionType = _collisionSystem->CreateType();
 
+     // ground setup
+    _ground = _systemManager->CreateEntity();
+    PositionComponent * groundPosition = _positionSystem->CreateComponent(_ground);
+    groundPosition->Position.y = 340;
+    groundPosition->Velocity.x = -65.0f;
+    _spriteSystem->CreateComponent(_ground, "flappy-ground", RenderPriority::Player, -1);
+    CollisionType groundCollisionType = _collisionSystem->CreateType();
+    CollisionComponent * groundColComponent = _collisionSystem->CreateComponent(
+            _ground,
+            sf::Vector3f(540, 80, 0),
+            groundCollisionType);
+
     // player entity setup
     _player = _systemManager->CreateEntity();
 
@@ -74,7 +86,6 @@ void TestScreen::Init()
     _spriteSystem->CreateComponent(_player,"flappy",RenderPriority::Player);
     SpriteComponent * sprite = _spriteSystem->at(_player);
     sprite->SetRotation(-30.0f);
-    sprite->GetSprite()->setOrigin(8.0f, 8.0f);
     
     // rotate component setup
     _rotateSystem->CreateComponent(_player, *sprite, *position);
@@ -93,22 +104,9 @@ void TestScreen::Init()
     // gravity component setup
     _gravitySystem->CreateComponent(_player, *position);
 
-    // collision component setup for player
-    CollisionComponent * playerColComponent = _collisionSystem->CreateComponent(
-            _player,
-            sf::Vector3f(16.0f, 16.0f, 0),
-            playerCollisionType);
-    _collisionSystem->SetHandler(
-            playerCollisionType, 
-            _pipeCollisionType,
-            [](Entity player, Entity pipe)
-            {
-                std::cout << "Player collided with pipe" << std::endl;                
-            });
-
     // pipe spawner setup
     _pipeSpawner = _systemManager->CreateEntity();
-    _pipeSpawnerSystem->CreateComponent(
+    _pipeSpawnerComp = _pipeSpawnerSystem->CreateComponent(
             _pipeSpawner, 
             *_spriteSystem, 
             *_positionSystem,
@@ -116,12 +114,37 @@ void TestScreen::Init()
             *_systemManager,
             _pipeCollisionType);
 
+    // collision component setup for player
+    CollisionComponent * playerColComponent = _collisionSystem->CreateComponent(
+            _player,
+            sf::Vector3f(14.0f, 14.0f, 0),
+            playerCollisionType);
+    _collisionSystem->SetHandler(
+            playerCollisionType, 
+            _pipeCollisionType,
+            [=](Entity player, Entity pipe)
+            {
+                StopAllMovement();
+            });
+    _collisionSystem->SetHandler(
+            playerCollisionType,
+            groundCollisionType,
+            [=](Entity player, Entity ground)
+            {
+                StopAllMovement();
+                _positionSystem->at(player)->Velocity.y = 0;
+            });
+
     // bg and fg setup
     _fg = _systemManager->CreateEntity();
-    _positionSystem->CreateComponent(_fg);
+    PositionComponent * fgPos = _positionSystem->CreateComponent(_fg);
+    fgPos->Position.x = 136; 
+    fgPos->Position.y = 200; 
     _spriteSystem->CreateComponent(_fg, "flappy-fg", RenderPriority::Background, 1);
     _bg = _systemManager->CreateEntity();
-    _positionSystem->CreateComponent(_bg);
+    PositionComponent * bgPos = _positionSystem->CreateComponent(_bg);
+    bgPos->Position.x = 320;
+    bgPos->Position.y = 240;
     if(rand() % 2 == 1)
     {
         _spriteSystem->CreateComponent(_bg, "flappy-bg1", RenderPriority::Background);
@@ -130,11 +153,18 @@ void TestScreen::Init()
     {
         _spriteSystem->CreateComponent(_bg, "flappy-bg2", RenderPriority::Background);
     }
+}
 
-    // ground setup
-    _ground = _systemManager->CreateEntity();
-    PositionComponent * groundPosition = _positionSystem->CreateComponent(_ground);
-    groundPosition->Position.y += 300;
-    groundPosition->Velocity.x = -65.0f;
-    _spriteSystem->CreateComponent(_ground, "flappy-ground", RenderPriority::Player, -1);
+void TestScreen::StopAllMovement()
+{
+    _pipeSpawnerComp->StopMovingPipes();
+    _positionSystem->at(_ground)->Velocity.x = 0;
+    if(_positionSystem->at(_player)->Velocity.y < 0)
+    {
+        _positionSystem->at(_player)->Velocity.y = 0;
+    }
+    if(_inputSystem->at(_player) != NULL)
+    {
+        _inputSystem->RemoveComponent(_player);
+    }
 }

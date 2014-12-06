@@ -16,6 +16,7 @@ class GravitySystem;
 class FlappyRotateSystem;
 class PipeSpawnerSystem;
 class CollisionSystem;
+class PipeSpawnerComponent;
 
 class TestScreen : public AbstractScreen
 {
@@ -27,6 +28,8 @@ class TestScreen : public AbstractScreen
         void Init ();
 
         void Draw();
+
+        void StopAllMovement();
     private:
         SystemManager * _systemManager;
         PositionSystem  * _positionSystem;
@@ -36,12 +39,14 @@ class TestScreen : public AbstractScreen
         FlappyRotateSystem * _rotateSystem;
         PipeSpawnerSystem * _pipeSpawnerSystem;
         CollisionSystem * _collisionSystem;
+        PipeSpawnerComponent * _pipeSpawnerComp;
         Entity _player;
         Entity _pipeSpawner;
         Entity _ground;
         Entity _bg;
         Entity _fg;
         CollisionType _pipeCollisionType;
+
 };
 
 }

@@ -36,6 +36,11 @@ class PipeSpawnerComponent
          */
         void Update();
 
+        /**
+         * @brief Stops all the pipes from moving.
+         */
+        void StopMovingPipes();
+
     private:
         /**
          * @brief System used to create the sprite components for the spawned pipes.
@@ -73,6 +78,11 @@ class PipeSpawnerComponent
         CollisionType _pipeColType;
 
         /**
+         * @brief True if the pipes should stop spawning, otherwise false.
+         */
+        bool _stopSpawning;
+
+        /**
          * @brief Number of seconds in between each spawn.
          */
         float const SECONDS_BETWEEN_SPAWN = 1.75f;
@@ -80,7 +90,7 @@ class PipeSpawnerComponent
         /**
          * @brief Height of the gap inbetween a spawned pair of pipes.
          */
-        float const GAP_HEIGHT = 40;
+        float const GAP_HEIGHT = 50;
 
         /**
          * @brief Speed the pipe moves at.
@@ -90,12 +100,12 @@ class PipeSpawnerComponent
         /**
          * @brief Minimum y coordinate the bottom pipe can spawn at.
          */
-        int const MIN_Y_BOTTOM_PIPE = 175;
+        int const MIN_Y_BOTTOM_PIPE = 275;
 
         /**
          * @brief Maximum y coordinate the bottom pipe can spawn at.
          */
-        int const MAX_Y_BOTTOM_PIPE = 260;
+        int const MAX_Y_BOTTOM_PIPE = 360;
 
         /**
          * @brief Random number engine for location spawning of the y coordinate.
