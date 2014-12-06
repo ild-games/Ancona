@@ -17,6 +17,6 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent)
 
 void CollisionComponent::Update()
 {
-    auto & pos = _position.Position();
+    auto & pos = _position.Position;
     _dim.SetPosition(pos.x, pos.y);
 }
