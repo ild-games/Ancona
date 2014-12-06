@@ -19,6 +19,19 @@ void CollisionSystem::Update(float delta)
         pair.second->Update();
     }
 
+    for(EntityComponentPair pairA : * this)
+    {
+        for(EntityComponentPair pairB : * this)
+        {
+            if(pairA.second->Collides(*pairB.second))
+            {
+                auto typeA = pairA.second->GetType();
+                auto typeB = pairB.second->GetType();
+                _callbackTable[typeA][typeB](pairA.first, pairB.first);
+            }
+        }
+    }
+
 }
 
 CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,

@@ -35,9 +35,17 @@ class CollisionComponent
          */
         void Update();
 
+        /**
+         * @brief Return the Collision Type of the component
+         *
+         * @return Collision Type of the component.
+         */
+        CollisionType GetType();
+
     private:
         PositionComponent & _position;
         Box2 _dim;
+        CollisionType _type;
 };
 
 }

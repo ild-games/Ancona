@@ -20,3 +20,8 @@ void CollisionComponent::Update()
     auto & pos = _position.Position;
     _dim.SetPosition(pos.x, pos.y);
 }
+
+CollisionType CollisionComponent::GetType()
+{
+    return _type;
+}
