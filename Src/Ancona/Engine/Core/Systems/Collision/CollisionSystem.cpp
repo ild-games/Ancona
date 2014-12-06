@@ -45,7 +45,7 @@ CollisionType CollisionSystem::CreateType()
 
     _callbackTable.push_back(std::vector<CollisionCallback>());
 
-    auto back = _callbackTable.back();
+    auto & back = _callbackTable.back();
 
     for(int i = 0; i < _nextType; i++)
     {
