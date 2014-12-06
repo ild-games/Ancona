@@ -11,6 +11,8 @@ class PositionSystem;
 class InputControlSystem;
 class SpriteSystem;
 class GravitySystem;
+class FlappyRotateSystem;
+class PipeSpawnerSystem;
 
 class TestScreen : public AbstractScreen
 {
@@ -28,7 +30,13 @@ class TestScreen : public AbstractScreen
         InputControlSystem * _inputSystem;
         SpriteSystem * _spriteSystem;
         GravitySystem * _gravitySystem;
+        FlappyRotateSystem * _rotateSystem;
+        PipeSpawnerSystem * _pipeSpawnerSystem;
         Entity _player;
+        Entity _pipeSpawner;
+        Entity _ground;
+        Entity _bg;
+        Entity _fg;
 };
 
 }

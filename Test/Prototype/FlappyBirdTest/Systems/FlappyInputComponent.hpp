@@ -4,6 +4,7 @@
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlComponent.hpp>
 #include "../InputDevices/FlappyKeyboard.hpp"
+#include "FlappyRotateComponent.hpp"
 
 
 namespace ild
@@ -16,11 +17,13 @@ class FlappyInputComponent : public InputControlComponent
         FlappyInputComponent(
                 Entity & flapper,
                 PositionComponent & positionComponent,
+                FlappyRotateComponent & rotateComponent,
                 FlappyKeyboard & inputHandler);
 
         void Jump();
     private:
         PositionComponent & _positionComponent;
+        FlappyRotateComponent & _rotateComponent;
 
 };
 

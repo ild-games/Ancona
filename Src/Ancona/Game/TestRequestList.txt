@@ -1,2 +1,9 @@
 TexturePNG,player
 TexturePNG,tilesheet
+TexturePNG,flappy
+TexturePNG,flappy-bottom-pipe
+TexturePNG,flappy-top-pipe
+TexturePNG,flappy-ground
+TexturePNG,flappy-bg1
+TexturePNG,flappy-bg2
+TexturePNG,flappy-fg

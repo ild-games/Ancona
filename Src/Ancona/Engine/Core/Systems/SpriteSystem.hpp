@@ -35,12 +35,15 @@ class SpriteSystem : public UnorderedSystem<SpriteComponent>
          *
          * @param entity Entity that the component should be attached to.
          * @param textureKey Key that describes the texture the sprite should use.
+         * @param priority RenderPriority that handles when the sprite is drawn.
          *
          * @return A pointer to the newly created sprite.
          */
         SpriteComponent * CreateComponent(
                 const Entity & entity, 
-                const std::string & textureKey);
+                const std::string & textureKey,
+                const RenderPriorityEnum priority,
+                int priorityOffset = 0);
 
         /**
          * @brief Draw all sprites to the screen.
@@ -57,7 +60,13 @@ class SpriteSystem : public UnorderedSystem<SpriteComponent>
          * @brief The system used to determine where an entity should be drawn.
          */
         PositionSystem & _positionSystem;
+
+        /**
+         * @brief Holds pointers to the sprite components sorted by priority + priorityOffset.
+         */
+        std::vector<SpriteComponent * > _renderQueue;
 };
 
 }
+
 #endif

@@ -48,5 +48,5 @@ void TestScreen::Draw()
 
 void TestScreen::Init()
 {
-    _spriteSystem->CreateComponent(_player,"player");
+    _spriteSystem->CreateComponent(_player,"player",RenderPriorityEnum::Player);
 }

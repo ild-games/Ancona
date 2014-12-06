@@ -14,7 +14,7 @@ class GravityComponent
         void Update(float delta);
 
     private:
-        const float GRAVITY_F = 200.0f;
+        const float GRAVITY_F = 270.0f;
 
         PositionComponent & _positionComponent;
 };
