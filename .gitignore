@@ -13,6 +13,8 @@ Config.txt
 # Ignore Resource folder
 Resources/
 Resources
+resources/
+resources
 
 # Ignore CTags file
 tags
