@@ -27,7 +27,7 @@ class PositionSystem : public UnorderedSystem<PositionComponent>
         /**
          * @brief Update the position for all components based off of their velocity
          *
-         * @param delta Number of seconds since last update
+         * @param delta Number of ms since last update
          */
         void Update(float delta);
 

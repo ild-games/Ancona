@@ -35,6 +35,22 @@ class Box2
         Box2(const Box3 & box);
 
         /**
+         * @brief Construct a box with zero position and rotation.
+         *
+         * @param dimX Size in the X dimmension.
+         * @param dimY Size in the Y dimmension.
+         */
+        Box2(float dimX, float dimY);
+
+        /**
+         * @brief Set the position of the box to the given value.
+         *
+         * @param x X position.
+         * @param y Y position.
+         */
+        void SetPosition(float x, float y);
+
+        /**
          * @brief Position of the box.  The position is located at the center.
          */
         sf::Vector2f Position;

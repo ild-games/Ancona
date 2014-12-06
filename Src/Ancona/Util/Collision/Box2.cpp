@@ -14,6 +14,12 @@ Box2::Box2(const sf::Vector2f & position,
     Rotation = rotation;
 }
 
+Box2::Box2(float dimX, float dimY)
+    : Box2(sf::Vector2f(),sf::Vector2f(dimX,dimY))
+{
+    
+}
+
 void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
 {
     vertices.clear();
@@ -42,4 +48,10 @@ bool Box2::Intersects(const Box2 & box) const
     box.GetVertices(verticesB);
 
     return Math::Collide(verticesA,verticesB);
+}
+
+void Box2::SetPosition(float x, float y)
+{
+    Position.x = x;
+    Position.y = y;
 }
