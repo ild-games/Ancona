@@ -20,9 +20,16 @@ PipeSpawnerComponent * PipeSpawnerSystem::CreateComponent(
         const Entity & entity,
         SpriteSystem & spriteSystem,
         PositionSystem & positionSystem,
-        SystemManager & systemManager)
+        CollisionSystem & collisionSystem,
+        SystemManager & systemManager,
+        CollisionType pipeColType)
 {
-    auto comp = new PipeSpawnerComponent(spriteSystem, positionSystem, systemManager);
+    auto comp = new PipeSpawnerComponent(
+            spriteSystem, 
+            positionSystem, 
+            collisionSystem,
+            systemManager, 
+            pipeColType);
     AttachComponent(entity, comp);
     return comp;
 }

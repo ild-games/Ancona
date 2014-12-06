@@ -4,6 +4,7 @@
 #include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
 #include <SFML/System.hpp>
 
@@ -26,7 +27,9 @@ class PipeSpawnerComponent
         PipeSpawnerComponent(
                 SpriteSystem & spriteSystem,
                 PositionSystem & positionSystem,
-                SystemManager & systemManager);
+                CollisionSystem & collisionSystem,
+                SystemManager & systemManager,
+                CollisionType pipeColType);
 
         /**
          * @brief Determines if to spawn a new set of pipes, or despawn any older ones
@@ -45,6 +48,11 @@ class PipeSpawnerComponent
         PositionSystem & _positionSystem;
 
         /**
+         * @brief System used to create the collision components for the spawned pipes.
+         */
+        CollisionSystem & _collisionSystem;
+
+        /**
          * @brief System Manager used to spawn new entities.
          */
         SystemManager & _systemManager;
@@ -58,6 +66,11 @@ class PipeSpawnerComponent
          * @brief Stores all the spawned pipes, used to track and remove them when necessary.
          */
         std::vector<Entity> _currentPipes;
+
+        /**
+         * @brief Collision type associated with the pipes.
+         */
+        CollisionType _pipeColType;
 
         /**
          * @brief Number of seconds in between each spawn.

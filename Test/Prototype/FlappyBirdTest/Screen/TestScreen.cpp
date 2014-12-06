@@ -18,6 +18,7 @@
 #include "../Systems/PipeSpawnerSystem.hpp"
 #include "../Systems/PipeSpawnerComponent.hpp"
 #include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
 using namespace ild;
 
@@ -30,6 +31,7 @@ TestScreen::TestScreen(ScreenManager & manager)
     _gravitySystem = new GravitySystem(*_systemManager);
     _rotateSystem = new FlappyRotateSystem(*_systemManager);
     _pipeSpawnerSystem = new PipeSpawnerSystem(*_systemManager);
+    _collisionSystem = new CollisionSystem(*_systemManager, *_positionSystem);
     _spriteSystem = new SpriteSystem(
             _manager.Window, *_systemManager, *_positionSystem);
 }
@@ -55,6 +57,10 @@ void TestScreen::Draw()
 
 void TestScreen::Init()
 {
+    // collision type setup
+    CollisionType playerCollisionType = _collisionSystem->CreateType();
+    _pipeCollisionType = _collisionSystem->CreateType();
+
     // player entity setup
     _player = _systemManager->CreateEntity();
 
@@ -87,13 +93,28 @@ void TestScreen::Init()
     // gravity component setup
     _gravitySystem->CreateComponent(_player, *position);
 
+    // collision component setup for player
+    CollisionComponent * playerColComponent = _collisionSystem->CreateComponent(
+            _player,
+            sf::Vector3f(16.0f, 16.0f, 0),
+            playerCollisionType);
+    _collisionSystem->SetHandler(
+            playerCollisionType, 
+            _pipeCollisionType,
+            [](Entity player, Entity pipe)
+            {
+                std::cout << "Player collided with pipe" << std::endl;                
+            });
+
     // pipe spawner setup
     _pipeSpawner = _systemManager->CreateEntity();
     _pipeSpawnerSystem->CreateComponent(
             _pipeSpawner, 
             *_spriteSystem, 
             *_positionSystem,
-            *_systemManager);
+            *_collisionSystem,
+            *_systemManager,
+            _pipeCollisionType);
 
     // bg and fg setup
     _fg = _systemManager->CreateEntity();

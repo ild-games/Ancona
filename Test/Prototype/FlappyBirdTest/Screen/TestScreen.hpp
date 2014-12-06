@@ -3,6 +3,8 @@
 
 #include <Ancona/Engine/Screen/AbstractScreen.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
+#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
+
 namespace ild
 {
 
@@ -33,11 +35,13 @@ class TestScreen : public AbstractScreen
         GravitySystem * _gravitySystem;
         FlappyRotateSystem * _rotateSystem;
         PipeSpawnerSystem * _pipeSpawnerSystem;
+        CollisionSystem * _collisionSystem;
         Entity _player;
         Entity _pipeSpawner;
         Entity _ground;
         Entity _bg;
         Entity _fg;
+        CollisionType _pipeCollisionType;
 };
 
 }

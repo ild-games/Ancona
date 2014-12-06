@@ -8,11 +8,15 @@ using namespace ild;
 PipeSpawnerComponent::PipeSpawnerComponent(
         SpriteSystem & spriteSystem,
         PositionSystem & positionSystem,
-        SystemManager & systemManager)
+        CollisionSystem & collisionSystem,
+        SystemManager & systemManager,
+        CollisionType pipeColType)
     : _spriteSystem(spriteSystem), 
       _positionSystem(positionSystem),
+      _collisionSystem(collisionSystem),
       _systemManager(systemManager),
-      _randDistribution(MIN_Y_BOTTOM_PIPE, MAX_Y_BOTTOM_PIPE)
+      _randDistribution(MIN_Y_BOTTOM_PIPE, MAX_Y_BOTTOM_PIPE),
+      _pipeColType(pipeColType)
 {
     _clock = new sf::Clock();
 }
@@ -70,6 +74,7 @@ Entity PipeSpawnerComponent::CreatePipe(float x, float y, bool topPipe)
     pos->Position.y = y;
     pos->Velocity.x = PIPE_SPEED;
     _spriteSystem.CreateComponent(pipe, SpriteToUse(topPipe), RenderPriority::Player, -2);
+    _collisionSystem.CreateComponent(pipe, sf::Vector3f(24.0f, 200.0f, 0),_pipeColType);
     _currentPipes.push_back(topPipe);
     return pipe;
 }
