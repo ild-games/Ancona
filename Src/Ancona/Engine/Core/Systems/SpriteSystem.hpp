@@ -51,6 +51,13 @@ class SpriteSystem : public UnorderedSystem<SpriteComponent>
          * @param delta Ignored by the sprite system.
          */
         void Update(float delta);
+
+    protected:
+        /**
+         * @see ild::SystemManager::OnComponentRemove(Entity, ComponentType*)
+         */
+        void OnComponentRemove(Entity entity, SpriteComponent * component);
+
     private:
         /**
          * @brief The window the sprite system will draw to.

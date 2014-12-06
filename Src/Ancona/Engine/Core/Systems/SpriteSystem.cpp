@@ -24,9 +24,8 @@ SpriteComponent * SpriteSystem::CreateComponent(
     auto positionComponent = _positionSystem[entity];
 
     Assert(
-            positionComponent != NULL,
-            "A sprite component can only be attached to an entity with a position component"
-          );
+            positionComponent != nullptr,
+            "A sprite component can only be attached to an entity with a position component");
 
     SpriteComponent * component = new SpriteComponent(
             *positionComponent,
@@ -46,7 +45,12 @@ SpriteComponent * SpriteSystem::CreateComponent(
                        (rhs->GetRenderPriority() + rhs->GetPriorityOffset());
             });
 
-    return component;    
+    return component;
+}
+
+void SpriteSystem::OnComponentRemove(Entity entity, SpriteComponent * component)
+{
+    _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), component), _renderQueue.end());
 }
 
 void SpriteSystem::Update(float delta)

@@ -115,5 +115,5 @@ void TestScreen::Init()
     PositionComponent * groundPosition = _positionSystem->CreateComponent(_ground);
     groundPosition->Position.y += 300;
     groundPosition->Velocity.x = -65.0f;
-    _spriteSystem->CreateComponent(_ground, "flappy-ground", RenderPriority::Foreground);
+    _spriteSystem->CreateComponent(_ground, "flappy-ground", RenderPriority::Player, -1);
 }
