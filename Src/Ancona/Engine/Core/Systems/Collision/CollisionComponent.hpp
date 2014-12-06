@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Collision_CollisionComponent_H_
-#define Ancona_Engine_Collision_CollisionComponent_H_
+#ifndef Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
+#define Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 
 #include <Ancona/Engine/Core/Systems/PositionComponent.hpp>
 #include <Ancona/Util/Collision/Box2.hpp>

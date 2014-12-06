@@ -1,4 +1,4 @@
-#include <Ancona/Engine/Collision/CollisionComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Collision/CollisionComponent.hpp>
 
 using namespace ild;
 

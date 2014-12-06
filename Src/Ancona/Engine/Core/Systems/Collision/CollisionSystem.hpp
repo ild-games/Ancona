@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Collision_CollisionSystem_H_
-#define Ancona_Engine_Collision_CollisionSystem_H_
+#ifndef Ancona_Engine_Core_Systems_Collision_CollisionSystem_H_
+#define Ancona_Engine_Core_Systems_Collision_CollisionSystem_H_
 
 #include <vector>
 #include <functional>

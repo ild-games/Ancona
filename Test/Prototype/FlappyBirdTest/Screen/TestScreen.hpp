@@ -13,6 +13,7 @@ class SpriteSystem;
 class GravitySystem;
 class FlappyRotateSystem;
 class PipeSpawnerSystem;
+class CollisionSystem;
 
 class TestScreen : public AbstractScreen
 {
