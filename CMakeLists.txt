@@ -33,7 +33,7 @@ add_subdirectory(Src/Ancona/Engine)
 add_subdirectory(Src/Ancona/Util)
 add_subdirectory(Src/Ancona/Game)
 
-#Libs is a varialbe containing a reference to all linkable libraries
+#Libs is a variables containing a reference to all linkable libraries
 set(Libs Ancona_Game Ancona_Engine Ancona_Util ${SFML_LIBS})
 
 #Add test directory

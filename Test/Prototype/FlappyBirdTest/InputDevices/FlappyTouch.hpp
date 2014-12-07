@@ -1,0 +1,25 @@
+#ifndef Test_Prototype_FlappyBirdTest_InputDevices_FlappyTouch_H_
+#define Test_Prototype_FlappyBirdTest_InputDevices_FlappyTouch_H_
+
+#include <Ancona/Engine/InputDevices/InputHandler.hpp>
+
+namespace ild 
+{
+
+class FlappyInputComponent;
+
+class FlappyTouch : public InputHandler
+{
+    public:
+        void HandleInput();
+
+        void RegisterInputComponent(FlappyInputComponent * component);
+
+    private:
+        FlappyInputComponent * _component;
+
+};
+
+}
+
+#endif
