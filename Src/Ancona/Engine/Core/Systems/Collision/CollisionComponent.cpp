@@ -5,9 +5,9 @@ using namespace ild;
 CollisionComponent::CollisionComponent(PositionComponent & position, 
         const sf::Vector3f & dim,
         CollisionType type)
-    : _position(position), _dim(dim.x,dim.y)
+    : _position(position), _dim(dim.x,dim.y), _type(type)
 {
-
+    
 }
 
 bool CollisionComponent::Collides(const CollisionComponent & otherComponent)
@@ -19,4 +19,9 @@ void CollisionComponent::Update()
 {
     auto & pos = _position.Position;
     _dim.SetPosition(pos.x, pos.y);
+}
+
+CollisionType CollisionComponent::GetType()
+{
+    return _type;
 }

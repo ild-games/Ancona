@@ -6,6 +6,7 @@
 #include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
 namespace ild
 {
@@ -38,6 +39,7 @@ class PipeSpawnerSystem : public UnorderedSystem<PipeSpawnerComponent>
          * @param entity Entity that they component is attached to.
          * @param spriteSystem System to make the sprite components for the pipes
          * @param positionSystem System to set the position and velocity of the pipes
+         * @param pipeColType Collision Type of the pipe.
          *
          * @return A pointer to the pipe spawner component.
          */
@@ -45,7 +47,9 @@ class PipeSpawnerSystem : public UnorderedSystem<PipeSpawnerComponent>
                 const Entity & entity,
                 SpriteSystem & spriteSystem,
                 PositionSystem & positionSystem,
-                SystemManager & systemManager);
+                CollisionSystem & collisionSystem,
+                SystemManager & systemManager,
+                CollisionType pipeColType);
 };
 
 }

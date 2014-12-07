@@ -8,5 +8,4 @@ TextureLoader::TextureLoader(
         const std::string & directory)
         : SFMLResourceLoader<sf::Texture>(resourceName,fileExtension,directory)
 {
-
 }

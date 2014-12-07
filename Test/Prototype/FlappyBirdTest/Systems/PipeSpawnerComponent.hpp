@@ -4,6 +4,7 @@
 #include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
 #include <SFML/System.hpp>
 
@@ -26,12 +27,19 @@ class PipeSpawnerComponent
         PipeSpawnerComponent(
                 SpriteSystem & spriteSystem,
                 PositionSystem & positionSystem,
-                SystemManager & systemManager);
+                CollisionSystem & collisionSystem,
+                SystemManager & systemManager,
+                CollisionType pipeColType);
 
         /**
          * @brief Determines if to spawn a new set of pipes, or despawn any older ones
          */
         void Update();
+
+        /**
+         * @brief Stops all the pipes from moving.
+         */
+        void StopMovingPipes();
 
     private:
         /**
@@ -43,6 +51,11 @@ class PipeSpawnerComponent
          * @brief System used to create the position components for the spawned pipes.
          */
         PositionSystem & _positionSystem;
+
+        /**
+         * @brief System used to create the collision components for the spawned pipes.
+         */
+        CollisionSystem & _collisionSystem;
 
         /**
          * @brief System Manager used to spawn new entities.
@@ -60,6 +73,16 @@ class PipeSpawnerComponent
         std::vector<Entity> _currentPipes;
 
         /**
+         * @brief Collision type associated with the pipes.
+         */
+        CollisionType _pipeColType;
+
+        /**
+         * @brief True if the pipes should stop spawning, otherwise false.
+         */
+        bool _stopSpawning;
+
+        /**
          * @brief Number of seconds in between each spawn.
          */
         float const SECONDS_BETWEEN_SPAWN = 1.75f;
@@ -67,7 +90,7 @@ class PipeSpawnerComponent
         /**
          * @brief Height of the gap inbetween a spawned pair of pipes.
          */
-        float const GAP_HEIGHT = 40;
+        float const GAP_HEIGHT = 50;
 
         /**
          * @brief Speed the pipe moves at.
@@ -77,12 +100,12 @@ class PipeSpawnerComponent
         /**
          * @brief Minimum y coordinate the bottom pipe can spawn at.
          */
-        int const MIN_Y_BOTTOM_PIPE = 175;
+        int const MIN_Y_BOTTOM_PIPE = 275;
 
         /**
          * @brief Maximum y coordinate the bottom pipe can spawn at.
          */
-        int const MAX_Y_BOTTOM_PIPE = 260;
+        int const MAX_Y_BOTTOM_PIPE = 360;
 
         /**
          * @brief Random number engine for location spawning of the y coordinate.
