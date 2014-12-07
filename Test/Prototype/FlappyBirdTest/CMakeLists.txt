@@ -1,9 +1,11 @@
-file(GLOB_RECURSE SOURCE *.cpp)
-file(GLOB_RECURSE HEADERS *.hpp)
+file(GLOB_RECURSE SOURCE */*.cpp)
+file(GLOB_RECURSE HEADERS */*.hpp)
 
 #ConfigTest should be changed to prototype name
+set(PrototypeGameLib FlappyBirdLib)
 set(PrototypeName FlappyBirdTest)
 
-add_executable(${PrototypeName} ${SOURCE} ${HEADERS})
+add_library(${PrototypeGameLib} ${SOURCE} ${HEADERS})
+add_executable(${PrototypeName} main.cpp)
 
-target_link_libraries (${PrototypeName} ${Libs})
+target_link_libraries(${PrototypeName} ${PrototypeGameLib} ${Libs})
