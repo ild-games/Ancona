@@ -45,8 +45,16 @@ class TestScreen : public AbstractScreen
         Entity _ground;
         Entity _bg;
         Entity _fg;
+        Entity _groundWarp;
         CollisionType _pipeCollisionType;
+        CollisionType _groundCollisionType;
 
+        void InitializeEntities();
+        void CreateGround();
+        void CreatePipeSpawner();
+        void CreateFgBg();
+        void CreatePlayer();
+        
 };
 
 }
