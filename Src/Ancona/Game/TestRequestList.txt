@@ -7,3 +7,5 @@ TexturePNG,flappy-ground
 TexturePNG,flappy-bg1
 TexturePNG,flappy-bg2
 TexturePNG,flappy-fg
+TexturePNG,button-unpressed
+TexturePNG,button-pressed

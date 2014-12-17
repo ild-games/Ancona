@@ -17,6 +17,9 @@ FlappyInputComponent::FlappyInputComponent(
 
 void FlappyInputComponent::Jump() 
 {
-    _rotateComponent.SetRotateDir(-1);
-    _positionComponent.Velocity.y = -130;
+    if(_positionComponent.Position.y > 30)
+    {
+        _rotateComponent.SetRotateDir(-1);
+        _positionComponent.Velocity.y = -130;
+    }
 }
