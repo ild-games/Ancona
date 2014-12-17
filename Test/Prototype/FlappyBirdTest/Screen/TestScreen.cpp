@@ -92,7 +92,6 @@ void TestScreen::CreateGround()
             groundWarpCollisionType,
             [=](Entity ground, Entity groundWarp)
             {
-                std::cout << "GroundWarpCollision" << std::endl;
                 _positionSystem->at(_ground)->Position.x = 270;
             });
 }
