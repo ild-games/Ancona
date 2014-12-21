@@ -30,6 +30,14 @@ class SharedMachine
 
         }
 
+        /**
+         * @brief Method Type used by the state machine
+         *
+         * @param MachineState State the machine is currently in. The machine action may mutate state to change the machine's state.
+         * @param ArgsT... The arguments to be passed to the action.
+         *
+         * @return The result of the action.
+         */
         typedef R (T::*MachineAction)(MachineState & state, ArgsT...);
 
         /**
@@ -43,6 +51,15 @@ class SharedMachine
             _actions[state] = action;
         }
 
+        /**
+         * @brief Fire the action corresponding to the state on the object.
+         *
+         * @param object Object that the action method will be called on.
+         * @param state State that the object's machine is currently in.  May be mutated by the action to change to the state.
+         * @param args Arguments to be passed to the action.
+         *
+         * @return The result of the action.
+         */
         R Update(T & object, MachineState & state, ArgsT ... args) 
         {
             return (object.*_actions[state])(state, args ...);
