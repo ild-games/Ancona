@@ -12,11 +12,16 @@ typedef int MachineState;
 #define StateType(TypeName) namespace TypeName { enum Type : MachineState {
 #define EndStateType ,Count }; }
 
+
 /**
  * @brief Used to create a state machine that is shared by multiple objects.
  * @author Jeff Swenson
+ *
+ * @tparam ObjectType Type of the object that the actions are called on.
+ * @tparam ReturnType Return type of the action.
+ * @tparam ArgsT Arguments passed to the action.  The call will look like objectType.action(state, ArgsT ...).
  */
-template <class T, class R, class ... ArgsT>
+template <class ObjectType, class ReturnType, class ... ArgsT>
 class SharedMachine
 {
     public:
@@ -38,7 +43,7 @@ class SharedMachine
          *
          * @return The result of the action.
          */
-        typedef R (T::*MachineAction)(MachineState & state, ArgsT...);
+        typedef ReturnType (ObjectType::*MachineAction)(MachineState & state, ArgsT...);
 
         /**
          * @brief Set the action for the state.
@@ -60,7 +65,7 @@ class SharedMachine
          *
          * @return The result of the action.
          */
-        R Update(T & object, MachineState & state, ArgsT ... args) 
+        ReturnType Update(ObjectType & object, MachineState & state, ArgsT ... args) 
         {
             return (object.*_actions[state])(state, args ...);
         }
