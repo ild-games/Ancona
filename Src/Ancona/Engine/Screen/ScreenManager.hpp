@@ -42,6 +42,13 @@ class ScreenManager
         void Pop();
 
         /**
+         * @brief Pops the current screen off the manager and pushes a new one on
+         *
+         * @param screen Screen to push
+         */
+        void Replace(AbstractScreen * screen);
+
+        /**
          * @brief Updates the current screen
          *
          * @param delta time since last update

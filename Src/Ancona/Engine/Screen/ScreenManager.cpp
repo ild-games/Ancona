@@ -20,6 +20,12 @@ void ScreenManager::Pop()
     _screens.pop();
 }
 
+void ScreenManager::Replace(AbstractScreen * screen)
+{
+    Pop();
+    Push(screen);
+}
+
 void ScreenManager::Update(float delta)
 {
     if(!Empty())

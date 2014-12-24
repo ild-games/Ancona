@@ -6,6 +6,6 @@ using namespace ild;
 int main(int argc, char ** argv)
 {
     Config::Load("Config.txt");
-    AnconaGame game(270, 480, "Flappy Bird");
+    AnconaGame game(1600, 1200, "Camera and Map Test");
     game.Run();
 }

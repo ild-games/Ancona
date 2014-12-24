@@ -7,10 +7,10 @@ using namespace ild;
 
 void FlappyTouch::HandleInput()
 {
-    /*if(sf::Touch::isDown(0))
+    if(sf::Touch::isDown(0))
     {
         _component->Jump();
-    }*/
+    }
 }
 
 void FlappyTouch::RegisterInputComponent(FlappyInputComponent * component)

@@ -19,6 +19,7 @@
 #include "../Systems/PipeSpawnerComponent.hpp"
 #include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
+#include "../States/FlappyStates.hpp"
 
 using namespace ild;
 
@@ -156,13 +157,13 @@ void TestScreen::CreatePlayer()
     FlappyRotateComponent * rotate = _rotateSystem->at(_player);
 
     // input component setup
-    FlappyKeyboard * keyboard = new FlappyKeyboard();
+    _keyboard = new FlappyKeyboard(_manager);
     FlappyInputComponent * inputComponent = 
         new FlappyInputComponent (
                 _player,
                 *position,
                 *rotate,
-                *keyboard);
+                *_keyboard);
     _inputSystem->AddComponent(_player, inputComponent);
 
     // gravity component setup
@@ -199,8 +200,6 @@ void TestScreen::StopAllMovement()
     {
         _positionSystem->at(_player)->Velocity.y = 0;
     }
-    if(_inputSystem->at(_player) != NULL)
-    {
-        _inputSystem->RemoveComponent(_player);
-    }
+
+    _keyboard->ChangeState(FlappyStates::OnGround);
 }
