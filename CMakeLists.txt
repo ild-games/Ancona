@@ -1,5 +1,8 @@
 #Owner: Jeff Swenson
 
+#TODO JPS: Fix so that it can be specified
+set(Ancona_Platform Debian)
+
 cmake_minimum_required(VERSION 2.8)
 
 project(ANCONA)
@@ -20,8 +23,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+include(CMake/Modules/FindLibs.cmake)
 #Add all SFML libraries that need to be included
-set(SFML_LIBS sfml-graphics sfml-window sfml-system)
+#set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 
 #Incldue directory over the INC_DIR variable.  This is done so that
 #project headers are prefaced with Ancona
@@ -45,3 +49,5 @@ target_link_libraries(ancona_game ${Libs})
 
 #Move files to the build directory
 configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt COPYONLY)
+
+#Build Target Binaries
