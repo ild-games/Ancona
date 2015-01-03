@@ -2,6 +2,7 @@
 #define Ancona_Util_Box2_H_
 
 #include <SFML/System.hpp>
+#include <vector>
 #include "Box3.hpp"
 
 namespace ild
