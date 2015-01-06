@@ -1,29 +1,28 @@
 #include <SFML/Window.hpp>
 
-#include "TestScreen.hpp"
+#include "FlappyScreen.hpp"
 
-#include <iostream>
-
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Game/InputDevices/PlayerKeyboard.hpp>
-#include <Ancona/Game/Systems/PlayerInputComponent.hpp>
+#include "../InputDevices/FlappyKeyboard.hpp"
+#include "../States/FlappyStates.hpp"
 #include "../Systems/GravitySystem.hpp"
 #include "../Systems/GravityComponent.hpp"
-#include "../InputDevices/FlappyKeyboard.hpp"
 #include "../Systems/FlappyInputComponent.hpp"
 #include "../Systems/FlappyRotateSystem.hpp"
 #include "../Systems/FlappyRotateComponent.hpp"
 #include "../Systems/PipeSpawnerSystem.hpp"
 #include "../Systems/PipeSpawnerComponent.hpp"
-#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
+
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
-#include "../States/FlappyStates.hpp"
+#include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
+#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
+#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Game/InputDevices/PlayerKeyboard.hpp>
+#include <Ancona/Game/Systems/PlayerInputComponent.hpp>
 
 using namespace ild;
 
-TestScreen::TestScreen(ScreenManager & manager)
+FlappyScreen::FlappyScreen(ScreenManager & manager)
     : AbstractScreen(manager)
 {
     _systemManager = new SystemManager();
@@ -37,24 +36,24 @@ TestScreen::TestScreen(ScreenManager & manager)
             _manager.Window, *_systemManager, *_positionSystem);
 }
 
-void TestScreen::Init()
+void FlappyScreen::Init()
 {
     InitializeEntities();
 }
 
-void TestScreen::Update(float delta)
+void FlappyScreen::Update(float delta)
 {
     _systemManager->Update(delta,UpdateStep::Update);
     _systemManager->Update(delta,UpdateStep::Input);
 }
 
-void TestScreen::Draw()
+void FlappyScreen::Draw()
 {
     _manager.Window.clear(sf::Color::Green);
     _systemManager->Update(0,UpdateStep::Draw);
 }
 
-void TestScreen::InitializeEntities()
+void FlappyScreen::InitializeEntities()
 {
     CreateGround();
     CreatePipeSpawner();
@@ -62,7 +61,7 @@ void TestScreen::InitializeEntities()
     CreatePlayer();
 }
 
-void TestScreen::CreateGround()
+void FlappyScreen::CreateGround()
 {
     // ground setup
     _ground = _systemManager->CreateEntity();
@@ -97,7 +96,7 @@ void TestScreen::CreateGround()
             });
 }
 
-void TestScreen::CreatePipeSpawner() 
+void FlappyScreen::CreatePipeSpawner() 
 {
     // pipe spawner setup
     _pipeSpawner = _systemManager->CreateEntity();
@@ -111,7 +110,7 @@ void TestScreen::CreatePipeSpawner()
             _pipeCollisionType);
 }
 
-void TestScreen::CreateFgBg() 
+void FlappyScreen::CreateFgBg() 
 {
     // bg and fg setup
     _fg = _systemManager->CreateEntity();
@@ -133,7 +132,7 @@ void TestScreen::CreateFgBg()
     }
 }
 
-void TestScreen::CreatePlayer() 
+void FlappyScreen::CreatePlayer() 
 {
     // player entity setup
     _player = _systemManager->CreateEntity();
@@ -192,7 +191,7 @@ void TestScreen::CreatePlayer()
 }
 
 
-void TestScreen::StopAllMovement()
+void FlappyScreen::StopAllMovement()
 {
     _pipeSpawnerComp->StopMovingPipes();
     _positionSystem->at(_ground)->Velocity.x = 0;

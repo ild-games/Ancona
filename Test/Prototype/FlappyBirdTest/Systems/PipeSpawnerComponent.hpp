@@ -86,12 +86,12 @@ class PipeSpawnerComponent
         /**
          * @brief Number of seconds in between each spawn.
          */
-        float const SECONDS_BETWEEN_SPAWN = 1.75f;
+        float const SECONDS_BETWEEN_SPAWN = 1.5f;
 
         /**
          * @brief Height of the gap inbetween a spawned pair of pipes.
          */
-        float const GAP_HEIGHT = 50;
+        float const GAP_HEIGHT = 55;
 
         /**
          * @brief Speed the pipe moves at.
