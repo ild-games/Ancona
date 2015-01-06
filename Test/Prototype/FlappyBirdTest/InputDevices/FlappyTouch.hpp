@@ -2,6 +2,7 @@
 #define Test_Prototype_FlappyBirdTest_InputDevices_FlappyTouch_H_
 
 #include <Ancona/Engine/InputDevices/InputHandler.hpp>
+#include <Ancona/Util/StateMachine/SharedMachine.hpp>
 
 namespace ild 
 {

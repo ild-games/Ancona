@@ -107,7 +107,7 @@ def is_android_ndk_installed():
         print("Error: You must install 'ant'")
         return False
     if not which("ndk-build"): 
-        print("Error: You must add ANDROID_NDK/tools to the PATH variable")
+        print("Error: You must add $ANDROID_NDK to the PATH variable")
         return False
     return True
 
