@@ -5,15 +5,16 @@
 #include <Ancona/Game/Core/AnconaGame.hpp>
 
 #include "../Screen/TestScreen.hpp"
+#include "FlappyGame.hpp"
 #include <iostream>
 
 using namespace ild;
 
-AnconaGame::AnconaGame(
+FlappyGame::FlappyGame(
         int windowWidth, 
         int windowHeight, 
         const std::string & title)
-    : Game(windowWidth, windowHeight, title)
+    : AnconaGame(windowWidth,windowHeight, title)
 {
     sf::View view = _window.getView();
     view.zoom(.5f);
@@ -22,13 +23,8 @@ AnconaGame::AnconaGame(
     CreateInitialScreen();
 }
 
-AnconaGame::~AnconaGame()
-{
-    ResourceLibrary::Return(*_requestList);
-    delete _requestList;
-}
 
-void AnconaGame::CreateInitialScreen()
+void FlappyGame::CreateInitialScreen()
 {
     _requestList = new RequestList("TestRequestList.txt");
     _screenManager->Push(

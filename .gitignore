@@ -6,9 +6,11 @@
 
 # Ignore Build folders and Config files
 build/
+lib/
 Build/
 Doc/
 Config.txt
+*__pycache__*
 
 # Ignore Resource folder
 Resources/

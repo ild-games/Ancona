@@ -6,6 +6,6 @@ set(PrototypeGameLib FlappyBirdLib)
 set(PrototypeName FlappyBirdTest)
 
 add_library(${PrototypeGameLib} ${SOURCE} ${HEADERS})
-add_executable(${PrototypeName} main.cpp)
+#add_executable(${PrototypeName} main.cpp)
 
-target_link_libraries(${PrototypeName} ${PrototypeGameLib} ${Libs})
+#target_link_libraries(${PrototypeName} ${PrototypeGameLib} ${Libs})
