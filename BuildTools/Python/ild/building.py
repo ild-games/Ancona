@@ -36,7 +36,11 @@ class DirContext:
 #
 # @return 
 def command(cmd,directory=None):
-    os.system(cmd)
+    if directory:
+        with DirContext(directory):
+            os.system(cmd)
+    else:
+        os.system(cmd)
 
 ##
 # @brief Get the directory libraries are downloaded to
@@ -47,6 +51,7 @@ def command(cmd,directory=None):
 # @return 
 def get_lib_dir(cmake_dir, depend_name):
     return os.path.join(cmake_dir,'lib',depend_name)
+
 
 ##
 # @brief Find the path to the executable
@@ -72,15 +77,34 @@ def which(program):
     return None
 
 ##
+# @brief Apply patch to the git repo
+#
+# @param repo_dir Directory to the repository
+# @param patch_file Absolute path to a patch file
+def apply_git_patch(repo_dir,patch_file):
+    command("git apply {}".format(patch_file), repo_dir)
+
+##
+# @brief Produce the patch name for the path
+#
+# @param cmake_dir Root of the cmake directory
+# @param patch_name Name of the patch to find
+#
+# @return Absolute path to the patch file
+def get_patch(cmake_dir,patch_name):
+    return os.path.join(cmake_dir,"BuildTools","Patch",patch_name + ".patch")
+
+##
 # @brief Clone a git repo into the libs folder
 #
 # @param cmake_dir Root directory of the CMake build
 # @param repo_name Name of the repo to clone (EX "SFML")
 # @param giturl URL of the repo to clone
 # @param tag Tag of the repo to clone
+# @param patch Absolute path to a patch file that should be applied
 #
 # @return Absolute path to the cloned repository
-def get_git_repo(cmake_dir,repo_name, giturl,tag):
+def get_git_repo(cmake_dir,repo_name, giturl,tag,patch=None):
     destination = get_lib_dir(cmake_dir,repo_name)
     #Only clone the repo if it does not exist already
     if not os.path.isdir(destination):
@@ -93,6 +117,8 @@ def get_git_repo(cmake_dir,repo_name, giturl,tag):
             command("git clone {} .".format(giturl)) 
             #Checkout the correct tag
             command("git checkout tags/{}".format(tag))
+            if patch:
+                apply_git_patch(destination,patch)
     return destination
 
 ##
@@ -109,6 +135,11 @@ def is_android_ndk_installed():
     if not which("ndk-build"): 
         print("Error: You must add $ANDROID_NDK to the PATH variable")
         return False
+    if not which("android"):
+        print("Error: You must install the android sdk and add <SDK_Path>/tools to your \
+                path variable")
+    if not which("javac"):
+        print("Error: You must install JDK7")
     return True
 
 ##

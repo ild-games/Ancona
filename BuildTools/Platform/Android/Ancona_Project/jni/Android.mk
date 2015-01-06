@@ -3,7 +3,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := Ancona_Engine
 LOCAL_SRC_FILES := libAncona_Engine.a
-LOCAL_EXPORT_C_INCLUDES := /home/jeff/Code/ILikeDucks/Ancona/Src
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../Src
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -19,7 +19,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := FlappyBird 
 LOCAL_SRC_FILES := libFlappyBirdLib.a
-LOCAL_EXPORT_C_INCLUDES := /home/jeff/Code/ILikeDucks/Ancona/Test/Prototype/FlappyBirdTest
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../Test/Prototype/FlappyBirdTest
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)

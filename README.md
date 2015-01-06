@@ -13,20 +13,22 @@ To get started on a Posix OS:
 	5. Run the command "cmake .."
 	6. Run the command "make"
 
+The binaries will be in the Build/bin folder.
+
 To build on Android:
 
-    1. Download the android NDK
-    2. Add ndk/tools to your PATH environment variable
-    3. Set the NDK and ANDROID_NDK environment variables to be the path to the android NDK
-    4. Clone SFML from github
-    5. Set the ANDROID_CMAKE_TOOLCHAIN environment variable to the toolchain file located in SFML/cmake/toolchains
-    6. Open a terminal and navigate to the SFML/tools/android environment
-    7. Run the make_all.sh script
-    8. Open a terminal in the ancona root
-    9. Run the ancona script in the root with "Android" as the argument
-    10. Change into the "build" directory and run make
+    1. Download the android NDK.
+    2. Add ndk to your PATH environment variable.
+    3. Install JDK7 and the Android SKD.
+    4. Add <path_to_androidsdk>/tools to you PATH.
+    5. Run the android command to open the SDK manager.  
+    6. Using the SDK manager install the android-14 platform and the newest build tools.
+    7. Set the ANDROID_NDK environment variables to be the path to the android NDK.
+    8. Open a terminal in the ancona root.
+    9. Run the ancona script in the root directory.
+    10. Change into the "build/Android" "ant debug install" to install the app on your phone.
+    11. Rund ddms to view log output.
 
-The binaries will be in the Build/bin folder.
 
 Coming Soon:
 Windows VS build instructions.

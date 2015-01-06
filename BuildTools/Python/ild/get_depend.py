@@ -23,7 +23,7 @@ def main(cmake_dir, platform):
 
     #Clone the SFML Repo
     if not SFML_installed(get_lib_dir(cmake_dir,"SFML"),platform):
-        sfml_repo = get_git_repo(cmake_dir, *SFML_REPO)
+        sfml_repo = get_git_repo(cmake_dir, *SFML_REPO,patch=get_patch(cmake_dir,"SFML"))
         build_SFML(sfml_repo,platform,toolchain)
     else:
         print("SFML is already installed for this platform")
