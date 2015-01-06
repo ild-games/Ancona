@@ -13,13 +13,13 @@ class FlappyTouch : public InputHandler
     public:
         void HandleInput();
 
-        void InAirInput(MachineState & curState);
+        //void InAirInput(MachineState & curState);
 
-        void OnGroundInput(MachineState & curState);
+        //void OnGroundInput(MachineState & curState);
 
         void RegisterInputComponent(FlappyInputComponent * component);
 
-        void ChangeState(const MachineState & newState);
+        //void ChangeState(const MachineState & newState);
 
     private:
         FlappyInputComponent * _component;

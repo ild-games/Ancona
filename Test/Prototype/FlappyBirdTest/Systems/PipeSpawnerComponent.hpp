@@ -7,6 +7,7 @@
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
 #include <SFML/System.hpp>
+#include <random>
 
 namespace ild
 {

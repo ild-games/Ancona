@@ -200,6 +200,5 @@ void TestScreen::StopAllMovement()
     {
         _positionSystem->at(_player)->Velocity.y = 0;
     }
-
     _keyboard->ChangeState(FlappyStates::OnGround);
 }
