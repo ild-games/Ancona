@@ -3,7 +3,6 @@
 #include "../Systems/FlappyInputComponent.hpp"
 
 #include <SFML/Window.hpp>
-#include <iostream>
 
 using namespace ild;
 
@@ -45,5 +44,24 @@ void FlappyKeyboard::RegisterInputComponent(
 
 void FlappyKeyboard::ChangeState(const MachineState & newState)
 {
-    _curState = newState;
+    if(AllowedTransition(newState)) 
+    {
+        _curState = newState;
+    }
+}
+
+bool FlappyKeyboard::AllowedTransition(const MachineState & newState)
+{
+    switch(_curState)
+    {
+        case FlappyStates::InAir:
+            return InAirTransitionCheck(newState);
+            break;
+    }
+    return false;
+}
+
+bool FlappyKeyboard::InAirTransitionCheck(const MachineState & newState)
+{
+    return newState == FlappyStates::OnGround;
 }
