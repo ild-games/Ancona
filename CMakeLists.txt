@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 project(ANCONA)
 
 option(BuildPrototypes "BuildPrototypes" ON)
-option(BuildTests "BuildTests" ON)
+option(BuildTests "BuildTests" OFF)
 
 #TODO JPS: Fix so that it can be specified
 set(Ancona_Platform Debian)
@@ -21,8 +21,8 @@ set(SRC_DIR ${CMAKE_SOURCE_DIR}/Src/Ancona)
 set(INC_DIR ${CMAKE_SOURCE_DIR}/Src/Ancona)
 
 #Configure output directories to be something sensible
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include(BuildTools/FindLibs.cmake)
@@ -34,8 +34,14 @@ set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 include_directories(${INC_DIR}/..)
 
 #TODO Move this shit somewhere else
-file(GLOB Android_Project_Dir /BuildTools/Platform/Android/Ancona_Project/*)
-file(COPY Android_Project_Dir /Android)
+file(GLOB Android_Project_Dir BuildTools/Platform/Android/Ancona_Project/*)
+message("Android Directory:")
+message("${Android_Project_Dir}")
+file(COPY ${Android_Project_Dir} DESTINATION ${CMAKE_BINARY_DIR}/Android)
+file(INSTALL Test/Prototype/FlappyBirdTest/main.cpp DESTINATION ${CMAKE_BINARY_DIR}/Android/jni/)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Android/jni)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Android/jni)
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Android/jni)
 
 
 #When more folders are added at the Ancona level a CMakeTest file must 
@@ -51,10 +57,20 @@ set(Libs Ancona_Game Ancona_Engine Ancona_Util ${SFML_LIBS})
 add_subdirectory(Test)
 
 #Build the game executable
-add_executable(ancona_game Src/Ancona/main.cpp)
-target_link_libraries(ancona_game ${Libs})
+#add_executable(ancona_game Src/Ancona/main.cpp)
+#target_link_libraries(ancona_game ${Libs})
 
 #Move files to the build directory
 configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt COPYONLY)
 
 #Build Target Binaries
+#add_custom_command(TARGET FlappyBirdLib POST_BUILD
+#    COMMAND echo Building Android App
+#    COMMAND ndk-build
+#    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Android)
+
+add_custom_target(Android_Build ALL DEPENDS Ancona_Game Ancona_Engine FlappyBirdLib 
+    COMMAND echo Building Android App
+    COMMAND ndk-build
+    COMMAND android update project -p . --target android-14
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Android)

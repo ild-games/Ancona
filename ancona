@@ -14,4 +14,4 @@ if ancona_target == "Android":
         print("Error: Failed to build ancona for Android")
         sys.exit(1)
     get_depend.main(cmake_root,"Android")
-    #building.generate_ancona_build(cmake_root,"Android")
+    building.generate_ancona_build(cmake_root,"Android")
