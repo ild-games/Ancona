@@ -17,7 +17,7 @@ class FlappyRotateSystem;
 class PipeSpawnerSystem;
 class CollisionSystem;
 class PipeSpawnerComponent;
-class FlappyKeyboard;
+class FlappyTouch;
 
 class TestScreen : public AbstractScreen
 {
@@ -51,7 +51,7 @@ class TestScreen : public AbstractScreen
         Entity _groundWarp;
         CollisionType _pipeCollisionType;
         CollisionType _groundCollisionType;
-        FlappyKeyboard * _keyboard;
+        FlappyTouch * _touch;
 
         void InitializeEntities();
         void CreateGround();

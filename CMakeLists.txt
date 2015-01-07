@@ -13,7 +13,7 @@ set(Ancona_Platform Debian)
 set(CMAKE_MODULE_PATH BuildTools/Module ${CMAKE_MODULE_PATH})
 
 #Set C++ Version to 11
-SET(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ -g -lstdc++")
+SET(CMAKE_CXX_FLAGS "-std=c++11")
 
 #Define SRC_DIR and INC_DIR incase we choose to separate
 #cpp and hpp files in the future

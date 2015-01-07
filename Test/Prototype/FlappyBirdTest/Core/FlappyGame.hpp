@@ -8,7 +8,7 @@
 namespace ild
 {
 
-class FlappyGame : public AnconaGame
+class FlappyGame : public Game
 {
     public:
         /**

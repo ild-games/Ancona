@@ -2,6 +2,7 @@
 #define ANCONA_ENGINE_CONFIG_CONFIG_H_
 
 #include <unordered_map>
+#include <istream>
 #include <string>
 
 namespace ild
@@ -22,6 +23,13 @@ class Config
          * @param configFile A string containing the configuration file name.
          */
         static void Load(const std::string & configFile);
+
+        /**
+         * @brief Load settings from the input stream.
+         *
+         * @param configStream A string containing the configuration file name.
+         */
+        static void Load(std::istream & configStream);
 
         /**
          * @brief Get option from the configuration settings.

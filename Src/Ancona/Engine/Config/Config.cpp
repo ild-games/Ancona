@@ -13,6 +13,12 @@ static const std::string EMPTY_OPTION = "";
 
 void Config::Load(const std::string & configFile)
 {
+    std::ifstream file(configFile, std::ios::out);
+    Load(file);
+}
+
+void Config::Load(std::istream & file)
+{
     if(options != NULL)
     {
         return;
@@ -21,7 +27,6 @@ void Config::Load(const std::string & configFile)
     options = new std::unordered_map<std::string,std::string>();
 
     std::vector<std::string> pieces;
-    std::ifstream file(configFile, std::ios::out);
     std::string line;
 
     if(file.fail())
@@ -54,6 +59,7 @@ void Config::Load(const std::string & configFile)
             (*options)[pieces[0]] = pieces[1];
         }
     }
+
 }
 
 const std::string & Config::GetOption(const std::string & optionName)

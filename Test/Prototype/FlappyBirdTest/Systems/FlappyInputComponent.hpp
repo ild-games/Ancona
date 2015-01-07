@@ -3,7 +3,7 @@
 
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlComponent.hpp>
-#include "../InputDevices/FlappyKeyboard.hpp"
+#include "../InputDevices/FlappyTouch.hpp"
 #include "FlappyRotateComponent.hpp"
 
 
@@ -18,7 +18,7 @@ class FlappyInputComponent : public InputControlComponent
                 Entity & flapper,
                 PositionComponent & positionComponent,
                 FlappyRotateComponent & rotateComponent,
-                FlappyKeyboard & inputHandler);
+                FlappyTouch & inputHandler);
 
         void Jump();
     private:

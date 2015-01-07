@@ -7,11 +7,10 @@
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Game/InputDevices/PlayerKeyboard.hpp>
 #include <Ancona/Game/Systems/PlayerInputComponent.hpp>
 #include "../Systems/GravitySystem.hpp"
 #include "../Systems/GravityComponent.hpp"
-#include "../InputDevices/FlappyKeyboard.hpp"
+#include "../InputDevices/FlappyTouch.hpp"
 #include "../Systems/FlappyInputComponent.hpp"
 #include "../Systems/FlappyRotateSystem.hpp"
 #include "../Systems/FlappyRotateComponent.hpp"
@@ -157,13 +156,13 @@ void TestScreen::CreatePlayer()
     FlappyRotateComponent * rotate = _rotateSystem->at(_player);
 
     // input component setup
-    _keyboard = new FlappyKeyboard(_manager);
+    _touch = new FlappyTouch(_manager);
     FlappyInputComponent * inputComponent = 
         new FlappyInputComponent (
                 _player,
                 *position,
                 *rotate,
-                *_keyboard);
+                *_touch);
     _inputSystem->AddComponent(_player, inputComponent);
 
     // gravity component setup
@@ -200,5 +199,5 @@ void TestScreen::StopAllMovement()
     {
         _positionSystem->at(_player)->Velocity.y = 0;
     }
-    _keyboard->ChangeState(FlappyStates::OnGround);
+    _touch->ChangeState(FlappyStates::OnGround);
 }
