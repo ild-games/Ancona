@@ -52,6 +52,10 @@ class TestScreen : public AbstractScreen
         CollisionType _pipeCollisionType;
         CollisionType _groundCollisionType;
         FlappyTouch * _touch;
+        CollisionType _pointCollisionType;
+        int _points = 0;
+        sf::Text _pointText;
+        sf::Font _font;
 
         void InitializeEntities();
         void CreateGround();

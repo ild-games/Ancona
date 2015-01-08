@@ -22,14 +22,16 @@ PipeSpawnerComponent * PipeSpawnerSystem::CreateComponent(
         PositionSystem & positionSystem,
         CollisionSystem & collisionSystem,
         SystemManager & systemManager,
-        CollisionType pipeColType)
+        CollisionType pipeColType,
+        CollisionType pointColType)
 {
     auto comp = new PipeSpawnerComponent(
             spriteSystem, 
             positionSystem, 
             collisionSystem,
             systemManager, 
-            pipeColType);
+            pipeColType,
+            pointColType);
     AttachComponent(entity, comp);
     return comp;
 }
