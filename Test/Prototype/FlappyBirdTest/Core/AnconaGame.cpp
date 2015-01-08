@@ -16,7 +16,7 @@ AnconaGame::AnconaGame(
     : Game(windowWidth, windowHeight, title)
 {
     sf::View view = _window.getView();
-    view.zoom(.5f);
+    //view.zoom(.5f);
     _window.setView(view);
     ResourceLoaderInit::Init();
     CreateInitialScreen();

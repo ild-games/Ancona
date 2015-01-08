@@ -51,7 +51,11 @@ class TestScreen : public AbstractScreen
         Entity _groundWarp;
         CollisionType _pipeCollisionType;
         CollisionType _groundCollisionType;
+        CollisionType _pointCollisionType;
         FlappyKeyboard * _keyboard;
+        int _points = 0;
+        sf::Text _pointText;
+        sf::Font _font;
 
         void InitializeEntities();
         void CreateGround();

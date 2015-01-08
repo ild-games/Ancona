@@ -30,7 +30,8 @@ class PipeSpawnerComponent
                 PositionSystem & positionSystem,
                 CollisionSystem & collisionSystem,
                 SystemManager & systemManager,
-                CollisionType pipeColType);
+                CollisionType pipeColType,
+                CollisionType pointColType);
 
         /**
          * @brief Determines if to spawn a new set of pipes, or despawn any older ones
@@ -41,6 +42,13 @@ class PipeSpawnerComponent
          * @brief Stops all the pipes from moving.
          */
         void StopMovingPipes();
+
+        /**
+         * @brief Despawns the given point.
+         *
+         * @param point Point to despawn. 
+         */
+        void DespawnPoint(Entity point);
 
     private:
         /**
@@ -74,9 +82,20 @@ class PipeSpawnerComponent
         std::vector<Entity> _currentPipes;
 
         /**
+         * @brief Stores all the point entities, gives a point to the player when clearing
+         *        a pipe.
+         */
+        std::vector<Entity> _points;
+
+        /**
          * @brief Collision type associated with the pipes.
          */
         CollisionType _pipeColType;
+
+        /**
+         * @brief Collision type associated with the point system.
+         */
+        CollisionType _pointColType;
 
         /**
          * @brief True if the pipes should stop spawning, otherwise false.
@@ -107,6 +126,11 @@ class PipeSpawnerComponent
          * @brief Maximum y coordinate the bottom pipe can spawn at.
          */
         int const MAX_Y_BOTTOM_PIPE = 360;
+
+        /**
+         * @brief X position the pipes spawn at.
+         */
+        int const X_PIPE = 244;
 
         /**
          * @brief Random number engine for location spawning of the y coordinate.
@@ -149,9 +173,17 @@ class PipeSpawnerComponent
          * @param y The y coordinate of the pipe.
          * @param topPipe True if the pipe is the top pipe, false if it is the bottom pipe.
          *
-         * @return 
+         * @return The pipe entity.
          */
         Entity CreatePipe(float x, float y, bool topPipe);
+
+        /**
+         * @brief Constructs the point entity with the correct initial values.
+         *
+         * @param bottomPipe Entity of the bottomPipe to spawn it with. Used to determine
+         *                   position.
+         */
+        void CreatePoint(Entity bottomPipe);
 
         /**
          * @brief Determiens which pipe sprite to use based on if it's the top or bottom pipe.

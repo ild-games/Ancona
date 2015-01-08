@@ -39,6 +39,10 @@ TestScreen::TestScreen(ScreenManager & manager)
 
 void TestScreen::Init()
 {
+    _pointText.setFont(*ResourceLibrary::Get<sf::Font>("small_pixel-7"));
+    _pointText.setPosition(80, 320);
+    _pointText.setColor(sf::Color::Black);
+    _pointText.setString("0");
     InitializeEntities();
 }
 
@@ -52,6 +56,7 @@ void TestScreen::Draw()
 {
     _manager.Window.clear(sf::Color::Green);
     _systemManager->Update(0,UpdateStep::Draw);
+    _manager.Window.draw(_pointText);
 }
 
 void TestScreen::InitializeEntities()
@@ -102,13 +107,15 @@ void TestScreen::CreatePipeSpawner()
     // pipe spawner setup
     _pipeSpawner = _systemManager->CreateEntity();
     _pipeCollisionType = _collisionSystem->CreateType();
+    _pointCollisionType = _collisionSystem->CreateType();
     _pipeSpawnerComp = _pipeSpawnerSystem->CreateComponent(
             _pipeSpawner, 
             *_spriteSystem, 
             *_positionSystem,
             *_collisionSystem,
             *_systemManager,
-            _pipeCollisionType);
+            _pipeCollisionType,
+            _pointCollisionType);
 }
 
 void TestScreen::CreateFgBg() 
@@ -188,6 +195,15 @@ void TestScreen::CreatePlayer()
             {
                 StopAllMovement();
                 _positionSystem->at(player)->Velocity.y = 0;
+            });
+    _collisionSystem->SetHandler(
+            playerCollisionType,
+            _pointCollisionType,
+            [=](Entity player, Entity point)
+            {
+                _points += 1;
+                _pointText.setString(std::to_string(_points));
+                //_pipeSpawnerComp->DespawnPoint(point);
             });
 }
 
