@@ -17,7 +17,7 @@ FlappyGame::FlappyGame(
     : Game(windowWidth,windowHeight, title)
 {
     sf::View view = _window.getView();
-    //view.zoom(.5f);
+    view.zoom(.5f);
     _window.setView(view);
     ResourceLoaderInit::Init();
     CreateInitialScreen();
@@ -34,6 +34,8 @@ void FlappyGame::CreateInitialScreen()
     _requestList->Add("TexturePNG","flappy-bg1");
     _requestList->Add("TexturePNG","flappy-bg2");
     _requestList->Add("TexturePNG","flappy-fg");
+    _requestList->Add("TexturePNG","col-point");
+    _requestList->Add("FontTTF","small_pixel-7");
     _requestList->Start();
     _screenManager->Push(
             new TestScreen(*_screenManager));

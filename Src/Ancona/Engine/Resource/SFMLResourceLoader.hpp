@@ -4,6 +4,10 @@
 #include <Ancona/Engine/Resource/AbstractLoader.hpp>
 
 #include <string>
+#include <android/asset_manager.h>
+#include <android/log.h>
+#include <android/native_activity.h>
+#include <android/window.h>
 
 namespace ild
 {
@@ -42,12 +46,15 @@ class SFMLResourceLoader : public AbstractLoader
                     _directory, resourceKey, _fileExtension
                     );
 
+            __android_log_print(ANDROID_LOG_INFO, "AnconaTag", "SFMLResourceLoader::Load(%s)", fileName.c_str());
             if(!(object->loadFromFile(fileName)))
             {
                 //If the load failed then null should be returned
+                __android_log_print(ANDROID_LOG_INFO, "AnconaTag", "SFMLResourceLoader::Load(%s):LOAD FAILED", fileName.c_str());
                 delete object;
                 return NULL;
             }
+            __android_log_print(ANDROID_LOG_INFO, "AnconaTag", "SFMLResourceLoader::Load(%s):LOAD SUCCESSFUL", fileName.c_str());
             return object;
         }
 

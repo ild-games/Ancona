@@ -3,6 +3,8 @@
 #include "TestScreen.hpp"
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
@@ -201,7 +203,9 @@ void TestScreen::CreatePlayer()
             [=](Entity player, Entity point)
             {
                 _points += 1;
-                _pointText.setString(std::to_string(_points));
+                std::ostringstream os;
+                os << _points;
+                _pointText.setString(os.str());
                 //_pipeSpawnerComp->DespawnPoint(point);
             });
 }
