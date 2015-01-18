@@ -24,7 +24,7 @@ class AnconaGame : public Game
         /**
          * @brief see ild.Game.CreateInitialScreen
          */
-        void CreateInitialScreen();
+        virtual void CreateInitialScreen();
 
     private:
         /**

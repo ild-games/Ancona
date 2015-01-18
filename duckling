@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+##
+# @brief Script used to automate the Ancona build process
+#
+# @author Jeff Swenson
+#
+# Use the -h flag for usage instructions
+
+import os,sys,argparse
+
+cmake_root = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
+python_path = os.path.join(cmake_root,"BuildTools","Python")
+sys.path.append(python_path)
+
+from ild import get_depend,building,generate_mk_file
+from ild.duckling import arg_parser,build_state
+
+#Parse the command line arguments
+ancona_platform,ancona_target = arg_parser.parse()
+
+#If ancona_platform is set then we should build the project for that platform
+if ancona_platform:
+    with build_state.BuildState(cmake_root) as state:
+        #Check to see if the platform has changed. If it has then we need to clean the 
+        #build directory
+        if state["platform"] != ancona_platform:
+            print("Cleaning build directory")
+            state["platform"] = ancona_platform
+            building.command("rm -rf build/*")
+
+        print("Duckling: Building for",ancona_platform)
+        if ancona_platform == "android" and not building.is_android_ndk_installed():
+            if not building.is_android_ndk_installed():
+                print("Error: Failed to build ancona for Android")
+                sys.exit(1)
+            get_depend.main(cmake_root,"Android")
+
+        building.generate_ancona_build(cmake_root,ancona_platform)
+        
+#If ancona_target is set then we should run the project for the given target
+if ancona_target:
+    print("Warning: -r is not yet implemented")

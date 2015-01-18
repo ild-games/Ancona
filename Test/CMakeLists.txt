@@ -1,5 +1,3 @@
-set(Ancona_Libs Ancona_Engine Ancona_Util)
-
 if(BuildPrototypes)
     add_subdirectory(Prototype)
 endif(BuildPrototypes)

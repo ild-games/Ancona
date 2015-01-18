@@ -1,0 +1,1 @@
+This file contains scripts used to aid the CMake build process
