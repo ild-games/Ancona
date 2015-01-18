@@ -6,6 +6,8 @@ set(PrototypeGameLib FlappyBirdLib)
 set(PrototypeName FlappyBirdTest)
 
 add_library(${PrototypeGameLib} ${SOURCE} ${HEADERS})
-#add_executable(${PrototypeName} main.cpp)
-
-#target_link_libraries(${PrototypeName} ${PrototypeGameLib} ${Libs})
+ancona_add_target(${PrototypeName} LINK_SFML
+    SRC main.cpp
+    STATIC_LIBS  FlappyBirdLib ${Ancona_Libs}
+    PLATFORMS ANDROID DESKTOP
+    INCLUDES ${CMAKE_CURRENT_LIST_DIR})
