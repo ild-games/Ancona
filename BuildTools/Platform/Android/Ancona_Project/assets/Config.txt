@@ -1,0 +1,9 @@
+#
+# To run the game you must copy this file to Config.txt and
+# reconfigure the following properties
+#
+# 1. ResourceRoot
+##
+
+#Path to the resource folder
+ResourceRoot = resources

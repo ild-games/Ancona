@@ -14,27 +14,33 @@ option(BuildTests "BuildTests" OFF)
 # 
 # Platform Variables: ANDROID, DEBIAN, OSX, WINDOWS
 # Form Factor Variables: MOBILE, DESKTOP
+#
+# Ancona_Platform will be set to the name of the set platform variable.
+# Ancona_FormFactor will be set to the name of the set formfactor.
 if(ANDROID)
     message("Configuring for Android")
-    set(MOBILE True)
+    set(Ancona_Platform ANDROID)
+    set(Ancona_Form_Factor MOBILE)
 endif(ANDROID)
 if(NOT ANDROID)
     if(CMAKE_HOST_APPLE)
         message("Configuring for OSX")
-        set(OSX True)
-        set(DESKTOP True)
+        set(Ancona_Platform OSX)
+        set(Ancona_Form_Factor DESKTOP)
     endif(CMAKE_HOST_APPLE)
     if(CMAKE_HOST_WIN32)
         message("Configuring for Windows")
-        set(WINDOWS True)
-        set(DESKTOP True)
+        set(Ancona_Platform WINDOWS)
+        set(Ancona_Form_Factor DESKTOP)
     endif(CMAKE_HOST_WIN32)
     if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         message("Configuring for Debian")
-        set(DEBIAN True)
-        set(DESKTOP True)
+        set(Ancona_Platform DEBIAN)
+        set(Ancona_Form_Factor DESKTOP)
     endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif(NOT ANDROID)
+set(${Ancona_Platform} True)
+set(${Ancona_Form_Factor} True)
 
 set(CMAKE_MODULE_PATH BuildTools/Module ${CMAKE_MODULE_PATH})
 
