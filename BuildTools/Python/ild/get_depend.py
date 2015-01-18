@@ -7,9 +7,10 @@
 
 import os,sys
 
-#Add ancona python import to the search path
-#python_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-#sys.path.append(python_dir)
+if __name__ == "__main__":
+    #Add ancona python import to the search path
+    python_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    sys.path.append(python_dir)
 
 from ild.building import *
 

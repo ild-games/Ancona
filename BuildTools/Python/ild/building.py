@@ -161,3 +161,13 @@ def build_cmake_project(src_dir, build_dir, toolchain_file,install=False):
         command("make -j5")
         if install:
             command("make install")
+
+##
+# @brief Get the absolute path to a the Android build directory for the target
+#
+# @param build_dir Directory the build is in
+# @param target_name The name of the target being built
+#
+# @return Absolute path to the android build directory
+def get_android_build_dir(build_dir, target_name):
+    return os.path.join(build_dir, "Android", target_name)
