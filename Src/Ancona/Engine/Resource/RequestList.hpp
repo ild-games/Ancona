@@ -4,6 +4,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 namespace ild
 {
@@ -15,6 +17,9 @@ namespace ild
 class RequestList
 {
     public:
+        RequestList();
+        RequestList(std::istream & requestFile);
+
         /**
          * @brief Creates a new RequestList from the given request list file
          *
@@ -54,6 +59,8 @@ class RequestList
          */
         iterator Next();
 
+        void Start();
+
         /**
          * @brief  Calculates the percentage of resources loaded.
          *
@@ -66,11 +73,11 @@ class RequestList
         iterator _next;
 
         /**
-         * @brief Loads the request list from a file
+         * @brief Loads the request list from a stream
          *
-         * @param file Location of the file.
+         * @param openSteam stream of request list
          */
-        void LoadFromFile(const std::string & file);
+        void LoadFromFile(std::istream & openStream);
 };
 
 }

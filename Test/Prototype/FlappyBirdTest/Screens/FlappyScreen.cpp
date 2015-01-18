@@ -2,15 +2,24 @@
 
 #include "FlappyScreen.hpp"
 
-#include "../InputDevices/FlappyKeyboard.hpp"
-#include "../States/FlappyStates.hpp"
+
+#include <iostream>
+#include <string>
+#include <sstream>
+
+#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
+#include <Ancona/Game/Systems/PlayerInputComponent.hpp>
 #include "../Systems/GravitySystem.hpp"
 #include "../Systems/GravityComponent.hpp"
+#include "../InputDevices/FlappyTouch.hpp"
 #include "../Systems/FlappyInputComponent.hpp"
 #include "../Systems/FlappyRotateSystem.hpp"
 #include "../Systems/FlappyRotateComponent.hpp"
 #include "../Systems/PipeSpawnerSystem.hpp"
 #include "../Systems/PipeSpawnerComponent.hpp"
+#include "../States/FlappyStates.hpp"
 
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
@@ -163,13 +172,13 @@ void FlappyScreen::CreatePlayer()
     FlappyRotateComponent * rotate = _rotateSystem->at(_player);
 
     // input component setup
-    _keyboard = new FlappyKeyboard(_manager);
+    _touch = new FlappyTouch(_manager);
     FlappyInputComponent * inputComponent = 
         new FlappyInputComponent (
                 _player,
                 *position,
                 *rotate,
-                *_keyboard);
+                *_touch);
     _inputSystem->AddComponent(_player, inputComponent);
 
     // gravity component setup
@@ -201,7 +210,9 @@ void FlappyScreen::CreatePlayer()
             [=](Entity player, Entity point)
             {
                 _points += 1;
-                _pointText.setString(std::to_string(_points));
+                std::ostringstream os;
+                os << _points;
+                _pointText.setString(os.str());
                 //_pipeSpawnerComp->DespawnPoint(point);
             });
 }
@@ -215,5 +226,5 @@ void FlappyScreen::StopAllMovement()
     {
         _positionSystem->at(_player)->Velocity.y = 0;
     }
-    _keyboard->ChangeState(FlappyStates::OnGround);
+    _touch->ChangeState(FlappyStates::OnGround);
 }

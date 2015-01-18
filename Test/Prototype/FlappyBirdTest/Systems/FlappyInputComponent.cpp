@@ -7,7 +7,7 @@ FlappyInputComponent::FlappyInputComponent(
         Entity & flapper,
         PositionComponent & positionComponent,
         FlappyRotateComponent & rotateComponent,
-        FlappyKeyboard & inputHandler)
+        FlappyTouch & inputHandler)
     : InputControlComponent(inputHandler),
       _positionComponent(positionComponent),
       _rotateComponent(rotateComponent)

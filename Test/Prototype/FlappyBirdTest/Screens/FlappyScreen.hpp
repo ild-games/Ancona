@@ -17,7 +17,7 @@ class FlappyRotateSystem;
 class PipeSpawnerSystem;
 class CollisionSystem;
 class PipeSpawnerComponent;
-class FlappyKeyboard;
+class FlappyTouch;
 
 class FlappyScreen : public AbstractScreen
 {
@@ -51,8 +51,8 @@ class FlappyScreen : public AbstractScreen
         Entity _groundWarp;
         CollisionType _pipeCollisionType;
         CollisionType _groundCollisionType;
+        FlappyTouch * _touch;
         CollisionType _pointCollisionType;
-        FlappyKeyboard * _keyboard;
         int _points = 0;
         sf::Text _pointText;
         sf::Font _font;

@@ -36,7 +36,7 @@ class PlayerKeyboard : public InputHandler
          * @brief StateMachine that controls which input handling 
          *        functions are called.
          */
-        SharedMachine<PlayerKeyboard, void> _machine;
+        //SharedMachine<PlayerKeyboard, void> _machine;
 };
 
 }

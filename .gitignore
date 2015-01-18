@@ -48,5 +48,8 @@ tags
 *.out
 *.app
 
+# OSX sys files
+.DS_Store
+
 # Todo file
 Todo.txt

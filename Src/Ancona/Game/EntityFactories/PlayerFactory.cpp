@@ -51,7 +51,7 @@ void factories::SetupCollisions(
             factories::GroundCollisionHandler(gameSystems));
 }
 
-std::function<void(Entity player, Entity ground)> GroundCollisionHandler(GameSystems * gameSystems)
+std::function<void(Entity player, Entity ground)> factories::GroundCollisionHandler(GameSystems * gameSystems)
 {
     return [gameSystems](Entity player, Entity ground)
     {

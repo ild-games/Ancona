@@ -14,10 +14,10 @@ FlappyGame::FlappyGame(
         int windowWidth, 
         int windowHeight, 
         const std::string & title)
-    : AnconaGame(windowWidth,windowHeight, title)
+    : Game(windowWidth,windowHeight, title)
 {
     sf::View view = _window.getView();
-    //view.zoom(.5f);
+    view.zoom(.5f);
     _window.setView(view);
     ResourceLoaderInit::Init();
     CreateInitialScreen();
@@ -26,7 +26,17 @@ FlappyGame::FlappyGame(
 
 void FlappyGame::CreateInitialScreen()
 {
-    _requestList = new RequestList("TestRequestList.txt");
+    _requestList = new RequestList();
+    _requestList->Add("TexturePNG","flappy");
+    _requestList->Add("TexturePNG","flappy-bottom-pipe");
+    _requestList->Add("TexturePNG","flappy-top-pipe");
+    _requestList->Add("TexturePNG","flappy-ground");
+    _requestList->Add("TexturePNG","flappy-bg1");
+    _requestList->Add("TexturePNG","flappy-bg2");
+    _requestList->Add("TexturePNG","flappy-fg");
+    _requestList->Add("TexturePNG","col-point");
+    _requestList->Add("FontTTF","small_pixel-7");
+    _requestList->Start();
     _screenManager->Push(
             new FlappyScreen(*_screenManager));
     _screenManager->Push(
