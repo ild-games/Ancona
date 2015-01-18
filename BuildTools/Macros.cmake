@@ -57,7 +57,6 @@ endmacro()
 
 macro(create_android_mk_file target)
     cmake_parse_arguments(ARGS "" "" "SRC;STATIC_LIBS;DYNAMIC_LIBS;INCLUDES" ${ARGN})
-    message("Create android mk file")
     execute_process(COMMAND echo test testtout.txt)
     execute_process(COMMAND python3 ${CMAKE_SOURCE_DIR}/BuildTools/Python/ild/generate_mk_file.py ${target} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} -s ${ARGS_SRC} -d ${ARGS_DYNAMIC_LIBS} -l ${ARGS_STATIC_LIBS} -i ${CMAKE_SOURCE_DIR}/Src ${ARGS_INCLUDES})
     
@@ -75,11 +74,8 @@ macro(ancona_add_target target)
 
     ancona_match_platform(is_platform_match ${ARGS_PLATFORMS})
 
-    message("Target ${target} checking match for platforms ${ARGS_PLATFORMS}")
-
     if(is_platform_match)
         if(DESKTOP)
-            message("Target ${target} matches platforms ${ARGS_PLATFORMS} for desktop")
             add_executable(${target} ${ARGS_SRC})
 
             #Add custom includes
@@ -89,7 +85,6 @@ macro(ancona_add_target target)
 
             #Link libraries
             if(ARGS_LINK_SFML)
-                message("Linking ${ARGS_STATIC_LIBS} ${ARGS_DYNAMIC_LIBS} ${SFML_LIBS}")
                 target_link_libraries(${target} ${ARGS_STATIC_LIBS} ${ARGS_DYNAMIC_LIBS} ${SFML_LIBS})
             else(ARGS_LINK_SFML)
                 target_link_libraries(${target} ${ARGS_STATIC_LIBS} ${ARGS_DYNAMIC_LIBS})
@@ -98,14 +93,10 @@ macro(ancona_add_target target)
         endif(DESKTOP)
 
         if(ANDROID)
-            message("Target ${target} matches platforms ${ARGS_PLATFORMS} for android")
-
             #Copy files over
             file(GLOB Android_Project_Dir ${CMAKE_SOURCE_DIR}/BuildTools/Platform/Android/Ancona_Project/*)
             file(COPY ${Android_Project_Dir} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target})
-            message("Args Src ${ARGS_SRC}")
             file(INSTALL ${ARGS_SRC} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/jni/)
-            message("Android project files: ${Android_Project_Dir}")
 
             #Configure and create the Android.mk file
             create_android_mk_file(${target}

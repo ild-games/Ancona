@@ -1,9 +1,10 @@
 import os,sys
 
-TOOL_CHAINS = {"Android": "android.toolchain.cmake"}
+TOOL_CHAINS = {"android": "android.toolchain.cmake"}
 #TOOL_CHAINS = {"Android": "android.toolchain.cmake"}
 
 def get_toolchain(cmake_dir, platform):
+    platform = platform.lower()
     if platform in TOOL_CHAINS:
         return os.path.join(cmake_dir,"BuildTools","Toolchain",TOOL_CHAINS[platform])
     return ""
@@ -12,7 +13,7 @@ def generate_ancona_build(cmake_dir, platform):
     build_cmake_project(
             cmake_dir,
             os.path.join(cmake_dir,"build"),
-            get_toolchain(cmake_dir,"Android")
+            get_toolchain(cmake_dir,platform)
             )
 
 ##
@@ -24,6 +25,7 @@ class DirContext:
     def __enter__(self):
         print("Entering",self.new_dir)
         os.chdir(self.new_dir)
+        return self
     def __exit__(self,type,value,traceback):
         print("Exiting", self.old_dir)
         os.chdir(self.old_dir)
