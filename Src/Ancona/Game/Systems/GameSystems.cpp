@@ -4,8 +4,10 @@ using namespace ild;
 
 GameSystems::GameSystems(sf::RenderWindow & window)
 {
-    Manager = new SystemManager();
-    Position = new PositionSystem(*Manager);
-    Sprite = new SpriteSystem(window, *Manager,*Position);
-    Input = new InputControlSystem(*Manager);
+    _manager = new SystemManager();
+    _position = new PositionSystem(*_manager);
+    _sprite = new SpriteSystem(window, *_manager, *_position);
+    _input = new InputControlSystem(*_manager);
+    _gravity = new SimpleGravitySystem(*_manager);
+    _collision = new CollisionSystem(*_manager, *_position);
 }
