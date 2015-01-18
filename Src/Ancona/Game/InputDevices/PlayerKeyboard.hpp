@@ -30,8 +30,13 @@ class PlayerKeyboard : public InputHandler
                 PlayerInputComponent * component);
 
     private:
-        
         PlayerInputComponent * _component;
+
+        /**
+         * @brief StateMachine that controls which input handling 
+         *        functions are called.
+         */
+        SharedMachine<PlayerKeyboard, void> _machine;
 };
 
 }

@@ -1,8 +1,8 @@
-#ifndef Ancona_Engine_Screen_LoadingScreen_H_
-#define Ancona_Engine_Screen_LoadingScreen_H_
+#ifndef Ancona_Engine_Screens_LoadingScreen_H_
+#define Ancona_Engine_Screens_LoadingScreen_H_
 
 #include <Ancona/Engine/Resource/RequestList.hpp>
-#include <Ancona/Engine/Screen/AbstractScreen.hpp>
+#include <Ancona/Engine/Screens/AbstractScreen.hpp>
 
 namespace ild
 {
@@ -21,7 +21,9 @@ class LoadingScreen : public AbstractScreen
          * @param manager ScreenManager instance for the game.
          * @param requestList RequestList the screen is loading
          */
-        LoadingScreen(ScreenManager & manager, RequestList & requestList);
+        LoadingScreen(
+                ScreenManager & manager, 
+                RequestList & requestList);
 
         /**
          * @brief Loads in the next resource.

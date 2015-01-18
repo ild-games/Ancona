@@ -39,7 +39,6 @@ class AbstractScreen
          * @brief Handles the draw logic on the screen
          */
         virtual void Draw() = 0;
-
         
         /**
          * @brief Used by the ScreenManager to call the Init

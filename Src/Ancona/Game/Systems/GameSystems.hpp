@@ -7,23 +7,67 @@
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
+#include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
+#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
 namespace ild
 {
 
 /**
  * @brief GameSystems is used as a factory and a container for all 
- * the systems used for gameplay.
+ *        the systems used for gameplay.
+ *
+ * @author Jeff Swenson
  */
 class GameSystems
 {
     public:
+        /**
+         * @brief Constructs the container for the game's systems.
+         *
+         * @param window RenderWindow instance for the game.
+         */
         GameSystems(sf::RenderWindow & window);
 
-        SystemManager * Manager;
-        PositionSystem * Position;
-        SpriteSystem * Sprite;
-        InputControlSystem * Input; 
+
+        /* getters and setters */
+        SystemManager & GetManager() { return *_manager; }
+        PositionSystem & GetPosition() { return *_position; } 
+        SpriteSystem & GetSprite() { return *_sprite; } 
+        InputControlSystem & GetInput() { return *_input; } 
+        SimpleGravitySystem & GetSimpleGravity() { return *_gravity; } 
+        CollisionSystem & GetCollision() { return *_collision; } 
+
+    private:
+        /**
+         * @brief Manages all the entity systems on the screen.
+         */
+        SystemManager * _manager;
+
+        /**
+         * @brief System for managing an entity's position
+         */
+        PositionSystem * _position;
+
+        /**
+         * @brief System for managing an entity's sprites
+         */
+        SpriteSystem * _sprite;
+
+        /**
+         * @brief System for managing an entity's input
+         */
+        InputControlSystem * _input; 
+
+        /**
+         * @brief System for managing gravity components.
+         */
+        SimpleGravitySystem * _gravity;
+
+        /**
+         * @brief System for managing collision components.
+         */
+        CollisionSystem * _collision;
 };
 
 }
