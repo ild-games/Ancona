@@ -1,7 +1,7 @@
 #include <Ancona/Engine/Core/Game.hpp>
 #include <Ancona/Engine/Resource/ResourceLoaderInit.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
-#include <Ancona/Engine/Screen/LoadingScreen.hpp>
+#include <Ancona/Engine/Screens/LoadingScreen.hpp>
 #include <Ancona/Game/Core/AnconaGame.hpp>
 
 using namespace ild;

@@ -1,10 +1,8 @@
 #include <SFML/Window.hpp>
 
-#include <Ancona/Engine/Screen/LoadingScreen.hpp>
+#include <Ancona/Engine/Screens/LoadingScreen.hpp>
 #include <Ancona/Engine/Resource/RequestList.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
-
-#include <iostream>
 
 using namespace ild;
 

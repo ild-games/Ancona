@@ -1,5 +1,5 @@
-#include <Ancona/Engine/Screen/ScreenManager.hpp>
-#include <Ancona/Engine/Screen/AbstractScreen.hpp>
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
+#include <Ancona/Engine/Screens/AbstractScreen.hpp>
 #include <SFML/Graphics.hpp>
 
 using namespace ild;

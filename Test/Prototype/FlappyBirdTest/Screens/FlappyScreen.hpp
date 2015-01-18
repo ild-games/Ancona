@@ -1,7 +1,7 @@
-#ifndef Ancona_Game_Screen_TestScreen_H_
-#define Ancona_Game_Screen_TestScreen_H_
+#ifndef Ancona_Game_Screens_FlappyScreen_H_
+#define Ancona_Game_Screens_FlappyScreen_H_
 
-#include <Ancona/Engine/Screen/AbstractScreen.hpp>
+#include <Ancona/Engine/Screens/AbstractScreen.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
@@ -19,10 +19,10 @@ class CollisionSystem;
 class PipeSpawnerComponent;
 class FlappyTouch;
 
-class TestScreen : public AbstractScreen
+class FlappyScreen : public AbstractScreen
 {
     public:
-        TestScreen(ScreenManager & manager);
+        FlappyScreen(ScreenManager & manager);
 
         void Update(float delta);
 

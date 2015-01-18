@@ -1,10 +1,10 @@
 #include <Ancona/Engine/Core/Game.hpp>
 #include <Ancona/Engine/Resource/ResourceLoaderInit.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
-#include <Ancona/Engine/Screen/LoadingScreen.hpp>
+#include <Ancona/Engine/Screens/LoadingScreen.hpp>
 #include <Ancona/Game/Core/AnconaGame.hpp>
 
-#include "../Screen/TestScreen.hpp"
+#include "../Screens/FlappyScreen.hpp"
 #include "FlappyGame.hpp"
 #include <iostream>
 
@@ -38,7 +38,7 @@ void FlappyGame::CreateInitialScreen()
     _requestList->Add("FontTTF","small_pixel-7");
     _requestList->Start();
     _screenManager->Push(
-            new TestScreen(*_screenManager));
+            new FlappyScreen(*_screenManager));
     _screenManager->Push(
             new LoadingScreen(*_screenManager, *_requestList));
 }

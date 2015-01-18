@@ -4,8 +4,8 @@
 #include <Ancona/Engine/InputDevices/InputHandler.hpp>
 #include <Ancona/Util/StateMachine/SharedMachine.hpp>
 #include "../States/FlappyStates.hpp"
-#include <Ancona/Engine/Screen/ScreenManager.hpp>
-#include "../Screen/TestScreen.hpp"
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
+#include "../Screens/FlappyScreen.hpp"
 #include <vector>
 
 namespace ild 
