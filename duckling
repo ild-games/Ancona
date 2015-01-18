@@ -29,7 +29,7 @@ if ancona_platform:
             building.command("rm -rf build/*")
 
         print("Duckling: Building for",ancona_platform)
-        if ancona_platform == "android" and not building.is_android_ndk_installed():
+        if ancona_platform == "android":
             if not building.is_android_ndk_installed():
                 print("Error: Failed to build ancona for Android")
                 sys.exit(1)
