@@ -33,7 +33,7 @@ void FlappyTouch::OnGroundInput(MachineState & curState)
 {
     if(sf::Touch::isDown(0))
     {
-        _screenManager.Replace(new TestScreen(_screenManager));
+        _screenManager.Replace(new FlappyScreen(_screenManager));
     }
 }
 
