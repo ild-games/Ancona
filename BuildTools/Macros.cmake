@@ -97,8 +97,11 @@ macro(ancona_add_target target)
         if(ANDROID)
             #Copy files over
             file(GLOB Android_Project_Dir ${CMAKE_SOURCE_DIR}/BuildTools/Platform/Android/Ancona_Project/*)
+            file(GLOB Android_Assets ${CMAKE_SOURCE_DIR}/resources/*)
+
             file(COPY ${Android_Project_Dir} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target})
-            file(INSTALL ${ARGS_SRC} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/jni/)
+            file(COPY ${Android_Assets} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/assets/resources)
+            file(COPY ${ARGS_SRC} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/jni/)
 
             #Configure and create the Android.mk file
             create_android_mk_file(${target}
