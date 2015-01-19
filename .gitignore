@@ -6,9 +6,11 @@
 
 # Ignore Build folders and Config files
 build/
+lib/
 Build/
 Doc/
 Config.txt
+*__pycache__*
 
 # Ignore Resource folder
 Resources/
@@ -45,3 +47,9 @@ tags
 *.exe
 *.out
 *.app
+
+# OSX sys files
+.DS_Store
+
+# Todo file
+Todo.txt

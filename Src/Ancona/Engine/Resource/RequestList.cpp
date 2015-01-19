@@ -7,9 +7,24 @@
 
 using namespace ild;
 
+RequestList::RequestList() { }
+
+RequestList::RequestList(std::istream & openStream)
+{
+    LoadFromFile(openStream);
+    _next = begin();
+    Start();
+}
+
 RequestList::RequestList(const std::string & requestFile)
 {
-    LoadFromFile(requestFile);
+    std::ifstream openStream(requestFile, std::ios::out);
+    LoadFromFile(openStream);
+    Start();
+}
+
+void RequestList::Start()
+{
     _next = begin();
 }
 
@@ -44,10 +59,9 @@ float RequestList::PercentLoaded()
             _requestList.size());
 }
 
-void RequestList::LoadFromFile(const std::string & file)
+void RequestList::LoadFromFile(std::istream & openStream)
 {
     std::vector<std::string> pieces;
-    std::ifstream openStream(file, std::ios::out);
     std::string line;
 
     while(!openStream.eof())
