@@ -117,8 +117,9 @@ def get_git_repo(cmake_dir,repo_name, giturl,tag,patch=None):
             print("Cloning in directory",os.getcwd())
             #Clone the repo into the directory
             command("git clone {} .".format(giturl)) 
-            #Checkout the correct tag
-            command("git checkout tags/{}".format(tag))
+            if tag:
+                #Checkout the correct tag
+                command("git checkout tags/{}".format(tag))
             if patch:
                 apply_git_patch(destination,patch)
     return destination

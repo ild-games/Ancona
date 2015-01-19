@@ -15,8 +15,8 @@ if __name__ == "__main__":
 from ild.building import *
 
 
-#Repo [url, tag]
-SFML_REPO = ["SFML", "http://github.com/LaurentGomila/SFML", "2.2"]
+#Repo [name, url, tag (optional)]
+SFML_REPO = ["SFML", "git@bitbucket.org:JeffSwenson/sfml.git", "2.2"]
 
 
 def main(cmake_dir, platform):
@@ -24,7 +24,7 @@ def main(cmake_dir, platform):
 
     #Clone the SFML Repo
     if not SFML_installed(get_lib_dir(cmake_dir,"SFML"),platform):
-        sfml_repo = get_git_repo(cmake_dir, *SFML_REPO,patch=get_patch(cmake_dir,"SFML"))
+        sfml_repo = get_git_repo(cmake_dir, *SFML_REPO)
         build_SFML(sfml_repo,platform,toolchain)
     else:
         print("SFML is already installed for this platform")
