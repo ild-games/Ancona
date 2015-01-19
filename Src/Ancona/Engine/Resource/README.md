@@ -1,4 +1,4 @@
-List of LoaderTypes that are initialized by SFMLResourceLoader::Init()
+List of LoaderTypes that are initialized by ResourceLoaderInit::Init()
 
 ## SFML Textures ##
 TexturePNG - Used to define textures loaded from a .png file
