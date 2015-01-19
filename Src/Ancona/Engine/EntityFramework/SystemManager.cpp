@@ -21,6 +21,7 @@ void SystemManager::Update(float delta, UpdateStepEnum updateStep)
     {
         system->Update(delta);
     }
+    DeleteQueuedEntities();
 }
 
 void SystemManager::DeleteEntity(Entity entity)
@@ -34,6 +35,11 @@ void SystemManager::DeleteEntity(Entity entity)
     }
 
     _components.erase(entity);
+}
+
+void SystemManager::QueueDelete(Entity entity)
+{
+    _deleteQueue.push_back(entity);
 }
 
 Entity SystemManager::CreateEntity()
@@ -72,4 +78,13 @@ void SystemManager::UnregisterComponent(Entity entity, AbstractSystem * owningSy
             "Can not remove a component that does not exist");
 
     _components[entity].erase(owningSystem);
+}
+
+void SystemManager::DeleteQueuedEntities()
+{
+    for(Entity & entity : _deleteQueue)
+    {
+        DeleteEntity(entity); 
+    }
+    _deleteQueue.clear();
 }

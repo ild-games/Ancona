@@ -88,7 +88,7 @@ void PipeSpawnerComponent::DespawnPipePair()
 
 void PipeSpawnerComponent::DespawnPoint(Entity point)
 {
-    _systemManager.DeleteEntity(point);
+    _systemManager.QueueDelete(point);
     _points.erase(std::remove(_points.begin(), _points.end(), point), _points.end());
 }
 
