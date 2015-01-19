@@ -1,9 +1,11 @@
 #include "FlappyKeyboard.hpp"
-#include <Ancona/Engine/InputDevices/Keyboard.hpp>
+
 #include "../Systems/FlappyInputComponent.hpp"
 
+#include <Ancona/Engine/InputDevices/Keyboard.hpp>
+#include <Ancona/Engine/Resource/RequestList.hpp>
+
 #include <SFML/Window.hpp>
-#include <iostream>
 
 using namespace ild;
 
@@ -33,7 +35,8 @@ void FlappyKeyboard::OnGroundInput(MachineState & curState)
 {
     if(Keyboard::IsKeyPressed(sf::Keyboard::Key::Space))
     {
-        _screenManager.Replace(new TestScreen(_screenManager));
+        _screenManager.Replace(
+                new FlappyScreen(_screenManager));
     }
 }
 
@@ -45,5 +48,24 @@ void FlappyKeyboard::RegisterInputComponent(
 
 void FlappyKeyboard::ChangeState(const MachineState & newState)
 {
-    _curState = newState;
+    if(AllowedTransition(newState)) 
+    {
+        _curState = newState;
+    }
+}
+
+bool FlappyKeyboard::AllowedTransition(const MachineState & newState)
+{
+    switch(_curState)
+    {
+        case FlappyStates::InAir:
+            return InAirTransitionCheck(newState);
+            break;
+    }
+    return false;
+}
+
+bool FlappyKeyboard::InAirTransitionCheck(const MachineState & newState)
+{
+    return newState == FlappyStates::OnGround;
 }

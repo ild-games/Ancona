@@ -9,3 +9,5 @@ TexturePNG,flappy-bg2
 TexturePNG,flappy-fg
 TexturePNG,button-unpressed
 TexturePNG,button-pressed
+TexturePNG,col-point
+FontTTF,small_pixel-7

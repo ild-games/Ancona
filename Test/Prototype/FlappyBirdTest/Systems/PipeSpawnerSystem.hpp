@@ -49,7 +49,8 @@ class PipeSpawnerSystem : public UnorderedSystem<PipeSpawnerComponent>
                 PositionSystem & positionSystem,
                 CollisionSystem & collisionSystem,
                 SystemManager & systemManager,
-                CollisionType pipeColType);
+                CollisionType pipeColType,
+                CollisionType pointColType);
 };
 
 }

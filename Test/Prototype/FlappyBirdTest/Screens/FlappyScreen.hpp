@@ -1,7 +1,7 @@
-#ifndef Ancona_Game_Screen_TestScreen_H_
-#define Ancona_Game_Screen_TestScreen_H_
+#ifndef Ancona_Game_Screens_FlappyScreen_H_
+#define Ancona_Game_Screens_FlappyScreen_H_
 
-#include <Ancona/Engine/Screen/AbstractScreen.hpp>
+#include <Ancona/Engine/Screens/AbstractScreen.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
@@ -19,10 +19,10 @@ class CollisionSystem;
 class PipeSpawnerComponent;
 class FlappyKeyboard;
 
-class TestScreen : public AbstractScreen
+class FlappyScreen : public AbstractScreen
 {
     public:
-        TestScreen(ScreenManager & manager);
+        FlappyScreen(ScreenManager & manager);
 
         void Update(float delta);
 
@@ -51,7 +51,11 @@ class TestScreen : public AbstractScreen
         Entity _groundWarp;
         CollisionType _pipeCollisionType;
         CollisionType _groundCollisionType;
+        CollisionType _pointCollisionType;
         FlappyKeyboard * _keyboard;
+        int _points = 0;
+        sf::Text _pointText;
+        sf::Font _font;
 
         void InitializeEntities();
         void CreateGround();

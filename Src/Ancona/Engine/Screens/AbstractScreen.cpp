@@ -1,4 +1,5 @@
-#include <Ancona/Engine/Screen/AbstractScreen.hpp>
+#include <Ancona/Engine/Screens/AbstractScreen.hpp>
+#include <Ancona/Engine/Screens/LoadingScreen.hpp>
 
 using namespace ild;
 
