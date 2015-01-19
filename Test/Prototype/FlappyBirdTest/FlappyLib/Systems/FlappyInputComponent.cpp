@@ -15,6 +15,18 @@ FlappyInputComponent::FlappyInputComponent(
     inputHandler.RegisterInputComponent(this);
 }
 
+FlappyInputComponent::FlappyInputComponent(
+        Entity & flapper,
+        PositionComponent & positionComponent,
+        FlappyRotateComponent & rotateComponent,
+        FlappyKeyboard & inputHandler)
+    : InputControlComponent(inputHandler),
+      _positionComponent(positionComponent),
+      _rotateComponent(rotateComponent)
+{
+    inputHandler.RegisterInputComponent(this);
+}
+
 void FlappyInputComponent::Jump() 
 {
     if(_positionComponent.Position.y > 30)

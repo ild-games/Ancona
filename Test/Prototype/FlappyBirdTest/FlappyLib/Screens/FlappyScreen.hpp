@@ -18,6 +18,7 @@ class PipeSpawnerSystem;
 class CollisionSystem;
 class PipeSpawnerComponent;
 class FlappyTouch;
+class FlappyKeyboard;
 
 class FlappyScreen : public AbstractScreen
 {
@@ -51,6 +52,7 @@ class FlappyScreen : public AbstractScreen
         Entity _groundWarp;
         CollisionType _pipeCollisionType;
         CollisionType _groundCollisionType;
+        FlappyKeyboard * _keyboard;
         FlappyTouch * _touch;
         CollisionType _pointCollisionType;
         int _points = 0;

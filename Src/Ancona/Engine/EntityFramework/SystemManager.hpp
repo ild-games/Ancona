@@ -45,6 +45,13 @@ class SystemManager
         void DeleteEntity(Entity entity);
 
         /**
+         * @brief Queue the entity to delete at the end of the phase.
+         *
+         * @param entity Entity to be deleted.
+         */
+        void QueueDelete(Entity entity);
+
+        /**
          * @brief Create a new unique Entity.
          *
          * @return A new entity
@@ -100,6 +107,16 @@ class SystemManager
          * unique ids 
          */
         unsigned int _maxEntityId;
+        /**
+         * @brief Holds the entities queued for deletion
+         */
+        std::vector< Entity > _deleteQueue;
+
+        /**
+         * @brief Deletes all the entities queued for deletion.
+         */
+        void DeleteQueuedEntities();
+
 };
 
 }

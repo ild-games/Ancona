@@ -14,6 +14,7 @@
 #include "../Systems/GravitySystem.hpp"
 #include "../Systems/GravityComponent.hpp"
 #include "../InputDevices/FlappyTouch.hpp"
+#include "../InputDevices/FlappyKeyboard.hpp"
 #include "../Systems/FlappyInputComponent.hpp"
 #include "../Systems/FlappyRotateSystem.hpp"
 #include "../Systems/FlappyRotateComponent.hpp"
@@ -213,7 +214,7 @@ void FlappyScreen::CreatePlayer()
                 std::ostringstream os;
                 os << _points;
                 _pointText.setString(os.str());
-                //_pipeSpawnerComp->DespawnPoint(point);
+                _pipeSpawnerComp->DespawnPoint(point);
             });
 }
 
