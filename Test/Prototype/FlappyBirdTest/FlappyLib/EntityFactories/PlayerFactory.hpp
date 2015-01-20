@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "../Systems/GameSystems.hpp"
+#include "../Systems/FlappyGameSystems.hpp"
 #include "../InputDevices/FlappyInputHandler.hpp"
 
 namespace ild
@@ -23,7 +23,7 @@ namespace factories
      * @return Entity that is the player.
      */
     Entity CreatePlayer(
-            GameSystems * gameSystems,
+            FlappyGameSystems * gameSystems,
             std::map<std::string, CollisionType> collisionTypes,
             std::map<std::string, Entity> entities,
             FlappyInputHandler & inputHandler);
@@ -56,7 +56,7 @@ namespace factories
      */
     void SetupPlayerRotate(
             Entity player,
-            GameSystems * gameSystems);
+            FlappyGameSystems * gameSystems);
 
     /**
      * @brief Sets up the default player input component.
@@ -67,7 +67,7 @@ namespace factories
      */
     void SetupPlayerInput(
             Entity player,
-            GameSystems * gameSystems,
+            FlappyGameSystems * gameSystems,
             FlappyInputHandler & inputHandler);
 
     /**
@@ -93,7 +93,7 @@ namespace factories
      */
     void SetupPlayerCollisions(
             Entity player, 
-            GameSystems * gameSystems,
+            FlappyGameSystems * gameSystems,
             std::map<std::string, CollisionType> collisionTypes,
             std::map<std::string, Entity> entities,
             FlappyInputHandler & inputHandler);
@@ -108,7 +108,7 @@ namespace factories
      * @return function to handle collision.
      */
     std::function< void(Entity player, Entity ground) > PlayerToGroundCollisionHandler(
-            GameSystems * gameSystems,
+            FlappyGameSystems * gameSystems,
             std::map<std::string, Entity> entities,
             FlappyInputHandler & inputHandler);
 
@@ -122,7 +122,7 @@ namespace factories
      * @return function to handle collision.
      */
     std::function< void(Entity player, Entity ground) > PlayerToPipeCollisionHandler(
-            GameSystems * gameSystems,
+            FlappyGameSystems * gameSystems,
             std::map<std::string, Entity> entities,
             FlappyInputHandler & inputHandler);
 
@@ -135,7 +135,7 @@ namespace factories
      * @return function to handle collision.
      */
     std::function< void(Entity player, Entity ground) > PlayerToPointCollisionHandler(
-            GameSystems * gameSystems,
+            FlappyGameSystems * gameSystems,
             std::map<std::string, Entity> entities);
     
     /**
@@ -149,7 +149,7 @@ namespace factories
      * @param inputHandler InputHandler for the player.
      */
     void StopAllMovement(
-            GameSystems * gameSystems,
+            FlappyGameSystems * gameSystems,
             Entity player,
             Entity ground,
             Entity pipeSpawner,

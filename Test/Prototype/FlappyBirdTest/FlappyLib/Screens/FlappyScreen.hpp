@@ -6,7 +6,7 @@
 #include <Ancona/Engine/Screens/AbstractScreen.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
-#include "../Systems/GameSystems.hpp"
+#include "../Systems/FlappyGameSystems.hpp"
 
 namespace ild
 {
@@ -60,7 +60,7 @@ class FlappyScreen : public AbstractScreen
         /**
          * @brief Container for all systems.
          */
-        GameSystems * _systems;
+        FlappyGameSystems * _systems;
         /**
          * @brief Holds references to entities that need to be access
          */

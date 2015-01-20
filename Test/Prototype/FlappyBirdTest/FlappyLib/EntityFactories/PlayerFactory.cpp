@@ -7,7 +7,7 @@
 using namespace ild;
 
 Entity factories::CreatePlayer(
-        GameSystems * gameSystems,
+        FlappyGameSystems * gameSystems,
         std::map<std::string, CollisionType> collisionTypes,
         std::map<std::string, Entity> entities,
         FlappyInputHandler & inputHandler)
@@ -74,7 +74,7 @@ void factories::SetupPlayerSprite(
 
 void factories::SetupPlayerRotate(
         Entity player,
-        GameSystems * gameSystems)
+        FlappyGameSystems * gameSystems)
 {
     gameSystems->GetFlappyRotate().CreateComponent(
             player,
@@ -84,7 +84,7 @@ void factories::SetupPlayerRotate(
 
 void factories::SetupPlayerInput(
         Entity player,
-        GameSystems * gameSystems,
+        FlappyGameSystems * gameSystems,
         FlappyInputHandler & inputHandler)
 {
     FlappyInputComponent * inputComponent = 
@@ -106,7 +106,7 @@ void factories::SetupPlayerGravity(
 
 void factories::SetupPlayerCollisions(
         Entity player,
-        GameSystems * gameSystems,
+        FlappyGameSystems * gameSystems,
         std::map<std::string, CollisionType> collisionTypes,
         std::map<std::string, Entity> entities,
         FlappyInputHandler & inputHandler)
@@ -145,7 +145,7 @@ void factories::SetupPlayerCollisions(
 }
 
 std::function< void(Entity player, Entity ground) > factories::PlayerToGroundCollisionHandler(
-        GameSystems * gameSystems,
+        FlappyGameSystems * gameSystems,
         std::map<std::string, Entity> entities,
         FlappyInputHandler & inputHandler)
 {
@@ -163,7 +163,7 @@ std::function< void(Entity player, Entity ground) > factories::PlayerToGroundCol
 }
 
 std::function< void(Entity player, Entity ground) > factories::PlayerToPipeCollisionHandler(
-        GameSystems * gameSystems,
+        FlappyGameSystems * gameSystems,
         std::map<std::string, Entity> entities,
         FlappyInputHandler & inputHandler)
 {
@@ -181,7 +181,7 @@ std::function< void(Entity player, Entity ground) > factories::PlayerToPipeColli
 }
 
 std::function< void(Entity player, Entity ground) > factories::PlayerToPointCollisionHandler(
-        GameSystems * gameSystems,
+        FlappyGameSystems * gameSystems,
         std::map<std::string, Entity> entities)
 {
     Entity pointCounterPlain = entities["pointCounterPlain"];
@@ -204,7 +204,7 @@ std::function< void(Entity player, Entity ground) > factories::PlayerToPointColl
 }
 
 void factories::StopAllMovement(
-        GameSystems * gameSystems,
+        FlappyGameSystems * gameSystems,
         Entity player,
         Entity ground,
         Entity pipeSpawner,

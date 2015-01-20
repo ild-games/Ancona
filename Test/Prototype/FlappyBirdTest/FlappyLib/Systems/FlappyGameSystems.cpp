@@ -1,8 +1,8 @@
-#include "GameSystems.hpp"
+#include "FlappyGameSystems.hpp"
 
 using namespace ild;
 
-GameSystems::GameSystems(sf::RenderWindow & window)
+FlappyGameSystems::FlappyGameSystems(sf::RenderWindow & window)
 {
     _manager = new SystemManager();
     _position = new PositionSystem(*_manager);

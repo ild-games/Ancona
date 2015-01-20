@@ -1,5 +1,5 @@
-#ifndef Test_Prototype_FlappyBirdTest_Systems_GameSystems_H_
-#define Test_Prototype_FlappyBirdTest_Systems_GameSystems_H_
+#ifndef Test_Prototype_FlappyBirdTest_Systems_FlappyGameSystems_H_
+#define Test_Prototype_FlappyBirdTest_Systems_FlappyGameSystems_H_
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
@@ -19,7 +19,7 @@ namespace ild
  *
  * @author Tucker Lein
  */
-class GameSystems
+class FlappyGameSystems
 {
     public:
         /**
@@ -27,7 +27,7 @@ class GameSystems
          *
          * @param window RenderWindow instance for the game.
          */
-        GameSystems(sf::RenderWindow & window);
+        FlappyGameSystems(sf::RenderWindow & window);
 
 
         /* getters and setters */

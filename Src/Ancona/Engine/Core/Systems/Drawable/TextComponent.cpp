@@ -35,11 +35,6 @@ void TextComponent::Draw(sf::RenderWindow & window)
     window.draw(*_text);
 }
 
-void TextComponent::SetDrawableAspect(std::string drawableAspect)
-{
-    _text->setString(drawableAspect);
-}
-
 sf::Vector2u TextComponent::GetSize()
 {
     return _text->getFont()->getTexture(_text->getCharacterSize()).getSize();

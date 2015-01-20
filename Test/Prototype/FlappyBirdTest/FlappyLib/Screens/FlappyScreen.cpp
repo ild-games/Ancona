@@ -26,7 +26,7 @@ FlappyScreen::FlappyScreen(ScreenManager & manager, FlappyInputHandler * inputHa
     AbstractScreen(manager),
     _inputHandler(inputHandler)
 {
-    _systems = new GameSystems(manager.Window);
+    _systems = new FlappyGameSystems(manager.Window);
     _collisionTypes["player"] = _systems->GetCollision().CreateType();
     _collisionTypes["ground"] = _systems->GetCollision().CreateType();
     _collisionTypes["groundWarp"] = _systems->GetCollision().CreateType();

@@ -10,7 +10,6 @@
 #include <android/window.h>
 
 #include <SFML/System.hpp>
-
 #include "AndroidFactory.hpp"
 
 using namespace ild;

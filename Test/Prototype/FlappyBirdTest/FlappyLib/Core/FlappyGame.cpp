@@ -5,6 +5,7 @@
 #include <Ancona/Game/Core/AnconaGame.hpp>
 
 #include "../Screens/FlappyScreen.hpp"
+#include "../InputDevices/FlappyTouch.hpp"
 #include "FlappyGame.hpp"
 #include <iostream>
 
