@@ -15,7 +15,7 @@ Entity factories::CreateGround(
     position->Position.y = 500;
 
     // sprite component
-    gameSystems->GetSprite().CreateComponent(
+    gameSystems->GetDrawable().CreateSpriteComponent(
             ground,
             "flappy-ground",
             RenderPriority::Player,

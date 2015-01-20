@@ -7,7 +7,7 @@
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
 #include <Ancona/Game/InputDevices/PlayerKeyboard.hpp>
 #include <Ancona/Game/Systems/PlayerInputComponent.hpp>
-#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
+#include <Ancona/Engine/Core/Systems/DrawableSystem.hpp>
 
 using namespace ild;
 
@@ -17,7 +17,7 @@ TestScreen::TestScreen(ScreenManager & manager)
     _systemManager = new SystemManager();
     _positionSystem = new PositionSystem(*_systemManager);
     _inputSystem = new InputControlSystem(*_systemManager); 
-    _spriteSystem = new SpriteSystem(
+    _drawableSystem = new DrawableSystem(
             _manager.Window, *_systemManager, *_positionSystem);
 
     _player = _systemManager->CreateEntity();
@@ -48,5 +48,5 @@ void TestScreen::Draw()
 
 void TestScreen::Init()
 {
-    _spriteSystem->CreateComponent(_player,"player",RenderPriorityEnum::Player);
+    _drawableSystem->CreateComponent(_player,"player",RenderPriorityEnum::Player);
 }

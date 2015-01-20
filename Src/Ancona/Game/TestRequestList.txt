@@ -10,4 +10,5 @@ TexturePNG,flappy-fg
 TexturePNG,button-unpressed
 TexturePNG,button-pressed
 TexturePNG,col-point
-FontTTF,small_pixel-7
+FontTTF,dimitri-plain
+FontTTF,dimitri-border

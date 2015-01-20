@@ -15,7 +15,7 @@ Entity factories::CreatePlayer(
     position->Position.y = 200;
 
     // sprite component
-    gameSystems->GetSprite().CreateComponent(
+    gameSystems->GetDrawable().CreateSpriteComponent(
             player, 
             "player",
             RenderPriority::Player);
@@ -25,6 +25,7 @@ Entity factories::CreatePlayer(
             player, 
             *position);
 
+    // collision component
     factories::SetupCollisions(
             player,
             gameSystems,

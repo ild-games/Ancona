@@ -1,14 +1,15 @@
 #ifndef Test_Prototype_FlappyBirdTest_Systems_FlappyRotateComponent_H_
 #define Test_Prototype_FlappyBirdTest_Systems_FlappyRotateComponent_H_
 
-#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
+
 
 namespace ild
 {
 
 /**
- * @brief  Sets the current rotation of a flappy bird
+ * @brief  Sets the current rotation of a flappy bird.
  *
  * @author Tucker Lein
  */
@@ -18,11 +19,11 @@ class FlappyRotateComponent
         /**
          * @brief Create a component with the given SpriteComponent and PositionComponent
          *
-         * @param sprite SpriteComponent of the flappy bird
+         * @param drawable DrawableComponent of the flappy bird
          * @param position PositionComponent of the flappy bird
          */
         FlappyRotateComponent(
-                SpriteComponent & sprite,
+                DrawableComponent & drawable,
                 PositionComponent & position);
 
         /**
@@ -32,13 +33,13 @@ class FlappyRotateComponent
         void Update(float delta);
 
         /* getters and setters */
-        int GetRotateDir();
-        void SetRotateDir(int rotateDir);
+        int GetRotateDir() { return _rotateDir; }
+        void SetRotateDir(int rotateDir) { _rotateDir = rotateDir; }
     private:
         /**
          * @brief The sprite component for the flappy bird.
          */
-        SpriteComponent & _spriteComponent;
+        DrawableComponent & _drawableComponent;
 
         /**
          * @brief The position component for the flappy bird.

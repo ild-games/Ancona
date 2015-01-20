@@ -1,7 +1,5 @@
-#ifndef Ancona_Game_Systems_GameSystems_H_
-#define Ancona_Game_Systems_GameSystems_H_
-
-#include <SFML/Graphics.hpp>
+#ifndef Test_Prototype_FlappyBirdTest_Systems_GameSystems_H_
+#define Test_Prototype_FlappyBirdTest_Systems_GameSystems_H_
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
@@ -9,15 +7,17 @@
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
 #include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
+#include "FlappyRotateSystem.hpp"
+#include "PipeSpawnerSystem.hpp"
 
 namespace ild
 {
 
 /**
- * @brief GameSystems is used as a factory and a container for all 
+ * @brief GameSystems is used as a factory and a container for all
  *        the systems used for gameplay.
  *
- * @author Jeff Swenson
+ * @author Tucker Lein
  */
 class GameSystems
 {
@@ -37,6 +37,8 @@ class GameSystems
         InputControlSystem & GetInput() { return *_input; } 
         SimpleGravitySystem & GetSimpleGravity() { return *_gravity; } 
         CollisionSystem & GetCollision() { return *_collision; } 
+        FlappyRotateSystem & GetFlappyRotate() { return *_flappyRotate; } 
+        PipeSpawnerSystem & GetPipeSpawner() { return *_pipeSpawner; } 
 
     private:
         /**
@@ -44,15 +46,15 @@ class GameSystems
          */
         SystemManager * _manager;
         /**
-         * @brief System for managing an entity's position
+         * @brief System for managing an entity's position.
          */
         PositionSystem * _position;
         /**
-         * @brief System for managing an entity's sprites
+         * @brief System for managing an entity's drawables.
          */
         DrawableSystem * _drawable;
         /**
-         * @brief System for managing an entity's input
+         * @brief System for managing an entity's input.
          */
         InputControlSystem * _input; 
         /**
@@ -63,7 +65,16 @@ class GameSystems
          * @brief System for managing collision components.
          */
         CollisionSystem * _collision;
+        /**
+         * @brief System for managing FlappyRotate components.
+         */
+        FlappyRotateSystem * _flappyRotate;
+        /**
+         * @brief System for managing PipeSpawner components.
+         */
+        PipeSpawnerSystem * _pipeSpawner;
 };
 
 }
+
 #endif

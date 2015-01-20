@@ -7,22 +7,10 @@ FlappyInputComponent::FlappyInputComponent(
         Entity & flapper,
         PositionComponent & positionComponent,
         FlappyRotateComponent & rotateComponent,
-        FlappyTouch & inputHandler)
-    : InputControlComponent(inputHandler),
-      _positionComponent(positionComponent),
-      _rotateComponent(rotateComponent)
-{
-    inputHandler.RegisterInputComponent(this);
-}
-
-FlappyInputComponent::FlappyInputComponent(
-        Entity & flapper,
-        PositionComponent & positionComponent,
-        FlappyRotateComponent & rotateComponent,
-        FlappyKeyboard & inputHandler)
-    : InputControlComponent(inputHandler),
-      _positionComponent(positionComponent),
-      _rotateComponent(rotateComponent)
+        FlappyInputHandler & inputHandler) : 
+    InputControlComponent(inputHandler),
+    _positionComponent(positionComponent),
+    _rotateComponent(rotateComponent)
 {
     inputHandler.RegisterInputComponent(this);
 }

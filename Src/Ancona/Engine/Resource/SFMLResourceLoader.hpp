@@ -48,6 +48,7 @@ class SFMLResourceLoader : public AbstractLoader
                 delete object;
                 return NULL;
             }
+            PostLoad(object);
             return object;
         }
 
@@ -59,6 +60,8 @@ class SFMLResourceLoader : public AbstractLoader
             SFMLType * object = static_cast<SFMLType *>(resource);
             delete object;
         }
+    protected:
+        virtual void PostLoad(SFMLType * loadedObj) { }
     private:
         std::string _fileExtension;
         std::string _directory;

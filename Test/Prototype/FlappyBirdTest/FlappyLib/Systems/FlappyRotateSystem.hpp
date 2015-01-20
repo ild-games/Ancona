@@ -33,14 +33,14 @@ class FlappyRotateSystem : public UnorderedSystem<FlappyRotateComponent>
          * @brief Create and attach a flappy rotate component for the entity.
          *
          * @param entity Entity that the component is attached to.
-         * @param spriteComponent SpriteComponent of the flappy bird.
+         * @param drawableComponent DrawableComponent of the flappy bird.
          * @param positionComponent PositionComponent of the flappy bird.
          *
          * @return A pointer to the flappy rotate component.
          */
         FlappyRotateComponent * CreateComponent(
                 const Entity & entity,
-                SpriteComponent & spriteComponent,
+                DrawableComponent & DrawableComponent,
                 PositionComponent & positionComponent);
 };
 

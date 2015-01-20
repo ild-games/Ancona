@@ -3,7 +3,7 @@
 
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include "PipeSpawnerComponent.hpp"
-#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
@@ -36,8 +36,8 @@ class PipeSpawnerSystem : public UnorderedSystem<PipeSpawnerComponent>
         /**
          * @brief Create and attach a pipe spawner component for the entity.
          *
-         * @param entity Entity that they component is attached to.
-         * @param spriteSystem System to make the sprite components for the pipes
+         * @param entity Entity that the component is attached to.
+         * @param drawableSystem System to make the drawable components for the pipes
          * @param positionSystem System to set the position and velocity of the pipes
          * @param pipeColType Collision Type of the pipe.
          *
@@ -45,7 +45,7 @@ class PipeSpawnerSystem : public UnorderedSystem<PipeSpawnerComponent>
          */
         PipeSpawnerComponent * CreateComponent(
                 const Entity & entity,
-                SpriteSystem & spriteSystem,
+                DrawableSystem & DrawableSystem,
                 PositionSystem & positionSystem,
                 CollisionSystem & collisionSystem,
                 SystemManager & systemManager,

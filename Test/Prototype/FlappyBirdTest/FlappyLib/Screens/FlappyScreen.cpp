@@ -7,225 +7,86 @@
 #include <string>
 #include <sstream>
 
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Game/Systems/PlayerInputComponent.hpp>
-#include "../Systems/GravitySystem.hpp"
-#include "../Systems/GravityComponent.hpp"
-#include "../InputDevices/FlappyTouch.hpp"
-#include "../InputDevices/FlappyKeyboard.hpp"
+#include "../EntityFactories/PlayerFactory.hpp"
+#include "../EntityFactories/EnvironmentFactory.hpp"
+#include "../InputDevices/FlappyInputHandler.hpp"
 #include "../Systems/FlappyInputComponent.hpp"
-#include "../Systems/FlappyRotateSystem.hpp"
 #include "../Systems/FlappyRotateComponent.hpp"
-#include "../Systems/PipeSpawnerSystem.hpp"
 #include "../Systems/PipeSpawnerComponent.hpp"
 #include "../States/FlappyStates.hpp"
 
-#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Game/Systems/PlayerInputComponent.hpp>
 #include <Ancona/Game/InputDevices/PlayerKeyboard.hpp>
 #include <Ancona/Game/Systems/PlayerInputComponent.hpp>
 
 using namespace ild;
 
-FlappyScreen::FlappyScreen(ScreenManager & manager)
-    : AbstractScreen(manager)
+FlappyScreen::FlappyScreen(ScreenManager & manager, FlappyInputHandler * inputHandler) : 
+    AbstractScreen(manager),
+    _inputHandler(inputHandler)
 {
-    _systemManager = new SystemManager();
-    _positionSystem = new PositionSystem(*_systemManager);
-    _inputSystem = new InputControlSystem(*_systemManager); 
-    _gravitySystem = new GravitySystem(*_systemManager);
-    _rotateSystem = new FlappyRotateSystem(*_systemManager);
-    _pipeSpawnerSystem = new PipeSpawnerSystem(*_systemManager);
-    _collisionSystem = new CollisionSystem(*_systemManager, *_positionSystem);
-    _spriteSystem = new SpriteSystem(
-            _manager.Window, *_systemManager, *_positionSystem);
+    _systems = new GameSystems(manager.Window);
+    _collisionTypes["player"] = _systems->GetCollision().CreateType();
+    _collisionTypes["ground"] = _systems->GetCollision().CreateType();
+    _collisionTypes["groundWarp"] = _systems->GetCollision().CreateType();
+    _collisionTypes["pipe"] = _systems->GetCollision().CreateType();
+    _collisionTypes["point"] = _systems->GetCollision().CreateType();
 }
 
 void FlappyScreen::Init()
 {
-    _pointText.setFont(*ResourceLibrary::Get<sf::Font>("small_pixel-7"));
-    _pointText.setPosition(80, 320);
-    _pointText.setColor(sf::Color::Black);
-    _pointText.setString("0");
-    InitializeEntities();
+    // init ground
+    _entities["ground"] = factories::CreateGround(
+            _systems->GetManager(),
+            _systems->GetPosition(),
+            _systems->GetDrawable(),
+            _systems->GetCollision(),
+            _collisionTypes);
+
+    // init pipe spawner
+    _entities["pipeSpawner"] = factories::CreatePipeSpawner(
+            _systems->GetManager(),
+            _systems->GetPipeSpawner(),
+            _systems->GetPosition(),
+            _systems->GetDrawable(),
+            _systems->GetCollision(),
+            _collisionTypes);
+
+    // init foreground and background
+    _entities["fg"] = factories::CreateForeground(
+            _systems->GetManager(),
+            _systems->GetPosition(),
+            _systems->GetDrawable());
+    _entities["bg"] = factories::CreateBackground(
+            _systems->GetManager(),
+            _systems->GetPosition(),
+            _systems->GetDrawable());
+
+    // init point counter
+    std::vector<Entity> pointCounters = factories::CreatePointCounter(
+            _systems->GetManager(),
+            _systems->GetPosition(),
+            _systems->GetDrawable());
+    _entities["pointCounterPlain"] = pointCounters[0];
+    _entities["pointCounterBorder"] = pointCounters[1];
+
+    // init player
+    _entities["player"] = factories::CreatePlayer(
+            _systems,
+            _collisionTypes,
+            _entities,
+            *_inputHandler);
 }
 
 void FlappyScreen::Update(float delta)
 {
-    _systemManager->Update(delta,UpdateStep::Update);
-    _systemManager->Update(delta,UpdateStep::Input);
+    _systems->GetManager().Update(delta,UpdateStep::Update);
+    _systems->GetManager().Update(delta,UpdateStep::Input);
 }
 
 void FlappyScreen::Draw()
 {
     _manager.Window.clear(sf::Color::Green);
-    _systemManager->Update(0,UpdateStep::Draw);
-    _manager.Window.draw(_pointText);
-}
-
-void FlappyScreen::InitializeEntities()
-{
-    CreateGround();
-    CreatePipeSpawner();
-    CreateFgBg();
-    CreatePlayer();
-}
-
-void FlappyScreen::CreateGround()
-{
-    // ground setup
-    _ground = _systemManager->CreateEntity();
-    PositionComponent * groundPosition = _positionSystem->CreateComponent(_ground);
-    groundPosition->Position.y = 340;
-    groundPosition->Velocity.x = -65.0f;
-    _spriteSystem->CreateComponent(_ground, "flappy-ground", RenderPriority::Player, -1);
-    _groundCollisionType = _collisionSystem->CreateType();
-    CollisionComponent * groundColComponent = _collisionSystem->CreateComponent(
-            _ground,
-            sf::Vector3f(540, 80, 0),
-            _groundCollisionType);
-
-    // ground warp setup
-    _groundWarp = _systemManager->CreateEntity();
-    PositionComponent * groundWarpPosition = _positionSystem->CreateComponent(_groundWarp);
-    groundWarpPosition->Position.x = -210;
-    groundWarpPosition->Position.y = 340;
-    CollisionType groundWarpCollisionType = _collisionSystem->CreateType();
-    CollisionComponent * groundWarpColComponent = _collisionSystem->CreateComponent(
-            _groundWarp,
-            sf::Vector3f(5, 5, 0),
-            groundWarpCollisionType);
-
-    // setup ground warp/ground collision response
-    _collisionSystem->SetHandler(
-            _groundCollisionType, 
-            groundWarpCollisionType,
-            [=](Entity ground, Entity groundWarp)
-            {
-                _positionSystem->at(_ground)->Position.x = 270;
-            });
-}
-
-void FlappyScreen::CreatePipeSpawner() 
-{
-    // pipe spawner setup
-    _pipeSpawner = _systemManager->CreateEntity();
-    _pipeCollisionType = _collisionSystem->CreateType();
-    _pointCollisionType = _collisionSystem->CreateType();
-    _pipeSpawnerComp = _pipeSpawnerSystem->CreateComponent(
-            _pipeSpawner, 
-            *_spriteSystem, 
-            *_positionSystem,
-            *_collisionSystem,
-            *_systemManager,
-            _pipeCollisionType,
-            _pointCollisionType);
-}
-
-void FlappyScreen::CreateFgBg() 
-{
-    // bg and fg setup
-    _fg = _systemManager->CreateEntity();
-    PositionComponent * fgPos = _positionSystem->CreateComponent(_fg);
-    fgPos->Position.x = 136; 
-    fgPos->Position.y = 200; 
-    _spriteSystem->CreateComponent(_fg, "flappy-fg", RenderPriority::Background, 1);
-    _bg = _systemManager->CreateEntity();
-    PositionComponent * bgPos = _positionSystem->CreateComponent(_bg);
-    bgPos->Position.x = 320;
-    bgPos->Position.y = 240;
-    if(rand() % 2 == 1)
-    {
-        _spriteSystem->CreateComponent(_bg, "flappy-bg1", RenderPriority::Background);
-    }
-    else 
-    {
-        _spriteSystem->CreateComponent(_bg, "flappy-bg2", RenderPriority::Background);
-    }
-}
-
-void FlappyScreen::CreatePlayer() 
-{
-    // player entity setup
-    _player = _systemManager->CreateEntity();
-
-    // collision type setup
-    CollisionType playerCollisionType = _collisionSystem->CreateType();
-
-    // position component setup
-    _positionSystem->CreateComponent(_player);
-    PositionComponent * position = _positionSystem->at(_player);
-    position->Position.x += 100;
-    position->Position.y += 220;
-
-    // sprite system setup
-    _spriteSystem->CreateComponent(_player,"flappy",RenderPriority::Player);
-    SpriteComponent * sprite = _spriteSystem->at(_player);
-    sprite->SetRotation(-30.0f);
-    
-    // rotate component setup
-    _rotateSystem->CreateComponent(_player, *sprite, *position);
-    FlappyRotateComponent * rotate = _rotateSystem->at(_player);
-
-    // input component setup
-    _touch = new FlappyTouch(_manager);
-    FlappyInputComponent * inputComponent = 
-        new FlappyInputComponent (
-                _player,
-                *position,
-                *rotate,
-                *_touch);
-    _inputSystem->AddComponent(_player, inputComponent);
-
-    // gravity component setup
-    _gravitySystem->CreateComponent(_player, *position);
-
-    // collision component setup for player
-    CollisionComponent * playerColComponent = _collisionSystem->CreateComponent(
-            _player,
-            sf::Vector3f(14.0f, 14.0f, 0),
-            playerCollisionType);
-    _collisionSystem->SetHandler(
-            playerCollisionType, 
-            _pipeCollisionType,
-            [=](Entity player, Entity pipe)
-            {
-                StopAllMovement();
-            });
-    _collisionSystem->SetHandler(
-            playerCollisionType,
-            _groundCollisionType,
-            [=](Entity player, Entity ground)
-            {
-                StopAllMovement();
-                _positionSystem->at(player)->Velocity.y = 0;
-            });
-    _collisionSystem->SetHandler(
-            playerCollisionType,
-            _pointCollisionType,
-            [=](Entity player, Entity point)
-            {
-                _points += 1;
-                std::ostringstream os;
-                os << _points;
-                _pointText.setString(os.str());
-                _pipeSpawnerComp->DespawnPoint(point);
-            });
-}
-
-
-void FlappyScreen::StopAllMovement()
-{
-    _pipeSpawnerComp->StopMovingPipes();
-    _positionSystem->at(_ground)->Velocity.x = 0;
-    if(_positionSystem->at(_player)->Velocity.y < 0)
-    {
-        _positionSystem->at(_player)->Velocity.y = 0;
-    }
-    _touch->ChangeState(FlappyStates::OnGround);
+    _systems->GetManager().Update(0,UpdateStep::Draw);
 }
