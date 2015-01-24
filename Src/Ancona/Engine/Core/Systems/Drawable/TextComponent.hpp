@@ -43,19 +43,26 @@ class TextComponent : public DrawableComponent
          */
         void Draw(sf::RenderWindow & window);
 
-        void SetDrawableAspect(std::string drawableAspect);
-
         /**
          * @brief Gets the size of the text's texture.
          *
          * @return Vector2u with the dimensions of the text's texture.
          */
         sf::Vector2u GetSize();
+
+        /* getters and setters */
+        std::string GetText() { return _text->getString(); }
+        void SetText(std::string text);
     private:
         /**
          * @brief Text being drawn.
          */
         sf::Text * _text;
+
+        /**
+         * @brief Sets the text's origin point to be its center.
+         */
+        void CenterOrigin();
 };
 
 }

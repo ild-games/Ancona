@@ -1,10 +1,12 @@
 #ifndef Test_Prototype_FlappyBirdTest_InputDevices_FlappyInputHandler_H_
 #define Test_Prototype_FlappyBirdTest_InputDevices_FlappyInputHandler_H_
 
+#include <Ancona/Engine/Core/Systems/PositionComponent.hpp>
 #include <Ancona/Engine/Screens/ScreenManager.hpp>
 #include <Ancona/Engine/InputDevices/InputHandler.hpp>
 #include <Ancona/Util/StateMachine/SharedMachine.hpp>
 #include "../States/FlappyStates.hpp"
+
 
 #include <SFML/Window.hpp>
 
@@ -50,27 +52,31 @@ class FlappyInputHandler : public InputHandler
          * @param newState Proposed new state for the state machine.
          */
         void ChangeState(const MachineState & newState);
+
+        /* getters and setters */
+        void SetPosition(PositionComponent * position);
     protected:
         /**
          * @brief InputComponent that defines behavior for this input handler.
          */
         FlappyInputComponent * _component;
-
         /**
          * @brief StateMachine that controls which input handling functions
          *        are called.
          */
         SharedMachine<FlappyInputHandler, void> _machine;
-
         /**
          * @brief Current MachineState the state machine is in.
          */
         MachineState _curState;
-
         /**
          * @brief Used to change the screen when you restart the game.
          */
         ScreenManager & _screenManager;
+        /**
+         * @brief Position component of the Flappy Bird.
+         */
+        PositionComponent * _position;
 
         /**
          * @brief Check if the transition from the current state to the proposed new state

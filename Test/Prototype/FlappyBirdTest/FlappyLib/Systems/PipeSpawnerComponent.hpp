@@ -120,7 +120,7 @@ class PipeSpawnerComponent
         /**
          * @brief Minimum y coordinate the bottom pipe can spawn at.
          */
-        int const MIN_Y_BOTTOM_PIPE = 275;
+        int const MIN_Y_BOTTOM_PIPE = 295;
 
         /**
          * @brief Maximum y coordinate the bottom pipe can spawn at.

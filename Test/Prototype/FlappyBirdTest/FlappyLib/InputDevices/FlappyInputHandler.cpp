@@ -46,3 +46,8 @@ bool FlappyInputHandler::InAirTransitionCheck(const MachineState & newState)
 {
     return newState == FlappyStates::OnGround;
 }
+
+void FlappyInputHandler::SetPosition(PositionComponent * position)
+{
+    _position = position;
+}

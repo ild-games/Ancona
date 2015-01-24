@@ -16,6 +16,7 @@ PipeSpawnerComponent::PipeSpawnerComponent(
     _positionSystem(positionSystem),
     _collisionSystem(collisionSystem),
     _systemManager(systemManager),
+    _mtEngine(time(NULL)),
     _randDistribution(MIN_Y_BOTTOM_PIPE, MAX_Y_BOTTOM_PIPE),
     _pipeColType(pipeColType),
     _pointColType(pointColType)

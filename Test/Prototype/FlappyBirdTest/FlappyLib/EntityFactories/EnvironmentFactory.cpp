@@ -207,12 +207,12 @@ void factories::SetupPointCounterPosition(
         std::vector<Entity> pointCounters,
         PositionSystem & position)
 {
-    PositionComponent * pointCounterPos1 = position.CreateComponent(pointCounters[0]);
-    pointCounterPos1->Position.x = 80;
-    pointCounterPos1->Position.y = 320;
-    PositionComponent * pointCounterPos2 = position.CreateComponent(pointCounters[1]);
-    pointCounterPos2->Position.x = 80;
-    pointCounterPos2->Position.y = 320;
+    PositionComponent * pointCounterPosPlain = position.CreateComponent(pointCounters[0]);
+    pointCounterPosPlain->Position.x = 135;
+    pointCounterPosPlain->Position.y = 148; 
+    PositionComponent * pointCounterPosBorder = position.CreateComponent(pointCounters[1]);
+    pointCounterPosBorder->Position.x = 135;
+    pointCounterPosBorder->Position.y = 150;
 }
 
 void factories::SetupPointCounterText(
@@ -224,7 +224,7 @@ void factories::SetupPointCounterText(
             "0",
             "dimitri-plain",
             sf::Color::White,
-            30,
+            34,
             RenderPriority::Foreground,
             100,
             false);
@@ -233,7 +233,7 @@ void factories::SetupPointCounterText(
             "0",
             "dimitri-border",
             sf::Color::Black,
-            30,
+            34,
             RenderPriority::Foreground,
             101,
             false);

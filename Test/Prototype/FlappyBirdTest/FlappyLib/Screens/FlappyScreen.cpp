@@ -77,6 +77,8 @@ void FlappyScreen::Init()
             _collisionTypes,
             _entities,
             *_inputHandler);
+
+    _inputHandler->SetPosition(_systems->GetPosition().at(_entities["player"]));
 }
 
 void FlappyScreen::Update(float delta)
@@ -87,6 +89,5 @@ void FlappyScreen::Update(float delta)
 
 void FlappyScreen::Draw()
 {
-    _manager.Window.clear(sf::Color::Green);
     _systems->GetManager().Update(0,UpdateStep::Draw);
 }

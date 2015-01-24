@@ -73,8 +73,6 @@ class DrawableComponent
         RenderPriorityEnum GetRenderPriority() { return _renderPriority; }
         int GetPriorityOffset() { return _priorityOffset; }
         float GetRotation() { return _rotation; }
-        void SetText(std::string textStr) { _textStr = textStr; }
-        std::string GetText() { return _textStr; }
         void SetRotation(float rotation) { _rotation = rotation; }
 
     protected:
@@ -98,10 +96,6 @@ class DrawableComponent
          * @brief Amount to rotate the sprite
          */
         float _rotation;
-        /**
-         * @brief text if the component is a TextComponent.
-         */
-        std::string _textStr;
 
 };
 

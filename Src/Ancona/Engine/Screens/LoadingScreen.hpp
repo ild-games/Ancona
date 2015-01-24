@@ -37,6 +37,16 @@ class LoadingScreen : public AbstractScreen
          */
         virtual void Draw();
 
+        /**
+         * @brief Used to determine if the screen is still in a state of entering.
+         */
+        virtual void Entering(float delta);
+
+        /**
+         * @brief Used to determine if the screen is still in a state of exiting.
+         */
+        virtual void Exiting(float delta);
+
     private:
         /**
          * @brief The request list that is loading during the loading screen.

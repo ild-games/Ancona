@@ -5,7 +5,7 @@
 
 using namespace ild;
 
-FlappyKeyboard::FlappyKeyboard(ScreenManager & screenManager) : 
+FlappyKeyboard::FlappyKeyboard(ScreenManager & screenManager) :
     FlappyInputHandler(screenManager)
 {
 }
@@ -26,3 +26,5 @@ void FlappyKeyboard::OnGroundInput(MachineState & curState)
                 new FlappyScreen(_screenManager, new FlappyKeyboard(_screenManager)));
     }
 }
+
+

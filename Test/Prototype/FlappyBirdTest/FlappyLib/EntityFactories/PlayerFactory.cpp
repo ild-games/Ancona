@@ -1,5 +1,6 @@
 #include "PlayerFactory.hpp"
 #include "../Systems/FlappyInputComponent.hpp"
+#include <Ancona/Engine/Core/Systems/Drawable/TextComponent.hpp>
 
 #include <string>
 #include <sstream>
@@ -191,14 +192,15 @@ std::function< void(Entity player, Entity ground) > factories::PlayerToPointColl
     {
         // TODO: Android won't compile this correctly even  with C++11 flags 
         //int points = std::stoi(gameSystems->GetDrawable().at(pointCounterPlain)->GetText());
-        std::istringstream is(gameSystems->GetDrawable().at(pointCounterPlain)->GetText());
+        std::string pointStr = static_cast<TextComponent *>(gameSystems->GetDrawable().at(pointCounterPlain))->GetText();
+        std::istringstream is(pointStr);
         int points;
         is >> points;
         points++;
         std::ostringstream os;
         os << points; 
-        gameSystems->GetDrawable().at(pointCounterPlain)->SetText(os.str());
-        gameSystems->GetDrawable().at(pointCounterBorder)->SetText(os.str());
+        static_cast<TextComponent *>(gameSystems->GetDrawable().at(pointCounterPlain))->SetText(os.str());
+        static_cast<TextComponent *>(gameSystems->GetDrawable().at(pointCounterBorder))->SetText(os.str());
         gameSystems->GetPipeSpawner().at(pipeSpawner)->DespawnPoint(point);
     };
 }
