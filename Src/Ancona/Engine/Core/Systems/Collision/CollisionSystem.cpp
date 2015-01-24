@@ -14,6 +14,7 @@ CollisionSystem::CollisionSystem(SystemManager & manager, PositionSystem & posit
 
 void CollisionSystem::Update(float delta)
 {
+    //Update all of the entities.  This is required for the position to be up to date.
     for(EntityComponentPair pair : * this)
     {
         pair.second->Update();
@@ -51,6 +52,7 @@ CollisionType CollisionSystem::CreateType()
 {
     CollisionType newType = _nextType++;
 
+    //Add slot for new collision type to the existing vectors.
     for(auto & callbackList : _callbackTable)
     {
         callbackList.push_back(nop);
@@ -58,8 +60,8 @@ CollisionType CollisionSystem::CreateType()
 
     _callbackTable.push_back(std::vector<CollisionCallback>());
 
+    //Create the vector for the new collision type.
     auto & back = _callbackTable.back();
-
     for(int i = 0; i < _nextType; i++)
     {
         back.push_back(nop);
