@@ -163,7 +163,7 @@ std::function< void(Entity player, Entity ground) > factories::PlayerToGroundCol
     };
 }
 
-std::function< void(Entity player, Entity ground) > factories::PlayerToPipeCollisionHandler(
+std::function< void(Entity player, Entity pipe) > factories::PlayerToPipeCollisionHandler(
         FlappyGameSystems * gameSystems,
         std::map<std::string, Entity> entities,
         FlappyInputHandler & inputHandler)

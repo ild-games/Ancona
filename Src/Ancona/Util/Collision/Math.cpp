@@ -57,7 +57,7 @@ bool TestShapeAxis(const Math::Vertices2 & shapeA, const Math::Vertices2 & shape
     using namespace Math;
     for(int i = 0; i < shapeA.size(); i++)
     {
-        auto endIndex = i == shapeA.size() ? 0 : i + 1;
+        auto endIndex = i + 1 >= shapeA.size() ? 0 : i + 1;
         auto edge = GetEdge(shapeA[i], shapeA[endIndex]);
         auto normal = GetNormal(edge);
 
