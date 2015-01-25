@@ -1,0 +1,4 @@
+#ifndef Ancona_Engine_Physics_LinearAction_hpp
+#define Ancona_Engine_Physics_LinearAction_hpp
+
+#endif
