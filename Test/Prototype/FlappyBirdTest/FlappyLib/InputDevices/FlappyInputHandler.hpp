@@ -6,6 +6,7 @@
 #include <Ancona/Engine/InputDevices/InputHandler.hpp>
 #include <Ancona/Util/StateMachine/SharedMachine.hpp>
 #include "../States/FlappyStates.hpp"
+#include "../Systems/PipeSpawnerComponent.hpp"
 
 
 #include <SFML/Window.hpp>
@@ -27,8 +28,11 @@ class FlappyInputHandler : public InputHandler
          * @brief Construct a FlappyInputHandler
          *
          * @param screenManager ScreenManager for the game.
+         * @param initialState Optional state to start the StateMachine in, defaults to FlappyStates::GameIntro
          */
-        FlappyInputHandler(ScreenManager & screenManager);
+        FlappyInputHandler(
+                ScreenManager & screenManager,
+                MachineState initialState = FlappyStates::GameIntro);
 
         /**
          * @brief Handles the input for the InputHandler. Since this input handler
@@ -54,7 +58,8 @@ class FlappyInputHandler : public InputHandler
         void ChangeState(const MachineState & newState);
 
         /* getters and setters */
-        void SetPosition(PositionComponent * position);
+        void SetPosition(PositionComponent * position) { _position = position; }
+        void SetPipeSpawner(PipeSpawnerComponent * pipeSpawner) { _pipeSpawner = pipeSpawner; }
     protected:
         /**
          * @brief InputComponent that defines behavior for this input handler.
@@ -77,6 +82,10 @@ class FlappyInputHandler : public InputHandler
          * @brief Position component of the Flappy Bird.
          */
         PositionComponent * _position;
+        /**
+         * @brief PipeSpawner component that spawns the pipes.
+         */
+        PipeSpawnerComponent * _pipeSpawner;
 
         /**
          * @brief Check if the transition from the current state to the proposed new state
@@ -97,6 +106,16 @@ class FlappyInputHandler : public InputHandler
          * @return true if the transition is allowed, otherwise false;
          */
         bool InAirTransitionCheck(const MachineState & newState);
+        
+        /**
+         * @brief Checks the allowed states that can be transitioned to if the current
+         *        state is FlappyStates::GameIntro
+         *
+         * @param newState The new MachineState that the machine is told to move to.
+         *
+         * @return true if the transition is allowed, otherwise false;
+         */
+        bool GameIntroTransitionCheck(const MachineState & newState);
 
         /**
          * @brief Defines how the input should be handled when the current state
@@ -109,6 +128,12 @@ class FlappyInputHandler : public InputHandler
          *        is FlappyStates::OnGround.
          */
         virtual void OnGroundInput(MachineState & curState) {}
+
+        /**
+         * @brief Defiens how the input should be handled when the current state
+         *       is FlappyStates::GameIntro
+         */
+        virtual void GameIntroInput(MachineState & curState) {}
 };
 
 }

@@ -12,12 +12,16 @@ namespace ild
 class FlappyTouch : public FlappyInputHandler
 {
     public:
-        FlappyTouch(ScreenManager & screenManager);
+        FlappyTouch(
+                ScreenManager & screenManager,
+                MachineState initialState = FlappyStates::GameIntro);
 
     protected:
         void InAirInput(MachineState & curState);
 
         void OnGroundInput(MachineState & curState);
+
+        void GameIntroInput(MachineState & curState);
 };
 
 }

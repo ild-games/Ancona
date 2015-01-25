@@ -224,7 +224,7 @@ void factories::SetupPointCounterText(
             "0",
             "dimitri-plain",
             sf::Color::White,
-            34,
+            24,
             RenderPriority::Foreground,
             100,
             false);
@@ -233,8 +233,33 @@ void factories::SetupPointCounterText(
             "0",
             "dimitri-border",
             sf::Color::Black,
-            34,
+            24,
             RenderPriority::Foreground,
             101,
             false);
+}
+
+/* Get Ready Entity */
+Entity factories::CreateGetReady(
+        SystemManager & manager,
+        PositionSystem & positionSystem,
+        DrawableSystem & drawableSystem)
+{
+    Entity getReady = manager.CreateEntity();
+    PositionComponent * getReadyPos = positionSystem.CreateComponent(getReady);
+    getReadyPos->Position.x = 135;
+    getReadyPos->Position.y = 240;
+    factories::SetupGetReadySprite(getReady, drawableSystem);
+    return getReady;
+}
+
+void factories::SetupGetReadySprite(
+        Entity getReady,
+        DrawableSystem & drawableSystem)
+{
+    drawableSystem.CreateSpriteComponent(
+            getReady,
+            "get-ready",
+            RenderPriority::Foreground,
+            100);
 }

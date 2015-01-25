@@ -18,12 +18,16 @@ namespace ild
 class FlappyKeyboard : public FlappyInputHandler
 {
     public:
-        FlappyKeyboard(ScreenManager & screenManager);
+        FlappyKeyboard(
+                ScreenManager & screenManager,
+                MachineState initialState = FlappyStates::GameIntro);
 
     protected:
         void InAirInput(MachineState & curState);
 
         void OnGroundInput(MachineState & curState);
+
+        void GameIntroInput(MachineState & curState);
 };
 
 }

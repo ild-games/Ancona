@@ -50,6 +50,9 @@ class PipeSpawnerComponent
          */
         void DespawnPoint(Entity point);
 
+        /* getters and setters */
+        void SetStopSpawning(bool stopSpawning);
+
     private:
         /**
          * @brief System used to create the drawable components for the spawned pipes.

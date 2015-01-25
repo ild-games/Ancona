@@ -38,6 +38,7 @@ void FlappyGame::CreateInitialScreen()
     _requestList->Add("TexturePNG","flappy-bg2");
     _requestList->Add("TexturePNG","flappy-fg");
     _requestList->Add("TexturePNG","col-point");
+    _requestList->Add("TexturePNG","get-ready");
     _requestList->Add("FontTTF","dimitri-plain");
     _requestList->Add("FontTTF","dimitri-border");
     _requestList->Start();

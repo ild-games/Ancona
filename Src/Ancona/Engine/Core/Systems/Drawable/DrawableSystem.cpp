@@ -95,6 +95,30 @@ TextComponent * DrawableSystem::CreateTextComponent(
     return component;
 }
 
+ShapeComponent * DrawableSystem::CreateShapeComponent(
+        const Entity & entity,
+        sf::Shape & shape,
+        const RenderPriorityEnum priority,
+        int priorityOffset)
+{
+    auto positionComponent = _positionSystem[entity];
+
+    Assert(
+            positionComponent != nullptr,
+            "A shape component can only be attached to an entity with a position component");
+    ShapeComponent * component = new ShapeComponent(
+            *positionComponent,
+            shape,
+            priority,
+            priorityOffset);
+    AttachComponent(
+            entity,
+            *component,
+            priority,
+            priorityOffset);
+    return component;
+}
+
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
     _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), component), _renderQueue.end());

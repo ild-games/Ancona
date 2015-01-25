@@ -6,8 +6,10 @@
 using namespace ild;
 
 
-FlappyTouch::FlappyTouch(ScreenManager & screenManager) : 
-    FlappyInputHandler(screenManager)
+FlappyTouch::FlappyTouch(
+        ScreenManager & screenManager,
+        MachineState initialState) : 
+    FlappyInputHandler(screenManager, initialState)
 {
 }
 
@@ -25,6 +27,22 @@ void FlappyTouch::OnGroundInput(MachineState & curState)
     if(sf::Touch::isDown(0))
     {
         _screenManager.Replace(
-                new FlappyScreen(_screenManager, new FlappyTouch(_screenManager)));
+                new FlappyScreen(
+                    _screenManager, 
+                    new FlappyTouch(_screenManager, FlappyStates::InAir)));
+    }
+}
+
+void FlappyTouch::GameIntroInput(MachineState & curState)
+{
+    if(_position->Position.y > 230)
+    {
+        _component->Jump();
+    }
+    if(sf::Touch::isDown(0))
+    {
+        _component->Jump();
+        _pipeSpawner->SetStopSpawning(false);
+        ChangeState(FlappyStates::InAir);
     }
 }

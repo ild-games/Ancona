@@ -2,10 +2,14 @@
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
 #include <string>
+
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/ShapeComponent.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/SpriteComponent.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/TextComponent.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
@@ -74,6 +78,22 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
                 const RenderPriorityEnum priority,
                 int priorityOffset = 0,
                 bool smooth = true);
+
+        /**
+         * @brief Create a shape component for the entity.
+         *
+         * @param entity Entity that the component should be attached to.
+         * @param shape Shape to be drawn.
+         * @param priority RenderPriority that handles when the text is drawn.
+         * @param priorityOffset Offset of priority, defaults to 0.
+         *
+         * @return Pointer to the ShapeComponent.
+         */
+        ShapeComponent * CreateShapeComponent(
+                const Entity & entity,
+                sf::Shape & shape,
+                const RenderPriorityEnum priority,
+                int priorityOffset = 0);
 
 
         /**

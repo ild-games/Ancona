@@ -71,6 +71,12 @@ void FlappyScreen::Init()
     _entities["pointCounterPlain"] = pointCounters[0];
     _entities["pointCounterBorder"] = pointCounters[1];
 
+    // get ready 
+    _entities["get-ready"] = factories::CreateGetReady(
+            _systems->GetManager(),
+            _systems->GetPosition(),
+            _systems->GetDrawable());
+
     // init player
     _entities["player"] = factories::CreatePlayer(
             _systems,
@@ -79,6 +85,7 @@ void FlappyScreen::Init()
             *_inputHandler);
 
     _inputHandler->SetPosition(_systems->GetPosition().at(_entities["player"]));
+    _inputHandler->SetPipeSpawner(_systems->GetPipeSpawner().at(_entities["pipeSpawner"]));
 }
 
 void FlappyScreen::Update(float delta)

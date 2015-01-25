@@ -3,13 +3,16 @@
 
 using namespace ild;
 
-FlappyInputHandler::FlappyInputHandler(ScreenManager & screenManager) : 
+FlappyInputHandler::FlappyInputHandler(
+        ScreenManager & screenManager,
+        MachineState initialState) : 
     _machine(FlappyStates::Count),
-    _curState(FlappyStates::InAir),
+    _curState(initialState),
     _screenManager(screenManager)
 {
     _machine.SetAction(FlappyStates::InAir, &FlappyInputHandler::InAirInput);
     _machine.SetAction(FlappyStates::OnGround, &FlappyInputHandler::OnGroundInput);
+    _machine.SetAction(FlappyStates::GameIntro, &FlappyInputHandler::GameIntroInput);
 }
 
 void FlappyInputHandler::HandleInput()
@@ -38,6 +41,9 @@ bool FlappyInputHandler::AllowedTransition(const MachineState & newState)
         case FlappyStates::InAir:
             return InAirTransitionCheck(newState);
             break;
+        case FlappyStates::GameIntro:
+            return GameIntroTransitionCheck(newState);
+            break;
     }
     return false;
 }
@@ -47,7 +53,7 @@ bool FlappyInputHandler::InAirTransitionCheck(const MachineState & newState)
     return newState == FlappyStates::OnGround;
 }
 
-void FlappyInputHandler::SetPosition(PositionComponent * position)
+bool FlappyInputHandler::GameIntroTransitionCheck(const MachineState & newState)
 {
-    _position = position;
+    return newState == FlappyStates::InAir;
 }

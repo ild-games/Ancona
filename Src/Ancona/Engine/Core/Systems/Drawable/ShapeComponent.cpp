@@ -19,3 +19,10 @@ void ShapeComponent::Draw(sf::RenderWindow & window)
 {
 
 }
+
+sf::Vector2u ShapeComponent::GetSize()
+{
+    return sf::Vector2u(
+            _shape.getLocalBounds().width, 
+            _shape.getLocalBounds().height);
+}

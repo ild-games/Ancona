@@ -93,6 +93,20 @@ namespace factories
             DrawableSystem & drawableSystem);
 
     /**
+     * @brief Creates the get ready entity with all the default components setup.
+     *
+     * @param manager SystemManager for screen.
+     * @param positionSystem PositionSystem for screen.
+     * @param drawableSystem DrawableSystem for screen.
+     *
+     * @return Entity for the get ready screen graphics.
+     */
+    Entity CreateGetReady(
+            SystemManager & manager,
+            PositionSystem & positionSystem,
+            DrawableSystem & drawableSystem);
+
+    /**
      * @brief Sets up the default ground position component.
      *
      * @param ground Entity that is the ground.
@@ -162,6 +176,16 @@ namespace factories
      */
     void SetupBackgroundSprite(
             Entity background,
+            DrawableSystem & drawableSystem);
+
+    /**
+     * @brief Sets up the default sprite for the get ready screen.
+     *
+     * @param getReady Entity for the get ready screen.
+     * @param drawableSystem DrawableSystem for the screen.
+     */
+    void SetupGetReadySprite(
+            Entity getReady,
             DrawableSystem & drawableSystem);
 
     /**

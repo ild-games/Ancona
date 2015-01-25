@@ -19,10 +19,10 @@ PipeSpawnerComponent::PipeSpawnerComponent(
     _mtEngine(time(NULL)),
     _randDistribution(MIN_Y_BOTTOM_PIPE, MAX_Y_BOTTOM_PIPE),
     _pipeColType(pipeColType),
-    _pointColType(pointColType)
+    _pointColType(pointColType),
+    _stopSpawning(true)
 {
     _clock = new sf::Clock();
-    _stopSpawning = false;
 }
 
 void PipeSpawnerComponent::Update()
@@ -135,4 +135,10 @@ std::string PipeSpawnerComponent::SpriteToUse(bool isTopPipe)
 float PipeSpawnerComponent::PickBottomPipeY()
 {
     return _randDistribution(_mtEngine);
+}
+
+void PipeSpawnerComponent::SetStopSpawning(bool stopSpawning)
+{
+    _stopSpawning = stopSpawning;
+    _clock->restart();
 }
