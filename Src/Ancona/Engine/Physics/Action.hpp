@@ -14,7 +14,7 @@ class Action
 {
     public:
         /**
-         * @brief Create an Action.  The action is initialized with a priority and duration of 0.
+         * Action is initialized with a priority of 0 and a duration of INSTANT.
          */
         Action();
 
@@ -26,6 +26,7 @@ class Action
          * @return A reference to the action.
          */
         Action & Priority(int priority);
+
         /**
          * @brief Builder method used to set the duration of the action.
          *
@@ -37,23 +38,26 @@ class Action
         Action & Duration(float duration);
 
         /**
+         * Stop any affects that the action has.  Once cancel is called Done will return true.
+         */
+        void Cancel();
+
+        /**
          * @brief Check to see if an action has run for its entire duration. If an action is done then no other methods can be called
          * on it.
          *
          * @return True if the action is finished.  False otherwise.
          */
-        inline bool Done() { return  };
+        inline bool Done() { return _duration >= 0 };
 
         inline int GetPriority() 
         { 
-            Assert(_action, "Can not call a method on a Done Action");
-            return _priority->GetPriority();
+            return _priority;
         }
 
         inline float GetDuration() 
         { 
-            Assert(_action, "Can not call a method on a Done Action");
-            return _action->GetDuration();
+            return _duration;
         }
 
         /**
@@ -61,7 +65,9 @@ class Action
          */
         virtual ~Action();
     private:
-        ActionDescriptor * _action;
+        int _priority;
+        float _duration;
+        bool _locked;
 };
 
 }
