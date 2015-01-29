@@ -27,7 +27,8 @@ void FlappyKeyboard::OnGroundInput(MachineState & curState)
         _screenManager.Replace(
                 new FlappyScreen(
                     _screenManager, 
-                    new FlappyKeyboard(_screenManager, FlappyStates::InAir)));
+                    new FlappyKeyboard(_screenManager, FlappyStates::InAir),
+                    false));
     }
 }
 

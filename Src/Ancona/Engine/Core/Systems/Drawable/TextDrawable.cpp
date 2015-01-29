@@ -1,9 +1,11 @@
-#include <Ancona/Engine/Core/Systems/Drawable/TextComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
+
+#include <iostream>
 
 using namespace ild;
 
-TextComponent::TextComponent(
+TextDrawable::TextDrawable(
         const PositionComponent & positionComponent,
         const std::string text,
         const std::string fontKey,
@@ -11,11 +13,15 @@ TextComponent::TextComponent(
         const int characterSize,
         const RenderPriorityEnum priority,
         int priorityOffset,
-        bool smooth) :
-    DrawableComponent(
+        sf::Vector2f positionOffset,
+        bool smooth,
+        const std::string key) :
+    Drawable(
             positionComponent,
             priority,
-            priorityOffset)
+            priorityOffset,
+            positionOffset,
+            key)
 {
     _text = new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey));
     _text->setColor(color);
@@ -27,15 +33,17 @@ TextComponent::TextComponent(
     CenterOrigin();
 }
 
-void TextComponent::Draw(sf::RenderWindow & window)
+void TextDrawable::Draw(sf::RenderWindow & window)
 {
-    auto & position = _positionComponent.Position;
+    sf::Vector2f position = sf::Vector2f(
+            _positionComponent.Position.x + _positionOffset.x,
+            _positionComponent.Position.y + _positionOffset.y);
     _text->setPosition(position.x, position.y);
     window.draw(*_text);
 }
 
 
-void TextComponent::CenterOrigin()
+void TextDrawable::CenterOrigin()
 {
     sf::FloatRect textRect = _text->getLocalBounds();
     _text->setOrigin(textRect.left + (textRect.width / 2.0f),
@@ -43,13 +51,13 @@ void TextComponent::CenterOrigin()
 }
 
 /* getters and setters */
-void TextComponent::SetText(std::string text) 
+void TextDrawable::SetText(std::string text) 
 { 
     _text->setString(text); 
     CenterOrigin();
 }
 
-sf::Vector2u TextComponent::GetSize()
+sf::Vector2u TextDrawable::GetSize()
 {
     return sf::Vector2u(_text->getLocalBounds().width, _text->getLocalBounds().height);
 }

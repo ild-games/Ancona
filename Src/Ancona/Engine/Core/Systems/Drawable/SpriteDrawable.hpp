@@ -1,33 +1,36 @@
-#ifndef Ancona_Engine_Core_Systems_SpriteComponent_H_
-#define Ancona_Engine_Core_Systems_SpriteComponent_H_
+#ifndef Ancona_Engine_Core_Systems_SpriteDrawable_H_
+#define Ancona_Engine_Core_Systems_SpriteDrawable_H_
 
-#include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
 
 namespace ild
 {
 
 
 /**
- * @brief Store state needed to draw an entity to the screen.
+ * @brief Responsible for drawing a sprite to the window.
  *
- * @author Jeff Swenson
+ * @author Jeff Swenson, Tucker Lein
  */
-class SpriteComponent : public DrawableComponent
+class SpriteDrawable : public Drawable
 {
     public:
         /**
-         * @brief A component used to draw a sprite for an entity.
+         * @brief An element to draw a sprite to an entity.
          *
          * @param positionComponent Component that defines the entity's position.
          * @param textureKey String that describes which texture should be used
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param priorityOffset Optional offset to the render priority
+         * @param positionOffset Offset coordinates from the PositionComponent
          */
-        SpriteComponent(
+        SpriteDrawable(
                 const PositionComponent & positionComponent, 
                 const std::string textureKey,
                 const RenderPriorityEnum priority,
-                int priorityOffset = 0);
+                int priorityOffset = 0,
+                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
+                const std::string key = "");
 
         /**
          * @brief Draws the sprite to the window.  The position the sprite is drawn to will be the center
@@ -37,11 +40,7 @@ class SpriteComponent : public DrawableComponent
          */
         void Draw(sf::RenderWindow & window);
 
-        /**
-         * @brief Gets the size of the sprite's texture.
-         *
-         * @return Vector2u with dimensions of the sprite's texture.
-         */
+        /* getters and setters */
         sf::Vector2u GetSize();
     private:
         /**

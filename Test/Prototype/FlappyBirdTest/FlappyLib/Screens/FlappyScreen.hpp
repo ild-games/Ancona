@@ -30,8 +30,13 @@ class FlappyScreen : public AbstractScreen
          *
          * @param manager ScreenManager instance for the game.
          * @param inputHandler InputHandler for the game.
+         * @param showIntro True if the intro section is supposed to happen, otherwise false.
+         *        Defaults to true.
          */
-        FlappyScreen(ScreenManager & manager, FlappyInputHandler * inputHandler);
+        FlappyScreen(
+                ScreenManager & manager, 
+                FlappyInputHandler * inputHandler,
+                bool showIntro = true);
 
         /**
          * @brief Updates the entity systems on the screen.
@@ -69,6 +74,10 @@ class FlappyScreen : public AbstractScreen
          * @brief Map containing all the collision types for the screen.
          */
         std::map<std::string, CollisionType> _collisionTypes;
+        /**
+         * @brief True if the intro section is supposed to happen, otherwise false.
+         */
+        bool _showIntro;
 };
 
 }

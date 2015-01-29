@@ -68,7 +68,7 @@ void PipeSpawnerComponent::SpawnPipePair()
             PickBottomPipeY(), 
             false);
     int topPipeY = _positionSystem[bottomPipe]->Position.y - 
-        _drawableSystem[bottomPipe]->GetSize().y - 
+        _drawableSystem[bottomPipe]->GetDrawable("pipe-sprite")->GetSize().y - 
         GAP_HEIGHT;
     Entity topPipe = CreatePipe(
             X_PIPE, 
@@ -100,7 +100,12 @@ Entity PipeSpawnerComponent::CreatePipe(float x, float y, bool isTopPipe)
     pos->Position.x = x;
     pos->Position.y = y;
     pos->Velocity.x = PIPE_SPEED;
-    SpriteComponent * spriteComp = _drawableSystem.CreateSpriteComponent(pipe, SpriteToUse(isTopPipe), RenderPriority::Player, -2);
+    DrawableComponent * drawable = _drawableSystem.CreateComponent(pipe);
+    drawable->AddSprite(
+            "pipe-sprite",
+            SpriteToUse(isTopPipe),
+            RenderPriority::Player,
+            -2);
     _collisionSystem.CreateComponent(pipe, sf::Vector3f(24.0f, 200.0f, 0),_pipeColType);
     _currentPipes.push_back(pipe);
 
@@ -113,7 +118,7 @@ void PipeSpawnerComponent::CreatePoint(Entity bottomPipe)
     PositionComponent * pos = _positionSystem.CreateComponent(point);
     pos->Position.x = X_PIPE + 10;
     pos->Position.y = _positionSystem[bottomPipe]->Position.y - 
-        (_drawableSystem[bottomPipe]->GetSize().y / 2) - 
+        (_drawableSystem[bottomPipe]->GetDrawable("pipe-sprite")->GetSize().y / 2) - 
         (GAP_HEIGHT / 2); 
     pos->Velocity.x = PIPE_SPEED;
     _collisionSystem.CreateComponent(point, sf::Vector3f(10.0f, GAP_HEIGHT, 0), _pointColType);

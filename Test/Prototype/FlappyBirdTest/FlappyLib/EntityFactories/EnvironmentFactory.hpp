@@ -49,21 +49,6 @@ namespace factories
             CollisionSystem & collisionSystem,
             std::map<std::string, CollisionType> collisionTypes);
 
-
-    /**
-     * @brief Creates the foreground with all the default components setup.
-     *
-     * @param manager SystemManager for screen.
-     * @param positionSystem PositionSystem for screen.
-     * @param drawableSystem DrawableSystem for screen.
-     *
-     * @return Entity that is the foreground.
-     */
-    Entity CreateForeground(
-            SystemManager & manager,
-            PositionSystem & positionSystem,
-            DrawableSystem & drawableSystem);
-
     /**
      * @brief Creates the background with all the default components setup.
      *
@@ -87,7 +72,7 @@ namespace factories
      *
      * @return Entity that is the point counter.
      */
-    std::vector<Entity> CreatePointCounter(
+     Entity CreatePointCounter(
             SystemManager & manager,
             PositionSystem & positionSystem,
             DrawableSystem & drawableSystem);
@@ -119,16 +104,6 @@ namespace factories
             PositionSystem & positionSystem);
 
     /**
-     * @brief Sets up the default foreground position component.
-     *
-     * @param foreground Entity that is the foreground.
-     * @param position PositionSystem for the screen.
-     */
-    void SetupForegroundPosition(
-            Entity foreground,
-            PositionSystem & position);
-
-    /**
      * @brief Sets up the default background position component.
      *
      * @param foreground Entity that is the background.
@@ -141,11 +116,11 @@ namespace factories
     /**
      * @brief Sets up the default point counter position component.
      *
-     * @param pointCounters Entity that is the point counter.
+     * @param pointCounter Entity that is the point counter.
      * @param position PositionSystem for the screen.
      */
     void SetupPointCounterPosition(
-            std::vector<Entity> pointCounters,
+            Entity pointCounter,
             PositionSystem & position);
 
     /**
@@ -157,16 +132,6 @@ namespace factories
     void SetupGroundSprite(
             Entity ground,
             DrawableSystem & drawableSystem); 
-
-    /**
-     * @brief Sets up the default foreground sprite component.
-     *
-     * @param foreground Entity that is the foreground.
-     * @param drawableSystem DrawableSystem for the screen.
-     */
-    void SetupForegroundSprite(
-            Entity foreground,
-            DrawableSystem & drawableSystem);
 
     /**
      * @brief Sets up the default background sprite component.
@@ -191,11 +156,11 @@ namespace factories
     /**
      * @brief Sets up the default point counter text component.
      *
-     * @param pointCounters Entity that is the point counter.
+     * @param pointCounter Entity that is the point counter.
      * @param drawableSystem DrawableSystem for the screen.
      */
     void SetupPointCounterText(
-            std::vector<Entity> pointCounters,
+            Entity pointCounter,
             DrawableSystem & drawableSystem);
 
     /**

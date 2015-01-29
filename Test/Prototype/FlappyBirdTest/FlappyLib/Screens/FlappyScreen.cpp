@@ -22,9 +22,13 @@
 
 using namespace ild;
 
-FlappyScreen::FlappyScreen(ScreenManager & manager, FlappyInputHandler * inputHandler) : 
+FlappyScreen::FlappyScreen(
+        ScreenManager & manager, 
+        FlappyInputHandler * inputHandler,
+        bool showIntro) : 
     AbstractScreen(manager),
-    _inputHandler(inputHandler)
+    _inputHandler(inputHandler),
+    _showIntro(showIntro)
 {
     _systems = new FlappyGameSystems(manager.Window);
     _collisionTypes["player"] = _systems->GetCollision().CreateType();
@@ -52,24 +56,22 @@ void FlappyScreen::Init()
             _systems->GetDrawable(),
             _systems->GetCollision(),
             _collisionTypes);
+    if(!_showIntro)
+    {
+        _systems->GetPipeSpawner()[_entities["pipeSpawner"]]->SetStopSpawning(false);
+    }
 
-    // init foreground and background
-    _entities["fg"] = factories::CreateForeground(
-            _systems->GetManager(),
-            _systems->GetPosition(),
-            _systems->GetDrawable());
+    // init background
     _entities["bg"] = factories::CreateBackground(
             _systems->GetManager(),
             _systems->GetPosition(),
             _systems->GetDrawable());
 
     // init point counter
-    std::vector<Entity> pointCounters = factories::CreatePointCounter(
+    _entities["pointCounter"] = factories::CreatePointCounter(
             _systems->GetManager(),
             _systems->GetPosition(),
             _systems->GetDrawable());
-    _entities["pointCounterPlain"] = pointCounters[0];
-    _entities["pointCounterBorder"] = pointCounters[1];
 
     // get ready 
     _entities["get-ready"] = factories::CreateGetReady(
@@ -96,5 +98,6 @@ void FlappyScreen::Update(float delta)
 
 void FlappyScreen::Draw()
 {
+    _manager.Window.clear(sf::Color::Blue);
     _systems->GetManager().Update(0,UpdateStep::Draw);
 }

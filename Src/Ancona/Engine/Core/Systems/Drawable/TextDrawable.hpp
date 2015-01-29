@@ -1,7 +1,7 @@
-#ifndef Ancona_Engine_Core_Systems_TextComponent_H_
-#define Ancona_Engine_Core_Systems_TextComponent_H_
+#ifndef Ancona_Engine_Core_Systems_TextDrawable_H_
+#define Ancona_Engine_Core_Systems_TextDrawable_H_
 
-#include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
 
 namespace ild
 {
@@ -11,11 +11,11 @@ namespace ild
  *
  * @author Tucker Lein
  */
-class TextComponent : public DrawableComponent
+class TextDrawable : public Drawable
 {
     public:
         /**
-         * @brief A component used to draw text for an entity.
+         * @brief An element to draw text to an entity.
          *
          * @param positionComponent Component that defines the entity's position.
          * @param text Text being drawn.
@@ -24,9 +24,10 @@ class TextComponent : public DrawableComponent
          * @param characterSize Font size in pixels.
          * @param priority RenderPriority that determines when the sprite is rendered.
          * @param priorityOffset Optional offset to the render priority, defaults to 0.
+         * @param positionOffset Offset coordinates from the PositionComponent
          * @param smooth Optional bool to determine if the text should be smoothed, defaults to true.
          */
-        TextComponent(
+        TextDrawable(
                 const PositionComponent & positionComponent,
                 const std::string text,
                 const std::string fontKey,
@@ -34,7 +35,9 @@ class TextComponent : public DrawableComponent
                 const int characterSize,
                 const RenderPriorityEnum priority,
                 int priorityOffset = 0,
-                bool smooth = true);
+                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
+                bool smooth = true,
+                const std::string key = "");
 
         /**
          * @brief Draws the text to the window. The position
@@ -43,16 +46,10 @@ class TextComponent : public DrawableComponent
          */
         void Draw(sf::RenderWindow & window);
 
-        /**
-         * @brief Gets the size of the text's texture.
-         *
-         * @return Vector2u with the dimensions of the text's texture.
-         */
-        sf::Vector2u GetSize();
-
         /* getters and setters */
         std::string GetText() { return _text->getString(); }
         void SetText(std::string text);
+        sf::Vector2u GetSize();
     private:
         /**
          * @brief Text being drawn.
