@@ -53,23 +53,17 @@ void FlappyScreen::Init()
             _systems->GetCollision(),
             _collisionTypes);
 
-    // init foreground and background
-    _entities["fg"] = factories::CreateForeground(
-            _systems->GetManager(),
-            _systems->GetPosition(),
-            _systems->GetDrawable());
+    // init background
     _entities["bg"] = factories::CreateBackground(
             _systems->GetManager(),
             _systems->GetPosition(),
             _systems->GetDrawable());
 
     // init point counter
-    std::vector<Entity> pointCounters = factories::CreatePointCounter(
+    _entities["pointCounter"] = factories::CreatePointCounter(
             _systems->GetManager(),
             _systems->GetPosition(),
             _systems->GetDrawable());
-    _entities["pointCounterPlain"] = pointCounters[0];
-    _entities["pointCounterBorder"] = pointCounters[1];
 
     // init player
     _entities["player"] = factories::CreatePlayer(
@@ -89,5 +83,6 @@ void FlappyScreen::Update(float delta)
 
 void FlappyScreen::Draw()
 {
+    _manager.Window.clear(sf::Color::Blue);
     _systems->GetManager().Update(0,UpdateStep::Draw);
 }

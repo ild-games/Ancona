@@ -14,17 +14,18 @@ FlappyRotateComponent::FlappyRotateComponent(
 
 void FlappyRotateComponent::Update(float delta)
 {
-    if(_rotateDir == 1 && _positionComponent.Velocity.y > 0 && _drawableComponent.GetRotation() <= 90) 
+    float rotation = _drawableComponent.GetDrawable("player-sprite")->GetRotation();
+    if(_rotateDir == 1 && _positionComponent.Velocity.y > 0 && rotation <= 90) 
     {
         float rotateAmount = ROTATE_SPEED * delta;
-        _drawableComponent.SetRotation(_drawableComponent.GetRotation() + rotateAmount);
+        _drawableComponent.GetDrawable("player-sprite")->SetRotation(rotation + rotateAmount);
     } 
     else 
     {
-        if(_rotateDir == -1 && _drawableComponent.GetRotation() >= -30.0f)
+        if(_rotateDir == -1 && rotation >= -30.0f)
         {
             float rotateAmount = (ROTATE_SPEED * 3) * delta;
-            _drawableComponent.SetRotation(_drawableComponent.GetRotation() - rotateAmount);
+            _drawableComponent.GetDrawable("player-sprite")->SetRotation(rotation - rotateAmount);
         } 
         else 
         {

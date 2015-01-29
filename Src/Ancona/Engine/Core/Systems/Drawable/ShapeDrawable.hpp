@@ -1,33 +1,36 @@
-#ifndef Ancona_Engine_Core_Systems_ShapeComponent_H_
-#define Ancona_Engine_Core_Systems_ShapeComponent_H_
+#ifndef Ancona_Engine_Core_Systems_ShapeDrawable_H_
+#define Ancona_Engine_Core_Systems_ShapeDrawable_H_
 
-#include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
 #include <SFML/Graphics.hpp>
 
 namespace ild
 {
 
 /**
- * @brief Component used to draw a shape.
+ * @brief Responsible for drawing a shape to the window
  *
  * @author Tucker Lein
  */
-class ShapeComponent : public DrawableComponent
+class ShapeDrawable : public Drawable
 {
     public:
         /**
-         * @brief A component used to draw a shape for an entity.
+         * @brief An element to draw a shape to an entity.
          *
          * @param positionComponent Component that defines the entity's position.
          * @param shape SFML Shape that is going to be drawn.
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param priorityOffset Optional offset to the render priority
+         * @param positionOffset Offset coordinates from the PositionComponent
          */
-        ShapeComponent(
+        ShapeDrawable(
                 const PositionComponent & positionComponent, 
                 sf::Shape & shape,
                 const RenderPriorityEnum priority,
-                int priorityOffset = 0);
+                int priorityOffset,
+                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
+                const std::string key = "");
 
         /**
          * @brief Draws the shape to the window.  The position the shape is drawn to will be the center

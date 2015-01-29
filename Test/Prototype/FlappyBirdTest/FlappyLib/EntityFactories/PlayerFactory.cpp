@@ -1,6 +1,5 @@
 #include "PlayerFactory.hpp"
 #include "../Systems/FlappyInputComponent.hpp"
-#include <Ancona/Engine/Core/Systems/Drawable/TextComponent.hpp>
 
 #include <string>
 #include <sstream>
@@ -66,8 +65,9 @@ void factories::SetupPlayerSprite(
         Entity player,
         DrawableSystem & drawableSystem)
 {
-    SpriteComponent * sprite = drawableSystem.CreateSpriteComponent(
-            player,
+    DrawableComponent * drawable = drawableSystem.CreateComponent(player);
+    SpriteDrawable * sprite = drawable->AddSprite(
+            "player-sprite",
             "flappy",
             RenderPriority::Player);
     sprite->SetRotation(-30.0f);
@@ -185,22 +185,21 @@ std::function< void(Entity player, Entity ground) > factories::PlayerToPointColl
         FlappyGameSystems * gameSystems,
         std::map<std::string, Entity> entities)
 {
-    Entity pointCounterPlain = entities["pointCounterPlain"];
-    Entity pointCounterBorder = entities["pointCounterBorder"];
+    Entity pointCounter = entities["pointCounter"];
     Entity pipeSpawner = entities["pipeSpawner"];
-    return [gameSystems, pointCounterPlain, pointCounterBorder, pipeSpawner](Entity player, Entity point)
+    return [gameSystems, pointCounter, pipeSpawner](Entity player, Entity point)
     {
         // TODO: Android won't compile this correctly even  with C++11 flags 
         //int points = std::stoi(gameSystems->GetDrawable().at(pointCounterPlain)->GetText());
-        std::string pointStr = static_cast<TextComponent *>(gameSystems->GetDrawable().at(pointCounterPlain))->GetText();
+        std::string pointStr = gameSystems->GetDrawable().at(pointCounter)->GetDrawable<TextDrawable>("plain-text")->GetText();
         std::istringstream is(pointStr);
         int points;
         is >> points;
         points++;
         std::ostringstream os;
         os << points; 
-        static_cast<TextComponent *>(gameSystems->GetDrawable().at(pointCounterPlain))->SetText(os.str());
-        static_cast<TextComponent *>(gameSystems->GetDrawable().at(pointCounterBorder))->SetText(os.str());
+        gameSystems->GetDrawable().at(pointCounter)->GetDrawable<TextDrawable>("plain-text")->SetText(os.str());
+        gameSystems->GetDrawable().at(pointCounter)->GetDrawable<TextDrawable>("border-text")->SetText(os.str());
         gameSystems->GetPipeSpawner().at(pipeSpawner)->DespawnPoint(point);
     };
 }

@@ -55,10 +55,11 @@ void factories::SetupGroundSprite(
         Entity ground,
         DrawableSystem & drawableSystem)
 {
-    drawableSystem.CreateSpriteComponent(
-            ground, 
-            "flappy-ground", 
-            RenderPriority::Player, 
+    DrawableComponent * drawable = drawableSystem.CreateComponent(ground);
+    drawable->AddSprite(
+            "ground-srite",
+            "flappy-ground",
+            RenderPriority::Player,
             -1);
 }
 
@@ -113,38 +114,6 @@ Entity factories::CreatePipeSpawner(
     return pipeSpawner;
 }
 
-/* Foreground Entity */
-Entity factories::CreateForeground(
-        SystemManager & manager,
-        PositionSystem & positionSystem,
-        DrawableSystem & drawableSystem)
-{
-    Entity foreground = manager.CreateEntity();
-    factories::SetupForegroundPosition(foreground, positionSystem);
-    factories::SetupForegroundSprite(foreground, drawableSystem);
-    return foreground;
-}
-
-void factories::SetupForegroundPosition(
-        Entity foreground,
-        PositionSystem & positionSystem)
-{
-    PositionComponent * fgPos = positionSystem.CreateComponent(foreground);
-    fgPos->Position.x = 136;
-    fgPos->Position.y = 200;
-}
-
-void factories::SetupForegroundSprite(
-        Entity foreground,
-        DrawableSystem & drawableSystem)
-{
-    drawableSystem.CreateSpriteComponent(
-            foreground, 
-            "flappy-fg",
-            RenderPriority::Background, 1);
-}
-
-
 /* Background Entity */
 Entity factories::CreateBackground(
         SystemManager & manager,
@@ -170,71 +139,73 @@ void factories::SetupBackgroundSprite(
         Entity background,
         DrawableSystem & drawableSystem)
 {
+    DrawableComponent * drawable = drawableSystem.CreateComponent(background);
+    std::string bgToUse;
     if(rand() % 2)
     {
-        drawableSystem.CreateSpriteComponent(
-                background, 
-                "flappy-bg1",
-                RenderPriority::Background);
+        bgToUse = "flappy-bg1";
     } 
     else 
     {
-        drawableSystem.CreateSpriteComponent(
-                background, 
-                "flappy-bg2",
-                RenderPriority::Background);
+        bgToUse = "flappy-bg2";
     }
+    drawable->AddSprite(
+            "bg-sprite",
+            bgToUse,
+            RenderPriority::Background);
+    drawable->AddSprite(
+            "fg-sprite",
+            "flappy-fg",
+            RenderPriority::Background,
+            1,
+            sf::Vector2f(-184.0f, -40.0f));
 }
 
 /* Point Counter Entity */
-std::vector<Entity> factories::CreatePointCounter(
+Entity factories::CreatePointCounter(
         SystemManager & manager,
         PositionSystem & positionSystem,
         DrawableSystem & drawableSystem)
 {
-    Entity pointCounterPlain = manager.CreateEntity();
-    Entity pointCounterBorder = manager.CreateEntity();
-    std::vector<Entity> pointCounters;
-    pointCounters.push_back(pointCounterPlain);
-    pointCounters.push_back(pointCounterBorder);
-    factories::SetupPointCounterPosition(pointCounters, positionSystem);
-    factories::SetupPointCounterText(pointCounters, drawableSystem);
-    return pointCounters;
+    Entity pointCounter = manager.CreateEntity();
+    factories::SetupPointCounterPosition(pointCounter, positionSystem);
+    factories::SetupPointCounterText(pointCounter, drawableSystem);
+    return pointCounter;
 }
 
 
 void factories::SetupPointCounterPosition(
-        std::vector<Entity> pointCounters,
+        Entity pointCounter,
         PositionSystem & position)
 {
-    PositionComponent * pointCounterPosPlain = position.CreateComponent(pointCounters[0]);
-    pointCounterPosPlain->Position.x = 135;
-    pointCounterPosPlain->Position.y = 148; 
-    PositionComponent * pointCounterPosBorder = position.CreateComponent(pointCounters[1]);
-    pointCounterPosBorder->Position.x = 135;
-    pointCounterPosBorder->Position.y = 150;
+    PositionComponent * pointCounterPos = position.CreateComponent(pointCounter);
+    pointCounterPos->Position.x = 135;
+    pointCounterPos->Position.y = 148; 
 }
 
 void factories::SetupPointCounterText(
-        std::vector<Entity> pointCounters,
+        Entity pointCounter,
         DrawableSystem & drawableSystem)
 {
-    drawableSystem.CreateTextComponent(
-            pointCounters[0],
+    DrawableComponent * drawable = drawableSystem.CreateComponent(pointCounter);
+    drawable->AddText(
+            "plain-text",
             "0",
             "dimitri-plain",
             sf::Color::White,
             34,
             RenderPriority::Foreground,
             100,
+            sf::Vector2f(0.0f, 0.0f),
             false);
-    drawableSystem.CreateTextComponent(
-            pointCounters[1],
+    drawable->AddText(
+            "border-text",
             "0",
             "dimitri-border",
             sf::Color::Black,
             34,
             RenderPriority::Foreground,
             101,
+            sf::Vector2f(0.0f, 0.0f),
             false);
 }

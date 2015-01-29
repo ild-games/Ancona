@@ -2,17 +2,17 @@
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
 #include <string>
+
 #include <SFML/Window.hpp>
+
+#include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
+#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/Drawable/SpriteComponent.hpp>
-#include <Ancona/Engine/Core/Systems/Drawable/TextComponent.hpp>
-#include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
 
 namespace ild
 {
-
 
 
 /**
@@ -35,45 +35,6 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
                 SystemManager & systemManager,
                 PositionSystem & positionSystem);
 
-        /**
-         * @brief Create a sprite component for the entity.
-         *
-         * @param entity Entity that the component should be attached to.
-         * @param textureKey Key that describes the texture the sprite should use.
-         * @param priority RenderPriority that handles when the sprite is drawn.
-         * @param priorityOffset offset of priority, defaults to 0.
-         *
-         * @return A pointer to the SpriteComponent.
-         */
-        SpriteComponent * CreateSpriteComponent(
-                const Entity & entity, 
-                const std::string & textureKey,
-                const RenderPriorityEnum priority,
-                int priorityOffset = 0);
-
-        /**
-         * @brief Create a text component for the entity.
-         *
-         * @param entity Entity that the component should be attached to.
-         * @param text Text shown on the window.
-         * @param fontKey Name of font to use.
-         * @param color Color of font.
-         * @param characterSize Size of font in pixels.
-         * @param priority RenderPriority that handles when the text is drawn.
-         * @param priorityOffset offset of priority, defaults to 0.
-         * @param smooth Determines if the font is smooth or not, defaults to true.
-         *
-         * @return Pointer to the TextComponent.
-         */
-        TextComponent * CreateTextComponent(
-                const Entity & entity,
-                const std::string text,
-                const std::string fontKey,
-                const sf::Color color,
-                const int characterSize,
-                const RenderPriorityEnum priority,
-                int priorityOffset = 0,
-                bool smooth = true);
 
 
         /**
@@ -82,6 +43,28 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          * @param delta Ignored by the drawable system.
          */
         void Update(float delta);
+
+        /**
+         * @brief Adds a drawable to the system's render queue.
+         *
+         * @param drawable Drawable to add.
+         */
+        void AddDrawable(Drawable * drawable);
+
+        /**
+         * @brief Removes a drawable from the system's render queue.
+         *
+         * @param drawable Drawable to remove.
+         */
+        void RemoveDrawable(Drawable * drawable);
+
+        /**
+         * @brief Creates a DrawableComponent on the system.
+         * @param entity Entity to attach the component to.
+         *
+         * @return Pointer to the newly created DrawableComponent.
+         */
+        DrawableComponent * CreateComponent(const Entity & entity);
 
     protected:
         /**
@@ -101,24 +84,9 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief Holds pointers to the sprite components sorted by priority + priorityOffset.
          */
-        std::vector<DrawableComponent * > _renderQueue;
-
-        /**
-         * @brief Attaches a drawable component and places it in the render queue.
-         *
-         * @param entity Entity that the component should be attached to.
-         * @param component DrawableComponent to attach.
-         * @param textureKey Key that describes the texture the sprite should use.
-         * @param priority RenderPriority that handles when the sprite is drawn.
-         *
-         * @return A pointer to the newly created sprite.
-         */
-        void AttachComponent(
-                const Entity & entity,
-                DrawableComponent & component,
-                const RenderPriorityEnum priority,
-                int priorityOffset = 0);
+        std::vector<Drawable * > _renderQueue;
 };
+
 
 }
 

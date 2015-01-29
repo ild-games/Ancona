@@ -1,5 +1,5 @@
-#ifndef Ancona_Game_Systems_SimpleGravityComponent_H_
-#define Ancona_Game_Systems_SimpleGravityComponent_H_
+#ifndef Ancona_Engine_Core_Systems_SimpleGravityComponent_H_
+#define Ancona_Engine_Core_Systems_SimpleGravityComponent_H_
 
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 

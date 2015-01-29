@@ -14,97 +14,47 @@ DrawableSystem::DrawableSystem(
 {
 }
 
-
-void DrawableSystem::AttachComponent(
-        const Entity & entity,
-        DrawableComponent & component,
-        const RenderPriorityEnum priority,
-        int priorityOffset)
+void DrawableSystem::Update(float delta)
 {
-    UnorderedSystem::AttachComponent(entity, &component);
-    _renderQueue.push_back(&component);
+    for(Drawable * drawable : _renderQueue)
+    {
+        drawable->Draw(_window);
+    }
+}
+
+void DrawableSystem::AddDrawable(Drawable * drawable)
+{
+    _renderQueue.push_back(drawable);
     std::sort(
             _renderQueue.begin(), 
             _renderQueue.end(), 
-            [](DrawableComponent * lhs, DrawableComponent * rhs)
+            [](Drawable * lhs, Drawable * rhs)
             {
-                return (lhs->GetRenderPriority() + lhs->GetPriorityOffset()) <
-                       (rhs->GetRenderPriority() + rhs->GetPriorityOffset());
+                return (lhs->GetRenderPriority()) <
+                       (rhs->GetRenderPriority());
             });
-
 }
 
-
-SpriteComponent * DrawableSystem::CreateSpriteComponent(
-        const Entity & entity, 
-        const std::string & textureKey,
-        const RenderPriorityEnum priority,
-        int priorityOffset)
+void DrawableSystem::RemoveDrawable(Drawable * drawable)
 {
-    auto positionComponent = _positionSystem[entity];
-
-    Assert(
-            positionComponent != nullptr,
-            "A sprite component can only be attached to an entity with a position component");
-
-    SpriteComponent * component = new SpriteComponent(
-            *positionComponent,
-            textureKey,
-            priority,
-            priorityOffset);
-    AttachComponent(
-            entity, 
-            *component,
-            priority,
-            priorityOffset);
-
-    return component;
+    _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
 }
 
-TextComponent * DrawableSystem::CreateTextComponent(
-        const Entity & entity,
-        const std::string text,
-        const std::string fontKey,
-        const sf::Color color,
-        const int characterSize,
-        const RenderPriorityEnum priority,
-        int priorityOffset,
-        bool smooth)
+DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
 {
-    auto positionComponent = _positionSystem[entity];
-
-    Assert(
-            positionComponent != nullptr,
-            "A text component can only be attached to an entity with a position component");
-
-    TextComponent * component = new TextComponent(
-            *positionComponent,
-            text,
-            fontKey,
-            color,
-            characterSize,
-            priority,
-            priorityOffset,
-            smooth);
-    AttachComponent(
-            entity, 
-            *component,
-            priority,
-            priorityOffset);
-
-    return component;
+    auto comp = new DrawableComponent(
+            *this,
+            *_positionSystem[entity]);
+    AttachComponent(entity, comp);
+    return comp;
 }
 
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
-    _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), component), _renderQueue.end());
-}
-
-void DrawableSystem::Update(float delta)
-{
-    for(DrawableComponent * drawableComp : _renderQueue)
+    std::vector<Drawable *> compDrawables = component->GetDrawables();
+    for(Drawable * drawable : compDrawables)
     {
-        drawableComp->Draw(_window);
+        _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
     }
 }
 
