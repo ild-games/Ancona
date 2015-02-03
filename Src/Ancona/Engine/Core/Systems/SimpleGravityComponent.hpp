@@ -19,7 +19,8 @@ class SimpleGravityComponent
          *
          * @param positionComponent Used to manipulate the velocity of the entity.
          */
-        SimpleGravityComponent(PositionComponent & positionComponent);
+        SimpleGravityComponent(
+                PositionComponent & positionComponent);
 
         /**
          * @brief Constructs a new gravity component with custom rotation.

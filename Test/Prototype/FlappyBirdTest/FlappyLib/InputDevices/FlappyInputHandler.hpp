@@ -1,12 +1,11 @@
 #ifndef Test_Prototype_FlappyBirdTest_InputDevices_FlappyInputHandler_H_
 #define Test_Prototype_FlappyBirdTest_InputDevices_FlappyInputHandler_H_
 
-#include <Ancona/Engine/Core/Systems/PositionComponent.hpp>
 #include <Ancona/Engine/Screens/ScreenManager.hpp>
 #include <Ancona/Engine/InputDevices/InputHandler.hpp>
 #include <Ancona/Util/StateMachine/SharedMachine.hpp>
 #include "../States/FlappyStates.hpp"
-#include "../Systems/PipeSpawnerComponent.hpp"
+#include "../Systems/FlappyGameSystems.hpp"
 
 
 #include <SFML/Window.hpp>
@@ -58,8 +57,10 @@ class FlappyInputHandler : public InputHandler
         void ChangeState(const MachineState & newState);
 
         /* getters and setters */
-        void SetPosition(PositionComponent * position) { _position = position; }
-        void SetPipeSpawner(PipeSpawnerComponent * pipeSpawner) { _pipeSpawner = pipeSpawner; }
+        void SetGameSystems(FlappyGameSystems * gameSystems) { _gameSystems = gameSystems; }
+        void SetPipeSpawner(Entity pipeSpawner) { _pipeSpawner = pipeSpawner; }
+        void SetPlayer(Entity player) { _player = player; }
+        void SetGetReady(Entity getReady) { _getReady = getReady; }
     protected:
         /**
          * @brief InputComponent that defines behavior for this input handler.
@@ -79,13 +80,21 @@ class FlappyInputHandler : public InputHandler
          */
         ScreenManager & _screenManager;
         /**
-         * @brief Position component of the Flappy Bird.
+         * @brief Game Systems for Flappy Bird.
          */
-        PositionComponent * _position;
+        FlappyGameSystems * _gameSystems;
         /**
-         * @brief PipeSpawner component that spawns the pipes.
+         * @brief Entity that is the player
          */
-        PipeSpawnerComponent * _pipeSpawner;
+        Entity _player;
+        /**
+         * @brief Entity that is the pipe spawner
+         */
+        Entity _pipeSpawner;
+        /**
+         * @brief Entity that is the get ready overlay.
+         */
+        Entity _getReady;
 
         /**
          * @brief Check if the transition from the current state to the proposed new state

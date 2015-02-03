@@ -34,14 +34,19 @@ void FlappyKeyboard::OnGroundInput(MachineState & curState)
 
 void FlappyKeyboard::GameIntroInput(MachineState & curState)
 {
-    if(_position->Position.y > 230)
+    if(_gameSystems->GetPosition()[_player]->Position.y > 230)
     {
         _component->Jump();
     }
     if(Keyboard::IsKeyPressed(sf::Keyboard::Key::Space))
     {
         _component->Jump();
-        _pipeSpawner->SetStopSpawning(false);
+        _gameSystems->GetPipeSpawner()[_pipeSpawner]->SetStopSpawning(false);
+        _gameSystems->GetFadeDrawable().CreateComponent(
+                _getReady,
+                *_gameSystems->GetDrawable()[_getReady],
+                false);
+                
         ChangeState(FlappyStates::InAir);
     }
 }

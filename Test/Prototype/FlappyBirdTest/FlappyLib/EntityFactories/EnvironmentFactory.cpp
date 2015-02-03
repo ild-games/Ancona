@@ -217,20 +217,28 @@ Entity factories::CreateGetReady(
         DrawableSystem & drawableSystem)
 {
     Entity getReady = manager.CreateEntity();
+    factories::SetupGetReadyPosition(getReady, positionSystem);
+    factories::SetupGetReadySprite(getReady, drawableSystem);
+    return getReady;
+}
+
+void factories::SetupGetReadyPosition(
+        Entity getReady,
+        PositionSystem & positionSystem)
+{
     PositionComponent * getReadyPos = positionSystem.CreateComponent(getReady);
     getReadyPos->Position.x = 135;
     getReadyPos->Position.y = 240;
-    factories::SetupGetReadySprite(getReady, drawableSystem);
-    return getReady;
 }
 
 void factories::SetupGetReadySprite(
         Entity getReady,
         DrawableSystem & drawableSystem)
 {
-    //drawableSystem.CreateSpriteComponent(
-    //        getReady,
-    //        "get-ready",
-    //        RenderPriority::Foreground,
-    //        100);
+    DrawableComponent * drawable = drawableSystem.CreateComponent(getReady);
+    drawable->AddSprite(
+            "get-ready-sprite",
+            "get-ready",
+            RenderPriority::Foreground,
+            100);
 }

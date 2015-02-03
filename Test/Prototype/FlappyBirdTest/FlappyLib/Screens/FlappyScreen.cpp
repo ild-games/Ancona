@@ -74,10 +74,13 @@ void FlappyScreen::Init()
             _systems->GetDrawable());
 
     // get ready 
-    _entities["get-ready"] = factories::CreateGetReady(
-            _systems->GetManager(),
-            _systems->GetPosition(),
-            _systems->GetDrawable());
+    if(_showIntro)
+    {
+        _entities["getReady"] = factories::CreateGetReady(
+                _systems->GetManager(),
+                _systems->GetPosition(),
+                _systems->GetDrawable());
+    }
 
     // init player
     _entities["player"] = factories::CreatePlayer(
@@ -86,8 +89,10 @@ void FlappyScreen::Init()
             _entities,
             *_inputHandler);
 
-    _inputHandler->SetPosition(_systems->GetPosition().at(_entities["player"]));
-    _inputHandler->SetPipeSpawner(_systems->GetPipeSpawner().at(_entities["pipeSpawner"]));
+    _inputHandler->SetGameSystems(_systems);
+    _inputHandler->SetPlayer(_entities["player"]);
+    _inputHandler->SetPipeSpawner(_entities["pipeSpawner"]);
+    _inputHandler->SetGetReady(_entities["getReady"]);
 }
 
 void FlappyScreen::Update(float delta)

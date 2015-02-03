@@ -114,6 +114,16 @@ namespace factories
             PositionSystem & position);
 
     /**
+     * @brief Sets up the default position for the get ready entity.
+     *
+     * @param getReady Entity that is the get ready overlay.
+     * @param position PositionSystem for the screen.
+     */
+    void SetupGetReadyPosition(
+            Entity getReady,
+            PositionSystem & position);
+
+    /**
      * @brief Sets up the default point counter position component.
      *
      * @param pointCounter Entity that is the point counter.

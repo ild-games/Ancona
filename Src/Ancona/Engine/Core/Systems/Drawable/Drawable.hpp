@@ -69,6 +69,8 @@ class Drawable
         float GetRotation() { return _rotation; }
         void SetRotation(float rotation) { _rotation = rotation; }
         virtual sf::Vector2u GetSize() = 0;
+        virtual int GetAlpha() = 0;
+        virtual void SetAlpha(int alpha) = 0;
 
     protected:
         /**

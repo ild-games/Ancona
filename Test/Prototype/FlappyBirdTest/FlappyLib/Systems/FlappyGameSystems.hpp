@@ -4,6 +4,7 @@
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/FadeDrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
 #include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
@@ -39,6 +40,7 @@ class FlappyGameSystems
         CollisionSystem & GetCollision() { return *_collision; } 
         FlappyRotateSystem & GetFlappyRotate() { return *_flappyRotate; } 
         PipeSpawnerSystem & GetPipeSpawner() { return *_pipeSpawner; } 
+        FadeDrawableSystem & GetFadeDrawable() { return *_fadeDrawable; }
 
     private:
         /**
@@ -73,6 +75,10 @@ class FlappyGameSystems
          * @brief System for managing PipeSpawner components.
          */
         PipeSpawnerSystem * _pipeSpawner;
+        /**
+         * @brief System for managing FadeDrawable components.
+         */
+        FadeDrawableSystem * _fadeDrawable;
 };
 
 }

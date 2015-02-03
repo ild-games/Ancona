@@ -42,6 +42,8 @@ class SpriteDrawable : public Drawable
 
         /* getters and setters */
         sf::Vector2u GetSize();
+        int GetAlpha();
+        void SetAlpha(int alpha);
     private:
         /**
          * @brief Sprite being drawn.

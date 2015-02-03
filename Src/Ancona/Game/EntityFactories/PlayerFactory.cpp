@@ -24,7 +24,8 @@ Entity factories::CreatePlayer(
     // gravity component 
     gameSystems->GetSimpleGravity().CreateComponent(
             player, 
-            *position);
+            *position,
+            340.0f);
 
     // collision component
     factories::SetupCollisions(

@@ -15,4 +15,5 @@ FlappyGameSystems::FlappyGameSystems(sf::RenderWindow & window)
             window,
             *_manager,
             *_position);
+    _fadeDrawable = new FadeDrawableSystem(*_manager);
 }

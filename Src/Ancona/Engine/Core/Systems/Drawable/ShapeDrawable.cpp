@@ -35,3 +35,24 @@ sf::Vector2u ShapeDrawable::GetSize()
             _shape.getLocalBounds().width, 
             _shape.getLocalBounds().height);
 }
+
+int ShapeDrawable::GetAlpha()
+{
+    return _shape.getFillColor().a;
+}
+
+void ShapeDrawable::SetAlpha(int alpha)
+{
+    sf::Color * outlineCol = 
+        new sf::Color(_shape.getOutlineColor());
+    outlineCol->a = alpha;
+    _shape.setOutlineColor(*outlineCol);
+
+    sf::Color * fillCol = 
+        new sf::Color(_shape.getFillColor());
+    fillCol->a = alpha;
+    _shape.setFillColor(*fillCol);
+
+    delete outlineCol;
+    delete fillCol;
+}

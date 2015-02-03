@@ -50,6 +50,8 @@ class TextDrawable : public Drawable
         std::string GetText() { return _text->getString(); }
         void SetText(std::string text);
         sf::Vector2u GetSize();
+        int GetAlpha();
+        void SetAlpha(int alpha);
     private:
         /**
          * @brief Text being drawn.

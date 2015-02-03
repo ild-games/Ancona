@@ -35,14 +35,14 @@ void FlappyTouch::OnGroundInput(MachineState & curState)
 
 void FlappyTouch::GameIntroInput(MachineState & curState)
 {
-    if(_position->Position.y > 230)
+    if(_gameSystems->GetPosition()[_player]->Position.y > 230)
     {
         _component->Jump();
     }
     if(sf::Touch::isDown(0))
     {
         _component->Jump();
-        _pipeSpawner->SetStopSpawning(false);
+        _gameSystems->GetPipeSpawner()[_pipeSpawner]->SetStopSpawning(false);
         ChangeState(FlappyStates::InAir);
     }
 }

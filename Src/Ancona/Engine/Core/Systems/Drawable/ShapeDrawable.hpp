@@ -40,12 +40,10 @@ class ShapeDrawable : public Drawable
          */
         void Draw(sf::RenderWindow & window);
 
-        /**
-         * @brief Gets the size of the shape.
-         *
-         * @return Vector2u with dimensions of the shape.
-         */
+        /* getters and setters */
         sf::Vector2u GetSize();
+        int GetAlpha();
+        void SetAlpha(int alpha);
     private:
         /**
          * @brief Shape used for the drawing.

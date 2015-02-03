@@ -39,3 +39,17 @@ sf::Vector2u SpriteDrawable::GetSize()
 {
     return _sprite->getTexture()->getSize();
 }
+
+int SpriteDrawable::GetAlpha()
+{
+    return _sprite->getColor().a;
+}
+
+void SpriteDrawable::SetAlpha(int alpha)
+{
+    sf::Color * col = 
+        new sf::Color(_sprite->getColor());
+    col->a = alpha;
+    _sprite->setColor(*col);
+    delete col;
+}
