@@ -10,18 +10,18 @@ SpriteDrawable::SpriteDrawable(
         const std::string textureKey,
         const RenderPriorityEnum priority,
         int priorityOffset,
-        sf::Vector2f positionOffset,
-        const std::string key) :
+        sf::Vector2f positionOffset) :
     Drawable(
             positionComponent,
             priority,
             priorityOffset,
-            positionOffset,
-            key)
+            positionOffset)
 {
     sf::Texture & texture = *ResourceLibrary::Get<sf::Texture>(textureKey);
     _sprite = new sf::Sprite(texture);
-    _sprite->setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
+    _sprite->setOrigin(
+            texture.getSize().x / 2, 
+            texture.getSize().y / 2);
     _rotation = 0.0f;
 }
 
@@ -37,7 +37,9 @@ void SpriteDrawable::Draw(sf::RenderWindow & window)
 
 sf::Vector2u SpriteDrawable::GetSize()
 {
-    return _sprite->getTexture()->getSize();
+    return sf::Vector2u(
+            _sprite->getLocalBounds().width,
+            _sprite->getLocalBounds().height);
 }
 
 int SpriteDrawable::GetAlpha()

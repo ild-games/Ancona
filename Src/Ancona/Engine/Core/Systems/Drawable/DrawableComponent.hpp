@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/SpriteDrawable.hpp>
@@ -46,6 +47,34 @@ class DrawableComponent
                 const std::string key,
                 const std::string textureKey,
                 const RenderPriorityEnum priority,
+                int priorityOffset = 0,
+                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
+
+        /**
+         * @brief Adds an animated drawable element to the component.
+         *
+         * @param key Key for the animated element on the component.
+         * @param textureKey Key that identifies the texture the animated sprite should use.
+         * @param priority RenderPriority that handles when the sprite is drawn.
+         * @param frameDimensions Dimensions of a frame in the animated texture.
+         * @param numFrames Number of frames in the animation.
+         * @param speed Speed at which the sprite is animated.
+         * @param xGap Gap between frames in the x direction, defaults to 0.
+         * @param yGap Gap between frames in the y direction, defaults to 0.
+         * @param priorityOffset offset of priority, defaults to 0.
+         * @param positionOffset Offset coordinates against the position of the DrawableComponent, defaults to {0, 0}
+         *
+         * @returns Pointer to the sprite element.
+         */
+        AnimatedDrawable * AddAnimation(
+                const std::string key,
+                const std::string textureKey,
+                const RenderPriorityEnum priority,
+                sf::Vector2f frameDimensions,
+                int numFrames,
+                int speed,
+                float xGap = 0,
+                float yGap = 0,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 

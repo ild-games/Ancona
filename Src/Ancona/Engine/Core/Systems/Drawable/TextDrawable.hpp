@@ -36,8 +36,7 @@ class TextDrawable : public Drawable
                 const RenderPriorityEnum priority,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
-                bool smooth = true,
-                const std::string key = "");
+                bool smooth = true);
 
         /**
          * @brief Draws the text to the window. The position

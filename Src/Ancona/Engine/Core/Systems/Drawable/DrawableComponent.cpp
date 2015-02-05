@@ -25,12 +25,39 @@ SpriteDrawable * DrawableComponent::AddSprite(
             textureKey,
             priority,
             priorityOffset,
-            positionOffset,
-            key);
+            positionOffset);
 
     _drawables[key] = sprite;
     _drawableSystem.AddDrawable(sprite);
     return sprite;
+}
+
+AnimatedDrawable * DrawableComponent::AddAnimation(
+        const std::string key,
+        const std::string textureKey,
+        const RenderPriorityEnum priority,
+        sf::Vector2f frameDimensions,
+        int numFrames,
+        int speed,
+        float xGap,
+        float yGap,
+        int priorityOffset,
+        sf::Vector2f positionOffset)
+{
+    AnimatedDrawable * animation = new AnimatedDrawable(
+            _positionComponent,
+            textureKey,
+            priority,
+            frameDimensions,
+            numFrames,
+            speed,
+            xGap,
+            yGap,
+            priorityOffset,
+            positionOffset);
+    _drawables[key] = animation;
+    _drawableSystem.AddDrawable(animation);
+    return animation;
 }
 
 TextDrawable * DrawableComponent::AddText(
@@ -53,8 +80,7 @@ TextDrawable * DrawableComponent::AddText(
             priority,
             priorityOffset,
             positionOffset,
-            smooth,
-            key);
+            smooth);
     _drawables[key] = textDrawable;
     _drawableSystem.AddDrawable(textDrawable);
     return textDrawable;
@@ -72,8 +98,7 @@ ShapeDrawable * DrawableComponent::AddShape(
             shape,
             priority,
             priorityOffset,
-            positionOffset,
-            key);
+            positionOffset);
     _drawables[key] = shapeDrawable;
     _drawableSystem.AddDrawable(shapeDrawable);
     return shapeDrawable;

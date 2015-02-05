@@ -14,14 +14,12 @@ TextDrawable::TextDrawable(
         const RenderPriorityEnum priority,
         int priorityOffset,
         sf::Vector2f positionOffset,
-        bool smooth,
-        const std::string key) :
+        bool smooth) :
     Drawable(
             positionComponent,
             priority,
             priorityOffset,
-            positionOffset,
-            key)
+            positionOffset)
 {
     _text = new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey));
     _text->setColor(color);

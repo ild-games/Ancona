@@ -29,7 +29,8 @@ void FlappyTouch::OnGroundInput(MachineState & curState)
         _screenManager.Replace(
                 new FlappyScreen(
                     _screenManager, 
-                    new FlappyTouch(_screenManager, FlappyStates::InAir)));
+                    new FlappyTouch(_screenManager, FlappyStates::InAir),
+                    false));
     }
 }
 
@@ -43,6 +44,11 @@ void FlappyTouch::GameIntroInput(MachineState & curState)
     {
         _component->Jump();
         _gameSystems->GetPipeSpawner()[_pipeSpawner]->SetStopSpawning(false);
+        _gameSystems->GetFadeDrawable().CreateComponent(
+                _getReady,
+                *_gameSystems->GetDrawable()[_getReady],
+                false);
+                
         ChangeState(FlappyStates::InAir);
     }
 }

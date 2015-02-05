@@ -1,4 +1,5 @@
 TexturePNG,player
+TexturePNG,player-walking
 TexturePNG,tilesheet
 TexturePNG,flappy
 TexturePNG,flappy-bottom-pipe

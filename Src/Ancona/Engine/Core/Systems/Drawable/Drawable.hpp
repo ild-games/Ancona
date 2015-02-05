@@ -54,8 +54,7 @@ class Drawable
                 const PositionComponent & positionComponent,
                 const RenderPriorityEnum priority,
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
-                const std::string key = "");
+                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
         /**
          * @brief Draws the object to the window.
@@ -92,10 +91,7 @@ class Drawable
         /**
          * @brief Amount to rotate the drawable element. 
          */
-        float _rotation;
-
-
-        std::string _key;
+        float _rotation = 0;
 };
 
 }

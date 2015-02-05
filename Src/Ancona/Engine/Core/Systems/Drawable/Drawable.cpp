@@ -6,12 +6,10 @@ Drawable::Drawable(
         const PositionComponent & positionComponent,
         const RenderPriorityEnum priority,
         int priorityOffset,
-        sf::Vector2f positionOffset,
-        const std::string key) :
+        sf::Vector2f positionOffset) :
     _positionComponent(positionComponent),
     _renderPriority(priority),
     _priorityOffset(priorityOffset),
-    _positionOffset(positionOffset),
-    _key(key)
+    _positionOffset(positionOffset)
 {
 }

@@ -29,8 +29,7 @@ class ShapeDrawable : public Drawable
                 sf::Shape & shape,
                 const RenderPriorityEnum priority,
                 int priorityOffset,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
-                const std::string key = "");
+                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
         /**
          * @brief Draws the shape to the window.  The position the shape is drawn to will be the center

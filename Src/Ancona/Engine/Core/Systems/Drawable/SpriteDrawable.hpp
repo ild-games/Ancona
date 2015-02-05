@@ -29,8 +29,7 @@ class SpriteDrawable : public Drawable
                 const std::string textureKey,
                 const RenderPriorityEnum priority,
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
-                const std::string key = "");
+                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
         /**
          * @brief Draws the sprite to the window.  The position the sprite is drawn to will be the center
@@ -38,13 +37,13 @@ class SpriteDrawable : public Drawable
          *
          * @param window Window the sprite should be drawn to.
          */
-        void Draw(sf::RenderWindow & window);
+        virtual void Draw(sf::RenderWindow & window);
 
         /* getters and setters */
         sf::Vector2u GetSize();
         int GetAlpha();
         void SetAlpha(int alpha);
-    private:
+    protected:
         /**
          * @brief Sprite being drawn.
          */

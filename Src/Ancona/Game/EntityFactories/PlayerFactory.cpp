@@ -11,21 +11,28 @@ Entity factories::CreatePlayer(
     // position component
     gameSystems->GetPosition().CreateComponent(player);
     PositionComponent * position = gameSystems->GetPosition().at(player);
-    position->Position.x = 200;
-    position->Position.y = 200;
+    position->Position.x = 50;
+    position->Position.y = 0;
 
     // sprite component
     DrawableComponent * drawable = gameSystems->GetDrawable().CreateComponent(player);
-    drawable->AddSprite(
-            "player-sprite",
-            "player",
-            RenderPriority::Player);
+    drawable->AddShape(
+            "player-shape",
+            *new sf::RectangleShape(sf::Vector2f(16.0f, 17.0f)),
+            RenderPriority::Player,
+            -1);
+    drawable->AddAnimation(
+            "player-animation",
+            "player-walking",
+            RenderPriority::Player,
+            sf::Vector2f(16.0f, 17.0f),
+            6,
+            10);
 
     // gravity component 
     gameSystems->GetSimpleGravity().CreateComponent(
             player, 
-            *position,
-            340.0f);
+            *position);
 
     // collision component
     factories::SetupCollisions(
@@ -43,7 +50,7 @@ void factories::SetupCollisions(
 { 
     gameSystems->GetCollision().CreateComponent(
             player,
-            sf::Vector3f(14.0f, 14.0f, 0),
+            sf::Vector3f(17.0f, 17.0f, 0),
             collisionTypes["player"]);
 
     /* Collision Handlers */

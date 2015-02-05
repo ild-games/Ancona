@@ -7,16 +7,17 @@ ShapeDrawable::ShapeDrawable(
         sf::Shape & shape,
         const RenderPriorityEnum priorty,
         int priorityOffset,
-        sf::Vector2f positionOffset,
-        const std::string key) :
+        sf::Vector2f positionOffset) :
     Drawable(
             positionComponent,
             priorty,
             priorityOffset,
-            positionOffset,
-            key),
+            positionOffset),
     _shape(shape)
 {
+    _shape.setOrigin(
+            _shape.getLocalBounds().width / 2, 
+            _shape.getLocalBounds().height / 2);
 }
 
 void ShapeDrawable::Draw(sf::RenderWindow & window)
