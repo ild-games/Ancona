@@ -14,6 +14,20 @@ namespace ild
 class AnimatedDrawable : public SpriteDrawable
 {
     public:
+        /**
+         * @brief Constructs an AnimatedDrawable
+         *
+         * @param positionComponent PositionComponent for the entity associated with this drawable element.
+         * @param textureKey Key of the texture used for the animation.
+         * @param priority RenderPriority that determines when the drawable obj is rendered.
+         * @param frameDimensions Dimensions of a frame in the animated texture.
+         * @param numFrames Number of frames in the animation.
+         * @param speed Speed of the animation.
+         * @param xGap Gap between frames in the x dimension, defaults to 0.
+         * @param yGap Gap between frames in the y dimension, defaults to 0.
+         * @param priorityOffset Optional offset to the render priority.
+         * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
+         */
         AnimatedDrawable(
                 const PositionComponent & positionComponent, 
                 const std::string textureKey,
