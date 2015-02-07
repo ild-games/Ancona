@@ -14,6 +14,7 @@ void Game::Run()
 {
     sf::Clock clock;
     _window.setFramerateLimit(60);
+    _window.setKeyRepeatEnabled(false);
     while(_window.isOpen() && !_screenManager->Empty())
     {
         sf::Event event;
