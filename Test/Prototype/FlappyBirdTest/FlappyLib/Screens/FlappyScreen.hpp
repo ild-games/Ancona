@@ -53,7 +53,7 @@ class FlappyScreen : public AbstractScreen
         /**
          * @brief Draws the systems on the screen.
          */
-        void Draw();
+        void Draw(float delta);
 
         void RestartGame();
     private:

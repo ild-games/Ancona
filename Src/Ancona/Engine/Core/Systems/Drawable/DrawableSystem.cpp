@@ -18,7 +18,7 @@ void DrawableSystem::Update(float delta)
 {
     for(Drawable * drawable : _renderQueue)
     {
-        drawable->Draw(_window);
+        drawable->Draw(_window, delta);
     }
 }
 

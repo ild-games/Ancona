@@ -41,8 +41,10 @@ class GameScreen : public AbstractScreen
 
         /**
          * @brief Draws the systems on the screen
+         *
+         * @param delta Seconds since last update.
          */
-        void Draw();
+        void Draw(float delta);
     private:
         /**
          * @brief Container for all systems.

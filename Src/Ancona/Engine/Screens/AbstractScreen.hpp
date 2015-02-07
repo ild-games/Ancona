@@ -31,14 +31,16 @@ class AbstractScreen
         /**
          * @brief Handles the update logic on the screen
          *
-         * @param delta time since last update
+         * @param delta Seconds since last update.
          */
         virtual void Update(float delta) = 0;
 
         /**
          * @brief Handles the draw logic on the screen
+         *
+         * @param delta Seconds since last draw.
          */
-        virtual void Draw() = 0;
+        virtual void Draw(float delta) = 0;
 
         /**
          * @brief Code to run while the screen is entering. Defaults to screen transitions.

@@ -61,7 +61,9 @@ class Drawable
          *
          * @param window RenderWindow for the game.
          */
-        virtual void Draw(sf::RenderWindow & window) = 0;
+        virtual void Draw(
+                sf::RenderWindow & window, 
+                float delta) = 0;
 
         /* getters and setters */
         int GetRenderPriority() { return _renderPriority + _priorityOffset; }

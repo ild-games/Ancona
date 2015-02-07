@@ -25,7 +25,7 @@ SpriteDrawable::SpriteDrawable(
     _rotation = 0.0f;
 }
 
-void SpriteDrawable::Draw(sf::RenderWindow & window)
+void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
 {
     sf::Vector2f position = sf::Vector2f(
             _positionComponent.Position.x + _positionOffset.x,

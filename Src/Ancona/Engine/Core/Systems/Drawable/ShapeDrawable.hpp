@@ -37,7 +37,7 @@ class ShapeDrawable : public Drawable
          *
          * @param window Window the shape should be drawn to.
          */
-        void Draw(sf::RenderWindow & window);
+        void Draw(sf::RenderWindow & window, float delta);
 
         /* getters and setters */
         sf::Vector2u GetSize();

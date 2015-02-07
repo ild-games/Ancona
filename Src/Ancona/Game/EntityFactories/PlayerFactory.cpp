@@ -27,7 +27,7 @@ Entity factories::CreatePlayer(
             RenderPriority::Player,
             sf::Vector2f(16.0f, 17.0f),
             6,
-            10);
+            0.1f);
 
     // gravity component 
     gameSystems->GetSimpleGravity().CreateComponent(

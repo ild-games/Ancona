@@ -35,7 +35,7 @@ class LoadingScreen : public AbstractScreen
         /**
          * @brief Draws the default loading bar.
          */
-        virtual void Draw();
+        virtual void Draw(float delta);
 
         /**
          * @brief Used to determine if the screen is still in a state of entering.

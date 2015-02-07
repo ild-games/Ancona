@@ -20,7 +20,7 @@ ShapeDrawable::ShapeDrawable(
             _shape.getLocalBounds().height / 2);
 }
 
-void ShapeDrawable::Draw(sf::RenderWindow & window)
+void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
 {
     sf::Vector2f position = sf::Vector2f(
             _positionComponent.Position.x + _positionOffset.x,

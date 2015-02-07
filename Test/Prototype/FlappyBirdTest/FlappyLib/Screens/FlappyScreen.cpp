@@ -101,7 +101,7 @@ void FlappyScreen::Update(float delta)
     _systems->GetManager().Update(delta,UpdateStep::Input);
 }
 
-void FlappyScreen::Draw()
+void FlappyScreen::Draw(float delta)
 {
     _manager.Window.clear(sf::Color::Blue);
     _systems->GetManager().Update(0,UpdateStep::Draw);
