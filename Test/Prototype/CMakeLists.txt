@@ -3,4 +3,5 @@
 #add_subdirectory(EntityTest)
 #add_subdirectory(InputTest)
 add_subdirectory(FlappyBirdTest)
+add_subdirectory(JumpyDuck)
 #add_subdirectory(CameraMapTest)

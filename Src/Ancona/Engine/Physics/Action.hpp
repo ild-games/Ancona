@@ -25,7 +25,7 @@ class Action
          *
          * @return A reference to the action.
          */
-        Action & Priority(int priority);
+        Action & Priority(int priority) { _priority = priority; }
 
         /**
          * @brief Builder method used to set the duration of the action.
@@ -35,7 +35,7 @@ class Action
          *
          * @return A reference to the action.
          */
-        Action & Duration(float duration);
+        Action & Duration(float duration) { _duration = duration; }
 
         /**
          * Stop any affects that the action has.  Once cancel is called Done will return true.
@@ -43,12 +43,17 @@ class Action
         void Cancel();
 
         /**
+         * @brief Apply the delta to the Action.  This is used to determine when the action should no longer be in effect.
+         */
+        void Update(float delta);
+
+        /**
          * @brief Check to see if an action has run for its entire duration. If an action is done then no other methods can be called
          * on it.
          *
          * @return True if the action is finished.  False otherwise.
          */
-        inline bool Done() { return _duration >= 0 };
+        inline bool Done() { return _duration >= 0; }
 
         inline int GetPriority() 
         { 
@@ -59,15 +64,9 @@ class Action
         { 
             return _duration;
         }
-
-        /**
-         * @brief Used to clean up the _action reference.
-         */
-        virtual ~Action();
     private:
         int _priority;
         float _duration;
-        bool _locked;
 };
 
 }
