@@ -9,16 +9,12 @@ AnimatedDrawable::AnimatedDrawable(
         sf::Vector2f frameDimensions,
         int numFrames,
         float duration,
-        float xGap,
-        float yGap,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     _frameDimensions(frameDimensions),
     _numFrames(numFrames),
     DURATION(duration),
     _timeUntilChange(duration),
-    _xGap(xGap),
-    _yGap(yGap),
     SpriteDrawable(
             positionComponent,
             textureKey,
@@ -28,8 +24,8 @@ AnimatedDrawable::AnimatedDrawable(
 {
     _sprite->setTextureRect(
             sf::IntRect(
-                _xGap, 
-                _yGap, 
+                0,
+                0,
                 _frameDimensions.x, 
                 _frameDimensions.y));
     _sprite->setOrigin(
@@ -57,7 +53,7 @@ void AnimatedDrawable::AdvanceFrame()
     }
     _sprite->setTextureRect(
             sf::IntRect(
-                (_curFrame * _frameDimensions.x) + (_curFrame * _xGap), 
+                _curFrame * _frameDimensions.x,
                 0,
                 _frameDimensions.x, 
                 _frameDimensions.y));

@@ -23,8 +23,6 @@ class AnimatedDrawable : public SpriteDrawable
          * @param frameDimensions Dimensions of a frame in the animated texture.
          * @param numFrames Number of frames in the animation.
          * @param duration Seconds per frame.
-         * @param xGap Gap between frames in the x dimension, defaults to 0.
-         * @param yGap Gap between frames in the y dimension, defaults to 0.
          * @param priorityOffset Optional offset to the render priority.
          * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
          */
@@ -35,8 +33,6 @@ class AnimatedDrawable : public SpriteDrawable
                 sf::Vector2f frameDimensions,
                 int numFrames,
                 float duration,
-                float xGap = 0,
-                float yGap = 0,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
@@ -52,14 +48,6 @@ class AnimatedDrawable : public SpriteDrawable
          * @brief Dimensions of a frame in the animated texture.
          */
         sf::Vector2f _frameDimensions;
-        /**
-         * @brief Gap between frames in the x dimension.
-         */
-        float _xGap;
-        /**
-         * @brief Gap between frames in the y dimension.
-         */
-        float _yGap;
         /**
          * @brief Seconds per frame.
          */

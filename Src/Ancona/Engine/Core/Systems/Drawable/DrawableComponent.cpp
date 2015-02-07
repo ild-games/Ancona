@@ -39,8 +39,6 @@ AnimatedDrawable * DrawableComponent::AddAnimation(
         sf::Vector2f frameDimensions,
         int numFrames,
         float duration,
-        float xGap,
-        float yGap,
         int priorityOffset,
         sf::Vector2f positionOffset)
 {
@@ -51,8 +49,6 @@ AnimatedDrawable * DrawableComponent::AddAnimation(
             frameDimensions,
             numFrames,
             duration,
-            xGap,
-            yGap,
             priorityOffset,
             positionOffset);
     _drawables[key] = animation;

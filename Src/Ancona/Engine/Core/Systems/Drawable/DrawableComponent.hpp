@@ -59,8 +59,6 @@ class DrawableComponent
          * @param frameDimensions Dimensions of a frame in the animated texture.
          * @param numFrames Number of frames in the animation.
          * @param duration Seconds per frame.
-         * @param xGap Gap between frames in the x direction, defaults to 0.
-         * @param yGap Gap between frames in the y direction, defaults to 0.
          * @param priorityOffset offset of priority, defaults to 0.
          * @param positionOffset Offset coordinates against the position of the DrawableComponent, defaults to {0, 0}
          *
@@ -73,8 +71,6 @@ class DrawableComponent
                 sf::Vector2f frameDimensions,
                 int numFrames,
                 float duration,
-                float xGap = 0,
-                float yGap = 0,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
