@@ -1,8 +1,6 @@
 #include <Ancona/Engine/Core/Systems/Drawable/FadeDrawableSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 
-#include <iostream>
-
 using namespace ild;
 
 /* Component */
@@ -18,8 +16,8 @@ FadeDrawableComponent::FadeDrawableComponent(
 
 void FadeDrawableComponent::Update(float delta)
 {
-    std::vector<Drawable *> drawables = _drawableComponent.GetDrawables();
-    for(Drawable * drawable : drawables)
+    std::vector<std::shared_ptr<Drawable> > drawables = _drawableComponent.GetDrawables();
+    for(std::shared_ptr<Drawable> drawable : drawables)
     {
         int alpha = drawable->GetAlpha();
         if(_fadeIn)

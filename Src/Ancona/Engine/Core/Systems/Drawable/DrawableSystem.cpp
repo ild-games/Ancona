@@ -16,26 +16,26 @@ DrawableSystem::DrawableSystem(
 
 void DrawableSystem::Update(float delta)
 {
-    for(Drawable * drawable : _renderQueue)
+    for(std::shared_ptr<Drawable> drawable : _renderQueue)
     {
         drawable->Draw(_window, delta);
     }
 }
 
-void DrawableSystem::AddDrawable(Drawable * drawable)
+void DrawableSystem::AddDrawable(std::shared_ptr<Drawable> drawable)
 {
     _renderQueue.push_back(drawable);
     std::sort(
             _renderQueue.begin(), 
             _renderQueue.end(), 
-            [](Drawable * lhs, Drawable * rhs)
+            [](std::shared_ptr<Drawable> lhs, std::shared_ptr<Drawable> rhs)
             {
                 return (lhs->GetRenderPriority()) <
                        (rhs->GetRenderPriority());
             });
 }
 
-void DrawableSystem::RemoveDrawable(Drawable * drawable)
+void DrawableSystem::RemoveDrawable(std::shared_ptr<Drawable> drawable)
 {
     _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
 }
@@ -51,8 +51,8 @@ DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
 
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
-    std::vector<Drawable *> compDrawables = component->GetDrawables();
-    for(Drawable * drawable : compDrawables)
+    std::vector<std::shared_ptr<Drawable> > compDrawables = component->GetDrawables();
+    for(std::shared_ptr<Drawable> drawable : compDrawables)
     {
         _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
     }

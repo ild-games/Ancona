@@ -1,6 +1,8 @@
 #ifndef Ancona_Engine_Core_Systems_Drawable_DrawableComponet_H_
 #define Ancona_Engine_Core_Systems_Drawable_DrawableComponet_H_
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
@@ -43,7 +45,7 @@ class DrawableComponent
          *
          * @returns Pointer to the sprite element.
          */
-        SpriteDrawable * AddSprite(
+        std::shared_ptr<SpriteDrawable> AddSprite(
                 const std::string key,
                 const std::string textureKey,
                 const RenderPriorityEnum priority,
@@ -59,22 +61,18 @@ class DrawableComponent
          * @param frameDimensions Dimensions of a frame in the animated texture.
          * @param numFrames Number of frames in the animation.
          * @param duration Seconds per frame.
-         * @param xGap Gap between frames in the x direction, defaults to 0.
-         * @param yGap Gap between frames in the y direction, defaults to 0.
          * @param priorityOffset offset of priority, defaults to 0.
          * @param positionOffset Offset coordinates against the position of the DrawableComponent, defaults to {0, 0}
          *
          * @returns Pointer to the sprite element.
          */
-        AnimatedDrawable * AddAnimation(
+        std::shared_ptr<AnimatedDrawable> AddAnimation(
                 const std::string key,
                 const std::string textureKey,
                 const RenderPriorityEnum priority,
                 sf::Vector2f frameDimensions,
                 int numFrames,
                 float duration,
-                float xGap = 0,
-                float yGap = 0,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
@@ -93,7 +91,7 @@ class DrawableComponent
          *
          * @returns Pointer to the text element.
          */
-        TextDrawable * AddText(
+        std::shared_ptr<TextDrawable> AddText(
                 const std::string key,
                 const std::string text,
                 const std::string fontKey,
@@ -115,7 +113,7 @@ class DrawableComponent
          *
          * @returns Pointer to the shape element.
          */
-        ShapeDrawable * AddShape(
+        std::shared_ptr<ShapeDrawable> AddShape(
                 const std::string key,
                 sf::Shape & shape,
                 const RenderPriorityEnum priority,
@@ -131,14 +129,14 @@ class DrawableComponent
 
 
         /* getters and setters */
-        std::vector<Drawable *> GetDrawables();
-        Drawable * GetDrawable(std::string key) { return _drawables[key]; }
-        template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key]); }
+        std::vector<std::shared_ptr<Drawable>> GetDrawables();
+        std::shared_ptr<Drawable> GetDrawable(std::string key) { return _drawables[key]; }
+        template <class T> std::shared_ptr<T> GetDrawable(std::string key) { return std::static_pointer_cast<T>(_drawables[key]); }
     private:
         /**
          * @brief Holds all the drawables the component controls.
          */
-        std::map<std::string, Drawable *> _drawables;
+        std::map<std::string, std::shared_ptr<Drawable>> _drawables;
         /**
          * @brief DrawableSystem for the screen.
          */

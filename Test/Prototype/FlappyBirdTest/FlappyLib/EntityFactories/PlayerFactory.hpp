@@ -2,6 +2,7 @@
 #define Test_Prototype_FlappyBirdTest_EntityFactories_PlayerFactory_H_
 
 #include <map>
+#include <memory>
 #include <string>
 
 #include "../Systems/FlappyGameSystems.hpp"

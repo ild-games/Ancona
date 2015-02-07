@@ -1,6 +1,8 @@
 #ifndef Ancona_Engine_Core_Systems_Drawable_FadeDrawableSystem_H_
 #define Ancona_Engine_Core_Systems_Drawable_FadeDrawableSystem_H_
 
+#include <memory>
+
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 
