@@ -9,7 +9,7 @@ namespace ild
 class SystemManager;
 class PositionSystem;
 class InputControlSystem;
-class SpriteSystem;
+class DrawableSystem;
 
 class TestScreen : public AbstractScreen
 {
@@ -25,7 +25,7 @@ class TestScreen : public AbstractScreen
         SystemManager * _systemManager;
         PositionSystem  * _positionSystem;
         InputControlSystem * _inputSystem;
-        SpriteSystem * _spriteSystem;
+        DrawableSystem * _drawableSystem;
         Entity _player;
 };
 

@@ -1,26 +1,15 @@
 #include "FlappyKeyboard.hpp"
 
-#include "../Systems/FlappyInputComponent.hpp"
-
 #include <Ancona/Engine/InputDevices/Keyboard.hpp>
-#include <Ancona/Engine/Resource/RequestList.hpp>
-
-#include <SFML/Window.hpp>
+#include "../Systems/FlappyInputComponent.hpp"
 
 using namespace ild;
 
-FlappyKeyboard::FlappyKeyboard(ScreenManager & screenManager)
-    : _machine(FlappyStates::Count), 
-      _curState(FlappyStates::InAir), 
-      _screenManager(screenManager)
+FlappyKeyboard::FlappyKeyboard(
+        ScreenManager & screenManager, 
+        MachineState initialState) :
+    FlappyInputHandler(screenManager, initialState)
 {
-    _machine.SetAction(FlappyStates::InAir, &FlappyKeyboard::InAirInput);
-    _machine.SetAction(FlappyStates::OnGround, &FlappyKeyboard::OnGroundInput);
-}
-
-void FlappyKeyboard::HandleInput()
-{
-    _machine.Update(*this, _curState); 
 }
 
 void FlappyKeyboard::InAirInput(MachineState & curState)
@@ -36,36 +25,28 @@ void FlappyKeyboard::OnGroundInput(MachineState & curState)
     if(Keyboard::IsKeyPressed(sf::Keyboard::Key::Space))
     {
         _screenManager.Replace(
-                new FlappyScreen(_screenManager));
+                new FlappyScreen(
+                    _screenManager, 
+                    new FlappyKeyboard(_screenManager, FlappyStates::InAir),
+                    false));
     }
 }
 
-void FlappyKeyboard::RegisterInputComponent(
-        FlappyInputComponent * component)
+void FlappyKeyboard::GameIntroInput(MachineState & curState)
 {
-    _component = component;
-}
-
-void FlappyKeyboard::ChangeState(const MachineState & newState)
-{
-    if(AllowedTransition(newState)) 
+    if(_gameSystems->GetPosition()[_player]->Position.y > 230)
     {
-        _curState = newState;
+        _component->Jump();
     }
-}
-
-bool FlappyKeyboard::AllowedTransition(const MachineState & newState)
-{
-    switch(_curState)
+    if(Keyboard::IsKeyPressed(sf::Keyboard::Key::Space))
     {
-        case FlappyStates::InAir:
-            return InAirTransitionCheck(newState);
-            break;
+        _component->Jump();
+        _gameSystems->GetPipeSpawner()[_pipeSpawner]->SetStopSpawning(false);
+        _gameSystems->GetFadeDrawable().CreateComponent(
+                _getReady,
+                *_gameSystems->GetDrawable()[_getReady],
+                false);
+                
+        ChangeState(FlappyStates::InAir);
     }
-    return false;
-}
-
-bool FlappyKeyboard::InAirTransitionCheck(const MachineState & newState)
-{
-    return newState == FlappyStates::OnGround;
 }

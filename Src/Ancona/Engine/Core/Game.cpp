@@ -14,6 +14,7 @@ void Game::Run()
 {
     sf::Clock clock;
     _window.setFramerateLimit(60);
+    _window.setKeyRepeatEnabled(false);
     while(_window.isOpen() && !_screenManager->Empty())
     {
         sf::Event event;
@@ -36,10 +37,11 @@ void Game::Run()
         }
 
         sf::Time elapsed = clock.restart();
-        _screenManager->Update(elapsed.asSeconds());
+        float delta = elapsed.asSeconds();
+        _screenManager->Update(delta);
             
         _window.clear(sf::Color::Black);
-        _screenManager->Draw();
+        _screenManager->Draw(delta);
         _window.display();
     }
 }

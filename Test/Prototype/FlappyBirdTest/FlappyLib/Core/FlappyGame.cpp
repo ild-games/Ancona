@@ -5,6 +5,7 @@
 #include <Ancona/Game/Core/AnconaGame.hpp>
 
 #include "../Screens/FlappyScreen.hpp"
+#include "../InputDevices/FlappyTouch.hpp"
 #include "FlappyGame.hpp"
 #include <iostream>
 
@@ -13,8 +14,10 @@ using namespace ild;
 FlappyGame::FlappyGame(
         int windowWidth, 
         int windowHeight, 
-        const std::string & title)
-    : Game(windowWidth,windowHeight, title)
+        const std::string & title,
+        FactoryBase * platformFactory) : 
+    Game(windowWidth,windowHeight, title),
+    _platformFactory(platformFactory)
 {
     sf::View view = _window.getView();
     view.zoom(.5f);
@@ -35,10 +38,12 @@ void FlappyGame::CreateInitialScreen()
     _requestList->Add("TexturePNG","flappy-bg2");
     _requestList->Add("TexturePNG","flappy-fg");
     _requestList->Add("TexturePNG","col-point");
-    _requestList->Add("FontTTF","small_pixel-7");
+    _requestList->Add("TexturePNG","get-ready");
+    _requestList->Add("FontTTF","dimitri-plain");
+    _requestList->Add("FontTTF","dimitri-border");
     _requestList->Start();
     _screenManager->Push(
-            new FlappyScreen(*_screenManager));
+            new FlappyScreen(*_screenManager, _platformFactory->GetInputHandler(*_screenManager)));
     _screenManager->Push(
             new LoadingScreen(*_screenManager, *_requestList));
 }

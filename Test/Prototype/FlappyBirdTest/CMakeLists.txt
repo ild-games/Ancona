@@ -6,17 +6,23 @@ set(PrototypeGameLib FlappyBirdLib)
 set(PrototypeName FlappyBirdTest)
 
 if(ANDROID)
-    set(FlappyMain Platforms/Android/main.cpp)
+    set(FlappySrc 
+        Platforms/Android/main.cpp 
+        Platforms/Android/AndroidFactory.cpp 
+        Platforms/Android/AndroidFactory.hpp)
 endif(ANDROID)
 
 if(DESKTOP)
-    set(FlappyMain Platforms/Desktop/main.cpp)
+    set(FlappySrc 
+        Platforms/Desktop/main.cpp
+        Platforms/Desktop/DesktopFactory.cpp
+        Platforms/Desktop/DesktopFactory.hpp)
 endif(DESKTOP)
 
 add_library(${PrototypeGameLib} ${SOURCE} ${HEADERS})
 
 ancona_add_target(${PrototypeName} LINK_SFML
-    SRC ${FlappyMain}
+    SRC ${FlappySrc}
     STATIC_LIBS  FlappyBirdLib ${Ancona_Libs}
     PLATFORMS ANDROID DESKTOP
     INCLUDES ${CMAKE_CURRENT_LIST_DIR}/FlappyLib)

@@ -1,7 +1,7 @@
 #ifndef Test_Prototype_FlappyBirdTest_Systems_PipeSpawnerComponent_H_
 #define Test_Prototype_FlappyBirdTest_Systems_PipeSpawnerComponent_H_
 
-#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
@@ -26,7 +26,7 @@ class PipeSpawnerComponent
          * @param ...
          */
         PipeSpawnerComponent(
-                SpriteSystem & spriteSystem,
+                DrawableSystem & drawableSystem,
                 PositionSystem & positionSystem,
                 CollisionSystem & collisionSystem,
                 SystemManager & systemManager,
@@ -50,11 +50,14 @@ class PipeSpawnerComponent
          */
         void DespawnPoint(Entity point);
 
+        /* getters and setters */
+        void SetStopSpawning(bool stopSpawning);
+
     private:
         /**
-         * @brief System used to create the sprite components for the spawned pipes.
+         * @brief System used to create the drawable components for the spawned pipes.
          */
-        SpriteSystem & _spriteSystem;
+        DrawableSystem & _drawableSystem;
 
         /**
          * @brief System used to create the position components for the spawned pipes.
@@ -120,7 +123,7 @@ class PipeSpawnerComponent
         /**
          * @brief Minimum y coordinate the bottom pipe can spawn at.
          */
-        int const MIN_Y_BOTTOM_PIPE = 275;
+        int const MIN_Y_BOTTOM_PIPE = 295;
 
         /**
          * @brief Maximum y coordinate the bottom pipe can spawn at.

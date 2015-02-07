@@ -18,10 +18,10 @@ void FlappyRotateSystem::Update(float delta)
 
 FlappyRotateComponent * FlappyRotateSystem::CreateComponent(
         const Entity & entity,
-        SpriteComponent & spriteComponent,
+        DrawableComponent & drawableComponent,
         PositionComponent & positionComponent)
 {
-    auto comp = new FlappyRotateComponent(spriteComponent, positionComponent);
+    auto comp = new FlappyRotateComponent(drawableComponent, positionComponent);
     AttachComponent(entity, comp);
     return comp;
 }

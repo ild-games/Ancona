@@ -3,14 +3,8 @@
 
 #include <map>
 
-#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
-#include <Ancona/Engine/EntityFramework/Entity.hpp>
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Screens/AbstractScreen.hpp>
+#include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Game/Systems/GameSystems.hpp>
 
 namespace ild
@@ -32,9 +26,9 @@ class GameScreen : public AbstractScreen
         GameScreen(ScreenManager & manager);
 
         /**
-         * @brief Updates the entity systems on the screen 
+         * @brief Updates the entity systems on the screen.
          *
-         * @param delta seconds since last update
+         * @param delta seconds since last update.
          */
         void Update(float delta);
 
@@ -54,17 +48,10 @@ class GameScreen : public AbstractScreen
          * @brief Container for all systems.
          */
         GameSystems * _systems;
-
         /**
-         * @brief Entity for the player
+         * @brief Holds references to entities that need to be access
          */
-        Entity _player;
-
-        /**
-         * @brief Entity for the ground
-         */
-        Entity _ground;
-
+        std::map<std::string, Entity> _entities;
         /**
          * @brief Map containing all the collision types for the screen.
          */

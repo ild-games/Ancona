@@ -6,22 +6,23 @@ using namespace ild;
 #include <random>
 
 PipeSpawnerComponent::PipeSpawnerComponent(
-        SpriteSystem & spriteSystem,
+        DrawableSystem & drawableSystem,
         PositionSystem & positionSystem,
         CollisionSystem & collisionSystem,
         SystemManager & systemManager,
         CollisionType pipeColType,
-        CollisionType pointColType)
-    : _spriteSystem(spriteSystem), 
-      _positionSystem(positionSystem),
-      _collisionSystem(collisionSystem),
-      _systemManager(systemManager),
-      _randDistribution(MIN_Y_BOTTOM_PIPE, MAX_Y_BOTTOM_PIPE),
-      _pipeColType(pipeColType),
-      _pointColType(pointColType)
+        CollisionType pointColType) : 
+    _drawableSystem(drawableSystem), 
+    _positionSystem(positionSystem),
+    _collisionSystem(collisionSystem),
+    _systemManager(systemManager),
+    _mtEngine(time(NULL)),
+    _randDistribution(MIN_Y_BOTTOM_PIPE, MAX_Y_BOTTOM_PIPE),
+    _pipeColType(pipeColType),
+    _pointColType(pointColType),
+    _stopSpawning(true)
 {
     _clock = new sf::Clock();
-    _stopSpawning = false;
 }
 
 void PipeSpawnerComponent::Update()
@@ -67,7 +68,7 @@ void PipeSpawnerComponent::SpawnPipePair()
             PickBottomPipeY(), 
             false);
     int topPipeY = _positionSystem[bottomPipe]->Position.y - 
-        _spriteSystem[bottomPipe]->GetSprite()->getTexture()->getSize().y - 
+        _drawableSystem[bottomPipe]->GetDrawable("pipe-sprite")->GetSize().y - 
         GAP_HEIGHT;
     Entity topPipe = CreatePipe(
             X_PIPE, 
@@ -92,14 +93,19 @@ void PipeSpawnerComponent::DespawnPoint(Entity point)
     _points.erase(std::remove(_points.begin(), _points.end(), point), _points.end());
 }
 
-Entity PipeSpawnerComponent::CreatePipe(float x, float y, bool topPipe)
+Entity PipeSpawnerComponent::CreatePipe(float x, float y, bool isTopPipe)
 {
     Entity pipe = _systemManager.CreateEntity();     
     PositionComponent * pos = _positionSystem.CreateComponent(pipe);
     pos->Position.x = x;
     pos->Position.y = y;
     pos->Velocity.x = PIPE_SPEED;
-    SpriteComponent * spriteComp = _spriteSystem.CreateComponent(pipe, SpriteToUse(topPipe), RenderPriority::Player, -2);
+    DrawableComponent * drawable = _drawableSystem.CreateComponent(pipe);
+    drawable->AddSprite(
+            "pipe-sprite",
+            SpriteToUse(isTopPipe),
+            RenderPriority::Player,
+            -2);
     _collisionSystem.CreateComponent(pipe, sf::Vector3f(24.0f, 200.0f, 0),_pipeColType);
     _currentPipes.push_back(pipe);
 
@@ -112,16 +118,16 @@ void PipeSpawnerComponent::CreatePoint(Entity bottomPipe)
     PositionComponent * pos = _positionSystem.CreateComponent(point);
     pos->Position.x = X_PIPE + 10;
     pos->Position.y = _positionSystem[bottomPipe]->Position.y - 
-        (_spriteSystem[bottomPipe]->GetSprite()->getTexture()->getSize().y / 2) - 
+        (_drawableSystem[bottomPipe]->GetDrawable("pipe-sprite")->GetSize().y / 2) - 
         (GAP_HEIGHT / 2); 
     pos->Velocity.x = PIPE_SPEED;
     _collisionSystem.CreateComponent(point, sf::Vector3f(10.0f, GAP_HEIGHT, 0), _pointColType);
     _points.push_back(point);
 }
 
-std::string PipeSpawnerComponent::SpriteToUse(bool topPipe)
+std::string PipeSpawnerComponent::SpriteToUse(bool isTopPipe)
 {
-    if(topPipe)
+    if(isTopPipe)
     {
         return "flappy-top-pipe";
     } 
@@ -134,4 +140,10 @@ std::string PipeSpawnerComponent::SpriteToUse(bool topPipe)
 float PipeSpawnerComponent::PickBottomPipeY()
 {
     return _randDistribution(_mtEngine);
+}
+
+void PipeSpawnerComponent::SetStopSpawning(bool stopSpawning)
+{
+    _stopSpawning = stopSpawning;
+    _clock->restart();
 }

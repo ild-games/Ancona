@@ -16,11 +16,11 @@ GameScreen::GameScreen(ScreenManager & manager)
 
 void GameScreen::Init()
 {
-    _player = factories::CreatePlayer(
+    _entities["player"] = factories::CreatePlayer(
             _systems,
             _collisionTypes);
 
-    factories::CreateGround(
+    _entities["ground"] = factories::CreateGround(
             _systems,
             _collisionTypes);
 }

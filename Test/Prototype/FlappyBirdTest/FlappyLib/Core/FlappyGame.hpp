@@ -4,6 +4,8 @@
 #include <Ancona/Engine/Core/Game.hpp>
 #include <Ancona/Game/Core/AnconaGame.hpp>
 #include <Ancona/Engine/Resource/RequestList.hpp>
+#include "../InputDevices/FlappyInputHandler.hpp"
+#include "FactoryBase.hpp"
 
 namespace ild
 {
@@ -14,19 +16,30 @@ class FlappyGame : public Game
         /**
          * @brief see ild.Game
          */
-        FlappyGame(int windowWidth, int windowHeight, const std::string & title);
+        FlappyGame(
+                int windowWidth, 
+                int windowHeight, 
+                const std::string & title,
+                FactoryBase * platformFactory);
 
     protected:
         /**
          * @brief see ild.Game.CreateInitialScreen
+         *
+         * @param inputHandler InputHandler used for game
          */
-        virtual void CreateInitialScreen();
+        void CreateInitialScreen();
 
     private:
         /**
          * @brief Initial RequestList for the game.
          */
         RequestList * _requestList;
+
+        /**
+         * @brief Factory for all platform dependent objs.
+         */
+        FactoryBase * _platformFactory;
 };
 
 }

@@ -10,7 +10,7 @@
 #include <android/window.h>
 
 #include <SFML/System.hpp>
-
+#include "AndroidFactory.hpp"
 
 using namespace ild;
 
@@ -51,6 +51,6 @@ int main(int argc, char ** argv)
 
 
     Config::Load(configStream);
-    FlappyGame game(270, 480, "Flappy Bird");
+    FlappyGame game(270, 480, "Flappy Bird", new AndroidFactory());
     game.Run();
 }

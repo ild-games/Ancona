@@ -2,6 +2,8 @@
 #include <Ancona/Engine/Screens/AbstractScreen.hpp>
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
 using namespace ild;
 
 ScreenManager::ScreenManager(sf::RenderWindow & window)
@@ -12,18 +14,18 @@ ScreenManager::ScreenManager(sf::RenderWindow & window)
 void ScreenManager::Push(AbstractScreen * screen)
 {
     _screens.push(screen);
+    screen->__Entering = true;
 }
 
 void ScreenManager::Pop()
 {
-    delete _screens.top();
-    _screens.pop();
+    _screens.top()->__Exiting = true;
 }
 
 void ScreenManager::Replace(AbstractScreen * screen)
 {
     Pop();
-    Push(screen);
+    _replacementScreen = screen;
 }
 
 void ScreenManager::Update(float delta)
@@ -40,15 +42,43 @@ void ScreenManager::Update(float delta)
     }
 }
 
-void ScreenManager::Draw()
+void ScreenManager::Draw(float delta)
 {
     if(!Empty())
     {
         _screens.top()->Draw();
+
+        // Entering and exiting code is run after the screen is draw,
+        // this is so drawing done at these steps (such as transitions)
+        // can be drawn over all other elements.
+        if(_screens.top()->__Entering)
+        {
+            _screens.top()->Entering(delta);
+        }
+        else if(_screens.top()->__Exiting)
+        {
+            _screens.top()->Exiting(delta);
+            // if done exiting, remove the screen
+            if(!_screens.top()->__Exiting)
+            {
+                RemoveScreen();
+            }
+        }
     }
 }
 
 bool ScreenManager::Empty()
 {
     return _screens.empty();
+}
+
+void ScreenManager::RemoveScreen()
+{
+    delete _screens.top();
+    _screens.pop();
+    if(_replacementScreen != nullptr)
+    {
+        Push(_replacementScreen);
+        _replacementScreen = nullptr;
+    }
 }

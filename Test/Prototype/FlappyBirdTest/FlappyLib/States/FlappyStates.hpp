@@ -8,7 +8,8 @@ namespace ild
 
 StateType(FlappyStates)
     InAir,
-    OnGround
+    OnGround,
+    GameIntro
 EndStateType
 
 }

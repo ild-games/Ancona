@@ -56,9 +56,11 @@ class ScreenManager
         void Update(float delta);
 
         /**
-         * @brief Renders the current screen
+         * @brief Renders the current screen.
+         *
+         * @param delta time since last Draw.
          */
-        void Draw();
+        void Draw(float delta);
 
         /**
          * @brief  Checks if the screen manager has any screens
@@ -79,6 +81,15 @@ class ScreenManager
          * @brief The current screens being managed, in the order they were added
          */
         std::stack<AbstractScreen *> _screens;
+        /**
+         * @brief Screen that will be replacing the current screen after the exiting function has finished.
+         */
+        AbstractScreen * _replacementScreen = nullptr;
+
+        /**
+         * @brief called when the screen has been popped and the exit code has finished.
+         */
+        void RemoveScreen();
 
 };
 

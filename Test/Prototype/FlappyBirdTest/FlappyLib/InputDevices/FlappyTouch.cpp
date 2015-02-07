@@ -1,25 +1,18 @@
 #include "FlappyTouch.hpp"
-#include "../Systems/FlappyInputComponent.hpp"
 
-#include <SFML/Window.hpp>
+#include <Ancona/Engine/InputDevices/Keyboard.hpp>
+#include "../Systems/FlappyInputComponent.hpp"
 
 using namespace ild;
 
 
-FlappyTouch::FlappyTouch(ScreenManager & screenManager)
-    : _machine(FlappyStates::Count), 
-      _curState(FlappyStates::InAir), 
-      _screenManager(screenManager)
+FlappyTouch::FlappyTouch(
+        ScreenManager & screenManager,
+        MachineState initialState) : 
+    FlappyInputHandler(screenManager, initialState)
 {
-    _machine.SetAction(FlappyStates::InAir, &FlappyTouch::InAirInput);
-    _machine.SetAction(FlappyStates::OnGround, &FlappyTouch::OnGroundInput);
 }
 
-
-void FlappyTouch::HandleInput()
-{
-    _machine.Update(*this, _curState);
-}
 
 void FlappyTouch::InAirInput(MachineState & curState)
 {
@@ -33,35 +26,29 @@ void FlappyTouch::OnGroundInput(MachineState & curState)
 {
     if(sf::Touch::isDown(0))
     {
-        _screenManager.Replace(new FlappyScreen(_screenManager));
+        _screenManager.Replace(
+                new FlappyScreen(
+                    _screenManager, 
+                    new FlappyTouch(_screenManager, FlappyStates::InAir),
+                    false));
     }
 }
 
-void FlappyTouch::RegisterInputComponent(FlappyInputComponent * component)
+void FlappyTouch::GameIntroInput(MachineState & curState)
 {
-    _component = component;
-}
-
-void FlappyTouch::ChangeState(const MachineState & newState)
-{
-    if(AllowedTransition(newState)) 
+    if(_gameSystems->GetPosition()[_player]->Position.y > 230)
     {
-        _curState = newState;
+        _component->Jump();
     }
-}
-
-bool FlappyTouch::AllowedTransition(const MachineState & newState)
-{
-    switch(_curState)
+    if(sf::Touch::isDown(0))
     {
-        case FlappyStates::InAir:
-            return InAirTransitionCheck(newState);
-            break;
+        _component->Jump();
+        _gameSystems->GetPipeSpawner()[_pipeSpawner]->SetStopSpawning(false);
+        _gameSystems->GetFadeDrawable().CreateComponent(
+                _getReady,
+                *_gameSystems->GetDrawable()[_getReady],
+                false);
+                
+        ChangeState(FlappyStates::InAir);
     }
-    return false;
-}
-
-bool FlappyTouch::InAirTransitionCheck(const MachineState & newState)
-{
-    return newState == FlappyStates::OnGround;
 }

@@ -18,7 +18,7 @@ void PipeSpawnerSystem::Update(float delta)
 
 PipeSpawnerComponent * PipeSpawnerSystem::CreateComponent(
         const Entity & entity,
-        SpriteSystem & spriteSystem,
+        DrawableSystem & drawableSystem,
         PositionSystem & positionSystem,
         CollisionSystem & collisionSystem,
         SystemManager & systemManager,
@@ -26,7 +26,7 @@ PipeSpawnerComponent * PipeSpawnerSystem::CreateComponent(
         CollisionType pointColType)
 {
     auto comp = new PipeSpawnerComponent(
-            spriteSystem, 
+            drawableSystem, 
             positionSystem, 
             collisionSystem,
             systemManager, 

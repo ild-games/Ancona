@@ -5,7 +5,7 @@
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/SpriteSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
 #include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
@@ -33,7 +33,7 @@ class GameSystems
         /* getters and setters */
         SystemManager & GetManager() { return *_manager; }
         PositionSystem & GetPosition() { return *_position; } 
-        SpriteSystem & GetSprite() { return *_sprite; } 
+        DrawableSystem & GetDrawable() { return *_drawable; } 
         InputControlSystem & GetInput() { return *_input; } 
         SimpleGravitySystem & GetSimpleGravity() { return *_gravity; } 
         CollisionSystem & GetCollision() { return *_collision; } 
@@ -43,27 +43,22 @@ class GameSystems
          * @brief Manages all the entity systems on the screen.
          */
         SystemManager * _manager;
-
         /**
          * @brief System for managing an entity's position
          */
         PositionSystem * _position;
-
         /**
          * @brief System for managing an entity's sprites
          */
-        SpriteSystem * _sprite;
-
+        DrawableSystem * _drawable;
         /**
          * @brief System for managing an entity's input
          */
         InputControlSystem * _input; 
-
         /**
          * @brief System for managing gravity components.
          */
         SimpleGravitySystem * _gravity;
-
         /**
          * @brief System for managing collision components.
          */

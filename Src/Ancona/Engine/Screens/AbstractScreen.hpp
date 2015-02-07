@@ -39,6 +39,20 @@ class AbstractScreen
          * @brief Handles the draw logic on the screen
          */
         virtual void Draw() = 0;
+
+        /**
+         * @brief Code to run while the screen is entering. Defaults to screen transitions.
+         *
+         * @param delta time since last update.
+         */
+        virtual void Entering(float delta);
+
+        /**
+         * @brief Code to run while the screen is exiting. Defaults to screen transitions.
+         *
+         * @param delta time since last update.
+         */
+        virtual void Exiting(float delta);
         
         /**
          * @brief Used by the ScreenManager to call the Init
@@ -46,11 +60,37 @@ class AbstractScreen
          */
         bool __Initialized;
 
+        /**
+         * @brief Used to determine if the screen is still in a state of entering.
+         */
+        bool __Entering;
+
+        /**
+         * @brief Used to determine if the screen is still in a state of exiting.
+         */
+        bool __Exiting;
+
     protected:
         /**
          * @brief Manages all the screens in the game
          */
         ScreenManager & _manager;
+
+        /**
+         * @brief Color of the default transition.
+         */
+        sf::Color _transitionColor;
+
+        /**
+         * @brief Rectangle used to create the default transition.
+         */
+        sf::RectangleShape _transitionRect;
+
+        /**
+         * @brief Speed the default transition happens at.
+         */
+        float TRANSITION_SPEED = 650.0f;
+
 };
 
 }

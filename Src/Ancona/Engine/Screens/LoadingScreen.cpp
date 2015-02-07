@@ -35,3 +35,12 @@ void LoadingScreen::Draw()
     _manager.Window.draw(outerBar);
 }
 
+void LoadingScreen::Entering(float delta)
+{
+    __Entering = false;
+}
+
+void LoadingScreen::Exiting(float delta)
+{
+    __Exiting = false;
+}
