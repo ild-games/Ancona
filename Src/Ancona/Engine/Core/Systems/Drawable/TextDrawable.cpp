@@ -31,7 +31,7 @@ TextDrawable::TextDrawable(
     CenterOrigin();
 }
 
-void TextDrawable::Draw(sf::RenderWindow & window)
+void TextDrawable::Draw(sf::RenderWindow & window, float delta)
 {
     sf::Vector2f position = sf::Vector2f(
             _positionComponent.Position.x + _positionOffset.x,

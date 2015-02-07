@@ -19,7 +19,7 @@ void LoadingScreen::Update(float delta)
     }
 }
 
-void LoadingScreen::Draw()
+void LoadingScreen::Draw(float delta)
 {
     _manager.Window.clear(sf::Color::White);
     sf::RectangleShape outerBar(sf::Vector2f(750, 30));

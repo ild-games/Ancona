@@ -43,7 +43,7 @@ class TextDrawable : public Drawable
          *
          * @param window
          */
-        void Draw(sf::RenderWindow & window);
+        void Draw(sf::RenderWindow & window, float delta);
 
         /* getters and setters */
         std::string GetText() { return _text->getString(); }

@@ -22,7 +22,7 @@ class AnimatedDrawable : public SpriteDrawable
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param frameDimensions Dimensions of a frame in the animated texture.
          * @param numFrames Number of frames in the animation.
-         * @param speed Speed of the animation.
+         * @param duration Seconds per frame.
          * @param xGap Gap between frames in the x dimension, defaults to 0.
          * @param yGap Gap between frames in the y dimension, defaults to 0.
          * @param priorityOffset Optional offset to the render priority.
@@ -34,7 +34,7 @@ class AnimatedDrawable : public SpriteDrawable
                 const RenderPriorityEnum priority,
                 sf::Vector2f frameDimensions,
                 int numFrames,
-                int speed,
+                float duration,
                 float xGap = 0,
                 float yGap = 0,
                 int priorityOffset = 0,
@@ -45,7 +45,7 @@ class AnimatedDrawable : public SpriteDrawable
          *
          * @param window RenderWindow for the game.
          */
-        void Draw(sf::RenderWindow & window);
+        void Draw(sf::RenderWindow & window, float delta);
 
     private:
         /**
@@ -61,13 +61,13 @@ class AnimatedDrawable : public SpriteDrawable
          */
         float _yGap;
         /**
-         * @brief Frames an animation is shown.
+         * @brief Seconds per frame.
          */
-        int _speed;
+        const float DURATION;
         /**
-         * @brief Original amount of frames to show the animation for.
+         * @brief time until the frame changes.
          */
-        const int SPEED_CAP;
+        float _timeUntilChange;
         /**
          * @brief Number of frames in the animation.
          */

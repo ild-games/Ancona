@@ -8,15 +8,15 @@ AnimatedDrawable::AnimatedDrawable(
         const RenderPriorityEnum priority,
         sf::Vector2f frameDimensions,
         int numFrames,
-        int speed,
+        float duration,
         float xGap,
         float yGap,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     _frameDimensions(frameDimensions),
     _numFrames(numFrames),
-    SPEED_CAP(numFrames),
-    _speed(speed),
+    DURATION(duration),
+    _timeUntilChange(duration),
     _xGap(xGap),
     _yGap(yGap),
     SpriteDrawable(
@@ -37,15 +37,15 @@ AnimatedDrawable::AnimatedDrawable(
             _frameDimensions.y / 2);
 }
 
-void AnimatedDrawable::Draw(sf::RenderWindow & window)
+void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
 {
-    _speed--;
-    if(_speed == 0) 
+    _timeUntilChange -= delta;
+    if(_timeUntilChange <= 0) 
     {
-        _speed = SPEED_CAP;
+        _timeUntilChange += DURATION;
         AdvanceFrame();
     }
-    SpriteDrawable::Draw(window);
+    SpriteDrawable::Draw(window, delta);
 }
 
 void AnimatedDrawable::AdvanceFrame()

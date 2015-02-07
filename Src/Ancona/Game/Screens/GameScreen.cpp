@@ -31,9 +31,9 @@ void GameScreen::Update(float delta)
     _systems->GetManager().Update(delta, UpdateStep::Input);
 }
 
-void GameScreen::Draw()
+void GameScreen::Draw(float delta)
 {
     _manager.Window.clear(sf::Color::Blue);
-    _systems->GetManager().Update(0, UpdateStep::Draw);
+    _systems->GetManager().Update(delta, UpdateStep::Draw);
 }
 

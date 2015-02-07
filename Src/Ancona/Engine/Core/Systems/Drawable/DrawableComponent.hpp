@@ -58,7 +58,7 @@ class DrawableComponent
          * @param priority RenderPriority that handles when the sprite is drawn.
          * @param frameDimensions Dimensions of a frame in the animated texture.
          * @param numFrames Number of frames in the animation.
-         * @param speed Speed at which the sprite is animated.
+         * @param duration Seconds per frame.
          * @param xGap Gap between frames in the x direction, defaults to 0.
          * @param yGap Gap between frames in the y direction, defaults to 0.
          * @param priorityOffset offset of priority, defaults to 0.
@@ -72,7 +72,7 @@ class DrawableComponent
                 const RenderPriorityEnum priority,
                 sf::Vector2f frameDimensions,
                 int numFrames,
-                int speed,
+                float duration,
                 float xGap = 0,
                 float yGap = 0,
                 int priorityOffset = 0,
