@@ -1,6 +1,11 @@
 #ifndef Ancona_Engine_Physics_VectorAction_hpp
 #define Ancona_Engine_Physics_VectorAction_hpp
 
+#include <Ancona/Engine/Physics/Action.hpp>
+
+namespace ild
+{
+
 /**
  * @brief A baseclass for actions that have a vector value.
  * @
@@ -15,11 +20,13 @@ class VectorAction : public Action
          *
          * @return A reference to the action.
          */
-        Action & Value(const sf::Vector2f value);
+        Action & Value(sf::Vector2f value) { _value = value; }
+
+        const sf::Vector2f & GetValue() { return _value; }
          
     private:
         sf::Vector2f _value;
-
+};
 
 }
 #endif
