@@ -27,14 +27,6 @@ class FontLoader: public SFMLResourceLoader<sf::Font>
                 const std::string & resourceName,
                 const std::string & fileExtension,
                 const std::string & directory = std::string("font"));
-
-    protected:
-        /**
-         * @brief Sets default settings on a font that was just loaded.
-         *
-         * @param loadedObj Font being loaded.
-         */
-        void PostLoad(sf::Font * loadedObj);
 };
 
 }

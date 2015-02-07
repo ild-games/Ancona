@@ -13,7 +13,3 @@ FontLoader::FontLoader(
     : SFMLResourceLoader<sf::Font>(resourceName, fileExtension, directory)
 {
 }
-
-void FontLoader::PostLoad(sf::Font * loadedObj)
-{
-}
