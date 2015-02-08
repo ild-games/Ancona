@@ -1,8 +1,6 @@
 #include <Ancona/Engine/Core/Systems/Drawable/FadeDrawableSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 
-#include <iostream>
-
 using namespace ild;
 
 /* Component */

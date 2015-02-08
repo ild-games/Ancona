@@ -51,7 +51,7 @@ DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
 
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
-    std::vector<Drawable *> compDrawables = component->GetDrawables();
+    std::vector<Drawable * > compDrawables = component->GetDrawables();
     for(Drawable * drawable : compDrawables)
     {
         _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());

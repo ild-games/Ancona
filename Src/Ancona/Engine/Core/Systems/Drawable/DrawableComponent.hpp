@@ -1,6 +1,8 @@
 #ifndef Ancona_Engine_Core_Systems_Drawable_DrawableComponet_H_
 #define Ancona_Engine_Core_Systems_Drawable_DrawableComponet_H_
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
@@ -128,13 +130,13 @@ class DrawableComponent
 
         /* getters and setters */
         std::vector<Drawable *> GetDrawables();
-        Drawable * GetDrawable(std::string key) { return _drawables[key]; }
-        template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key]); }
+        Drawable * GetDrawable(std::string key) { return _drawables[key].get(); }
+        template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); } 
     private:
         /**
          * @brief Holds all the drawables the component controls.
          */
-        std::map<std::string, Drawable *> _drawables;
+        std::map<std::string, std::unique_ptr<Drawable> > _drawables;
         /**
          * @brief DrawableSystem for the screen.
          */

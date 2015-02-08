@@ -1,8 +1,6 @@
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 
-#include <iostream>
-
 using namespace ild;
 
 DrawableComponent::DrawableComponent(
@@ -27,7 +25,7 @@ SpriteDrawable * DrawableComponent::AddSprite(
             priorityOffset,
             positionOffset);
 
-    _drawables[key] = sprite;
+    _drawables[key] = std::unique_ptr<SpriteDrawable>(sprite);
     _drawableSystem.AddDrawable(sprite);
     return sprite;
 }
@@ -51,7 +49,7 @@ AnimatedDrawable * DrawableComponent::AddAnimation(
             duration,
             priorityOffset,
             positionOffset);
-    _drawables[key] = animation;
+    _drawables[key] = std::unique_ptr<AnimatedDrawable>(animation);
     _drawableSystem.AddDrawable(animation);
     return animation;
 }
@@ -77,7 +75,7 @@ TextDrawable * DrawableComponent::AddText(
             priorityOffset,
             positionOffset,
             smooth);
-    _drawables[key] = textDrawable;
+    _drawables[key] = std::unique_ptr<TextDrawable>(textDrawable);
     _drawableSystem.AddDrawable(textDrawable);
     return textDrawable;
 }
@@ -95,23 +93,23 @@ ShapeDrawable * DrawableComponent::AddShape(
             priority,
             priorityOffset,
             positionOffset);
-    _drawables[key] = shapeDrawable;
+    _drawables[key] = std::unique_ptr<ShapeDrawable>(shapeDrawable);
     _drawableSystem.AddDrawable(shapeDrawable);
     return shapeDrawable;
 }
 
 void DrawableComponent::RemoveDrawable(const std::string key)
 {
-    _drawableSystem.RemoveDrawable(_drawables[key]);
+    _drawableSystem.RemoveDrawable(_drawables[key].get());
 }
 
 /* getters and setters */
 std::vector<Drawable *> DrawableComponent::GetDrawables()
 {
     std::vector<Drawable *> toReturn;
-    for(std::map<std::string, Drawable *>::iterator it = _drawables.begin(); it != _drawables.end(); ++it)
+    for(std::map<std::string, std::unique_ptr<Drawable> >::iterator it = _drawables.begin(); it != _drawables.end(); ++it)
     {
-        toReturn.push_back(it->second);
+        toReturn.push_back(it->second.get());
     }
     return toReturn;
 }

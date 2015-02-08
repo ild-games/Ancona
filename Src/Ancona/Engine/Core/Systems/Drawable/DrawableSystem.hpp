@@ -84,7 +84,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief Holds pointers to the sprite components sorted by priority + priorityOffset.
          */
-        std::vector<Drawable * > _renderQueue;
+        std::vector<Drawable *> _renderQueue;
 };
 
 
