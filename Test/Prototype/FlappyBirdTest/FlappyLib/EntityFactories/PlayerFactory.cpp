@@ -22,7 +22,8 @@ Entity factories::CreatePlayer(
     // sprite component
     factories::SetupPlayerSprite(
             player,
-            gameSystems->GetDrawable());
+            gameSystems->GetDrawable(),
+            gameSystems->GetPosition());
 
     // rotate component
     factories::SetupPlayerRotate(
@@ -63,14 +64,18 @@ void factories::SetupPlayerPosition(
 
 void factories::SetupPlayerSprite(
         Entity player,
-        DrawableSystem & drawableSystem)
+        DrawableSystem & drawableSystem,
+        PositionSystem & positionSystem)
 {
     DrawableComponent * drawable = drawableSystem.CreateComponent(player);
-    SpriteDrawable * sprite = drawable->AddSprite(
-            "player-sprite",
+    SpriteDrawable * sprite = new SpriteDrawable(
+            *positionSystem[player],
             "flappy",
             RenderPriority::Player);
     sprite->SetRotation(-30.0f);
+    drawable->AddDrawable(
+            "player-sprite", 
+            sprite);
 }
 
 void factories::SetupPlayerRotate(

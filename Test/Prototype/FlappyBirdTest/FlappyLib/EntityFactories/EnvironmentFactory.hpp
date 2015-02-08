@@ -138,40 +138,48 @@ namespace factories
      *
      * @param ground Entity that is the ground.
      * @param drawableSystem DrawableSystem for the screen.
+     * @param positionSystem PositionSystem for the screen.
      */
     void SetupGroundSprite(
             Entity ground,
-            DrawableSystem & drawableSystem); 
+            DrawableSystem & drawableSystem,
+            PositionSystem & positionSystem);
 
     /**
      * @brief Sets up the default background sprite component.
      *
      * @param background Entity that is the background.
      * @param drawableSystem DrawableSystem for the screen.
+     * @param positionSystem PositionSystem for the screen.
      */
     void SetupBackgroundSprite(
             Entity background,
-            DrawableSystem & drawableSystem);
+            DrawableSystem & drawableSystem,
+            PositionSystem & positionSystem);
 
     /**
      * @brief Sets up the default sprite for the get ready screen.
      *
      * @param getReady Entity for the get ready screen.
      * @param drawableSystem DrawableSystem for the screen.
+     * @param positionSystem PositionSystem for the screen.
      */
     void SetupGetReadySprite(
             Entity getReady,
-            DrawableSystem & drawableSystem);
+            DrawableSystem & drawableSystem,
+            PositionSystem & positionSystem);
 
     /**
      * @brief Sets up the default point counter text component.
      *
      * @param pointCounter Entity that is the point counter.
      * @param drawableSystem DrawableSystem for the screen.
+     * @param positionSystem PositionSystem for the screen.
      */
     void SetupPointCounterText(
             Entity pointCounter,
-            DrawableSystem & drawableSystem);
+            DrawableSystem & drawableSystem,
+            PositionSystem & positionSystem);
 
     /**
      * @brief Sets up the collision component and handlers for the ground.

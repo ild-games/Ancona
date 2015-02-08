@@ -16,11 +16,13 @@ Entity factories::CreateGround(
 
     // sprite component
     DrawableComponent * drawable = gameSystems->GetDrawable().CreateComponent(ground);
-    drawable->AddSprite(
+    drawable->AddDrawable(
             "ground-sprite",
-            "flappy-ground",
-            RenderPriority::Player,
-            -1);
+            new SpriteDrawable(
+                *position,
+                "flappy-ground",
+                RenderPriority::Player,
+                -1));
 
     // collision component
     gameSystems->GetCollision().CreateComponent(
