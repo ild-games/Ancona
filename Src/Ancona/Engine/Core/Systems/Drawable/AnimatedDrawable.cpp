@@ -51,10 +51,21 @@ void AnimatedDrawable::AdvanceFrame()
     {
         _curFrame = 0;
     }
+    float newX = _sprite->getTextureRect().left + _frameDimensions.x;
+    float newY = _sprite->getTextureRect().top;
+    if(newX >= _sprite->getTexture()->getSize().x)
+    {
+        newX = 0;
+        newY += _frameDimensions.y;
+        if(newY >= _sprite->getTexture()->getSize().y)
+        {
+            newY = 0;
+        }
+    }
     _sprite->setTextureRect(
             sf::IntRect(
-                _curFrame * _frameDimensions.x,
-                0,
+                newX,
+                newY,
                 _frameDimensions.x, 
                 _frameDimensions.y));
 }
