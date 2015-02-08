@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Physics_VectorAction_hpp
 #define Ancona_Engine_Physics_VectorAction_hpp
 
-#include <Ancona/Engine/Physics/Action.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/Action.hpp>
 
 namespace ild
 {

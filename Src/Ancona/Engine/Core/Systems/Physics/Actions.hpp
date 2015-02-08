@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 
-#include <Ancona/Engine/Physics/Position.hpp>
-#include <Ancona/Engine/Physics/VectorAction.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/VectorAction.hpp>
 
 namespace ild
 {

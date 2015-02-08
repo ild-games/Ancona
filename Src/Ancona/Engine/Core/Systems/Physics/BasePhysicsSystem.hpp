@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Physics_BasePhysicsSystem_hpp
 #define Ancona_Engine_Physics_BasePhysicsSystem_hpp
 
-#include <Ancona/Engine/Physics/Position.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 
 namespace ild
@@ -23,6 +23,7 @@ class BasePhysicsComponent
          * @return A constant reference to the position information.
          */
         inline const Position & GetPosition() { return _position ; }
+
     protected:
         /**
          * @brief The position information for the component.

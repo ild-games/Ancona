@@ -4,7 +4,7 @@
 #include <Ancona/Engine/Screens/ScreenManager.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlComponent.hpp>
 #include <Ancona/Engine/InputDevices/InputHandler.hpp>
-#include <Ancona/Engine/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
 #include <SFML/Window.hpp>
 

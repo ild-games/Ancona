@@ -8,7 +8,7 @@
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
 #include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
-#include <Ancona/Engine/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include "../Input/JumpyKeyboard.hpp"
 
 namespace ild

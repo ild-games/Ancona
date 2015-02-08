@@ -3,10 +3,10 @@
 
 #include <memory>
 
-#include <Ancona/Engine/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 
-#include <Ancona/Engine/Physics/Position.hpp>
-#include <Ancona/Engine/Physics/Actions.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/Actions.hpp>
 
 namespace ild
 {
@@ -77,6 +77,14 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
          * This method simply casts the component to PlatformPhysicsComponent.
          */
         PlatformPhysicsComponent * at(const Entity & entity);
+
+        void SetGravity(Point gravity) { _gravity = gravity; }
+        const Point & GetGravity() { return _gravity; }
+    private:
+        /**
+         * @brief A vector describing the direction and magnitude of gravity.
+         */
+        Point _gravity;
 };
 
 }
