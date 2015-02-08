@@ -16,8 +16,8 @@ FadeDrawableComponent::FadeDrawableComponent(
 
 void FadeDrawableComponent::Update(float delta)
 {
-    std::vector<std::shared_ptr<Drawable> > drawables = _drawableComponent.GetDrawables();
-    for(std::shared_ptr<Drawable> drawable : drawables)
+    std::vector<Drawable *> drawables = _drawableComponent.GetDrawables();
+    for(Drawable * drawable : drawables)
     {
         int alpha = drawable->GetAlpha();
         if(_fadeIn)

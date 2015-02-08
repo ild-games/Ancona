@@ -11,26 +11,26 @@ DrawableComponent::DrawableComponent(
 {
 }
 
-std::shared_ptr<SpriteDrawable> DrawableComponent::AddSprite(
+SpriteDrawable * DrawableComponent::AddSprite(
         const std::string key,
         const std::string textureKey,
         const RenderPriorityEnum priority,
         int priorityOffset,
         sf::Vector2f positionOffset)
 {
-    std::shared_ptr<SpriteDrawable> sprite(new SpriteDrawable(
+    SpriteDrawable * sprite = new SpriteDrawable(
             _positionComponent,
             textureKey,
             priority,
             priorityOffset,
-            positionOffset));
+            positionOffset);
 
-    _drawables[key] = sprite;
+    _drawables[key] = std::unique_ptr<SpriteDrawable>(sprite);
     _drawableSystem.AddDrawable(sprite);
     return sprite;
 }
 
-std::shared_ptr<AnimatedDrawable> DrawableComponent::AddAnimation(
+AnimatedDrawable * DrawableComponent::AddAnimation(
         const std::string key,
         const std::string textureKey,
         const RenderPriorityEnum priority,
@@ -40,7 +40,7 @@ std::shared_ptr<AnimatedDrawable> DrawableComponent::AddAnimation(
         int priorityOffset,
         sf::Vector2f positionOffset)
 {
-    std::shared_ptr<AnimatedDrawable> animation(new AnimatedDrawable(
+    AnimatedDrawable * animation = new AnimatedDrawable(
             _positionComponent,
             textureKey,
             priority,
@@ -48,13 +48,13 @@ std::shared_ptr<AnimatedDrawable> DrawableComponent::AddAnimation(
             numFrames,
             duration,
             priorityOffset,
-            positionOffset));
-    _drawables[key] = animation;
+            positionOffset);
+    _drawables[key] = std::unique_ptr<AnimatedDrawable>(animation);
     _drawableSystem.AddDrawable(animation);
     return animation;
 }
 
-std::shared_ptr<TextDrawable> DrawableComponent::AddText(
+TextDrawable * DrawableComponent::AddText(
         const std::string key,
         const std::string text,
         const std::string fontKey,
@@ -65,7 +65,7 @@ std::shared_ptr<TextDrawable> DrawableComponent::AddText(
         sf::Vector2f positionOffset,
         bool smooth)
 {
-    std::shared_ptr<TextDrawable> textDrawable(new TextDrawable(
+    TextDrawable * textDrawable = new TextDrawable(
             _positionComponent,
             text,
             fontKey,
@@ -74,42 +74,42 @@ std::shared_ptr<TextDrawable> DrawableComponent::AddText(
             priority,
             priorityOffset,
             positionOffset,
-            smooth));
-    _drawables[key] = textDrawable;
+            smooth);
+    _drawables[key] = std::unique_ptr<TextDrawable>(textDrawable);
     _drawableSystem.AddDrawable(textDrawable);
     return textDrawable;
 }
 
-std::shared_ptr<ShapeDrawable> DrawableComponent::AddShape(
+ShapeDrawable * DrawableComponent::AddShape(
         const std::string key,
         sf::Shape & shape,
         const RenderPriorityEnum priority,
         int priorityOffset,
         sf::Vector2f positionOffset)
 {
-    std::shared_ptr<ShapeDrawable> shapeDrawable(new ShapeDrawable(
+    ShapeDrawable * shapeDrawable = new ShapeDrawable(
             _positionComponent,
             shape,
             priority,
             priorityOffset,
-            positionOffset));
-    _drawables[key] = shapeDrawable;
+            positionOffset);
+    _drawables[key] = std::unique_ptr<ShapeDrawable>(shapeDrawable);
     _drawableSystem.AddDrawable(shapeDrawable);
     return shapeDrawable;
 }
 
 void DrawableComponent::RemoveDrawable(const std::string key)
 {
-    _drawableSystem.RemoveDrawable(_drawables[key]);
+    _drawableSystem.RemoveDrawable(_drawables[key].get());
 }
 
 /* getters and setters */
-std::vector<std::shared_ptr<Drawable> > DrawableComponent::GetDrawables()
+std::vector<Drawable *> DrawableComponent::GetDrawables()
 {
-    std::vector<std::shared_ptr<Drawable> > toReturn;
-    for(std::map<std::string, std::shared_ptr<Drawable> >::iterator it = _drawables.begin(); it != _drawables.end(); ++it)
+    std::vector<Drawable *> toReturn;
+    for(std::map<std::string, std::unique_ptr<Drawable> >::iterator it = _drawables.begin(); it != _drawables.end(); ++it)
     {
-        toReturn.push_back(it->second);
+        toReturn.push_back(it->second.get());
     }
     return toReturn;
 }

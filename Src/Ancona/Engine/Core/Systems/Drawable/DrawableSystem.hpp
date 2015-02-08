@@ -50,14 +50,14 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          *
          * @param drawable Drawable to add.
          */
-        void AddDrawable(std::shared_ptr<Drawable> drawable);
+        void AddDrawable(Drawable * drawable);
 
         /**
          * @brief Removes a drawable from the system's render queue.
          *
          * @param drawable Drawable to remove.
          */
-        void RemoveDrawable(std::shared_ptr<Drawable> drawable);
+        void RemoveDrawable(Drawable * drawable);
 
         /**
          * @brief Creates a DrawableComponent on the system.
@@ -85,7 +85,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief Holds pointers to the sprite components sorted by priority + priorityOffset.
          */
-        std::vector<std::shared_ptr<Drawable> > _renderQueue;
+        std::vector<Drawable *> _renderQueue;
 };
 
 

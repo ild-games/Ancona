@@ -45,7 +45,7 @@ class DrawableComponent
          *
          * @returns Pointer to the sprite element.
          */
-        std::shared_ptr<SpriteDrawable> AddSprite(
+        SpriteDrawable * AddSprite(
                 const std::string key,
                 const std::string textureKey,
                 const RenderPriorityEnum priority,
@@ -66,7 +66,7 @@ class DrawableComponent
          *
          * @returns Pointer to the sprite element.
          */
-        std::shared_ptr<AnimatedDrawable> AddAnimation(
+        AnimatedDrawable * AddAnimation(
                 const std::string key,
                 const std::string textureKey,
                 const RenderPriorityEnum priority,
@@ -91,7 +91,7 @@ class DrawableComponent
          *
          * @returns Pointer to the text element.
          */
-        std::shared_ptr<TextDrawable> AddText(
+        TextDrawable * AddText(
                 const std::string key,
                 const std::string text,
                 const std::string fontKey,
@@ -113,7 +113,7 @@ class DrawableComponent
          *
          * @returns Pointer to the shape element.
          */
-        std::shared_ptr<ShapeDrawable> AddShape(
+        ShapeDrawable * AddShape(
                 const std::string key,
                 sf::Shape & shape,
                 const RenderPriorityEnum priority,
@@ -129,14 +129,14 @@ class DrawableComponent
 
 
         /* getters and setters */
-        std::vector<std::shared_ptr<Drawable>> GetDrawables();
-        std::shared_ptr<Drawable> GetDrawable(std::string key) { return _drawables[key]; }
-        template <class T> std::shared_ptr<T> GetDrawable(std::string key) { return std::static_pointer_cast<T>(_drawables[key]); }
+        std::vector<Drawable *> GetDrawables();
+        Drawable * GetDrawable(std::string key) { return _drawables[key].get(); }
+        template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); } 
     private:
         /**
          * @brief Holds all the drawables the component controls.
          */
-        std::map<std::string, std::shared_ptr<Drawable>> _drawables;
+        std::map<std::string, std::unique_ptr<Drawable> > _drawables;
         /**
          * @brief DrawableSystem for the screen.
          */

@@ -66,7 +66,7 @@ void factories::SetupPlayerSprite(
         DrawableSystem & drawableSystem)
 {
     DrawableComponent * drawable = drawableSystem.CreateComponent(player);
-    std::shared_ptr<SpriteDrawable> sprite = drawable->AddSprite(
+    SpriteDrawable * sprite = drawable->AddSprite(
             "player-sprite",
             "flappy",
             RenderPriority::Player);
