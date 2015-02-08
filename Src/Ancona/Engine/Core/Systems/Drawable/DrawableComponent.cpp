@@ -101,6 +101,7 @@ ShapeDrawable * DrawableComponent::AddShape(
 void DrawableComponent::RemoveDrawable(const std::string key)
 {
     _drawableSystem.RemoveDrawable(_drawables[key].get());
+    _drawables.erase(key);
 }
 
 /* getters and setters */
