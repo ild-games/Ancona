@@ -43,10 +43,12 @@ namespace factories
      *
      * @param player Entity that is the player.
      * @param drawableSystem DrawableSystem for the screen.
+     * @param positionSystem PositionSystem for the screen.
      */
     void SetupPlayerSprite(
             Entity player,
-            DrawableSystem & drawableSystem); 
+            DrawableSystem & drawableSystem,
+            PositionSystem & positionSystem);
 
     /**
      * @brief Sets up the default player rotation component.

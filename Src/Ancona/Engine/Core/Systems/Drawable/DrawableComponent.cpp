@@ -4,98 +4,17 @@
 using namespace ild;
 
 DrawableComponent::DrawableComponent(
-        DrawableSystem & drawableSystem,
-        const PositionComponent & positionComponent) :
-    _drawableSystem(drawableSystem),
-    _positionComponent(positionComponent)
+        DrawableSystem & drawableSystem) :
+    _drawableSystem(drawableSystem)
 {
 }
 
-SpriteDrawable * DrawableComponent::AddSprite(
+void DrawableComponent::AddDrawable(
         const std::string key,
-        const std::string textureKey,
-        const RenderPriorityEnum priority,
-        int priorityOffset,
-        sf::Vector2f positionOffset)
+        Drawable * drawable)
 {
-    SpriteDrawable * sprite = new SpriteDrawable(
-            _positionComponent,
-            textureKey,
-            priority,
-            priorityOffset,
-            positionOffset);
-
-    _drawables[key] = std::unique_ptr<SpriteDrawable>(sprite);
-    _drawableSystem.AddDrawable(sprite);
-    return sprite;
-}
-
-AnimatedDrawable * DrawableComponent::AddAnimation(
-        const std::string key,
-        const std::string textureKey,
-        const RenderPriorityEnum priority,
-        sf::Vector2f frameDimensions,
-        int numFrames,
-        float duration,
-        int priorityOffset,
-        sf::Vector2f positionOffset)
-{
-    AnimatedDrawable * animation = new AnimatedDrawable(
-            _positionComponent,
-            textureKey,
-            priority,
-            frameDimensions,
-            numFrames,
-            duration,
-            priorityOffset,
-            positionOffset);
-    _drawables[key] = std::unique_ptr<AnimatedDrawable>(animation);
-    _drawableSystem.AddDrawable(animation);
-    return animation;
-}
-
-TextDrawable * DrawableComponent::AddText(
-        const std::string key,
-        const std::string text,
-        const std::string fontKey,
-        const sf::Color color,
-        const int characterSize,
-        const RenderPriorityEnum priority,
-        int priorityOffset,
-        sf::Vector2f positionOffset,
-        bool smooth)
-{
-    TextDrawable * textDrawable = new TextDrawable(
-            _positionComponent,
-            text,
-            fontKey,
-            color,
-            characterSize,
-            priority,
-            priorityOffset,
-            positionOffset,
-            smooth);
-    _drawables[key] = std::unique_ptr<TextDrawable>(textDrawable);
-    _drawableSystem.AddDrawable(textDrawable);
-    return textDrawable;
-}
-
-ShapeDrawable * DrawableComponent::AddShape(
-        const std::string key,
-        sf::Shape & shape,
-        const RenderPriorityEnum priority,
-        int priorityOffset,
-        sf::Vector2f positionOffset)
-{
-    ShapeDrawable * shapeDrawable = new ShapeDrawable(
-            _positionComponent,
-            shape,
-            priority,
-            priorityOffset,
-            positionOffset);
-    _drawables[key] = std::unique_ptr<ShapeDrawable>(shapeDrawable);
-    _drawableSystem.AddDrawable(shapeDrawable);
-    return shapeDrawable;
+    _drawables[key] = std::unique_ptr<Drawable>(drawable);
+    _drawableSystem.AddDrawable(drawable);
 }
 
 void DrawableComponent::RemoveDrawable(const std::string key)

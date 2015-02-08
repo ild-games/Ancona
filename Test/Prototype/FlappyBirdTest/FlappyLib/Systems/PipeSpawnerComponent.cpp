@@ -101,11 +101,13 @@ Entity PipeSpawnerComponent::CreatePipe(float x, float y, bool isTopPipe)
     pos->Position.y = y;
     pos->Velocity.x = PIPE_SPEED;
     DrawableComponent * drawable = _drawableSystem.CreateComponent(pipe);
-    drawable->AddSprite(
+    drawable->AddDrawable(
             "pipe-sprite",
-            SpriteToUse(isTopPipe),
-            RenderPriority::Player,
-            -2);
+            new SpriteDrawable(
+                *pos,
+                SpriteToUse(isTopPipe),
+                RenderPriority::Player,
+                -2));
     _collisionSystem.CreateComponent(pipe, sf::Vector3f(24.0f, 200.0f, 0),_pipeColType);
     _currentPipes.push_back(pipe);
 

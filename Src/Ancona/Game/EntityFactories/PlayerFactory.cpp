@@ -16,18 +16,22 @@ Entity factories::CreatePlayer(
 
     // sprite component
     DrawableComponent * drawable = gameSystems->GetDrawable().CreateComponent(player);
-    drawable->AddShape(
+    drawable->AddDrawable(
             "player-shape",
-            *new sf::RectangleShape(sf::Vector2f(16.0f, 17.0f)),
-            RenderPriority::Player,
-            -1);
-    drawable->AddAnimation(
+            new ShapeDrawable(
+                *position,
+                *new sf::RectangleShape(sf::Vector2f(16.0f, 17.0f)),
+                RenderPriority::Player,
+                -1));
+    drawable->AddDrawable(
             "player-animation",
-            "player-walking",
-            RenderPriority::Player,
-            sf::Vector2f(16.0f, 17.0f),
-            6,
-            0.1f);
+            new AnimatedDrawable(
+                *position,
+                "player-walking",
+                RenderPriority::Player,
+                sf::Vector2f(16.0f, 17.0f),
+                6,
+                0.1f));
 
     // gravity component 
     gameSystems->GetSimpleGravity().CreateComponent(

@@ -42,9 +42,7 @@ void DrawableSystem::RemoveDrawable(Drawable * drawable)
 
 DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
 {
-    auto comp = new DrawableComponent(
-            *this,
-            *_positionSystem[entity]);
+    auto comp = new DrawableComponent(*this);
     AttachComponent(entity, comp);
     return comp;
 }
