@@ -5,7 +5,7 @@ using namespace ild;
 AnimatedDrawable::AnimatedDrawable(
         const PositionComponent & positionComponent, 
         const std::string textureKey,
-        const RenderPriorityEnum priority,
+        const int priority,
         sf::Vector2f frameDimensions,
         int numFrames,
         float duration,

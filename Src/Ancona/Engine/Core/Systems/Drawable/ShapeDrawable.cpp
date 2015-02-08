@@ -5,7 +5,7 @@ using namespace ild;
 ShapeDrawable::ShapeDrawable(
         const PositionComponent & positionComponent,
         sf::Shape & shape,
-        const RenderPriorityEnum priorty,
+        const int priorty,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(

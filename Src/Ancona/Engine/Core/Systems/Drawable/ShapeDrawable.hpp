@@ -27,7 +27,7 @@ class ShapeDrawable : public Drawable
         ShapeDrawable(
                 const PositionComponent & positionComponent, 
                 sf::Shape & shape,
-                const RenderPriorityEnum priority,
+                const int priority,
                 int priorityOffset,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
