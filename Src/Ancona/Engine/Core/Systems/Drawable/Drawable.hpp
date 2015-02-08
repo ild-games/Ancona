@@ -52,7 +52,7 @@ class Drawable
          */
         Drawable(
                 const PositionComponent & positionComponent,
-                const RenderPriorityEnum priority,
+                const int priority,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
@@ -85,7 +85,7 @@ class Drawable
         /**
          * @brief Priority of rendering this obj.
          */
-        RenderPriorityEnum _renderPriority;
+        int _renderPriority;
         /**
          * @brief Offsets the render priority.
          */

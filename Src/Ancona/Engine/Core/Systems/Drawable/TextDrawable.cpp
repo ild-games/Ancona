@@ -11,7 +11,7 @@ TextDrawable::TextDrawable(
         const std::string fontKey,
         const sf::Color color,
         const int characterSize,
-        const RenderPriorityEnum priority,
+        const int priority,
         int priorityOffset,
         sf::Vector2f positionOffset,
         bool smooth) :

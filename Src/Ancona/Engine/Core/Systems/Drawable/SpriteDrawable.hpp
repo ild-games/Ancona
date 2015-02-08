@@ -27,7 +27,7 @@ class SpriteDrawable : public Drawable
         SpriteDrawable(
                 const PositionComponent & positionComponent, 
                 const std::string textureKey,
-                const RenderPriorityEnum priority,
+                const int priority,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 

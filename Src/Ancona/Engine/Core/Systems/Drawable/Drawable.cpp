@@ -4,7 +4,7 @@ using namespace ild;
 
 Drawable::Drawable(
         const PositionComponent & positionComponent,
-        const RenderPriorityEnum priority,
+        const int priority,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     _positionComponent(positionComponent),

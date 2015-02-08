@@ -1,14 +1,12 @@
 #include <Ancona/Engine/Core/Systems/Drawable/SpriteDrawable.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
-#include <iostream>
-
 using namespace ild;
 
 SpriteDrawable::SpriteDrawable(
         const PositionComponent & positionComponent, 
         const std::string textureKey,
-        const RenderPriorityEnum priority,
+        const int priority,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(

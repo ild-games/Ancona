@@ -33,7 +33,7 @@ class TextDrawable : public Drawable
                 const std::string fontKey,
                 const sf::Color color,
                 const int characterSize,
-                const RenderPriorityEnum priority,
+                const int priority,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
                 bool smooth = true);
