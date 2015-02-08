@@ -1,7 +1,6 @@
 #ifndef Ancona_Engine_Core_Systems_DrawableSystem_H_
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
-#include <memory>
 #include <string>
 
 #include <SFML/Window.hpp>
