@@ -53,7 +53,7 @@ class Action
          *
          * @return True if the action is finished.  False otherwise.
          */
-        inline bool Done() { return _duration >= 0; }
+        bool Done();
 
         inline int GetPriority() 
         { 
@@ -64,9 +64,15 @@ class Action
         { 
             return _duration;
         }
+
+        inline float GetAge() 
+        { 
+            return _age;
+        }
     private:
-        int _priority;
-        float _duration;
+        int _priority = 0;
+        float _duration = 0;
+        float _age = 0;
 };
 
 }

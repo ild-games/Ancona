@@ -2,13 +2,14 @@
 #define Ancona_Engine_Physics_VectorAction_hpp
 
 #include <Ancona/Engine/Core/Systems/Physics/Action.hpp>
+#include <SFML/System.hpp>
 
 namespace ild
 {
 
 /**
  * @brief A baseclass for actions that have a vector value.
- * @
+ * @author Jeff Swenson
  */
 class VectorAction : public Action
 {
@@ -22,10 +23,32 @@ class VectorAction : public Action
          */
         Action & Value(sf::Vector2f value) { _value = value; }
 
+        /**
+         * @brief Tween the action for the given amount of time.
+         *
+         * @param time Time to tween the action for.
+         *
+         * @return A pointer to the action.
+         */
+        VectorAction * Tween(float time);
+
+        /**
+         * @brief Get the ratio that the value should be tweened by.
+         *
+         * @return The tween ratio.
+         */
+        float GetTweenRatio();
+
         const sf::Vector2f & GetValue() { return _value; }
-         
     private:
+        /**
+         * @brief Value of the action.  For a velocity action this would be the velocity.
+         */
         sf::Vector2f _value;
+        /**
+         * @brief Amount of time the action should be tweened for.
+         */
+        float _tweenTime = 0;
 };
 
 }

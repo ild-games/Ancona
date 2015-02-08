@@ -31,12 +31,27 @@ void RemoveDoneActions(std::vector<VectorActionProxy> & actions)
             );
 }
 
+
+static Point TweenPosition(VectorAction & action, float beforeRatio,
+        const Point & position)
+{
+    float afterRatio = action.GetTweenRatio();
+    
+    if(afterRatio == 1)
+    {
+        return action.GetValue();
+    }
+
+    return (afterRatio - beforeRatio) / (1 - beforeRatio) * 
+        (action.GetValue() - position);
+}
+
 void Actions::Apply(Position & position, float delta)
 {
     Point velocity;
     for(auto& action : _velocityActions)
     {
-        velocity += action->GetValue();
+        velocity += action->GetTweenRatio() * action->GetValue();
         action->Update(delta);
     }
 
@@ -46,8 +61,9 @@ void Actions::Apply(Position & position, float delta)
 
     for(auto& action : _positionActions)
     {
-        position.SetPosition(action->GetValue());
+        float beforeRatio = action->GetTweenRatio();
         action->Update(delta);
+        position.SetPosition(TweenPosition(*action,beforeRatio,position.GetPosition()));
     }
 
     RemoveDoneActions(_velocityActions);

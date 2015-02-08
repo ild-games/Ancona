@@ -15,8 +15,10 @@ void Action::Cancel()
 
 void Action::Update(float delta)
 {
-    if(!Done())
-    {
-        _duration -= delta;
-    }
+    _age += delta;
+}
+
+bool Action::Done()
+{ 
+    return _duration > _age;
 }
