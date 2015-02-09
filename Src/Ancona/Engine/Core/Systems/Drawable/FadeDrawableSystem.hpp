@@ -82,7 +82,7 @@ class FadeDrawableSystem : public UnorderedSystem<FadeDrawableComponent>
         void Update(float delta);
 
         /**
-         * @brief Constructs a FadeDrawableComponent and attachs it to the system.
+         * @brief Constructs a FadeDrawableComponent and attaches it to the system.
          *
          * @param entity Entity to associate the component with.
          * @param drawableComponent DrawableComponent for the entity.
