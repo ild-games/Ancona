@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 #define Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 
-#include <Ancona/Engine/Core/Systems/PositionComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Util/Collision/Box2.hpp>
 
 namespace ild
@@ -19,7 +19,7 @@ class CollisionComponent
          * @param dim A vector describing the entities dimmension.
          * @param type Type of entity for collisions.
          */
-        CollisionComponent(PositionComponent & position, const sf::Vector3f & dim, CollisionType type ); 
+        CollisionComponent(BasePhysicsComponent & position, const sf::Vector3f & dim, CollisionType type ); 
 
         /**
          * @brief Test if the two collision components collide with eachother.
@@ -43,7 +43,7 @@ class CollisionComponent
         CollisionType GetType();
 
     private:
-        PositionComponent & _position;
+        BasePhysicsComponent & _position;
         Box2 _dim;
         CollisionType _type;
 };

@@ -11,6 +11,10 @@
 namespace ild
 {
 
+/**
+ * @brief Component for the PlatformPhysicsSystem
+ * @author Jeff Swenson
+ */
 class PlatformPhysicsComponent : public BasePhysicsComponent
 {
     public:
@@ -18,8 +22,9 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
          * @brief Initialize the platform physics component with the given location.
          *
          * @param location Location to initialize the component at.
+         * @param physicsSystem Physics system that the component belongs to.
          */
-        PlatformPhysicsComponent(Point location);
+        PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem);
 
         /**
          * @brief Update the component.  This will apply any active actions to the physical state.
@@ -33,6 +38,10 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
         Actions _actions;
 };
 
+/**
+ * @brief Platform physics system provides behavior that is designed for a platformer game.
+ * @author Jeff Swenson
+ */
 class PlatformPhysicsSystem : public BasePhysicsSystem
 {
     public:
@@ -78,8 +87,6 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
          */
         PlatformPhysicsComponent * at(const Entity & entity);
 
-        void SetGravity(Point gravity) { _gravity = gravity; }
-        const Point & GetGravity() { return _gravity; }
     private:
         /**
          * @brief A vector describing the direction and magnitude of gravity.

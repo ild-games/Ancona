@@ -18,7 +18,7 @@ class JumpyScreen : public AbstractScreen
 
         void Init();
 
-        void Draw();
+        void Draw(float delta);
 
     private:
         std::unique_ptr<JumpyGameSystems> _systems;

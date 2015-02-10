@@ -44,7 +44,7 @@ void SystemManager::QueueDelete(Entity entity)
 
 Entity SystemManager::CreateEntity()
 {
-    Assert(_maxEntityId != ~0, "Entity key has overflown");
+    Assert(_maxEntityId != ~0u, "Entity key has overflown");
 
     Entity entity = _maxEntityId++;
 

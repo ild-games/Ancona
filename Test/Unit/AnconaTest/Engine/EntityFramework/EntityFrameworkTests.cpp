@@ -163,7 +163,6 @@ TEST(EntitySystem, AssertGaurds)
     SystemManager manager;
     MockSystem system(manager);
     Entity entity1 = manager.CreateEntity();
-    Entity entity2 = manager.CreateEntity();
     Entity entity3 = manager.CreateEntity();
 
     bool assertFailed = false;

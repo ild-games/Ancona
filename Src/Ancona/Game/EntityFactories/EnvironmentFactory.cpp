@@ -9,17 +9,21 @@ Entity factories::CreateGround(
     Entity ground = gameSystems->GetManager().CreateEntity();
 
     // position component 
-    gameSystems->GetPosition().CreateComponent(ground);
-    PositionComponent * position = gameSystems->GetPosition().at(ground);
-    position->Position.x = 100;
-    position->Position.y = 500;
+    PlatformPhysicsComponent * physics = gameSystems->GetPhysics().CreateComponent(ground);
+
+    auto & actions = physics->GetActions();
+    actions.CreatePositionAction()
+        ->Value(Point(100,500));
+    actions.CreateVelocityAction()
+        ->Value(Point(0,0.5))
+        ->Duration(1);
 
     // sprite component
     DrawableComponent * drawable = gameSystems->GetDrawable().CreateComponent(ground);
     drawable->AddDrawable(
             "ground-sprite",
             new SpriteDrawable(
-                *position,
+                *physics,
                 "flappy-ground",
                 RenderPriority::Player,
                 -1));

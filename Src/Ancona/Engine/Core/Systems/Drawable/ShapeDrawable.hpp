@@ -25,7 +25,7 @@ class ShapeDrawable : public Drawable
          * @param positionOffset Offset coordinates from the PositionComponent
          */
         ShapeDrawable(
-                const PositionComponent & positionComponent, 
+                const BasePhysicsComponent & physicsComponent, 
                 sf::Shape & shape,
                 const int priority,
                 int priorityOffset,

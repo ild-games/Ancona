@@ -21,7 +21,7 @@ class VectorAction : public Action
          *
          * @return A reference to the action.
          */
-        Action & Value(sf::Vector2f value) { _value = value; }
+        VectorAction * Value(sf::Vector2f value) { _value = value; return this; }
 
         /**
          * @brief Tween the action for the given amount of time.

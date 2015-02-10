@@ -7,6 +7,7 @@
 
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/VectorAction.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 
 namespace ild
 {
@@ -25,6 +26,13 @@ class Actions
 {
     public:
         /**
+         * @brief Construct a container for actions.
+         *
+         * @param physicsSystem Physics system that the actions belong to.
+         */
+        Actions(BasePhysicsSystem & physicsSystem);
+
+        /**
          * @brief Update the position based on active Actions in 
          * the object.
          *
@@ -38,6 +46,7 @@ class Actions
          * @return A proxy to the position Action.
          */
         VectorActionProxy CreatePositionAction();
+
         /**
          * @brief Create an action for setting the velocity.
          *
@@ -45,9 +54,31 @@ class Actions
          */
         VectorActionProxy CreateVelocityAction();
 
+        /**
+         * @brief Used to set if an entity is effected by gravity.  Defaults to true.
+         *
+         * @param value Boolean value determining if the entity is effected by gravity.
+         */
+        void SetEffectedByGravity(bool value) { _effectedByGravity = value; }
+
+        /**
+         * @brief Remove any acceleration that has been caused by gravity.
+         */
+        void StopFall();
     private:
+
+        /**
+         * @brief Update the velocity based on Gravity.
+         *
+         * @param velocity Current velocity as determined by actions.
+         */
+        void ApplyGravity(Point & velocity, float delta);
+
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
+        Point _totalGravity;
+        BasePhysicsSystem & _physicsSystem;
+        bool _effectedByGravity = false;
 };
 
 }

@@ -4,10 +4,9 @@
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 
 namespace ild
@@ -32,10 +31,9 @@ class GameSystems
 
         /* getters and setters */
         SystemManager & GetManager() { return *_manager; }
-        PositionSystem & GetPosition() { return *_position; } 
+        PlatformPhysicsSystem & GetPhysics() { return *_physics; } 
         DrawableSystem & GetDrawable() { return *_drawable; } 
         InputControlSystem & GetInput() { return *_input; } 
-        SimpleGravitySystem & GetSimpleGravity() { return *_gravity; } 
         CollisionSystem & GetCollision() { return *_collision; } 
 
     private:
@@ -46,7 +44,7 @@ class GameSystems
         /**
          * @brief System for managing an entity's position
          */
-        PositionSystem * _position;
+        PlatformPhysicsSystem * _physics;
         /**
          * @brief System for managing an entity's sprites
          */
@@ -55,10 +53,6 @@ class GameSystems
          * @brief System for managing an entity's input
          */
         InputControlSystem * _input; 
-        /**
-         * @brief System for managing gravity components.
-         */
-        SimpleGravitySystem * _gravity;
         /**
          * @brief System for managing collision components.
          */

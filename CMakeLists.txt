@@ -45,7 +45,7 @@ set(${Ancona_Form_Factor} True)
 set(CMAKE_MODULE_PATH BuildTools/Module ${CMAKE_MODULE_PATH})
 
 #Set C++ Version to 11
-SET(CMAKE_CXX_FLAGS "-std=c++11 -g")
+SET(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
 
 #Define SRC_DIR and INC_DIR incase we choose to separate
 #cpp and hpp files in the future

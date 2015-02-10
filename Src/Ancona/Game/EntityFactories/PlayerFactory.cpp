@@ -9,10 +9,13 @@ Entity factories::CreatePlayer(
     Entity player = gameSystems->GetManager().CreateEntity();
 
     // position component
-    gameSystems->GetPosition().CreateComponent(player);
-    PositionComponent * position = gameSystems->GetPosition().at(player);
-    position->Position.x = 50;
-    position->Position.y = 0;
+    PlatformPhysicsComponent * position = gameSystems->GetPhysics().CreateComponent(player);
+    //position->GetActions().CreatePositionAction()->Value(Point(50,0));
+    position->GetActions().CreatePositionAction()
+        ->Value(Point(50,20))
+        ->Tween(3)
+        ->Duration(5);
+        
 
     // sprite component
     DrawableComponent * drawable = gameSystems->GetDrawable().CreateComponent(player);
@@ -34,9 +37,7 @@ Entity factories::CreatePlayer(
                 0.1f));
 
     // gravity component 
-    gameSystems->GetSimpleGravity().CreateComponent(
-            player, 
-            *position);
+    position->GetActions().SetEffectedByGravity(true);
 
     // collision component
     factories::SetupCollisions(
@@ -69,6 +70,9 @@ std::function<void(Entity player, Entity ground)> factories::GroundCollisionHand
 {
     return [gameSystems](Entity player, Entity ground)
     {
-        gameSystems->GetPosition().at(player)->Velocity.y = 0; 
+        auto & actions = gameSystems->GetPhysics().at(player)->GetActions();
+        actions.StopFall();
+        actions.SetEffectedByGravity(false);
+
     };
 }

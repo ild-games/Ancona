@@ -5,7 +5,7 @@ using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2) {}
 
-CollisionSystem::CollisionSystem(SystemManager & manager, PositionSystem & positions)
+CollisionSystem::CollisionSystem(SystemManager & manager, BasePhysicsSystem & positions)
     : UnorderedSystem<CollisionComponent>(manager,UpdateStep::Update), _positions(positions)
 {
     _nextType = 0;

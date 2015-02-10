@@ -3,7 +3,7 @@
 using namespace ild;
 
 AnimatedDrawable::AnimatedDrawable(
-        const PositionComponent & positionComponent, 
+        const BasePhysicsComponent & physicsComponent, 
         const std::string textureKey,
         const int priority,
         sf::Vector2f frameDimensions,
@@ -16,7 +16,7 @@ AnimatedDrawable::AnimatedDrawable(
     DURATION(duration),
     _timeUntilChange(duration),
     SpriteDrawable(
-            positionComponent,
+            physicsComponent,
             textureKey,
             priority,
             priorityOffset,

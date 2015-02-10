@@ -15,14 +15,14 @@ class BasePhysicsComponent
          *
          * @return True if the entity is on the ground.  False otherwise.
          */
-        inline bool IsOnGround() { return _isOnGround; }
+        inline bool IsOnGround() const { return _isOnGround; }
 
         /**
          * @brief Get information about the Entities position.
          *
          * @return A constant reference to the position information.
          */
-        inline const Position & GetPosition() { return _position ; }
+        inline const Position & GetInfo() const { return _position ; }
 
     protected:
         /**
@@ -48,6 +48,18 @@ class BasePhysicsComponent
  */
 class BasePhysicsSystem : public UnorderedSystem<BasePhysicsComponent>
 {
+    public:
+        inline void SetGravity(Point gravity)
+        {
+            _gravity = gravity;
+        }
+        
+        inline const Point & GetGravity()
+        {
+            return _gravity;
+        }
+
+
     protected:
         /**
          * @brief Constructor of a BasePhysicsSystem and register it with the manager.  
@@ -56,12 +68,16 @@ class BasePhysicsSystem : public UnorderedSystem<BasePhysicsComponent>
          */
         BasePhysicsSystem(SystemManager & manager);
 
+
         /**
          * @brief Update the physics components.  Must be implemented by the child physics system.
          *
          * @param delta Fraction of a second since the last update.
          */
         void Update(float delta) = 0;
+
+    private:
+        Point _gravity;
 };
 
 }

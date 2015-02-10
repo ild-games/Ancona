@@ -2,11 +2,9 @@
 #define JumpyGame_Systems_JumpyGameSystems_Hpp
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/FadeDrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include "../Input/JumpyKeyboard.hpp"
@@ -22,7 +20,6 @@ class JumpyGameSystems
 
         /* getters and setters */
         SystemManager & GetManager() { return *_manager; }
-        PositionSystem & GetPosition() { return *_position; } 
         DrawableSystem & GetDrawable() { return *_drawable; } 
         InputControlSystem & GetInput() { return *_input; } 
         PlatformPhysicsSystem & GetPhysics() { return *_physics; }
@@ -33,10 +30,6 @@ class JumpyGameSystems
          */
         SystemManager * _manager;
         /**
-         * @brief System for managing an entity's position.
-         */
-        PositionSystem * _position;
-        /**
          * @brief System for managing an entity's drawables.
          */
         DrawableSystem * _drawable;
@@ -44,7 +37,6 @@ class JumpyGameSystems
          * @brief System for managing an entity's input.
          */
         InputControlSystem * _input; 
-
         /**
          * @brief The physics system for the game
          */

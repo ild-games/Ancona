@@ -7,10 +7,10 @@ using namespace ild;
 DrawableSystem::DrawableSystem(
         sf::RenderWindow & window, 
         SystemManager & systemManager, 
-        PositionSystem & positionSystem) : 
+        BasePhysicsSystem & physicsSystem) : 
     UnorderedSystem(systemManager, UpdateStep::Draw), 
     _window(window), 
-    _positionSystem(positionSystem)
+    _physicsSystem(physicsSystem)
 {
 }
 

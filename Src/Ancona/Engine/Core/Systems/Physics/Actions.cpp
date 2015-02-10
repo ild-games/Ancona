@@ -2,6 +2,11 @@
 
 using namespace ild;
 
+Actions::Actions(BasePhysicsSystem & physicsSystem) : _physicsSystem(physicsSystem)
+{
+
+}
+
 VectorActionProxy Actions::CreatePositionAction()
 {
     VectorActionProxy action(new VectorAction());
@@ -42,8 +47,22 @@ static Point TweenPosition(VectorAction & action, float beforeRatio,
         return action.GetValue();
     }
 
-    return (afterRatio - beforeRatio) / (1 - beforeRatio) * 
+    return position + (afterRatio - beforeRatio) / (1 - beforeRatio) * 
         (action.GetValue() - position);
+}
+
+void Actions::StopFall()
+{
+    _totalGravity = Point();
+}
+
+void Actions::ApplyGravity(Point &velocity, float delta)
+{
+    if(_effectedByGravity)
+    {
+        _totalGravity += delta * _physicsSystem.GetGravity();
+        velocity += _totalGravity;
+    }
 }
 
 void Actions::Apply(Position & position, float delta)
@@ -55,9 +74,11 @@ void Actions::Apply(Position & position, float delta)
         action->Update(delta);
     }
 
+    ApplyGravity(velocity,delta);
+
     //Update the velocity and the position from the velocity
     position.SetVelocity(velocity);
-    position.SetPosition(position.GetVelocity() + delta * velocity);
+    position.SetPosition(position.GetPosition() + position.GetVelocity() + delta * velocity);
 
     for(auto& action : _positionActions)
     {

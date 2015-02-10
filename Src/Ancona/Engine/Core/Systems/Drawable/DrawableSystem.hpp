@@ -7,7 +7,7 @@
 
 #include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
@@ -28,12 +28,12 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          *
          * @param window RenderWindow for game.
          * @param systemManager SystemManager for the screen.
-         * @param positionSystem PositionSystem for the screen.
+         * @param physicsSystem PhysicsSystem for the screen.
          */
         DrawableSystem(
                 sf::RenderWindow & window,
                 SystemManager & systemManager,
-                PositionSystem & positionSystem);
+                BasePhysicsSystem & positionSystem);
 
 
 
@@ -80,7 +80,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief The system used to determine where an entity should be drawn.
          */
-        PositionSystem & _positionSystem;
+        BasePhysicsSystem & _physicsSystem;
         /**
          * @brief Holds pointers to the sprite components sorted by priority + priorityOffset.
          */

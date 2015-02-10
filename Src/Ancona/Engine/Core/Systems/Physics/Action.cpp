@@ -20,5 +20,5 @@ void Action::Update(float delta)
 
 bool Action::Done()
 { 
-    return _duration > _age;
+    return _duration < _age;
 }

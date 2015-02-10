@@ -3,13 +3,13 @@
 using namespace ild;
 
 ShapeDrawable::ShapeDrawable(
-        const PositionComponent & positionComponent,
+        const BasePhysicsComponent & physicsComponent,
         sf::Shape & shape,
         const int priorty,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
-            positionComponent,
+            physicsComponent,
             priorty,
             priorityOffset,
             positionOffset),
@@ -22,9 +22,10 @@ ShapeDrawable::ShapeDrawable(
 
 void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
 {
+    auto pos = _physicsComponent.GetInfo().GetPosition();
     sf::Vector2f position = sf::Vector2f(
-            _positionComponent.Position.x + _positionOffset.x,
-            _positionComponent.Position.y + _positionOffset.y);
+            pos.x + _positionOffset.x,
+            pos.y + _positionOffset.y);
     _shape.setPosition(position.x, position.y);
     _shape.setRotation(_rotation);
     window.draw(_shape);

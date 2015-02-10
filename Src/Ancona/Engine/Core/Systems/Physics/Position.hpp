@@ -17,8 +17,8 @@ class Position
 {
     public:
         //Access the current physical state of the entity.
-        inline const Point & GetPosition() { return _position; }
-        inline const Point & GetVelocity() { return _velocity; }
+        inline const Point & GetPosition() const { return _position; }
+        inline const Point & GetVelocity() const { return _velocity; }
 
         inline void SetPosition(const Point & position) { _position = position; }
         inline void SetVelocity(const Point & velocity) { _velocity = velocity; }

@@ -1,7 +1,7 @@
 #ifndef Ancona_Game_Systems_PlayerInputComponent_H_
 #define Ancona_Game_Systems_PlayerInputComponent_H_
 
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlComponent.hpp>
 #include <Ancona/Game/InputDevices/PlayerKeyboard.hpp>
 
@@ -31,12 +31,15 @@ class PlayerInputComponent : public InputControlComponent
     public:
         PlayerInputComponent(
                 Entity & player, 
-                PositionComponent & positionComponent,
+                PlatformPhysicsComponent & positionComponent,
                 PlayerKeyboard & inputHandler);
 
         void Move(PlayerDirectionEnum direction);
     private:
-        PositionComponent & _positionComponent;
+        PlatformPhysicsComponent & _positionComponent;
+
+        VectorActionProxy _movementAction;
+
 };
 
 }

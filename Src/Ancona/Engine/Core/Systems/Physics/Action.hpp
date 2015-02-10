@@ -25,7 +25,7 @@ class Action
          *
          * @return A reference to the action.
          */
-        Action & Priority(int priority) { _priority = priority; }
+        Action * Priority(int priority) { _priority = priority; return this; }
 
         /**
          * @brief Builder method used to set the duration of the action.
@@ -35,7 +35,7 @@ class Action
          *
          * @return A reference to the action.
          */
-        Action & Duration(float duration) { _duration = duration; }
+        Action * Duration(float duration) { _duration = duration; return this; }
 
         /**
          * Stop any affects that the action has.  Once cancel is called Done will return true.

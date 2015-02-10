@@ -27,7 +27,7 @@ class AnimatedDrawable : public SpriteDrawable
          * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
          */
         AnimatedDrawable(
-                const PositionComponent & positionComponent, 
+                const BasePhysicsComponent & physicsComponent, 
                 const std::string textureKey,
                 const int priority,
                 sf::Vector2f frameDimensions,
