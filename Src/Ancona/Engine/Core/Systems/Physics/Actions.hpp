@@ -22,6 +22,11 @@ const float INSTANT = 0.0f;
 
 typedef std::shared_ptr<VectorAction> VectorActionProxy;
 
+/**
+ * @brief Actions is used to contain all of the Actions that are effecting
+ * an entity.  It also contains the logic for applying and updating the actions.
+ * @author Jeff Swenson 
+ */
 class Actions
 {
     public:
