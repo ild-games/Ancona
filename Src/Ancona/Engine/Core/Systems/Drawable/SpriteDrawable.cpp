@@ -4,13 +4,13 @@
 using namespace ild;
 
 SpriteDrawable::SpriteDrawable(
-        const PositionComponent & positionComponent, 
+        const BasePhysicsComponent & physicsComponent, 
         const std::string textureKey,
         const int priority,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
-            positionComponent,
+            physicsComponent,
             priority,
             priorityOffset,
             positionOffset)
@@ -25,9 +25,10 @@ SpriteDrawable::SpriteDrawable(
 
 void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
 {
+    auto pos = _physicsComponent.GetInfo().GetPosition();
     sf::Vector2f position = sf::Vector2f(
-            _positionComponent.Position.x + _positionOffset.x,
-            _positionComponent.Position.y + _positionOffset.y);
+            pos.x + _positionOffset.x,
+            pos.y + _positionOffset.y);
     _sprite->setPosition(position.x,position.y);
     _sprite->setRotation(_rotation);
     window.draw(*_sprite);

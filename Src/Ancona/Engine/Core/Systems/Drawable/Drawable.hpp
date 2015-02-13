@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-#include <Ancona/Engine/Core/Systems/PositionComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 
 namespace ild
 {
@@ -51,7 +51,7 @@ class Drawable
          * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
          */
         Drawable(
-                const PositionComponent & positionComponent,
+                const BasePhysicsComponent & positionComponent,
                 const int priority,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
@@ -77,7 +77,7 @@ class Drawable
         /**
          * @brief Component that defines the entities position.
          */
-        const PositionComponent & _positionComponent;
+        const BasePhysicsComponent & _physicsComponent;
         /**
          * @brief Offset coordinate for this drawable element.
          */

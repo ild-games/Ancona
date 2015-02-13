@@ -3,11 +3,11 @@
 using namespace ild;
 
 Drawable::Drawable(
-        const PositionComponent & positionComponent,
+        const BasePhysicsComponent & physicsComponent,
         const int priority,
         int priorityOffset,
         sf::Vector2f positionOffset) :
-    _positionComponent(positionComponent),
+    _physicsComponent(physicsComponent),
     _renderPriority(priority),
     _priorityOffset(priorityOffset),
     _positionOffset(positionOffset)

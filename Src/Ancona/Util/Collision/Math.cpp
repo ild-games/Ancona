@@ -55,7 +55,7 @@ bool Math::Intersect(const Projection2 & a, const Projection2 & b)
 bool TestShapeAxis(const Math::Vertices2 & shapeA, const Math::Vertices2 & shapeB)
 {
     using namespace Math;
-    for(int i = 0; i < shapeA.size(); i++)
+    for(auto i = 0u; i < shapeA.size(); i++)
     {
         auto endIndex = i + 1 >= shapeA.size() ? 0 : i + 1;
         auto edge = GetEdge(shapeA[i], shapeA[endIndex]);

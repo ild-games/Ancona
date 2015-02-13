@@ -5,7 +5,7 @@
 #include <functional>
 
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include "CollisionComponent.hpp"
 
 namespace ild
@@ -22,7 +22,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          * @param manager Manager that the system belongs to.
          * @param positions System that defines the position of an entity.
          */
-        CollisionSystem(SystemManager & manager, PositionSystem & positions);
+        CollisionSystem(SystemManager & manager, BasePhysicsSystem & positions);
 
         /**
          * @brief Update the position for all components based off of their velocity
@@ -63,7 +63,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
     private:
         int _nextType;
         std::vector< std::vector<CollisionCallback> > _callbackTable;
-        PositionSystem & _positions;
+        BasePhysicsSystem & _positions;
 };
 
 }

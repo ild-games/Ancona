@@ -2,7 +2,7 @@
 
 using namespace ild;
 
-CollisionComponent::CollisionComponent(PositionComponent & position, 
+CollisionComponent::CollisionComponent(BasePhysicsComponent & position, 
         const sf::Vector3f & dim,
         CollisionType type)
     : _position(position), _dim(dim.x,dim.y), _type(type)
@@ -17,7 +17,7 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent)
 
 void CollisionComponent::Update()
 {
-    auto & pos = _position.Position;
+    auto & pos = _position.GetInfo().GetPosition();
     _dim.SetPosition(pos.x, pos.y);
 }
 

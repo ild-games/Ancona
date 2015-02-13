@@ -6,7 +6,7 @@
 using namespace ild;
 
 TextDrawable::TextDrawable(
-        const PositionComponent & positionComponent,
+        const BasePhysicsComponent & physicsComponent,
         const std::string text,
         const std::string fontKey,
         const sf::Color color,
@@ -16,7 +16,7 @@ TextDrawable::TextDrawable(
         sf::Vector2f positionOffset,
         bool smooth) :
     Drawable(
-            positionComponent,
+            physicsComponent,
             priority,
             priorityOffset,
             positionOffset)
@@ -33,9 +33,10 @@ TextDrawable::TextDrawable(
 
 void TextDrawable::Draw(sf::RenderWindow & window, float delta)
 {
+    auto pos = _physicsComponent.GetInfo().GetPosition();
     sf::Vector2f position = sf::Vector2f(
-            _positionComponent.Position.x + _positionOffset.x,
-            _positionComponent.Position.y + _positionOffset.y);
+            pos.x + _positionOffset.x,
+            pos.y + _positionOffset.y);
     _text->setPosition(position.x, position.y);
     window.draw(*_text);
 }

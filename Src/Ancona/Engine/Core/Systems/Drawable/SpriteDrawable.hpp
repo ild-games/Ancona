@@ -25,7 +25,7 @@ class SpriteDrawable : public Drawable
          * @param positionOffset Offset coordinates from the PositionComponent
          */
         SpriteDrawable(
-                const PositionComponent & positionComponent, 
+                const BasePhysicsComponent & physicsComponent, 
                 const std::string textureKey,
                 const int priority,
                 int priorityOffset = 0,

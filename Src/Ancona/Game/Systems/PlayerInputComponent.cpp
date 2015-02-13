@@ -15,17 +15,19 @@ const int PlayerDirection::None = 0;
 
 PlayerInputComponent::PlayerInputComponent(
         Entity & player,
-        PositionComponent & positionComponent,
+        PlatformPhysicsComponent & positionComponent,
         PlayerKeyboard & inputHandler)
     : InputControlComponent(inputHandler), 
       _positionComponent(positionComponent)
 {
     inputHandler.RegisterInputComponent(this);
+    _movementAction = _positionComponent.GetActions().CreateVelocityAction();
+    _movementAction->Duration(ActionDuration::PERSISTENT);
 }
 
 void PlayerInputComponent::Move(PlayerDirectionEnum direction)
 {
-    sf::Vector3f directionVector;
+    sf::Vector2f directionVector;
     if(direction & PlayerDirection::Up)
     {
         directionVector.y -= VELOCITY;
@@ -43,5 +45,5 @@ void PlayerInputComponent::Move(PlayerDirectionEnum direction)
         directionVector.x += VELOCITY;
     }
 
-    _positionComponent.Velocity = directionVector;
+    _movementAction->Value(directionVector);
 }

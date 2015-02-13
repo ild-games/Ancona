@@ -10,7 +10,7 @@
 #include <Ancona/Engine/Core/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/SpriteDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/TextDrawable.hpp>
-#include <Ancona/Engine/Core/Systems/PositionComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 
 namespace ild
 {
