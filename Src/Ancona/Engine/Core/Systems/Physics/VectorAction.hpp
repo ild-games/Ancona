@@ -11,7 +11,7 @@ namespace ild
  * @brief A baseclass for actions that have a vector value.
  * @author Jeff Swenson
  */
-class VectorAction : public Action
+class VectorAction : public Action<VectorAction>
 {
     public:
         /**
