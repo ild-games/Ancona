@@ -48,10 +48,16 @@ class Action
 
         /**
          * @brief Apply the delta to the Action.  This is used to determine when the action should no longer be in effect.
+         * @return If the Update will cause the Action to be Done then it will return amount that the _age overflowed.
          */
-        void Update(float delta) 
+        float Update(float delta) 
         {
             _age += delta;
+            if(_age > 1 && _age - delta < 1)
+            {
+                return _age - 1;
+            }
+            return 0;
         }
 
         /**
