@@ -1,10 +1,14 @@
 #ifndef Ancona_Engine_Core_Systems_CameraSystem_H_
 #define Ancona_Engine_Core_Systems_CameraSystem_H_
 
-#include <Ancona/Engine/Core/Systems/PositionComponent.hpp>
-#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
+#include <vector>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+
+#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 
 namespace ild
 {
@@ -20,17 +24,46 @@ class CameraComponent
         /**
          * @brief Constructs a new CameraComponent.
          *
-         * @param cameraPosition Position component for the camera.
-         * @param followPosition Position component for what the camera is following.
+         * @param originalView Default view of the window.
+         * @param cameraPhysics Physics component for the camera.
+         * @param renderPriority Priority to render the camera by.
+         * @param scale The scale the camera will zoom to, defaults to 1.0f.
          */
         CameraComponent(
-                PositionComponent & cameraPosition,
-                PositionComponent & followPosition);
+                const sf::View & originalView,
+                BasePhysicsComponent & cameraPhysics,
+                int renderPriority,
+                float scale = 1.0f);
 
         /**
          * @brief Updates the position of the camera.
          */
         void Update(float delta);
+
+        /**
+         * @brief Draws the camera and all renderables on it.
+         *
+         * @param window RenderWindow for the game.
+         */
+        void Draw(sf::RenderWindow & window, float delta);
+
+        /**
+         * @brief Adds a drawable to the camera's render queue.
+         *
+         * @param drawable Drawable to add.
+         */
+        void AddDrawable(Drawable * drawable);
+
+        /**
+         * @brief Remove a drawable from the camera's render queue.
+         *
+         * @param drawable Drawable to remove.
+         */
+        void RemoveDrawable(Drawable * drawable);
+
+        /* getters and setters */
+        int GetRenderPriority() { return _renderPriority; }
+        void SetFollow(BasePhysicsComponent * followPhysics) { _followPhysics = followPhysics; }
 
     private:
         /**
@@ -38,14 +71,21 @@ class CameraComponent
          */
         sf::View * _view;
         /**
-         * @brief Position component for the camera.
+         * @brief Physics component for the camera.
          */
-        PositionComponent & _cameraPosition;
-
+        BasePhysicsComponent & _cameraPhysics;
         /**
          * @brief Position component for what the camera is following.
          */
-        PositionComponent & _followPosition;
+        BasePhysicsComponent * _followPhysics;
+        /**
+         * @brief Priority in which the camera is rendered, lower priority means  it will be rendered sooner.
+         */
+        int _renderPriority;
+        /**
+         * @brief Queue for the drawables on the camera, sorted by the drawable's render priority + render offset.
+         */
+        std::vector<Drawable *> _renderQueue;
 
 };
 
@@ -73,15 +113,19 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
          * @brief Constructs a CameraComponent and attaches it to the system.
          *
          * @param entity Entity to associate the component with.
-         * @param cameraPosition Position component for the camera.
-         * @param followPosition Position component for what the camera is following.
+         * @param originalView Default view of the window.
+         * @param cameraPhysics Physics component for the camera.
+         * @param renderPriority The render priority of the camera.
+         * @param scale The scale the camera will zoom to, defaults to 1.0f.
          *
          * @return Pointer to the CameraComponent being created.
          */
         CameraComponent * CreateComponent(
                 const Entity & entity,
-                PositionComponent & cameraPosition,
-                PositionComponent & followPosition);
+                const sf::View & originalView,
+                BasePhysicsComponent & cameraPhysics,
+                int renderPriority,
+                float scale = 1.0f);
 
 };
 

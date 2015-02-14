@@ -7,7 +7,6 @@
 #include "../Screens/FlappyScreen.hpp"
 #include "../InputDevices/FlappyTouch.hpp"
 #include "FlappyGame.hpp"
-#include <iostream>
 
 using namespace ild;
 

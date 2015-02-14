@@ -13,6 +13,7 @@ namespace factories
 {
     Entity CreatePlayer(
             GameSystems * gameSystems,
+            Entity camera,
             std::map<std::string, CollisionType> collisionTypes);
 
     void SetupCollisions(

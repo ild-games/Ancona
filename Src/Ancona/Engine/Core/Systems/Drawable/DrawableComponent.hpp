@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/ShapeDrawable.hpp>
@@ -29,8 +30,11 @@ class DrawableComponent
          * @brief Construct a DrawableComponent.
          *
          * @param drawableSystem DrawableSystem for the screen.
+         * @param cameraComponent CameraComponent used to render these renderables.
          */
-        DrawableComponent(DrawableSystem & drawableSystem);
+        DrawableComponent(
+                DrawableSystem & drawableSystem,
+                CameraComponent & cameraComponent);
 
         /**
          * @brief Adds a drawable element to the component.
@@ -63,6 +67,10 @@ class DrawableComponent
          * @brief DrawableSystem for the screen.
          */
         DrawableSystem & _drawableSystem;
+        /**
+         * @brief Camera the drawables for this component are rendered with.
+         */
+        CameraComponent & _camera;
 };
 
 }
