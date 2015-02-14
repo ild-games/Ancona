@@ -6,9 +6,7 @@
 
 using namespace ild;
 
-/*
-TEST(PhysicsSystem, CreateMultipleComponents)
-{
+TEST(PhysicsSystem, CreateMultipleComponents) {
     SystemManager manager;
     PlatformPhysicsSystem physics(manager);
 
@@ -21,7 +19,6 @@ TEST(PhysicsSystem, CreateMultipleComponents)
     ASSERT_TRUE(true);
 
 }
-*/
 
 TEST(PhysicsSystem, CreateMultipleComponentsWithGetPostion)
 {

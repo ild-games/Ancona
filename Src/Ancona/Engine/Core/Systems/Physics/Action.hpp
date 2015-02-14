@@ -10,13 +10,14 @@ namespace ild
  * @brief An action is used to interact with the physics system.
  * @author Jeff Swenson
  */
+template <class SubClass>
 class Action
 {
     public:
         /**
          * Action is initialized with a priority of 0 and a duration of INSTANT.
          */
-        Action();
+        Action() {};
 
         /**
          * @brief Builder method used to set the priority of the action.
@@ -25,7 +26,7 @@ class Action
          *
          * @return A reference to the action.
          */
-        Action * Priority(int priority) { _priority = priority; return this; }
+        SubClass * Priority(int priority) { _priority = priority; return static_cast<SubClass *>(this); }
 
         /**
          * @brief Builder method used to set the duration of the action.
@@ -35,17 +36,23 @@ class Action
          *
          * @return A reference to the action.
          */
-        Action * Duration(float duration) { _duration = duration; return this; }
+        SubClass * Duration(float duration) { _duration = duration; return static_cast<SubClass *>(this); }
 
         /**
          * Stop any affects that the action has.  Once cancel is called Done will return true.
          */
-        void Cancel();
+        void Cancel() 
+        {
+            _duration = -1;         
+        };
 
         /**
          * @brief Apply the delta to the Action.  This is used to determine when the action should no longer be in effect.
          */
-        void Update(float delta);
+        void Update(float delta) 
+        {
+            _age += delta;
+        }
 
         /**
          * @brief Check to see if an action has run for its entire duration. If an action is done then no other methods can be called
@@ -53,7 +60,10 @@ class Action
          *
          * @return True if the action is finished.  False otherwise.
          */
-        bool Done();
+        bool Done() 
+        {
+            return _duration < _age;
+        }
 
         inline int GetPriority() 
         { 
