@@ -14,6 +14,7 @@ CameraComponent::CameraComponent(
 
 void CameraComponent::Update(float delta)
 {
+    _view->setCenter(_cameraPosition.Position.x, _cameraPosition.Position.y);
 }
 
 /* System */
