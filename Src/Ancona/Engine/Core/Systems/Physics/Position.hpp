@@ -3,10 +3,17 @@
 
 #include <SFML/System.hpp>
 
+#include <iostream>
+
 namespace ild
 {
 
 typedef sf::Vector2f Point;
+
+/**
+ * @brief Operator used to output a Point to an out stream. The Point will be formatted as (x,y)
+ */
+std::ostream & operator << (std::ostream& os, const Point&pt);
 
 /**
  * @brief The position class is used to track state about an entities position, velocity, and acceleration.  It should not

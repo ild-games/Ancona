@@ -70,15 +70,26 @@ void Actions::Apply(Position & position, float delta)
     Point velocity;
     for(auto& action : _velocityActions)
     {
-        velocity += action->GetTweenRatio() * action->GetValue();
-        action->Update(delta);
+        float overflow = action->Update(delta);
+        if(overflow > 0)
+        {
+            velocity += action->GetValue() * (1 - overflow / delta);
+        }
+        else
+        {
+            velocity += action->GetTweenRatio() * action->GetValue();
+        }
     }
 
     ApplyGravity(velocity,delta);
 
-    //Update the velocity and the position from the velocity
     position.SetVelocity(velocity);
-    position.SetPosition(position.GetPosition() + position.GetVelocity() + delta * velocity);
+
+    //Only update the position from the velocity if there are no position actions in effect.
+    if(_positionActions.size() == 0)
+    {
+        position.SetPosition(position.GetPosition() + delta * velocity);
+    }
 
     for(auto& action : _positionActions)
     {

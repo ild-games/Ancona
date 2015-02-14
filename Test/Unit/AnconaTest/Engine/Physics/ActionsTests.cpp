@@ -33,7 +33,21 @@ TEST(Actions, Age_Done)
     ASSERT_TRUE(action.Done()) << "The action should be done after it has aged more than the Duration.";
 }
 
-TEST(Actions, Tween) {
+TEST(Actions, ZeroTween)
+{
+    VectorAction action;
+    action.Value(Point(10,100))
+        ->Duration(1);
+
+    ASSERT_EQ(action.GetTweenRatio(), 1) << "Default tween ratio should be 1";
+
+    action.Update(0);
+
+    ASSERT_EQ(action.GetTweenRatio(), 1) << "Default tween ratio should be 1";
+}
+
+TEST(Actions, Tween) 
+{
     VectorAction action;
     action.Value(Point(10,100))
         ->Duration(4)
