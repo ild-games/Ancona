@@ -1,48 +1,56 @@
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 
+#include <algorithm>
+
 using namespace ild;
 
 
 DrawableSystem::DrawableSystem(
         sf::RenderWindow & window, 
-        SystemManager & systemManager, 
-        BasePhysicsSystem & physicsSystem) : 
+        SystemManager & systemManager) :
     UnorderedSystem(systemManager, UpdateStep::Draw), 
-    _window(window), 
-    _physicsSystem(physicsSystem)
+    _window(window)
 {
 }
 
 void DrawableSystem::Update(float delta)
 {
-    for(Drawable * drawable : _renderQueue)
+    for(CameraComponent * camera : _cameras)
     {
-        drawable->Draw(_window, delta);
+        camera->Draw(_window, delta);
     }
 }
 
-void DrawableSystem::AddDrawable(Drawable * drawable)
+void DrawableSystem::AddCamera(CameraComponent * camera)
 {
-    _renderQueue.push_back(drawable);
+    _cameras.push_back(camera);
     std::sort(
-            _renderQueue.begin(), 
-            _renderQueue.end(), 
-            [](Drawable * lhs, Drawable * rhs)
+            _cameras.begin(),
+            _cameras.end(), 
+            [](CameraComponent * lhs, CameraComponent * rhs)
             {
-                return (lhs->GetRenderPriority()) <
-                       (rhs->GetRenderPriority());
+                return lhs->GetRenderPriority() < rhs->GetRenderPriority();
             });
 }
 
-void DrawableSystem::RemoveDrawable(Drawable * drawable)
+void DrawableSystem::RemoveCamera(CameraComponent * camera)
 {
-    _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
+    _cameras.erase(std::remove(_cameras.begin(), _cameras.end(), camera), _cameras.end());
 }
 
-DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
+DrawableComponent * DrawableSystem::CreateComponent(
+        const Entity & entity,
+        CameraComponent & camera)
 {
-    auto comp = new DrawableComponent(*this);
+    auto comp = new DrawableComponent(camera);
+
+    // if the camera isn't already in the cameras vector, add it now
+    if(std::find(_cameras.begin(), _cameras.end(), &camera) == _cameras.end())
+    {
+        _cameras.push_back(&camera); 
+    }
+
     AttachComponent(entity, comp);
     return comp;
 }
@@ -52,7 +60,10 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
     std::vector<Drawable * > compDrawables = component->GetDrawables();
     for(Drawable * drawable : compDrawables)
     {
-        _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
+        for(CameraComponent * camera : _cameras)
+        {
+            camera->RemoveDrawable(drawable);
+        }
     }
 }
 

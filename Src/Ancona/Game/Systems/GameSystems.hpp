@@ -3,11 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 
 namespace ild
 {
@@ -35,6 +36,7 @@ class GameSystems
         DrawableSystem & GetDrawable() { return *_drawable; } 
         InputControlSystem & GetInput() { return *_input; } 
         CollisionSystem & GetCollision() { return *_collision; } 
+        CameraSystem & GetCamera() { return *_camera; }
 
     private:
         /**
@@ -57,6 +59,10 @@ class GameSystems
          * @brief System for managing collision components.
          */
         CollisionSystem * _collision;
+        /**
+         * @brief System for managing camera componenets.
+         */
+        CameraSystem * _camera;
 };
 
 }

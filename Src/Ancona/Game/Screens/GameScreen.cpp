@@ -16,13 +16,20 @@ GameScreen::GameScreen(ScreenManager & manager)
 
 void GameScreen::Init()
 {
+    _entities["screenCam"] = factories::CreateScreenCamera(
+            *_systems,
+            _manager.Window.getView());
     _entities["player"] = factories::CreatePlayer(
             _systems,
+            _entities["screenCam"],
+            _collisionTypes);
+    _entities["ground"] = factories::CreateGround(
+            *_systems,
+            _entities["screenCam"],
             _collisionTypes);
 
-    _entities["ground"] = factories::CreateGround(
-            _systems,
-            _collisionTypes);
+    _systems->GetCamera()[_entities["screenCam"]]->
+        SetFollow(_systems->GetPhysics()[_entities["player"]]);
 }
 
 void GameScreen::Update(float delta)

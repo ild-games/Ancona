@@ -1,13 +1,12 @@
 #ifndef Ancona_Engine_Core_Systems_DrawableSystem_H_
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
-#include <string>
+#include <vector>
 
 #include <SFML/Window.hpp>
 
-#include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
@@ -28,12 +27,10 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          *
          * @param window RenderWindow for game.
          * @param systemManager SystemManager for the screen.
-         * @param physicsSystem PhysicsSystem for the screen.
          */
         DrawableSystem(
                 sf::RenderWindow & window,
-                SystemManager & systemManager,
-                BasePhysicsSystem & positionSystem);
+                SystemManager & systemManager);
 
 
 
@@ -45,26 +42,29 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         void Update(float delta);
 
         /**
-         * @brief Adds a drawable to the system's render queue.
+         * @brief Adds a CameraComponent to the system's cameras.
          *
-         * @param drawable Drawable to add.
+         * @param camera CameraComponent to add.
          */
-        void AddDrawable(Drawable * drawable);
+        void AddCamera(CameraComponent * camera);
 
         /**
-         * @brief Removes a drawable from the system's render queue.
+         * @brief Removes a CameraComponent from the system's cameras.
          *
-         * @param drawable Drawable to remove.
+         * @param camera CameraComponent to remove.
          */
-        void RemoveDrawable(Drawable * drawable);
+        void RemoveCamera(CameraComponent * camera);
 
         /**
          * @brief Creates a DrawableComponent on the system.
          * @param entity Entity to attach the component to.
+         * @param camera CameraComponent for the DrawableComponent.
          *
          * @return Pointer to the newly created DrawableComponent.
          */
-        DrawableComponent * CreateComponent(const Entity & entity);
+        DrawableComponent * CreateComponent(
+                const Entity & entity,
+                CameraComponent & camera);
 
     protected:
         /**
@@ -78,13 +78,9 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          */
         sf::RenderWindow & _window;
         /**
-         * @brief The system used to determine where an entity should be drawn.
+         * @brief Holds pointers to the camera components sorted by priority
          */
-        BasePhysicsSystem & _physicsSystem;
-        /**
-         * @brief Holds pointers to the sprite components sorted by priority + priorityOffset.
-         */
-        std::vector<Drawable *> _renderQueue;
+        std::vector<CameraComponent *> _cameras;
 };
 
 

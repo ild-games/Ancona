@@ -3,9 +3,8 @@
 
 using namespace ild;
 
-DrawableComponent::DrawableComponent(
-        DrawableSystem & drawableSystem) :
-    _drawableSystem(drawableSystem)
+DrawableComponent::DrawableComponent(CameraComponent & cameraComponent) :
+    _camera(cameraComponent)
 {
 }
 
@@ -14,12 +13,12 @@ void DrawableComponent::AddDrawable(
         Drawable * drawable)
 {
     _drawables[key] = std::unique_ptr<Drawable>(drawable);
-    _drawableSystem.AddDrawable(drawable);
+    _camera.AddDrawable(drawable);
 }
 
 void DrawableComponent::RemoveDrawable(const std::string key)
 {
-    _drawableSystem.RemoveDrawable(_drawables[key].get());
+    _camera.RemoveDrawable(_drawables[key].get());
     _drawables.erase(key);
 }
 

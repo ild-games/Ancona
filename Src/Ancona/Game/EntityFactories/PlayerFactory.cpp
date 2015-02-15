@@ -4,6 +4,7 @@ using namespace ild;
 
 Entity factories::CreatePlayer(
         GameSystems * gameSystems,
+        Entity camera,
         std::map<std::string, CollisionType> collisionTypes)
 {
     Entity player = gameSystems->GetManager().CreateEntity();
@@ -18,7 +19,9 @@ Entity factories::CreatePlayer(
         
 
     // sprite component
-    DrawableComponent * drawable = gameSystems->GetDrawable().CreateComponent(player);
+    DrawableComponent * drawable = gameSystems->GetDrawable().CreateComponent(
+            player,
+            *gameSystems->GetCamera()[camera]);
     drawable->AddDrawable(
             "player-shape",
             new ShapeDrawable(
