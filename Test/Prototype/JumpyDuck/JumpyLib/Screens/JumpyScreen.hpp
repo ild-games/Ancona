@@ -24,6 +24,7 @@ class JumpyScreen : public AbstractScreen
         std::unique_ptr<JumpyGameSystems> _systems;
 
         Entity player;
+        Entity defaultCam;
 
 };
 

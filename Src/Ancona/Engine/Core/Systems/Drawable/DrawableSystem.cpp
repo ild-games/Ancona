@@ -8,16 +8,10 @@ using namespace ild;
 
 DrawableSystem::DrawableSystem(
         sf::RenderWindow & window, 
-        SystemManager & systemManager,
-        CameraSystem & cameraSys) :
+        SystemManager & systemManager) :
     UnorderedSystem(systemManager, UpdateStep::Draw), 
     _window(window)
 {
-    Entity camEntity = systemManager.CreateEntity();
-    _defaultCamera = cameraSys.CreateComponent(
-        camEntity,
-        window.getView(),
-        0);
 }
 
 void DrawableSystem::Update(float delta)
@@ -47,6 +41,7 @@ void DrawableSystem::RemoveCamera(CameraComponent * camera)
 
 DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
 {
+    Assert(_defaultCamera != nullptr, "Default camera not set");
     return CreateComponent(entity, *_defaultCamera);
 }
 

@@ -28,12 +28,10 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          *
          * @param window RenderWindow for game.
          * @param systemManager SystemManager for the screen.
-         * @param cameraSys CameraSystem for the screen.
          */
         DrawableSystem(
                 sf::RenderWindow & window,
-                SystemManager & systemManager,
-                CameraSystem & cameraSys);
+                SystemManager & systemManager);
 
         /**
          * @brief Draw all drawable elements to the screen.

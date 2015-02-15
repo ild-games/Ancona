@@ -11,8 +11,7 @@ GameSystems::GameSystems(sf::RenderWindow & window)
     _camera = new CameraSystem(*_manager);
     _drawable = new DrawableSystem(
             window, 
-            *_manager,
-            *_camera);
+            *_manager);
 
     _physics->SetGravity(Point(0,10));
 }
