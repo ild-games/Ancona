@@ -29,13 +29,11 @@ class JumpyInputComponent : public InputControlComponent
     public:
         JumpyInputComponent(const Entity & player, PlatformPhysicsComponent & physicsComponent, JumpyKeyboard & inputHandler);
 
-        void GoLeft();
-        void GoRight();
-        void GoUp();
-        void GoDown();
+        void GoDirection(int direction);
 
     private:
         VectorActionProxy action;
+        int lastDir = 0;
 };
 
 }

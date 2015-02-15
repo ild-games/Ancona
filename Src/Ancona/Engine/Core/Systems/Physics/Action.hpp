@@ -7,7 +7,7 @@ namespace ild
 {
 
 /**
- * @brief An action is used to interact with the physics system.
+ * @brief An action is used to interact with the physics system. (UNIT TESTED)
  * @author Jeff Swenson
  */
 template <class SubClass>
@@ -24,7 +24,7 @@ class Action
          *
          * @param priority Priority of the action.  Lower priority actions are applied before higher priority actions.
          *
-         * @return A reference to the action.
+         * @return A pointer to the action.
          */
         SubClass * Priority(int priority) { _priority = priority; return static_cast<SubClass *>(this); }
 
@@ -34,9 +34,16 @@ class Action
          * @param duration Duration of the action.  An action with a duration of 0 will expire after a single update step.  The 
          * duration is the number of seconds the action should apply for.
          *
-         * @return A reference to the action.
+         * @return A pointer to the action.
          */
         SubClass * Duration(float duration) { _duration = duration; return static_cast<SubClass *>(this); }
+
+        /**
+         * @brief Reset the age of the action to zero.  This is useful if you want to retween a value.
+         *
+         * @return A pointer to the action.
+         */
+        SubClass * ResetAge() { _age = 0; return static_cast<SubClass *>(this); }
 
         /**
          * Stop any affects that the action has.  Once cancel is called Done will return true.
@@ -71,20 +78,11 @@ class Action
             return _duration < _age;
         }
 
-        inline int GetPriority() 
-        { 
-            return _priority;
-        }
+        int GetPriority() { return _priority; }
+        float GetDuration() { return _duration; }
+        float GetAge() { return _age; }
 
-        inline float GetDuration() 
-        { 
-            return _duration;
-        }
 
-        inline float GetAge() 
-        { 
-            return _age;
-        }
     private:
         int _priority = 0;
         float _duration = 0;
