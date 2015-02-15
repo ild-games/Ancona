@@ -7,6 +7,7 @@
 
 #include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
@@ -27,12 +28,12 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          *
          * @param window RenderWindow for game.
          * @param systemManager SystemManager for the screen.
+         * @param cameraSys CameraSystem for the screen.
          */
         DrawableSystem(
                 sf::RenderWindow & window,
-                SystemManager & systemManager);
-
-
+                SystemManager & systemManager,
+                CameraSystem & cameraSys);
 
         /**
          * @brief Draw all drawable elements to the screen.
@@ -58,6 +59,14 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief Creates a DrawableComponent on the system.
          * @param entity Entity to attach the component to.
+         *
+         * @return Pointer to the newly created DrawableComponent.
+         */
+        DrawableComponent * CreateComponent(const Entity & entity);
+
+        /**
+         * @brief Creates a DrawableComponent on the system.
+         * @param entity Entity to attach the component to.
          * @param camera CameraComponent for the DrawableComponent.
          *
          * @return Pointer to the newly created DrawableComponent.
@@ -65,6 +74,10 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         DrawableComponent * CreateComponent(
                 const Entity & entity,
                 CameraComponent & camera);
+
+        /* gettes and setters */
+        void SetDefaultCamera(CameraComponent * defaultCamera) { _defaultCamera = defaultCamera; }
+
 
     protected:
         /**
@@ -81,6 +94,10 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          * @brief Holds pointers to the camera components sorted by priority
          */
         std::vector<CameraComponent *> _cameras;
+        /**
+         * @brief Default camera to use for drawable components.
+         */
+        CameraComponent * _defaultCamera;
 };
 
 

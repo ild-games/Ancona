@@ -31,7 +31,6 @@ class CameraComponent
          */
         CameraComponent(
                 const sf::View & originalView,
-                BasePhysicsComponent & cameraPhysics,
                 int renderPriority,
                 float scale = 1.0f);
 
@@ -74,13 +73,9 @@ class CameraComponent
 
     protected:
         /**
-         * @brief Physics component for the camera.
-         */
-        BasePhysicsComponent & _cameraPhysics;
-        /**
          * @brief Position component for what the camera is following.
          */
-        BasePhysicsComponent * _followPhysics;
+        BasePhysicsComponent * _followPhysics = nullptr;
 
     private:
         /**
@@ -132,7 +127,6 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
         CameraComponent * CreateComponent(
                 const Entity & entity,
                 const sf::View & originalView,
-                BasePhysicsComponent & cameraPhysics,
                 int renderPriority,
                 float scale = 1.0f);
 

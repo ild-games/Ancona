@@ -18,7 +18,6 @@ namespace factories
 
     Entity CreateGround(
             GameSystems & gameSystems,
-            Entity camera,
             std::map<std::string, CollisionType> collisionTypes);
 
 }

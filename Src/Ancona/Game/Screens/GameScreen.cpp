@@ -19,13 +19,12 @@ void GameScreen::Init()
     _entities["screenCam"] = factories::CreateScreenCamera(
             *_systems,
             _manager.Window.getView());
+    _systems->GetDrawable().SetDefaultCamera(_systems->GetCamera()[_entities["screenCam"]]);
     _entities["player"] = factories::CreatePlayer(
             _systems,
-            _entities["screenCam"],
             _collisionTypes);
     _entities["ground"] = factories::CreateGround(
             *_systems,
-            _entities["screenCam"],
             _collisionTypes);
 
     _systems->GetCamera()[_entities["screenCam"]]->

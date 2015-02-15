@@ -8,10 +8,16 @@ using namespace ild;
 
 DrawableSystem::DrawableSystem(
         sf::RenderWindow & window, 
-        SystemManager & systemManager) :
+        SystemManager & systemManager,
+        CameraSystem & cameraSys) :
     UnorderedSystem(systemManager, UpdateStep::Draw), 
     _window(window)
 {
+    Entity camEntity = systemManager.CreateEntity();
+    _defaultCamera = cameraSys.CreateComponent(
+        camEntity,
+        window.getView(),
+        0);
 }
 
 void DrawableSystem::Update(float delta)
@@ -37,6 +43,11 @@ void DrawableSystem::AddCamera(CameraComponent * camera)
 void DrawableSystem::RemoveCamera(CameraComponent * camera)
 {
     _cameras.erase(std::remove(_cameras.begin(), _cameras.end(), camera), _cameras.end());
+}
+
+DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
+{
+    return CreateComponent(entity, *_defaultCamera);
 }
 
 DrawableComponent * DrawableSystem::CreateComponent(

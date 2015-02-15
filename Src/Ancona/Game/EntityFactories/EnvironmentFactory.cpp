@@ -8,13 +8,9 @@ Entity factories::CreateScreenCamera(
 {
     Entity cam = gameSystems.GetManager().CreateEntity();
 
-    // position component
-    PlatformPhysicsComponent * physics = gameSystems.GetPhysics().CreateComponent(cam);
-
     gameSystems.GetCamera().CreateComponent(
             cam,
             originalView,
-            *physics,
             0,
             2.0f);
 
@@ -23,7 +19,6 @@ Entity factories::CreateScreenCamera(
 
 Entity factories::CreateGround(
         GameSystems & gameSystems,
-        Entity camera,
         std::map<std::string, CollisionType> collisionTypes)
 {
     Entity ground = gameSystems.GetManager().CreateEntity();
@@ -39,9 +34,8 @@ Entity factories::CreateGround(
         ->Duration(1);
 
     // sprite component
-    DrawableComponent * drawable = gameSystems.GetDrawable().CreateComponent(
-            ground, 
-            *gameSystems.GetCamera()[camera]);
+    DrawableComponent * drawable = 
+        gameSystems.GetDrawable().CreateComponent(ground);
     drawable->AddDrawable(
             "ground-sprite",
             new SpriteDrawable(
