@@ -4,6 +4,11 @@
 
 using namespace ild;
 
+enum direction {
+    UP, RIGHT, DOWN, LEFT, NO_DIR
+};
+static Point directions []= {Point(0,-1),Point(1,0),Point(0,1),Point(-1,0)};
+
 void JumpyKeyboard::RegisterInputComponent(JumpyInputComponent * component)
 {
     _playerComponent = component;
@@ -11,21 +16,25 @@ void JumpyKeyboard::RegisterInputComponent(JumpyInputComponent * component)
 
 void JumpyKeyboard::HandleInput()
 {
-    if(Keyboard::IsKeyPressed(sf::Keyboard::Key::W))
+    if(Keyboard::IsKeyDown(sf::Keyboard::Key::W))
     {
-        _playerComponent->GoUp();
+        _playerComponent->GoDirection(UP);
     }
-    if(Keyboard::IsKeyPressed(sf::Keyboard::Key::A))
+    else if(Keyboard::IsKeyDown(sf::Keyboard::Key::A))
     {
-        _playerComponent->GoLeft();
+        _playerComponent->GoDirection(LEFT);
     }
-    if(Keyboard::IsKeyPressed(sf::Keyboard::Key::D))
+    else if(Keyboard::IsKeyDown(sf::Keyboard::Key::D))
     {
-        _playerComponent->GoRight();
+        _playerComponent->GoDirection(RIGHT);
     }
-    if(Keyboard::IsKeyPressed(sf::Keyboard::Key::S))
+    else if(Keyboard::IsKeyDown(sf::Keyboard::Key::S))
     {
-        _playerComponent->GoDown();
+        _playerComponent->GoDirection(DOWN);
+    } 
+    else
+    {
+        _playerComponent->GoDirection(NO_DIR);
     }
 }
 
@@ -33,24 +42,17 @@ JumpyInputComponent::JumpyInputComponent(const Entity & player, PlatformPhysicsC
     : InputControlComponent(inputHandler)
 {
     inputHandler.RegisterInputComponent(this);
+    action = physicsComponent.GetActions().CreateVelocityAction();
+    action->Duration(ActionDuration::PERSISTENT)
+          ->Tween(0.5);
 }
 
-void JumpyInputComponent::GoLeft()
+void JumpyInputComponent::GoDirection(int direction)
 {
-    std::cout << "Go left" << std::endl;
-}
-
-void JumpyInputComponent::GoRight()
-{
-    std::cout << "Go right" << std::endl;
-}
-
-void JumpyInputComponent::GoUp()
-{
-    std::cout << "Go up" << std::endl;
-}
-
-void JumpyInputComponent::GoDown()
-{
-    std::cout << "Go down" << std::endl;
+    if(lastDir != direction)
+    {
+        lastDir = direction;
+        action->ResetAge();
+        action->Value(directions[direction] * 100.0f);
+    }
 }

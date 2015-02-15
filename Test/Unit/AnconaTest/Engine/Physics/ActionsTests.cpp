@@ -67,3 +67,23 @@ TEST(Actions, Tween)
     action.Update(1);
     ASSERT_EQ(action.GetTweenRatio(), 1) << "Incorrect tween ratio";
 }
+
+TEST(Actions, ResetAge)
+{
+    VectorAction action;
+    action.Value(Point(10,100))
+        ->Duration(4)
+        ->Tween(2);
+
+    ASSERT_EQ(action.GetTweenRatio(), 0) << "Incorrect tween ratio";
+
+    action.Update(1);
+
+    ASSERT_EQ(action.GetTweenRatio(), 0.5) << "Incorrect tween ratio";
+
+    action.ResetAge();
+
+    ASSERT_EQ(action.GetAge(), 0) << "The age reset did not reset the age";
+    ASSERT_EQ(action.GetTweenRatio(), 0) << "The age reset did not reset the tween";
+
+}
