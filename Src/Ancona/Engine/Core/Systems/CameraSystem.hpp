@@ -35,7 +35,7 @@ class CameraComponent
                 int renderPriority,
                 float scale = 1.0f);
 
-        virtual ~CameraComponent();
+        virtual ~CameraComponent() { }
 
         /**
          * @brief Updates the position of the camera.
@@ -86,7 +86,7 @@ class CameraComponent
         /**
          * @brief SFML view for actually applying the camera's position on the window.
          */
-        sf::View * _view;
+        sf::View _view;
         /**
          * @brief Priority in which the camera is rendered, lower priority means  it will be rendered sooner.
          */

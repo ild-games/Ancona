@@ -9,6 +9,5 @@ JumpyGameSystems::JumpyGameSystems(sf::RenderWindow & window)
     _input = new InputControlSystem(*_manager);
     _drawable = new DrawableSystem(
             window,
-            *_manager,
-            *_physics);
+            *_manager);
 }

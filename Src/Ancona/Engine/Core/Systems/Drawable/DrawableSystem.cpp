@@ -8,11 +8,9 @@ using namespace ild;
 
 DrawableSystem::DrawableSystem(
         sf::RenderWindow & window, 
-        SystemManager & systemManager, 
-        BasePhysicsSystem & physicsSystem) : 
+        SystemManager & systemManager) :
     UnorderedSystem(systemManager, UpdateStep::Draw), 
-    _window(window), 
-    _physicsSystem(physicsSystem)
+    _window(window)
 {
 }
 
@@ -45,9 +43,7 @@ DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
         CameraComponent & camera)
 {
-    auto comp = new DrawableComponent(
-            *this,
-            camera);
+    auto comp = new DrawableComponent(camera);
 
     // if the camera isn't already in the cameras vector, add it now
     if(std::find(_cameras.begin(), _cameras.end(), &camera) == _cameras.end())

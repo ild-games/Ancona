@@ -29,12 +29,9 @@ class DrawableComponent
         /**
          * @brief Construct a DrawableComponent.
          *
-         * @param drawableSystem DrawableSystem for the screen.
          * @param cameraComponent CameraComponent used to render these renderables.
          */
-        DrawableComponent(
-                DrawableSystem & drawableSystem,
-                CameraComponent & cameraComponent);
+        DrawableComponent(CameraComponent & cameraComponent);
 
         /**
          * @brief Adds a drawable element to the component.
@@ -63,10 +60,6 @@ class DrawableComponent
          * @brief Holds all the drawables the component controls.
          */
         std::map<std::string, std::unique_ptr<Drawable> > _drawables;
-        /**
-         * @brief DrawableSystem for the screen.
-         */
-        DrawableSystem & _drawableSystem;
         /**
          * @brief Camera the drawables for this component are rendered with.
          */

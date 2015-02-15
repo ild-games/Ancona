@@ -24,7 +24,7 @@ class AbstractScreen
         /**
          * @brief Destructor for AbstractScreen.
          */
-        virtual ~AbstractScreen();
+        virtual ~AbstractScreen() { }
 
         /**
          * @brief Can be overridden to initialize the screen.  
@@ -97,7 +97,7 @@ class AbstractScreen
         /**
          * @brief The default camera used when the window is first spawned.
          */
-        const sf::View * _defaultCam;
+        const sf::View _defaultCam;
 
 };
 

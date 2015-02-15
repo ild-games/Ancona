@@ -7,7 +7,6 @@
 
 #include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
@@ -28,12 +27,10 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          *
          * @param window RenderWindow for game.
          * @param systemManager SystemManager for the screen.
-         * @param physicsSystem PhysicsSystem for the screen.
          */
         DrawableSystem(
                 sf::RenderWindow & window,
-                SystemManager & systemManager,
-                BasePhysicsSystem & positionSystem);
+                SystemManager & systemManager);
 
 
 
@@ -80,10 +77,6 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          * @brief The window the sprite system will draw to.
          */
         sf::RenderWindow & _window;
-        /**
-         * @brief The system used to determine where an entity should be drawn.
-         */
-        BasePhysicsSystem & _physicsSystem;
         /**
          * @brief Holds pointers to the camera components sorted by priority
          */

@@ -9,15 +9,10 @@ CameraComponent::CameraComponent(
         int renderPriority,
         float scale) :
     _cameraPhysics(cameraPhysics),
+    _view(sf::View(originalView)),
     _renderPriority(renderPriority)
 {
-    _view = new sf::View(originalView);
-    _view->zoom(scale);
-}
-
-CameraComponent::~CameraComponent()
-{
-    delete _view;
+    _view.zoom(scale);
 }
 
 void CameraComponent::Update(float delta)
@@ -27,7 +22,7 @@ void CameraComponent::Update(float delta)
 
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 {
-    window.setView(*_view);
+    window.setView(_view);
     for(Drawable * drawable : _renderQueue)
     {
         drawable->Draw(window, delta);
@@ -42,7 +37,7 @@ void CameraComponent::MoveCamera()
         x = _followPhysics->GetInfo().GetPosition().x;
         y = _followPhysics->GetInfo().GetPosition().y;
     }
-    _view->setCenter(x, y);
+    _view.setCenter(x, y);
 }
 
 void CameraComponent::AddDrawable(Drawable * drawable)
