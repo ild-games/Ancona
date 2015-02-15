@@ -15,11 +15,14 @@ CameraComponent::CameraComponent(
     _view->zoom(scale);
 }
 
+CameraComponent::~CameraComponent()
+{
+    delete _view;
+}
+
 void CameraComponent::Update(float delta)
 {
-    _view->setCenter(
-            _followPhysics->GetInfo().GetPosition().x, 
-            _followPhysics->GetInfo().GetPosition().y);
+    MoveCamera();
 }
 
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
@@ -29,6 +32,17 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
     {
         drawable->Draw(window, delta);
     }
+}
+
+void CameraComponent::MoveCamera()
+{
+    float x = 0, y = 0;
+    if(_followPhysics != nullptr)
+    {
+        x = _followPhysics->GetInfo().GetPosition().x;
+        y = _followPhysics->GetInfo().GetPosition().y;
+    }
+    _view->setCenter(x, y);
 }
 
 void CameraComponent::AddDrawable(Drawable * drawable)
