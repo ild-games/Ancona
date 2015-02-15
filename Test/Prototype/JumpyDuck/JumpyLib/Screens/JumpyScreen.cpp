@@ -12,6 +12,12 @@ JumpyScreen::JumpyScreen(ScreenManager & manager)
 
 void JumpyScreen::Init()
 {
+    defaultCam = _systems->GetManager().CreateEntity();
+    CameraComponent * cam = _systems->GetCamera().CreateComponent(
+            defaultCam, 
+            _manager.Window.getView(),
+            0);
+    _systems->GetDrawable().SetDefaultCamera(cam);
     player = JumpyPlayer::Create(_systems.get());
 }
 

@@ -5,10 +5,8 @@ using namespace ild;
 /* Component */
 CameraComponent::CameraComponent(
         const sf::View & originalView,
-        BasePhysicsComponent & cameraPhysics,
         int renderPriority,
         float scale) :
-    _cameraPhysics(cameraPhysics),
     _view(sf::View(originalView)),
     _renderPriority(renderPriority)
 {
@@ -31,13 +29,12 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 
 void CameraComponent::MoveCamera()
 {
-    float x = 0, y = 0;
     if(_followPhysics != nullptr)
     {
-        x = _followPhysics->GetInfo().GetPosition().x;
-        y = _followPhysics->GetInfo().GetPosition().y;
+        _view.setCenter(
+            _followPhysics->GetInfo().GetPosition().x,
+            _followPhysics->GetInfo().GetPosition().y);
     }
-    _view.setCenter(x, y);
 }
 
 void CameraComponent::AddDrawable(Drawable * drawable)
@@ -75,13 +72,11 @@ void CameraSystem::Update(float delta)
 CameraComponent * CameraSystem::CreateComponent(
         const Entity & entity,
         const sf::View & originalView,
-        BasePhysicsComponent & cameraPhysics,
         int renderPriority,
         float scale)
 {
     CameraComponent * comp = new CameraComponent(
             originalView,
-            cameraPhysics,
             renderPriority,
             scale);
     AttachComponent(entity, comp);

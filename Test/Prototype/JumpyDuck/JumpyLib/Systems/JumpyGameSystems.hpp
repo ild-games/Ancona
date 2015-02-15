@@ -2,6 +2,7 @@
 #define JumpyGame_Systems_JumpyGameSystems_Hpp
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/FadeDrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
@@ -23,6 +24,7 @@ class JumpyGameSystems
         DrawableSystem & GetDrawable() { return *_drawable; } 
         InputControlSystem & GetInput() { return *_input; } 
         PlatformPhysicsSystem & GetPhysics() { return *_physics; }
+        CameraSystem & GetCamera() { return *_camera; }
 
     private:
         /**
@@ -41,6 +43,10 @@ class JumpyGameSystems
          * @brief The physics system for the game
          */
         PlatformPhysicsSystem * _physics;
+        /**
+         * @brief System for managing camera componenets.
+         */
+        CameraSystem * _camera;
 };
 
 

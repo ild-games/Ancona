@@ -39,6 +39,12 @@ void DrawableSystem::RemoveCamera(CameraComponent * camera)
     _cameras.erase(std::remove(_cameras.begin(), _cameras.end(), camera), _cameras.end());
 }
 
+DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
+{
+    Assert(_defaultCamera != nullptr, "Default camera not set");
+    return CreateComponent(entity, *_defaultCamera);
+}
+
 DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
         CameraComponent & camera)
