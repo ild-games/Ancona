@@ -35,6 +35,8 @@ class CameraComponent
                 int renderPriority,
                 float scale = 1.0f);
 
+        virtual ~CameraComponent();
+
         /**
          * @brief Updates the position of the camera.
          */
@@ -46,6 +48,11 @@ class CameraComponent
          * @param window RenderWindow for the game.
          */
         void Draw(sf::RenderWindow & window, float delta);
+
+        /**
+         * @brief Moves the camera, the default behavior is to lock onto the _followPhysics.
+         */
+        virtual void MoveCamera();
 
         /**
          * @brief Adds a drawable to the camera's render queue.
@@ -65,11 +72,7 @@ class CameraComponent
         int GetRenderPriority() { return _renderPriority; }
         void SetFollow(BasePhysicsComponent * followPhysics) { _followPhysics = followPhysics; }
 
-    private:
-        /**
-         * @brief SFML view for actually applying the camera's position on the window.
-         */
-        sf::View * _view;
+    protected:
         /**
          * @brief Physics component for the camera.
          */
@@ -78,6 +81,12 @@ class CameraComponent
          * @brief Position component for what the camera is following.
          */
         BasePhysicsComponent * _followPhysics;
+
+    private:
+        /**
+         * @brief SFML view for actually applying the camera's position on the window.
+         */
+        sf::View * _view;
         /**
          * @brief Priority in which the camera is rendered, lower priority means  it will be rendered sooner.
          */
