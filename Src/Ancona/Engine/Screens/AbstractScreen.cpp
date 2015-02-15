@@ -4,13 +4,19 @@
 using namespace ild;
 
 AbstractScreen::AbstractScreen(ScreenManager & manager) : 
-    _manager(manager),
     __Initialized(false),
     __Entering(false),
     __Exiting(false),
+    _manager(manager),
     _transitionColor(0, 0, 0, 255),
-    _transitionRect(sf::Vector2f(_manager.Window.getSize().x, _manager.Window.getSize().y))
+    _transitionRect(sf::Vector2f(_manager.Window.getSize().x, _manager.Window.getSize().y)),
+    _defaultCam(new sf::View(_manager.Window.getView())) 
 {
+}
+
+AbstractScreen::~AbstractScreen()
+{
+    delete _defaultCam;
 }
 
 void AbstractScreen::Entering(float delta)
@@ -24,6 +30,7 @@ void AbstractScreen::Entering(float delta)
     }
     _transitionColor.a = alpha;
     _transitionRect.setFillColor(_transitionColor);
+    _manager.Window.setView(*_defaultCam);
     _manager.Window.draw(_transitionRect);
 }
 
@@ -38,5 +45,6 @@ void AbstractScreen::Exiting(float delta)
     }
     _transitionColor.a = alpha;
     _transitionRect.setFillColor(_transitionColor);
+    _manager.Window.setView(*_defaultCam);
     _manager.Window.draw(_transitionRect);
 }

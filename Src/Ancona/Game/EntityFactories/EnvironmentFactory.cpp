@@ -16,7 +16,7 @@ Entity factories::CreateScreenCamera(
             originalView,
             *physics,
             0,
-            0.5f);
+            2.0f);
 
     return cam;
 }

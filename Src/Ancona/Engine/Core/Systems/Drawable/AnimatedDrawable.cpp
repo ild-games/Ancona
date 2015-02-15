@@ -11,16 +11,16 @@ AnimatedDrawable::AnimatedDrawable(
         float duration,
         int priorityOffset,
         sf::Vector2f positionOffset) :
-    _frameDimensions(frameDimensions),
-    _numFrames(numFrames),
-    DURATION(duration),
-    _timeUntilChange(duration),
     SpriteDrawable(
             physicsComponent,
             textureKey,
             priority,
             priorityOffset,
-            positionOffset)
+            positionOffset),
+    _frameDimensions(frameDimensions),
+    DURATION(duration),
+    _timeUntilChange(duration),
+    _numFrames(numFrames)
 {
     _sprite->setTextureRect(
             sf::IntRect(
