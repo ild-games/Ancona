@@ -8,8 +8,8 @@ Drawable::Drawable(
         int priorityOffset,
         sf::Vector2f positionOffset) :
     _physicsComponent(physicsComponent),
+    _positionOffset(positionOffset),
     _renderPriority(priority),
-    _priorityOffset(priorityOffset),
-    _positionOffset(positionOffset)
+    _priorityOffset(priorityOffset)
 {
 }

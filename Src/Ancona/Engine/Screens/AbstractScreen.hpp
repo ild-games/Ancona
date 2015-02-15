@@ -22,6 +22,11 @@ class AbstractScreen
         AbstractScreen(ScreenManager & manager);
 
         /**
+         * @brief Destructor for AbstractScreen.
+         */
+        virtual ~AbstractScreen();
+
+        /**
          * @brief Can be overridden to initialize the screen.  
          * Will be called just before Update is called for the
          * first time.
@@ -77,21 +82,22 @@ class AbstractScreen
          * @brief Manages all the screens in the game
          */
         ScreenManager & _manager;
-
         /**
          * @brief Color of the default transition.
          */
         sf::Color _transitionColor;
-
         /**
          * @brief Rectangle used to create the default transition.
          */
         sf::RectangleShape _transitionRect;
-
         /**
          * @brief Speed the default transition happens at.
          */
         float TRANSITION_SPEED = 650.0f;
+        /**
+         * @brief The default camera used when the window is first spawned.
+         */
+        const sf::View * _defaultCam;
 
 };
 

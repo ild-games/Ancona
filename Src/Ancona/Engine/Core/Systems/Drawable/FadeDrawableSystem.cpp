@@ -9,8 +9,8 @@ FadeDrawableComponent::FadeDrawableComponent(
         float fadeIn,
         float fadeSpeed) :
     _drawableComponent(drawableComponent),
-    _fadeIn(fadeIn),
-    FADE_SPEED(fadeSpeed)
+    FADE_SPEED(fadeSpeed),
+    _fadeIn(fadeIn)
 {
 }
 
