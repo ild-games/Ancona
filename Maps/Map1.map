@@ -1,107 +1,103 @@
 {
     "key": "Map1",
-    "entities": [
-        {
-            "key": "player",
-            "components": [
-                {
-                    "type": "Physics",
-                    "actions": {
-                        "list": [
-                            {
-                                "type": "position",
-                                "value": {
-                                    "type": "point",
-                                    "x": 50.0,
-                                    "y": 20.0
-                                },
-                                "tween": 3,
-                                "duration": 5
-                            }
-                        ],
-                        "gravity": true
-                    }
-                },
-                {
-                    "type": "Drawable",
-                    "drawables": [
+    "components": {
+        "physics": [
+            {
+                "entity": "player",
+                "actions": {
+                    "list": [
                         {
-                            "key": "player-shape",
-                            "drawable": {
-                                "type": "shape",
-                                "shape": {
-                                    "type": "rect",
-                                    "width": 16.0,
-                                    "height": 17.0
-                                },
-                                "render-priority": 0,
-                                "priority-offset": -1
+                            "type": "position",
+                            "value": {
+                                "type": "point",
+                                "x": 50.0,
+                                "y": 20.0
+                            },
+                            "tween": 3,
+                            "duration": 5
+                        }
+                    ],
+                    "gravity": true
+                }
+            }
+        ],
+        "platform-physics": [
+            {
+                "entity": "ground",
+                "actions": {
+                    "list": [
+                        {
+                            "type": "position",
+                            "value": {
+                                "type": "point",
+                                "x": 100.0,
+                                "y": 500.0
                             }
                         },
                         {
-                            "key": "player-walking",
-                            "drawable": {
-                                "type": "animated",
-                                "animation": {
-                                    "texture-key": "player-walking",
-                                    "render-priority": 0,
-                                    "frame-dim": {
-                                        "width": 16.0,
-                                        "height": 17.0
-                                    },
-                                    "num-frames": 6,
-                                    "duration": 0.1
-                                }
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "key": "ground",
-            "components": [
-                {
-                    "type": "PlatformPhysics",
-                    "actions": {
-                        "list": [
-                            {
-                                "type": "position",
-                                "value": {
-                                    "type": "point",
-                                    "x": 100.0,
-                                    "y": 500.0
-                                }
+                            "type": "velocity",
+                            "value": {
+                                "type": "point",
+                                "x": 0,
+                                "y": 0.5
                             },
-                            {
-                                "type": "velocity",
-                                "value": {
-                                    "type": "point",
-                                    "x": 0,
-                                    "y": 0.5
-                                },
-                                "duration": 1
-                            }
-                        ]
-                    }
-                },
-                {
-                    "type": "Drawable",
-                    "drawables": [
-                        {
-                            "key": "ground-sprite",
-                            "drawable": {
-                                "type": "sprite",
-                                "sprite": {
-                                    "texture-key": "flappy-ground",
-                                    "render-priority": 0,
-                                    "priority-offset": -1
-                                }
-                            }
+                            "duration": 1
                         }
                     ]
                 }
-            ]
-        }
-    ]
+            }
+        ],
+        "drawable": [
+            {
+                "entity": "player",
+                "drawables": [
+                    {
+                        "key": "player-shape",
+                        "drawable": {
+                            "type": "shape",
+                            "shape": {
+                                "type": "rect",
+                                "width": 16.0,
+                                "height": 17.0
+                            },
+                            "render-priority": 0,
+                            "priority-offset": -1
+                        }
+                    },
+                    {
+                        "key": "player-walking",
+                        "drawable": {
+                            "type": "animated",
+                            "animation": {
+                                "texture-key": "player-walking",
+                                "render-priority": 0,
+                                "frame-dim": {
+                                    "width": 16.0,
+                                    "height": 17.0
+                                },
+                                "num-frames": 6,
+                                "duration": 0.1
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "entity": "ground",
+                "drawables": [
+                    {
+                        "key": "ground-sprite",
+                        "drawable": {
+                            "type": "sprite",
+                            "sprite": {
+                                "texture-key": "flappy-ground",
+                                "render-priority": 0,
+                                "priority-offset": -1
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
 }
