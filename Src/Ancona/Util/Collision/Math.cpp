@@ -111,7 +111,7 @@ static Math::Point2 GetFixVector(const Math::Vertices2 & shapeA, const Math::Ver
             normalOfMin = normal;
         }
     }
-    return Math::Point2(-normalOfMin.first * min, normalOfMin.second * min);
+    return Math::Point2(normalOfMin.first * min, normalOfMin.second * min);
 }
 
 bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB)

@@ -7,7 +7,7 @@ using namespace ild;
 enum direction {
     UP, RIGHT, DOWN, LEFT, NO_DIR
 };
-static Point directions []= {Point(0,-1),Point(1,0),Point(0,1),Point(-1,0)};
+static Point directions []= {Point(0,-1),Point(1,0),Point(0,1),Point(-1,0),Point(0,0)};
 
 void JumpyKeyboard::RegisterInputComponent(JumpyInputComponent * component)
 {

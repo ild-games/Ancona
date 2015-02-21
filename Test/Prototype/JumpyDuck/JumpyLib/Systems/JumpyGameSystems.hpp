@@ -25,7 +25,9 @@ class JumpyGameSystems
         InputControlSystem & GetInput() { return *_input; } 
         PlatformPhysicsSystem & GetPhysics() { return *_physics; }
         CameraSystem & GetCamera() { return *_camera; }
+        CollisionSystem & GetCollision() { return *_collision; }
 
+        CollisionType GetNullCollision() { return 0; }
     private:
         /**
          * @brief Manages all the entity systems on the screen.
@@ -47,6 +49,10 @@ class JumpyGameSystems
          * @brief System for managing camera componenets.
          */
         CameraSystem * _camera;
+        /**
+         * @brief System for managing collisions.
+         */
+        CollisionSystem * _collision;
 };
 
 
