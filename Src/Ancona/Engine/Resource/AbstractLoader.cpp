@@ -3,9 +3,11 @@
 
 using namespace ild;
 
-AbstractLoader::AbstractLoader(const std::string & resourceName, 
+AbstractLoader::AbstractLoader(
+        const std::string & resourceName,
         const std::type_index & resourceType) :
-    _resourceName(resourceName), _resourceType(resourceType)
+    _resourceName(resourceName),
+    _resourceType(resourceType)
 {
     ResourceLibrary::RegisterLoader(this);
 }
@@ -21,11 +23,11 @@ const std::string & AbstractLoader::GetResourceName()
 }
 
 std::string AbstractLoader::GetResourceFileName(
-                const std::string & resourceDir, 
-                const std::string & resourceKey, 
-                const std::string & fileExtension)
+        const std::string & resourceDir,
+        const std::string & resourceKey,
+        const std::string & fileExtension)
 {
-        return ResourceLibrary::ResourceRoot() + "/" + 
-               resourceDir + "/" +
-               resourceKey + "." + fileExtension;
+    return ResourceLibrary::ResourceRoot() + "/" +
+           resourceDir + "/" +
+           resourceKey + "." + fileExtension;
 }

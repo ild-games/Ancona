@@ -6,4 +6,5 @@
 ##
 
 #Path to the resource folder
-ResourceRoot = ../../resources
+ResourceRoot = /Users/tlein/Code/anconacpp/resources
+MapRoot = /Users/tlein/Code/anconacpp/maps

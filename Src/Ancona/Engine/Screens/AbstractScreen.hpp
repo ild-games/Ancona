@@ -1,6 +1,8 @@
 #ifndef Ancona_Engine_Screen_AbstractScreen_H_
 #define Ancona_Engine_Screen_AbstractScreen_H_
 
+#include <string>
+
 #include "ScreenManager.hpp"
 
 namespace ild
@@ -60,6 +62,12 @@ class AbstractScreen
          * @param delta time since last update.
          */
         virtual void Exiting(float delta);
+
+        /**
+         * @brief Used by the ScreenManager to call the Init
+         * function at the correct time.
+         */
+        void LoadMap(std::string map);
         
         /**
          * @brief Used by the ScreenManager to call the Init
@@ -98,6 +106,10 @@ class AbstractScreen
          * @brief The default camera used when the window is first spawned.
          */
         const sf::View _defaultCam;
+        /**
+         * @brief The map loaded onto this screen. If it is blank then no map will be loaded.
+         */
+        std::string _map = "";
 
 };
 

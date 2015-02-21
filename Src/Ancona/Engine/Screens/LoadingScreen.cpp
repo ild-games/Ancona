@@ -1,13 +1,15 @@
 #include <SFML/Window.hpp>
 
 #include <Ancona/Engine/Screens/LoadingScreen.hpp>
-#include <Ancona/Engine/Resource/RequestList.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
 using namespace ild;
 
-LoadingScreen::LoadingScreen(ScreenManager & manager, RequestList & requestList)
-    : AbstractScreen(manager), _requestList(requestList)
+LoadingScreen::LoadingScreen(
+        ScreenManager & manager,
+        RequestList & requestList) :
+    AbstractScreen(manager),
+    _requestList(requestList)
 {
 }
 

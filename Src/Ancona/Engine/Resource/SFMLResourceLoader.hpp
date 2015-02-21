@@ -1,9 +1,9 @@
 #ifndef Ancona_Engine_Resource_SFMLResourceLoader_H_
 #define Ancona_Engine_Resource_SFMLResourceLoader_H_
 
-#include <Ancona/Engine/Resource/AbstractLoader.hpp>
-
 #include <string>
+
+#include <Ancona/Engine/Resource/AbstractLoader.hpp>
 
 namespace ild
 {
@@ -24,11 +24,12 @@ class SFMLResourceLoader : public AbstractLoader
          * @brief fileExtension File extension used for the resource
          * @brief directory Describes the directory the resource is stored in
          */
-        SFMLResourceLoader(const std::string & resourceName, 
-                           const std::string & fileExtension,
-                           const std::string & directory) 
-                           : AbstractLoader(resourceName,typeid(SFMLType)),
-                           _fileExtension(fileExtension), _directory(directory)
+        SFMLResourceLoader(
+                const std::string & resourceName,
+                const std::string & fileExtension,
+                const std::string & directory) :
+            AbstractLoader(resourceName,typeid(SFMLType)),
+            _fileExtension(fileExtension), _directory(directory)
         {
         }
 
@@ -39,8 +40,9 @@ class SFMLResourceLoader : public AbstractLoader
         {
             SFMLType * object = new SFMLType();
             std::string fileName = GetResourceFileName(
-                    _directory, resourceKey, _fileExtension
-                    );
+                    _directory,
+                    resourceKey,
+                    _fileExtension);
 
             if(!(object->loadFromFile(fileName)))
             {
@@ -59,6 +61,7 @@ class SFMLResourceLoader : public AbstractLoader
             SFMLType * object = static_cast<SFMLType *>(resource);
             delete object;
         }
+
     private:
         std::string _fileExtension;
         std::string _directory;

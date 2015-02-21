@@ -1,7 +1,4 @@
-#include <iostream>
-
 #include <Ancona/Game/Systems/PlayerInputComponent.hpp>
-#include <SFML/System.hpp>
 
 using namespace ild;
 
