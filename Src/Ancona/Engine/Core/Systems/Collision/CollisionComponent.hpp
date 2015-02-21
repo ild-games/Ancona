@@ -9,6 +9,18 @@ namespace ild
 
 typedef int CollisionType;
 
+namespace BodyType
+{
+    enum Type
+    {
+        None,
+        Solid,
+        Environment,
+        Count
+    };
+}
+typedef BodyType::Type BodyTypeEnum;
+
 class CollisionComponent
 {
     public:
@@ -18,8 +30,9 @@ class CollisionComponent
          * @param position The component describing the entities position.
          * @param dim A vector describing the entities dimmension.
          * @param type Type of entity for collisions.
+         * @param bodyType BodyType of the collision component.  Determines how collision fixing is performed.
          */
-        CollisionComponent(BasePhysicsComponent & position, const sf::Vector3f & dim, CollisionType type ); 
+        CollisionComponent(BasePhysicsComponent & position, const sf::Vector3f & dim, CollisionType type, BodyTypeEnum bodyType); 
 
         /**
          * @brief Test if the two collision components collide with eachother.
@@ -46,6 +59,7 @@ class CollisionComponent
         BasePhysicsComponent & _position;
         Box2 _dim;
         CollisionType _type;
+        BodyTypeEnum _bodyType;
 };
 
 }

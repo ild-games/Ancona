@@ -7,6 +7,12 @@
 
 using namespace ild::Math;
 
+TEST(CollisionMath, GetNormal)
+{
+    Point2 value(10,7);
+    ASSERT_EQ(Point2(-7,10),GetNormal(value)) << "Normal is not created correctly";
+}
+
 TEST(CollisionMath, CreatePointNoRotation)
 {
    auto point1 = CreatePoint(0,1,5,10,0,0); 
@@ -108,4 +114,49 @@ TEST(CollisionMath, GetProjectionTraingle)
 
     ASSERT_FLOAT_EQ(projectionY.first, 3) << "Y Projection: min incorrect";
     ASSERT_FLOAT_EQ(projectionY.second, 11) << "Y Projection: max incorrect";
+}
+
+TEST(CollisionMath, FixMagnitudeNonOverlapping)
+{
+    std::string msg = "The projections are incorrectly identified as overallping";
+    ASSERT_EQ(0,FixMagnitude(Point2(3,6),Point2(7,9))) << msg;
+    ASSERT_EQ(0,FixMagnitude(Point2(3,6),Point2(6,9))) << msg;
+    ASSERT_EQ(0,FixMagnitude(Point2(3,6),Point2(-1,3))) << msg;
+    ASSERT_EQ(0,FixMagnitude(Point2(3,6),Point2(-1,2))) << msg;
+}
+
+TEST(CollisionMath, FixMagnitudeOverlapping)
+{
+    std::string msg = "The fix vector returned was not the smallest vector that will push A out of B";
+    ASSERT_EQ(-1,FixMagnitude(Point2(3,6),Point2(5,9)));
+    ASSERT_EQ( 2,FixMagnitude(Point2(3,6),Point2(-1,5)));
+}
+
+TEST(CollisionMath, FixMagnitudeContained)
+{
+    std::string msg = "The fix vector returned was not correct for contained values";
+    ASSERT_EQ(-5, FixMagnitude(Point2(2,6),Point2(1,8))) << msg;
+    ASSERT_EQ( 5, FixMagnitude(Point2(3,7),Point2(1,8))) << msg;
+
+    ASSERT_EQ( 5, FixMagnitude(Point2(1,8),Point2(2,6))) << msg;
+    ASSERT_EQ(-5, FixMagnitude(Point2(1,8),Point2(3,7))) << msg;
+}
+
+TEST(CollisionMath, VectorNormalize)
+{
+    Point2 normalized = Normalize(Point2(2,7));
+    ASSERT_NEAR(normalized.first, 0.2747, 0.0001) << "X value did not normalize correctly";
+    ASSERT_NEAR(normalized.second, 0.9615, 0.0001) << "X value did not normalize correctly";
+
+    normalized = Normalize(Point2(-2,7));
+    ASSERT_NEAR(normalized.first, -0.2747, 0.0001) << "X value did not normalize correctly";
+    ASSERT_NEAR(normalized.second, 0.9615, 0.0001) << "X value did not normalize correctly";
+
+    normalized = Normalize(Point2(2,-7));
+    ASSERT_NEAR(normalized.first, 0.2747, 0.0001) << "X value did not normalize correctly";
+    ASSERT_NEAR(normalized.second, -0.9615, 0.0001) << "X value did not normalize correctly";
+
+    normalized = Normalize(Point2(-2,-7));
+    ASSERT_NEAR(normalized.first, -0.2747, 0.0001) << "X value did not normalize correctly";
+    ASSERT_NEAR(normalized.second, -0.9615, 0.0001) << "X value did not normalize correctly";
 }

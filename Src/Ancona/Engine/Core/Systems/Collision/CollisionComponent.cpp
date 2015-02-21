@@ -4,8 +4,9 @@ using namespace ild;
 
 CollisionComponent::CollisionComponent(BasePhysicsComponent & position, 
         const sf::Vector3f & dim,
-        CollisionType type)
-    : _position(position), _dim(dim.x,dim.y), _type(type)
+        CollisionType type,
+        BodyTypeEnum bodyType)
+    : _position(position), _dim(dim.x,dim.y), _type(type), _bodyType(bodyType)
 {
     
 }

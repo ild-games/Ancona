@@ -3,6 +3,7 @@
 
 #include <SFML/System.hpp>
 #include <vector>
+#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 #include "Box3.hpp"
 
 namespace ild
@@ -19,7 +20,7 @@ class Box2
         /**
          * @brief Create a square
          *
-         * @param position Position of the square
+         * @param position Position of the square.  The position is in the center of the square.
          * @param dimmension Dimmension of the square
          * @param rotation Rotation of the square
          */
@@ -72,6 +73,16 @@ class Box2
          * @return True if they intersect.  False otherwise.
          */
         bool Intersects(const Box2 & box) const;
+
+        /**
+         * @brief Test if the two boxes intersect
+         *
+         * @param box Box to test intersection on
+         * @param fixVector Vector that will push the calling box out of the argument box.
+         *
+         * @return True if they intersect.  False otherwise.
+         */
+        bool Intersects(const Box2 & box, sf::Vector2f & fixVector) const;
 
         /**
          * @brief Clear the vertices vector and fill it with vertices for the box.

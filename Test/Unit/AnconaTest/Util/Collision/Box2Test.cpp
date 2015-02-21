@@ -3,6 +3,7 @@
 #include <cmath>
 #include <SFML/System.hpp>
 
+#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 #include <Ancona/Util/Collision/Math.hpp>
 #include <Ancona/Util/Collision/Box2.hpp>
 
@@ -83,4 +84,32 @@ TEST(CollisionBox2, IntersectsOverlapDifferent)
 
     ASSERT_TRUE(box1.Intersects(box2)) << "The two boxes should intersect";
     ASSERT_TRUE(box1.Intersects(box3)) << "The two boxes should intersect";
+}
+
+TEST(CollisionBox2, IntersectsNoOverlapFix)
+{
+    sf::Vector2f fix;
+    Box2 box1(sf::Vector2f(5, 5),sf::Vector2f(2,2));
+    Box2 box2(sf::Vector2f(0, 0),sf::Vector2f(3,10));
+
+    Box2 box3(sf::Vector2f(5, 5),sf::Vector2f(9,9));
+    Box2 box4(sf::Vector2f(-5, -5),sf::Vector2f(9,9));
+
+    ASSERT_FALSE(box1.Intersects(box2, fix)) << "The two boxes should not intersect";
+    ASSERT_EQ(sf::Vector2f(0,0), fix) << "The fix vector should be 0,0 for non overlapping boxes";
+    ASSERT_FALSE(box3.Intersects(box4, fix)) << "The two boxes should not intersect";
+    ASSERT_EQ(sf::Vector2f(0,0), fix) << "The fix vector should be 0,0 for non overlapping boxes";
+}
+
+TEST(CollisionBox2, IntersectsOverlapDifferentFix)
+{
+    sf::Vector2f fix;
+    Box2 box1(sf::Vector2f(5, 5),sf::Vector2f(3,2));
+    Box2 box2(sf::Vector2f(0, 0),sf::Vector2f(10,10));
+    Box2 box3(sf::Vector2f(0, -5),sf::Vector2f(4,4));
+
+    ASSERT_TRUE(box1.Intersects(box2, fix)) << "The two boxes should intersect";
+    ASSERT_EQ(sf::Vector2f(0,1),fix) << "The boxes were not correctly pushed apart";
+    ASSERT_TRUE(box2.Intersects(box3, fix)) << "The two boxes should intersect";
+    ASSERT_EQ(sf::Vector2f(0,2),fix) << "The boxes were not correctly pushed apart";
 }

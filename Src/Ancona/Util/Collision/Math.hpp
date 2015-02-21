@@ -26,9 +26,19 @@ namespace Math
      */
     typedef std::pair<float, float> Vector2;
     /**
-     * @brief A projection of a 2D shape into 1D space
+     * @brief A projection of a 2D shape into 1D space. It is mapped to a (min, max) pair.
      */
     typedef std::pair<float, float> Projection2;
+
+    /**
+     * @brief Calculate the dot product of the vectors. 
+     *
+     * @param a The left hand side of the operation.
+     * @param b The right hand side of the operation.
+     *
+     * @return The value of the dot product.
+     */
+    float Dot(const Math::Vector2 & a, const Math::Vector2 & b);
 
     /**
      * @brief Create a two dimmensional point using the given values.
@@ -89,6 +99,27 @@ namespace Math
     bool Intersect(const Projection2 & a, const Projection2 & b);
 
     /**
+     * @brief Normalize the vector so that its magnitude is 1.
+     *
+     * @param vector Vector to normalize.
+     *
+     * @return A vector pointing in the same direction as the argument, but with a magnitude of 1.
+     */
+    Point2 Normalize(const Point2 & vector);
+
+    /**
+     * @brief Test if the two shapes collide using the seperating axis theorem.
+     *
+     * @param shapeA First shape to test.
+     * @param shapeB Second shape to test.
+     * @param fixVector The vector that can be used to fix the collision. Only valid if the
+     * shapes are colliding.
+     *
+     * @return True if the shapes collide.  False otherwise.
+     */
+    bool Collide(const Vertices2 & shapeA, const Vertices2 & shapeB, Point2 & fixVector);
+
+    /**
      * @brief Test if the two shapes collide using the seperating axis theorem.
      *
      * @param shapeA First shape to test.
@@ -97,6 +128,20 @@ namespace Math
      * @return True if the shapes collide.  False otherwise.
      */
     bool Collide(const Vertices2 & shapeA, const Vertices2 & shapeB);
+
+    /**
+     * @brief Get the magnitude of the vector used to seperate the two projections.  The sign of the magnitude
+     * will correctly push projection a out of projection b. It will be the minimum absolute value needed to 
+     * push the projections apart.
+     *
+     * @param a A projection of a shape into a single dimmension.
+     * @param b A projection of a shape into the same dimmension.
+     *
+     * @return A scalar value that will push projection a out of projection b. If they do not overlap then 0
+     *  will be returned.
+     */
+    float FixMagnitude(const Math::Projection2 & a, const Math::Projection2 & b);
+
 };
 
 }
