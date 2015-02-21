@@ -38,10 +38,12 @@ class CollisionComponent
          * @brief Test if the two collision components collide with eachother.
          *
          * @param otherComponent Component to test for collision.
+         * @param fixVector Output variable used to return the vector used
+         *  to fix the collision.
          *
          * @return True if the components collide.  False otherwise.
          */
-        bool Collides(const CollisionComponent & otherComponent);
+        bool Collides(const CollisionComponent & otherComponent, Point & fixVector);
 
         /**
          * @brief Update the internal state for purpose of collision.
@@ -54,6 +56,10 @@ class CollisionComponent
          * @return Collision Type of the component.
          */
         CollisionType GetType();
+
+        BodyTypeEnum GetBodyType() { return _bodyType; }
+
+        BasePhysicsComponent & GetPhysicsComponent() { return _position; }
 
     private:
         BasePhysicsComponent & _position;

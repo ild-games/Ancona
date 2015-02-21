@@ -11,9 +11,9 @@ CollisionComponent::CollisionComponent(BasePhysicsComponent & position,
     
 }
 
-bool CollisionComponent::Collides(const CollisionComponent & otherComponent)
+bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fix)
 {
-    return _dim.Intersects(otherComponent._dim);
+    return _dim.Intersects(otherComponent._dim, fix);
 }
 
 void CollisionComponent::Update()

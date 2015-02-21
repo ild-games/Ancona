@@ -113,3 +113,12 @@ TEST(CollisionBox2, IntersectsOverlapDifferentFix)
     ASSERT_TRUE(box2.Intersects(box3, fix)) << "The two boxes should intersect";
     ASSERT_EQ(sf::Vector2f(0,2),fix) << "The boxes were not correctly pushed apart";
 }
+
+TEST(CollisionBox2, IntersectsContainingFix)
+{
+    sf::Vector2f fix;
+    Box2 box1(sf::Vector2f(4, 0),sf::Vector2f(2,2));
+    Box2 box2(sf::Vector2f(0, 0),sf::Vector2f(10,10));
+    ASSERT_TRUE(box1.Intersects(box2, fix)) << "The two boxes should intersect";
+    ASSERT_EQ(sf::Vector2f(-2,0),fix) << "The boxes were not correctly pushed apart";
+}
