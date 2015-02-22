@@ -1,13 +1,11 @@
-#include <Ancona/Game/Screens/GameScreen.hpp>
-
-#include <Ancona/Game/EntityFactories/PlayerFactory.hpp>
 #include <Ancona/Game/EntityFactories/EnvironmentFactory.hpp>
-#include <SFML/Window.hpp>
+#include <Ancona/Game/EntityFactories/PlayerFactory.hpp>
+#include <Ancona/Game/Screens/GameScreen.hpp>
 
 using namespace ild;
 
-GameScreen::GameScreen(ScreenManager & manager)
-    : AbstractScreen(manager)
+GameScreen::GameScreen(ScreenManager & manager) :
+        AbstractScreen(manager, "game")
 {
     _systems = new GameSystems(manager.Window);
     _collisionTypes["player"] = _systems->GetCollision().CreateType();

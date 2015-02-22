@@ -22,7 +22,7 @@ class LoadingScreen : public AbstractScreen
          * @param requestList RequestList the screen is loading
          */
         LoadingScreen(
-                ScreenManager & manager, 
+                ScreenManager & manager,
                 RequestList & requestList);
 
         /**

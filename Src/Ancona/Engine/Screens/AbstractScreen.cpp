@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 
 #include <json/json.h>
 
@@ -6,7 +7,9 @@
 
 using namespace ild;
 
-AbstractScreen::AbstractScreen(ScreenManager & manager) : 
+AbstractScreen::AbstractScreen(
+        ScreenManager & manager,
+        std::string key) :
     __Initialized(false),
     __Entering(false),
     __Exiting(false),
@@ -18,6 +21,11 @@ AbstractScreen::AbstractScreen(ScreenManager & manager) :
     std::ifstream saveStream("save.dat", std::ifstream::binary);
     Json::Value root;
     saveStream >> root;
+    auto map = root["screen-maps"][key].asString();
+    if(map != "")
+    {
+        LoadMap(map);
+    }
 }
 
 void AbstractScreen::Entering(float delta)
@@ -52,5 +60,5 @@ void AbstractScreen::Exiting(float delta)
 
 void AbstractScreen::LoadMap(std::string map)
 {
-    std::ifstream mapStream(map + ".map", std::ifstream::binary);
+    std::ifstream mapStream("Maps/" + map + ".map", std::ifstream::binary);
 }

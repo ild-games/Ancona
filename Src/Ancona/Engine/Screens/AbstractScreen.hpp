@@ -17,11 +17,14 @@ class AbstractScreen
 {
     public:
         /**
-         * @brief Creates a new screen
+         * @brief Creates a new screen.
          *
-         * @param manager ScreenManager instance used by the game
+         * @param manager ScreenManager instance used by the game.
+         * @param key Key to identify the screen.
          */
-        AbstractScreen(ScreenManager & manager);
+        AbstractScreen(
+                ScreenManager & manager,
+                std::string key);
 
         /**
          * @brief Destructor for AbstractScreen.
@@ -91,6 +94,10 @@ class AbstractScreen
          */
         ScreenManager & _manager;
         /**
+         * @brief key to identify the screen.
+         */
+        const std::string KEY;
+        /**
          * @brief Color of the default transition.
          */
         sf::Color _transitionColor;
@@ -106,10 +113,6 @@ class AbstractScreen
          * @brief The default camera used when the window is first spawned.
          */
         const sf::View _defaultCam;
-        /**
-         * @brief The map loaded onto this screen. If it is blank then no map will be loaded.
-         */
-        std::string _map = "";
 
 };
 

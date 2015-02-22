@@ -8,7 +8,7 @@ using namespace ild;
 LoadingScreen::LoadingScreen(
         ScreenManager & manager,
         RequestList & requestList) :
-    AbstractScreen(manager),
+    AbstractScreen(manager, "loading"),
     _requestList(requestList)
 {
 }

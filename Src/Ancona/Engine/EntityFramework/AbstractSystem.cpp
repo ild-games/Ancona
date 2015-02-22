@@ -4,7 +4,9 @@
 
 using namespace ild;
 
-AbstractSystem::AbstractSystem(SystemManager & systemManager, UpdateStepEnum updateStep) : 
+AbstractSystem::AbstractSystem(
+        SystemManager & systemManager,
+        UpdateStepEnum updateStep) :
     _systemManager(systemManager)
 {
     systemManager.RegisterSystem(this, updateStep);

@@ -6,7 +6,7 @@
 using namespace ild;
 
 JumpyScreen::JumpyScreen(ScreenManager & manager) 
-    : AbstractScreen(manager)
+    : AbstractScreen(manager, "jumpy-game")
 {
     _systems = std::unique_ptr<JumpyGameSystems>(new JumpyGameSystems(manager.Window));
 }

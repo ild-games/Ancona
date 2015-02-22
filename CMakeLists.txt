@@ -42,7 +42,7 @@ endif(NOT ANDROID)
 set(${Ancona_Platform} True)
 set(${Ancona_Form_Factor} True)
 
-set(CMAKE_MODULE_PATH BuildTools/Module ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
 #Set C++ Version to 11
 SET(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
@@ -61,15 +61,8 @@ include(BuildTools/FindLibs.cmake)
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 
 #Find Jsoncpp library
-set(Jsoncpp_PKGCONF_INCLUDE_DIRS /usr/local/include/jsoncpp/json)
-message("JsonCpp: " ${Jsoncpp_PKGCONF_INCLUDE_DIRS})
-find_path(Jsoncpp_INCLUDE_DIR
-  NAMES json/features.h
-  PATH_SUFFIXES jsoncpp
-  PATHS ${Jsoncpp_PKGCONF_INCLUDE_DIRS} #/usr/local/include/jsoncpp/json
-)
+find_package(JsonCpp)
 include_directories(${Jsoncpp_INCLUDE_DIR})
-message("JsonCpp: " ${Jsoncpp_LIBRARY})
 
 #Incldue directory over the INC_DIR variable.  This is done so that
 #project headers are prefaced with Ancona
@@ -104,3 +97,4 @@ ancona_add_target(ancona_game LINK_SFML
 #Move files to the build directory
 configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt COPYONLY)
 configure_file(save.dat ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/save.dat COPYONLY)
+file(COPY Maps DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Maps)

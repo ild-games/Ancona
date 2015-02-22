@@ -1,6 +1,8 @@
 #ifndef Ancona_Engine_EntityFramework_AbstractSystem_H_
 #define Ancona_Engine_EntityFramework_AbstractSystem_H_
 
+#include <string>
+
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 
@@ -26,7 +28,9 @@ class AbstractSystem
          * @param systemManager SystemManager that the system belongs to
          * @param updateStep The step that the system needs to be updated during
          */
-        AbstractSystem(SystemManager & systemManager, UpdateStepEnum updateStep);
+        AbstractSystem(
+                SystemManager & systemManager,
+                UpdateStepEnum updateStep);
 
         /**
          * @brief Called to update all components controlled by the system.
@@ -53,7 +57,6 @@ class AbstractSystem
         virtual void EntityIsDeleted(const Entity & entity) = 0;
     protected:
         SystemManager & _systemManager;
-
 
 };
 
