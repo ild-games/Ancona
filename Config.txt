@@ -7,3 +7,4 @@
 
 #Path to the resource folder
 ResourceRoot = /Users/tlein/Code/anconacpp/resources
+SaveData = save.dat

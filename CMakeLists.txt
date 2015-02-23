@@ -7,7 +7,7 @@ project(ANCONA)
 include(BuildTools/Macros.cmake)
 
 option(BuildPrototypes "BuildPrototypes" ON)
-option(BuildTests "BuildTests" OFF)
+option(BuildTests "BuildTests" ON)
 
 # Set variables to indicate the build platform
 # There will be one platform variable defined and one form factor variable defined

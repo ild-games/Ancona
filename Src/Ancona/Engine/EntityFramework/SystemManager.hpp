@@ -52,11 +52,32 @@ class SystemManager
         void QueueDelete(Entity entity);
 
         /**
-         * @brief Create a new unique Entity.
+         * @brief Create a new unique Entity. Since no key is provided you will
+         * be unable to retrieve the entity using GetEntity(std::string).
          *
-         * @return A new entity
+         * @return A new anonymous entity.
          */
         Entity CreateEntity();
+
+        /**
+         * @brief Create a new unique Entity.  The key can be used to retrieve the
+         * entity from the system using GetEntity(std::string).
+         *
+         * @param key String key used to retrieve the entity.
+         *
+         * @return A new keyed entity.
+         */
+        Entity CreateEntity(const std::string & key);
+
+        /**
+         * @brief Get the keyed entity.
+         *
+         * @param key Key of the Entity to be retrieved.
+         *
+         * @return The entity keyed by the string.  If no such entity entity
+         * exists then nullentity is returned.
+         */
+        Entity GetEntity(const std::string & key);
 
         /**
          * @brief Register the System with the system manager.  This is needed in order for the
@@ -111,12 +132,19 @@ class SystemManager
          * @brief Holds the entities queued for deletion
          */
         std::vector< Entity > _deleteQueue;
+        /**
+         * @brief A map used to key entities using strings.
+         */
+        std::map<std::string,Entity> _entities; 
+        /**
+         * @brief A map for doing reversal lookup of entity keys.
+         */
+        std::map<Entity, std::string> _entitiesReverse;
 
         /**
          * @brief Deletes all the entities queued for deletion.
          */
         void DeleteQueuedEntities();
-
 };
 
 }

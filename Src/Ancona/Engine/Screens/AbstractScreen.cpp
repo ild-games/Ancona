@@ -18,14 +18,6 @@ AbstractScreen::AbstractScreen(
     _transitionRect(sf::Vector2f(_manager.Window.getSize().x, _manager.Window.getSize().y)),
     _defaultCam(sf::View(_manager.Window.getView())) 
 {
-    std::ifstream saveStream("save.dat", std::ifstream::binary);
-    Json::Value root;
-    saveStream >> root;
-    auto map = root["screen-maps"][key].asString();
-    if(map != "")
-    {
-        LoadMap(map);
-    }
 }
 
 void AbstractScreen::Entering(float delta)

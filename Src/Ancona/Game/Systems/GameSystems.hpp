@@ -26,8 +26,9 @@ class GameSystems
          * @brief Constructs the container for the game's systems.
          *
          * @param window RenderWindow instance for the game.
+         * @param manager The System Manager that belongs to the screen.
          */
-        GameSystems(sf::RenderWindow & window);
+        GameSystems(sf::RenderWindow & window, SystemManager * manager);
 
 
         /* getters and setters */

@@ -2,9 +2,9 @@
 
 using namespace ild;
 
-GameSystems::GameSystems(sf::RenderWindow & window)
+GameSystems::GameSystems(sf::RenderWindow & window, SystemManager * manager)
 {
-    _manager = new SystemManager();
+    _manager = manager;
     _physics = new PlatformPhysicsSystem(*_manager);
     _input = new InputControlSystem(*_manager);
     _collision = new CollisionSystem(*_manager, *_physics);

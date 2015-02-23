@@ -29,11 +29,12 @@ class ScreenManager
         ScreenManager(sf::RenderWindow & window);
 
         /**
-         * @brief Pushs a new screen onto the manager
+         * @brief Pushes a new screen either with a loading screen or without one.
          *
-         * @param screen Screen to push
+         * @param screen Screen to load.
+         * @param load True if the screen requires loading, otherwise false. Defaults to true.
          */
-        void Push(AbstractScreen * screen);
+        void Push(AbstractScreen * screen, bool load = true);
 
         /**
          * @brief Pops the current screen off the manager. This removes the reference
@@ -90,6 +91,7 @@ class ScreenManager
          * @brief called when the screen has been popped and the exit code has finished.
          */
         void RemoveScreen();
+
 
 };
 

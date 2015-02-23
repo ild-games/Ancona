@@ -49,7 +49,7 @@ class GameScreen : public AbstractScreen
         /**
          * @brief Container for all systems.
          */
-        GameSystems * _systems;
+        GameSystems * _gameSystems;
         /**
          * @brief Holds references to entities that need to be access
          */

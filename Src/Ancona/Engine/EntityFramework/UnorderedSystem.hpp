@@ -101,6 +101,18 @@ class UnorderedSystem : public AbstractSystem
             delete component; 
         }
 
+        /**
+         * @brief Default implementation of GetInflater.  By default it returns a null inflater.
+         *
+         * @return A unique_ptr to an inflater created by a child class.  If the child class did not implement
+         * the method then it will be null.
+         */
+        std::unique_ptr<AbstractInflater> GetInflater() override
+        {
+            return std::unique_ptr<AbstractInflater>();
+        }
+
+
     protected:
         /**
          * @brief EntityComponentIter is an iterator that can be used to iterate over all contained

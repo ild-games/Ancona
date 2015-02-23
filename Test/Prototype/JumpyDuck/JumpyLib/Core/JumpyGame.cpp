@@ -19,5 +19,4 @@ void JumpyGame::CreateInitialScreen()
     list->Add("TexturePNG", "flappy");
     list->Start();
     _screenManager->Push(new JumpyScreen(*_screenManager));
-    _screenManager->Push(new LoadingScreen(*_screenManager, *list));
 }

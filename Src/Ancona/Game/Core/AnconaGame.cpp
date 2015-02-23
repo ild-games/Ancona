@@ -28,6 +28,4 @@ void AnconaGame::CreateInitialScreen()
     _requestList = new RequestList("TestRequestList.txt");
     _screenManager->Push(
             new GameScreen(*_screenManager));
-    _screenManager->Push(
-            new LoadingScreen(*_screenManager, *_requestList));
 }

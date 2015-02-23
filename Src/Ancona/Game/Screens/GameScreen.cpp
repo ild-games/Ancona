@@ -7,39 +7,37 @@ using namespace ild;
 GameScreen::GameScreen(ScreenManager & manager) :
         AbstractScreen(manager, "game")
 {
-    _systems = new GameSystems(manager.Window);
-    _collisionTypes["player"] = _systems->GetCollision().CreateType();
-    _collisionTypes["ground"] = _systems->GetCollision().CreateType();
+    _gameSystems = new GameSystems(manager.Window, &_systems);
+    _collisionTypes["player"] = _gameSystems->GetCollision().CreateType();
+    _collisionTypes["ground"] = _gameSystems->GetCollision().CreateType();
 }
 
 void GameScreen::Init()
 {
     _entities["screenCam"] = factories::CreateScreenCamera(
-            *_systems,
+            *_gameSystems,
             _manager.Window.getView());
-    _systems->GetDrawable().SetDefaultCamera(_systems->GetCamera()[_entities["screenCam"]]);
+    _gameSystems->GetDrawable().SetDefaultCamera(_gameSystems->GetCamera()[_entities["screenCam"]]);
     _entities["player"] = factories::CreatePlayer(
-            _systems,
+            _gameSystems,
             _collisionTypes);
     _entities["ground"] = factories::CreateGround(
-            *_systems,
+            *_gameSystems,
             _collisionTypes);
 
-    _systems->GetCamera()[_entities["screenCam"]]->
-        SetFollow(_systems->GetPhysics()[_entities["player"]]);
+    _gameSystems->GetCamera()[_entities["screenCam"]]->
+        SetFollow(_gameSystems->GetPhysics()[_entities["player"]]);
 }
 
 void GameScreen::Update(float delta)
 {
-    _systems->GetManager().Update(delta, UpdateStep::Update);
-    _systems->GetManager().Update(delta, UpdateStep::Input);
-    float newScale = _systems->GetCamera()[_entities["screenCam"]]->GetScale() - (0.1f * delta);
-    _systems->GetCamera()[_entities["screenCam"]]->SetScale(newScale);
+    _gameSystems->GetManager().Update(delta, UpdateStep::Update);
+    _gameSystems->GetManager().Update(delta, UpdateStep::Input);
 }
 
 void GameScreen::Draw(float delta)
 {
     _manager.Window.clear(sf::Color::Blue);
-    _systems->GetManager().Update(delta, UpdateStep::Draw);
+    _gameSystems->GetManager().Update(delta, UpdateStep::Draw);
 }
 

@@ -1,4 +1,5 @@
 #include <Ancona/Engine/Screens/ScreenManager.hpp>
+#include <Ancona/Engine/Screens/LoadingScreen.hpp>
 #include <Ancona/Engine/Screens/AbstractScreen.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -11,10 +12,14 @@ ScreenManager::ScreenManager(sf::RenderWindow & window)
 {
 }
 
-void ScreenManager::Push(AbstractScreen * screen)
+void ScreenManager::Push(AbstractScreen * screen, bool load)
 {
     _screens.push(screen);
     screen->__Entering = true;
+    if(load) 
+    {
+        Push(new LoadingScreen(screen, *this), false);
+    }
 }
 
 void ScreenManager::Pop()

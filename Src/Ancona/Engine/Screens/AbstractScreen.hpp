@@ -1,9 +1,11 @@
 #ifndef Ancona_Engine_Screen_AbstractScreen_H_
 #define Ancona_Engine_Screen_AbstractScreen_H_
 
+#include <memory>
 #include <string>
 
-#include "ScreenManager.hpp"
+#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
 
 namespace ild
 {
@@ -88,7 +90,13 @@ class AbstractScreen
          */
         bool __Exiting;
 
+        SystemManager & GetSystems() { return _systems; }
+        std::string GetKey() { return KEY; }
     protected:
+        /**
+         * @brief SystemManager used by the screen.
+         */
+        SystemManager _systems;
         /**
          * @brief Manages all the screens in the game
          */
@@ -113,7 +121,6 @@ class AbstractScreen
          * @brief The default camera used when the window is first spawned.
          */
         const sf::View _defaultCam;
-
 };
 
 }

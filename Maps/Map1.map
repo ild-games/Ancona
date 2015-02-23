@@ -1,5 +1,15 @@
 {
     "key": "Map1",
+    "assets" : [
+        { 
+            "type" : "TexturePNG",
+            "key" : "player-walking"
+        },
+        { 
+            "type" : "TexturePNG",
+            "key" : "flappy-ground"
+        }
+    ],
     "components": {
         "physics": [
             {
@@ -19,9 +29,7 @@
                     ],
                     "gravity": true
                 }
-            }
-        ],
-        "platform-physics": [
+            },
             {
                 "entity": "ground",
                 "actions": {

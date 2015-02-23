@@ -34,6 +34,13 @@ void SystemManager::DeleteEntity(Entity entity)
         system->EntityIsDeleted(entity);
     }
 
+    auto reverseIter = _entitiesReverse.find(entity);
+    if(reverseIter != _entitiesReverse.end())
+    {
+        _entities.erase(reverseIter->second);
+        _entitiesReverse.erase(reverseIter);
+    }
+
     _components.erase(entity);
 }
 
@@ -52,6 +59,28 @@ Entity SystemManager::CreateEntity()
     _components[entity];
 
     return entity;
+}
+
+Entity SystemManager::CreateEntity(const std::string & key)
+{
+    Assert(_entities.find(key) == _entities.end(), "Cannot use the same key for two entities.");
+
+    Entity entity = CreateEntity();
+    _entities[key] = entity;
+    _entitiesReverse[entity] = key;
+
+    return entity;
+}
+
+//TODO implement and test Delete and GetEntity
+Entity SystemManager::GetEntity(const std::string & key)
+{
+    auto entityIter = _entities.find(key);
+    if(entityIter == _entities.end())
+    {
+        return nullentity;
+    }
+    return entityIter->second; 
 }
 
 void SystemManager::RegisterSystem(AbstractSystem * system, UpdateStepEnum updateStep)

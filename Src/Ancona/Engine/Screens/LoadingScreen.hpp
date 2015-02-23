@@ -1,6 +1,9 @@
 #ifndef Ancona_Engine_Screens_LoadingScreen_H_
 #define Ancona_Engine_Screens_LoadingScreen_H_
 
+#include <memory>
+
+#include <Ancona/Engine/Loading/MapLoader.hpp>
 #include <Ancona/Engine/Resource/RequestList.hpp>
 #include <Ancona/Engine/Screens/AbstractScreen.hpp>
 
@@ -18,12 +21,12 @@ class LoadingScreen : public AbstractScreen
         /**
          * @brief Creates the loading screen.
          *
+         * @param screenLoading The Screen the the loading screen is loading.
          * @param manager ScreenManager instance for the game.
-         * @param requestList RequestList the screen is loading
          */
         LoadingScreen(
-                ScreenManager & manager,
-                RequestList & requestList);
+                AbstractScreen * screenLoading,
+                ScreenManager & manager);
 
         /**
          * @brief Loads in the next resource.
@@ -49,9 +52,14 @@ class LoadingScreen : public AbstractScreen
 
     private:
         /**
-         * @brief The request list that is loading during the loading screen.
+         * @brief The Screen that will be loaded.
          */
-        RequestList & _requestList;
+        AbstractScreen * _screenLoading;
+        /**
+         * @brief Loads in the map data.
+         */
+        std::unique_ptr<MapLoader> _mapLoader;
+
 };
 
 }

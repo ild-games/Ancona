@@ -2,9 +2,11 @@
 #define Ancona_Engine_EntityFramework_AbstractSystem_H_
 
 #include <string>
+#include <memory>
 
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 
 namespace ild 
 {
@@ -55,6 +57,14 @@ class AbstractSystem
          * @param entity Entity that is being deleted
          */
         virtual void EntityIsDeleted(const Entity & entity) = 0;
+
+        /**
+         * @brief Create an Abstract Inflater that will create and register
+         * components for the system.
+         *
+         * @return A unique pointer to the inflater.
+         */
+        virtual std::unique_ptr<AbstractInflater> GetInflater() = 0;
     protected:
         SystemManager & _systemManager;
 

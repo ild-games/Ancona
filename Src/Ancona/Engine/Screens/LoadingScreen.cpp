@@ -6,19 +6,19 @@
 using namespace ild;
 
 LoadingScreen::LoadingScreen(
-        ScreenManager & manager,
-        RequestList & requestList) :
+        AbstractScreen * screenLoading,
+        ScreenManager & manager) :
     AbstractScreen(manager, "loading"),
-    _requestList(requestList)
+    _screenLoading(screenLoading)
 {
+    _mapLoader.reset(new MapLoader(
+                screenLoading->GetKey(),
+                screenLoading->GetSystems()));
 }
 
 void LoadingScreen::Update(float delta)
 {
-    if(ResourceLibrary::DoneLoading(_requestList)) 
-    {
-        _manager.Pop();
-    }
+    _mapLoader->ContinueLoading();
 }
 
 void LoadingScreen::Draw(float delta)
@@ -29,7 +29,7 @@ void LoadingScreen::Draw(float delta)
     outerBar.setOutlineThickness(1.0f);
     outerBar.setOutlineColor(sf::Color::Black);
     outerBar.setPosition(25, 10);
-    sf::RectangleShape innerBar(sf::Vector2f(750 * _requestList.PercentLoaded(), 30));
+    sf::RectangleShape innerBar(sf::Vector2f(750 * _mapLoader->PercentLoaded(), 30));
     innerBar.setFillColor(sf::Color::Blue);
     innerBar.setOutlineColor(sf::Color::Blue);
     innerBar.setPosition(25, 10);
