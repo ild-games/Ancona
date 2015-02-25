@@ -25,7 +25,7 @@ Math::Vector2 Math::GetNormal(const Vector2 & edge)
 }
 
 
-float Dot(const Math::Vector2 & a, const Math::Vector2 & b)
+float Math::Dot(const Math::Vector2 & a, const Math::Vector2 & b)
 {
     return a.first * b.first + a.second * b.second;        
 }
@@ -50,9 +50,26 @@ bool Math::Intersect(const Projection2 & a, const Projection2 & b)
     return !(a.first > b.second || b.first > a.second);   
 }
 
+float Math::FixMagnitude(const Math::Projection2 & a, const Math::Projection2 & b)
+{
+    if(a.first >= b.second || b.first > a.second)
+    {
+        return 0;
+    }
+
+    float left = b.first - a.second;  
+    float right = b.second - a.first;
+    return fabs(left) > fabs(right) ? right : left;
+}
+
+Math::Point2 Math::Normalize(const Math::Point2 & vector)
+{
+    float magnitude = sqrt(vector.first * vector.first + vector.second * vector.second);
+    return Point2(vector.first / magnitude, vector.second / magnitude);
+}
 
 //Only test the axis's defined by shapeA
-bool TestShapeAxis(const Math::Vertices2 & shapeA, const Math::Vertices2 & shapeB)
+static bool TestShapeAxis(const Math::Vertices2 & shapeA, const Math::Vertices2 & shapeB)
 {
     using namespace Math;
     for(auto i = 0u; i < shapeA.size(); i++)
@@ -72,8 +89,47 @@ bool TestShapeAxis(const Math::Vertices2 & shapeA, const Math::Vertices2 & shape
     return true;
 }
 
+static Math::Point2 GetFixVector(const Math::Vertices2 & shapeA, const Math::Vertices2 & shapeB)
+{
+    using namespace Math;
+    float min = INFINITY;
+    Point2 normalOfMin;
+    for(auto i = 0u; i < shapeA.size(); i++)
+    {
+        auto endIndex = i + 1 >= shapeA.size() ? 0 : i + 1;
+        auto edge = GetEdge(shapeA[i], shapeA[endIndex]);
+        auto normal = Normalize(GetNormal(edge));
+
+        auto projectionA = GetProjection(shapeA, normal);
+        auto projectionB = GetProjection(shapeB, normal);
+
+        auto fix = FixMagnitude(projectionA, projectionB);
+
+        if(fabs(fix) < fabs(min))
+        {
+            min = fix;  
+            normalOfMin = normal;
+        }
+    }
+    return Math::Point2(normalOfMin.first * min, normalOfMin.second * min);
+}
+
 bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB)
 {
-    return TestShapeAxis(shapeA,shapeB) &&
-        TestShapeAxis(shapeB,shapeA);
+    return TestShapeAxis(shapeA,shapeB) && TestShapeAxis(shapeB,shapeA);
+}
+
+bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB, Point2 & fixVector)
+{
+    if(TestShapeAxis(shapeA,shapeB) &&
+        TestShapeAxis(shapeB,shapeA))
+    {
+        fixVector = GetFixVector(shapeA, shapeB);
+        return true;
+    }
+    else
+    {
+        fixVector = Math::Point2(0,0);
+        return false;
+    }
 }

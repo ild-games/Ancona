@@ -15,14 +15,22 @@ class BasePhysicsComponent
          *
          * @return True if the entity is on the ground.  False otherwise.
          */
-        inline bool IsOnGround() const { return _isOnGround; }
+        bool IsOnGround() const { return _isOnGround; }
 
         /**
          * @brief Get information about the Entities position.
          *
          * @return A constant reference to the position information.
          */
-        inline const Position & GetInfo() const { return _position ; }
+        const Position & GetInfo() const { return _position ; }
+
+        /**
+         * @brief Get a mutable copy of the entities position.  This should
+         * be used with great care.  
+         *
+         * @return A mutable reference to the entities position.
+         */
+        Position & GetMutableInfo() { return _position; }
 
     protected:
         /**

@@ -11,8 +11,15 @@
 namespace ild
 {
 
+/**
+ * @brief Function signature used by the collision system.
+ */
 typedef std::function<void(const Entity&,const Entity&)> CollisionCallback;
 
+/**
+ * @brief System used to provide collision interactions and callbacks for entities.
+ * @author Jeff Swenson
+ */
 class CollisionSystem : public UnorderedSystem<CollisionComponent>
 {
     public:
@@ -37,12 +44,15 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          * @param entity Entity that the component is attached to.
          * @param dim Dimmension for the entity to be used for collision.
          * @param type The collision type of the entity.
+         * @param bodyType The body type of the entity.  Determines how collision fixing
+         *  is handled for it. Defaults to BodyType::None.
          *
          * @return A pointer to the component.
          */
         CollisionComponent * CreateComponent(const Entity & entity,
                 const sf::Vector3f & dim,
-                const CollisionType type);
+                CollisionType type,
+                BodyTypeEnum bodyType = BodyType::None);
 
         /**
          * @brief Create a Type that can be assigned to a component.

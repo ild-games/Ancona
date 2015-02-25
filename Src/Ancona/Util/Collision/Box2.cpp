@@ -41,13 +41,25 @@ void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
 
 bool Box2::Intersects(const Box2 & box) const
 {
+    sf::Vector2f fixVector;
+    return Intersects(box, fixVector);
+}
+
+bool Box2::Intersects(const Box2 & box, sf::Vector2f & fixVector) const
+{
     Math::Vertices2 verticesA;
     Math::Vertices2 verticesB;
 
     GetVertices(verticesA);
     box.GetVertices(verticesB);
 
-    return Math::Collide(verticesA,verticesB);
+    Math::Point2 fix;
+    bool collides = Math::Collide(verticesA,verticesB,fix);
+
+    fixVector.x = fix.first;
+    fixVector.y = fix.second;
+
+    return collides;
 }
 
 void Box2::SetPosition(float x, float y)

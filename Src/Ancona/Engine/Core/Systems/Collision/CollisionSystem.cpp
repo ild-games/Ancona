@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Util/Assert.hpp>
 
@@ -9,6 +11,53 @@ CollisionSystem::CollisionSystem(SystemManager & manager, BasePhysicsSystem & po
     : UnorderedSystem<CollisionComponent>(manager,UpdateStep::Update), _positions(positions)
 {
     _nextType = 0;
+
+}
+
+static void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fix)
+{
+    auto typeA = a->GetBodyType();
+    auto typeB = b->GetBodyType();
+    Point correctFix = fix;
+
+    //If either has a body type of None then the collision should not effect the position.
+    if(typeA == BodyType::None || typeB == BodyType::None)
+    {
+        return;
+    }
+
+    //Environment entities do not effect each other's positions.
+    if(typeA == BodyType::Environment && typeB == BodyType::Environment)
+    {
+        return;
+    }
+
+    if(typeA == BodyType::Environment && typeB == BodyType::Solid)
+    {
+        std::swap(a,b); 
+        std::swap(typeA,typeB);
+        correctFix = -correctFix;
+    }
+
+    if(typeA == BodyType::Solid && typeB == BodyType::Environment)
+    {
+        auto & physicsA = a->GetPhysicsComponent();
+        auto & posA = physicsA.GetMutableInfo();
+        posA.SetPosition(posA.GetPosition() + correctFix);
+        return;
+    }
+
+    if(typeA == BodyType::Solid && typeB == BodyType::Solid)
+    {
+        //If both bodies are solid then push them out of eachoter.
+        auto & physicsA = a->GetPhysicsComponent();
+        auto & posA = physicsA.GetMutableInfo();
+        auto & physicsB = b->GetPhysicsComponent();
+        auto & posB = physicsB.GetMutableInfo();
+        posA.SetPosition(posA.GetPosition() + 0.5f * correctFix);
+        posB.SetPosition(posB.GetPosition() + -0.5f * correctFix);
+        return;
+    }
 
 }
 
@@ -24,11 +73,22 @@ void CollisionSystem::Update(float delta)
     {
         for(EntityComponentPair pairB : * this)
         {
-            if(pairA.second->Collides(*pairB.second))
+            //Only have each pair of entities collide once.
+            if(!pairA.first > pairB.first)
+            {
+                continue;
+            }
+
+            Point fix;
+            if(pairA.second->Collides(*pairB.second, fix))
             {
                 auto typeA = pairA.second->GetType();
                 auto typeB = pairB.second->GetType();
+
+                FixCollision(pairA.second, pairB.second, fix);
+
                 _callbackTable[typeA][typeB](pairA.first, pairB.first);
+                _callbackTable[typeB][typeA](pairB.first, pairA.first);
             }
         }
     }
@@ -37,11 +97,12 @@ void CollisionSystem::Update(float delta)
 
 CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
         const sf::Vector3f & dim,
-        const CollisionType type)
+        CollisionType type,
+        BodyTypeEnum bodyType)
 {
     Assert(type < _nextType, "Cannot use a collision type that is undefined");
     auto position = _positions[entity];
-    auto component = new CollisionComponent(*position, dim, type);
+    auto component = new CollisionComponent(*position, dim, type, bodyType);
 
     AttachComponent(entity, component);
 

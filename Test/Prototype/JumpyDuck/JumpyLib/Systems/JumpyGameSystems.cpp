@@ -11,4 +11,7 @@ JumpyGameSystems::JumpyGameSystems(sf::RenderWindow & window)
     _drawable = new DrawableSystem(
             window,
             *_manager);
+    _collision = new CollisionSystem(*_manager,*_physics);
+
+    _collision->CreateType();
 }
