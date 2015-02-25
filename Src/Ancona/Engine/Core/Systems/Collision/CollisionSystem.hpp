@@ -11,9 +11,15 @@
 namespace ild
 {
 
+/**
+ * @brief Function signature used by the collision system.
+ */
 typedef std::function<void(const Entity&,const Entity&)> CollisionCallback;
 
-
+/**
+ * @brief System used to provide collision interactions and callbacks for entities.
+ * @author Jeff Swenson
+ */
 class CollisionSystem : public UnorderedSystem<CollisionComponent>
 {
     public:

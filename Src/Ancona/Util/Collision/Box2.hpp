@@ -1,10 +1,12 @@
 #ifndef Ancona_Util_Box2_H_
 #define Ancona_Util_Box2_H_
 
-#include <SFML/System.hpp>
 #include <vector>
+
+#include <SFML/System.hpp>
+
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
-#include "Box3.hpp"
+#include <Ancona/Util/Collision/Box3.hpp>
 
 namespace ild
 {

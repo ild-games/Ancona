@@ -11,16 +11,36 @@ typedef int CollisionType;
 
 namespace BodyType
 {
+    /**
+     * @brief Enumeration that describes how the entity behaves in Solid body collision.
+     * None - The entity does not take part in solid body collision
+     * Solid - The entity
+     * @author Jeff Swenson
+     */
     enum Type
     {
+        /**
+         * @brief The entity does not take part in solid body collision.
+         */
         None,
+        /**
+         * @brief The entity takes part in solid body collision and can be moved around.
+         */
         Solid,
+        /**
+         * @brief The entity takes part in solid body collision, but it cannot be moved by a collision.
+         */
         Environment,
         Count
     };
 }
 typedef BodyType::Type BodyTypeEnum;
 
+/**
+ * @brief Component attached to entities by the collision system.  It keeps track of state describing how the entity interacts
+ * with other entities.
+ * @author Jeff Swenson
+ */
 class CollisionComponent
 {
     public:
