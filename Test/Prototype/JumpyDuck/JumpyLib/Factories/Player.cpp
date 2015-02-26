@@ -17,7 +17,7 @@ Entity JumpyPlayer::Create(JumpyGameSystems *gameSystems)
     drawableComponent->AddDrawable("sprite", drawable);
 
     auto size = drawable->GetSize();
-    auto collisionComponent = gameSystems
+    gameSystems
         ->GetCollision()
         .CreateComponent(entity,sf::Vector3f(size.x,size.y,0), 0,BodyType::Solid);
 
