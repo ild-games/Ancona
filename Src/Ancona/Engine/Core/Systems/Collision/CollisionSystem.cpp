@@ -74,7 +74,7 @@ void CollisionSystem::Update(float delta)
         for(EntityComponentPair pairB : * this)
         {
             //Only have each pair of entities collide once.
-            if(!pairA.first > pairB.first)
+            if(pairA.first > pairB.first)
             {
                 continue;
             }
