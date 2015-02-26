@@ -35,6 +35,8 @@ void GameScreen::Update(float delta)
 {
     _systems->GetManager().Update(delta, UpdateStep::Update);
     _systems->GetManager().Update(delta, UpdateStep::Input);
+    float newScale = _systems->GetCamera()[_entities["screenCam"]]->GetScale() - (0.1f * delta);
+    _systems->GetCamera()[_entities["screenCam"]]->SetScale(newScale);
 }
 
 void GameScreen::Draw(float delta)
