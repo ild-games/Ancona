@@ -47,6 +47,10 @@ set(CMAKE_MODULE_PATH BuildTools/Module ${CMAKE_MODULE_PATH})
 #Set C++ Version to 11
 SET(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
 
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+endif()
+
 #Define SRC_DIR and INC_DIR incase we choose to separate
 #cpp and hpp files in the future
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/Src/Ancona)
