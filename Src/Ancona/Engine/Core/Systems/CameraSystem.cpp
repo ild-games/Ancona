@@ -8,7 +8,8 @@ CameraComponent::CameraComponent(
         int renderPriority,
         float scale) :
     _view(sf::View(originalView)),
-    _renderPriority(renderPriority)
+    _renderPriority(renderPriority),
+    _scale(scale)
 {
     _view.zoom(scale);
 }
@@ -54,6 +55,14 @@ void CameraComponent::RemoveDrawable(Drawable * drawable)
     _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
 }
 
+/* getters and setters */
+void CameraComponent::SetScale(float scale) 
+{ 
+    _view.zoom(1 / _scale);
+    _scale = scale; 
+    _view.zoom(_scale);
+}
+
 /* System */
 CameraSystem::CameraSystem(
         SystemManager & manager) :
@@ -82,3 +91,4 @@ CameraComponent * CameraSystem::CreateComponent(
     AttachComponent(entity, comp);
     return comp;
 }
+

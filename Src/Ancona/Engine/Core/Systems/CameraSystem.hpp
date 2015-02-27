@@ -70,6 +70,8 @@ class CameraComponent
         /* getters and setters */
         int GetRenderPriority() { return _renderPriority; }
         void SetFollow(BasePhysicsComponent * followPhysics) { _followPhysics = followPhysics; }
+        void SetScale(float scale);
+        float GetScale() { return _scale; }
 
     protected:
         /**
@@ -90,6 +92,10 @@ class CameraComponent
          * @brief Queue for the drawables on the camera, sorted by the drawable's render priority + render offset.
          */
         std::vector<Drawable *> _renderQueue;
+        /**
+         * @brief Scale of the camera.
+         */
+        float _scale;
 
 };
 
