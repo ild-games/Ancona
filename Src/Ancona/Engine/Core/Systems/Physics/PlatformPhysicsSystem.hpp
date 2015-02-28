@@ -87,6 +87,11 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
          */
         PlatformPhysicsComponent * at(const Entity & entity);
 
+        /**
+         * @brief Inflate a PlatformPhysicsComponent
+         */
+        void * Inflate(const Json::Value & object) override; 
+
     private:
         /**
          * @brief A vector describing the direction and magnitude of gravity.

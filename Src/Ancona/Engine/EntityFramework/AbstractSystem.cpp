@@ -6,8 +6,9 @@ using namespace ild;
 
 AbstractSystem::AbstractSystem(
         SystemManager & systemManager,
-        UpdateStepEnum updateStep) :
+        UpdateStepEnum updateStep,
+        std::string systemName) :
     _systemManager(systemManager)
 {
-    systemManager.RegisterSystem(this, updateStep);
+    systemManager.RegisterSystem(this, updateStep, systemName);
 }

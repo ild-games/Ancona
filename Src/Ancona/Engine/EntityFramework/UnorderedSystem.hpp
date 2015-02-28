@@ -7,6 +7,7 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 namespace ild
@@ -35,8 +36,23 @@ class UnorderedSystem : public AbstractSystem
          * @param updateStep Determine when the system is updated
          */
         UnorderedSystem(SystemManager & manager, UpdateStepEnum updateStep) :
-            AbstractSystem(manager, updateStep)
+            AbstractSystem(manager, updateStep, "")
         {  }
+
+        /**
+         * @brief Construct and initialize the UnorderedSystem with a name.  The system will
+         * register itself with the SystemManager.
+         *
+         * @param manager The SystemManager that owns BaseSystem
+         * @param updateStep Determine when the system is updated
+         * @param systemName Name of the system.
+         */
+        UnorderedSystem(
+                SystemManager & manager, 
+                UpdateStepEnum updateStep,
+                std::string systemName) :
+            AbstractSystem(manager, updateStep, systemName)
+        { }
 
         /**
          * @brief Get the component corresponding to the entity.
@@ -109,8 +125,15 @@ class UnorderedSystem : public AbstractSystem
          */
         std::unique_ptr<AbstractInflater> GetInflater() override
         {
-            return std::unique_ptr<AbstractInflater>();
+            return std::unique_ptr<AbstractInflater>(new DynamicInflater<UnorderedSystem<ComponentType>>(*this));
         }
+
+        void * Inflate(const Json::Value & object) override
+        {
+            Assert(false, "No inflater defined for this system");
+            return NULL;
+        }
+
 
 
     protected:

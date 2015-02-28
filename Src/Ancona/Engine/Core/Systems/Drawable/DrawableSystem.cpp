@@ -2,6 +2,7 @@
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 
 #include <algorithm>
+#include <iostream> //TODO Remove
 
 using namespace ild;
 
@@ -9,7 +10,7 @@ using namespace ild;
 DrawableSystem::DrawableSystem(
         sf::RenderWindow & window, 
         SystemManager & systemManager) :
-    UnorderedSystem(systemManager, UpdateStep::Draw), 
+    UnorderedSystem(systemManager, UpdateStep::Draw,"drawable"), 
     _window(window)
 {
 }
@@ -73,3 +74,9 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
     }
 }
 
+
+void * DrawableSystem::Inflate(const Json::Value & object)
+{
+    std::cout << "Hello from drawable" << std::endl;    
+    return nullptr;
+}

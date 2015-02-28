@@ -27,12 +27,14 @@ class AbstractSystem
          * @brief Create and initialzies the system.  The system will register
          *  itself with SystemManager.
          *
-         * @param systemManager SystemManager that the system belongs to
-         * @param updateStep The step that the system needs to be updated during
+         * @param systemManager SystemManager that the system belongs to.
+         * @param updateStep The step that the system needs to be updated during.
+         * @param systemName The unique name of the system.
          */
         AbstractSystem(
                 SystemManager & systemManager,
-                UpdateStepEnum updateStep);
+                UpdateStepEnum updateStep,
+                std::string systemName);
 
         /**
          * @brief Called to update all components controlled by the system.
@@ -57,6 +59,15 @@ class AbstractSystem
          * @param entity Entity that is being deleted
          */
         virtual void EntityIsDeleted(const Entity & entity) = 0;
+
+        /**
+         * @brief Inflate the system from the loaded json.
+         *
+         * @param object Json holding the data.
+         *
+         * @return A pointer to the object inflated from the json.
+         */
+        virtual void * Inflate(const Json::Value & object) = 0;
 
         /**
          * @brief Create an Abstract Inflater that will create and register

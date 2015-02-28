@@ -1,5 +1,7 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
+#include <iostream> //TODO Remove
+
 using namespace ild;
 
 PlatformPhysicsComponent::PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem) 
@@ -46,4 +48,8 @@ PlatformPhysicsComponent * PlatformPhysicsSystem::CreateComponent(const Entity &
     return component;
 }
 
-
+void * PlatformPhysicsSystem::Inflate(const Json::Value & object)
+{
+    std::cout << "PPS::Inflate" << std::endl;
+    return nullptr;
+}

@@ -73,6 +73,11 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
                 const Entity & entity,
                 CameraComponent & camera);
 
+        /**
+         * @brief Inflate a drawable component.
+         */
+        void * Inflate(const Json::Value & object) override;
+
         /* gettes and setters */
         void SetDefaultCamera(CameraComponent * defaultCamera) { _defaultCamera = defaultCamera; }
 

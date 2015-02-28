@@ -13,7 +13,7 @@ namespace ild
  * @author Jeff Swenson
  */
 template <typename T>
-class DynamicInflater : public DynamicInflater
+class DynamicInflater : public AbstractInflater
 {
     public:
         /**

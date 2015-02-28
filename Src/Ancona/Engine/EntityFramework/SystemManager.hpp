@@ -8,6 +8,7 @@
 
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 
 namespace ild
 {
@@ -88,8 +89,12 @@ class SystemManager
          *
          * @param system System that is being registered
          * @param updateStep Step that determines when the system is updated
+         * @param systemName Name of the system.
          */
-        void RegisterSystem(AbstractSystem * system, UpdateStepEnum updateStep);
+        void RegisterSystem(
+                AbstractSystem * system, 
+                UpdateStepEnum updateStep,
+                std::string systemName);
 
         /**
          * @brief Called when a system is creating a new component for an entity.  This
@@ -113,6 +118,13 @@ class SystemManager
          */
         void UnregisterComponent(Entity entity, AbstractSystem * owningSystem);
 
+        /**
+         * @brief Get the component inflaters for all named systems being managed.
+         *
+         * @return Vector of name inflater pairs.
+         */
+        std::vector<std::pair<std::string, AbstractInflater *>> GetComponentInflaters();
+
     private:
         /**
          * @brief Used to track which systems are controlled by the manager and
@@ -131,20 +143,29 @@ class SystemManager
         /**
          * @brief Holds the entities queued for deletion
          */
-        std::vector< Entity > _deleteQueue;
+        std::vector<Entity> _deleteQueue;
         /**
          * @brief A map used to key entities using strings.
          */
-        std::map<std::string,Entity> _entities; 
+        std::map<std::string, Entity> _entities; 
         /**
          * @brief A map for doing reversal lookup of entity keys.
          */
         std::map<Entity, std::string> _entitiesReverse;
+        /**
+         * @brief The systems stored with their keys in the order they were added to the manager.
+         */
+        std::vector<std::pair<std::string, AbstractSystem *> > _keyedSystems;
 
         /**
          * @brief Deletes all the entities queued for deletion.
          */
         void DeleteQueuedEntities();
+
+        /**
+         * @brief Returns true if the systemName is already associated with a system being managed.
+         */
+        bool ContainsName(std::string & systemName);
 };
 
 }

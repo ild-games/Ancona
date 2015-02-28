@@ -9,9 +9,9 @@ MapLoader::MapLoader(
         std::string key, 
         SystemManager & systems) : 
     _key(key), 
-    _manager(systems)
+    _manager(systems),
+    _loadingContext(new LoadingContext(systems))
 {
-
 }
 
 float MapLoader::PercentLoaded()
@@ -24,7 +24,12 @@ float MapLoader::PercentLoaded()
             return _request.PercentLoaded() / 80;
         case LoadingEntities:
             return 80;
+        case DoneLoading:
+            return 100;
+            
     }
+    Assert(false, "Unknown map loader state");
+    return 0;
 }
 
 bool MapLoader::ContinueLoading()
@@ -40,7 +45,10 @@ bool MapLoader::ContinueLoading()
         case LoadingEntities:
             LoadEntities();
             break;
+        case DoneLoading:
+            return false;
     }
+    return true;
 }
 
 void MapLoader::LoadMapFile()
@@ -51,7 +59,8 @@ void MapLoader::LoadMapFile()
     auto map = saveRoot["screen-maps"][_key].asString();
     Assert(map != "", "Cannot have a null map");
 
-    std::ifstream mapStream(map, std::ifstream::binary);
+    std::ifstream mapStream("Maps/" + map + ".map", std::ifstream::binary);
+    Assert(mapStream.is_open(), "Failed to load the map file.");
     mapStream >> _root;
 
     for(Json::Value & assetJson : _root["assets"])
@@ -66,6 +75,9 @@ void MapLoader::LoadMapFile()
 
 void MapLoader::LoadAssets()
 {
+    // TODO REMOVE BELOW LINE
+    _state = LoadingState::LoadingEntities;
+    return;
     if(ResourceLibrary::DoneLoading(_request)) 
     {
         _state = LoadingState::LoadingEntities;
@@ -74,5 +86,11 @@ void MapLoader::LoadAssets()
 
 void MapLoader::LoadEntities()
 {
-    
+    for(std::string curKey : _root["components"].getMemberNames())
+    {
+        _loadingContext
+            ->GetInflaterMap()
+            .GetInflater(curKey)
+            ->Inflate(_root);
+    }
 }

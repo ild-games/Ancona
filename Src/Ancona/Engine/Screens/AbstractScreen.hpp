@@ -72,12 +72,6 @@ class AbstractScreen
          * @brief Used by the ScreenManager to call the Init
          * function at the correct time.
          */
-        void LoadMap(std::string map);
-        
-        /**
-         * @brief Used by the ScreenManager to call the Init
-         * function at the correct time.
-         */
         bool __Initialized;
 
         /**

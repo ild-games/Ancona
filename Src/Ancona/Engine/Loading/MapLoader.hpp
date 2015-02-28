@@ -2,10 +2,12 @@
 #define Ancona_Engine_Loading_MapLoader_H_
 
 #include <string>
+#include <memory>
 
 #include <json/json.h>
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Loading/LoadingContext.hpp>
 #include <Ancona/Engine/Resource/RequestList.hpp>
 
 namespace ild
@@ -24,7 +26,8 @@ class MapLoader
     {
         LoadingMapFile,
         LoadingAssets,
-        LoadingEntities
+        LoadingEntities,
+        DoneLoading
     };
 
     public:
@@ -77,6 +80,10 @@ class MapLoader
          * @brief Root of the map json being loaded.
          */
         Json::Value _root;
+        /**
+         * @brief Loading context for the current load.
+         */
+        std::unique_ptr<LoadingContext> _loadingContext;
 };
 
 }

@@ -72,7 +72,6 @@ Entity SystemManager::CreateEntity(const std::string & key)
     return entity;
 }
 
-//TODO implement and test Delete and GetEntity
 Entity SystemManager::GetEntity(const std::string & key)
 {
     auto entityIter = _entities.find(key);
@@ -83,13 +82,33 @@ Entity SystemManager::GetEntity(const std::string & key)
     return entityIter->second; 
 }
 
-void SystemManager::RegisterSystem(AbstractSystem * system, UpdateStepEnum updateStep)
+bool SystemManager::ContainsName(std::string & systemName)
+{
+    return std::any_of(
+            _keyedSystems.begin(), 
+            _keyedSystems.end(), 
+            [=](std::pair<std::string, AbstractSystem *> & nameSystemPair)
+            {
+                return nameSystemPair.first == systemName;
+            });
+}
+
+void SystemManager::RegisterSystem(
+        AbstractSystem * system, 
+        UpdateStepEnum updateStep,
+        std::string systemName)
 {
     auto & systems = _systems[updateStep]; 
     Assert(std::find(systems.begin(),systems.end(),system) == systems.end(),
             "A System Manager cannot contain the same system twice");
 
     systems.push_back(system);
+
+    if(systemName != "")
+    {
+        Assert(!ContainsName(systemName), "System name must be unique.");
+        _keyedSystems.emplace_back(systemName, system);
+    }
 }
 
 void SystemManager::RegisterComponent(Entity entity, AbstractSystem * owningSystem)
@@ -116,4 +135,14 @@ void SystemManager::DeleteQueuedEntities()
         DeleteEntity(entity); 
     }
     _deleteQueue.clear();
+}
+
+std::vector<std::pair<std::string, AbstractInflater *>> SystemManager::GetComponentInflaters()
+{
+    std::vector<std::pair<std::string, AbstractInflater *>> toReturn;
+    for(auto & namedSystemPair : _keyedSystems)
+    {
+        toReturn.emplace_back(namedSystemPair.first, namedSystemPair.second->GetInflater().release());
+    }
+    return toReturn;
 }
