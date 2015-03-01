@@ -54,8 +54,21 @@ static void FixCollision(CollisionComponent * a, CollisionComponent * b, const P
         auto & posA = physicsA.GetMutableInfo();
         auto & physicsB = b->GetPhysicsComponent();
         auto & posB = physicsB.GetMutableInfo();
-        posA.SetPosition(posA.GetPosition() + 0.5f * correctFix);
-        posB.SetPosition(posB.GetPosition() + -0.5f * correctFix);
+
+        if(posA.GetVelocity() == Point())
+        {
+            posB.SetPosition(posB.GetPosition() + -correctFix);
+        } 
+        else if(posB.GetVelocity() == Point())
+        {
+            posA.SetPosition(posA.GetPosition() + correctFix);
+        }
+        else
+        {
+            posA.SetPosition(posA.GetPosition() + 0.5f * correctFix);
+            posB.SetPosition(posB.GetPosition() + -0.5f * correctFix);
+        }
+
         return;
     }
 
@@ -74,7 +87,7 @@ void CollisionSystem::Update(float delta)
         for(EntityComponentPair pairB : * this)
         {
             //Only have each pair of entities collide once.
-            if(pairA.first > pairB.first)
+            if(pairA.first >= pairB.first)
             {
                 continue;
             }
