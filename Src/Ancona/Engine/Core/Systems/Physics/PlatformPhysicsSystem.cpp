@@ -75,5 +75,5 @@ void * PlatformPhysicsSystem::Inflate(
     {
         position->GetActions().SetAffectedByGravity(true);
     }
-    return nullptr;
+    return position;
 }

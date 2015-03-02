@@ -2,7 +2,8 @@
 
 using namespace ild;
 
-ScreenSystemsContainer::ScreenSystemsContainer()
+ScreenSystemsContainer::ScreenSystemsContainer(ScreenManager & screenManager) :
+    _screenManager(screenManager)
 {
     _systemManager = new SystemManager();
 }

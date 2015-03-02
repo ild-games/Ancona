@@ -10,6 +10,7 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
 
 namespace ild
 {
@@ -27,9 +28,9 @@ class GameScreenSystems : public ScreenSystemsContainer
         /**
          * @brief Constructs the container for the game's systems.
          *
-         * @param window RenderWindow instance for the game.
+         * @param screenManager ScreenManager for the game screen.
          */
-        GameScreenSystems(sf::RenderWindow & window);
+        GameScreenSystems(ScreenManager & screenManager);
 
 
         /* getters and setters */

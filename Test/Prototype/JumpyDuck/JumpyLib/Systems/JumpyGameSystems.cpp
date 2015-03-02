@@ -2,17 +2,16 @@
 
 using namespace ild;
 
-JumpyGameSystems::JumpyGameSystems(sf::RenderWindow & window)
+JumpyGameSystems::JumpyGameSystems(ScreenManager & screenManager) :
+    ScreenSystemsContainer(screenManager)
 {
-    _manager = new SystemManager();
-    _physics = new PlatformPhysicsSystem(*_manager);
-    _input = new InputControlSystem(*_manager);
-    _camera = new CameraSystem(*_manager);
-    _drawable = new DrawableSystem(
-            window,
-            *_manager);
+    _physics = new PlatformPhysicsSystem("physics", *_systemManager);
+    _input = new InputControlSystem(*_systemManager);
+    _camera = ConstructSystem<CameraSystem>("camera", *_systemManager);
+    _drawable = ConstructSystem<DrawableSystem>("drawable", screenManager.Window, *_systemManager);
+
     _collision = new CollisionSystem(*_manager,*_physics);
 
     _collision->CreateType();
     _physics->SetGravity(Point(0,200));
-}
+i

@@ -1,4 +1,5 @@
 #include <Ancona/Engine/Core/Systems/Drawable/ShapeDrawable.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
 using namespace ild;
 
@@ -31,6 +32,22 @@ void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
     window.draw(_shape);
 }
 
+void * ShapeDrawable::Inflate(
+        const Json::Value & object,
+        const Entity entity,
+        LoadingContext * loadingContext)
+{
+    ShapeDrawable * shape = new ShapeDrawable(
+            *loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(entity),
+            *new sf::RectangleShape(sf::Vector2f(object["shape"]["width"].asFloat(), object["shape"]["height"].asFloat())),
+            object["render-priority"].asInt(),
+            object["priority-offset"].asInt(),
+            sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()));
+    return shape;
+}
+
+
+/* getters and setters */
 sf::Vector2u ShapeDrawable::GetSize()
 {
     return sf::Vector2u(

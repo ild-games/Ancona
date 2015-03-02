@@ -9,6 +9,7 @@
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
 #include "../Input/JumpyKeyboard.hpp"
 
 namespace ild
@@ -17,7 +18,7 @@ namespace ild
 class JumpyGameSystems : public ScreenSystemsContainer
 {
     public:
-        JumpyGameSystems(sf::RenderWindow & window);
+        JumpyGameSystems(ScreenManager & screenManager);
 
 
         /* getters and setters */

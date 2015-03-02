@@ -91,14 +91,14 @@ void MapLoader::LoadEntities()
 {
     for(Json::Value curEntity : _root["entities"])
     {
-        _loadingContext->GetSystems().GetManager().CreateEntity(curEntity.asString());
+        _loadingContext->GetSystems().GetSystemManager().CreateEntity(curEntity.asString());
     }
     _state = LoadingState::LoadingComponents;
 }
 
 void MapLoader::LoadComponents()
 {
-    for(auto systemNamePair : _loadingContext->GetSystems().GetManager().GetKeyedSystems())
+    for(auto systemNamePair : _loadingContext->GetSystems().GetSystemManager().GetKeyedSystems())
     {
         for(Json::Value & componentJson : _root["components"][systemNamePair.first])
         {
@@ -107,7 +107,7 @@ void MapLoader::LoadComponents()
                 .GetInflater(systemNamePair.first)
                 ->Inflate(
                         componentJson,
-                        _loadingContext->GetSystems().GetManager().GetEntity(componentJson["entity"].asString()),
+                        _loadingContext->GetSystems().GetSystemManager().GetEntity(componentJson["entity"].asString()),
                         _loadingContext.get());
         }
     }

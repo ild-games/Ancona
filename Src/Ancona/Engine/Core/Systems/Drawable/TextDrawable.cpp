@@ -1,6 +1,8 @@
 #include <Ancona/Engine/Core/Systems/Drawable/TextDrawable.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
+//TODO:remove iostream
 #include <iostream>
 
 using namespace ild;
@@ -47,6 +49,15 @@ void TextDrawable::CenterOrigin()
     sf::FloatRect textRect = _text->getLocalBounds();
     _text->setOrigin(textRect.left + (textRect.width / 2.0f),
                      textRect.top  + (textRect.height / 2.0f));
+}
+
+void * TextDrawable::Inflate(
+        const Json::Value & object,
+        const Entity entity,
+        LoadingContext * loadingContext)
+{
+    std::cout << "Hello from TextDrawable::Inflate. I am not implemented yet ya dingus." << std::endl;
+    return nullptr;
 }
 
 /* getters and setters */

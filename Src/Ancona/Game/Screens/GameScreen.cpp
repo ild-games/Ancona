@@ -7,17 +7,14 @@ using namespace ild;
 GameScreen::GameScreen(ScreenManager & manager) :
         AbstractScreen("game", manager)
 {
-    _gameSystems = std::unique_ptr<GameScreenSystems>(new GameScreenSystems(manager.Window));
+    _gameSystems = std::unique_ptr<GameScreenSystems>(
+            new GameScreenSystems(manager));
     _collisionTypes["player"] = _gameSystems->GetCollision().CreateType();
     _collisionTypes["ground"] = _gameSystems->GetCollision().CreateType();
 }
 
 void GameScreen::Init()
 {
-    _entities["screenCam"] = factories::CreateScreenCamera(
-            *_gameSystems,
-            _screenManager.Window.getView());
-    _gameSystems->GetDrawable().SetDefaultCamera(_gameSystems->GetCamera()[_entities["screenCam"]]);
     _entities["player"] = factories::CreatePlayer(
             *_gameSystems,
             _collisionTypes);
@@ -25,19 +22,17 @@ void GameScreen::Init()
             *_gameSystems,
             _collisionTypes);
 
-    _gameSystems->GetCamera()[_entities["screenCam"]]->
-        SetFollow(_gameSystems->GetPhysics()[_entities["player"]]);
 }
 
 void GameScreen::Update(float delta)
 {
-    _gameSystems->GetManager().Update(delta, UpdateStep::Update);
-    _gameSystems->GetManager().Update(delta, UpdateStep::Input);
+    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Update);
+    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Input);
 }
 
 void GameScreen::Draw(float delta)
 {
     _screenManager.Window.clear(sf::Color::Blue);
-    _gameSystems->GetManager().Update(delta, UpdateStep::Draw);
+    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Draw);
 }
 

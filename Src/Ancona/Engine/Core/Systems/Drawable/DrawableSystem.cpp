@@ -2,7 +2,10 @@
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 
 #include <algorithm>
-#include <iostream> //TODO Remove
+//TODO: remove iostream
+#include <iostream>
+
+#include <json/json.h>
 
 using namespace ild;
 
@@ -81,6 +84,15 @@ void * DrawableSystem::Inflate(
         const Entity entity,
         LoadingContext * loadingContext)
 {
-    std::cout << "Hello from drawable" << std::endl;    
-    return nullptr;
+    DrawableComponent * drawable = loadingContext->GetSystems().GetSystem<DrawableSystem>("drawable")->CreateComponent(entity);
+    for(Json::Value drawablesJson : object["drawables"])
+    {
+        drawable->AddDrawable(
+                drawablesJson["key"].asString(), 
+                static_cast<Drawable *>(loadingContext->GetInflaterMap().GetInflater(drawablesJson["drawable"]["type"].asString())->Inflate(
+                    drawablesJson["drawable"],
+                    entity,
+                    loadingContext)));
+    }
+    return drawable;
 }

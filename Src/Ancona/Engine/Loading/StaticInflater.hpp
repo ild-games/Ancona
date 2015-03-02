@@ -33,7 +33,10 @@ class StaticInflater : public AbstractInflater
                 const Entity entity,
                 LoadingContext * loadingContext) override 
         {
-            return T::Inflate(object);
+            return T::Inflate(
+                    object,
+                    entity,
+                    loadingContext);
         }
 };
 

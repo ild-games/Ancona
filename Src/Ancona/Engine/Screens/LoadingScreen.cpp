@@ -11,7 +11,7 @@ LoadingScreen::LoadingScreen(
     AbstractScreen("loading", manager),
     _screenLoading(screenLoading)
 {
-    _systemsContainer = std::unique_ptr<ScreenSystemsContainer>(new ScreenSystemsContainer());
+    _systemsContainer = std::unique_ptr<ScreenSystemsContainer>(new ScreenSystemsContainer(manager));
     _mapLoader.reset(new MapLoader(
                 screenLoading->GetKey(),
                 *screenLoading->GetSystemsContainer()));

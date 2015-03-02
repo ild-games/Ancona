@@ -1,18 +1,19 @@
 {
     "key": "Map1",
     "assets": [
-        { 
-            "type" : "TexturePNG",
-            "key" : "player-walking"
+        {
+            "type": "TexturePNG",
+            "key": "player-walking"
         },
-        { 
-            "type" : "TexturePNG",
-            "key" : "flappy-ground"
+        {
+            "type": "TexturePNG",
+            "key": "flappy-ground"
         }
     ],
     "entities": [
         "player",
-        "ground"
+        "ground",
+        "screen-cam"
     ],
     "components": {
         "physics": [
@@ -60,6 +61,15 @@
                 }
             }
         ],
+        "camera": [
+            {
+                "entity": "screen-cam",
+                "renderPriority": 0,
+                "scale": 1.0,
+                "default": true,
+                "follows": "player"
+            }
+        ],
         "drawable": [
             {
                 "entity": "player",
@@ -67,29 +77,36 @@
                     {
                         "key": "player-shape",
                         "drawable": {
-                            "type": "shape",
+                            "type": "shape-drawable",
                             "shape": {
                                 "type": "rect",
                                 "width": 16.0,
                                 "height": 17.0
                             },
                             "render-priority": 0,
-                            "priority-offset": -1
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
                         }
                     },
                     {
                         "key": "player-walking",
                         "drawable": {
-                            "type": "animated",
-                            "animation": {
-                                "texture-key": "player-walking",
-                                "render-priority": 0,
-                                "frame-dim": {
-                                    "width": 16.0,
-                                    "height": 17.0
-                                },
-                                "num-frames": 6,
-                                "duration": 0.1
+                            "type": "animated-drawable",
+                            "texture-key": "player-walking",
+                            "render-priority": 0,
+                            "frame-dim": {
+                                "width": 16.0,
+                                "height": 17.0
+                            },
+                            "num-frames": 6,
+                            "duration": 0.1,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
                             }
                         }
                     }
@@ -101,11 +118,13 @@
                     {
                         "key": "ground-sprite",
                         "drawable": {
-                            "type": "sprite",
-                            "sprite": {
-                                "texture-key": "flappy-ground",
-                                "render-priority": 0,
-                                "priority-offset": -1
+                            "type": "sprite-drawable",
+                            "texture-key": "flappy-ground",
+                            "render-priority": 0,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
                             }
                         }
                     }

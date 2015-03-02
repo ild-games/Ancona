@@ -110,9 +110,12 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
         /**
          * @brief Constructs the CameraSystem.
          *
+         * @param name Name of the system.
          * @param manager SystemManager instance for the current screen.
          */
-        CameraSystem(SystemManager & manager);
+        CameraSystem(
+                std::string name,
+                SystemManager & manager);
 
         /**
          * @brief Updates the components managed by the system.
@@ -135,6 +138,14 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
                 const sf::View & originalView,
                 int renderPriority,
                 float scale = 1.0f);
+
+        /**
+         * @brief Inflate a camera component.
+         */
+        void * Inflate(
+                const Json::Value & object,
+                const Entity entity,
+                LoadingContext * loadingContext) override;
 
 };
 

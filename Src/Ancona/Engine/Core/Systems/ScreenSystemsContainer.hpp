@@ -5,7 +5,9 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
 
 namespace ild
 {
@@ -25,11 +27,10 @@ class ScreenSystemsContainer
         /**
          * @brief Constructs the container for the game's systems.
          *
-         * @param manager The system manager that belongs to the screen.
+         * @param screenManager The screen manager for the game.
          */
-        ScreenSystemsContainer();
+        ScreenSystemsContainer(ScreenManager & screenManager);
             
-
         /**
          * @brief Constructs a system for the screen. Registers it with the system map.
          *
@@ -54,7 +55,8 @@ class ScreenSystemsContainer
         }
 
         /* getters and setters */
-        SystemManager & GetManager() { return *_systemManager; }
+        SystemManager & GetSystemManager() { return *_systemManager; }
+        ScreenManager & GetScreenManager() { return _screenManager; }
     protected:
         /**
          * @brief Map used to store the system references. It is not recommended you use this to get the systems during gameplay, only for loading.
@@ -64,6 +66,7 @@ class ScreenSystemsContainer
          * @brief Manages all the entity systems on the screen.
          */
         SystemManager * _systemManager;
+        ScreenManager & _screenManager;
 };
 
 }

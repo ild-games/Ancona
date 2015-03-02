@@ -1,4 +1,5 @@
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
 using namespace ild;
 
@@ -68,4 +69,21 @@ void AnimatedDrawable::AdvanceFrame()
                 newY,
                 _frameDimensions.x, 
                 _frameDimensions.y));
+}
+
+void * AnimatedDrawable::Inflate(
+        const Json::Value & object,
+        const Entity entity,
+        LoadingContext * loadingContext)
+{
+    AnimatedDrawable * animation = new AnimatedDrawable(
+            *loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(entity),
+            object["texture-key"].asString(),
+            object["render-priority"].asInt(),
+            sf::Vector2f(object["frame-dim"]["width"].asFloat(), object["frame-dim"]["height"].asFloat()),
+            object["num-frames"].asInt(),
+            object["duration"].asFloat(),
+            object["priority-offset"].asInt(),
+            sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()));
+    return animation;
 }

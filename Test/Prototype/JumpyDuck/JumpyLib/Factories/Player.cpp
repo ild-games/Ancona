@@ -4,7 +4,7 @@ using namespace ild;
 
 Entity JumpyPlayer::Create(JumpyGameSystems *gameSystems)
 {
-    auto entity = gameSystems->GetManager().CreateEntity();
+    auto entity = gameSystems->GetSystemManager().CreateEntity();
     auto physicsComponent = gameSystems->GetPhysics().CreateComponent(entity);
     physicsComponent->GetActions().SetAffectedByGravity(true);
 

@@ -39,6 +39,14 @@ class SpriteDrawable : public Drawable
          */
         virtual void Draw(sf::RenderWindow & window, float delta);
 
+        /**
+         * @brief Inflate a sprite drawable.
+         */
+        static void * Inflate(
+                const Json::Value & object,
+                const Entity entity,
+                LoadingContext * loadingContext);
+
         /* getters and setters */
         sf::Vector2u GetSize();
         int GetAlpha();

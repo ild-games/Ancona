@@ -1,4 +1,6 @@
 #include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
 using namespace ild;
 
@@ -65,8 +67,9 @@ void CameraComponent::SetScale(float scale)
 
 /* System */
 CameraSystem::CameraSystem(
+        std::string name,
         SystemManager & manager) :
-    UnorderedSystem(manager, UpdateStep::Update)
+    UnorderedSystem(name, manager, UpdateStep::Update)
 {
 }
 
@@ -92,3 +95,24 @@ CameraComponent * CameraSystem::CreateComponent(
     return comp;
 }
 
+void * CameraSystem::Inflate(
+        const Json::Value & object,
+        const Entity entity,
+        LoadingContext * loadingContext)
+{
+    CameraComponent * comp = CreateComponent(
+            entity,
+            loadingContext->GetSystems().GetScreenManager().Window.getView(),
+            object["renderPriority"].asInt(),
+            object["scale"].asFloat());
+    if(object["default"].asBool())
+    {
+        loadingContext->GetSystems().GetSystem<DrawableSystem>("drawable")->SetDefaultCamera(comp);
+    }
+    if(object["follows"].asString() != "")
+    {
+        comp->SetFollow(loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(
+                loadingContext->GetSystems().GetSystemManager().GetEntity(object["follows"].asString())));
+    }
+    return comp;
+}
