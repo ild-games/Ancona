@@ -50,6 +50,8 @@ class LoadingScreen : public AbstractScreen
          */
         virtual void Exiting(float delta);
 
+        /* getters and setters */
+        ScreenSystemsContainer * GetSystemsContainer() override;
     private:
         /**
          * @brief The Screen that will be loaded.
@@ -59,6 +61,10 @@ class LoadingScreen : public AbstractScreen
          * @brief Loads in the map data.
          */
         std::unique_ptr<MapLoader> _mapLoader;
+        /**
+         * @brief Systems container for the load screen.
+         */
+        std::unique_ptr<ScreenSystemsContainer> _systemsContainer;
 
 };
 

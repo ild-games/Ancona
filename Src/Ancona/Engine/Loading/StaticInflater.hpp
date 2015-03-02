@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Loading_StaticInflater_H_
 #define Ancona_Engine_Loading_StaticInflater_H_
 
-#include <Ancona/Engine/Loading/StaticInflater.hpp>
+#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 
 namespace ild
 {
@@ -23,10 +23,15 @@ class StaticInflater : public AbstractInflater
          * type to inflate an instance of the class.
          *
          * @param object JSON to be inflated into the object.
+         * @param entity Entity associated with this inflation.
+         * @param loadingContext LoadingContext at the time of this inflate.
          *
          * @return A pointer to the inflated object.
          */
-        void * Inflate(const Json::Value & object) override 
+        void * Inflate(
+                const Json::Value & object,
+                const Entity entity,
+                LoadingContext * loadingContext) override 
         {
             return T::Inflate(object);
         }

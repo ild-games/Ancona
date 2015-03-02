@@ -32,9 +32,9 @@ class AbstractSystem
          * @param systemName The unique name of the system.
          */
         AbstractSystem(
+                std::string systemName,
                 SystemManager & systemManager,
-                UpdateStepEnum updateStep,
-                std::string systemName);
+                UpdateStepEnum updateStep);
 
         /**
          * @brief Called to update all components controlled by the system.
@@ -62,12 +62,11 @@ class AbstractSystem
 
         /**
          * @brief Inflate the system from the loaded json.
-         *
-         * @param object Json holding the data.
-         *
-         * @return A pointer to the object inflated from the json.
          */
-        virtual void * Inflate(const Json::Value & object) = 0;
+        virtual void * Inflate(
+                const Json::Value & object,
+                const Entity entity,
+                LoadingContext * loadingContext) = 0;
 
         /**
          * @brief Create an Abstract Inflater that will create and register

@@ -3,7 +3,7 @@
 using namespace ild;
 
 Entity factories::CreateScreenCamera(
-        GameSystems & gameSystems,
+        GameScreenSystems & gameSystems,
         const sf::View & originalView)
 {
     Entity cam = gameSystems.GetManager().CreateEntity();
@@ -18,37 +18,25 @@ Entity factories::CreateScreenCamera(
 }
 
 Entity factories::CreateGround(
-        GameSystems & gameSystems,
+        GameScreenSystems & gameSystems,
         std::map<std::string, CollisionType> collisionTypes)
 {
-    Entity ground = gameSystems.GetManager().CreateEntity();
-
-    // position component 
-    PlatformPhysicsComponent * physics = gameSystems.GetPhysics().CreateComponent(ground);
-
-    auto & actions = physics->GetActions();
-    actions.CreatePositionAction()
-        ->Value(Point(100,500));
-    actions.CreateVelocityAction()
-        ->Value(Point(0,0.5))
-        ->Duration(1);
-
     // sprite component
     DrawableComponent * drawable = 
-        gameSystems.GetDrawable().CreateComponent(ground);
+        gameSystems.GetDrawable().CreateComponent(gameSystems.GetManager().GetEntity("ground"));
     drawable->AddDrawable(
             "ground-sprite",
             new SpriteDrawable(
-                *physics,
+                *gameSystems.GetPhysics()[gameSystems.GetManager().GetEntity("ground")],
                 "flappy-ground",
                 RenderPriority::Player,
                 -1));
 
     // collision component
     gameSystems.GetCollision().CreateComponent(
-            ground,
+            gameSystems.GetManager().GetEntity("ground"),
             sf::Vector3f(540, 80, 0),
             collisionTypes["ground"]);
 
-    return ground;
+    return gameSystems.GetManager().GetEntity("ground");
 }

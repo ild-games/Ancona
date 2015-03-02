@@ -6,7 +6,7 @@
 
 #include <json/json.h>
 
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/Engine/Loading/LoadingContext.hpp>
 #include <Ancona/Engine/Resource/RequestList.hpp>
 
@@ -22,11 +22,15 @@ namespace ild
  */
 class MapLoader
 {
+    /**
+     * @brief State the loader is in.
+     */
     enum LoadingState 
     {
         LoadingMapFile,
         LoadingAssets,
         LoadingEntities,
+        LoadingComponents,
         DoneLoading
     };
 
@@ -35,9 +39,9 @@ class MapLoader
          * @brief Create a loader to initialize the systems.
          *
          * @param key Key that describes the screen file.
-         * @param systems Systems that the entities should be loaded into.
+         * @param systems Instance of the system container for the screen being loaded.
          */
-        MapLoader(std::string key, SystemManager & systems);
+        MapLoader(std::string key, ScreenSystemsContainer & systems);
 
         /**
          * @brief  Calculates the percentage of map loaded.
@@ -53,25 +57,24 @@ class MapLoader
          */
         bool ContinueLoading();
 
+        /* getters and setters */
+        std::shared_ptr<RequestList> GetRequestList() { return _request; }
+
     private:
 
         void LoadMapFile();
         void LoadAssets();
         void LoadEntities();
+        void LoadComponents();
 
         /**
          * @brief Key that describes the map.
          */
         std::string _key;
         /**
-         * @brief Pointer to the System Manager that contains the systems
-         * the entities should be loaded into.
-         */
-        SystemManager & _manager;
-        /**
          * @brief List of assets needed by the map.
          */
-        RequestList _request;
+        std::shared_ptr<RequestList> _request;
         /**
          * @brief State in the loading process that the object is in.
          */

@@ -5,7 +5,7 @@
 
 #include <Ancona/Engine/Screens/AbstractScreen.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
-#include <Ancona/Game/Systems/GameSystems.hpp>
+#include <Ancona/Game/Systems/GameScreenSystems.hpp>
 
 namespace ild
 {
@@ -45,11 +45,14 @@ class GameScreen : public AbstractScreen
          * @param delta Seconds since last update.
          */
         void Draw(float delta);
+
+        /* getters and setters */
+        ScreenSystemsContainer * GetSystemsContainer() override { return _gameSystems.get(); }
     private:
         /**
          * @brief Container for all systems.
          */
-        GameSystems * _gameSystems;
+        std::unique_ptr<GameScreenSystems> _gameSystems;
         /**
          * @brief Holds references to entities that need to be access
          */

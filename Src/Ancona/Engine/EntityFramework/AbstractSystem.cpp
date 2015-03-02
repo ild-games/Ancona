@@ -5,10 +5,10 @@
 using namespace ild;
 
 AbstractSystem::AbstractSystem(
+        std::string systemName,
         SystemManager & systemManager,
-        UpdateStepEnum updateStep,
-        std::string systemName) :
+        UpdateStepEnum updateStep) :
     _systemManager(systemManager)
 {
-    systemManager.RegisterSystem(this, updateStep, systemName);
+    systemManager.RegisterSystem(systemName, this, updateStep);
 }

@@ -17,12 +17,6 @@ AnconaGame::AnconaGame(
     CreateInitialScreen();
 }
 
-AnconaGame::~AnconaGame()
-{
-    ResourceLibrary::Return(*_requestList);
-    delete _requestList;
-}
-
 void AnconaGame::CreateInitialScreen()
 {
     _screenManager->Push(

@@ -5,8 +5,8 @@
 
 using namespace ild;
 
-JumpyScreen::JumpyScreen(ScreenManager & manager) 
-    : AbstractScreen(manager, "jumpy-game")
+JumpyScreen::JumpyScreen(ScreenManager & manager) : 
+    AbstractScreen("jumpy-game", manager)
 {
     _systems = std::unique_ptr<JumpyGameSystems>(new JumpyGameSystems(manager.Window));
 }
@@ -16,7 +16,7 @@ void JumpyScreen::Init()
     defaultCam = _systems->GetManager().CreateEntity();
     CameraComponent * cam = _systems->GetCamera().CreateComponent(
             defaultCam, 
-            _manager.Window.getView(),
+            _screenManager.Window.getView(),
             0);
     _systems->GetDrawable().SetDefaultCamera(cam);
     player = JumpyPlayer::Create(_systems.get());
@@ -33,6 +33,6 @@ void JumpyScreen::Update(float delta)
 
 void JumpyScreen::Draw(float delta)
 {
-    _manager.Window.clear(sf::Color::Blue);
+    _screenManager.Window.clear(sf::Color::Blue);
     _systems->GetManager().Update(0,UpdateStep::Draw);
 }

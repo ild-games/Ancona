@@ -1,8 +1,8 @@
 #ifndef Ancona_Engine_Loading_LoadingContext_H_
 #define Ancona_Engine_Loading_LoadingContext_H_
 
+#include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/Engine/Loading/InflaterMap.hpp>
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 
 namespace ild
 {
@@ -19,14 +19,16 @@ class LoadingContext
         /**
          * @brief Construct the LoadingContext.
          *
-         * @param systems SystemManager for the screen.
+         * @param systems System container for the screen.
          */
-        LoadingContext(SystemManager & systems);
+        LoadingContext(ScreenSystemsContainer & systems);
 
         /* getters and setters */
         InflaterMap & GetInflaterMap() { return _inflaterMap; }
+        ScreenSystemsContainer & GetSystems() { return _systems; }
     private:
         InflaterMap _inflaterMap;
+        ScreenSystemsContainer & _systems;
 };
 
 }

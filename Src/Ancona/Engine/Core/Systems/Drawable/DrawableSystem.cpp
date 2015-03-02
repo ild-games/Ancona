@@ -8,9 +8,10 @@ using namespace ild;
 
 
 DrawableSystem::DrawableSystem(
+        std::string systemName,
         sf::RenderWindow & window, 
         SystemManager & systemManager) :
-    UnorderedSystem(systemManager, UpdateStep::Draw,"drawable"), 
+    UnorderedSystem(systemName, systemManager, UpdateStep::Draw),
     _window(window)
 {
 }
@@ -75,7 +76,10 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
 }
 
 
-void * DrawableSystem::Inflate(const Json::Value & object)
+void * DrawableSystem::Inflate(
+        const Json::Value & object,
+        const Entity entity,
+        LoadingContext * loadingContext)
 {
     std::cout << "Hello from drawable" << std::endl;    
     return nullptr;

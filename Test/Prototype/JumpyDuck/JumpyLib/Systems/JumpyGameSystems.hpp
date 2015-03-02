@@ -8,19 +8,19 @@
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
 #include "../Input/JumpyKeyboard.hpp"
 
 namespace ild
 {
 
-class JumpyGameSystems
+class JumpyGameSystems : public ScreenSystemsContainer
 {
     public:
         JumpyGameSystems(sf::RenderWindow & window);
 
 
         /* getters and setters */
-        SystemManager & GetManager() { return *_manager; }
         DrawableSystem & GetDrawable() { return *_drawable; } 
         InputControlSystem & GetInput() { return *_input; } 
         PlatformPhysicsSystem & GetPhysics() { return *_physics; }
@@ -29,10 +29,6 @@ class JumpyGameSystems
 
         CollisionType GetNullCollision() { return 0; }
     private:
-        /**
-         * @brief Manages all the entity systems on the screen.
-         */
-        SystemManager * _manager;
         /**
          * @brief System for managing an entity's drawables.
          */

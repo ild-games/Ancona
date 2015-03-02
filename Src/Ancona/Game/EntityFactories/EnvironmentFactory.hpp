@@ -5,7 +5,7 @@
 
 #include <SFML/Window.hpp>
 
-#include <Ancona/Game/Systems/GameSystems.hpp>
+#include <Ancona/Game/Systems/GameScreenSystems.hpp>
 
 namespace ild
 {
@@ -13,11 +13,11 @@ namespace ild
 namespace factories
 {
     Entity CreateScreenCamera(
-            GameSystems & gameSystems,
+            GameScreenSystems & gameSystems,
             const sf::View & originalView);
 
     Entity CreateGround(
-            GameSystems & gameSystems,
+            GameScreenSystems & gameSystems,
             std::map<std::string, CollisionType> collisionTypes);
 
 }

@@ -36,22 +36,22 @@ class UnorderedSystem : public AbstractSystem
          * @param updateStep Determine when the system is updated
          */
         UnorderedSystem(SystemManager & manager, UpdateStepEnum updateStep) :
-            AbstractSystem(manager, updateStep, "")
+            AbstractSystem("", manager, updateStep)
         {  }
 
         /**
          * @brief Construct and initialize the UnorderedSystem with a name.  The system will
          * register itself with the SystemManager.
          *
+         * @param systemName Name of the system.
          * @param manager The SystemManager that owns BaseSystem
          * @param updateStep Determine when the system is updated
-         * @param systemName Name of the system.
          */
         UnorderedSystem(
+                std::string systemName,
                 SystemManager & manager, 
-                UpdateStepEnum updateStep,
-                std::string systemName) :
-            AbstractSystem(manager, updateStep, systemName)
+                UpdateStepEnum updateStep) :
+            AbstractSystem(systemName, manager, updateStep)
         { }
 
         /**
@@ -128,7 +128,13 @@ class UnorderedSystem : public AbstractSystem
             return std::unique_ptr<AbstractInflater>(new DynamicInflater<UnorderedSystem<ComponentType>>(*this));
         }
 
-        void * Inflate(const Json::Value & object) override
+        /**
+         * @brief Inflates the unordered system.
+         */
+        void * Inflate(
+                const Json::Value & object,
+                const Entity entity,
+                LoadingContext * loadingContext) override
         {
             Assert(false, "No inflater defined for this system");
             return NULL;

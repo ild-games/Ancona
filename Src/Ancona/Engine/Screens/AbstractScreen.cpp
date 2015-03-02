@@ -8,17 +8,25 @@
 using namespace ild;
 
 AbstractScreen::AbstractScreen(
-        ScreenManager & manager,
-        std::string key) :
+        std::string key,
+        ScreenManager & screenManager) :
     __Initialized(false),
     __Entering(false),
     __Exiting(false),
-    _manager(manager),
+    _screenManager(screenManager),
     KEY(key),
     _transitionColor(0, 0, 0, 255),
-    _transitionRect(sf::Vector2f(_manager.Window.getSize().x, _manager.Window.getSize().y)),
-    _defaultCam(sf::View(_manager.Window.getView())) 
+    _transitionRect(sf::Vector2f(_screenManager.Window.getSize().x, _screenManager.Window.getSize().y)),
+    _defaultCam(sf::View(_screenManager.Window.getView())) 
 {
+}
+
+AbstractScreen::~AbstractScreen()
+{
+    if(_requestList != nullptr)
+    {
+        ResourceLibrary::Return(*_requestList.get());
+    }
 }
 
 void AbstractScreen::Entering(float delta)
@@ -32,8 +40,8 @@ void AbstractScreen::Entering(float delta)
     }
     _transitionColor.a = (sf::Uint8) alpha;
     _transitionRect.setFillColor(_transitionColor);
-    _manager.Window.setView(_defaultCam);
-    _manager.Window.draw(_transitionRect);
+    _screenManager.Window.setView(_defaultCam);
+    _screenManager.Window.draw(_transitionRect);
 }
 
 void AbstractScreen::Exiting(float delta)
@@ -47,6 +55,6 @@ void AbstractScreen::Exiting(float delta)
     }
     _transitionColor.a = (sf::Uint8) alpha;
     _transitionRect.setFillColor(_transitionColor);
-    _manager.Window.setView(_defaultCam);
-    _manager.Window.draw(_transitionRect);
+    _screenManager.Window.setView(_defaultCam);
+    _screenManager.Window.draw(_transitionRect);
 }

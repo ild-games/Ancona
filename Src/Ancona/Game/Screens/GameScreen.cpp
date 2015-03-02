@@ -5,9 +5,9 @@
 using namespace ild;
 
 GameScreen::GameScreen(ScreenManager & manager) :
-        AbstractScreen(manager, "game")
+        AbstractScreen("game", manager)
 {
-    _gameSystems = new GameSystems(manager.Window, &_systems);
+    _gameSystems = std::unique_ptr<GameScreenSystems>(new GameScreenSystems(manager.Window));
     _collisionTypes["player"] = _gameSystems->GetCollision().CreateType();
     _collisionTypes["ground"] = _gameSystems->GetCollision().CreateType();
 }
@@ -16,10 +16,10 @@ void GameScreen::Init()
 {
     _entities["screenCam"] = factories::CreateScreenCamera(
             *_gameSystems,
-            _manager.Window.getView());
+            _screenManager.Window.getView());
     _gameSystems->GetDrawable().SetDefaultCamera(_gameSystems->GetCamera()[_entities["screenCam"]]);
     _entities["player"] = factories::CreatePlayer(
-            _gameSystems,
+            *_gameSystems,
             _collisionTypes);
     _entities["ground"] = factories::CreateGround(
             *_gameSystems,
@@ -37,7 +37,7 @@ void GameScreen::Update(float delta)
 
 void GameScreen::Draw(float delta)
 {
-    _manager.Window.clear(sf::Color::Blue);
+    _screenManager.Window.clear(sf::Color::Blue);
     _gameSystems->GetManager().Update(delta, UpdateStep::Draw);
 }
 

@@ -87,14 +87,14 @@ class SystemManager
          *
          * This method should only be called by the system that is being registered.
          *
+         * @param systemName Name of the system.
          * @param system System that is being registered
          * @param updateStep Step that determines when the system is updated
-         * @param systemName Name of the system.
          */
         void RegisterSystem(
+                std::string systemName,
                 AbstractSystem * system, 
-                UpdateStepEnum updateStep,
-                std::string systemName);
+                UpdateStepEnum updateStep);
 
         /**
          * @brief Called when a system is creating a new component for an entity.  This
@@ -118,12 +118,10 @@ class SystemManager
          */
         void UnregisterComponent(Entity entity, AbstractSystem * owningSystem);
 
-        /**
-         * @brief Get the component inflaters for all named systems being managed.
-         *
-         * @return Vector of name inflater pairs.
-         */
+
+        /* getters and setters */
         std::vector<std::pair<std::string, AbstractInflater *>> GetComponentInflaters();
+        std::vector<std::pair<std::string, AbstractSystem *>> GetKeyedSystems() { return _keyedSystems; }
 
     private:
         /**

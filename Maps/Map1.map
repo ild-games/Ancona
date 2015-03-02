@@ -1,6 +1,6 @@
 {
     "key": "Map1",
-    "assets" : [
+    "assets": [
         { 
             "type" : "TexturePNG",
             "key" : "player-walking"
@@ -9,6 +9,10 @@
             "type" : "TexturePNG",
             "key" : "flappy-ground"
         }
+    ],
+    "entities": [
+        "player",
+        "ground"
     ],
     "components": {
         "physics": [
@@ -19,7 +23,6 @@
                         {
                             "type": "position",
                             "value": {
-                                "type": "point",
                                 "x": 50.0,
                                 "y": 20.0
                             },
@@ -37,21 +40,23 @@
                         {
                             "type": "position",
                             "value": {
-                                "type": "point",
                                 "x": 100.0,
                                 "y": 500.0
-                            }
+                            },
+                            "tween": 0,
+                            "duration": 0
                         },
                         {
                             "type": "velocity",
                             "value": {
-                                "type": "point",
                                 "x": 0,
                                 "y": 0.5
                             },
+                            "tween": 0,
                             "duration": 1
                         }
-                    ]
+                    ],
+                    "gravity": false
                 }
             }
         ],

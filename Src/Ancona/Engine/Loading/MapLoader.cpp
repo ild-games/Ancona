@@ -7,9 +7,9 @@ using namespace ild;
 
 MapLoader::MapLoader(
         std::string key, 
-        SystemManager & systems) : 
+        ScreenSystemsContainer & systems) : 
     _key(key), 
-    _manager(systems),
+    _request(new RequestList()),
     _loadingContext(new LoadingContext(systems))
 {
 }
@@ -21,8 +21,10 @@ float MapLoader::PercentLoaded()
         case LoadingMapFile:
             return 0;
         case LoadingAssets:
-            return _request.PercentLoaded() / 80;
+            return _request->PercentLoaded() / 80;
         case LoadingEntities:
+            return 79;
+        case LoadingComponents:
             return 80;
         case DoneLoading:
             return 100;
@@ -45,6 +47,9 @@ bool MapLoader::ContinueLoading()
         case LoadingEntities:
             LoadEntities();
             break;
+        case LoadingComponents:
+            LoadComponents();
+            break;
         case DoneLoading:
             return false;
     }
@@ -65,20 +70,18 @@ void MapLoader::LoadMapFile()
 
     for(Json::Value & assetJson : _root["assets"])
     {
-        _request.Add(
+        _request->Add(
                 assetJson["type"].asString(),
                 assetJson["key"].asString());
     }
+    _request->Start();
 
     _state = LoadingState::LoadingAssets;
 }
 
 void MapLoader::LoadAssets()
 {
-    // TODO REMOVE BELOW LINE
-    _state = LoadingState::LoadingEntities;
-    return;
-    if(ResourceLibrary::DoneLoading(_request)) 
+    if(ResourceLibrary::DoneLoading(*_request)) 
     {
         _state = LoadingState::LoadingEntities;
     }
@@ -86,11 +89,27 @@ void MapLoader::LoadAssets()
 
 void MapLoader::LoadEntities()
 {
-    for(std::string curKey : _root["components"].getMemberNames())
+    for(Json::Value curEntity : _root["entities"])
     {
-        _loadingContext
-            ->GetInflaterMap()
-            .GetInflater(curKey)
-            ->Inflate(_root);
+        _loadingContext->GetSystems().GetManager().CreateEntity(curEntity.asString());
     }
+    _state = LoadingState::LoadingComponents;
+}
+
+void MapLoader::LoadComponents()
+{
+    for(auto systemNamePair : _loadingContext->GetSystems().GetManager().GetKeyedSystems())
+    {
+        for(Json::Value & componentJson : _root["components"][systemNamePair.first])
+        {
+            _loadingContext
+                ->GetInflaterMap()
+                .GetInflater(systemNamePair.first)
+                ->Inflate(
+                        componentJson,
+                        _loadingContext->GetSystems().GetManager().GetEntity(componentJson["entity"].asString()),
+                        _loadingContext.get());
+        }
+    }
+    _state = LoadingState::DoneLoading;
 }

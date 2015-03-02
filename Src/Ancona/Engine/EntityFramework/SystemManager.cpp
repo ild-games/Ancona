@@ -6,6 +6,7 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
@@ -94,9 +95,9 @@ bool SystemManager::ContainsName(std::string & systemName)
 }
 
 void SystemManager::RegisterSystem(
+        std::string systemName,
         AbstractSystem * system, 
-        UpdateStepEnum updateStep,
-        std::string systemName)
+        UpdateStepEnum updateStep)
 {
     auto & systems = _systems[updateStep]; 
     Assert(std::find(systems.begin(),systems.end(),system) == systems.end(),
