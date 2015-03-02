@@ -6,5 +6,5 @@
 ##
 
 #Path to the resource folder
-ResourceRoot = /Users/tlein/Code/anconacpp/resources
+ResourceRoot = /home/tucker/Code/anconacpp/resources
 SaveData = save.dat
