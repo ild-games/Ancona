@@ -70,10 +70,25 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          *  entityA is an entity of the first type and entityB is an entity of second type.
          */
         void SetHandler(CollisionType typeA, CollisionType typeB, CollisionCallback callback);
+
+        /**
+         * @brief Set the max slope for an entity to be considered on the ground.
+         *
+         * @param value Max slope degrees that an entity can be on the ground for.
+         */
+        void SetMaxSlope(float value) { _maxSlope = value; }
     private:
+        void UpdateGravityBounds();
+        void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fix);
+        bool IsOnGround(const Point & groundNormal);
+
         int _nextType;
         std::vector< std::vector<CollisionCallback> > _callbackTable;
         BasePhysicsSystem & _positions;
+
+        Point _leftGravityBound;
+        Point _rightGravityBound;
+        float _maxSlope = 45;
 };
 
 }

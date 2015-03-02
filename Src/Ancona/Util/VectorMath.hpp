@@ -1,13 +1,34 @@
 #ifndef Ancona_Util_VectorMath_H_
 #define Ancona_Util_VectorMath_H_
 
+#include <iostream>
+
 #include <SFML/System.hpp>
+
+
 
 namespace ild
 {
 
-namespace vector
+namespace VectorMath
 {
+    /**
+     * @brief Normalize the vector.
+     *
+     * @param vector Vector to normalize.
+     *
+     * @return A normalized vector pointing in th same direction.
+     */
+    sf::Vector2f Normalize(const sf::Vector2f & vector);
+
+    /**
+     * @brief Calculate the magnitude of the vector.
+     *
+     * @param vector Vector to calculate the magnitude of.
+     *
+     * @return magnitude of the vector.
+     */
+    float Magnitude(const sf::Vector2f & vector);
 
     /**
      * @brief Return a Vector2f that is rotated a given amount of
@@ -30,6 +51,27 @@ namespace vector
      * @return A Vector3f that is rotated from the source vector.
      */
     sf::Vector3f Rotate(sf::Vector3f vectToRotate, float rads);
+
+    /**
+     * @brief Test if the middle vector within the small angle between left and right bound vectors.
+     *
+     * @param leftBound Vector that is the left bound.  
+     * @param rightBound Vector that is the right bound. 
+     * @param middle Vector that is being tested to be between the left and the right bound.
+     *
+     * @return True if the middle vector is between the right and left bounds.
+     */
+    bool Between(const sf::Vector2f & leftBound, const sf::Vector2f & rightBound, const sf::Vector2f & middle);
+
+    /**
+     * @brief Produce the 2d cross product.
+     *
+     * @param left Left operand.
+     * @param right Right operand.
+     *
+     * @return The cross product.
+     */
+    float Cross(const sf::Vector2f & left, const sf::Vector2f right);
 
     /**
      * @brief Convert degrees to radians.

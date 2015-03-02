@@ -84,6 +84,7 @@ class Actions
         Point _totalGravity;
         BasePhysicsSystem & _physicsSystem;
         bool _effectedByGravity = false;
+        bool _onGround = false;
 };
 
 }

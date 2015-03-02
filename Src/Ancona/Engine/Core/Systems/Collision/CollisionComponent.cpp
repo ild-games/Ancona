@@ -18,8 +18,10 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Poi
 
 void CollisionComponent::Update()
 {
-    auto & pos = _position.GetInfo().GetPosition();
+    auto & info = _position.GetMutableInfo();
+    auto & pos = info.GetPosition();
     _dim.SetPosition(pos.x, pos.y);
+    info.SetGroundDirection(Point());
 }
 
 CollisionType CollisionComponent::GetType()

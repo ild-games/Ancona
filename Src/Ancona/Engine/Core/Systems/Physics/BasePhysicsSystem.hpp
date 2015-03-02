@@ -11,13 +11,6 @@ class BasePhysicsComponent
 {
     public:
         /**
-         * @brief Check if the entity is on the ground.
-         *
-         * @return True if the entity is on the ground.  False otherwise.
-         */
-        bool IsOnGround() const { return _isOnGround; }
-
-        /**
          * @brief Get information about the Entities position.
          *
          * @return A constant reference to the position information.
@@ -37,16 +30,6 @@ class BasePhysicsComponent
          * @brief The position information for the component.
          */
         Position _position;
-
-        /**
-         * @brief Set if the entity is on the ground.
-         *
-         * @param value True if the entity is on the ground.  False otherwise.
-         */
-        inline void SetIsOnGround(bool value) { _isOnGround = value; }
-
-    private:
-        bool _isOnGround = false;
 };
 
 /**

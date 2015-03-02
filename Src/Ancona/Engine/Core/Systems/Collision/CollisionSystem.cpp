@@ -2,6 +2,7 @@
 
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Util/Assert.hpp>
+#include <Ancona/Util/VectorMath.hpp>
 
 using namespace ild;
 
@@ -14,7 +15,24 @@ CollisionSystem::CollisionSystem(SystemManager & manager, BasePhysicsSystem & po
 
 }
 
-static void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fix)
+void CollisionSystem::UpdateGravityBounds()
+{
+    auto invGravity =  -_positions.GetGravity();
+    
+    _leftGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(90 - _maxSlope));
+    _rightGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(-(90 - _maxSlope)));
+}
+
+bool CollisionSystem::IsOnGround(const Point &groundNormal)
+{
+    if(groundNormal != Point())
+    {
+        return VectorMath::Between(_leftGravityBound, _rightGravityBound, groundNormal);
+    }
+    return false;
+}
+
+void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fix)
 {
     auto typeA = a->GetBodyType();
     auto typeB = b->GetBodyType();
@@ -43,6 +61,13 @@ static void FixCollision(CollisionComponent * a, CollisionComponent * b, const P
     {
         auto & physicsA = a->GetPhysicsComponent();
         auto & posA = physicsA.GetMutableInfo();
+
+        //TODO: Change fix vector so that it is a float and a magnitude
+        if(IsOnGround(correctFix))
+        {
+            posA.SetGroundDirection(VectorMath::Normalize(Point(correctFix.y, -correctFix.x)));
+        }
+
         posA.SetPosition(posA.GetPosition() + correctFix);
         return;
     }
@@ -51,22 +76,22 @@ static void FixCollision(CollisionComponent * a, CollisionComponent * b, const P
     {
         //If both bodies are solid then push them out of eachoter.
         auto & physicsA = a->GetPhysicsComponent();
-        auto & posA = physicsA.GetMutableInfo();
+        auto & infoA = physicsA.GetMutableInfo();
         auto & physicsB = b->GetPhysicsComponent();
-        auto & posB = physicsB.GetMutableInfo();
+        auto & infoB = physicsB.GetMutableInfo();
 
-        if(posA.GetVelocity() == Point())
+        if(infoA.GetVelocity() == Point())
         {
-            posB.SetPosition(posB.GetPosition() + -correctFix);
+            infoB.SetPosition(infoB.GetPosition() + -correctFix);
         } 
-        else if(posB.GetVelocity() == Point())
+        else if(infoB.GetVelocity() == Point())
         {
-            posA.SetPosition(posA.GetPosition() + correctFix);
+            infoA.SetPosition(infoA.GetPosition() + correctFix);
         }
         else
         {
-            posA.SetPosition(posA.GetPosition() + 0.5f * correctFix);
-            posB.SetPosition(posB.GetPosition() + -0.5f * correctFix);
+            infoA.SetPosition(infoA.GetPosition() + 0.5f * correctFix);
+            infoB.SetPosition(infoB.GetPosition() + -0.5f * correctFix);
         }
 
         return;
@@ -100,8 +125,13 @@ void CollisionSystem::Update(float delta)
 
                 FixCollision(pairA.second, pairB.second, fix);
 
-                _callbackTable[typeA][typeB](pairA.first, pairB.first);
-                _callbackTable[typeB][typeA](pairB.first, pairA.first);
+                //If the objects are adjacent, but not overlapping then the collision handlers should
+                //not be called.
+                if(fix == Point())
+                {
+                    _callbackTable[typeA][typeB](pairA.first, pairB.first);
+                    _callbackTable[typeB][typeA](pairB.first, pairA.first);
+                }
             }
         }
     }
