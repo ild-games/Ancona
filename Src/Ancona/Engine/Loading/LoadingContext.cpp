@@ -1,4 +1,5 @@
 #include <Ancona/Engine/Loading/LoadingContext.hpp>
+#include <Ancona/Engine/Loading/FunctionalFactory.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
@@ -19,4 +20,7 @@ LoadingContext::LoadingContext(ScreenSystemsContainer & systems) :
     _inflaterMap.AddStatic<AnimatedDrawable>("animated-drawable");
     _inflaterMap.AddStatic<SpriteDrawable>("sprite-drawable");
     _inflaterMap.AddStatic<TextDrawable>("text-drawable");
+    _inflaterMap.AddFunctional("rectangle-shape", &factories::RectangleInflate);
+    _inflaterMap.AddFunctional("circle-shape", &factories::CircleInflate);
 }
+

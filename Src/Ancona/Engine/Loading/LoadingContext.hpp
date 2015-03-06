@@ -23,12 +23,14 @@ class LoadingContext
          */
         LoadingContext(ScreenSystemsContainer & systems);
 
+
         /* getters and setters */
         InflaterMap & GetInflaterMap() { return _inflaterMap; }
         ScreenSystemsContainer & GetSystems() { return _systems; }
     private:
         InflaterMap _inflaterMap;
         ScreenSystemsContainer & _systems;
+
 };
 
 }

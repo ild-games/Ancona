@@ -75,18 +75,34 @@
                 "entity": "player",
                 "drawables": [
                     {
-                        "key": "player-shape",
+                        "key": "player-shape-rect",
                         "drawable": {
                             "type": "shape-drawable",
                             "shape": {
-                                "type": "rect",
+                                "type": "rectangle-shape",
                                 "width": 16.0,
                                 "height": 17.0
                             },
                             "render-priority": 0,
-                            "priority-offset": -1,
+                            "priority-offset": -2,
                             "position-offset": {
                                 "x": 0,
+                                "y": 0
+                            }
+                        }
+                    },
+                    {
+                        "key": "player-shape-circle",
+                        "drawable": {
+                            "type": "shape-drawable",
+                            "shape": {
+                                "type": "circle-shape",
+                                "radius": 16.0
+                            },
+                            "render-priority": 0,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": -16,
                                 "y": 0
                             }
                         }

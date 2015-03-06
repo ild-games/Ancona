@@ -11,3 +11,16 @@ AbstractInflater * InflaterMap::GetInflater(std::string key)
 {
     return _typeMap[key].get();
 }
+
+void InflaterMap::AddFunctional(
+        std::string key, 
+        std::function<void *(
+            const Json::Value, 
+            const Entity entity, 
+            LoadingContext * loadingContext)> inflaterFunction)
+{
+    _typeMap.emplace(
+            key,
+            std::unique_ptr<AbstractInflater>(
+                new FunctionInflater(inflaterFunction)));
+}

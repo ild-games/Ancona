@@ -39,7 +39,11 @@ void * ShapeDrawable::Inflate(
 {
     ShapeDrawable * shape = new ShapeDrawable(
             *loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(entity),
-            *new sf::RectangleShape(sf::Vector2f(object["shape"]["width"].asFloat(), object["shape"]["height"].asFloat())),
+            *static_cast<sf::Shape *>(
+                loadingContext->GetInflaterMap().GetInflater(object["shape"]["type"].asString())->Inflate(
+                    object["shape"],
+                    entity,
+                    loadingContext)),
             object["render-priority"].asInt(),
             object["priority-offset"].asInt(),
             sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()));

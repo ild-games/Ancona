@@ -8,6 +8,7 @@
 
 #include <Ancona/Engine/Loading/AbstractInflater.hpp>
 #include <Ancona/Engine/Loading/DynamicInflater.hpp>
+#include <Ancona/Engine/Loading/FunctionInflater.hpp>
 #include <Ancona/Engine/Loading/StaticInflater.hpp>
 
 namespace ild
@@ -33,8 +34,7 @@ class InflaterMap
             _typeMap.emplace(
                     key, 
                     std::unique_ptr<AbstractInflater>(
-                        new StaticInflater<T>()
-                        ));
+                        new StaticInflater<T>()));
         }
 
         /**
@@ -49,9 +49,21 @@ class InflaterMap
             _typeMap.emplace(
                     key, 
                     std::unique_ptr<AbstractInflater>(
-                        new DynamicInflater<T>(object)
-                        ));
+                        new DynamicInflater<T>(object)));
         }
+
+        /**
+         * @brief Adds a functional inflater to the type map.
+         *
+         * @param key Key of the inflater.
+         * @param inflaterFunction Function to do the inflating.
+         */
+        void AddFunctional(
+                std::string key, 
+                const std::function<void *(
+                    const Json::Value, 
+                    const Entity entity, 
+                    LoadingContext * loadingContext)> inflaterFunction);
 
         /**
          * @brief Adds an inflater to the type map.
