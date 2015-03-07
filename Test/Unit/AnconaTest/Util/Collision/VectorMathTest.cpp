@@ -68,8 +68,8 @@ TEST(VectorMath, PointsTo)
 {
     Point pointA(1,7);
     Point pointB(3,5);
-    Point vector1(-1,1);
-    Point vector2(1, -3);
+    Point vector1(1,-1);
+    Point vector2(-1, 3);
     Point vector3 = -vector1;
     Point vector4 = -vector2;
 

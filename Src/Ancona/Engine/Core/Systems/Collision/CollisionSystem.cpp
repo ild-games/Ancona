@@ -64,11 +64,10 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
         auto & physicsA = a->GetPhysicsComponent();
         auto & posA = physicsA.GetMutableInfo();
 
-        if(IsOnGround(fixNormal))
+        auto groundDirection = VectorMath::Normalize(b->GetBox().GetNormalOfCollisionEdge(a->GetBox()));
+        if(IsOnGround(groundDirection))
         {
-            auto groundDirection = VectorMath::Normalize(b->GetBox().GetNormalOfCollisionEdge(a->GetBox()));
             posA.SetGroundDirection(groundDirection);
-            std::cout << "Ground direction " << groundDirection << " magnitude " << fixMagnitude << std::endl;
         }
 
         posA.SetPosition(posA.GetPosition() + correctFix);
@@ -104,6 +103,8 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
 
 void CollisionSystem::Update(float delta)
 {
+    UpdateGravityBounds();
+
     //Update all of the entities.  This is required for the position to be up to date.
     for(EntityComponentPair pair : * this)
     {
