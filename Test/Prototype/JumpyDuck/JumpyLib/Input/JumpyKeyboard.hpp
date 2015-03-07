@@ -30,10 +30,15 @@ class JumpyInputComponent : public InputControlComponent
         JumpyInputComponent(const Entity & player, PlatformPhysicsComponent & physicsComponent, JumpyKeyboard & inputHandler);
 
         void GoDirection(int direction);
+        void Move(int direction);
+        void Jump();
 
     private:
         VectorActionProxy action;
+        VectorActionProxy jumpAction;
+        PlatformPhysicsComponent & _physics;
         int lastDir = 0;
+        bool _isOnGround;
 };
 
 }

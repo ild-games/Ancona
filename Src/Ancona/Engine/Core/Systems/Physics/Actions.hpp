@@ -71,13 +71,15 @@ class Actions
          */
         void StopFall();
     private:
-
         /**
          * @brief Update the velocity based on Gravity.
          *
          * @param velocity Current velocity as determined by actions.
          */
         void ApplyGravity(Point & velocity, float delta);
+
+        Point ApplyPositionActions(const Position & position, float delta);
+        Point ApplyVelocityActions(const Position & position, float delta);
 
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;

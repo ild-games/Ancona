@@ -14,5 +14,5 @@ JumpyGameSystems::JumpyGameSystems(sf::RenderWindow & window)
     _collision = new CollisionSystem(*_manager,*_physics);
 
     _collision->CreateType();
-    _physics->SetGravity(Point(0,10));
+    _physics->SetGravity(Point(0,200));
 }

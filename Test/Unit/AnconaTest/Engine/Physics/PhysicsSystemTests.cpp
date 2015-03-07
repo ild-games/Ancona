@@ -197,3 +197,28 @@ TEST(PhysicsSystem, PositionOverridesVelocity)
     ASSERT_LT(Point(100,0).y, component->GetInfo().GetPosition().y) << "The velocity should be able to effect"
         << " the y position once the position action expires.";
 }
+
+TEST(PhysicsSystem, RelativeToGroundMovement)
+{
+    Point ground1(1,0);
+    Point velocity1(-3, 1);
+
+    SystemManager manager;
+    PlatformPhysicsSystem physics(manager);
+    Entity entity = manager.CreateEntity();
+    PlatformPhysicsComponent * component = physics.CreateComponent(entity);
+    component->GetMutableInfo().SetGroundDirection(ground1);
+
+    manager.Update(1, UPDATE);
+
+    ASSERT_EQ(component->GetInfo().GetGroundDirection(), ground1) << "Ground direction should not change during the update";
+
+    component->GetActions().CreateVelocityAction()
+        ->RelativeToGround(true)
+        ->Value(velocity1)
+        ->Duration(ActionDuration::PERSISTENT);
+
+    manager.Update(1, UPDATE);
+
+    ASSERT_EQ(Point(0,-3),component->GetInfo().GetPosition()) << "The position was not updated based on the ground vector";
+}

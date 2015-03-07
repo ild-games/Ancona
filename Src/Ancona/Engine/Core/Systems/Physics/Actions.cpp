@@ -36,7 +36,6 @@ void RemoveDoneActions(std::vector<VectorActionProxy> & actions)
             );
 }
 
-
 static Point TweenPosition(VectorAction & action, float beforeRatio,
         const Point & position)
 {
@@ -62,21 +61,48 @@ void Actions::ApplyGravity(Point &velocity, float delta)
     velocity += _totalGravity;
 }
 
-void Actions::Apply(Position & position, float delta)
+Point Actions::ApplyPositionActions(const Position & position, float delta)
+{
+    Point location = position.GetPosition();
+    for(auto& action : _positionActions)
+    {
+        float beforeRatio = action->GetTweenRatio();
+        action->Update(delta);
+        location = TweenPosition(*action,beforeRatio,position.GetPosition());
+    }
+    return location;
+}
+
+Point Actions::ApplyVelocityActions(const Position & position, float delta)
 {
     Point velocity;
     for(auto& action : _velocityActions)
     {
         float overflow = action->Update(delta);
+        auto value = action->GetValue();
+
+        if(action->GetRelativeToGround())
+        {
+            auto groundDirection = position.GetGroundDirection();
+            value = value.x * Point(-groundDirection.y,groundDirection.x);
+        }
+
         if(overflow > 0)
         {
-            velocity += action->GetValue() * (1 - overflow / delta);
+            velocity += value * (1 - overflow / delta);
         }
         else
         {
-            velocity += action->GetTweenRatio() * action->GetValue();
+            velocity += action->GetTweenRatio() * value;
         }
     }
+    return velocity;
+}
+
+void Actions::Apply(Position & position, float delta)
+{
+    //Velocity actions apply additively
+    Point velocity = ApplyVelocityActions(position,delta);
 
     if(position.IsOnGround())
     {
@@ -95,12 +121,8 @@ void Actions::Apply(Position & position, float delta)
         position.SetPosition(position.GetPosition() + delta * velocity);
     }
 
-    for(auto& action : _positionActions)
-    {
-        float beforeRatio = action->GetTweenRatio();
-        action->Update(delta);
-        position.SetPosition(TweenPosition(*action,beforeRatio,position.GetPosition()));
-    }
+    //Only a signle position action will effect the result
+    position.SetPosition(ApplyPositionActions(position, delta));
 
     RemoveDoneActions(_velocityActions);
     RemoveDoneActions(_positionActions);
