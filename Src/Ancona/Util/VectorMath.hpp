@@ -82,6 +82,20 @@ namespace VectorMath
      */
     float DegreesToRadians(float degrees);
 
+
+    /**
+     * @brief Determine if the vector points in the direction of positionB
+     * from positionA.  It points in the direction of positionB if it is
+     * pointing to the correct hemisphere.
+     *
+     * @param vector Vector that is being tested for direction.
+     * @param positionA Position that is the root.
+     * @param positionB Position that is being pointed to.
+     *
+     * @return True if the vector points from positionA to positionB.
+     */
+    bool PointsTo(const sf::Vector2f & vector,const sf::Vector2f & positionA,const sf::Vector2f & positionB);
+
     /**
      * @brief Convert radians to degrees.
      *

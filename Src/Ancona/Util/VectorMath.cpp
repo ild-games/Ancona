@@ -49,9 +49,17 @@ float RadiansToDegrees(float rads)
 }
 
 float Cross(const sf::Vector2f & left, const sf::Vector2f right)
-
 {
     return left.x * right.y - left.y * right.x;
+}
+
+bool PointsTo(const sf::Vector2f & vector,const sf::Vector2f & positionA,const sf::Vector2f & positionB)
+{
+    auto diff = positionB - positionA;
+    decltype(diff) norm1(-diff.y, diff.x);
+    decltype(diff) norm2(diff.y, -diff.x);
+    
+    return Cross(vector,norm1) >=0 && Cross(vector,norm2) <= 0;
 }
 
 bool Between(const sf::Vector2f & leftBound, const sf::Vector2f & rightBound, const sf::Vector2f & middle)

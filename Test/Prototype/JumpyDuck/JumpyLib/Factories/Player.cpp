@@ -6,6 +6,7 @@ Entity JumpyPlayer::Create(JumpyGameSystems *gameSystems)
 {
     auto entity = gameSystems->GetManager().CreateEntity();
     auto physicsComponent = gameSystems->GetPhysics().CreateComponent(entity);
+    physicsComponent->GetActions().SetEffectedByGravity(true);
 
     //Set up input
     auto inputHandler = new JumpyKeyboard();

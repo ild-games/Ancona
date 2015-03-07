@@ -9,7 +9,7 @@ Entity JumpyEnvironment::CreateEnvironmentBody(JumpyGameSystems * gameSystems)
     physicsComponent->GetActions().CreatePositionAction()
         ->Value(Point(100,200));
 
-    sf::RectangleShape * shape = new sf::RectangleShape(sf::Vector2f(10,100));
+    sf::RectangleShape * shape = new sf::RectangleShape(sf::Vector2f(250,10));
     shape->setFillColor(sf::Color::Red);
 
     auto drawable = new ShapeDrawable(*physicsComponent, *shape, 0, 0);

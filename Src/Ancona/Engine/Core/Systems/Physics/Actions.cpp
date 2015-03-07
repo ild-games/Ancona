@@ -78,9 +78,13 @@ void Actions::Apply(Position & position, float delta)
         }
     }
 
-    if(_effectedByGravity && !position.IsOnGround())
+    if(position.IsOnGround())
     {
-        ApplyGravity(velocity,delta);
+        StopFall();
+    }
+    else if(_effectedByGravity)
+    {
+        ApplyGravity(velocity, delta);
     }
 
     position.SetVelocity(velocity);

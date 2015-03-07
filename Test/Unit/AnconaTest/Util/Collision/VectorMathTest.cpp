@@ -63,3 +63,28 @@ TEST(VectorMath, Normalize)
     ASSERT_NEAR(normalized.x, -0.2747, 0.0001) << "X value did not normalize correctly";
     ASSERT_NEAR(normalized.y, -0.9615, 0.0001) << "X value did not normalize correctly";
 }
+
+TEST(VectorMath, PointsTo)
+{
+    Point pointA(1,7);
+    Point pointB(3,5);
+    Point vector1(-1,1);
+    Point vector2(1, -3);
+    Point vector3 = -vector1;
+    Point vector4 = -vector2;
+
+    ASSERT_TRUE(PointsTo(vector1,pointA,pointB)) << "Should point from A to B";
+    ASSERT_TRUE(PointsTo(vector4,pointA,pointB)) << "Should point from A to B";
+
+    ASSERT_FALSE(PointsTo(vector3,pointA,pointB)) << "Should not point from A to B";
+    ASSERT_FALSE(PointsTo(vector2,pointA,pointB)) << "Should not point from A to B";
+}
+
+TEST(VectorMath, RightCollision)
+{
+    Point pointA(1,2);
+    Point pointB(2,3);
+    Point vector(-1,0);
+
+    ASSERT_FALSE(PointsTo(vector,pointA,pointB));
+}

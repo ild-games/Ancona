@@ -89,36 +89,49 @@ TEST(CollisionBox2, IntersectsOverlapDifferent)
 TEST(CollisionBox2, IntersectsNoOverlapFix)
 {
     sf::Vector2f fix;
+    float normal;
     Box2 box1(sf::Vector2f(5, 5),sf::Vector2f(2,2));
     Box2 box2(sf::Vector2f(0, 0),sf::Vector2f(3,10));
 
     Box2 box3(sf::Vector2f(5, 5),sf::Vector2f(9,9));
     Box2 box4(sf::Vector2f(-5, -5),sf::Vector2f(9,9));
 
-    ASSERT_FALSE(box1.Intersects(box2, fix)) << "The two boxes should not intersect";
-    ASSERT_EQ(sf::Vector2f(0,0), fix) << "The fix vector should be 0,0 for non overlapping boxes";
-    ASSERT_FALSE(box3.Intersects(box4, fix)) << "The two boxes should not intersect";
-    ASSERT_EQ(sf::Vector2f(0,0), fix) << "The fix vector should be 0,0 for non overlapping boxes";
+    ASSERT_FALSE(box1.Intersects(box2, fix,normal)) << "The two boxes should not intersect";
+    ASSERT_EQ(sf::Vector2f(0,0), normal * fix) << "The fix vector should be 0,0 for non overlapping boxes";
+    ASSERT_FALSE(box3.Intersects(box4, fix, normal)) << "The two boxes should not intersect";
+    ASSERT_EQ(sf::Vector2f(0,0), normal * fix) << "The fix vector should be 0,0 for non overlapping boxes";
 }
 
 TEST(CollisionBox2, IntersectsOverlapDifferentFix)
 {
     sf::Vector2f fix;
+    float normal;
     Box2 box1(sf::Vector2f(5, 5),sf::Vector2f(3,2));
     Box2 box2(sf::Vector2f(0, 0),sf::Vector2f(10,10));
     Box2 box3(sf::Vector2f(0, -5),sf::Vector2f(4,4));
 
-    ASSERT_TRUE(box1.Intersects(box2, fix)) << "The two boxes should intersect";
-    ASSERT_EQ(sf::Vector2f(0,1),fix) << "The boxes were not correctly pushed apart";
-    ASSERT_TRUE(box2.Intersects(box3, fix)) << "The two boxes should intersect";
-    ASSERT_EQ(sf::Vector2f(0,2),fix) << "The boxes were not correctly pushed apart";
+    ASSERT_TRUE(box1.Intersects(box2, fix,normal)) << "The two boxes should intersect";
+    ASSERT_EQ(sf::Vector2f(0,1),normal * fix) << "The boxes were not correctly pushed apart";
+    ASSERT_TRUE(box2.Intersects(box3, fix, normal)) << "The two boxes should intersect";
+    ASSERT_EQ(sf::Vector2f(0,2),normal * fix) << "The boxes were not correctly pushed apart";
 }
 
 TEST(CollisionBox2, IntersectsContainingFix)
 {
     sf::Vector2f fix;
+    float normal;
     Box2 box1(sf::Vector2f(4, 0),sf::Vector2f(2,2));
     Box2 box2(sf::Vector2f(0, 0),sf::Vector2f(10,10));
-    ASSERT_TRUE(box2.Intersects(box1, fix)) << "The two boxes should intersect";
-    ASSERT_EQ(sf::Vector2f(-2,0),fix) << "The boxes were not correctly pushed apart";
+    ASSERT_TRUE(box2.Intersects(box1, fix, normal)) << "The two boxes should intersect";
+    ASSERT_EQ(sf::Vector2f(-2,0),normal * fix) << "The boxes were not correctly pushed apart";
+}
+
+TEST(CollisionBox2, GetNearestNormalSharedEdge)
+{
+    Box2 box1(Point(4,4),Point(6,4));
+    Box2 box2(Point(1,1),Point(10,2));
+
+    Point normal = box1.GetNormalOfCollisionEdge(box2);
+
+    ASSERT_EQ(Point(0,-1),normal) << "Overlapping edge not identified correctly";
 }

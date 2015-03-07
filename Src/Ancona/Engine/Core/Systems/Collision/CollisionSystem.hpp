@@ -79,7 +79,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         void SetMaxSlope(float value) { _maxSlope = value; }
     private:
         void UpdateGravityBounds();
-        void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fix);
+        void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
         bool IsOnGround(const Point & groundNormal);
 
         int _nextType;

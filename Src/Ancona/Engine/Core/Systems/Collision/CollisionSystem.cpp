@@ -4,6 +4,8 @@
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Util/VectorMath.hpp>
 
+#include <iostream> //TODO remove
+
 using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2) {}
@@ -32,11 +34,11 @@ bool CollisionSystem::IsOnGround(const Point &groundNormal)
     return false;
 }
 
-void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fix)
+void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude)
 {
     auto typeA = a->GetBodyType();
     auto typeB = b->GetBodyType();
-    Point correctFix = fix;
+    Point correctFix = fixMagnitude * fixNormal;
 
     //If either has a body type of None then the collision should not effect the position.
     if(typeA == BodyType::None || typeB == BodyType::None)
@@ -62,10 +64,11 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
         auto & physicsA = a->GetPhysicsComponent();
         auto & posA = physicsA.GetMutableInfo();
 
-        //TODO: Change fix vector so that it is a float and a magnitude
-        if(IsOnGround(correctFix))
+        if(IsOnGround(fixNormal))
         {
-            posA.SetGroundDirection(VectorMath::Normalize(Point(correctFix.y, -correctFix.x)));
+            auto groundDirection = VectorMath::Normalize(b->GetBox().GetNormalOfCollisionEdge(a->GetBox()));
+            posA.SetGroundDirection(groundDirection);
+            std::cout << "Ground direction " << groundDirection << " magnitude " << fixMagnitude << std::endl;
         }
 
         posA.SetPosition(posA.GetPosition() + correctFix);
@@ -117,17 +120,18 @@ void CollisionSystem::Update(float delta)
                 continue;
             }
 
-            Point fix;
-            if(pairA.second->Collides(*pairB.second, fix))
+            Point fixNormal;
+            float fixMagnitude;
+            if(pairA.second->Collides(*pairB.second, fixNormal, fixMagnitude))
             {
                 auto typeA = pairA.second->GetType();
                 auto typeB = pairB.second->GetType();
 
-                FixCollision(pairA.second, pairB.second, fix);
+                FixCollision(pairA.second, pairB.second, fixNormal, fixMagnitude);
 
                 //If the objects are adjacent, but not overlapping then the collision handlers should
                 //not be called.
-                if(fix == Point())
+                if(fixMagnitude == 0)
                 {
                     _callbackTable[typeA][typeB](pairA.first, pairB.first);
                     _callbackTable[typeB][typeA](pairB.first, pairA.first);

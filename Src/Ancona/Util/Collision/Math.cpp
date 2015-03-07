@@ -57,8 +57,9 @@ float Math::FixMagnitude(const Math::Projection2 & a, const Math::Projection2 & 
         return 0;
     }
 
-    float left = b.first - a.second;  
-    float right = b.second - a.first;
+    float left = b.first - a.second;  // negative
+    float right = b.second - a.first; //positive
+     
     return fabs(left) > fabs(right) ? right : left;
 }
 
@@ -89,7 +90,7 @@ static bool TestShapeAxis(const Math::Vertices2 & shapeA, const Math::Vertices2 
     return true;
 }
 
-static Math::Point2 GetFixVector(const Math::Vertices2 & shapeA, const Math::Vertices2 & shapeB)
+Math::CollisionFix Math::GetFixVector(const Math::Vertices2 & shapeA, const Math::Vertices2 & shapeB)
 {
     using namespace Math;
     float min = INFINITY;
@@ -111,25 +112,32 @@ static Math::Point2 GetFixVector(const Math::Vertices2 & shapeA, const Math::Ver
             normalOfMin = normal;
         }
     }
-    return Math::Point2(normalOfMin.first * min, normalOfMin.second * min);
+    return Math::CollisionFix {normalOfMin, min};
 }
+
 
 bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB)
 {
     return TestShapeAxis(shapeA,shapeB) && TestShapeAxis(shapeB,shapeA);
 }
 
-bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB, Point2 & fixVector)
+bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB, CollisionFix & collisionFix)
 {
     if(TestShapeAxis(shapeA,shapeB) &&
         TestShapeAxis(shapeB,shapeA))
     {
-        fixVector = GetFixVector(shapeA, shapeB);
+        CollisionFix fixA = GetFixVector(shapeA, shapeB);
+        CollisionFix fixB = GetFixVector(shapeB, shapeA);
+
+        fixB.magnitude *= -1;
+
+        collisionFix = fabs(fixA.magnitude) <= fabs(fixB.magnitude) ? fixA : fixB;
+
         return true;
     }
     else
     {
-        fixVector = Math::Point2(0,0);
+        collisionFix = CollisionFix { Math::Point2(0,0), 0};
         return false;
     }
 }
