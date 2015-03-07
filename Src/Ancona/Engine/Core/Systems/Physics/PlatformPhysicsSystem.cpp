@@ -56,20 +56,10 @@ void * PlatformPhysicsSystem::Inflate(
     PlatformPhysicsComponent * position = loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->CreateComponent(entity);
     for(Json::Value actionsJson : object["actions"]["list"])
     {
-        if(actionsJson["type"].asString() == "position")
-        {
-            position->GetActions().CreatePositionAction()
-                ->Value(Point(actionsJson["value"]["x"].asFloat(), actionsJson["value"]["y"].asFloat()))
-                ->Tween(actionsJson["tween"].asFloat())
-                ->Duration(actionsJson["duration"].asFloat());
-        }
-        else if(actionsJson["type"].asString() == "velocity")
-        {
-            position->GetActions().CreateVelocityAction()
-                ->Value(Point(actionsJson["value"]["x"].asFloat(), actionsJson["value"]["y"].asFloat()))
-                ->Tween(actionsJson["tween"].asFloat())
-                ->Duration(actionsJson["duration"].asFloat());
-        }
+        loadingContext->GetInflaterMap().GetInflater(actionsJson["type"].asString())->Inflate(
+                actionsJson,
+                entity,
+                loadingContext);
     }
     if(object["actions"]["gravity"].asBool()) 
     {

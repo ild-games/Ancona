@@ -31,6 +31,22 @@ namespace factories
             const Json::Value & object,
             const Entity entity,
             LoadingContext * loadingContext);
+
+    /**
+     * @brief Inflater for a position action.
+     */
+    void * PlatformerPositionActionInflate(
+            const Json::Value & object,
+            const Entity entity,
+            LoadingContext * loadingContext);
+
+    /**
+     * @brief Inflater for a velocity action.
+     */
+    void * PlatformerVelocityActionInflate(
+            const Json::Value & object,
+            const Entity entity,
+            LoadingContext * loadingContext);
 }
 
 }

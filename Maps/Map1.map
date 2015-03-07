@@ -22,7 +22,7 @@
                 "actions": {
                     "list": [
                         {
-                            "type": "position",
+                            "type": "platformer-position-action",
                             "value": {
                                 "x": 50.0,
                                 "y": 20.0
@@ -39,7 +39,7 @@
                 "actions": {
                     "list": [
                         {
-                            "type": "position",
+                            "type": "platformer-position-action",
                             "value": {
                                 "x": 100.0,
                                 "y": 500.0
@@ -48,7 +48,7 @@
                             "duration": 0
                         },
                         {
-                            "type": "velocity",
+                            "type": "platformer-velocity-action",
                             "value": {
                                 "x": 0,
                                 "y": 0.5

@@ -22,5 +22,7 @@ LoadingContext::LoadingContext(ScreenSystemsContainer & systems) :
     _inflaterMap.AddStatic<TextDrawable>("text-drawable");
     _inflaterMap.AddFunctional("rectangle-shape", &factories::RectangleInflate);
     _inflaterMap.AddFunctional("circle-shape", &factories::CircleInflate);
+    _inflaterMap.AddFunctional("platformer-position-action", &factories::PlatformerPositionActionInflate);
+    _inflaterMap.AddFunctional("platformer-velocity-action", &factories::PlatformerVelocityActionInflate);
 }
 
