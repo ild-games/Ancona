@@ -73,11 +73,11 @@ void AnimatedDrawable::AdvanceFrame()
 
 void * AnimatedDrawable::Inflate(
         const Json::Value & object,
-        const Entity entity,
+        const Entity & entity,
         LoadingContext * loadingContext)
 {
     AnimatedDrawable * animation = new AnimatedDrawable(
-            *loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(entity),
+            *loadingContext->GetSystems().GetSystem<BasePhysicsSystem>("physics")->at(entity),
             object["texture-key"].asString(),
             object["render-priority"].asInt(),
             sf::Vector2f(object["frame-dim"]["width"].asFloat(), object["frame-dim"]["height"].asFloat()),

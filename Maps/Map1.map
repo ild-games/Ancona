@@ -8,6 +8,10 @@
         {
             "type": "TexturePNG",
             "key": "flappy-ground"
+        },
+        {
+            "type": "FontTTF",
+            "key": "dimitri-plain"
         }
     ],
     "entities": [
@@ -123,6 +127,27 @@
                             "position-offset": {
                                 "x": 0,
                                 "y": 0
+                            }
+                        }
+                    },
+                    {
+                        "key": "player-text",
+                        "drawable": {
+                            "type": "text-drawable",
+                            "text": "I'M THE PLAYER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+                            "font-key": "dimitri-plain",
+                            "color": {
+                                "red": 255,
+                                "green": 255,
+                                "blue": 255,
+                                "alpha": 255
+                            },
+                            "character-size": 15,
+                            "render-priority": 0,
+                            "priority-offset": 1,
+                            "position-offset": {
+                                "x": 16,
+                                "y": -16
                             }
                         }
                     }

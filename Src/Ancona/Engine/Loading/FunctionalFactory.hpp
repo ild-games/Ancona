@@ -21,7 +21,7 @@ namespace factories
      */
     void * RectangleInflate(
             const Json::Value & object,
-            const Entity entity,
+            const Entity & entity,
             LoadingContext * loadingContext);
 
     /**
@@ -29,7 +29,7 @@ namespace factories
      */
     void * CircleInflate(
             const Json::Value & object,
-            const Entity entity,
+            const Entity & entity,
             LoadingContext * loadingContext);
 
     /**
@@ -37,7 +37,7 @@ namespace factories
      */
     void * PlatformerPositionActionInflate(
             const Json::Value & object,
-            const Entity entity,
+            const Entity & entity,
             LoadingContext * loadingContext);
 
     /**
@@ -45,7 +45,7 @@ namespace factories
      */
     void * PlatformerVelocityActionInflate(
             const Json::Value & object,
-            const Entity entity,
+            const Entity & entity,
             LoadingContext * loadingContext);
 }
 

@@ -50,7 +50,7 @@ PlatformPhysicsComponent * PlatformPhysicsSystem::CreateComponent(const Entity &
 
 void * PlatformPhysicsSystem::Inflate(
         const Json::Value & object,
-        const Entity entity,
+        const Entity & entity,
         LoadingContext * loadingContext)
 {
     PlatformPhysicsComponent * position = loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->CreateComponent(entity);

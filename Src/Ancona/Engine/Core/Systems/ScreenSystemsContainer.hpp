@@ -2,12 +2,14 @@
 #define Ancona_Engine_Core_Systems_ScreenSystemsContainer_H_
 
 #include <map>
+#include <memory>
 #include <string>
 
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/Screens/ScreenManager.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 namespace ild
 {
@@ -43,14 +45,24 @@ class ScreenSystemsContainer
         template <typename T, typename... Args>
         T * ConstructSystem(std::string systemName, Args&&... sysArgs)
         {
+            Assert(_systemMap.find(systemName) == _systemMap.end(), systemName + " already exists for this screen.");
             T * system = new T(systemName, std::forward<Args>(sysArgs)...);
             _systemMap[systemName] = system;
             return system;
         }
 
+        /**
+         * @brief Get a specific system.
+         *
+         * @tparam T Type of the system being returned.
+         * @param systemName Name of the system.
+         *
+         * @return Instance of the system.
+         */
         template <typename T>
         T * GetSystem(std::string systemName)
         {
+            Assert(_systemMap.find(systemName) != _systemMap.end(), systemName + " does not exist, please construct it first.");
             return static_cast<T *>(_systemMap[systemName]);
         }
 
@@ -65,7 +77,10 @@ class ScreenSystemsContainer
         /**
          * @brief Manages all the entity systems on the screen.
          */
-        SystemManager * _systemManager;
+        std::unique_ptr<SystemManager> _systemManager;
+        /**
+         * @brief ScreenManager instance for the game.
+         */
         ScreenManager & _screenManager;
 };
 

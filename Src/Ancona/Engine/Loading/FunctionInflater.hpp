@@ -24,7 +24,7 @@ class FunctionInflater : public AbstractInflater
         FunctionInflater(
                 std::function<void *(
                     const Json::Value, 
-                    const Entity entity, 
+                    const Entity & entity, 
                     LoadingContext * loadingContext)> inflaterFunc) : 
             _inflaterFunc(inflaterFunc) { }
 
@@ -39,14 +39,14 @@ class FunctionInflater : public AbstractInflater
          */
         void * Inflate(
                 const Json::Value & object,
-                const Entity entity,
+                const Entity & entity,
                 LoadingContext * loadingContext) override 
         {
             return _inflaterFunc(object, entity, loadingContext);
         }
 
     private: 
-        std::function<void *(const Json::Value, const Entity entity, LoadingContext * loadingContext)> _inflaterFunc;
+        std::function<void *(const Json::Value, const Entity & entity, LoadingContext * loadingContext)> _inflaterFunc;
             
 };
 

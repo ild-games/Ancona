@@ -23,12 +23,11 @@ float MapLoader::PercentLoaded()
         case LoadingAssets:
             return _request->PercentLoaded() / 80;
         case LoadingEntities:
-            return 79;
-        case LoadingComponents:
             return 80;
+        case LoadingComponents:
+            return 81;
         case DoneLoading:
             return 100;
-            
     }
     Assert(false, "Unknown map loader state");
     return 0;
@@ -89,7 +88,7 @@ void MapLoader::LoadAssets()
 
 void MapLoader::LoadEntities()
 {
-    for(Json::Value curEntity : _root["entities"])
+    for(Json::Value & curEntity : _root["entities"])
     {
         _loadingContext->GetSystems().GetSystemManager().CreateEntity(curEntity.asString());
     }

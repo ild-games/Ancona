@@ -5,7 +5,7 @@ using namespace ild;
 
 void * factories::RectangleInflate(
         const Json::Value & object,
-        const Entity entity,
+        const Entity & entity,
         LoadingContext * loadingContext)
 {
     return new sf::RectangleShape(
@@ -16,7 +16,7 @@ void * factories::RectangleInflate(
 
 void * factories::CircleInflate(
         const Json::Value & object,
-        const Entity entity,
+        const Entity & entity,
         LoadingContext * loadingContext)
 {
     return new sf::CircleShape(object["radius"].asFloat());
@@ -24,7 +24,7 @@ void * factories::CircleInflate(
 
 void * factories::PlatformerPositionActionInflate(
     const Json::Value & object,
-    const Entity entity,
+    const Entity & entity,
     LoadingContext * loadingContext)
 {
     PlatformPhysicsComponent * position = loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(entity);
@@ -37,7 +37,7 @@ void * factories::PlatformerPositionActionInflate(
 
 void * factories::PlatformerVelocityActionInflate(
     const Json::Value & object,
-    const Entity entity,
+    const Entity & entity,
     LoadingContext * loadingContext)
 {    
     PlatformPhysicsComponent * position = loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(entity);

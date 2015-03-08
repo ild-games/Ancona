@@ -34,7 +34,7 @@ class AbstractInflater
          */
         virtual void * Inflate(
                 const Json::Value & object,
-                const Entity entity,
+                const Entity & entity,
                 LoadingContext * loadingContext) = 0;
 
         /**
@@ -52,10 +52,10 @@ class AbstractInflater
         template <typename T>
         T * InflateTo(
                 const Json::Value & object,
-                const Entity entity,
+                const Entity & entity,
                 LoadingContext * loadingContext)
         {
-            return dynamic_cast<T>(Inflate(object, entity, loadingContext));
+            return static_cast<T *>(Inflate(object, entity, loadingContext));
         }
 };
 

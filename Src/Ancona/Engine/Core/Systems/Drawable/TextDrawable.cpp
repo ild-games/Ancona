@@ -2,9 +2,6 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
-//TODO:remove iostream
-#include <iostream>
-
 using namespace ild;
 
 TextDrawable::TextDrawable(
@@ -53,11 +50,24 @@ void TextDrawable::CenterOrigin()
 
 void * TextDrawable::Inflate(
         const Json::Value & object,
-        const Entity entity,
+        const Entity & entity,
         LoadingContext * loadingContext)
 {
-    std::cout << "Hello from TextDrawable::Inflate. I am not implemented yet ya dingus." << std::endl;
-    return nullptr;
+    TextDrawable * text = new TextDrawable(
+            *loadingContext->GetSystems().GetSystem<BasePhysicsSystem>("physics")->at(entity),
+            object["text"].asString(),
+            object["font-key"].asString(),
+            sf::Color(
+                object["color"]["red"].asUInt64(), 
+                object["color"]["green"].asUInt64(), 
+                object["color"]["blue"].asUInt64(), 
+                object["color"]["alpha"].asUInt64()),
+            object["character-size"].asInt(),
+            object["render-priority"].asInt(),
+            object["priority-offset"].asInt(),
+            sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()),
+            object["smooth"].asBool());
+    return text;
 }
 
 /* getters and setters */

@@ -30,7 +30,7 @@ class StaticInflater : public AbstractInflater
          */
         void * Inflate(
                 const Json::Value & object,
-                const Entity entity,
+                const Entity & entity,
                 LoadingContext * loadingContext) override 
         {
             return T::Inflate(

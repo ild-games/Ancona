@@ -97,7 +97,7 @@ CameraComponent * CameraSystem::CreateComponent(
 
 void * CameraSystem::Inflate(
         const Json::Value & object,
-        const Entity entity,
+        const Entity & entity,
         LoadingContext * loadingContext)
 {
     CameraComponent * comp = CreateComponent(

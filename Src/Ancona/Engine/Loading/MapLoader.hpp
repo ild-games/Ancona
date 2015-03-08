@@ -1,8 +1,8 @@
 #ifndef Ancona_Engine_Loading_MapLoader_H_
 #define Ancona_Engine_Loading_MapLoader_H_
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include <jsoncpp/json/json.h>
 

@@ -38,11 +38,11 @@ void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
 
 void * SpriteDrawable::Inflate(
         const Json::Value & object,
-        const Entity entity,
+        const Entity & entity,
         LoadingContext * loadingContext)
 {
     SpriteDrawable * sprite = new SpriteDrawable(
-            *loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(entity),
+            *loadingContext->GetSystems().GetSystem<BasePhysicsSystem>("physics")->at(entity),
             object["texture-key"].asString(),
             object["render-priority"].asInt(),
             object["priority-offset"].asInt(),

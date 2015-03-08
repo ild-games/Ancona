@@ -50,7 +50,7 @@ class TextDrawable : public Drawable
          */
         static void * Inflate(
                 const Json::Value & object,
-                const Entity entity,
+                const Entity & entity,
                 LoadingContext * loadingContext);
 
         /* getters and setters */

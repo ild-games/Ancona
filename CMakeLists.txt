@@ -95,6 +95,6 @@ ancona_add_target(ancona_game LINK_SFML
     PLATFORMS ALL)
 
 #Move files to the build directory
-configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt COPYONLY)
+configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt @ONLY )
 configure_file(save.dat ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/save.dat COPYONLY)
 file(COPY Maps DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

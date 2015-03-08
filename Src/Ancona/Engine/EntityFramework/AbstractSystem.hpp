@@ -1,8 +1,8 @@
 #ifndef Ancona_Engine_EntityFramework_AbstractSystem_H_
 #define Ancona_Engine_EntityFramework_AbstractSystem_H_
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
@@ -65,7 +65,7 @@ class AbstractSystem
          */
         virtual void * Inflate(
                 const Json::Value & object,
-                const Entity entity,
+                const Entity & entity,
                 LoadingContext * loadingContext) = 0;
 
         /**

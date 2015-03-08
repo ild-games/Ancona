@@ -96,7 +96,7 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
          */
         void * Inflate(
                 const Json::Value & object,
-                const Entity entity,
+                const Entity & entity,
                 LoadingContext * loadingContext) override; 
 
     private:

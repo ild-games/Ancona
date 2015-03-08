@@ -62,7 +62,7 @@ class InflaterMap
                 std::string key, 
                 const std::function<void *(
                     const Json::Value, 
-                    const Entity entity, 
+                    const Entity & entity, 
                     LoadingContext * loadingContext)> inflaterFunction);
 
         /**

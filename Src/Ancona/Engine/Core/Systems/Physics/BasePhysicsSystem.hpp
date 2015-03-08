@@ -55,7 +55,7 @@ class BasePhysicsSystem : public UnorderedSystem<BasePhysicsComponent>
         /**
          * @brief Constructor of a BasePhysicsSystem and register it with the manager.  
          *
-         * @param systemName name of the system.
+         * @param systemName Name of the system.
          * @param manager Manager that the system belongs to.
          */
         BasePhysicsSystem(
