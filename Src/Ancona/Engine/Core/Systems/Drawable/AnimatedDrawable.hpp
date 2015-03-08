@@ -43,6 +43,14 @@ class AnimatedDrawable : public SpriteDrawable
          */
         void Draw(sf::RenderWindow & window, float delta);
 
+        /**
+         * @brief Inflate an animated drawable.
+         */
+        static void * Inflate(
+                const Json::Value & object,
+                const Entity & entity,
+                LoadingContext * loadingContext);
+
     private:
         /**
          * @brief Dimensions of a frame in the animated texture.

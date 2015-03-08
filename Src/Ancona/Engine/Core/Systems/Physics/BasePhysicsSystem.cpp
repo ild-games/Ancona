@@ -2,8 +2,13 @@
 
 using namespace ild;
 
-BasePhysicsSystem::BasePhysicsSystem(SystemManager & manager)
-    : UnorderedSystem<BasePhysicsComponent>(manager, UpdateStep::Update)
+BasePhysicsSystem::BasePhysicsSystem(
+        std::string systemName,
+        SystemManager & manager) : 
+    UnorderedSystem<BasePhysicsComponent>(
+            systemName, 
+            manager, 
+            UpdateStep::Update)
 {
 
 }

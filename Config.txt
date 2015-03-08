@@ -6,4 +6,5 @@
 ##
 
 #Path to the resource folder
-ResourceRoot = ../../resources
+ResourceRoot = @CMAKE_SOURCE_DIR@/resources
+SaveData = save.dat

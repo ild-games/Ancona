@@ -1,7 +1,13 @@
 #ifndef Ancona_Engine_Screen_AbstractScreen_H_
 #define Ancona_Engine_Screen_AbstractScreen_H_
 
-#include "ScreenManager.hpp"
+#include <memory>
+#include <string>
+
+#include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
+#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
+#include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
 namespace ild
 {
@@ -15,16 +21,19 @@ class AbstractScreen
 {
     public:
         /**
-         * @brief Creates a new screen
+         * @brief Creates a new screen.
          *
-         * @param manager ScreenManager instance used by the game
+         * @param key Key to identify the screen.
+         * @param screenManager ScreenManager instance used by the game.
          */
-        AbstractScreen(ScreenManager & manager);
+        AbstractScreen(
+                std::string key,
+                ScreenManager & screenManager);
 
         /**
          * @brief Destructor for AbstractScreen.
          */
-        virtual ~AbstractScreen() { }
+        virtual ~AbstractScreen();
 
         /**
          * @brief Can be overridden to initialize the screen.  
@@ -60,7 +69,7 @@ class AbstractScreen
          * @param delta time since last update.
          */
         virtual void Exiting(float delta);
-        
+
         /**
          * @brief Used by the ScreenManager to call the Init
          * function at the correct time.
@@ -77,11 +86,19 @@ class AbstractScreen
          */
         bool __Exiting;
 
+        /* getters and setters */
+        std::string GetKey() { return KEY; }
+        void SetRequestList(std::shared_ptr<RequestList> requestList) { _requestList = requestList; }
+        virtual ScreenSystemsContainer * GetSystemsContainer() = 0;
     protected:
         /**
          * @brief Manages all the screens in the game
          */
-        ScreenManager & _manager;
+        ScreenManager & _screenManager;
+        /**
+         * @brief key to identify the screen.
+         */
+        const std::string KEY;
         /**
          * @brief Color of the default transition.
          */
@@ -98,7 +115,11 @@ class AbstractScreen
          * @brief The default camera used when the window is first spawned.
          */
         const sf::View _defaultCam;
-
+        /**
+         * @brief Request list used by this screen.
+         */
+        std::shared_ptr<RequestList> _requestList;
+        
 };
 
 }

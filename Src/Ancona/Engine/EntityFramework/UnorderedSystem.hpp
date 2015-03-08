@@ -7,6 +7,7 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 namespace ild
@@ -35,8 +36,23 @@ class UnorderedSystem : public AbstractSystem
          * @param updateStep Determine when the system is updated
          */
         UnorderedSystem(SystemManager & manager, UpdateStepEnum updateStep) :
-            AbstractSystem(manager, updateStep)
+            AbstractSystem("", manager, updateStep)
         {  }
+
+        /**
+         * @brief Construct and initialize the UnorderedSystem with a name.  The system will
+         * register itself with the SystemManager.
+         *
+         * @param systemName Name of the system.
+         * @param manager The SystemManager that owns BaseSystem
+         * @param updateStep Determine when the system is updated
+         */
+        UnorderedSystem(
+                std::string systemName,
+                SystemManager & manager, 
+                UpdateStepEnum updateStep) :
+            AbstractSystem(systemName, manager, updateStep)
+        { }
 
         /**
          * @brief Get the component corresponding to the entity.
@@ -100,6 +116,31 @@ class UnorderedSystem : public AbstractSystem
             //Since the component is now unreachable it should be deleted.
             delete component; 
         }
+
+        /**
+         * @brief Default implementation of GetInflater.  By default it returns a null inflater.
+         *
+         * @return A unique_ptr to an inflater created by a child class.  If the child class did not implement
+         * the method then it will be null.
+         */
+        std::unique_ptr<AbstractInflater> GetInflater() override
+        {
+            return std::unique_ptr<AbstractInflater>(new DynamicInflater<UnorderedSystem<ComponentType>>(*this));
+        }
+
+        /**
+         * @brief Inflates the unordered system.
+         */
+        void * Inflate(
+                const Json::Value & object,
+                const Entity & entity,
+                LoadingContext * loadingContext) override
+        {
+            Assert(false, "No inflater defined for this system");
+            return NULL;
+        }
+
+
 
     protected:
         /**

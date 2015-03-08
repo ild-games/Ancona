@@ -13,8 +13,10 @@ void PlatformPhysicsComponent::Update(float delta)
     _actions.Apply(_position, delta);
 }
 
-PlatformPhysicsSystem::PlatformPhysicsSystem(SystemManager & manager)
-    : BasePhysicsSystem(manager)
+PlatformPhysicsSystem::PlatformPhysicsSystem(
+        std::string systemName,
+        SystemManager & manager) : 
+    BasePhysicsSystem(systemName, manager)
 {
     
 }
@@ -46,4 +48,22 @@ PlatformPhysicsComponent * PlatformPhysicsSystem::CreateComponent(const Entity &
     return component;
 }
 
-
+void * PlatformPhysicsSystem::Inflate(
+        const Json::Value & object,
+        const Entity & entity,
+        LoadingContext * loadingContext)
+{
+    PlatformPhysicsComponent * position = loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->CreateComponent(entity);
+    for(Json::Value actionsJson : object["actions"]["list"])
+    {
+        loadingContext->GetInflaterMap().GetInflater(actionsJson["type"].asString())->Inflate(
+                actionsJson,
+                entity,
+                loadingContext);
+    }
+    if(object["actions"]["gravity"].asBool()) 
+    {
+        position->GetActions().SetAffectedByGravity(true);
+    }
+    return position;
+}

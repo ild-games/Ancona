@@ -15,9 +15,5 @@ JumpyGame::JumpyGame(int width, int height) : Game(width,height,"Jumpy Duck")
 
 void JumpyGame::CreateInitialScreen()
 {
-    RequestList * list = new RequestList();
-    list->Add("TexturePNG", "flappy");
-    list->Start();
     _screenManager->Push(new JumpyScreen(*_screenManager));
-    _screenManager->Push(new LoadingScreen(*_screenManager, *list));
 }

@@ -1,8 +1,12 @@
 #ifndef Ancona_Engine_Core_Systems_ShapeDrawable_H_
 #define Ancona_Engine_Core_Systems_ShapeDrawable_H_
 
-#include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
+#include <jsoncpp/json/json.h>
 #include <SFML/Graphics.hpp>
+
+#include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Engine/Loading/LoadingContext.hpp>
+
 
 namespace ild
 {
@@ -38,6 +42,14 @@ class ShapeDrawable : public Drawable
          * @param window Window the shape should be drawn to.
          */
         void Draw(sf::RenderWindow & window, float delta);
+
+        /**
+         * @brief Inflate a shape drawable.
+         */
+        static void * Inflate(
+                const Json::Value & object,
+                const Entity & entity,
+                LoadingContext * loadingContext);
 
         /* getters and setters */
         sf::Vector2u GetSize();

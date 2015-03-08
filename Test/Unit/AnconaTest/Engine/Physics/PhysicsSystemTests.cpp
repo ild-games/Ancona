@@ -10,7 +10,7 @@ UpdateStepEnum UPDATE = UpdateStep::Update;
 
 TEST(PhysicsSystem, CreateMultipleComponents) {
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
 
     for(int i = 0; i < 5; i++)
     {
@@ -25,7 +25,7 @@ TEST(PhysicsSystem, CreateMultipleComponents) {
 TEST(PhysicsSystem, CreateMultipleComponentsWithGetPostion)
 {
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
 
     for(int i = 0; i < 5; i++)
     {
@@ -41,7 +41,7 @@ TEST(PhysicsSystem, CreateMultipleComponentsWithGetPostion)
 TEST(PhysicsSystem, CreateMultipleComponentsWithActions)
 {
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
 
     for(int i = 0; i < 5; i++)
     {
@@ -57,7 +57,7 @@ TEST(PhysicsSystem, CreateMultipleComponentsWithActions)
 TEST(PhysicsSystem, VelocityAction)
 {
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
     Entity entity = manager.CreateEntity();
     PlatformPhysicsComponent * component = physics.CreateComponent(entity);
 
@@ -93,7 +93,7 @@ TEST(PhysicsSystem, VelocityAction)
 TEST(PhysicsSystem, PositionAction)
 {
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
     Entity entity = manager.CreateEntity();
     PlatformPhysicsComponent * component = physics.CreateComponent(entity);
 
@@ -112,7 +112,7 @@ TEST(PhysicsSystem, PositionAction)
 TEST(PhysicsSystem, VelocityActionTween)
 {
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
     Entity entity = manager.CreateEntity();
     PlatformPhysicsComponent * component = physics.CreateComponent(entity);
 
@@ -136,7 +136,7 @@ TEST(PhysicsSystem, VelocityActionTween)
 TEST(PhysicsSystem, PositionActionTween)
 {
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
     Entity entity = manager.CreateEntity();
     PlatformPhysicsComponent * component = physics.CreateComponent(entity);
 
@@ -160,7 +160,7 @@ TEST(PhysicsSystem, PositionActionTween)
 TEST(PhysicsSystem, PositionOverridesVelocity)
 {
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
     Entity entity = manager.CreateEntity();
     PlatformPhysicsComponent * component = physics.CreateComponent(entity);
 
@@ -204,7 +204,7 @@ TEST(PhysicsSystem, RelativeToGroundMovement)
     Point velocity1(-3, 1);
 
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
     Entity entity = manager.CreateEntity();
     PlatformPhysicsComponent * component = physics.CreateComponent(entity);
     component->GetMutableInfo().SetGroundDirection(ground1);

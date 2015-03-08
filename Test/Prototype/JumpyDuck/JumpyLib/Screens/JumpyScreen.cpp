@@ -5,18 +5,18 @@
 
 using namespace ild;
 
-JumpyScreen::JumpyScreen(ScreenManager & manager) 
-    : AbstractScreen(manager)
+JumpyScreen::JumpyScreen(ScreenManager & manager) : 
+    AbstractScreen("jumpy-game", manager)
 {
-    _systems = std::unique_ptr<JumpyGameSystems>(new JumpyGameSystems(manager.Window));
+    _systems = std::unique_ptr<JumpyGameSystems>(new JumpyGameSystems(manager));
 }
 
 void JumpyScreen::Init()
 {
-    defaultCam = _systems->GetManager().CreateEntity();
+    defaultCam = _systems->GetSystemManager().CreateEntity();
     CameraComponent * cam = _systems->GetCamera().CreateComponent(
             defaultCam, 
-            _manager.Window.getView(),
+            _screenManager.Window.getView(),
             0);
     _systems->GetDrawable().SetDefaultCamera(cam);
     player = JumpyPlayer::Create(_systems.get());
@@ -27,12 +27,12 @@ void JumpyScreen::Init()
 
 void JumpyScreen::Update(float delta)
 {
-    _systems->GetManager().Update(delta,UpdateStep::Update);
-    _systems->GetManager().Update(delta,UpdateStep::Input);
+    _systems->GetSystemManager().Update(delta,UpdateStep::Update);
+    _systems->GetSystemManager().Update(delta,UpdateStep::Input);
 }
 
 void JumpyScreen::Draw(float delta)
 {
-    _manager.Window.clear(sf::Color::Blue);
-    _systems->GetManager().Update(0,UpdateStep::Draw);
+    _screenManager.Window.clear(sf::Color::Blue);
+    _systems->GetSystemManager().Update(0,UpdateStep::Draw);
 }

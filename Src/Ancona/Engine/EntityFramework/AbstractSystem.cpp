@@ -4,8 +4,11 @@
 
 using namespace ild;
 
-AbstractSystem::AbstractSystem(SystemManager & systemManager, UpdateStepEnum updateStep) : 
+AbstractSystem::AbstractSystem(
+        std::string systemName,
+        SystemManager & systemManager,
+        UpdateStepEnum updateStep) :
     _systemManager(systemManager)
 {
-    systemManager.RegisterSystem(this, updateStep);
+    systemManager.RegisterSystem(systemName, this, updateStep);
 }

@@ -2,11 +2,12 @@
 #define Ancona_Engine_Physics_PhysicsSystem_hpp
 
 #include <memory>
+#include <string>
 
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
-
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/Actions.hpp>
+#include <Ancona/Engine/Loading/LoadingContext.hpp>
 
 namespace ild
 {
@@ -49,9 +50,12 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
         /**
          * @brief Construct and initialize the PlatformPhysicsSystem.
          *
+         * @param systemName Name of the system.
          * @param manager System manager the physics system belongs to.
          */
-        PlatformPhysicsSystem(SystemManager & manager);
+        PlatformPhysicsSystem(
+                std::string systemName,
+                SystemManager & manager);
         
         /**
          * @brief Update all of the components in the physics system.
@@ -86,6 +90,14 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
          * This method simply casts the component to PlatformPhysicsComponent.
          */
         PlatformPhysicsComponent * at(const Entity & entity);
+
+        /**
+         * @brief Inflate a PlatformPhysicsComponent
+         */
+        void * Inflate(
+                const Json::Value & object,
+                const Entity & entity,
+                LoadingContext * loadingContext) override; 
 
     private:
         /**

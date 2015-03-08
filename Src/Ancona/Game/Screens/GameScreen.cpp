@@ -1,47 +1,38 @@
-#include <Ancona/Game/Screens/GameScreen.hpp>
-
-#include <Ancona/Game/EntityFactories/PlayerFactory.hpp>
 #include <Ancona/Game/EntityFactories/EnvironmentFactory.hpp>
-#include <SFML/Window.hpp>
+#include <Ancona/Game/EntityFactories/PlayerFactory.hpp>
+#include <Ancona/Game/Screens/GameScreen.hpp>
 
 using namespace ild;
 
-GameScreen::GameScreen(ScreenManager & manager)
-    : AbstractScreen(manager)
+GameScreen::GameScreen(ScreenManager & manager) :
+        AbstractScreen("game", manager)
 {
-    _systems = new GameSystems(manager.Window);
-    _collisionTypes["player"] = _systems->GetCollision().CreateType();
-    _collisionTypes["ground"] = _systems->GetCollision().CreateType();
+    _gameSystems = std::unique_ptr<GameScreenSystems>(
+            new GameScreenSystems(manager));
+    _collisionTypes["player"] = _gameSystems->GetCollision().CreateType();
+    _collisionTypes["ground"] = _gameSystems->GetCollision().CreateType();
 }
 
 void GameScreen::Init()
 {
-    _entities["screenCam"] = factories::CreateScreenCamera(
-            *_systems,
-            _manager.Window.getView());
-    _systems->GetDrawable().SetDefaultCamera(_systems->GetCamera()[_entities["screenCam"]]);
     _entities["player"] = factories::CreatePlayer(
-            _systems,
+            *_gameSystems,
             _collisionTypes);
     _entities["ground"] = factories::CreateGround(
-            *_systems,
+            *_gameSystems,
             _collisionTypes);
 
-    _systems->GetCamera()[_entities["screenCam"]]->
-        SetFollow(_systems->GetPhysics()[_entities["player"]]);
 }
 
 void GameScreen::Update(float delta)
 {
-    _systems->GetManager().Update(delta, UpdateStep::Update);
-    _systems->GetManager().Update(delta, UpdateStep::Input);
-    float newScale = _systems->GetCamera()[_entities["screenCam"]]->GetScale() - (0.1f * delta);
-    _systems->GetCamera()[_entities["screenCam"]]->SetScale(newScale);
+    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Update);
+    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Input);
 }
 
 void GameScreen::Draw(float delta)
 {
-    _manager.Window.clear(sf::Color::Blue);
-    _systems->GetManager().Update(delta, UpdateStep::Draw);
+    _screenManager.Window.clear(sf::Color::Blue);
+    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Draw);
 }
 

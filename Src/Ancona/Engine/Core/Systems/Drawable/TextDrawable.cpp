@@ -1,7 +1,6 @@
 #include <Ancona/Engine/Core/Systems/Drawable/TextDrawable.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
-
-#include <iostream>
 
 using namespace ild;
 
@@ -47,6 +46,28 @@ void TextDrawable::CenterOrigin()
     sf::FloatRect textRect = _text->getLocalBounds();
     _text->setOrigin(textRect.left + (textRect.width / 2.0f),
                      textRect.top  + (textRect.height / 2.0f));
+}
+
+void * TextDrawable::Inflate(
+        const Json::Value & object,
+        const Entity & entity,
+        LoadingContext * loadingContext)
+{
+    TextDrawable * text = new TextDrawable(
+            *loadingContext->GetSystems().GetSystem<BasePhysicsSystem>("physics")->at(entity),
+            object["text"].asString(),
+            object["font-key"].asString(),
+            sf::Color(
+                object["color"]["red"].asUInt64(), 
+                object["color"]["green"].asUInt64(), 
+                object["color"]["blue"].asUInt64(), 
+                object["color"]["alpha"].asUInt64()),
+            object["character-size"].asInt(),
+            object["render-priority"].asInt(),
+            object["priority-offset"].asInt(),
+            sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()),
+            object["smooth"].asBool());
+    return text;
 }
 
 /* getters and setters */

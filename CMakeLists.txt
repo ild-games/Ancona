@@ -7,7 +7,7 @@ project(ANCONA)
 include(BuildTools/Macros.cmake)
 
 option(BuildPrototypes "BuildPrototypes" ON)
-option(BuildTests "BuildTests" OFF)
+option(BuildTests "BuildTests" ON)
 
 # Set variables to indicate the build platform
 # There will be one platform variable defined and one form factor variable defined
@@ -42,7 +42,7 @@ endif(NOT ANDROID)
 set(${Ancona_Platform} True)
 set(${Ancona_Form_Factor} True)
 
-set(CMAKE_MODULE_PATH BuildTools/Module ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
 #Set C++ Version to 11
 SET(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
@@ -60,6 +60,10 @@ include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 
+#Find Jsoncpp library
+find_package(JsonCpp)
+include_directories(${Jsoncpp_INCLUDE_DIR})
+
 #Incldue directory over the INC_DIR variable.  This is done so that
 #project headers are prefaced with Ancona
 include_directories(${INC_DIR}/..)
@@ -75,9 +79,11 @@ add_subdirectory(Src/Ancona/Engine)
 add_subdirectory(Src/Ancona/Util)
 add_subdirectory(Src/Ancona/Game)
 
+
 #Libs is a variables containing a reference to all linkable libraries
-set(Libs Ancona_Game Ancona_Engine Ancona_Util ${SFML_LIBS})
-set(Ancona_Libs Ancona_Game Ancona_Engine Ancona_Util)
+set(Libs Ancona_Game Ancona_Engine Ancona_Util ${SFML_LIBS} ${Jsoncpp_LIBRARY})
+set(Ancona_Libs Ancona_Game Ancona_Engine Ancona_Util ${Jsoncpp_LIBRARY})
+
 
 #Add test directory
 add_subdirectory(Test)
@@ -89,4 +95,6 @@ ancona_add_target(ancona_game LINK_SFML
     PLATFORMS ALL)
 
 #Move files to the build directory
-configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt COPYONLY)
+configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Config.txt @ONLY )
+configure_file(save.dat ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/save.dat COPYONLY)
+file(COPY Maps DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

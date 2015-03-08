@@ -1,5 +1,7 @@
 #include <Ancona/Engine/Core/Systems/Drawable/SpriteDrawable.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
+
 
 using namespace ild;
 
@@ -34,6 +36,21 @@ void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
     window.draw(*_sprite);
 }
 
+void * SpriteDrawable::Inflate(
+        const Json::Value & object,
+        const Entity & entity,
+        LoadingContext * loadingContext)
+{
+    SpriteDrawable * sprite = new SpriteDrawable(
+            *loadingContext->GetSystems().GetSystem<BasePhysicsSystem>("physics")->at(entity),
+            object["texture-key"].asString(),
+            object["render-priority"].asInt(),
+            object["priority-offset"].asInt(),
+            sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()));
+    return sprite;
+}
+
+/* getters and setters */
 sf::Vector2u SpriteDrawable::GetSize()
 {
     return sf::Vector2u(

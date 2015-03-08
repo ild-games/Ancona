@@ -45,6 +45,14 @@ class TextDrawable : public Drawable
          */
         void Draw(sf::RenderWindow & window, float delta);
 
+        /**
+         * @brief Inflate a text drawable.
+         */
+        static void * Inflate(
+                const Json::Value & object,
+                const Entity & entity,
+                LoadingContext * loadingContext);
+
         /* getters and setters */
         std::string GetText() { return _text->getString(); }
         void SetText(std::string text);

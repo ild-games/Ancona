@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include <Ancona/Game/Systems/GameSystems.hpp>
+#include <Ancona/Game/Systems/GameScreenSystems.hpp>
 
 namespace ild
 {
@@ -12,15 +12,15 @@ namespace ild
 namespace factories
 {
     Entity CreatePlayer(
-            GameSystems * gameSystems,
+            GameScreenSystems & gameSystems,
             std::map<std::string, CollisionType> collisionTypes);
 
     void SetupCollisions(
             Entity player,
-            GameSystems * gameSystems,
+            GameScreenSystems & gameSystems,
             std::map<std::string, CollisionType> collisionTypes);
 
-    std::function<void(Entity player, Entity ground)> GroundCollisionHandler(GameSystems * gameSystems);
+    std::function<void(Entity player, Entity ground)> GroundCollisionHandler(GameScreenSystems * gameSystems);
 
 }
 

@@ -9,6 +9,7 @@
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Engine/Loading/LoadingContext.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
 namespace ild
@@ -26,10 +27,12 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief Construct the DrawableSystem.
          *
+         * @param systemName Name of the system.
          * @param window RenderWindow for game.
          * @param systemManager SystemManager for the screen.
          */
         DrawableSystem(
+                std::string systemName,
                 sf::RenderWindow & window,
                 SystemManager & systemManager);
 
@@ -72,6 +75,14 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         DrawableComponent * CreateComponent(
                 const Entity & entity,
                 CameraComponent & camera);
+
+        /**
+         * @brief Inflate a drawable component.
+         */
+        void * Inflate(
+                const Json::Value & object,
+                const Entity & entity,
+                LoadingContext * loadingContext) override;
 
         /* gettes and setters */
         void SetDefaultCamera(CameraComponent * defaultCamera) { _defaultCamera = defaultCamera; }

@@ -15,22 +15,12 @@ class AnconaGame : public Game
          */
         AnconaGame(int windowWidth, int windowHeight, const std::string & title);
 
-        /**
-         * @brief Destructor for AnconaGame
-         */
-        ~AnconaGame();
-
     protected:
         /**
          * @brief see ild.Game.CreateInitialScreen
          */
         virtual void CreateInitialScreen();
 
-    private:
-        /**
-         * @brief Initial RequestList for the game.
-         */
-        RequestList * _requestList;
 };
 
 }

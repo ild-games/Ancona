@@ -55,9 +55,12 @@ class BasePhysicsSystem : public UnorderedSystem<BasePhysicsComponent>
         /**
          * @brief Constructor of a BasePhysicsSystem and register it with the manager.  
          *
+         * @param systemName Name of the system.
          * @param manager Manager that the system belongs to.
          */
-        BasePhysicsSystem(SystemManager & manager);
+        BasePhysicsSystem(
+                std::string systemName,
+                SystemManager & manager);
 
 
         /**

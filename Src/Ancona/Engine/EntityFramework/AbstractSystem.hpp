@@ -1,8 +1,12 @@
 #ifndef Ancona_Engine_EntityFramework_AbstractSystem_H_
 #define Ancona_Engine_EntityFramework_AbstractSystem_H_
 
+#include <memory>
+#include <string>
+
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 
 namespace ild 
 {
@@ -23,10 +27,14 @@ class AbstractSystem
          * @brief Create and initialzies the system.  The system will register
          *  itself with SystemManager.
          *
-         * @param systemManager SystemManager that the system belongs to
-         * @param updateStep The step that the system needs to be updated during
+         * @param systemManager SystemManager that the system belongs to.
+         * @param updateStep The step that the system needs to be updated during.
+         * @param systemName The unique name of the system.
          */
-        AbstractSystem(SystemManager & systemManager, UpdateStepEnum updateStep);
+        AbstractSystem(
+                std::string systemName,
+                SystemManager & systemManager,
+                UpdateStepEnum updateStep);
 
         /**
          * @brief Called to update all components controlled by the system.
@@ -51,9 +59,24 @@ class AbstractSystem
          * @param entity Entity that is being deleted
          */
         virtual void EntityIsDeleted(const Entity & entity) = 0;
+
+        /**
+         * @brief Inflate the system from the loaded json.
+         */
+        virtual void * Inflate(
+                const Json::Value & object,
+                const Entity & entity,
+                LoadingContext * loadingContext) = 0;
+
+        /**
+         * @brief Create an Abstract Inflater that will create and register
+         * components for the system.
+         *
+         * @return A unique pointer to the inflater.
+         */
+        virtual std::unique_ptr<AbstractInflater> GetInflater() = 0;
     protected:
         SystemManager & _systemManager;
-
 
 };
 

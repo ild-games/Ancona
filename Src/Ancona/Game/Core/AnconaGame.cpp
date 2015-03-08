@@ -17,17 +17,8 @@ AnconaGame::AnconaGame(
     CreateInitialScreen();
 }
 
-AnconaGame::~AnconaGame()
-{
-    ResourceLibrary::Return(*_requestList);
-    delete _requestList;
-}
-
 void AnconaGame::CreateInitialScreen()
 {
-    _requestList = new RequestList("TestRequestList.txt");
     _screenManager->Push(
             new GameScreen(*_screenManager));
-    _screenManager->Push(
-            new LoadingScreen(*_screenManager, *_requestList));
 }

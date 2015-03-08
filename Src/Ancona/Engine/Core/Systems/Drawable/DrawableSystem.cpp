@@ -2,14 +2,19 @@
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 
 #include <algorithm>
+//TODO: remove iostream
+#include <iostream>
+
+#include <jsoncpp/json/json.h>
 
 using namespace ild;
 
 
 DrawableSystem::DrawableSystem(
+        std::string systemName,
         sf::RenderWindow & window, 
         SystemManager & systemManager) :
-    UnorderedSystem(systemManager, UpdateStep::Draw), 
+    UnorderedSystem(systemName, systemManager, UpdateStep::Draw),
     _window(window)
 {
 }
@@ -73,3 +78,21 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
     }
 }
 
+
+void * DrawableSystem::Inflate(
+        const Json::Value & object,
+        const Entity & entity,
+        LoadingContext * loadingContext)
+{
+    DrawableComponent * drawable = loadingContext->GetSystems().GetSystem<DrawableSystem>("drawable")->CreateComponent(entity);
+    for(const Json::Value & drawablesJson : object["drawables"])
+    {
+        drawable->AddDrawable(
+                drawablesJson["key"].asString(), 
+                loadingContext->GetInflaterMap().GetInflater(drawablesJson["drawable"]["type"].asString())->InflateTo<Drawable>(
+                    drawablesJson["drawable"],
+                    entity,
+                    loadingContext));
+    }
+    return drawable;
+}

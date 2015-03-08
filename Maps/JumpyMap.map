@@ -1,0 +1,25 @@
+{
+    "key": "JumpyMap",
+    "assets": [
+        {
+            "type": "TexturePNG",
+            "key": "player-walking"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "flappy"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "flappy-ground"
+        },
+        {
+            "type": "FontTTF",
+            "key": "dimitri-plain"
+        }
+    ],
+    "entities": [
+    ],
+    "components": {
+    }
+}

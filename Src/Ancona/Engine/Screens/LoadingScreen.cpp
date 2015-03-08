@@ -1,38 +1,45 @@
 #include <SFML/Window.hpp>
 
 #include <Ancona/Engine/Screens/LoadingScreen.hpp>
-#include <Ancona/Engine/Resource/RequestList.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
 using namespace ild;
 
-LoadingScreen::LoadingScreen(ScreenManager & manager, RequestList & requestList)
-    : AbstractScreen(manager), _requestList(requestList)
+LoadingScreen::LoadingScreen(
+        AbstractScreen * screenLoading,
+        ScreenManager & manager) :
+    AbstractScreen("loading", manager),
+    _screenLoading(screenLoading)
 {
+    _systemsContainer = std::unique_ptr<ScreenSystemsContainer>(new ScreenSystemsContainer(manager));
+    _mapLoader.reset(new MapLoader(
+                screenLoading->GetKey(),
+                *screenLoading->GetSystemsContainer()));
 }
 
 void LoadingScreen::Update(float delta)
 {
-    if(ResourceLibrary::DoneLoading(_requestList)) 
+    if(!_mapLoader->ContinueLoading())
     {
-        _manager.Pop();
+        _screenLoading->SetRequestList(_mapLoader->GetRequestList());
+        _screenManager.Pop();
     }
 }
 
 void LoadingScreen::Draw(float delta)
 {
-    _manager.Window.clear(sf::Color::White);
+    _screenManager.Window.clear(sf::Color::White);
     sf::RectangleShape outerBar(sf::Vector2f(750, 30));
     outerBar.setFillColor(sf::Color::Transparent);
     outerBar.setOutlineThickness(1.0f);
     outerBar.setOutlineColor(sf::Color::Black);
     outerBar.setPosition(25, 10);
-    sf::RectangleShape innerBar(sf::Vector2f(750 * _requestList.PercentLoaded(), 30));
+    sf::RectangleShape innerBar(sf::Vector2f(750 * _mapLoader->PercentLoaded(), 30));
     innerBar.setFillColor(sf::Color::Blue);
     innerBar.setOutlineColor(sf::Color::Blue);
     innerBar.setPosition(25, 10);
-    _manager.Window.draw(innerBar);
-    _manager.Window.draw(outerBar);
+    _screenManager.Window.draw(innerBar);
+    _screenManager.Window.draw(outerBar);
 }
 
 void LoadingScreen::Entering(float delta)
@@ -43,4 +50,9 @@ void LoadingScreen::Entering(float delta)
 void LoadingScreen::Exiting(float delta)
 {
     __Exiting = false;
+}
+
+ScreenSystemsContainer * LoadingScreen::GetSystemsContainer()
+{
+    return _systemsContainer.get();
 }

@@ -219,3 +219,39 @@ TEST(EntitySystem, AssertGaurds)
     assertFailed = false;
 }
 
+TEST(EntitySystem, KeyedEntityRetrival)
+{
+    SystemManager manager;
+    MockSystem system(manager);
+    Entity entity1 = manager.CreateEntity("EntityA");
+    Entity entity2 = manager.CreateEntity("EntityB");
+
+    ASSERT_EQ(entity1,manager.GetEntity("EntityA")) << "Incorrect entity fetched by key";
+    ASSERT_EQ(entity2,manager.GetEntity("EntityB")) <<"Incorrect entity fetched by key";
+    ASSERT_EQ(nullentity,manager.GetEntity("EntityC")) <<"nullentity should be returned if the key does not map to an entity";
+}
+
+TEST(EntitySystem, KeyedEntityRetrivalAfterDelete)
+{
+    SystemManager manager;
+    MockSystem system(manager);
+    Entity entity1 = manager.CreateEntity("EntityA");
+    Entity entity2 = manager.CreateEntity("EntityB");
+
+    ASSERT_EQ(entity1,manager.GetEntity("EntityA")) << "Incorrect entity fetched by key";
+    ASSERT_EQ(entity2,manager.GetEntity("EntityB")) <<"Incorrect entity fetched by key";
+    ASSERT_EQ(nullentity,manager.GetEntity("EntityC")) <<"nullentity should be returned if the key does not map to an entity";
+
+    manager.DeleteEntity(entity1);
+
+    ASSERT_EQ(nullentity,manager.GetEntity("EntityA")) << "Key for deleted entity should return nullentity";
+    ASSERT_EQ(entity2,manager.GetEntity("EntityB")) <<"Incorrect entity fetched by key";
+    ASSERT_EQ(nullentity,manager.GetEntity("EntityC")) <<"nullentity should be returned if the key does not map to an entity";
+
+
+    entity1 = manager.CreateEntity("EntityA");
+
+    ASSERT_EQ(entity1,manager.GetEntity("EntityA")) << "Entity key should be able to be reused after deleting the original entity";
+    ASSERT_EQ(entity2,manager.GetEntity("EntityB")) <<"Incorrect entity fetched by key";
+    ASSERT_EQ(nullentity,manager.GetEntity("EntityC")) <<"nullentity should be returned if the key does not map to an entity";
+}

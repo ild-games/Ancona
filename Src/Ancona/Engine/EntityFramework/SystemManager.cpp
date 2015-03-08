@@ -6,6 +6,7 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
@@ -34,6 +35,13 @@ void SystemManager::DeleteEntity(Entity entity)
         system->EntityIsDeleted(entity);
     }
 
+    auto reverseIter = _entitiesReverse.find(entity);
+    if(reverseIter != _entitiesReverse.end())
+    {
+        _entities.erase(reverseIter->second);
+        _entitiesReverse.erase(reverseIter);
+    }
+
     _components.erase(entity);
 }
 
@@ -54,13 +62,54 @@ Entity SystemManager::CreateEntity()
     return entity;
 }
 
-void SystemManager::RegisterSystem(AbstractSystem * system, UpdateStepEnum updateStep)
+Entity SystemManager::CreateEntity(const std::string & key)
+{
+    Assert(_entities.find(key) == _entities.end(), "Cannot use the same key for two entities.");
+
+    Entity entity = CreateEntity();
+    _entities[key] = entity;
+    _entitiesReverse[entity] = key;
+
+    return entity;
+}
+
+Entity SystemManager::GetEntity(const std::string & key)
+{
+    auto entityIter = _entities.find(key);
+    if(entityIter == _entities.end())
+    {
+        return nullentity;
+    }
+    return entityIter->second; 
+}
+
+bool SystemManager::ContainsName(std::string & systemName)
+{
+    return std::any_of(
+            _keyedSystems.begin(), 
+            _keyedSystems.end(), 
+            [=](std::pair<std::string, AbstractSystem *> & nameSystemPair)
+            {
+                return nameSystemPair.first == systemName;
+            });
+}
+
+void SystemManager::RegisterSystem(
+        std::string systemName,
+        AbstractSystem * system, 
+        UpdateStepEnum updateStep)
 {
     auto & systems = _systems[updateStep]; 
     Assert(std::find(systems.begin(),systems.end(),system) == systems.end(),
             "A System Manager cannot contain the same system twice");
 
     systems.push_back(system);
+
+    if(systemName != "")
+    {
+        Assert(!ContainsName(systemName), "System name must be unique.");
+        _keyedSystems.emplace_back(systemName, system);
+    }
 }
 
 void SystemManager::RegisterComponent(Entity entity, AbstractSystem * owningSystem)
@@ -87,4 +136,14 @@ void SystemManager::DeleteQueuedEntities()
         DeleteEntity(entity); 
     }
     _deleteQueue.clear();
+}
+
+std::vector<std::pair<std::string, AbstractInflater *>> SystemManager::GetComponentInflaters()
+{
+    std::vector<std::pair<std::string, AbstractInflater *>> toReturn;
+    for(auto & namedSystemPair : _keyedSystems)
+    {
+        toReturn.emplace_back(namedSystemPair.first, namedSystemPair.second->GetInflater().release());
+    }
+    return toReturn;
 }

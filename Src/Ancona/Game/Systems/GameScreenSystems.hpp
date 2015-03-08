@@ -1,5 +1,5 @@
-#ifndef Ancona_Game_Systems_GameSystems_H_
-#define Ancona_Game_Systems_GameSystems_H_
+#ifndef Ancona_Game_Systems_GameScreenSystems_H_
+#define Ancona_Game_Systems_GameScreenSystems_H_
 
 #include <SFML/Graphics.hpp>
 
@@ -8,30 +8,32 @@
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
 
 namespace ild
 {
 
 /**
- * @brief GameSystems is used as a factory and a container for all 
+ * @brief GameScreenSystems is used as a factory and a container for all 
  *        the systems used for gameplay.
  *
  * @author Jeff Swenson
+ * @author Tucker Lein
  */
-class GameSystems
+class GameScreenSystems : public ScreenSystemsContainer
 {
     public:
         /**
          * @brief Constructs the container for the game's systems.
          *
-         * @param window RenderWindow instance for the game.
+         * @param screenManager ScreenManager for the game screen.
          */
-        GameSystems(sf::RenderWindow & window);
+        GameScreenSystems(ScreenManager & screenManager);
 
 
         /* getters and setters */
-        SystemManager & GetManager() { return *_manager; }
         PlatformPhysicsSystem & GetPhysics() { return *_physics; } 
         DrawableSystem & GetDrawable() { return *_drawable; } 
         InputControlSystem & GetInput() { return *_input; } 
@@ -39,10 +41,6 @@ class GameSystems
         CameraSystem & GetCamera() { return *_camera; }
 
     private:
-        /**
-         * @brief Manages all the entity systems on the screen.
-         */
-        SystemManager * _manager;
         /**
          * @brief System for managing an entity's position
          */
