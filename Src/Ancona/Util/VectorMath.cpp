@@ -2,8 +2,6 @@
 
 #include <math.h>
 
-using namespace ild;
-
 namespace ild
 {
 namespace VectorMath

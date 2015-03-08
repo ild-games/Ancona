@@ -4,8 +4,6 @@
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Util/VectorMath.hpp>
 
-#include <iostream> //TODO remove
-
 using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2) {}
@@ -132,7 +130,7 @@ void CollisionSystem::Update(float delta)
 
                 //If the objects are adjacent, but not overlapping then the collision handlers should
                 //not be called.
-                if(fixMagnitude == 0)
+                if(fixMagnitude != 0)
                 {
                     _callbackTable[typeA][typeB](pairA.first, pairB.first);
                     _callbackTable[typeB][typeA](pairB.first, pairA.first);

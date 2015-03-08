@@ -108,7 +108,7 @@ void Actions::Apply(Position & position, float delta)
     {
         StopFall();
     }
-    else if(_effectedByGravity)
+    else if(_affectedByGravity)
     {
         ApplyGravity(velocity, delta);
     }
@@ -121,7 +121,7 @@ void Actions::Apply(Position & position, float delta)
         position.SetPosition(position.GetPosition() + delta * velocity);
     }
 
-    //Only a signle position action will effect the result
+    //Only a single position action will effect the result
     position.SetPosition(ApplyPositionActions(position, delta));
 
     RemoveDoneActions(_velocityActions);

@@ -1,8 +1,6 @@
 #ifndef Ancona_Util_VectorMath_H_
 #define Ancona_Util_VectorMath_H_
 
-#include <iostream>
-
 #include <SFML/System.hpp>
 
 

@@ -30,11 +30,21 @@ namespace Math
      */
     typedef std::pair<float, float> Projection2;
 
-    typedef struct
+    /**
+     * @brief Simple struct used to return fix information for a collsion.
+     * @author Jeff Swenson
+     */
+    struct CollisionFix
     {
+        /**
+         * @brief Normal that is the axis used to fix the collision.
+         */
         Point2 normal;
+        /**
+         * @brief Magnitude of the vector needed to push the two shapes apart.
+         */
         float magnitude;
-    } CollisionFix;
+    };
 
 
     /**
