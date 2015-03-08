@@ -38,7 +38,7 @@ Entity factories::CreatePlayer(
                 0.1f));
 
     // gravity component 
-    position->GetActions().SetEffectedByGravity(true);
+    position->GetActions().SetAffectedByGravity(true);
 
     // collision component
     factories::SetupCollisions(
@@ -73,7 +73,7 @@ std::function<void(Entity player, Entity ground)> factories::GroundCollisionHand
     {
         auto & actions = gameSystems->GetPhysics().at(player)->GetActions();
         actions.StopFall();
-        actions.SetEffectedByGravity(false);
+        actions.SetAffectedByGravity(false);
 
     };
 }

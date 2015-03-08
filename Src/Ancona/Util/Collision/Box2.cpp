@@ -1,5 +1,6 @@
 #include<Ancona/Util/Collision/Box2.hpp>
 #include<Ancona/Util/Collision/Math.hpp>
+#include<Ancona/Util/VectorMath.hpp>
 
 #include<cmath>
 
@@ -42,10 +43,11 @@ void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
 bool Box2::Intersects(const Box2 & box) const
 {
     sf::Vector2f fixVector;
-    return Intersects(box, fixVector);
+    float mag;
+    return Intersects(box, fixVector, mag);
 }
 
-bool Box2::Intersects(const Box2 & box, sf::Vector2f & fixVector) const
+bool Box2::Intersects(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const
 {
     Math::Vertices2 verticesA;
     Math::Vertices2 verticesB;
@@ -53,14 +55,37 @@ bool Box2::Intersects(const Box2 & box, sf::Vector2f & fixVector) const
     GetVertices(verticesA);
     box.GetVertices(verticesB);
 
-    Math::Point2 fix;
+    Math::CollisionFix fix;
     bool collides = Math::Collide(verticesA,verticesB,fix);
 
-    fixVector.x = fix.first;
-    fixVector.y = fix.second;
+    fixNormal.x = fix.normal.first;
+    fixNormal.y = fix.normal.second;
+
+    fixMagnitude = fix.magnitude;
 
     return collides;
 }
+
+sf::Vector2f Box2::GetNormalOfCollisionEdge(const Box2 & box) const
+{
+    Math::Vertices2 verticesA;
+    Math::Vertices2 verticesB;
+
+    GetVertices(verticesA);
+    box.GetVertices(verticesB);
+
+    Math::CollisionFix fix = Math::GetFixVector(verticesA, verticesB);
+
+    sf::Vector2f normal(fix.normal.first,fix.normal.second);
+
+    if(!VectorMath::PointsTo(normal, Position, box.Position))
+    {
+        normal *= -1.0f;
+    }
+
+    return normal;
+}
+
 
 void Box2::SetPosition(float x, float y)
 {

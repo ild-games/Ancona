@@ -9,7 +9,10 @@ namespace ild
 namespace JumpyEnvironment
 {
 
-Entity CreateEnvironmentBody(JumpyGameSystems * gameSystems);
+Entity CreateEnvironmentBody(
+        JumpyGameSystems * gameSystems, 
+        Point position = Point(100,200), 
+        Point size = Point(250, 10));
 Entity CreateSolidBody(JumpyGameSystems * gameSystems);
 
 }

@@ -58,12 +58,13 @@ class CollisionComponent
          * @brief Test if the two collision components collide with eachother.
          *
          * @param otherComponent Component to test for collision.
-         * @param fixVector Output variable used to return the vector used
+         * @param fixNormal Output variable used to return the normal used
          *  to fix the collision.
+         * @param fixMagnitude Magnitude of the vector used to push the objects apart.
          *
          * @return True if the components collide.  False otherwise.
          */
-        bool Collides(const CollisionComponent & otherComponent, Point & fixVector);
+        bool Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude);
 
         /**
          * @brief Update the internal state for purpose of collision.
@@ -80,6 +81,8 @@ class CollisionComponent
         BodyTypeEnum GetBodyType() { return _bodyType; }
 
         BasePhysicsComponent & GetPhysicsComponent() { return _position; }
+
+        const Box2 & GetBox() const { return _dim; }
 
     private:
         BasePhysicsComponent & _position;

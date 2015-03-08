@@ -31,6 +31,23 @@ namespace Math
     typedef std::pair<float, float> Projection2;
 
     /**
+     * @brief Simple struct used to return fix information for a collsion.
+     * @author Jeff Swenson
+     */
+    struct CollisionFix
+    {
+        /**
+         * @brief Normal that is the axis used to fix the collision.
+         */
+        Point2 normal;
+        /**
+         * @brief Magnitude of the vector needed to push the two shapes apart.
+         */
+        float magnitude;
+    };
+
+
+    /**
      * @brief Calculate the dot product of the vectors. 
      *
      * @param a The left hand side of the operation.
@@ -117,7 +134,7 @@ namespace Math
      *
      * @return True if the shapes collide.  False otherwise.
      */
-    bool Collide(const Vertices2 & shapeA, const Vertices2 & shapeB, Point2 & fixVector);
+    bool Collide(const Vertices2 & shapeA, const Vertices2 & shapeB, CollisionFix & fixVector);
 
     /**
      * @brief Test if the two shapes collide using the seperating axis theorem.
@@ -142,6 +159,15 @@ namespace Math
      */
     float FixMagnitude(const Math::Projection2 & a, const Math::Projection2 & b);
 
+    /**
+     * @brief Get the fix that would be used to push shapeA out of shapeB using a normal of shapeA.
+     *
+     * @param shapeA The vertices of a convex shape.
+     * @param shapeB The vertices of a convex shape overlapping or adjacent to shapeA.
+     *
+     * @return The fix that could be used to push shapeA out of shapeB along a normal of shapeA.
+     */
+    CollisionFix GetFixVector(const Vertices2 & shapeA, const Vertices2 & shapeB);
 };
 
 }

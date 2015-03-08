@@ -80,11 +80,22 @@ class Box2
          * @brief Test if the two boxes intersect
          *
          * @param box Box to test intersection on
-         * @param fixVector Vector that will push the calling box out of the argument box.
+         * @param fixNormal Direction that of the fix that will push this box out of the argument box.
+         * @param fixMagnitude Magnitude of the fix.
          *
          * @return True if they intersect.  False otherwise.
          */
-        bool Intersects(const Box2 & box, sf::Vector2f & fixVector) const;
+        bool Intersects(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const;
+
+        /**
+         * @brief Get the normal to the edge that is colliding with or 
+         * adjacent to the argument box.         
+         *
+         * @param box Box to find the nearest edge to.
+         *
+         * @return Normal from the nearest edge.
+         */
+        sf::Vector2f GetNormalOfCollisionEdge(const Box2 & box) const;
 
         /**
          * @brief Clear the vertices vector and fill it with vertices for the box.

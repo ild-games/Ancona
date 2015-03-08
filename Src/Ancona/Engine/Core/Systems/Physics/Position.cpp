@@ -11,4 +11,16 @@ std::ostream & operator << (std::ostream& os, const Point&pt)
     return os;
 }
 
+std::ostream & operator << (std::ostream&& os, const Point&pt)
+{
+    os << "(" << pt.x << "," << pt.y << ")";
+    return os;
 }
+
+bool Position::IsOnGround() const
+{
+    return _groundDirection != Point();
+}
+
+}
+

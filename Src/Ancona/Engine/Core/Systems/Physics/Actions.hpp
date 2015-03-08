@@ -60,18 +60,17 @@ class Actions
         VectorActionProxy CreateVelocityAction();
 
         /**
-         * @brief Used to set if an entity is effected by gravity.  Defaults to true.
+         * @brief Used to set if an entity is affected by gravity.  Defaults to true.
          *
-         * @param value Boolean value determining if the entity is effected by gravity.
+         * @param value Boolean value determining if the entity is affected by gravity.
          */
-        void SetEffectedByGravity(bool value) { _effectedByGravity = value; }
+        void SetAffectedByGravity(bool value) { _affectedByGravity = value; }
 
         /**
          * @brief Remove any acceleration that has been caused by gravity.
          */
         void StopFall();
     private:
-
         /**
          * @brief Update the velocity based on Gravity.
          *
@@ -79,11 +78,15 @@ class Actions
          */
         void ApplyGravity(Point & velocity, float delta);
 
+        Point ApplyPositionActions(const Position & position, float delta);
+        Point ApplyVelocityActions(const Position & position, float delta);
+
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
         Point _totalGravity;
         BasePhysicsSystem & _physicsSystem;
-        bool _effectedByGravity = false;
+        bool _affectedByGravity = false;
+        bool _onGround = false;
 };
 
 }

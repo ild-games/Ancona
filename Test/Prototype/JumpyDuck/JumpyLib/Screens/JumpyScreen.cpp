@@ -22,6 +22,7 @@ void JumpyScreen::Init()
     player = JumpyPlayer::Create(_systems.get());
     JumpyEnvironment::CreateSolidBody(_systems.get());
     JumpyEnvironment::CreateEnvironmentBody(_systems.get());
+    JumpyEnvironment::CreateEnvironmentBody(_systems.get(),Point(200,100));
 }
 
 void JumpyScreen::Update(float delta)

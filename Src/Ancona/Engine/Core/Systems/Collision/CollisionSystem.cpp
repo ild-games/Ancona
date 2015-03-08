@@ -2,6 +2,7 @@
 
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Util/Assert.hpp>
+#include <Ancona/Util/VectorMath.hpp>
 
 using namespace ild;
 
@@ -14,11 +15,28 @@ CollisionSystem::CollisionSystem(SystemManager & manager, BasePhysicsSystem & po
 
 }
 
-static void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fix)
+void CollisionSystem::UpdateGravityBounds()
+{
+    auto invGravity =  -_positions.GetGravity();
+    
+    _leftGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(90 - _maxSlope));
+    _rightGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(-(90 - _maxSlope)));
+}
+
+bool CollisionSystem::IsOnGround(const Point &groundNormal)
+{
+    if(groundNormal != Point())
+    {
+        return VectorMath::Between(_leftGravityBound, _rightGravityBound, groundNormal);
+    }
+    return false;
+}
+
+void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude)
 {
     auto typeA = a->GetBodyType();
     auto typeB = b->GetBodyType();
-    Point correctFix = fix;
+    Point correctFix = fixMagnitude * fixNormal;
 
     //If either has a body type of None then the collision should not effect the position.
     if(typeA == BodyType::None || typeB == BodyType::None)
@@ -43,6 +61,13 @@ static void FixCollision(CollisionComponent * a, CollisionComponent * b, const P
     {
         auto & physicsA = a->GetPhysicsComponent();
         auto & posA = physicsA.GetMutableInfo();
+
+        auto groundDirection = VectorMath::Normalize(b->GetBox().GetNormalOfCollisionEdge(a->GetBox()));
+        if(IsOnGround(groundDirection))
+        {
+            posA.SetGroundDirection(groundDirection);
+        }
+
         posA.SetPosition(posA.GetPosition() + correctFix);
         return;
     }
@@ -51,22 +76,22 @@ static void FixCollision(CollisionComponent * a, CollisionComponent * b, const P
     {
         //If both bodies are solid then push them out of eachoter.
         auto & physicsA = a->GetPhysicsComponent();
-        auto & posA = physicsA.GetMutableInfo();
+        auto & infoA = physicsA.GetMutableInfo();
         auto & physicsB = b->GetPhysicsComponent();
-        auto & posB = physicsB.GetMutableInfo();
+        auto & infoB = physicsB.GetMutableInfo();
 
-        if(posA.GetVelocity() == Point())
+        if(infoA.GetVelocity() == Point())
         {
-            posB.SetPosition(posB.GetPosition() + -correctFix);
+            infoB.SetPosition(infoB.GetPosition() + -correctFix);
         } 
-        else if(posB.GetVelocity() == Point())
+        else if(infoB.GetVelocity() == Point())
         {
-            posA.SetPosition(posA.GetPosition() + correctFix);
+            infoA.SetPosition(infoA.GetPosition() + correctFix);
         }
         else
         {
-            posA.SetPosition(posA.GetPosition() + 0.5f * correctFix);
-            posB.SetPosition(posB.GetPosition() + -0.5f * correctFix);
+            infoA.SetPosition(infoA.GetPosition() + 0.5f * correctFix);
+            infoB.SetPosition(infoB.GetPosition() + -0.5f * correctFix);
         }
 
         return;
@@ -76,6 +101,8 @@ static void FixCollision(CollisionComponent * a, CollisionComponent * b, const P
 
 void CollisionSystem::Update(float delta)
 {
+    UpdateGravityBounds();
+
     //Update all of the entities.  This is required for the position to be up to date.
     for(EntityComponentPair pair : * this)
     {
@@ -92,16 +119,22 @@ void CollisionSystem::Update(float delta)
                 continue;
             }
 
-            Point fix;
-            if(pairA.second->Collides(*pairB.second, fix))
+            Point fixNormal;
+            float fixMagnitude;
+            if(pairA.second->Collides(*pairB.second, fixNormal, fixMagnitude))
             {
                 auto typeA = pairA.second->GetType();
                 auto typeB = pairB.second->GetType();
 
-                FixCollision(pairA.second, pairB.second, fix);
+                FixCollision(pairA.second, pairB.second, fixNormal, fixMagnitude);
 
-                _callbackTable[typeA][typeB](pairA.first, pairB.first);
-                _callbackTable[typeB][typeA](pairB.first, pairA.first);
+                //If the objects are adjacent, but not overlapping then the collision handlers should
+                //not be called.
+                if(fixMagnitude != 0)
+                {
+                    _callbackTable[typeA][typeB](pairA.first, pairB.first);
+                    _callbackTable[typeB][typeA](pairB.first, pairA.first);
+                }
             }
         }
     }
