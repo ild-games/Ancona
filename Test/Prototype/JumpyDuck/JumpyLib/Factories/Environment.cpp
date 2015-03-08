@@ -4,7 +4,7 @@ using namespace ild;
 
 Entity JumpyEnvironment::CreateEnvironmentBody(JumpyGameSystems * gameSystems, Point position, Point size)
 {
-    auto entity = gameSystems->GetManager().CreateEntity();
+    auto entity = gameSystems->GetSystemManager().CreateEntity();
     auto physicsComponent = gameSystems->GetPhysics().CreateComponent(entity);
     physicsComponent->GetActions().CreatePositionAction()
         ->Value(position);
@@ -25,7 +25,7 @@ Entity JumpyEnvironment::CreateEnvironmentBody(JumpyGameSystems * gameSystems, P
 
 Entity JumpyEnvironment::CreateSolidBody(JumpyGameSystems * gameSystems)
 {
-    auto entity = gameSystems->GetManager().CreateEntity();
+    auto entity = gameSystems->GetSystemManager().CreateEntity();
     auto physicsComponent = gameSystems->GetPhysics().CreateComponent(entity);
     physicsComponent->GetActions().CreatePositionAction()
         ->Value(Point(300,50));

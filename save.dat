@@ -1,5 +1,6 @@
 {
     "screen-maps": {
-        "game": "Map1"
+        "game": "Map1",
+        "jumpy-game": "JumpyMap"
     }
 }

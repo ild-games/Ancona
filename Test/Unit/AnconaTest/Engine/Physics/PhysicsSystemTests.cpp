@@ -204,7 +204,7 @@ TEST(PhysicsSystem, RelativeToGroundMovement)
     Point velocity1(-3, 1);
 
     SystemManager manager;
-    PlatformPhysicsSystem physics(manager);
+    PlatformPhysicsSystem physics("physics", manager);
     Entity entity = manager.CreateEntity();
     PlatformPhysicsComponent * component = physics.CreateComponent(entity);
     component->GetMutableInfo().SetGroundDirection(ground1);
