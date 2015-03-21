@@ -3,9 +3,9 @@
 
 #include <algorithm>
 #include <iterator>
-#include <util>
+#include <utility>
 
-using namespace alg
+namespace alg
 {
 
 template <typename Container,typename UPredicate>
@@ -51,7 +51,7 @@ auto find_if_not(Container & c, UPredicate v) -> decltype(c.begin())
 }
 
 template <class ContainerA, class ContainerB>
-auto find_end(ContainerA & a, ContainerB) -> decltype(a.begin())
+auto find_end(ContainerA & a, ContainerB & b) -> decltype(a.begin())
 {
     return std::find_end(a.begin(), a.end(), b.begin(), b.end());
 }
@@ -63,7 +63,7 @@ auto find_end(ContainerA & a, ContainerB & b, UPredicate pred) -> decltype(a.beg
 }
 
 template <class ContainerA, class ContainerB>
-auto find_first_of(ContainerA & a, ContainerB) -> decltype(a.begin())
+auto find_first_of(ContainerA & a, ContainerB & b) -> decltype(a.begin())
 {
     return std::find_first_of(a.begin(), a.end(), b.begin(), b.end());
 }
@@ -135,7 +135,7 @@ bool is_permutation(ContainerA & a, ContainerB & b, BinaryPredicate pred)
 }
 
 template <class ContainerA, class ContainerB>
-auto search(ContainerA & a, ContainerB) -> decltype(a.begin())
+auto search(ContainerA & a, ContainerB & b) -> decltype(a.begin())
 {
     return std::search(a.begin(), a.end(), b.begin(), b.end());
 }
@@ -147,15 +147,27 @@ auto search(ContainerA & a, ContainerB & b, UPredicate pred) -> decltype(a.begin
 }
 
 template <class Container, class Size, class T>
-auto search_n(Container & container, Size count, const T& val) -> decltype(a.begin())
+auto search_n(Container & container, Size count, const T& val) -> decltype(container.begin())
 {
     return std::search_n(container.begin(), container.end(), count, val);
 }
 
 template <class Container, class Size, class T, class BinaryPredicate>
-auto search_n(Container & container, Size count, const T& val, BinaryPredicate pred) -> decltype(a.begin())
+auto search_n(Container & container, Size count, const T& val, BinaryPredicate pred) -> decltype(container.begin())
 {
     return std::search_n(container.begin(), container.end(), count, val, pred);
+}
+
+template <class Container>
+void sort(Container & container)
+{
+    std::sort(container.begin(), container.end());
+}
+
+template <class Container, class Compare>
+void sort(Container & container, Compare comp)
+{
+    std::sort(container.begin(), container.end(), comp);
 }
 
 };

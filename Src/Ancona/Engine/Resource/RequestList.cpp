@@ -1,6 +1,5 @@
 #include <string>
 #include <fstream>
-#include <algorithm>
 
 #include <Ancona/Engine/Resource/RequestList.hpp>
 #include <Ancona/Util/StrUtil.hpp>
