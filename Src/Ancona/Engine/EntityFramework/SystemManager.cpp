@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <map>
 #include <unordered_map>
 
@@ -7,6 +6,7 @@
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Engine/Loading/AbstractInflater.hpp>
+#include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
@@ -85,9 +85,7 @@ Entity SystemManager::GetEntity(const std::string & key)
 
 bool SystemManager::ContainsName(std::string & systemName)
 {
-    return std::any_of(
-            _keyedSystems.begin(), 
-            _keyedSystems.end(), 
+    return alg::any_of(_keyedSystems,
             [=](std::pair<std::string, AbstractSystem *> & nameSystemPair)
             {
                 return nameSystemPair.first == systemName;
@@ -100,8 +98,7 @@ void SystemManager::RegisterSystem(
         UpdateStepEnum updateStep)
 {
     auto & systems = _systems[updateStep]; 
-    Assert(std::find(systems.begin(),systems.end(),system) == systems.end(),
-            "A System Manager cannot contain the same system twice");
+    Assert(!alg::count(systems,system), "A System Manager cannot contain the same system twice");
 
     systems.push_back(system);
 
