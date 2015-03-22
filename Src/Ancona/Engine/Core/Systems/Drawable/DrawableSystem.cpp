@@ -77,22 +77,3 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
         }
     }
 }
-
-
-void * DrawableSystem::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
-{
-    DrawableComponent * drawable = loadingContext->GetSystems().GetSystem<DrawableSystem>("drawable")->CreateComponent(entity);
-    for(const Json::Value & drawablesJson : object["drawables"])
-    {
-        drawable->AddDrawable(
-                drawablesJson["key"].asString(), 
-                loadingContext->GetInflaterMap().GetInflater(drawablesJson["drawable"]["type"].asString())->InflateTo<Drawable>(
-                    drawablesJson["drawable"],
-                    entity,
-                    loadingContext));
-    }
-    return drawable;
-}

@@ -28,11 +28,18 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
         PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem);
 
         /**
+         * @brief Default constructor that should only be used for serialization.
+         */
+        PlatformPhysicsComponent() { }
+
+        /**
          * @brief Update the component.  This will apply any active actions to the physical state.
          *
          * @param delta 
          */
         void Update(float delta);
+
+        void Serialize(Archive & arc);
 
         inline Actions & GetActions() { return _actions; }
     private:
@@ -92,19 +99,11 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
         PlatformPhysicsComponent * at(const Entity & entity);
 
         /**
-         * @brief Inflate a PlatformPhysicsComponent.
+         * @brief Serializes a platform physics component.
+         *
+         * @param arc Archive instance for this serialization.
          */
-        void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) override; 
-
-        /**
-         * @brief Saves a PlatformPhysicsComponent.
-         */
-        Json::Value Save(
-                const Entity & entity,
-                SaverContext * saverContext) override;
+        void Serialize(Archive & arc) override;
 
     private:
         /**

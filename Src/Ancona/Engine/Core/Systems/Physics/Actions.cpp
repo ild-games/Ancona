@@ -2,7 +2,7 @@
 
 using namespace ild;
 
-Actions::Actions(BasePhysicsSystem & physicsSystem) : _physicsSystem(physicsSystem)
+Actions::Actions(BasePhysicsSystem * physicsSystem) : _physicsSystem(physicsSystem)
 {
 
 }
@@ -31,7 +31,7 @@ void RemoveDoneActions(std::vector<VectorActionProxy> & actions)
             std::remove_if(
                 actions.begin(), actions.end(),
                 [](VectorActionProxy & action) { return action->Done(); }
-                ), 
+                ),
             actions.end()
             );
 }
@@ -40,13 +40,13 @@ static Point TweenPosition(VectorAction & action, float beforeRatio,
         const Point & position)
 {
     float afterRatio = action.GetTweenRatio();
-    
+
     if(afterRatio == 1)
     {
         return action.GetValue();
     }
 
-    return position + (afterRatio - beforeRatio) / (1 - beforeRatio) * 
+    return position + (afterRatio - beforeRatio) / (1 - beforeRatio) *
         (action.GetValue() - position);
 }
 
@@ -57,7 +57,7 @@ void Actions::StopFall()
 
 void Actions::ApplyGravity(Point &velocity, float delta)
 {
-    _totalGravity += delta * _physicsSystem.GetGravity();
+    _totalGravity += delta * _physicsSystem->GetGravity();
     velocity += _totalGravity;
 }
 

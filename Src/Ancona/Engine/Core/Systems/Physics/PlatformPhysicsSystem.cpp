@@ -6,9 +6,14 @@
 using namespace ild;
 
 PlatformPhysicsComponent::PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem) 
-    : _actions(physicsSystem)
+    : _actions(&physicsSystem)
 {
     _position.SetPosition(location);
+}
+
+void PlatformPhysicsComponent::Serialize(Archive & archive)
+{
+    //TODO archive(_actions, "Actions"); 
 }
 
 void PlatformPhysicsComponent::Update(float delta)
@@ -51,29 +56,39 @@ PlatformPhysicsComponent * PlatformPhysicsSystem::CreateComponent(const Entity &
     return component;
 }
 
-void * PlatformPhysicsSystem::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
+namespace ild {
+template <>
+struct Serializer<decltype(PlatformPhysicsSystem::_components)>
 {
-    PlatformPhysicsComponent * position = loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->CreateComponent(entity);
-    for(Json::Value actionsJson : object["actions"]["list"])
+    static void Serialize(std::unordered_map<Entity, BasePhysicsComponent *> & property, Archive & arc) 
     {
-        loadingContext->GetInflaterMap().GetInflater(actionsJson["type"].asString())->Inflate(
-                actionsJson,
-                entity,
-                loadingContext);
+        if (arc.IsLoading())
+        {
+            PlatformPhysicsSystem * system;
+
+            arc.system(system,"physics");
+
+            for(auto entityKey : arc.GetTopJson()->getMemberNames())
+            {
+                PlatformPhysicsComponent * value = new PlatformPhysicsComponent();
+                arc(*value, entityKey);
+                auto entity = arc.GetEntity(entityKey);
+                property[entity] = value;
+            }
+        }
     }
-    if(object["actions"]["gravity"].asBool()) 
-    {
-        position->GetActions().SetAffectedByGravity(true);
-    }
-    return position;
+};
 }
 
-Json::Value PlatformPhysicsSystem::Save(
-        const Entity & entity,
-        SaverContext * saverContext)
+void PlatformPhysicsSystem::Serialize(Archive & arc)
 {
-    std::cout << "PlatformPhysicsSystem::Save" << std::endl;
+    arc(_components, "Components");
+
+    if(arc.IsLoading())
+    {
+        for(EntityComponentPair comp : _components) 
+        {
+            AttachComponent(comp.first, comp.second);
+        }
+    } 
 }

@@ -102,25 +102,11 @@ void MapLoader::LoadComponents()
     {
         for(Json::Value & componentJson : _mapRoot["components"][systemNamePair.first])
         {
-            _loadingContext
-                ->GetInflaterMap()
-                .GetInflater(systemNamePair.first)
-                ->Inflate(
-                        componentJson,
-                        _loadingContext->GetSystems().GetSystemManager().GetEntity(componentJson["entity"].asString()),
-                        _loadingContext.get());
         }
         if(_profile >= 0)
         {
             for(Json::Value & componentJson : _saveRoot["components"][systemNamePair.first])
             {
-                _loadingContext
-                    ->GetInflaterMap()
-                    .GetInflater(systemNamePair.first)
-                    ->Inflate(
-                            componentJson,
-                            _loadingContext->GetSystems().GetSystemManager().GetEntity(componentJson["entity"].asString()),
-                            _loadingContext.get());
             }
         }
     }

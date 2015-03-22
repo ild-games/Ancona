@@ -8,8 +8,6 @@
 
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Engine/Loading/AbstractInflater.hpp>
-#include <Ancona/Engine/Loading/AbstractSaver.hpp>
 
 namespace ild
 {
@@ -119,10 +117,7 @@ class SystemManager
          */
         void UnregisterComponent(Entity entity, AbstractSystem * owningSystem);
 
-
         /* getters and setters */
-        std::vector<std::pair<std::string, AbstractInflater *>> GetComponentInflaters();
-        std::vector<std::pair<std::string, AbstractSaver *>> GetComponentSavers();
         std::vector<std::pair<std::string, AbstractSystem *>> GetKeyedSystems() { return _keyedSystems; }
 
     private:

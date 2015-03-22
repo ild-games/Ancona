@@ -6,7 +6,6 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
@@ -136,24 +135,4 @@ void SystemManager::DeleteQueuedEntities()
         DeleteEntity(entity); 
     }
     _deleteQueue.clear();
-}
-
-std::vector<std::pair<std::string, AbstractInflater *>> SystemManager::GetComponentInflaters()
-{
-    std::vector<std::pair<std::string, AbstractInflater *>> toReturn;
-    for(auto & namedSystemPair : _keyedSystems)
-    {
-        toReturn.emplace_back(namedSystemPair.first, namedSystemPair.second->GetInflater().release());
-    }
-    return toReturn;
-}
-
-std::vector<std::pair<std::string, AbstractSaver *>> SystemManager::GetComponentSavers()
-{
-    std::vector<std::pair<std::string, AbstractSaver *>> toReturn;
-    for(auto & namedSystemPair : _keyedSystems)
-    {
-        toReturn.emplace_back(namedSystemPair.first, namedSystemPair.second->GetSaver().release());
-    }
-    return toReturn;
 }

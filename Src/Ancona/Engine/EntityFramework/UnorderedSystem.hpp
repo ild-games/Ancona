@@ -117,53 +117,6 @@ class UnorderedSystem : public AbstractSystem
             delete component; 
         }
 
-        /**
-         * @brief Default implementation of GetInflater.  By default it returns a null inflater.
-         *
-         * @return A unique_ptr to an inflater created by a child class.  If the child class did not implement
-         * the method then it will be null.
-         */
-        std::unique_ptr<AbstractInflater> GetInflater() override
-        {
-            return std::unique_ptr<AbstractInflater>(new DynamicInflater<UnorderedSystem<ComponentType>>(*this));
-        }
-
-        /**
-         * @brief Default impolementation of GetSaver. Byu default it returns a null saver.
-         *
-         * @return A unique_ptr to a saver created by a child class. If the child class did not implement the method 
-         *         then it will be null.
-         */
-        std::unique_ptr<AbstractSaver> GetSaver() override
-        {
-            return std::unique_ptr<AbstractSaver>(new DynamicSaver<UnorderedSystem<ComponentType>>(*this));
-        }
-
-        /**
-         * @brief Inflates the unordered system.
-         */
-        void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) override
-        {
-            Assert(false, "No inflater defined for this system");
-            return NULL;
-        }
-
-        /**
-         * @brief Saves the unordered system.
-         */
-        Json::Value Save(
-                const Entity & entity,
-                SaverContext * saverContext) override
-        {
-            Assert(false, "No saver defined for this system");
-            return Json::ValueType::nullValue;
-        }
-
-
-
     protected:
         /**
          * @brief EntityComponentIter is an iterator that can be used to iterate over all contained
@@ -224,7 +177,6 @@ class UnorderedSystem : public AbstractSystem
             _systemManager.RegisterComponent(entity, this);
         }
 
-    private:
         /**
          * @brief Used to store components
          */

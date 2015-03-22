@@ -6,8 +6,8 @@
 
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Engine/Loading/AbstractInflater.hpp>
-#include <Ancona/Engine/Loading/AbstractSaver.hpp>
+#include <Ancona/Engine/Loading/Archive.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 namespace ild 
 {
@@ -60,35 +60,15 @@ class AbstractSystem
          * @param entity Entity that is being deleted
          */
         virtual void EntityIsDeleted(const Entity & entity) = 0;
+        
+        /**
+         * @brief Default serialize for a system.
+         */
+        virtual void Serialize(Archive & arc) 
+        {
+            Assert(false, "No serializer implemented for this system.");
+        }
 
-        /**
-         * @brief Inflate the system from the loaded json.
-         */
-        virtual void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) = 0;
-
-        /**
-         * @brief Save the system to JSON
-         */
-        virtual Json::Value Save(
-                const Entity & entity,
-                SaverContext * saverContext) = 0;
-
-        /**
-         * @brief Create an Abstract Inflater that will create and register
-         * components for the system.
-         *
-         * @return A unique pointer to the inflater.
-         */
-        virtual std::unique_ptr<AbstractInflater> GetInflater() = 0;
-        /**
-         * @brief Create and Abstract Saver that will save the component.
-         *
-         * @return A unique pointer to the inflater.
-         */
-        virtual std::unique_ptr<AbstractSaver> GetSaver() = 0;
     protected:
         SystemManager & _systemManager;
 

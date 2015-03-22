@@ -35,7 +35,12 @@ class Actions
          *
          * @param physicsSystem Physics system that the actions belong to.
          */
-        Actions(BasePhysicsSystem & physicsSystem);
+        Actions(BasePhysicsSystem * physicsSystem);
+
+        /**
+         * @brief Default constructor that should only be used for serialization.
+         */
+        Actions() {}
 
         /**
          * @brief Update the position based on active Actions in 
@@ -70,6 +75,9 @@ class Actions
          * @brief Remove any acceleration that has been caused by gravity.
          */
         void StopFall();
+
+        /* Getters and Setters */
+        void SetPhysics(BasePhysicsSystem * physicsSystem) { _physicsSystem = physicsSystem; }
     private:
         /**
          * @brief Update the velocity based on Gravity.
@@ -84,7 +92,7 @@ class Actions
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
         Point _totalGravity;
-        BasePhysicsSystem & _physicsSystem;
+        BasePhysicsSystem * _physicsSystem;
         bool _affectedByGravity = false;
         bool _onGround = false;
 };

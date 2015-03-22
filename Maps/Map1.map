@@ -19,141 +19,106 @@
         "ground",
         "screen-cam"
     ],
-    "components": {
-        "physics": [
-            {
-                "entity": "ground",
-                "actions": {
-                    "list": [
-                        {
-                            "type": "platformer-position-action",
-                            "value": {
-                                "x": 100.0,
-                                "y": 500.0
+    "systems": {
+        "physics": {
+            "components": {
+                "ground": {
+                    "actions": {
+                        "list": [
+                            {
+                                "type": "platformer-position-action",
+                                "value": {
+                                    "x": 100.0,
+                                    "y": 500.0
+                                },
+                                "tween": 0,
+                                "duration": 0
                             },
-                            "tween": 0,
-                            "duration": 0
-                        },
-                        {
-                            "type": "platformer-velocity-action",
-                            "value": {
-                                "x": 0,
-                                "y": 0.5
-                            },
-                            "tween": 0,
-                            "duration": 1
-                        }
-                    ],
-                    "gravity": false
+                            {
+                                "type": "platformer-velocity-action",
+                                "value": {
+                                    "x": 0,
+                                    "y": 0.5
+                                },
+                                "tween": 0,
+                                "duration": 1
+                            }
+                        ],
+                        "gravity": false
+                    }
                 }
             }
-        ],
-        "camera": [
-            {
-                "entity": "screen-cam",
-                "renderPriority": 0,
-                "scale": 1.0,
-                "default": true,
-                "follows": "player"
+        },
+        "camera": {
+            "components": {
+                "screen-cam": {
+                    "renderPriority": 0,
+                    "scale": 1.0,
+                    "default": true,
+                    "follows": "player"
+                }
             }
-        ],
-        "drawable": [
-            {
-                "entity": "player",
-                "drawables": [
-                    {
-                        "key": "player-shape-rect",
-                        "drawable": {
-                            "type": "shape-drawable",
-                            "shape": {
-                                "type": "rectangle-shape",
-                                "width": 16.0,
-                                "height": 17.0
-                            },
-                            "render-priority": 0,
-                            "priority-offset": -2,
-                            "position-offset": {
-                                "x": 0,
-                                "y": 0
+        },
+        "drawable": {
+            "components": {
+                "player": {
+                    "drawables": [
+                        {
+                            "key": "player-shape-rect",
+                            "drawable": {
+                                "type": "shape-drawable",
+                                "shape": {
+                                    "type": "rectangle-shape",
+                                    "width": 16.0,
+                                    "height": 17.0
+                                },
+                                "render-priority": 0,
+                                "priority-offset": -2,
+                                "position-offset": {
+                                    "x": 0,
+                                    "y": 0
+                                }
+                            }
+                        },
+                        {
+                            "key": "player-walking",
+                            "drawable": {
+                                "type": "animated-drawable",
+                                "texture-key": "player-walking",
+                                "render-priority": 0,
+                                "frame-dim": {
+                                    "width": 16.0,
+                                    "height": 17.0
+                                },
+                                "num-frames": 6,
+                                "duration": 0.1,
+                                "priority-offset": -1,
+                                "position-offset": {
+                                    "x": 0,
+                                    "y": 0
+                                }
                             }
                         }
-                    },
-                    {
-                        "key": "player-shape-circle",
-                        "drawable": {
-                            "type": "shape-drawable",
-                            "shape": {
-                                "type": "circle-shape",
-                                "radius": 16.0
-                            },
-                            "render-priority": 0,
-                            "priority-offset": -1,
-                            "position-offset": {
-                                "x": -16,
-                                "y": 0
+                    ]
+                },
+                "ground": {
+                    "drawables": [
+                        {
+                            "key": "ground-sprite",
+                            "drawable": {
+                                "type": "sprite-drawable",
+                                "texture-key": "flappy-ground",
+                                "render-priority": 0,
+                                "priority-offset": -1,
+                                "position-offset": {
+                                    "x": 0,
+                                    "y": 0
+                                }
                             }
                         }
-                    },
-                    {
-                        "key": "player-walking",
-                        "drawable": {
-                            "type": "animated-drawable",
-                            "texture-key": "player-walking",
-                            "render-priority": 0,
-                            "frame-dim": {
-                                "width": 16.0,
-                                "height": 17.0
-                            },
-                            "num-frames": 6,
-                            "duration": 0.1,
-                            "priority-offset": -1,
-                            "position-offset": {
-                                "x": 0,
-                                "y": 0
-                            }
-                        }
-                    },
-                    {
-                        "key": "player-text",
-                        "drawable": {
-                            "type": "text-drawable",
-                            "text": "I'M THE PLAYER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-                            "font-key": "dimitri-plain",
-                            "color": {
-                                "red": 255,
-                                "green": 255,
-                                "blue": 255,
-                                "alpha": 255
-                            },
-                            "character-size": 15,
-                            "render-priority": 0,
-                            "priority-offset": 1,
-                            "position-offset": {
-                                "x": 16,
-                                "y": -16
-                            }
-                        }
-                    }
-                ]
-            },
-            {
-                "entity": "ground",
-                "drawables": [
-                    {
-                        "key": "ground-sprite",
-                        "drawable": {
-                            "type": "sprite-drawable",
-                            "texture-key": "flappy-ground",
-                            "render-priority": 0,
-                            "priority-offset": -1,
-                            "position-offset": {
-                                "x": 0,
-                                "y": 0
-                            }
-                        }
-                    }
-                ]
+                    ]
+                }
             }
-        ]
+        }
     }
 }

@@ -62,7 +62,7 @@ class ScreenSystemsContainer
          * @return Instance of the system.
          */
         template <typename T>
-        T * GetSystem(std::string systemName)
+        T * GetSystem(const std::string & systemName)
         {
             Assert(_systemMap.find(systemName) != _systemMap.end(), systemName + " does not exist, please construct it first.");
             return static_cast<T *>(_systemMap[systemName]);
