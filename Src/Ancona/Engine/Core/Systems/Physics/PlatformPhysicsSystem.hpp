@@ -92,12 +92,19 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
         PlatformPhysicsComponent * at(const Entity & entity);
 
         /**
-         * @brief Inflate a PlatformPhysicsComponent
+         * @brief Inflate a PlatformPhysicsComponent.
          */
         void * Inflate(
                 const Json::Value & object,
                 const Entity & entity,
                 LoadingContext * loadingContext) override; 
+
+        /**
+         * @brief Saves a PlatformPhysicsComponent.
+         */
+        Json::Value Save(
+                const Entity & entity,
+                SaverContext * saverContext) override;
 
     private:
         /**

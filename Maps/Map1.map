@@ -22,23 +22,6 @@
     "components": {
         "physics": [
             {
-                "entity": "player",
-                "actions": {
-                    "list": [
-                        {
-                            "type": "platformer-position-action",
-                            "value": {
-                                "x": 50.0,
-                                "y": 20.0
-                            },
-                            "tween": 3,
-                            "duration": 5
-                        }
-                    ],
-                    "gravity": true
-                }
-            },
-            {
                 "entity": "ground",
                 "actions": {
                     "list": [

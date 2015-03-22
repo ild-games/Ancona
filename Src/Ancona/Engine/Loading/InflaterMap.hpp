@@ -63,7 +63,13 @@ class InflaterMap
                 const std::function<void *(
                     const Json::Value, 
                     const Entity & entity, 
-                    LoadingContext * loadingContext)> inflaterFunction);
+                    LoadingContext * loadingContext)> inflaterFunction)
+        {
+            _typeMap.emplace(
+                    key,
+                    std::unique_ptr<AbstractInflater>(
+                        new FunctionInflater(inflaterFunction)));
+        }
 
         /**
          * @brief Adds an inflater to the type map.
@@ -71,7 +77,12 @@ class InflaterMap
          * @param key Key of the inflater.
          * @param inflater Inflater to add.
          */
-        void AddAbstract(std::string key, AbstractInflater * inflater);
+        void AddAbstract(std::string key, AbstractInflater * inflater)
+        {
+            _typeMap.emplace(
+                    key,
+                    std::unique_ptr<AbstractInflater>(inflater));
+        }
 
         /**
          * @brief Get the inflater from the map.
@@ -80,7 +91,10 @@ class InflaterMap
          *
          * @return The requested inflater.
          */
-        AbstractInflater * GetInflater(std::string key);
+        AbstractInflater * GetInflater(std::string key)
+        {
+            return _typeMap[key].get();
+        }
 
     private:
         /**

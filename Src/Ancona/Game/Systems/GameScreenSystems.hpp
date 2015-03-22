@@ -30,7 +30,9 @@ class GameScreenSystems : public ScreenSystemsContainer
          *
          * @param screenManager ScreenManager for the game screen.
          */
-        GameScreenSystems(ScreenManager & screenManager);
+        GameScreenSystems(
+                ScreenManager & screenManager,
+                int profile);
 
 
         /* getters and setters */

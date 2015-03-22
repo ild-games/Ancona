@@ -1,5 +1,8 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
+//TODO remove iostream
+#include <iostream>
+
 using namespace ild;
 
 PlatformPhysicsComponent::PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem) 
@@ -66,4 +69,11 @@ void * PlatformPhysicsSystem::Inflate(
         position->GetActions().SetAffectedByGravity(true);
     }
     return position;
+}
+
+Json::Value PlatformPhysicsSystem::Save(
+        const Entity & entity,
+        SaverContext * saverContext)
+{
+    std::cout << "PlatformPhysicsSystem::Save" << std::endl;
 }

@@ -2,8 +2,10 @@
 
 using namespace ild;
 
-GameScreenSystems::GameScreenSystems(ScreenManager & screenManager) :
-    ScreenSystemsContainer(screenManager)
+GameScreenSystems::GameScreenSystems(
+        ScreenManager & screenManager,
+        int profile) :
+    ScreenSystemsContainer(screenManager, profile)
 {
     _physics = ConstructSystem<PlatformPhysicsSystem>("physics", *_systemManager);
     _camera = ConstructSystem<CameraSystem>("camera", *_systemManager);

@@ -129,6 +129,17 @@ class UnorderedSystem : public AbstractSystem
         }
 
         /**
+         * @brief Default impolementation of GetSaver. Byu default it returns a null saver.
+         *
+         * @return A unique_ptr to a saver created by a child class. If the child class did not implement the method 
+         *         then it will be null.
+         */
+        std::unique_ptr<AbstractSaver> GetSaver() override
+        {
+            return std::unique_ptr<AbstractSaver>(new DynamicSaver<UnorderedSystem<ComponentType>>(*this));
+        }
+
+        /**
          * @brief Inflates the unordered system.
          */
         void * Inflate(
@@ -138,6 +149,17 @@ class UnorderedSystem : public AbstractSystem
         {
             Assert(false, "No inflater defined for this system");
             return NULL;
+        }
+
+        /**
+         * @brief Saves the unordered system.
+         */
+        Json::Value Save(
+                const Entity & entity,
+                SaverContext * saverContext) override
+        {
+            Assert(false, "No saver defined for this system");
+            return Json::ValueType::nullValue;
         }
 
 

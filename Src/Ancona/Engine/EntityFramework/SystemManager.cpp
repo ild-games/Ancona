@@ -147,3 +147,13 @@ std::vector<std::pair<std::string, AbstractInflater *>> SystemManager::GetCompon
     }
     return toReturn;
 }
+
+std::vector<std::pair<std::string, AbstractSaver *>> SystemManager::GetComponentSavers()
+{
+    std::vector<std::pair<std::string, AbstractSaver *>> toReturn;
+    for(auto & namedSystemPair : _keyedSystems)
+    {
+        toReturn.emplace_back(namedSystemPair.first, namedSystemPair.second->GetSaver().release());
+    }
+    return toReturn;
+}

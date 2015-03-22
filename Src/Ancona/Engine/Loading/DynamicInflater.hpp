@@ -10,8 +10,8 @@ namespace ild
  * @brief Used to inflate an object from JSON using a member function of 
  * a class.
  *
- * @tparam T The class that has the factory inflater method.  It must have
- * a method with the 
+ * @tparam T The class that has the factory inflater method.
+ *
  * @author Jeff Swenson
  */
 template <typename T>
@@ -28,7 +28,7 @@ class DynamicInflater : public AbstractInflater
 
         /**
          * @brief Call factory.Inflate(const Json::Value &) on the Template
-         * type to inflate an instance of class.
+         * type to inflate an instance of the class.
          *
          * @param object JSON to be inflated into the object.
          * @param entity Entity associated with this inflation.
