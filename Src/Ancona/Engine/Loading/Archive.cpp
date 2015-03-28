@@ -7,3 +7,8 @@ Archive::Archive(Json::Value root, LoadingContext & context) :
 {
     _jsonBranch.push(&_root);
 }
+
+Json::Value & Archive::CurrentBranch()
+{
+    return *_jsonBranch.top();
+}

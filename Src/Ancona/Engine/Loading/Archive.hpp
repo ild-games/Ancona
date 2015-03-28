@@ -7,6 +7,7 @@
 #include <jsoncpp/json/json.h>
 
 #include <Ancona/Engine/Loading/Serializer.hpp>
+#include <Ancona/Engine/Loading/PolymorphicMap.hpp>
 #include <Ancona/Engine/Loading/LoadingContext.hpp>
 
 namespace ild
@@ -41,6 +42,55 @@ class Archive
             _jsonBranch.pop();
         }
 
+        template <class T>
+        void operator ()(T *& property,const std::string & key)
+        {
+            _jsonBranch.push(&(*_jsonBranch.top())[key]);
+            if(_loading)
+            {
+                auto & key = CurrentBranch()["__cpp_type"].asString();
+                PolymorphicMap::GetSerializer(key)->Serialize(property, *this);
+            } 
+            else 
+            {
+                PolymorphicMap::GetSerializer(property)->Serialize(property, *this);
+            }
+            _jsonBranch.pop();
+        }
+
+
+        template <class T>
+        void operator ()(std::unique_ptr<T> & property,const std::string & key)
+        {
+            if(_loading)
+            {
+                T * obj;
+                this(obj, key);
+                property.reset(obj);
+            } 
+            else 
+            {
+                T * obj = property.get();                    
+                this(obj, key);
+            }
+        }
+        
+        template <class T>
+        void operator ()(std::shared_ptr<T> & property,const std::string & key)
+        {
+            if(_loading)
+            {
+                T * obj;
+                this(obj, key);
+                property.reset(obj);
+            } 
+            else 
+            {
+                T * obj = property.get();                    
+                this(obj, key);
+            }
+        }
+
         template <class SystemType>
         void system(SystemType *& systemProperty, const std::string & str)
         {
@@ -49,8 +99,6 @@ class Archive
                 systemProperty = _context.GetSystems().GetSystem<SystemType>(str);
             }
         }
-
-        void Serialize(Archive & arc);
 
         /* getters and setters */
         Json::Value * GetTopJson() { return _jsonBranch.top(); }
@@ -71,6 +119,8 @@ class Archive
          */
         std::stack<Json::Value *> _jsonBranch;
         LoadingContext & _context;
+
+        Json::Value & CurrentBranch();
 };
 
 }

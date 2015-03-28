@@ -17,6 +17,7 @@ SystemManager::SystemManager()
 
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
+    FetchWaitingDependencies();
     for(AbstractSystem * system : _systems[updateStep])
     {
         system->Update(delta);
@@ -116,6 +117,7 @@ void SystemManager::RegisterComponent(Entity entity, AbstractSystem * owningSyst
     Assert(_components.find(entity) != _components.end(),
             "Cannot add a component to an entity that does not exist");
    _components[entity].insert(owningSystem); 
+   _needDependencyFetch.emplace_back(entity, owningSystem);
 }
 
 void SystemManager::UnregisterComponent(Entity entity, AbstractSystem * owningSystem)
@@ -135,4 +137,13 @@ void SystemManager::DeleteQueuedEntities()
         DeleteEntity(entity); 
     }
     _deleteQueue.clear();
+}
+
+void SystemManager::FetchWaitingDependencies()
+{
+    for(auto & entitySystemPair : _needDependencyFetch)
+    {
+        entitySystemPair.second->FetchComponentDependencies(entitySystemPair.first);
+    }
+    _needDependencyFetch.clear();
 }

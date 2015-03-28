@@ -140,6 +140,10 @@ class SystemManager
          */
         std::vector<Entity> _deleteQueue;
         /**
+         * @brief Holds pairs of entities and systems that haven't yet fetched their dependencies.
+         */
+        std::vector<std::pair<Entity, AbstractSystem *>> _needDependencyFetch;
+        /**
          * @brief A map used to key entities using strings.
          */
         std::map<std::string, Entity> _entities; 
@@ -161,6 +165,8 @@ class SystemManager
          * @brief Returns true if the systemName is already associated with a system being managed.
          */
         bool ContainsName(std::string & systemName);
+
+        void FetchWaitingDependencies();
 };
 
 }
