@@ -50,6 +50,7 @@ class Archive
             }
         }
 
+        void Serialize(Archive & arc);
 
         /* getters and setters */
         Json::Value * GetTopJson() { return _jsonBranch.top(); }

@@ -64,6 +64,8 @@ class Actions
          */
         VectorActionProxy CreateVelocityAction();
 
+        void Serialize(Archive & arc);
+
         /**
          * @brief Used to set if an entity is affected by gravity.  Defaults to true.
          *

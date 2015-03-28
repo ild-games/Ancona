@@ -14,11 +14,22 @@ PlatformPhysicsComponent::PlatformPhysicsComponent(Point location, BasePhysicsSy
 void PlatformPhysicsComponent::Serialize(Archive & archive)
 {
     //TODO archive(_actions, "Actions"); 
+    archive.system(_system,"physics");
+
+    if (archive.IsLoading()) {
+    }
+
+    archive(_actions, "Actions");
 }
 
 void PlatformPhysicsComponent::Update(float delta)
 {
     _actions.Apply(_position, delta);
+}
+
+void PlatformPhysicsComponent::FetchDependencies()
+{
+    _actions.SetPhysics(_system);
 }
 
 PlatformPhysicsSystem::PlatformPhysicsSystem(

@@ -25,6 +25,11 @@ VectorActionProxy Actions::CreateVelocityAction()
     return action;
 }
 
+void Actions::Serialize(Archive & arc)
+{
+    //TODO Implement
+}
+
 void RemoveDoneActions(std::vector<VectorActionProxy> & actions)
 {
     actions.erase(

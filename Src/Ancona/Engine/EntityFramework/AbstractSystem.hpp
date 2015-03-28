@@ -69,6 +69,15 @@ class AbstractSystem
             Assert(false, "No serializer implemented for this system.");
         }
 
+        /**
+         * @brief Used to collect the dependent components for the component made by this system.
+         *        This is called after the component is initialized, but can also be used whenever 
+         *        the location of its dependencies in memory may have changed.
+         *
+         * @param entity Entity the component is associated with.
+         */
+        virtual void FetchComponentDependencies(const Entity & entity) = 0;
+
     protected:
         SystemManager & _systemManager;
 

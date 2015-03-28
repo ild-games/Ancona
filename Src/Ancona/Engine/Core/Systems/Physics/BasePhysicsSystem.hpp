@@ -25,6 +25,12 @@ class BasePhysicsComponent
          */
         Position & GetMutableInfo() { return _position; }
 
+        /**
+         * @see AbstractSystem::FetchComponentDependencies() 
+         */
+        virtual void FetchDependencies() = 0;
+
+        virtual ~BasePhysicsComponent() {}
     protected:
         /**
          * @brief The position information for the component.

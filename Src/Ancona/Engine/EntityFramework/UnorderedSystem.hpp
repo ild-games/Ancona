@@ -2,25 +2,28 @@
 #define Ancona_Engine_EntityFramework_UnorderedSystem_H_
 
 #include <unordered_map>
+#include <type_traits>
 
 #include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Engine/Loading/Loading.hpp>
+#include <Ancona/Util/Algorithm/Types.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 namespace ild
 {
 
 class SystemManager;
+        
+GENERATE_METHOD_TESTER(FetchDependencies);
 
-/**
- * @brief Implements most of the logic needed by a system for tracking components.
+/** * @brief Implements most of the logic needed by a system for tracking components.
  * Any system that does not need its components stored in a specific order should 
  * inherit from this class.
  *
- * @owner Jeff Swenson
+ * @author Jeff Swenson
  *
  * @tparam ComponentType The type of component that the system manages.
  */
@@ -117,6 +120,28 @@ class UnorderedSystem : public AbstractSystem
             delete component; 
         }
 
+
+    private:
+
+        bool FetchDependencies(const Entity & entity, std::true_type) 
+        {
+            (*this)[entity]->FetchDependencies();
+            return true;
+        }
+
+        bool FetchDependencies(const Entity & entity, std::false_type)
+        {
+            return false;
+        }
+
+        /**
+         * @copydoc AbstractSystem::FetchComponentDependencies()
+         */
+        void FetchComponentDependencies(const Entity & entity) override
+        {
+            FetchDependencies(entity, HasMethod::FetchDependencies<ComponentType>());
+        }
+
     protected:
         /**
          * @brief EntityComponentIter is an iterator that can be used to iterate over all contained
@@ -181,6 +206,9 @@ class UnorderedSystem : public AbstractSystem
          * @brief Used to store components
          */
         std::unordered_map<Entity, ComponentType *> _components;
+
+    private:
+
 };
 
 }

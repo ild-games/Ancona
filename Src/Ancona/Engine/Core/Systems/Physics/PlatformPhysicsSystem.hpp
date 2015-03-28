@@ -12,6 +12,8 @@
 namespace ild
 {
 
+class PlatformPhysicsSystem;
+
 /**
  * @brief Component for the PlatformPhysicsSystem
  * @author Jeff Swenson
@@ -39,11 +41,17 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
          */
         void Update(float delta);
 
+        /**
+         * @copydoc ild::BasePhysicsComponent::FetchDependencies
+         */
+        void FetchDependencies();
+
         void Serialize(Archive & arc);
 
         inline Actions & GetActions() { return _actions; }
     private:
         Actions _actions;
+        PlatformPhysicsSystem * _system;
 };
 
 /**
@@ -104,7 +112,6 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
          * @param arc Archive instance for this serialization.
          */
         void Serialize(Archive & arc) override;
-
     private:
         /**
          * @brief A vector describing the direction and magnitude of gravity.
