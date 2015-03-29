@@ -107,13 +107,6 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
          * This method simply casts the component to PlatformPhysicsComponent.
          */
         PlatformPhysicsComponent * at(const Entity & entity);
-
-        /**
-         * @brief Serializes a platform physics component.
-         *
-         * @param arc Archive instance for this serialization.
-         */
-        void Serialize(Archive & arc) override;
     private:
         /**
          * @brief A vector describing the direction and magnitude of gravity.

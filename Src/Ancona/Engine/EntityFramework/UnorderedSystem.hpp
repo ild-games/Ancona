@@ -125,7 +125,7 @@ class UnorderedSystem : public AbstractSystem
          */
         virtual void Serialize(Archive & arc)
         {
-            Serialize(arc, HasMethod::Serialize<ComponentType, Archive>()); 
+            Serialize(arc, HasMethod::Serialize<ComponentType, Archive>());
         }
 
     private:

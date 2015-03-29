@@ -41,12 +41,16 @@ class PolymorphicMap
         template <class T>
         static PolymorphicSerializer * GetSerializer(T * object) 
         { 
-            return _serializers[_typeToName[typeid(object)]].get(); 
+            if (_typeToName->find(typeid(object)) != _typeToName->end())
+            {
+                return _serializers->at(_typeToName->at(typeid(object))).get(); 
+            }
+            return nullptr;
         }
 
     private:
-        static std::unordered_map<std::type_index, std::string> _typeToName;
-        static std::unordered_map<std::string, std::unique_ptr<PolymorphicSerializer>> _serializers;
+        static std::unordered_map<std::type_index, std::string> * _typeToName;
+        static std::unordered_map<std::string, std::unique_ptr<PolymorphicSerializer>> * _serializers;
 };
 
 }

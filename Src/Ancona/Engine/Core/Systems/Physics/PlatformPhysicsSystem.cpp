@@ -3,6 +3,8 @@
 //TODO remove iostream
 #include <iostream>
 
+REGISTER_POLYMORPHIC_SERIALIZER(ild::PlatformPhysicsComponent);
+
 using namespace ild;
 
 PlatformPhysicsComponent::PlatformPhysicsComponent(
@@ -63,41 +65,4 @@ PlatformPhysicsComponent * PlatformPhysicsSystem::CreateComponent(const Entity &
     AttachComponent(entity, component);
 
     return component;
-}
-
-namespace ild {
-template <>
-struct Serializer<decltype(PlatformPhysicsSystem::_components)>
-{
-    static void Serialize(std::unordered_map<Entity, BasePhysicsComponent *> & property, Archive & arc) 
-    {
-        if (arc.IsLoading())
-        {
-            PlatformPhysicsSystem * system;
-
-            arc.system(system,"physics");
-
-            for(auto entityKey : arc.GetTopJson()->getMemberNames())
-            {
-                PlatformPhysicsComponent * value = new PlatformPhysicsComponent();
-                arc(*value, entityKey);
-                auto entity = arc.GetEntity(entityKey);
-                property[entity] = value;
-            }
-        }
-    }
-};
-}
-
-void PlatformPhysicsSystem::Serialize(Archive & arc)
-{
-    arc(_components, "Components");
-
-    if(arc.IsLoading())
-    {
-        for(EntityComponentPair comp : _components) 
-        {
-            AttachComponent(comp.first, comp.second);
-        }
-    } 
 }
