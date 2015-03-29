@@ -5,7 +5,6 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/Assert.hpp>
 
