@@ -6,6 +6,7 @@
 
 #include <jsoncpp/json/json.h>
 
+#include <Ancona/Engine/Loading/ClassConstructor.hpp>
 #include <Ancona/Engine/Loading/Serializer.hpp>
 #include <Ancona/Engine/Loading/PolymorphicMap.hpp>
 #include <Ancona/Engine/Loading/LoadingContext.hpp>
@@ -55,7 +56,7 @@ class Archive
                 }
                 else 
                 {
-                    property = new T();
+                    property = ClassConstructor<T>::Construct();
                     Serializer<T>::Serialize(*property, *this);
                 }
             } 
@@ -107,6 +108,15 @@ class Archive
             }
         }
 
+        void entity(Entity & entity, const std::string & entityStr)
+        {
+            if(_loading)
+            {
+                entity = _context.GetSystems().GetSystemManager().GetEntity(entityStr);
+            }
+            //TODO saving
+        }
+
         /**
          * @brief Enter the context of the given property.
          *
@@ -145,7 +155,7 @@ class Archive
 
 
     private:
-        bool _loading;
+        bool _loading = true;
         Json::Value _root;
         /**
          * @brief Contains the visited levels of the JSON file, the top of the stack is the current json

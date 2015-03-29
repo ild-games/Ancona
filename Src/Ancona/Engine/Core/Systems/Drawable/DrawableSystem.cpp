@@ -41,19 +41,19 @@ void DrawableSystem::RemoveCamera(CameraComponent * camera)
 DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
 {
     Assert(_defaultCamera != nullptr, "Default camera not set");
-    return CreateComponent(entity, *_defaultCamera);
+    return CreateComponent(entity, _defaultCamera);
 }
 
 DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
-        CameraComponent & camera)
+        CameraComponent * camera)
 {
     auto comp = new DrawableComponent(camera);
 
     // if the camera isn't already in the cameras vector, add it now
-    if(std::find(_cameras.begin(), _cameras.end(), &camera) == _cameras.end())
+    if(std::find(_cameras.begin(), _cameras.end(), camera) == _cameras.end())
     {
-        _cameras.push_back(&camera); 
+        _cameras.push_back(camera); 
     }
 
     AttachComponent(entity, comp);

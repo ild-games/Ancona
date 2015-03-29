@@ -74,10 +74,11 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          */
         DrawableComponent * CreateComponent(
                 const Entity & entity,
-                CameraComponent & camera);
+                CameraComponent * camera);
 
         /* gettes and setters */
         void SetDefaultCamera(CameraComponent * defaultCamera) { _defaultCamera = defaultCamera; }
+        CameraComponent * GetDefaultCamera() { return _defaultCamera; }
 
 
     protected:

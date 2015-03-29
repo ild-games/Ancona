@@ -46,16 +46,6 @@
                             }
                         ],
                         "gravity": false
-                    },
-                    "info": {
-                        "position": {
-                            "x": 50.0,
-                            "y": 50.0
-                        },
-                        "velocity": {
-                            "x": 0,
-                            "y": 0
-                        }
                     }
                 }
             }

@@ -12,7 +12,7 @@ Entity JumpyEnvironment::CreateEnvironmentBody(JumpyGameSystems * gameSystems, P
     sf::RectangleShape * shape = new sf::RectangleShape(size);
     shape->setFillColor(sf::Color::Red);
 
-    auto drawable = new ShapeDrawable(*physicsComponent, *shape, 0, 0);
+    auto drawable = new ShapeDrawable(&gameSystems->GetPhysics(), shape, 0, 0);
     auto drawableComponent = gameSystems->GetDrawable().CreateComponent(entity);
     drawableComponent->AddDrawable("sprite", drawable);
 
@@ -33,7 +33,7 @@ Entity JumpyEnvironment::CreateSolidBody(JumpyGameSystems * gameSystems)
     sf::RectangleShape * shape = new sf::RectangleShape(sf::Vector2f(10,10));
     shape->setFillColor(sf::Color::Red);
 
-    auto drawable = new ShapeDrawable(*physicsComponent, *shape, 0, 0);
+    auto drawable = new ShapeDrawable(&gameSystems->GetPhysics(), shape, 0, 0);
     auto drawableComponent = gameSystems->GetDrawable().CreateComponent(entity);
     drawableComponent->AddDrawable("sprite", drawable);
 

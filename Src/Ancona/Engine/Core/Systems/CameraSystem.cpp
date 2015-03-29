@@ -5,6 +5,8 @@
 using namespace ild;
 
 /* Component */
+CameraComponent::CameraComponent() { }
+
 CameraComponent::CameraComponent(
         const sf::View & originalView,
         int renderPriority,
@@ -55,6 +57,25 @@ void CameraComponent::AddDrawable(Drawable * drawable)
 void CameraComponent::RemoveDrawable(Drawable * drawable)
 {
     _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
+}
+
+void CameraComponent::FetchDependencies(const Entity & entity)
+{
+    _followPhysics = (*_physicsSystem)[_follows];
+    if(_default)
+    {
+        _drawableSystem->SetDefaultCamera(this);
+    }
+}
+
+void CameraComponent::Serialize(Archive & arc)
+{
+    arc(_renderPriority, "renderPriority");  
+    arc(_scale, "scale");  
+    arc(_default, "default");  
+    arc.entity(_follows, "follows");  
+    arc.system(_physicsSystem, "physics");
+    arc.system(_drawableSystem, "drawable");
 }
 
 /* getters and setters */

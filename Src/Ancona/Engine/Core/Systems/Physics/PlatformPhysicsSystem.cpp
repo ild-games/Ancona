@@ -19,7 +19,7 @@ PlatformPhysicsComponent::PlatformPhysicsComponent(
 void PlatformPhysicsComponent::Serialize(Archive & archive)
 {
     archive.system(_system,"physics");
-    archive(_actions, "Actions");
+    archive(_actions, "actions");
 }
 
 void PlatformPhysicsComponent::Update(float delta)
@@ -27,7 +27,7 @@ void PlatformPhysicsComponent::Update(float delta)
     _actions.Apply(_position, delta);
 }
 
-void PlatformPhysicsComponent::FetchDependencies()
+void PlatformPhysicsComponent::FetchDependencies(const Entity & entity)
 {
     _actions.SetPhysics(_system);
 }

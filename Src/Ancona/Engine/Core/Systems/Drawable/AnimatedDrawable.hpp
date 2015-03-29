@@ -14,10 +14,12 @@ namespace ild
 class AnimatedDrawable : public SpriteDrawable
 {
     public:
+        AnimatedDrawable() {}
+
         /**
          * @brief Constructs an AnimatedDrawable
          *
-         * @param positionComponent PositionComponent for the entity associated with this drawable element.
+         * @param physicsSystem Physics system used to determine the entitie's location.
          * @param textureKey Key of the texture used for the animation.
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param frameDimensions Dimensions of a frame in the animated texture.
@@ -27,7 +29,7 @@ class AnimatedDrawable : public SpriteDrawable
          * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
          */
         AnimatedDrawable(
-                const BasePhysicsComponent & physicsComponent, 
+                BasePhysicsSystem * physicsSystem,
                 const std::string textureKey,
                 const int priority,
                 sf::Vector2f frameDimensions,
@@ -43,14 +45,8 @@ class AnimatedDrawable : public SpriteDrawable
          */
         void Draw(sf::RenderWindow & window, float delta);
 
-        /**
-         * @brief Inflate an animated drawable.
-         */
-        static void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext);
-
+        void FetchDependencies(const Entity & entity);
+        void Serialize(Archive & archive);
     private:
         /**
          * @brief Dimensions of a frame in the animated texture.
@@ -59,7 +55,7 @@ class AnimatedDrawable : public SpriteDrawable
         /**
          * @brief Seconds per frame.
          */
-        const float DURATION;
+        float _duration;
         /**
          * @brief time until the frame changes.
          */

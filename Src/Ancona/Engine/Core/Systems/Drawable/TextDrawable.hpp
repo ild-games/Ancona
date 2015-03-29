@@ -2,6 +2,7 @@
 #define Ancona_Engine_Core_Systems_TextDrawable_H_
 
 #include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 
 namespace ild
 {
@@ -14,10 +15,12 @@ namespace ild
 class TextDrawable : public Drawable
 {
     public:
+        TextDrawable() {}
+
         /**
          * @brief An element to draw text to an entity.
          *
-         * @param physicsComponent Component that defines the entity's position.
+         * @param physicsSystem System that can be used to determine the entities location.
          * @param text Text being drawn.
          * @param fontKey Name of font to use.
          * @param color SFML Color of the text.
@@ -28,7 +31,7 @@ class TextDrawable : public Drawable
          * @param smooth Optional bool to determine if the text should be smoothed, defaults to true.
          */
         TextDrawable(
-                const BasePhysicsComponent & physicsComponent,
+                BasePhysicsSystem * physicsSystem,
                 const std::string text,
                 const std::string fontKey,
                 const sf::Color color,
@@ -45,25 +48,20 @@ class TextDrawable : public Drawable
          */
         void Draw(sf::RenderWindow & window, float delta);
 
-        /**
-         * @brief Inflate a text drawable.
-         */
-        static void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext);
-
         /* getters and setters */
         std::string GetText() { return _text->getString(); }
         void SetText(std::string text);
         sf::Vector2u GetSize();
         int GetAlpha();
         void SetAlpha(int alpha);
+
+        void FetchDependencies(const Entity & entity);
+        void Serialize(Archive & archive);
     private:
         /**
          * @brief Text being drawn.
          */
-        sf::Text * _text;
+        std::unique_ptr<sf::Text> _text;
 
         /**
          * @brief Sets the text's origin point to be its center.

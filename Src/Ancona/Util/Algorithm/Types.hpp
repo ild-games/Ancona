@@ -31,7 +31,7 @@
     namespace HasMethod { namespace Internal {                                                        \
             template <class T, class ... Args>                                                        \
             constexpr auto __##METHOD_NAME##__(T & t, Args & ... args)                                \
-                -> decltype(t.METHOD_NAME(args...), std::true_type())                                         \
+                -> decltype(t.METHOD_NAME(args...), std::true_type())                                 \
             {                                                                                         \
                 return std::true_type();                                                              \
             }                                                                                         \

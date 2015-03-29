@@ -6,12 +6,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 
 namespace ild
 {
+
+class DrawableSystem;
 
 /**
  * @brief Used to manage a camera's attributes.
@@ -21,6 +24,8 @@ namespace ild
 class CameraComponent
 {
     public:
+        CameraComponent();
+
         /**
          * @brief Constructs a new CameraComponent.
          *
@@ -67,9 +72,15 @@ class CameraComponent
          */
         void RemoveDrawable(Drawable * drawable);
 
+        /**
+         * @copydoc ild::BasePhysicsComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
+
+        void Serialize(Archive & arc);
+
         /* getters and setters */
         int GetRenderPriority() { return _renderPriority; }
-        void SetFollow(BasePhysicsComponent * followPhysics) { _followPhysics = followPhysics; }
         void SetScale(float scale);
         float GetScale() { return _scale; }
 
@@ -96,6 +107,13 @@ class CameraComponent
          * @brief Scale of the camera.
          */
         float _scale;
+        /**
+         * @brief Entity the camera follows.
+         */
+        Entity _follows;
+        PlatformPhysicsSystem * _physicsSystem;
+        DrawableSystem * _drawableSystem;
+        bool _default = false;
 
 };
 

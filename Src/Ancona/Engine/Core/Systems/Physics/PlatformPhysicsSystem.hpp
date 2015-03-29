@@ -46,7 +46,7 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
         /**
          * @copydoc ild::BasePhysicsComponent::FetchDependencies
          */
-        void FetchDependencies();
+        void FetchDependencies(const Entity & entity);
 
         void Serialize(Archive & arc);
 

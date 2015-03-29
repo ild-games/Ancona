@@ -3,7 +3,9 @@
 
 using namespace ild;
 
-DrawableComponent::DrawableComponent(CameraComponent & cameraComponent) :
+DrawableComponent::DrawableComponent() { }
+
+DrawableComponent::DrawableComponent(CameraComponent * cameraComponent) :
     _camera(cameraComponent)
 {
 }
@@ -13,13 +15,37 @@ void DrawableComponent::AddDrawable(
         Drawable * drawable)
 {
     _drawables[key] = std::unique_ptr<Drawable>(drawable);
-    _camera.AddDrawable(drawable);
+    _camera->AddDrawable(drawable);
 }
 
 void DrawableComponent::RemoveDrawable(const std::string key)
 {
-    _camera.RemoveDrawable(_drawables[key].get());
+    _camera->RemoveDrawable(_drawables[key].get());
     _drawables.erase(key);
+}
+
+void DrawableComponent::FetchDependencies(const Entity & entity)
+{
+    if(_camEntity == nullentity)
+    {
+        _camera = _drawableSystem->GetDefaultCamera();
+    }
+    else
+    {
+        _camera = (*_cameraSystem)[_camEntity];
+    }
+    for (auto & keyDrawable : _drawables)
+    {
+        keyDrawable.second->FetchDependencies(entity);
+    }
+}
+
+void DrawableComponent::Serialize(Archive & arc)
+{
+    arc.entity(_camEntity, "camEntity");  
+    arc.system(_cameraSystem, "camera");
+    arc.system(_drawableSystem, "drawable");
+    arc(_drawables, "drawables");
 }
 
 /* getters and setters */

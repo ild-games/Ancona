@@ -2,52 +2,33 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
+REGISTER_POLYMORPHIC_SERIALIZER(ild::SpriteDrawable)
 
 using namespace ild;
 
 SpriteDrawable::SpriteDrawable(
-        const BasePhysicsComponent & physicsComponent, 
+        BasePhysicsSystem * physicsSystem,
         const std::string textureKey,
         const int priority,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
-            physicsComponent,
+            physicsSystem,
             priority,
             priorityOffset,
-            positionOffset)
+            positionOffset), _textureKey(textureKey)
 {
-    sf::Texture & texture = *ResourceLibrary::Get<sf::Texture>(textureKey);
-    _sprite = new sf::Sprite(texture);
-    _sprite->setOrigin(
-            texture.getSize().x / 2, 
-            texture.getSize().y / 2);
-    _rotation = 0.0f;
 }
 
 void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
 {
-    auto pos = _physicsComponent.GetInfo().GetPosition();
+    auto pos = _physicsComponent->GetInfo().GetPosition();
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _sprite->setPosition(position.x,position.y);
     _sprite->setRotation(_rotation);
     window.draw(*_sprite);
-}
-
-void * SpriteDrawable::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
-{
-    SpriteDrawable * sprite = new SpriteDrawable(
-            *loadingContext->GetSystems().GetSystem<BasePhysicsSystem>("physics")->at(entity),
-            object["texture-key"].asString(),
-            object["render-priority"].asInt(),
-            object["priority-offset"].asInt(),
-            sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()));
-    return sprite;
 }
 
 /* getters and setters */
@@ -70,4 +51,19 @@ void SpriteDrawable::SetAlpha(int alpha)
     col->a = alpha;
     _sprite->setColor(*col);
     delete col;
+}
+
+void SpriteDrawable::FetchDependencies(const Entity &entity) {
+   FetchDependencies(entity);
+    sf::Texture & texture = *ResourceLibrary::Get<sf::Texture>(_textureKey);
+    _sprite = new sf::Sprite(texture);
+    _sprite->setOrigin(
+            texture.getSize().x / 2,
+            texture.getSize().y / 2);
+    _rotation = 0.0f;
+}
+
+void SpriteDrawable::Serialize(Archive &archive) {
+    Drawable::Serialize(archive);
+    archive(_textureKey, "texture-key");
 }

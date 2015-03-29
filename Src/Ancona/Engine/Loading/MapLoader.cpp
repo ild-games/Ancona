@@ -99,15 +99,22 @@ void MapLoader::LoadEntities()
 
 void MapLoader::LoadComponents()
 {
-    Archive arc(_mapRoot["systems"], *_loadingContext.get());
+    Archive mapArc(_mapRoot["systems"], *_loadingContext.get());
+    Archive saveArc(_saveRoot["systems"], *_loadingContext.get());
     for(auto systemNamePair : _loadingContext->GetSystems().GetSystemManager().GetKeyedSystems())
     {
-        if (arc.HasProperty(systemNamePair.first))
+        if (mapArc.HasProperty(systemNamePair.first))
         {
-            arc.EnterProperty(systemNamePair.first);
-            _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(arc);
-            arc.ExitProperty();
+            mapArc.EnterProperty(systemNamePair.first);
+            _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(mapArc);
+            mapArc.ExitProperty();
         }
+       if(saveArc.HasProperty(systemNamePair.first))
+       {
+           saveArc.EnterProperty(systemNamePair.first);
+           _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(saveArc);
+           saveArc.ExitProperty();
+       }
     }
     _state = LoadingState::DoneLoading;
 }

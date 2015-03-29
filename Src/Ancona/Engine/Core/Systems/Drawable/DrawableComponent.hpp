@@ -26,12 +26,14 @@ class DrawableSystem;
 class DrawableComponent
 {
     public:
+        DrawableComponent();
+    
         /**
          * @brief Construct a DrawableComponent.
          *
          * @param cameraComponent CameraComponent used to render these renderables.
          */
-        DrawableComponent(CameraComponent & cameraComponent);
+        DrawableComponent(CameraComponent * cameraComponent);
 
         /**
          * @brief Adds a drawable element to the component.
@@ -50,6 +52,12 @@ class DrawableComponent
          */
         void RemoveDrawable(const std::string key);
 
+        /**
+         * @copydoc ild::BasePhysicsComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
+
+        void Serialize(Archive & arc);
 
         /* getters and setters */
         std::vector<Drawable *> GetDrawables();
@@ -63,7 +71,10 @@ class DrawableComponent
         /**
          * @brief Camera the drawables for this component are rendered with.
          */
-        CameraComponent & _camera;
+        CameraComponent * _camera;
+        CameraSystem * _cameraSystem;
+        DrawableSystem * _drawableSystem;
+        Entity _camEntity = nullentity;
 };
 
 }

@@ -2,10 +2,12 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
+REGISTER_POLYMORPHIC_SERIALIZER(ild::TextDrawable)
+
 using namespace ild;
 
 TextDrawable::TextDrawable(
-        const BasePhysicsComponent & physicsComponent,
+        BasePhysicsSystem * physicsSystem,
         const std::string text,
         const std::string fontKey,
         const sf::Color color,
@@ -15,12 +17,12 @@ TextDrawable::TextDrawable(
         sf::Vector2f positionOffset,
         bool smooth) :
     Drawable(
-            physicsComponent,
+            physicsSystem,
             priority,
             priorityOffset,
             positionOffset)
 {
-    _text = new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey));
+    _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
     _text->setColor(color);
     _text->setCharacterSize(characterSize);
     if(!smooth)
@@ -32,7 +34,7 @@ TextDrawable::TextDrawable(
 
 void TextDrawable::Draw(sf::RenderWindow & window, float delta)
 {
-    auto pos = _physicsComponent.GetInfo().GetPosition();
+    auto pos = _physicsComponent->GetInfo().GetPosition();
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
@@ -46,28 +48,6 @@ void TextDrawable::CenterOrigin()
     sf::FloatRect textRect = _text->getLocalBounds();
     _text->setOrigin(textRect.left + (textRect.width / 2.0f),
                      textRect.top  + (textRect.height / 2.0f));
-}
-
-void * TextDrawable::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
-{
-    TextDrawable * text = new TextDrawable(
-            *loadingContext->GetSystems().GetSystem<BasePhysicsSystem>("physics")->at(entity),
-            object["text"].asString(),
-            object["font-key"].asString(),
-            sf::Color(
-                object["color"]["red"].asUInt64(), 
-                object["color"]["green"].asUInt64(), 
-                object["color"]["blue"].asUInt64(), 
-                object["color"]["alpha"].asUInt64()),
-            object["character-size"].asInt(),
-            object["render-priority"].asInt(),
-            object["priority-offset"].asInt(),
-            sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()),
-            object["smooth"].asBool());
-    return text;
 }
 
 /* getters and setters */
@@ -95,3 +75,14 @@ void TextDrawable::SetAlpha(int alpha)
     _text->setColor(*col);
     delete col;
 }
+
+void TextDrawable::Serialize(Archive &archive) {
+    Drawable::Serialize(archive);
+    archive(_text, "text");
+}
+
+void TextDrawable::FetchDependencies(const Entity &entity) {
+    Drawable::FetchDependencies(entity);
+    CenterOrigin();
+}
+

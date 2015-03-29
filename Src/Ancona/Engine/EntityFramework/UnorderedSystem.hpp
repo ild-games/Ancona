@@ -15,8 +15,6 @@
 namespace ild
 {
 
-class SystemManager;
-        
 GENERATE_METHOD_TESTER(FetchDependencies);
 
 /** * @brief Implements most of the logic needed by a system for tracking components.
@@ -156,7 +154,7 @@ class UnorderedSystem : public AbstractSystem
 
         bool FetchDependencies(const Entity & entity, std::true_type) 
         {
-            (*this)[entity]->FetchDependencies();
+            (*this)[entity]->FetchDependencies(entity);
             return true;
         }
 
@@ -170,7 +168,7 @@ class UnorderedSystem : public AbstractSystem
          */
         void FetchComponentDependencies(const Entity & entity) override
         {
-            FetchDependencies(entity, HasMethod::FetchDependencies<ComponentType>());
+            FetchDependencies(entity, HasMethod::FetchDependencies<ComponentType, Entity>());
         }
 
     protected:

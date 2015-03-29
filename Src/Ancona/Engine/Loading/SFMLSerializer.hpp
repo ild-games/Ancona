@@ -5,6 +5,8 @@
 
 #include <Ancona/Engine/Loading/Archive.hpp>
 #include <Ancona/Engine/Loading/Serializer.hpp>
+#include <Ancona/Engine/Loading/StdSerializer.hpp>
+#include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 
 namespace ild
 {
@@ -30,6 +32,62 @@ struct Serializer<sf::Vector3f>
     }
 };
 
+template <>
+struct Serializer<sf::Text>
+{
+    static void Serialize(sf::Text & property, Archive & arc)
+    {
+        if (arc.IsLoading())
+        {
+            std::string text;
+            std::string fontKey;
+            sf::Color color;
+            int characterSize;
+            bool smooth;
+            arc(text, "text");
+            arc(fontKey, "font-key");
+            arc(color, "color");
+            arc(characterSize,"character-size");
+            arc(smooth, "smooth");
+
+            property.setString(text);
+            property.setFont(*ResourceLibrary::Get<sf::Font>(fontKey));
+            property.setColor(color);
+            if (!smooth)
+            {
+                const_cast<sf::Texture&>(property.getFont()->getTexture(characterSize)).setSmooth(false);
+            }
+        }
+        else
+        {
+
+            //TODO Implement saving
+        }
+    }
+};
+
+template <>
+struct Serializer<sf::Color>
+{
+    static void Serialize(sf::Color & property, Archive & arc)
+    {
+        arc(property.r,"r");
+        arc(property.g,"g");
+        arc(property.b,"b");
+        arc(property.a,"a");
+    }
+};
+
+template <>
+struct Serializer<sf::Shape>
+{
+    static void Serialize(sf::Shape & shape, Archive & arc)
+    {
+        //no-op
+    }
+};
 }
+
+GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(sf::Shape)
 
 #endif

@@ -6,26 +6,29 @@
                 "game": "Map1",
                 "jumpy-game": "JumpyMap"
             },
-            "components": {
-                "physics": [
-                    {
-                        "entity": "player",
-                        "actions": {
-                            "list": [
-                                {
-                                    "type": "platformer-position-action",
-                                    "value": {
-                                        "x": 50.0,
-                                        "y": 200.0
-                                    },
-                                    "tween": 0,
-                                    "duration": 0
+            "systems": {
+                "physics": {
+                    "components": {
+                        "player": {
+                            "__cpp_type": "ild::PlatformPhysicsComponent",
+                            "actions": {
+                                "actions": {
+                                    "platform-position-actions": [
+                                        {
+                                            "value": {
+                                                "x": 50.0,
+                                                "y": 200.0
+                                            },
+                                            "tween": 0,
+                                            "duration": 0
+                                        }
+                                    ],
+                                    "gravity": true
                                 }
-                            ],
-                            "gravity": true
+                            }
                         }
                     }
-                ]
+                }
             }
         }
     ]

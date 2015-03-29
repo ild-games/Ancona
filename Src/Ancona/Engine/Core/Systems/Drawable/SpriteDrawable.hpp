@@ -15,17 +15,19 @@ namespace ild
 class SpriteDrawable : public Drawable
 {
     public:
+        SpriteDrawable() {}
+
         /**
          * @brief An element to draw a sprite to an entity.
          *
-         * @param positionComponent Component that defines the entity's position.
+         * @param physicsSystem System that describes the entities location.
          * @param textureKey String that describes which texture should be used
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param priorityOffset Optional offset to the render priority
          * @param positionOffset Offset coordinates from the PositionComponent
          */
         SpriteDrawable(
-                const BasePhysicsComponent & physicsComponent, 
+                BasePhysicsSystem * physicsSystem,
                 const std::string textureKey,
                 const int priority,
                 int priorityOffset = 0,
@@ -39,23 +41,19 @@ class SpriteDrawable : public Drawable
          */
         virtual void Draw(sf::RenderWindow & window, float delta);
 
-        /**
-         * @brief Inflate a sprite drawable.
-         */
-        static void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext);
-
         /* getters and setters */
         sf::Vector2u GetSize();
         int GetAlpha();
         void SetAlpha(int alpha);
+
+        void FetchDependencies(const Entity & entity);
+        void Serialize(Archive & archive);
     protected:
         /**
          * @brief Sprite being drawn.
          */
         sf::Sprite * _sprite;
+        std::string _textureKey;
 };
 
 }

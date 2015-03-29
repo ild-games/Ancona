@@ -5,10 +5,10 @@
 #include <SFML/System.hpp>
 
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 
 namespace ild
 {
-
 
 namespace RenderPriority
 {
@@ -42,16 +42,17 @@ class Drawable
 {
 
     public:
+        Drawable () {}
         /**
          * @brief Constructs a Drawable.
          *
-         * @param positionComponent PositionComponent for the entity associated with this drawable element.
+         * @param positionSystem PositionSystem that can be used to fetch the position component.
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param priorityOffset Optional offset to the render priority.
          * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
          */
         Drawable(
-                const BasePhysicsComponent & positionComponent,
+                BasePhysicsSystem * positionSystem,
                 const int priority,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
@@ -73,11 +74,16 @@ class Drawable
         virtual int GetAlpha() = 0;
         virtual void SetAlpha(int alpha) = 0;
 
+        virtual void FetchDependencies(const Entity & entity);
+
+        virtual void Serialize(Archive & archive);
+
     protected:
+        BasePhysicsSystem * _physicsSystem;
         /**
          * @brief Component that defines the entities position.
          */
-        const BasePhysicsComponent & _physicsComponent;
+        BasePhysicsComponent * _physicsComponent;
         /**
          * @brief Offset coordinate for this drawable element.
          */
@@ -97,5 +103,7 @@ class Drawable
 };
 
 }
+
+GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(ild::Drawable)
 
 #endif
