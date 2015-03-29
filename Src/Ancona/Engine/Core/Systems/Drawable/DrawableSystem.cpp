@@ -1,14 +1,10 @@
-#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
-#include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-
-#include <algorithm>
-//TODO: remove iostream
-#include <iostream>
-
 #include <jsoncpp/json/json.h>
 
-using namespace ild;
+#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Util/Algorithm.hpp>
 
+using namespace ild;
 
 DrawableSystem::DrawableSystem(
         std::string systemName,
@@ -30,9 +26,7 @@ void DrawableSystem::Update(float delta)
 void DrawableSystem::AddCamera(CameraComponent * camera)
 {
     _cameras.push_back(camera);
-    std::sort(
-            _cameras.begin(),
-            _cameras.end(), 
+    alg::sort(_cameras,
             [](CameraComponent * lhs, CameraComponent * rhs)
             {
                 return lhs->GetRenderPriority() < rhs->GetRenderPriority();
