@@ -27,7 +27,8 @@ VectorActionProxy Actions::CreateVelocityAction()
 
 void Actions::Serialize(Archive & arc)
 {
-    //TODO Implement
+    arc(_positionActions, "platform-position-actions");
+    arc(_velocityActions, "platform-velocity-actions");
 }
 
 void RemoveDoneActions(std::vector<VectorActionProxy> & actions)

@@ -27,7 +27,9 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
          * @param location Location to initialize the component at.
          * @param physicsSystem Physics system that the component belongs to.
          */
-        PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem);
+        PlatformPhysicsComponent(
+                Point location, 
+                PlatformPhysicsSystem * physicsSystem);
 
         /**
          * @brief Default constructor that should only be used for serialization.

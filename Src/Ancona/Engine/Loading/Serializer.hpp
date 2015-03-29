@@ -1,8 +1,13 @@
 #ifndef Ancona_Engine_Loading_Serializer_H_
 #define Ancona_Engine_Loading_Serializer_H_
 
+#include <Ancona/Util/Algorithm/Types.hpp>
+
+
 namespace ild
 {
+
+GENERATE_METHOD_TESTER(Serialize);
 
 class Archive;
 

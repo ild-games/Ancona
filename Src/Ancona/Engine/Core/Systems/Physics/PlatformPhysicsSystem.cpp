@@ -5,20 +5,18 @@
 
 using namespace ild;
 
-PlatformPhysicsComponent::PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem) 
-    : _actions(&physicsSystem)
+PlatformPhysicsComponent::PlatformPhysicsComponent(
+        Point location, 
+        PlatformPhysicsSystem * physicsSystem) :
+    _actions(physicsSystem),
+    _system(physicsSystem)
 {
     _position.SetPosition(location);
 }
 
 void PlatformPhysicsComponent::Serialize(Archive & archive)
 {
-    //TODO archive(_actions, "Actions"); 
     archive.system(_system,"physics");
-
-    if (archive.IsLoading()) {
-    }
-
     archive(_actions, "Actions");
 }
 
@@ -60,7 +58,7 @@ PlatformPhysicsComponent * PlatformPhysicsSystem::at (const Entity & entity)
 
 PlatformPhysicsComponent * PlatformPhysicsSystem::CreateComponent(const Entity & entity, Point location)
 {
-    PlatformPhysicsComponent * component = new PlatformPhysicsComponent(location, *this);
+    PlatformPhysicsComponent * component = new PlatformPhysicsComponent(location, this);
     
     AttachComponent(entity, component);
 

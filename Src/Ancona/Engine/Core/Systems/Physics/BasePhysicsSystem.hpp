@@ -3,6 +3,7 @@
 
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 
 namespace ild
 {
@@ -25,12 +26,10 @@ class BasePhysicsComponent
          */
         Position & GetMutableInfo() { return _position; }
 
-        /**
-         * @see AbstractSystem::FetchComponentDependencies() 
-         */
-        virtual void FetchDependencies() = 0;
+        void Serialize(Archive & arc);
 
         virtual ~BasePhysicsComponent() {}
+
     protected:
         /**
          * @brief The position information for the component.

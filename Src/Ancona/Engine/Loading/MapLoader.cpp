@@ -1,7 +1,8 @@
 #include <Ancona/Engine/Config/Config.hpp>
-#include <Ancona/Engine/Loading/MapLoader.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 #include <Ancona/Util/Assert.hpp>
+#include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
 
 using namespace ild;
 
@@ -98,16 +99,14 @@ void MapLoader::LoadEntities()
 
 void MapLoader::LoadComponents()
 {
+    Archive arc(_mapRoot["systems"], *_loadingContext.get());
     for(auto systemNamePair : _loadingContext->GetSystems().GetSystemManager().GetKeyedSystems())
     {
-        for(Json::Value & componentJson : _mapRoot["components"][systemNamePair.first])
+        if (arc.HasProperty(systemNamePair.first))
         {
-        }
-        if(_profile >= 0)
-        {
-            for(Json::Value & componentJson : _saveRoot["components"][systemNamePair.first])
-            {
-            }
+            arc.EnterProperty(systemNamePair.first);
+            _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(arc);
+            arc.ExitProperty();
         }
     }
     _state = LoadingState::DoneLoading;

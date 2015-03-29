@@ -41,7 +41,7 @@ class PolymorphicMap
         template <class T>
         static PolymorphicSerializer * GetSerializer(T * object) 
         { 
-            return _serializers[_typeToName[typeid(object)]]; 
+            return _serializers[_typeToName[typeid(object)]].get(); 
         }
 
     private:

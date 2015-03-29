@@ -12,3 +12,23 @@ Json::Value & Archive::CurrentBranch()
 {
     return *_jsonBranch.top();
 }
+
+void Archive::EnterProperty(const std::string & name)
+{
+    _jsonBranch.push(&(*_jsonBranch.top())[name]);
+}
+
+void Archive::EnterProperty(const int & name)
+{
+    _jsonBranch.push(&(*_jsonBranch.top())[name]);
+}
+
+void Archive::ExitProperty()
+{
+    _jsonBranch.pop();
+}
+
+bool Archive::HasProperty(const std::string & name)
+{
+    return CurrentBranch().isMember(name);
+}

@@ -9,8 +9,8 @@
 namespace ild
 {
 
-template <class sf::Vector2f>
-struct Serializer
+template <>
+struct Serializer<sf::Vector2f>
 {
     static void Serialize(sf::Vector2f & property, Archive & arc)
     {
@@ -19,8 +19,8 @@ struct Serializer
     }
 };
 
-template <class sf::Vector3f>
-struct Serializer
+template <>
+struct Serializer<sf::Vector3f>
 {
     static void Serialize(sf::Vector3f & property, Archive & arc)
     {

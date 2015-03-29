@@ -7,7 +7,7 @@ namespace ild
 class Archive;
 
 /**
- * @brief 
+ * @brief Serializer used to serialize in polymorphic types.
  *
  * @author Jeff Swenson
  * @author Tucker Lein

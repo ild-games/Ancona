@@ -120,8 +120,39 @@ class UnorderedSystem : public AbstractSystem
             delete component; 
         }
 
+        /**
+         * @brief Implements a default system serializer. It will serialzie polymorphic and non-polymorphic components.
+         */
+        virtual void Serialize(Archive & arc)
+        {
+            Serialize(arc, HasMethod::Serialize<ComponentType, Archive>()); 
+        }
 
     private:
+        void Serialize(Archive & arc, std::true_type)
+        {
+            if (arc.IsLoading())
+            {
+                arc.EnterProperty("components");
+                for(auto entityKey : arc.GetTopJson()->getMemberNames())
+                {
+                    ComponentType * value; 
+                    arc(value, entityKey);
+                    auto entity = arc.GetEntity(entityKey);
+                    AttachComponent(entity, value);
+                }
+                arc.ExitProperty();
+            }
+            else
+            {
+                //TODO Implement saving of unordered systems
+            }
+        }
+
+        void Serialize(Archive & arc, std::false_type)
+        {
+            //no-op
+        }
 
         bool FetchDependencies(const Entity & entity, std::true_type) 
         {
@@ -206,8 +237,6 @@ class UnorderedSystem : public AbstractSystem
          * @brief Used to store components
          */
         std::unordered_map<Entity, ComponentType *> _components;
-
-    private:
 
 };
 

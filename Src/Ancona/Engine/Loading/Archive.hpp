@@ -34,60 +34,67 @@ class Archive
          * @param property Thing being archived.
          * @param key Key of the JSON for this property.
          */
-        template <class T>
-        void operator ()(T & property,const std::string & key)
+        template <class T, class Key>
+        void operator ()(T & property,const Key & key)
         {
-            _jsonBranch.push(&(*_jsonBranch.top())[key]);
+            EnterProperty(key);
             Serializer<T>::Serialize(property, *this);
-            _jsonBranch.pop();
+            ExitProperty();
         }
 
-        template <class T>
-        void operator ()(T *& property,const std::string & key)
+        template <class T, class Key>
+        void operator ()(T *& property,const Key & key)
         {
-            _jsonBranch.push(&(*_jsonBranch.top())[key]);
+            EnterProperty(key);
             if(_loading)
             {
-                auto & key = CurrentBranch()["__cpp_type"].asString();
-                PolymorphicMap::GetSerializer(key)->Serialize(property, *this);
+                if(CurrentBranch().isMember("__cpp_type"))
+                {
+                    const auto & cppType = CurrentBranch()["__cpp_type"].asString();
+                    PolymorphicMap::GetSerializer(cppType)->Serialize((void *&)(property), *this);
+                }
+                else 
+                {
+                    property = new T();
+                    Serializer<T>::Serialize(*property, *this);
+                }
             } 
             else 
             {
-                PolymorphicMap::GetSerializer(property)->Serialize(property, *this);
+                PolymorphicMap::GetSerializer(property)->Serialize((void *&)(property), *this);
             }
-            _jsonBranch.pop();
+            ExitProperty();
         }
 
-
-        template <class T>
-        void operator ()(std::unique_ptr<T> & property,const std::string & key)
+        template <class T, class Key>
+        void operator ()(std::unique_ptr<T> & property,const Key & key)
         {
             if(_loading)
             {
                 T * obj;
-                this(obj, key);
+                (*this)(obj, key);
                 property.reset(obj);
             } 
             else 
             {
                 T * obj = property.get();                    
-                this(obj, key);
+                (*this)(obj, key);
             }
         }
         
-        template <class T>
-        void operator ()(std::shared_ptr<T> & property,const std::string & key)
+        template <class T, class Key>
+        void operator ()(std::shared_ptr<T> & property,const Key & key)
         {
             if(_loading)
             {
                 T * obj;
-                this(obj, key);
+                (*this)(obj, key);
                 property.reset(obj);
             } 
             else 
             {
                 T * obj = property.get();                    
-                this(obj, key);
+                (*this)(obj, key);
             }
         }
 
@@ -99,6 +106,33 @@ class Archive
                 systemProperty = _context.GetSystems().GetSystem<SystemType>(str);
             }
         }
+
+        /**
+         * @brief Enter the context of the given property.
+         *
+         * @param Property that will be serialized.
+         */
+        void EnterProperty(const std::string & name);
+
+        /**
+         * @brief Enter the context of the given property.
+         *
+         * @param Property that will be serialized.
+         */
+        void EnterProperty(const int & name);
+
+        /**
+         * @brief Test if the current json branch has the property.
+         *
+         * @param name Name of the property being tested.
+         */
+        bool HasProperty(const std::string & name);
+
+        /**
+         * @brief Exit the context of a given property.  Should only
+         * be called if the function also called EnterProperty.
+         */
+        void ExitProperty();
 
         /* getters and setters */
         Json::Value * GetTopJson() { return _jsonBranch.top(); }

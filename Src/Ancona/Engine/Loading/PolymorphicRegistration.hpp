@@ -1,19 +1,21 @@
 #ifndef Ancona_Engine_Loading_PolymorphicRegistration_H_
 #define Ancona_Engine_Loading_PolymorphicRegistration_H_
 
+#include <string>
+
 #include <Ancona/Engine/Loading/Archive.hpp>
 #include <Ancona/Engine/Loading/PolymorphicSerializer.hpp>
 
-#define REGISTER_POLYMORPHIC_SERIALIZER(CLASS)                                           \
-    ild::PolymorphicTypeKey<CLASS>::Key =                                                \
-        PolymorphicRegistration::RegisterType<CLASS>(#CLASS);                            \
+#define REGISTER_POLYMORPHIC_SERIALIZER(CLASS)                           \
+    template<> const std::string ild::PolymorphicTypeKey<CLASS>::Key =   \
+        PolymorphicRegistration::RegisterType<CLASS>(#CLASS);            \
 
 namespace ild
 {
 
 
 template <class T>
-class PolymorphicSerializerImpl
+class PolymorphicSerializerImpl : public PolymorphicSerializer
 {
     public:
 
@@ -22,7 +24,7 @@ class PolymorphicSerializerImpl
          */
         void Serialize(void *& property, Archive & arc) override
         {
-            T *& typedProp = static_cast<T *&>(property);
+            T *& typedProp = (T *&)(property);
             if(arc.IsLoading())
             {
                 typedProp = new T();

@@ -1,8 +1,9 @@
 #ifndef Ancona_Engine_Physics_VectorAction_hpp
 #define Ancona_Engine_Physics_VectorAction_hpp
 
-#include <Ancona/Engine/Core/Systems/Physics/Action.hpp>
 #include <SFML/System.hpp>
+
+#include <Ancona/Engine/Core/Systems/Physics/Action.hpp>
 
 namespace ild
 {
@@ -40,6 +41,8 @@ class VectorAction : public Action<VectorAction>
          * @return A pointer to the action.
          */
         VectorAction * RelativeToGround(bool value) { _relativeToGround = value; return this; }
+
+        void Serialize(Archive & arc);
 
         /**
          * @brief Get the ratio that the value should be tweened by.

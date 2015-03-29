@@ -2,6 +2,7 @@
 #define Ancona_Engine_Loading_StdSerializer_H_
 
 #include <string>
+#include <vector>
 
 #include <Ancona/Engine/Loading/Archive.hpp>
 #include <Ancona/Engine/Loading/Serializer.hpp>
@@ -28,8 +29,30 @@ GENERATE_STDSERIALIZER(std::string, asString)
 GENERATE_STDSERIALIZER(const char*, asCString)
 GENERATE_STDSERIALIZER(Json::Value::UInt, asUInt)
 GENERATE_STDSERIALIZER(Json::Value::Int64, asInt64)
-GENERATE_STDSERIALIZER(Json::Value::UInt64, asUInt64)
-GENERATE_STDSERIALIZER(Json::Value::LargestInt, asLargestInt)
-GENERATE_STDSERIALIZER(Json::Value::LargestUInt, asLargestUInt)
+
+template <class T>
+struct Serializer<std::vector<T>>
+{
+    static void Serialize(std::vector<T> & property, Archive & arc)
+    {
+        if(arc.IsLoading())
+        {
+            for(int i = 0; i < arc.GetTopJson()->size(); i++)
+            {
+                property.emplace_back();
+                arc(property.back(), i);
+            }
+        } 
+        else
+        {
+            for(int i = 0; i < property.size(); i++)
+            {
+                arc(property[i], i);
+            }
+        }
+    }
+};
+
+}
 
 #endif
