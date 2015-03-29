@@ -23,19 +23,20 @@
         "physics": {
             "components": {
                 "ground": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
                     "actions": {
-                        "list": [
+                        "platform-position-actions": [
                             {
-                                "type": "platformer-position-action",
                                 "value": {
                                     "x": 100.0,
                                     "y": 500.0
                                 },
                                 "tween": 0,
                                 "duration": 0
-                            },
+                            }
+                        ],
+                        "platform-velocity-actions": [
                             {
-                                "type": "platformer-velocity-action",
                                 "value": {
                                     "x": 0,
                                     "y": 0.5
@@ -45,6 +46,16 @@
                             }
                         ],
                         "gravity": false
+                    },
+                    "info": {
+                        "position": {
+                            "x": 50.0,
+                            "y": 50.0,
+                        },
+                        "velocity": {
+                            "x": 0,
+                            "y": 0
+                        }
                     }
                 }
             }
@@ -66,9 +77,9 @@
                         {
                             "key": "player-shape-rect",
                             "drawable": {
-                                "type": "shape-drawable",
+                                "__cpp_type": "ild::ShapeDrawable",
                                 "shape": {
-                                    "type": "rectangle-shape",
+                                    "__cpp_type": "sf::RectangleShape",
                                     "width": 16.0,
                                     "height": 17.0
                                 },
@@ -83,7 +94,7 @@
                         {
                             "key": "player-walking",
                             "drawable": {
-                                "type": "animated-drawable",
+                                "__cpp_type": "ild::AnimatedDrawable",
                                 "texture-key": "player-walking",
                                 "render-priority": 0,
                                 "frame-dim": {
@@ -106,7 +117,7 @@
                         {
                             "key": "ground-sprite",
                             "drawable": {
-                                "type": "sprite-drawable",
+                                "__cpp_type": "ild::SpriteDrawable",
                                 "texture-key": "flappy-ground",
                                 "render-priority": 0,
                                 "priority-offset": -1,
