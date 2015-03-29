@@ -94,25 +94,3 @@ CameraComponent * CameraSystem::CreateComponent(
     AttachComponent(entity, comp);
     return comp;
 }
-
-void * CameraSystem::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
-{
-    CameraComponent * comp = CreateComponent(
-            entity,
-            loadingContext->GetSystems().GetScreenManager().Window.getView(),
-            object["renderPriority"].asInt(),
-            object["scale"].asFloat());
-    if(object["default"].asBool())
-    {
-        loadingContext->GetSystems().GetSystem<DrawableSystem>("drawable")->SetDefaultCamera(comp);
-    }
-    if(object["follows"].asString() != "")
-    {
-        comp->SetFollow(loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(
-                loadingContext->GetSystems().GetSystemManager().GetEntity(object["follows"].asString())));
-    }
-    return comp;
-}

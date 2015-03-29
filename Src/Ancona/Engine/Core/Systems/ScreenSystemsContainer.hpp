@@ -31,7 +31,9 @@ class ScreenSystemsContainer
          *
          * @param screenManager The screen manager for the game.
          */
-        ScreenSystemsContainer(ScreenManager & screenManager);
+        ScreenSystemsContainer(
+                ScreenManager & screenManager,
+                int profile = -1);
             
         /**
          * @brief Constructs a system for the screen. Registers it with the system map.
@@ -60,7 +62,7 @@ class ScreenSystemsContainer
          * @return Instance of the system.
          */
         template <typename T>
-        T * GetSystem(std::string systemName)
+        T * GetSystem(const std::string & systemName)
         {
             Assert(_systemMap.find(systemName) != _systemMap.end(), systemName + " does not exist, please construct it first.");
             return static_cast<T *>(_systemMap[systemName]);
@@ -69,6 +71,7 @@ class ScreenSystemsContainer
         /* getters and setters */
         SystemManager & GetSystemManager() { return *_systemManager; }
         ScreenManager & GetScreenManager() { return _screenManager; }
+        int GetProfile() { return _profile; }
     protected:
         /**
          * @brief Map used to store the system references. It is not recommended you use this to get the systems during gameplay, only for loading.
@@ -82,6 +85,10 @@ class ScreenSystemsContainer
          * @brief ScreenManager instance for the game.
          */
         ScreenManager & _screenManager;
+        /**
+         * @brief Profile used in this specific instance of the game.
+         */
+        int _profile;
 };
 
 }

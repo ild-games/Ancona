@@ -38,7 +38,7 @@ class MapLoader
         /**
          * @brief Create a loader to initialize the systems.
          *
-         * @param key Key that describes the screen file.
+         * @param key Key that describes the map the screen is currently on.
          * @param systems Instance of the system container for the screen being loaded.
          */
         MapLoader(std::string key, ScreenSystemsContainer & systems);
@@ -68,7 +68,7 @@ class MapLoader
         void LoadComponents();
 
         /**
-         * @brief Key that describes the map.
+         * @brief Key that describes the map the screen is currently on.
          */
         std::string _key;
         /**
@@ -82,11 +82,19 @@ class MapLoader
         /**
          * @brief Root of the map json being loaded.
          */
-        Json::Value _root;
+        Json::Value _mapRoot;
+        /**
+         * @brief Root of the save json for the file.
+         */
+        Json::Value _saveRoot;
         /**
          * @brief Loading context for the current load.
          */
         std::unique_ptr<LoadingContext> _loadingContext;
+        /**
+         * @brief Profile of the game session.
+         */
+        int _profile;
 };
 
 }

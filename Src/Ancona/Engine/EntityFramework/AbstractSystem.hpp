@@ -6,7 +6,8 @@
 
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Engine/Loading/AbstractInflater.hpp>
+#include <Ancona/Engine/Loading/Archive.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 namespace ild 
 {
@@ -59,22 +60,24 @@ class AbstractSystem
          * @param entity Entity that is being deleted
          */
         virtual void EntityIsDeleted(const Entity & entity) = 0;
-
+        
         /**
-         * @brief Inflate the system from the loaded json.
+         * @brief Default serialize for a system.
          */
-        virtual void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) = 0;
+        virtual void Serialize(Archive & arc) 
+        {
+            Assert(false, "No serializer implemented for this system.");
+        }
 
         /**
-         * @brief Create an Abstract Inflater that will create and register
-         * components for the system.
+         * @brief Used to collect the dependent components for the component made by this system.
+         *        This is called after the component is initialized, but can also be used whenever 
+         *        the location of its dependencies in memory may have changed.
          *
-         * @return A unique pointer to the inflater.
+         * @param entity Entity the component is associated with.
          */
-        virtual std::unique_ptr<AbstractInflater> GetInflater() = 0;
+        virtual void FetchComponentDependencies(const Entity & entity) = 0;
+
     protected:
         SystemManager & _systemManager;
 

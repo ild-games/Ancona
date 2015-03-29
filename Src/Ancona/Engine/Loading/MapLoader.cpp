@@ -1,7 +1,8 @@
 #include <Ancona/Engine/Config/Config.hpp>
-#include <Ancona/Engine/Loading/MapLoader.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 #include <Ancona/Engine/Resource/ResourceLibrary.hpp>
 #include <Ancona/Util/Assert.hpp>
+#include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
 
 using namespace ild;
 
@@ -10,7 +11,8 @@ MapLoader::MapLoader(
         ScreenSystemsContainer & systems) : 
     _key(key), 
     _request(new RequestList()),
-    _loadingContext(new LoadingContext(systems))
+    _loadingContext(new LoadingContext(systems)),
+    _profile(systems.GetProfile())
 {
 }
 
@@ -58,16 +60,16 @@ bool MapLoader::ContinueLoading()
 void MapLoader::LoadMapFile()
 {
     std::ifstream saveStream(Config::GetOption("SaveData"), std::ifstream::binary);
-    Json::Value saveRoot;
-    saveStream >> saveRoot;
-    auto map = saveRoot["screen-maps"][_key].asString();
+    saveStream >> _saveRoot;
+    _saveRoot = _saveRoot["profiles"][_profile];
+    auto map = _saveRoot["screen-maps"][_key].asString();
     Assert(map != "", "Cannot have a null map");
 
     std::ifstream mapStream("Maps/" + map + ".map", std::ifstream::binary);
     Assert(mapStream.is_open(), "Failed to load the map file.");
-    mapStream >> _root;
+    mapStream >> _mapRoot;
 
-    for(Json::Value & assetJson : _root["assets"])
+    for(Json::Value & assetJson : _mapRoot["assets"])
     {
         _request->Add(
                 assetJson["type"].asString(),
@@ -88,7 +90,7 @@ void MapLoader::LoadAssets()
 
 void MapLoader::LoadEntities()
 {
-    for(Json::Value & curEntity : _root["entities"])
+    for(Json::Value & curEntity : _mapRoot["entities"])
     {
         _loadingContext->GetSystems().GetSystemManager().CreateEntity(curEntity.asString());
     }
@@ -97,17 +99,14 @@ void MapLoader::LoadEntities()
 
 void MapLoader::LoadComponents()
 {
+    Archive arc(_mapRoot["systems"], *_loadingContext.get());
     for(auto systemNamePair : _loadingContext->GetSystems().GetSystemManager().GetKeyedSystems())
     {
-        for(Json::Value & componentJson : _root["components"][systemNamePair.first])
+        if (arc.HasProperty(systemNamePair.first))
         {
-            _loadingContext
-                ->GetInflaterMap()
-                .GetInflater(systemNamePair.first)
-                ->Inflate(
-                        componentJson,
-                        _loadingContext->GetSystems().GetSystemManager().GetEntity(componentJson["entity"].asString()),
-                        _loadingContext.get());
+            arc.EnterProperty(systemNamePair.first);
+            _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(arc);
+            arc.ExitProperty();
         }
     }
     _state = LoadingState::DoneLoading;

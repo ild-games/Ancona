@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include <Ancona/Engine/Loading/Loading.hpp>
+
 namespace ild
 {
 
@@ -29,6 +31,8 @@ class Position
 
         inline void SetPosition(const Point & position) { _position = position; }
         inline void SetVelocity(const Point & velocity) { _velocity = velocity; }
+
+        void Serialize(Archive & arc);
 
         /**
          * @brief Determine if the object is on the ground.  

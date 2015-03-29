@@ -1,4 +1,3 @@
-
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 
 
@@ -20,6 +19,12 @@ std::ostream & operator << (std::ostream&& os, const Point&pt)
 bool Position::IsOnGround() const
 {
     return _groundDirection != Point();
+}
+
+void Position::Serialize(Archive & arc)
+{
+    arc(_position, "position");
+    arc(_velocity, "velocity");
 }
 
 }

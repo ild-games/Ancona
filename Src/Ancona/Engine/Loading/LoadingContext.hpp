@@ -2,7 +2,6 @@
 #define Ancona_Engine_Loading_LoadingContext_H_
 
 #include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
-#include <Ancona/Engine/Loading/InflaterMap.hpp>
 
 namespace ild
 {
@@ -25,10 +24,8 @@ class LoadingContext
 
 
         /* getters and setters */
-        InflaterMap & GetInflaterMap() { return _inflaterMap; }
         ScreenSystemsContainer & GetSystems() { return _systems; }
     private:
-        InflaterMap _inflaterMap;
         ScreenSystemsContainer & _systems;
 
 };

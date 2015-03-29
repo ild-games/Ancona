@@ -139,14 +139,6 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
                 int renderPriority,
                 float scale = 1.0f);
 
-        /**
-         * @brief Inflate a camera component.
-         */
-        void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) override;
-
 };
 
 }

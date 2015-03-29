@@ -20,5 +20,5 @@ AnconaGame::AnconaGame(
 void AnconaGame::CreateInitialScreen()
 {
     _screenManager->Push(
-            new GameScreen(*_screenManager));
+            new GameScreen(*_screenManager, 0));
 }

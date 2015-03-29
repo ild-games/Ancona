@@ -1,16 +1,33 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
+//TODO remove iostream
+#include <iostream>
+
 using namespace ild;
 
-PlatformPhysicsComponent::PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem) 
-    : _actions(physicsSystem)
+PlatformPhysicsComponent::PlatformPhysicsComponent(
+        Point location, 
+        PlatformPhysicsSystem * physicsSystem) :
+    _actions(physicsSystem),
+    _system(physicsSystem)
 {
     _position.SetPosition(location);
+}
+
+void PlatformPhysicsComponent::Serialize(Archive & archive)
+{
+    archive.system(_system,"physics");
+    archive(_actions, "Actions");
 }
 
 void PlatformPhysicsComponent::Update(float delta)
 {
     _actions.Apply(_position, delta);
+}
+
+void PlatformPhysicsComponent::FetchDependencies()
+{
+    _actions.SetPhysics(_system);
 }
 
 PlatformPhysicsSystem::PlatformPhysicsSystem(
@@ -41,29 +58,46 @@ PlatformPhysicsComponent * PlatformPhysicsSystem::at (const Entity & entity)
 
 PlatformPhysicsComponent * PlatformPhysicsSystem::CreateComponent(const Entity & entity, Point location)
 {
-    PlatformPhysicsComponent * component = new PlatformPhysicsComponent(location, *this);
+    PlatformPhysicsComponent * component = new PlatformPhysicsComponent(location, this);
     
     AttachComponent(entity, component);
 
     return component;
 }
 
-void * PlatformPhysicsSystem::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
+namespace ild {
+template <>
+struct Serializer<decltype(PlatformPhysicsSystem::_components)>
 {
-    PlatformPhysicsComponent * position = loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->CreateComponent(entity);
-    for(Json::Value actionsJson : object["actions"]["list"])
+    static void Serialize(std::unordered_map<Entity, BasePhysicsComponent *> & property, Archive & arc) 
     {
-        loadingContext->GetInflaterMap().GetInflater(actionsJson["type"].asString())->Inflate(
-                actionsJson,
-                entity,
-                loadingContext);
+        if (arc.IsLoading())
+        {
+            PlatformPhysicsSystem * system;
+
+            arc.system(system,"physics");
+
+            for(auto entityKey : arc.GetTopJson()->getMemberNames())
+            {
+                PlatformPhysicsComponent * value = new PlatformPhysicsComponent();
+                arc(*value, entityKey);
+                auto entity = arc.GetEntity(entityKey);
+                property[entity] = value;
+            }
+        }
     }
-    if(object["actions"]["gravity"].asBool()) 
+};
+}
+
+void PlatformPhysicsSystem::Serialize(Archive & arc)
+{
+    arc(_components, "Components");
+
+    if(arc.IsLoading())
     {
-        position->GetActions().SetAffectedByGravity(true);
-    }
-    return position;
+        for(EntityComponentPair comp : _components) 
+        {
+            AttachComponent(comp.first, comp.second);
+        }
+    } 
 }

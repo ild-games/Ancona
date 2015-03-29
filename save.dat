@@ -1,6 +1,32 @@
 {
-    "screen-maps": {
-        "game": "Map1",
-        "jumpy-game": "JumpyMap"
-    }
+    "profiles": [
+        {
+            "name": "Tucker",
+            "screen-maps": {
+                "game": "Map1",
+                "jumpy-game": "JumpyMap"
+            },
+            "components": {
+                "physics": [
+                    {
+                        "entity": "player",
+                        "actions": {
+                            "list": [
+                                {
+                                    "type": "platformer-position-action",
+                                    "value": {
+                                        "x": 50.0,
+                                        "y": 200.0
+                                    },
+                                    "tween": 0,
+                                    "duration": 0
+                                }
+                            ],
+                            "gravity": true
+                        }
+                    }
+                ]
+            }
+        }
+    ]
 }

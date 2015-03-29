@@ -12,6 +12,8 @@
 namespace ild
 {
 
+class PlatformPhysicsSystem;
+
 /**
  * @brief Component for the PlatformPhysicsSystem
  * @author Jeff Swenson
@@ -25,7 +27,14 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
          * @param location Location to initialize the component at.
          * @param physicsSystem Physics system that the component belongs to.
          */
-        PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem);
+        PlatformPhysicsComponent(
+                Point location, 
+                PlatformPhysicsSystem * physicsSystem);
+
+        /**
+         * @brief Default constructor that should only be used for serialization.
+         */
+        PlatformPhysicsComponent() { }
 
         /**
          * @brief Update the component.  This will apply any active actions to the physical state.
@@ -34,9 +43,17 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
          */
         void Update(float delta);
 
+        /**
+         * @copydoc ild::BasePhysicsComponent::FetchDependencies
+         */
+        void FetchDependencies();
+
+        void Serialize(Archive & arc);
+
         inline Actions & GetActions() { return _actions; }
     private:
         Actions _actions;
+        PlatformPhysicsSystem * _system;
 };
 
 /**
@@ -92,13 +109,11 @@ class PlatformPhysicsSystem : public BasePhysicsSystem
         PlatformPhysicsComponent * at(const Entity & entity);
 
         /**
-         * @brief Inflate a PlatformPhysicsComponent
+         * @brief Serializes a platform physics component.
+         *
+         * @param arc Archive instance for this serialization.
          */
-        void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) override; 
-
+        void Serialize(Archive & arc) override;
     private:
         /**
          * @brief A vector describing the direction and magnitude of gravity.
