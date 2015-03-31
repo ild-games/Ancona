@@ -86,6 +86,13 @@ struct Serializer<sf::Shape>
         //no-op
     }
 };
+
+template <>
+struct Serializer<sf::RectangleShape>
+{
+    static void Serialize(sf::RectangleShape & shape, Archive & arc);
+};
+
 }
 
 GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(sf::Shape)
