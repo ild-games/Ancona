@@ -63,61 +63,52 @@
         "drawable": {
             "components": {
                 "player": {
-                    "drawables": [
-                        {
-                            "key": "player-shape-rect",
-                            "drawable": {
-                                "__cpp_type": "ild::ShapeDrawable",
-                                "shape": {
-                                    "__cpp_type": "sf::RectangleShape",
-                                    "width": 16.0,
-                                    "height": 17.0
-                                },
-                                "render-priority": 0,
-                                "priority-offset": -2,
-                                "position-offset": {
-                                    "x": 0,
-                                    "y": 0
-                                }
+                    "drawables": {
+                        "player-shape-rect" : {
+                            "__cpp_type" : "ild::ShapeDrawable",
+                             "shape" : {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 16.0,
+                                "height": 17.0
+                             },
+                            "render-priority": 0,
+                            "priority-offset": -2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
                             }
                         },
-                        {
-                            "key": "player-walking",
-                            "drawable": {
-                                "__cpp_type": "ild::AnimatedDrawable",
-                                "texture-key": "player-walking",
-                                "render-priority": 0,
-                                "frame-dim": {
-                                    "width": 16.0,
-                                    "height": 17.0
-                                },
-                                "num-frames": 6,
-                                "duration": 0.1,
-                                "priority-offset": -1,
-                                "position-offset": {
-                                    "x": 0,
-                                    "y": 0
-                                }
+                        "player-walking" : {
+                            "__cpp_type": "ild::AnimatedDrawable",
+                            "texture-key": "player-walking",
+                            "render-priority": 0,
+                            "frame-dim": {
+                                "width": 16.0,
+                                "height": 17.0
+                            },
+                            "num-frames": 6,
+                            "duration": 0.1,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
                             }
                         }
-                    ]
+                    }
                 },
                 "ground": {
-                    "drawables": [
-                        {
-                            "key": "ground-sprite",
-                            "drawable": {
-                                "__cpp_type": "ild::SpriteDrawable",
-                                "texture-key": "flappy-ground",
-                                "render-priority": 0,
-                                "priority-offset": -1,
-                                "position-offset": {
-                                    "x": 0,
-                                    "y": 0
-                                }
+                    "drawables": {
+                        "ground-sprite" : {
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "texture-key": "flappy-ground",
+                            "render-priority": 0,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
                             }
                         }
-                    ]
+                    }
                 }
             }
         }
