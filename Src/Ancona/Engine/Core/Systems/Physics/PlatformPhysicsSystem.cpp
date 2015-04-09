@@ -24,6 +24,7 @@ void PlatformPhysicsComponent::Serialize(Archive & archive)
 
 void PlatformPhysicsComponent::Update(float delta)
 {
+    std::cout << GetInfo().GetPosition().x << " " << GetInfo().GetPosition().y << std::endl;
     _actions.Apply(_position, delta);
 }
 

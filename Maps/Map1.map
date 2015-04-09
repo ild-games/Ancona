@@ -65,6 +65,7 @@
                 "player": {
                     "drawables": {
                         "player-shape-rect" : {
+                            "key": "player-shape-rect",
                             "__cpp_type" : "ild::ShapeDrawable",
                              "shape" : {
                                 "__cpp_type": "sf::RectangleShape",
@@ -79,6 +80,7 @@
                             }
                         },
                         "player-walking" : {
+                            "key": "player-walking",
                             "__cpp_type": "ild::AnimatedDrawable",
                             "texture-key": "player-walking",
                             "render-priority": 0,
@@ -99,6 +101,7 @@
                 "ground": {
                     "drawables": {
                         "ground-sprite" : {
+                            "key": "ground-sprite",
                             "__cpp_type": "ild::SpriteDrawable",
                             "texture-key": "flappy-ground",
                             "render-priority": 0,

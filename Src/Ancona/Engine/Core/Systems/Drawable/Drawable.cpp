@@ -1,4 +1,5 @@
 #include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER_ABSTRACT_BASE(ild::Drawable);
 
@@ -17,15 +18,21 @@ Drawable::Drawable(
 
 }
 
-void Drawable::Serialize(Archive &archive) {
-    archive.system(_physicsSystem, "physics");
-    archive(_renderPriority,"render-priority");
-    archive(_priorityOffset,"priority-offset");
-    archive(_rotation,"rotation");
-    archive(_positionOffset,"position-offset");
+void Drawable::Serialize(Archive &arc)
+{
+    arc.system(_physicsSystem, "physics");
+    arc.system(_drawableSystem, "drawable");
+    arc(_renderPriority,"render-priority");
+    arc(_priorityOffset,"priority-offset");
+    arc(_rotation,"rotation");
+    arc(_positionOffset,"position-offset");
+    arc(_key, "key");
 }
 
-void Drawable::FetchDependencies(const Entity & entity) {
+void Drawable::FetchDependencies(const Entity & entity)
+{
     _physicsComponent = _physicsSystem->at(entity);
+    _drawableComponent = _drawableSystem->at(entity);
+    _drawableComponent->AddDrawable(_key, this);
 }
 

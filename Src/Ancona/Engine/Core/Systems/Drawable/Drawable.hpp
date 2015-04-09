@@ -33,6 +33,9 @@ namespace RenderPriority
  */
 typedef RenderPriority::RenderPriority RenderPriorityEnum;
 
+class DrawableSystem;
+class DrawableComponent;
+
 /**
  * @brief Defines a drawable element used in the DrawableSystem
  *
@@ -80,10 +83,12 @@ class Drawable
 
     protected:
         BasePhysicsSystem * _physicsSystem;
+        DrawableSystem * _drawableSystem;
         /**
          * @brief Component that defines the entities position.
          */
         BasePhysicsComponent * _physicsComponent;
+        DrawableComponent * _drawableComponent;
         /**
          * @brief Offset coordinate for this drawable element.
          */
@@ -100,6 +105,7 @@ class Drawable
          * @brief Amount to rotate the drawable element. 
          */
         float _rotation = 0;
+        std::string _key;
 };
 
 }

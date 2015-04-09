@@ -42,7 +42,7 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
 
 void DrawableComponent::Serialize(Archive & arc)
 {
-    arc.entity(_camEntity, "camEntity");  
+    arc.entityUsingJsonKey(_camEntity, "camEntity");
     arc.system(_cameraSystem, "camera");
     arc.system(_drawableSystem, "drawable");
     arc(_drawables, "drawables");

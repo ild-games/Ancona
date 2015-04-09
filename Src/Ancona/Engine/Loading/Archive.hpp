@@ -108,11 +108,11 @@ class Archive
             }
         }
 
-        void entity(Entity & entity, const std::string & entityStr)
+        void entityUsingJsonKey(Entity & entity, const std::string & entityJsonKey)
         {
             if(_loading)
             {
-                entity = _context.GetSystems().GetSystemManager().GetEntity(entityStr);
+                entity = GetEntity(CurrentBranch()[entityJsonKey].asString());
             }
             //TODO saving
         }

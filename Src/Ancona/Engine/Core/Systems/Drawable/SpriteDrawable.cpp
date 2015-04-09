@@ -54,7 +54,7 @@ void SpriteDrawable::SetAlpha(int alpha)
 }
 
 void SpriteDrawable::FetchDependencies(const Entity &entity) {
-   FetchDependencies(entity);
+    Drawable::FetchDependencies(entity);
     sf::Texture & texture = *ResourceLibrary::Get<sf::Texture>(_textureKey);
     _sprite = new sf::Sprite(texture);
     _sprite->setOrigin(

@@ -71,3 +71,23 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
         }
     }
 }
+
+void DrawableSystem::Serialize(Archive & arc)
+{
+    if (arc.IsLoading())
+    {
+        arc.EnterProperty("components");
+        for(auto entityKey : arc.GetTopJson()->getMemberNames())
+        {
+            DrawableComponent * value;
+            arc(value, entityKey);
+            auto entity = arc.GetEntity(entityKey);
+            AttachComponent(entity, value);
+        }
+        arc.ExitProperty();
+    }
+    else
+    {
+        //TODO Implement saving of unordered systems
+    }
+}

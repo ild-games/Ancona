@@ -76,8 +76,19 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
                 const Entity & entity,
                 CameraComponent * camera);
 
+
+        void Serialize(Archive & arc) override;
+
         /* gettes and setters */
-        void SetDefaultCamera(CameraComponent * defaultCamera) { _defaultCamera = defaultCamera; }
+        void SetDefaultCamera(CameraComponent * defaultCamera)
+        {
+            if(_defaultCamera != nullptr)
+            {
+                RemoveCamera(_defaultCamera);
+            }
+            _defaultCamera = defaultCamera;
+            AddCamera(defaultCamera);
+        }
         CameraComponent * GetDefaultCamera() { return _defaultCamera; }
 
 

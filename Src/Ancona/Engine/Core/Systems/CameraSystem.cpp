@@ -73,7 +73,7 @@ void CameraComponent::Serialize(Archive & arc)
     arc(_renderPriority, "renderPriority");  
     arc(_scale, "scale");  
     arc(_default, "default");  
-    arc.entity(_follows, "follows");  
+    arc.entityUsingJsonKey(_follows, "follows");
     arc.system(_physicsSystem, "physics");
     arc.system(_drawableSystem, "drawable");
 }
