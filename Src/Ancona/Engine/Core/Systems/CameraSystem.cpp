@@ -15,7 +15,7 @@ CameraComponent::CameraComponent(
     _renderPriority(renderPriority),
     _scale(scale)
 {
-    _view.zoom(scale);
+
 }
 
 void CameraComponent::Update(float delta)
@@ -114,4 +114,8 @@ CameraComponent * CameraSystem::CreateComponent(
             scale);
     AttachComponent(entity, comp);
     return comp;
+}
+
+void CameraComponent::OnAttach(const Entity &entity) {
+    _view.zoom(_scale);
 }

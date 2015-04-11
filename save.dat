@@ -12,7 +12,6 @@
                         "player": {
                             "__cpp_type": "ild::PlatformPhysicsComponent",
                             "actions": {
-                                "actions": {
                                     "platform-position-actions": [
                                         {
                                             "value": {
@@ -24,11 +23,16 @@
                                         }
                                     ],
                                     "gravity": true
-                                }
                             }
                         }
                     }
                 }
+            }
+        },
+        {
+            "name" : "JumpyDuck",
+            "screen-maps" : {
+                "jumpy-game" : "JumpyMap"
             }
         }
     ]

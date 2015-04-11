@@ -14,6 +14,7 @@ MapLoader::MapLoader(
     _loadingContext(new LoadingContext(systems)),
     _profile(systems.GetProfile())
 {
+    Assert(_profile != -1, "A profile must be specified for the map");
 }
 
 float MapLoader::PercentLoaded()

@@ -12,13 +12,18 @@ using namespace ild;
 
 void Serializer<sf::RectangleShape>::Serialize(sf::RectangleShape & shape, Archive & arc){
     sf::Vector2f dim;
+    sf::Color color;
     if (!arc.IsLoading()) {
         dim = shape.getSize();
+        color = shape.getFillColor();
     }
     arc(dim.x, "width");
     arc(dim.y, "height");
+    arc(color, "fill-color");
+
     if (arc.IsLoading())
     {
         shape.setSize(dim);
+        shape.setFillColor(color);
     }
 }

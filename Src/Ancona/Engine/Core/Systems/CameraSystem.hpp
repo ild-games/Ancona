@@ -77,6 +77,11 @@ class CameraComponent
          */
         void FetchDependencies(const Entity & entity);
 
+        /**
+         * @copydoc ild::BasePhysicsComponent::OnAttach
+         */
+        void OnAttach(const Entity & entity);
+
         void Serialize(Archive & arc);
 
         /* getters and setters */

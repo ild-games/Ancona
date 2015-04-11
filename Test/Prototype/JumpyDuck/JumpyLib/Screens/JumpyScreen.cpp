@@ -13,16 +13,10 @@ JumpyScreen::JumpyScreen(ScreenManager & manager) :
 
 void JumpyScreen::Init()
 {
-    defaultCam = _systems->GetSystemManager().CreateEntity();
-    CameraComponent * cam = _systems->GetCamera().CreateComponent(
-            defaultCam, 
-            _screenManager.Window.getView(),
-            0);
-    _systems->GetDrawable().SetDefaultCamera(cam);
-    player = JumpyPlayer::Create(_systems.get());
-    JumpyEnvironment::CreateSolidBody(_systems.get());
-    JumpyEnvironment::CreateEnvironmentBody(_systems.get());
-    JumpyEnvironment::CreateEnvironmentBody(_systems.get(),Point(200,100));
+    //player = JumpyPlayer::Create(_systems.get());
+    //JumpyEnvironment::CreateSolidBody(_systems.get());
+    //JumpyEnvironment::CreateEnvironmentBody(_systems.get());
+    //JumpyEnvironment::CreateEnvironmentBody(_systems.get(),Point(200,100));
 }
 
 void JumpyScreen::Update(float delta)

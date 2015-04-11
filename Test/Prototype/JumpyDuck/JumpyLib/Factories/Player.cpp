@@ -16,6 +16,7 @@ Entity JumpyPlayer::Create(JumpyGameSystems *gameSystems)
     auto drawable = new SpriteDrawable(&gameSystems->GetPhysics(),"flappy",0,0,Point());
     auto drawableComponent = gameSystems->GetDrawable().CreateComponent(entity);
     drawableComponent->AddDrawable("sprite", drawable);
+    drawableComponent->FetchDependencies(entity);
 
     auto size = drawable->GetSize();
     gameSystems

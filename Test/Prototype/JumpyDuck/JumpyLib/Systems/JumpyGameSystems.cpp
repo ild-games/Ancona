@@ -3,9 +3,9 @@
 using namespace ild;
 
 JumpyGameSystems::JumpyGameSystems(ScreenManager & screenManager) :
-    ScreenSystemsContainer(screenManager)
+    ScreenSystemsContainer(screenManager, 1)
 {
-    _physics = new PlatformPhysicsSystem("physics", *_systemManager);
+    _physics = ConstructSystem<PlatformPhysicsSystem>("physics", *_systemManager);
     _input = new InputControlSystem(*_systemManager);
     _camera = ConstructSystem<CameraSystem>("camera", *_systemManager);
     _drawable = ConstructSystem<DrawableSystem>("drawable", screenManager.Window, *_systemManager);

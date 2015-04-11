@@ -28,8 +28,8 @@
                         "platform-position-actions": [
                             {
                                 "value": {
-                                    "x": 100.0,
-                                    "y": 500.0
+                                    "x": 200.0,
+                                    "y": 100.0
                                 },
                                 "tween": 0,
                                 "duration": 0
@@ -39,10 +39,10 @@
                             {
                                 "value": {
                                     "x": 0,
-                                    "y": 0.5
+                                    "y": 0
                                 },
                                 "tween": 0,
-                                "duration": 1
+                                "duration": 10
                             }
                         ],
                         "gravity": false
@@ -54,7 +54,7 @@
             "components": {
                 "screen-cam": {
                     "renderPriority": 0,
-                    "scale": 1.0,
+                    "scale": 0,
                     "default": true,
                     "follows": "player"
                 }

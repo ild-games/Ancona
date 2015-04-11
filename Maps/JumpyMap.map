@@ -19,7 +19,121 @@
         }
     ],
     "entities": [
+        "ground1",
+        "ground2",
+        "player",
+        "hover-solid-body",
+        "screen-cam"
     ],
-    "components": {
+    "systems": {
+        "physics" : {
+            "components": {
+                "ground1" : {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions" : {
+                            "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                            ]
+                    }
+                },
+                "ground2" : {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions" : {
+                            "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 200.0,
+                                    "y": 100.0
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                            ]
+                    }
+                },
+                "player" : {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions" : {
+                    "platform-position-actions": [
+                        {
+                            "value": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "tween": 0,
+                            "duration": 0
+                        }
+                        ]
+                    }
+                }
+            }
+        },
+        "camera": {
+            "components": {
+                "screen-cam": {
+                    "renderPriority": 0,
+                    "scale": 0.0,
+                    "default": true,
+                    "follows": "player"
+                }
+            }
+        },
+        "drawable": {
+            "components" : {
+                "ground1" : {
+                    "drawables": {
+                        "ground-rect" : {
+                            "key": "player-shape-rect",
+                            "__cpp_type" : "ild::ShapeDrawable",
+                            "shape" : {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 250.0,
+                                "height": 10.0,
+                                "fill-color" : {
+                                    "r" : 255,
+                                    "a" : 255
+                                }
+                            },
+                            "render-priority": 0,
+                            "priority-offset": -2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "ground2" : {
+                    "drawables": {
+                        "ground-rect" : {
+                            "key": "player-shape-rect",
+                            "__cpp_type" : "ild::ShapeDrawable",
+                            "shape" : {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 250.0,
+                                "height": 10.0,
+                                "fill-color" : {
+                                    "r" : 255,
+                                    "a" : 255
+                                }
+                            },
+                            "render-priority": 0,
+                            "priority-offset": -2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
