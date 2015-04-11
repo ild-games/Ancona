@@ -221,7 +221,7 @@ class UnorderedSystem : public AbstractSystem
          * @param entity Component that should be attached to the entity
          * @param component Entity to attach the component to
          */
-        void AttachComponent(const Entity & entity, ComponentType * component)
+        virtual void AttachComponent(const Entity & entity, ComponentType * component)
         {
             Assert(component != NULL, "Can not attach a null component");
             Assert(_components.find(entity) == _components.end(),

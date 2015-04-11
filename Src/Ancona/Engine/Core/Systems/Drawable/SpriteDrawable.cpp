@@ -46,11 +46,9 @@ int SpriteDrawable::GetAlpha()
 
 void SpriteDrawable::SetAlpha(int alpha)
 {
-    sf::Color * col = 
-        new sf::Color(_sprite->getColor());
-    col->a = alpha;
-    _sprite->setColor(*col);
-    delete col;
+    sf::Color col(_sprite->getColor());
+    col.a = alpha;
+    _sprite->setColor(col);
 }
 
 void SpriteDrawable::FetchDependencies(const Entity &entity) {

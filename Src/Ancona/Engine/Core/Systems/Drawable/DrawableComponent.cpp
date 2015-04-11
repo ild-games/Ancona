@@ -14,7 +14,11 @@ void DrawableComponent::AddDrawable(
         const std::string key,
         Drawable * drawable)
 {
-    _drawables[key] = std::unique_ptr<Drawable>(drawable);
+    auto keyDrawablePair = _drawables.find(key);
+    if (keyDrawablePair == _drawables.end() || keyDrawablePair->second.get() != drawable)
+    {
+        _drawables[key] = std::unique_ptr<Drawable>(drawable);
+    }
     _camera->AddDrawable(drawable);
 }
 

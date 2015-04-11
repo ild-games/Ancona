@@ -1,8 +1,7 @@
 #ifndef Ancona_Engine_Core_Systems_DrawableSystem_H_
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
-#include <vector>
-
+#include <vector> 
 #include <SFML/Window.hpp>
 
 #include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
@@ -76,9 +75,6 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
                 const Entity & entity,
                 CameraComponent * camera);
 
-
-        void Serialize(Archive & arc) override;
-
         /* gettes and setters */
         void SetDefaultCamera(CameraComponent * defaultCamera)
         {
@@ -90,8 +86,6 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
             AddCamera(defaultCamera);
         }
         CameraComponent * GetDefaultCamera() { return _defaultCamera; }
-
-
     protected:
         /**
          * @see ild::SystemManager::OnComponentRemove(Entity, ComponentType*)
