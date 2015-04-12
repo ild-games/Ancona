@@ -1,7 +1,5 @@
 #include <Ancona/Engine/Config/Config.hpp>
 #include <Ancona/Engine/Loading/Loading.hpp>
-#include <Ancona/Engine/Resource/ResourceLibrary.hpp>
-#include <Ancona/Util/Assert.hpp>
 #include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
 
 using namespace ild;
@@ -117,5 +115,6 @@ void MapLoader::LoadComponents()
            saveArc.ExitProperty();
        }
     }
+    _loadingContext->GetSystems().GetSystemManager().FetchWaitingDependencies();
     _state = LoadingState::DoneLoading;
 }

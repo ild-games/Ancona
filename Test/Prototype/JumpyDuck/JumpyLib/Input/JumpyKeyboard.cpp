@@ -77,7 +77,7 @@ void JumpyInputComponent::GoDirection(int direction)
 
         action->RelativeToGround(_isOnGround);
         lastDir = NO_DIR;
-    } 
+    }
 
     Move(direction);
 }
@@ -93,11 +93,11 @@ void JumpyInputComponent::Move(int direction)
 
             action->ResetAge();
             action->Value(directions[direction] * speed);
-        } 
+        }
         else
         {
             action->Value(Point());
         }
         lastDir = direction;
-    } 
+    }
 }

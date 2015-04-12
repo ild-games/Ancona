@@ -31,7 +31,7 @@ class Box3
          */
         sf::Vector3f Position;
         /**
-         * @brief Dimmension of the box: Length X Width X Height
+         * @brief Dimension of the box: Length X Width X Height
          */
         sf::Vector3f Dimmension;
         /**

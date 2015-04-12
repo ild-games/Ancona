@@ -54,7 +54,7 @@
             "components": {
                 "screen-cam": {
                     "renderPriority": 0,
-                    "scale": 0,
+                    "scale": 1.0,
                     "default": true,
                     "follows": "player"
                 }

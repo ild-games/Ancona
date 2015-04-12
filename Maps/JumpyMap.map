@@ -65,12 +65,13 @@
                         {
                             "value": {
                                 "x": 0.0,
-                                "y": 0.0
+                                "y": -20.0
                             },
                             "tween": 0,
                             "duration": 0
                         }
-                        ]
+                        ],
+                    "affected-by-gravity" : true
                     }
                 }
             }
@@ -79,9 +80,43 @@
             "components": {
                 "screen-cam": {
                     "renderPriority": 0,
-                    "scale": 0.0,
+                    "scale": 1.0,
                     "default": true,
                     "follows": "player"
+                }
+            }
+        },
+        "collision" : {
+            "components" : {
+                "ground1" : {
+                    "body-type" : "environment",
+                    "collision-type" : "null-type",
+                    "dimension" : {
+                        "dimension" : {
+                            "x" : 250.0,
+                            "y" : 10.0
+                        }
+                    }
+                },
+                "ground2" : {
+                    "body-type" : "environment",
+                    "collision-type" : "null-type",
+                    "dimension" : {
+                        "dimension" : {
+                            "x" : 250.0,
+                            "y" : 10.0
+                        }
+                    }
+                },
+                "player" : {
+                    "body-type" : "solid",
+                    "collision-type" : "null-type",
+                    "dimension" : {
+                        "dimension" : {
+                            "x" : 15.0,
+                            "y" : 15.0
+                        }
+                    }
                 }
             }
         },
@@ -124,6 +159,29 @@
                                     "a" : 255
                                 }
                             },
+                            "render-priority": 0,
+                            "priority-offset": -2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "player": {
+                    "drawables": {
+                        "player-shape-rect" : {
+                            "key": "player-shape-rect",
+                            "__cpp_type" : "ild::ShapeDrawable",
+                             "shape" : {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 15.0,
+                                "height": 15.0,
+                                "fill-color" : {
+                                    "r" : 255,
+                                    "a" : 255
+                                }
+                             },
                             "render-priority": 0,
                             "priority-offset": -2,
                             "position-offset": {

@@ -11,7 +11,7 @@ Box2::Box2(const sf::Vector2f & position,
         const float & rotation)
 {
     Position = position;
-    Dimmension = dimmension;
+    Dimension = dimmension;
     Rotation = rotation;
 }
 
@@ -28,8 +28,8 @@ void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
     float sinV = sin(Rotation);
     float cosV = cos(Rotation);
 
-    float xSize = Dimmension.x / 2;
-    float ySize = Dimmension.y / 2;
+    float xSize = Dimension.x / 2;
+    float ySize = Dimension.y / 2;
 
     float xOffset = Position.x;
     float yOffset = Position.y;

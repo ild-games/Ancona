@@ -117,8 +117,15 @@ class SystemManager
          */
         void UnregisterComponent(Entity entity, AbstractSystem * owningSystem);
 
+        /**
+         * @brief Called when all components should fetch their dependencies.
+         */
+        void FetchWaitingDependencies();
+
         /* getters and setters */
         std::vector<std::pair<std::string, AbstractSystem *>> GetKeyedSystems() { return _keyedSystems; }
+
+
 
     private:
         /**
@@ -166,7 +173,7 @@ class SystemManager
          */
         bool ContainsName(std::string & systemName);
 
-        void FetchWaitingDependencies();
+
 };
 
 }

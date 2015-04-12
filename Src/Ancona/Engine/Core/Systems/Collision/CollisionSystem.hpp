@@ -26,10 +26,11 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         /**
          * @brief Construct a collision system and register it with the manager.
          *
+         * @param name The systems name used for loading.
          * @param manager Manager that the system belongs to.
          * @param positions System that defines the position of an entity.
          */
-        CollisionSystem(SystemManager & manager, BasePhysicsSystem & positions);
+        CollisionSystem(const std::string & name, SystemManager & manager, BasePhysicsSystem & positions);
 
         /**
          * @brief Update the position for all components based off of their velocity
@@ -42,7 +43,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          * @brief Create and attach a collision component for the entity.
          *
          * @param entity Entity that the component is attached to.
-         * @param dim Dimmension for the entity to be used for collision.
+         * @param dim Dimension for the entity to be used for collision.
          * @param type The collision type of the entity.
          * @param bodyType The body type of the entity.  Determines how collision fixing
          *  is handled for it. Defaults to BodyType::None.
@@ -57,9 +58,16 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         /**
          * @brief Create a Type that can be assigned to a component.
          *
+         * @param Key describing the collision type.
+         *
          * @return A unique Collision Type.
          */
-        CollisionType CreateType();
+        CollisionType CreateType(const std::string & key);
+
+        /**
+         * @brief Get the collision type associated with the key.
+         */
+        CollisionType GetType(const std::string & key);
 
         /**
          * @brief Set a handler for collisions between the two types.
@@ -77,6 +85,9 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          * @param value Max slope degrees that an entity can be on the ground for.
          */
         void SetMaxSlope(float value) { _maxSlope = value; }
+
+        /* Getters and Setters */
+        BasePhysicsSystem & GetPhysics() { return _positions; }
     private:
         void UpdateGravityBounds();
         void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
@@ -85,6 +96,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         int _nextType;
         std::vector< std::vector<CollisionCallback> > _callbackTable;
         BasePhysicsSystem & _positions;
+        std::unordered_map<std::string,CollisionType> _collisionTypes;
 
         Point _leftGravityBound;
         Point _rightGravityBound;

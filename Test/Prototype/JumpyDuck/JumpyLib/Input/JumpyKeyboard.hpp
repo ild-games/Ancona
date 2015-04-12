@@ -13,7 +13,6 @@ namespace ild
 
 class JumpyInputComponent;
 
-
 class JumpyKeyboard : public InputHandler
 {
     public:

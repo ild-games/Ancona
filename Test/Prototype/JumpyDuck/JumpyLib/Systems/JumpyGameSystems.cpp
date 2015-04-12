@@ -10,8 +10,8 @@ JumpyGameSystems::JumpyGameSystems(ScreenManager & screenManager) :
     _camera = ConstructSystem<CameraSystem>("camera", *_systemManager);
     _drawable = ConstructSystem<DrawableSystem>("drawable", screenManager.Window, *_systemManager);
 
-    _collision = new CollisionSystem(*_systemManager,*_physics);
+    _collision = ConstructSystem<CollisionSystem>("collision", *_systemManager,*_physics);
 
-    _collision->CreateType();
+    _collision->CreateType("null-type");
     _physics->SetGravity(Point(0,200));
 }

@@ -82,7 +82,7 @@ class UnorderedSystem : public AbstractSystem
         /**
          * @brief Implementation for AbstractSystem method
          */
-        void Update(float delta) = 0;
+        virtual void Update(float delta) = 0;
 
         /**
          * @brief Implementation for AbstractSystem method

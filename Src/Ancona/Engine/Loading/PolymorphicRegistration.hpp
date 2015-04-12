@@ -20,7 +20,6 @@
 namespace ild
 {
 
-
 template <class T>
 class PolymorphicSerializerImpl : public PolymorphicSerializer
 {
@@ -97,7 +96,6 @@ namespace PolymorphicRegistration
         );
         return name;
     }
-
 }
 
 

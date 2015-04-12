@@ -8,5 +8,6 @@
 #include "Ancona/Engine/Loading/Serializer.hpp"
 #include "Ancona/Engine/Loading/SFMLSerializer.hpp"
 #include "Ancona/Engine/Loading/StdSerializer.hpp"
+#include "Ancona/Engine/Loading/UtilSerializer.hpp"
 
 #endif

@@ -9,8 +9,8 @@ GameScreen::GameScreen(
 {
     _gameSystems = std::unique_ptr<GameScreenSystems>(
             new GameScreenSystems(manager, profile));
-    _collisionTypes["player"] = _gameSystems->GetCollision().CreateType();
-    _collisionTypes["ground"] = _gameSystems->GetCollision().CreateType();
+    _collisionTypes["player"] = _gameSystems->GetCollision().CreateType("player");
+    _collisionTypes["ground"] = _gameSystems->GetCollision().CreateType("ground");
 }
 
 void GameScreen::Init()

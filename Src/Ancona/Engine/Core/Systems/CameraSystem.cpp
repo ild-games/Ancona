@@ -62,6 +62,7 @@ void CameraComponent::RemoveDrawable(Drawable * drawable)
 void CameraComponent::FetchDependencies(const Entity & entity)
 {
     _followPhysics = (*_physicsSystem)[_follows];
+    _view.zoom(_scale);
     if(_default)
     {
         _drawableSystem->SetDefaultCamera(this);
@@ -114,8 +115,4 @@ CameraComponent * CameraSystem::CreateComponent(
             scale);
     AttachComponent(entity, comp);
     return comp;
-}
-
-void CameraComponent::OnAttach(const Entity &entity) {
-    _view.zoom(_scale);
 }
