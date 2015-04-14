@@ -76,12 +76,12 @@ class Drawable
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
          */
-        void FetchDependencies(const Entity & entity);
+        virtual void FetchDependencies(const Entity & entity);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
-        void Serialize(Archive & arc);
+        virtual void Serialize(Archive & arc);
 
         /* getters and setters */
         int GetRenderPriority() { return _renderPriority + _priorityOffset; }
