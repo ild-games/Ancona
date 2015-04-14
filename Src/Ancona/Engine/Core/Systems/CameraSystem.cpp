@@ -1,6 +1,7 @@
 #include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 
 using namespace ild;
 
@@ -43,14 +44,17 @@ void CameraComponent::MoveCamera()
 
 void CameraComponent::AddDrawable(Drawable * drawable)
 {
-    _renderQueue.push_back(drawable);
-    std::sort(
-            _renderQueue.begin(),
-            _renderQueue.end(),
-            [](Drawable * lhs, Drawable * rhs)
-            {
-                return lhs->GetRenderPriority() < rhs->GetRenderPriority();
-            });
+    if(alg::find(_renderQueue, drawable) == _renderQueue.end())
+    {
+        _renderQueue.push_back(drawable);
+        std::sort(
+                _renderQueue.begin(),
+                _renderQueue.end(),
+                [](Drawable * lhs, Drawable * rhs)
+                {
+                    return lhs->GetRenderPriority() < rhs->GetRenderPriority();
+                });
+    }
 }
 
 void CameraComponent::RemoveDrawable(Drawable * drawable)

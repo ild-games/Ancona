@@ -46,17 +46,17 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
 
 void DrawableComponent::Serialize(Archive & arc)
 {
-    arc.entityUsingJsonKey(_camEntity, "camEntity");
+    arc.entityUsingJsonKey(_camEntity, "cam-entity");
     arc.system(_cameraSystem, "camera");
     arc.system(_drawableSystem, "drawable");
     arc(_drawables, "drawables");
 }
 
 /* getters and setters */
-std::vector<Drawable *> DrawableComponent::GetDrawables()
+std::vector<Drawable *> DrawableComponent::GetKeylessDrawables()
 {
     std::vector<Drawable *> toReturn;
-    for(std::map<std::string, std::unique_ptr<Drawable> >::iterator it = _drawables.begin(); it != _drawables.end(); ++it)
+    for(auto it = _drawables.begin(); it != _drawables.end(); ++it)
     {
         toReturn.push_back(it->second.get());
     }

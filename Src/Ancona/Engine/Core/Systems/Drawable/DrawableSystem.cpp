@@ -62,7 +62,7 @@ DrawableComponent * DrawableSystem::CreateComponent(
 
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
-    std::vector<Drawable * > compDrawables = component->GetDrawables();
+    std::vector<Drawable * > compDrawables = component->GetKeylessDrawables();
     for(Drawable * drawable : compDrawables)
     {
         for(CameraComponent * camera : _cameras)

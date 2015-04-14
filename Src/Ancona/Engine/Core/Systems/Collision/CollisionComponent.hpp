@@ -78,14 +78,14 @@ class CollisionComponent
         void Update();
 
         /**
-         * @copydoc ild::CameraComponent::Serialize
-         */
-        void Serialize(Archive & arc);
-
-        /**
          * @copydoc ild::CameraComponent::FetchDependencies
          */
         void FetchDependencies(const Entity & entity);
+
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
 
         /* getters and setters */
         CollisionType GetType();
