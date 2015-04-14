@@ -23,7 +23,6 @@ AnimatedDrawable::AnimatedDrawable(
     _frameDimensions(frameDimensions),
     _numFrames(numFrames)
 {
-
 }
 
 void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
