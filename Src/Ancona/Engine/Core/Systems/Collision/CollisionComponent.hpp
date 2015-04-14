@@ -48,7 +48,7 @@ class CollisionComponent
         /**
          * @brief Construct a collision component.
          *
-         * @param CollisionSystem The system describing the entities position.
+         * @param collisionSystem The system describing the entities position.
          * @param dim A vector describing the entities dimmension.
          * @param type Type of entity for collisions.
          * @param bodyType BodyType of the collision component.  Determines how collision fixing is performed.
@@ -78,26 +78,24 @@ class CollisionComponent
         void Update();
 
         /**
-         * @brief Return the Collision Type of the component
-         *
-         * @return Collision Type of the component.
+         * @copydoc ild::CameraComponent::Serialize
          */
-        CollisionType GetType();
-
-        BodyTypeEnum GetBodyType() { return _bodyType; }
-
-        BasePhysicsComponent & GetPhysicsComponent() { return *_position; }
-
-        const Box2 & GetBox() const { return _dim; }
-
         void Serialize(Archive & arc);
+
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
         void FetchDependencies(const Entity & entity);
+
+        /* getters and setters */
+        CollisionType GetType();
+        BodyTypeEnum GetBodyType() { return _bodyType; }
+        BasePhysicsComponent & GetPhysicsComponent() { return *_position; }
+        const Box2 & GetBox() const { return _dim; }
 
     private:
         BasePhysicsComponent * _position;
-
         CollisionSystem * _system;
-
         Box2 _dim;
         CollisionType _type;
         BodyTypeEnum _bodyType;
