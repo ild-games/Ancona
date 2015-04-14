@@ -31,7 +31,7 @@
                 "ground1" : {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
                     "actions" : {
-                            "platform-position-actions": [
+                        "platform-position-actions": [
                             {
                                 "value": {
                                     "x": 0.0,
@@ -40,13 +40,13 @@
                                 "tween": 0,
                                 "duration": 0
                             }
-                            ]
+                        ]
                     }
                 },
                 "ground2" : {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
                     "actions" : {
-                            "platform-position-actions": [
+                        "platform-position-actions": [
                             {
                                 "value": {
                                     "x": 200.0,
@@ -55,23 +55,23 @@
                                 "tween": 0,
                                 "duration": 0
                             }
-                            ]
+                        ]
                     }
                 },
                 "player" : {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
                     "actions" : {
-                    "platform-position-actions": [
-                        {
-                            "value": {
-                                "x": 0.0,
-                                "y": -20.0
-                            },
-                            "tween": 0,
-                            "duration": 0
-                        }
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 0.0,
+                                    "y": -20.0
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
                         ],
-                    "affected-by-gravity" : true
+                        "affected-by-gravity" : true
                     }
                 }
             }
