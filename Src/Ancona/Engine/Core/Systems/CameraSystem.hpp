@@ -106,7 +106,7 @@ class CameraComponent
         /**
          * @brief Scale of the camera.
          */
-        float _scale;
+        float _scale = 1;
         /**
          * @brief Entity the camera follows.
          */

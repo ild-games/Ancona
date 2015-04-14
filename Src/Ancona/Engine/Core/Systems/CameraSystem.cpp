@@ -61,8 +61,11 @@ void CameraComponent::RemoveDrawable(Drawable * drawable)
 
 void CameraComponent::FetchDependencies(const Entity & entity)
 {
-    _followPhysics = (*_physicsSystem)[_follows];
-    _view.zoom(_scale);
+    if(_follows != nullentity)
+    {
+        _followPhysics = (*_physicsSystem)[_follows];
+    }
+    SetScale(_scale);
     if(_default)
     {
         _drawableSystem->SetDefaultCamera(this);
@@ -71,7 +74,7 @@ void CameraComponent::FetchDependencies(const Entity & entity)
 
 void CameraComponent::Serialize(Archive & arc)
 {
-    arc(_renderPriority, "renderPriority");  
+    arc(_renderPriority, "render-priority");
     arc(_scale, "scale");  
     arc(_default, "default");  
     arc.entityUsingJsonKey(_follows, "follows");
