@@ -71,7 +71,7 @@
                                 "__cpp_type": "sf::RectangleShape",
                                 "width": 16.0,
                                 "height": 17.0
-                             },
+                            },
                             "render-priority": 0,
                             "priority-offset": -2,
                             "position-offset": {

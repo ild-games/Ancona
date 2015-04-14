@@ -15,7 +15,6 @@ CameraComponent::CameraComponent(
     _renderPriority(renderPriority),
     _scale(scale)
 {
-
 }
 
 void CameraComponent::Update(float delta)
@@ -82,9 +81,16 @@ void CameraComponent::Serialize(Archive & arc)
     arc.system(_drawableSystem, "drawable");
 }
 
+void CameraComponent::SetFollows(Entity follows)
+{
+    _follows = follows;
+    _followPhysics = _physicsSystem->at(follows);
+}
+
 /* getters and setters */
 void CameraComponent::SetScale(float scale) 
 { 
+    Assert(scale != float(0), "Scale cannot be 0");
     _view.zoom(1 / _scale);
     _scale = scale; 
     _view.zoom(_scale);
