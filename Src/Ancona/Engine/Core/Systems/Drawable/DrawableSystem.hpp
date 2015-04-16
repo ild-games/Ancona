@@ -2,6 +2,7 @@
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
 #include <vector> 
+
 #include <SFML/Window.hpp>
 
 #include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
@@ -76,19 +77,11 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
                 CameraComponent * camera);
 
         /* gettes and setters */
-        void SetDefaultCamera(CameraComponent * defaultCamera)
-        {
-            if(_defaultCamera != nullptr)
-            {
-                RemoveCamera(_defaultCamera);
-            }
-            _defaultCamera = defaultCamera;
-            AddCamera(defaultCamera);
-        }
+        void SetDefaultCamera(CameraComponent * defaultCamera);
         CameraComponent * GetDefaultCamera() { return _defaultCamera; }
     protected:
         /**
-         * @see ild::SystemManager::OnComponentRemove(Entity, ComponentType*)
+         * @see copydoc::SystemManager::OnComponentRemove
          */
         void OnComponentRemove(Entity entity, DrawableComponent * component);
 

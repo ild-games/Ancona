@@ -50,8 +50,7 @@ DrawableComponent * DrawableSystem::CreateComponent(
 {
     auto comp = new DrawableComponent(camera);
 
-    // if the camera isn't already in the cameras vector, add it now
-    if(std::find(_cameras.begin(), _cameras.end(), camera) == _cameras.end())
+    if(alg::find(_cameras, camera) == _cameras.end())
     {
         _cameras.push_back(camera); 
     }
@@ -70,4 +69,15 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
             camera->RemoveDrawable(drawable);
         }
     }
+}
+
+/* getters and setters */
+void DrawableSystem::SetDefaultCamera(CameraComponent * defaultCamera)
+{
+    if(_defaultCamera != nullptr)
+    {
+        RemoveCamera(_defaultCamera);
+    }
+    _defaultCamera = defaultCamera;
+    AddCamera(defaultCamera);
 }
