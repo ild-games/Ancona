@@ -61,7 +61,7 @@ class AbstractSystem
         virtual void EntityIsDeleted(const Entity & entity) = 0;
         
         /**
-         * @brief Default serialize for a system.
+         * @brief Default serialize for a system, should never be reached.
          */
         virtual void Serialize(Archive & arc) 
         {

@@ -34,7 +34,6 @@ class GameScreenSystems : public ScreenSystemsContainer
                 ScreenManager & screenManager,
                 int profile);
 
-
         /* getters and setters */
         PlatformPhysicsSystem & GetPhysics() { return *_physics; } 
         DrawableSystem & GetDrawable() { return *_drawable; } 

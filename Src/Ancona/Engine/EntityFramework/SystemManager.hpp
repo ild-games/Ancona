@@ -124,9 +124,6 @@ class SystemManager
 
         /* getters and setters */
         std::vector<std::pair<std::string, AbstractSystem *>> GetKeyedSystems() { return _keyedSystems; }
-
-
-
     private:
         /**
          * @brief Used to track which systems are controlled by the manager and
