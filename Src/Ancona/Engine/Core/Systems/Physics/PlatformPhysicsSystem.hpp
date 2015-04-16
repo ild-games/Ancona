@@ -44,12 +44,16 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
         void Update(float delta);
 
         /**
-         * @copydoc ild::BasePhysicsComponent::FetchDependencies
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
          */
         void FetchDependencies(const Entity & entity);
 
-        void Serialize(Archive & arc);
-
+        /* getters and setters */
         inline Actions & GetActions() { return _actions; }
     private:
         Actions _actions;
