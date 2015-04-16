@@ -18,7 +18,6 @@ ShapeDrawable::ShapeDrawable(
             positionOffset),
     _shape(shape)
 {
-
 }
 
 void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
@@ -30,6 +29,18 @@ void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
     _shape->setPosition(position.x, position.y);
     _shape->setRotation(_rotation);
     window.draw(*_shape);
+}
+
+void ShapeDrawable::FetchDependencies(const Entity &entity) {
+    Drawable::FetchDependencies(entity);
+    _shape->setOrigin(
+        _shape->getLocalBounds().width / 2,
+        _shape->getLocalBounds().height / 2);
+}
+
+void ShapeDrawable::Serialize(Archive &archive) {
+    Drawable::Serialize(archive);
+    archive(_shape, "shape");
 }
 
 /* getters and setters */
@@ -59,16 +70,4 @@ void ShapeDrawable::SetAlpha(int alpha)
 
     delete outlineCol;
     delete fillCol;
-}
-
-void ShapeDrawable::FetchDependencies(const Entity &entity) {
-    Drawable::FetchDependencies(entity);
-    _shape->setOrigin(
-        _shape->getLocalBounds().width / 2,
-        _shape->getLocalBounds().height / 2);
-}
-
-void ShapeDrawable::Serialize(Archive &archive) {
-    Drawable::Serialize(archive);
-    archive(_shape, "shape");
 }

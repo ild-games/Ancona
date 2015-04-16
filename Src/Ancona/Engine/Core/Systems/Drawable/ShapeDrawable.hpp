@@ -19,6 +19,9 @@ namespace ild
 class ShapeDrawable : public Drawable
 {
     public:
+        /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
         ShapeDrawable() {}
 
         /**
@@ -45,13 +48,22 @@ class ShapeDrawable : public Drawable
          */
         void Draw(sf::RenderWindow & window, float delta);
 
+
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
+
         /* getters and setters */
         sf::Vector2u GetSize();
         int GetAlpha();
         void SetAlpha(int alpha);
 
-        void FetchDependencies(const Entity & entity);
-        void Serialize(Archive & archive);
     private:
         /**
          * @brief Shape used for the drawing.
