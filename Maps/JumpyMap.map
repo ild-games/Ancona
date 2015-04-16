@@ -170,7 +170,7 @@
                 },
                 "player": {
                     "drawables": {
-                        "player-shape-rect" : {
+                        "player-shape-rect": {
                             "key": "player-shape-rect",
                             "__cpp_type" : "ild::ShapeDrawable",
                              "shape" : {
@@ -187,6 +187,28 @@
                             "position-offset": {
                                 "x": 0,
                                 "y": 0
+                            }
+                        },
+                        "player-text": {
+                            "key": "player-text",
+                            "__cpp_type": "ild::TextDrawable",
+                            "text": {
+                                "text": "I'm the player",
+                                "font-key": "dimitri-plain",
+                                "color": {
+                                    "r": 53,
+                                    "b": 34,
+                                    "g": 124,
+                                    "a": 255
+                                },
+                                "character-size": 15,
+                                "smooth": false,
+                                "render-priority": 0,
+                                "priority-offset": 2,
+                                "position-offset": {
+                                    "x": 0,
+                                    "y": -50
+                                }
                             }
                         }
                     }

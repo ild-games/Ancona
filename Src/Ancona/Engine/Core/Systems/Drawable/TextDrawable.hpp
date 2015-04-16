@@ -15,12 +15,15 @@ namespace ild
 class TextDrawable : public Drawable
 {
     public:
+        /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
         TextDrawable() {}
 
         /**
          * @brief An element to draw text to an entity.
          *
-         * @param physicsSystem System that can be used to determine the entities location.
+         * @param physicsSystem System that can be used to determine the entity's location.
          * @param text Text being drawn.
          * @param fontKey Name of font to use.
          * @param color SFML Color of the text.
@@ -48,24 +51,25 @@ class TextDrawable : public Drawable
          */
         void Draw(sf::RenderWindow & window, float delta);
 
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
+
         /* getters and setters */
         std::string GetText() { return _text->getString(); }
         void SetText(std::string text);
         sf::Vector2u GetSize();
         int GetAlpha();
         void SetAlpha(int alpha);
-
-        void FetchDependencies(const Entity & entity);
-        void Serialize(Archive & archive);
     private:
-        /**
-         * @brief Text being drawn.
-         */
         std::unique_ptr<sf::Text> _text;
 
-        /**
-         * @brief Sets the text's origin point to be its center.
-         */
         void CenterOrigin();
 };
 
