@@ -48,7 +48,6 @@ class ShapeDrawable : public Drawable
          */
         void Draw(sf::RenderWindow & window, float delta);
 
-
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
