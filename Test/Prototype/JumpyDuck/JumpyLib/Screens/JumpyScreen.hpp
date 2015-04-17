@@ -1,5 +1,5 @@
-#ifndef JumpyDuck_Screens_Systems_HPP
-#define JumpyDuck_Screens_Systems_HPP
+#ifndef JumpyDuck_Screens_JumpyScreen_H_
+#define JumpyDuck_Screens_JumpyScreen_H_
 
 #include <memory>
 
@@ -24,9 +24,7 @@ class JumpyScreen : public AbstractScreen
         ScreenSystemsContainer * GetSystemsContainer() override { return _systems.get(); }
     private:
         std::unique_ptr<JumpyGameSystems> _systems;
-
         Entity player;
-        Entity defaultCam;
 
 };
 
