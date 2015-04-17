@@ -1,6 +1,5 @@
 #include <Ancona/Engine/Config/Config.hpp>
 #include <Ancona/Engine/Loading/Loading.hpp>
-#include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
 
 using namespace ild;
 
@@ -102,19 +101,19 @@ void MapLoader::LoadComponents()
     Archive saveArc(_saveRoot["systems"], *_loadingContext.get());
     for(auto systemNamePair : _loadingContext->GetSystems().GetSystemManager().GetKeyedSystems())
     {
-        if (mapArc.HasProperty(systemNamePair.first))
-        {
-            mapArc.EnterProperty(systemNamePair.first);
-            _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(mapArc);
-            mapArc.ExitProperty();
-        }
-       if(saveArc.HasProperty(systemNamePair.first))
-       {
-           saveArc.EnterProperty(systemNamePair.first);
-           _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(saveArc);
-           saveArc.ExitProperty();
-       }
+        LoadSpecifiedSystem(systemNamePair, mapArc);
+        LoadSpecifiedSystem(systemNamePair, saveArc);
     }
     _loadingContext->GetSystems().GetSystemManager().FetchWaitingDependencies();
     _state = LoadingState::DoneLoading;
+}
+
+void MapLoader::LoadSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive & currentArc)
+{
+    if (currentArc.HasProperty(systemNamePair.first))
+    {
+        currentArc.EnterProperty(systemNamePair.first);
+        _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(currentArc);
+        currentArc.ExitProperty();
+    }
 }

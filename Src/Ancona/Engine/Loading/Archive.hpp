@@ -1,15 +1,15 @@
 #ifndef Ancona_Engine_Loading_Archive_H_
 #define Ancona_Engine_Loading_Archive_H_
 
-#include <string>
 #include <stack>
+#include <string>
 
 #include <jsoncpp/json/json.h>
 
 #include <Ancona/Engine/Loading/ClassConstructor.hpp>
-#include <Ancona/Engine/Loading/Serializer.hpp>
-#include <Ancona/Engine/Loading/PolymorphicMap.hpp>
 #include <Ancona/Engine/Loading/LoadingContext.hpp>
+#include <Ancona/Engine/Loading/PolymorphicMap.hpp>
+#include <Ancona/Engine/Loading/Serializer.hpp>
 
 namespace ild
 {
@@ -23,6 +23,12 @@ namespace ild
 class Archive 
 {
     public:
+        /**
+         * @brief Constructs an Archive.
+         *
+         * @param root Root of the json for the archive.
+         * @param context Current loading context.
+         */
         Archive(Json::Value root, LoadingContext & context);
 
         /**
@@ -99,15 +105,28 @@ class Archive
             }
         }
 
+        /**
+         * @brief Serializes a system from the given system key.
+         *
+         * @tparam SystemType Type of the system being serialized.
+         * @param systemProperty System reference that will be set to the desired system.
+         * @param systemKey Key of the system.
+         */
         template <class SystemType>
-        void system(SystemType *& systemProperty, const std::string & str)
+        void system(SystemType *& systemProperty, const std::string & systemKey)
         {
             if (_loading) 
             {
-                systemProperty = _context.GetSystems().GetSystem<SystemType>(str);
+                systemProperty = _context.GetSystems().GetSystem<SystemType>(systemKey);
             }
         }
 
+        /**
+         * @brief Loads the entity from the KEY of the entity in json.
+         *
+         * @param entity Entity reference that will be set to the desired entity.
+         * @param entityJsonKey Key of the entity.
+         */
         void entityUsingJsonKey(Entity & entity, const std::string & entityJsonKey)
         {
             if(_loading)
@@ -120,14 +139,14 @@ class Archive
         /**
          * @brief Enter the context of the given property.
          *
-         * @param Property that will be serialized.
+         * @param name Property that will be serialized.
          */
         void EnterProperty(const std::string & name);
 
         /**
          * @brief Enter the context of the given property.
          *
-         * @param Property that will be serialized.
+         * @param name Property that will be serialized.
          */
         void EnterProperty(const int & name);
 

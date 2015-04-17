@@ -1,14 +1,11 @@
-//
-// Created by jeff on 3/29/15.
-//
 #include <Ancona/Engine/Loading/Loading.hpp>
 
 using namespace ild;
 
-PolymorphicSerializerAbstractBase::PolymorphicSerializerAbstractBase(std::string className)
-    : _className(className)
+PolymorphicSerializerAbstractBase::PolymorphicSerializerAbstractBase(
+        std::string className) : 
+    _className(className)
 {
-
 }
 
 void PolymorphicSerializerAbstractBase::Serialize(void *&property, Archive &arc)

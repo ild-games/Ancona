@@ -69,7 +69,7 @@ struct Serializer<std::map<std::string, T>> {
             }
         }
 
-    };
+    }
 };
 
 }

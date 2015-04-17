@@ -15,12 +15,12 @@ Json::Value & Archive::CurrentBranch()
 
 void Archive::EnterProperty(const std::string & name)
 {
-    _jsonBranch.push(&(*_jsonBranch.top())[name]);
+    _jsonBranch.push(&(CurrentBranch())[name]);
 }
 
 void Archive::EnterProperty(const int & name)
 {
-    _jsonBranch.push(&(*_jsonBranch.top())[name]);
+    _jsonBranch.push(&(CurrentBranch())[name]);
 }
 
 void Archive::ExitProperty()
