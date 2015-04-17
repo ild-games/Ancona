@@ -1,8 +1,8 @@
 #include <Ancona/Engine/Config/Config.hpp>
-#include <Ancona/Game/Core/AnconaGame.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
-#include <Ancona/Engine/Core/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/ShapeDrawable.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/TextDrawable.hpp>
+#include <Ancona/Game/Core/AnconaGame.hpp>
 
 using namespace ild;
 

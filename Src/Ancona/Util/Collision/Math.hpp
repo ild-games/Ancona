@@ -14,11 +14,11 @@ namespace ild
 namespace Math
 {
     /**
-     * @brief A two dimmensional point
+     * @brief A two dimensional point
      */
     typedef std::pair<float, float> Point2;
     /**
-     * @brief A shape made up of two dimmensional points
+     * @brief A shape made up of two dimensional points
      */
     typedef std::vector<Point2> Vertices2;
     /**
@@ -58,7 +58,7 @@ namespace Math
     float Dot(const Math::Vector2 & a, const Math::Vector2 & b);
 
     /**
-     * @brief Create a two dimmensional point using the given values.
+     * @brief Create a two dimensional point using the given values.
      *
      * @param sinValue Sin value for the rotation (sin(theta))
      * @param cosValue Cos value for the rotation (cos(theta))
@@ -94,7 +94,7 @@ namespace Math
     Vector2 GetNormal(const Vector2 & edge);
 
     /**
-     * @brief Project a 2D shape into one dimmension.  The projection dimmension is perpendicular 
+     * @brief Project a 2D shape into one dimension.  The projection dimension is perpendicular 
      * to the normal vector.  The projection will be accurate if the normal vector is a unit vector.  
      * If the normal vector is not a unit vector then the projection will be skewed.
      *
@@ -151,8 +151,8 @@ namespace Math
      * will correctly push projection a out of projection b. It will be the minimum absolute value needed to 
      * push the projections apart.
      *
-     * @param a A projection of a shape into a single dimmension.
-     * @param b A projection of a shape into the same dimmension.
+     * @param a A projection of a shape into a single dimension.
+     * @param b A projection of a shape into the same dimension.
      *
      * @return A scalar value that will push projection a out of projection b. If they do not overlap then 0
      *  will be returned.
