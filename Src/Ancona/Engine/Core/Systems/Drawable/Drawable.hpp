@@ -93,12 +93,21 @@ class Drawable
 
 
     protected:
+        /**
+         * @brief Physics system for the current screen.
+         */
         BasePhysicsSystem * _physicsSystem;
+        /**
+         * @brief Drawable system for the current screen.
+         */
         DrawableSystem * _drawableSystem;
         /**
-         * @brief Component that defines the entities position.
+         * @brief Component that defines the entity's position.
          */
         BasePhysicsComponent * _physicsComponent;
+        /**
+         * @brief Component that defines the entity's drawables.
+         */
         DrawableComponent * _drawableComponent;
         /**
          * @brief Offset coordinate for this drawable element.
@@ -116,6 +125,9 @@ class Drawable
          * @brief Amount to rotate the drawable element. 
          */
         float _rotation = 0;
+        /**
+         * @brief Key that describes the Drawable.
+         */
         std::string _key;
 };
 

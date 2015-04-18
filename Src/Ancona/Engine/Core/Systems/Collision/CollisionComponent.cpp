@@ -57,7 +57,7 @@ struct Serializer<BodyTypeEnum> {
         }
         else
         {
-            //TODO Implement saving
+            //TODO ANC-77 implement BodyTypeEnum saving
         }
     }
 };
@@ -71,7 +71,7 @@ void CollisionComponent::Serialize(Archive &arc) {
     std::string key;
     if (!arc.IsLoading())
     {
-        //TODO JPS Implement
+        //TODO ANC-77 implement CollisionComponent saving
     }
 
     arc(key, "collision-type");
