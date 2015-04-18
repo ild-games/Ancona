@@ -1,5 +1,7 @@
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 
+REGISTER_POLYMORPHIC_SERIALIZER(ild::BasePhysicsComponent);
+
 using namespace ild;
 
 BasePhysicsSystem::BasePhysicsSystem(
@@ -11,4 +13,9 @@ BasePhysicsSystem::BasePhysicsSystem(
             UpdateStep::Update)
 {
 
+}
+
+void BasePhysicsComponent::Serialize(Archive & arc)
+{
+    arc(_position, "info");
 }

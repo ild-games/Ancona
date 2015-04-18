@@ -20,3 +20,10 @@ VectorAction * VectorAction::Tween(float time)
     _tweenTime = time;
     return this;
 }
+
+void VectorAction::Serialize(Archive & arc)
+{
+    Action::Serialize(arc);
+    arc(_tweenTime, "tween");
+    arc(_value, "value");
+}

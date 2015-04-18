@@ -1,10 +1,13 @@
 #include <Ancona/Engine/Core/Systems/CameraSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 
 using namespace ild;
 
 /* Component */
+CameraComponent::CameraComponent() { }
+
 CameraComponent::CameraComponent(
         const sf::View & originalView,
         int renderPriority,
@@ -13,7 +16,6 @@ CameraComponent::CameraComponent(
     _renderPriority(renderPriority),
     _scale(scale)
 {
-    _view.zoom(scale);
 }
 
 void CameraComponent::Update(float delta)
@@ -42,14 +44,17 @@ void CameraComponent::MoveCamera()
 
 void CameraComponent::AddDrawable(Drawable * drawable)
 {
-    _renderQueue.push_back(drawable);
-    std::sort(
-            _renderQueue.begin(),
-            _renderQueue.end(),
-            [](Drawable * lhs, Drawable * rhs)
-            {
-                return lhs->GetRenderPriority() < rhs->GetRenderPriority();
-            });
+    if(alg::find(_renderQueue, drawable) == _renderQueue.end())
+    {
+        _renderQueue.push_back(drawable);
+        std::sort(
+                _renderQueue.begin(),
+                _renderQueue.end(),
+                [](Drawable * lhs, Drawable * rhs)
+                {
+                    return lhs->GetRenderPriority() < rhs->GetRenderPriority();
+                });
+    }
 }
 
 void CameraComponent::RemoveDrawable(Drawable * drawable)
@@ -57,9 +62,39 @@ void CameraComponent::RemoveDrawable(Drawable * drawable)
     _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
 }
 
+void CameraComponent::FetchDependencies(const Entity & entity)
+{
+    if(_follows != nullentity)
+    {
+        _followPhysics = (*_physicsSystem)[_follows];
+    }
+    SetScale(_scale);
+    if(_default)
+    {
+        _drawableSystem->SetDefaultCamera(this);
+    }
+}
+
+void CameraComponent::Serialize(Archive & arc)
+{
+    arc(_renderPriority, "render-priority");
+    arc(_scale, "scale");  
+    arc(_default, "default");  
+    arc.entityUsingJsonKey(_follows, "follows");
+    arc.system(_physicsSystem, "physics");
+    arc.system(_drawableSystem, "drawable");
+}
+
+void CameraComponent::SetFollows(Entity follows)
+{
+    _follows = follows;
+    _followPhysics = _physicsSystem->at(follows);
+}
+
 /* getters and setters */
 void CameraComponent::SetScale(float scale) 
 { 
+    Assert(scale != float(0), "Scale cannot be 0");
     _view.zoom(1 / _scale);
     _scale = scale; 
     _view.zoom(_scale);
@@ -92,27 +127,5 @@ CameraComponent * CameraSystem::CreateComponent(
             renderPriority,
             scale);
     AttachComponent(entity, comp);
-    return comp;
-}
-
-void * CameraSystem::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
-{
-    CameraComponent * comp = CreateComponent(
-            entity,
-            loadingContext->GetSystems().GetScreenManager().Window.getView(),
-            object["renderPriority"].asInt(),
-            object["scale"].asFloat());
-    if(object["default"].asBool())
-    {
-        loadingContext->GetSystems().GetSystem<DrawableSystem>("drawable")->SetDefaultCamera(comp);
-    }
-    if(object["follows"].asString() != "")
-    {
-        comp->SetFollow(loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->at(
-                loadingContext->GetSystems().GetSystemManager().GetEntity(object["follows"].asString())));
-    }
     return comp;
 }

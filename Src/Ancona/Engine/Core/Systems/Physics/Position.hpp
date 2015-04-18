@@ -3,7 +3,7 @@
 
 #include <SFML/System.hpp>
 
-#include <iostream>
+#include <Ancona/Engine/Loading/Loading.hpp>
 
 namespace ild
 {
@@ -23,6 +23,11 @@ std::ostream & operator << (std::ostream& os, const Point&pt);
 class Position
 {
     public:
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
         //Access the current physical state of the entity.
         inline const Point & GetPosition() const { return _position; }
         inline const Point & GetVelocity() const { return _velocity; }

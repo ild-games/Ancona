@@ -1,16 +1,32 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
+REGISTER_POLYMORPHIC_SERIALIZER(ild::PlatformPhysicsComponent);
+
 using namespace ild;
 
-PlatformPhysicsComponent::PlatformPhysicsComponent(Point location, BasePhysicsSystem & physicsSystem) 
-    : _actions(physicsSystem)
+PlatformPhysicsComponent::PlatformPhysicsComponent(
+        Point location, 
+        PlatformPhysicsSystem * physicsSystem) :
+    _actions(physicsSystem),
+    _system(physicsSystem)
 {
     _position.SetPosition(location);
+}
+
+void PlatformPhysicsComponent::Serialize(Archive & archive)
+{
+    archive.system(_system,"physics");
+    archive(_actions, "actions");
 }
 
 void PlatformPhysicsComponent::Update(float delta)
 {
     _actions.Apply(_position, delta);
+}
+
+void PlatformPhysicsComponent::FetchDependencies(const Entity & entity)
+{
+    _actions.SetPhysics(_system);
 }
 
 PlatformPhysicsSystem::PlatformPhysicsSystem(
@@ -41,29 +57,9 @@ PlatformPhysicsComponent * PlatformPhysicsSystem::at (const Entity & entity)
 
 PlatformPhysicsComponent * PlatformPhysicsSystem::CreateComponent(const Entity & entity, Point location)
 {
-    PlatformPhysicsComponent * component = new PlatformPhysicsComponent(location, *this);
+    PlatformPhysicsComponent * component = new PlatformPhysicsComponent(location, this);
     
     AttachComponent(entity, component);
 
     return component;
-}
-
-void * PlatformPhysicsSystem::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
-{
-    PlatformPhysicsComponent * position = loadingContext->GetSystems().GetSystem<PlatformPhysicsSystem>("physics")->CreateComponent(entity);
-    for(Json::Value actionsJson : object["actions"]["list"])
-    {
-        loadingContext->GetInflaterMap().GetInflater(actionsJson["type"].asString())->Inflate(
-                actionsJson,
-                entity,
-                loadingContext);
-    }
-    if(object["actions"]["gravity"].asBool()) 
-    {
-        position->GetActions().SetAffectedByGravity(true);
-    }
-    return position;
 }

@@ -8,8 +8,8 @@ using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2) {}
 
-CollisionSystem::CollisionSystem(SystemManager & manager, BasePhysicsSystem & positions)
-    : UnorderedSystem<CollisionComponent>(manager,UpdateStep::Update), _positions(positions)
+CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manager, BasePhysicsSystem & positions)
+    : UnorderedSystem<CollisionComponent>(name, manager,UpdateStep::Update), _positions(positions)
 {
     _nextType = 0;
 
@@ -147,15 +147,14 @@ CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
         BodyTypeEnum bodyType)
 {
     Assert(type < _nextType, "Cannot use a collision type that is undefined");
-    auto position = _positions[entity];
-    auto component = new CollisionComponent(*position, dim, type, bodyType);
+    auto component = new CollisionComponent(this, dim, type, bodyType);
 
     AttachComponent(entity, component);
 
     return component;
 }
 
-CollisionType CollisionSystem::CreateType()
+CollisionType CollisionSystem::CreateType(const std::string &key)
 {
     CollisionType newType = _nextType++;
 
@@ -173,7 +172,9 @@ CollisionType CollisionSystem::CreateType()
     {
         back.push_back(nop);
     }
-    
+
+    _collisionTypes.emplace(key, newType);
+
     return newType;
 }
 
@@ -183,4 +184,10 @@ void CollisionSystem::SetHandler(CollisionType typeA, CollisionType typeB, Colli
     Assert(typeB < _nextType, "The given typeB does not exist");
 
     _callbackTable[typeA][typeB] = callback;
+}
+
+CollisionType CollisionSystem::GetType(const std::string &key) {
+    Assert(_collisionTypes.find(key) != _collisionTypes.end(), "The collision type must exist");
+
+    return _collisionTypes[key];
 }

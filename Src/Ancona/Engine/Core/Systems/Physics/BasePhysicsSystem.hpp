@@ -3,6 +3,7 @@
 
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 
 namespace ild
 {
@@ -10,6 +11,16 @@ namespace ild
 class BasePhysicsComponent
 {
     public:
+        /**
+         * @brief Overriable default destructor.
+         */
+        virtual ~BasePhysicsComponent() {}
+
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
         /**
          * @brief Get information about the Entities position.
          *

@@ -6,12 +6,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Engine/Loading/Loading.hpp>
 
 namespace ild
 {
+
+class DrawableSystem;
 
 /**
  * @brief Used to manage a camera's attributes.
@@ -22,10 +25,14 @@ class CameraComponent
 {
     public:
         /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
+        CameraComponent();
+
+        /**
          * @brief Constructs a new CameraComponent.
          *
          * @param originalView Default view of the window.
-         * @param cameraPhysics Physics component for the camera.
          * @param renderPriority Priority to render the camera by.
          * @param scale The scale the camera will zoom to, defaults to 1.0f.
          */
@@ -34,6 +41,9 @@ class CameraComponent
                 int renderPriority,
                 float scale = 1.0f);
 
+        /**
+         * @brief Overridable destructor.
+         */
         virtual ~CameraComponent() { }
 
         /**
@@ -67,9 +77,23 @@ class CameraComponent
          */
         void RemoveDrawable(Drawable * drawable);
 
+        /**
+         * @brief Called before the component is used to gather any dependcies necessary for it to operate.
+         *
+         * @param entity Entity the component is associated with.
+         */
+        void FetchDependencies(const Entity & entity);
+
+        /**
+         * @brief Responsible for saving and loading the object.
+         *
+         * @param arc Archive instance during the save/load process.
+         */
+        void Serialize(Archive & arc);
+
         /* getters and setters */
         int GetRenderPriority() { return _renderPriority; }
-        void SetFollow(BasePhysicsComponent * followPhysics) { _followPhysics = followPhysics; }
+        void SetFollows(Entity follows);
         void SetScale(float scale);
         float GetScale() { return _scale; }
 
@@ -95,7 +119,14 @@ class CameraComponent
         /**
          * @brief Scale of the camera.
          */
-        float _scale;
+        float _scale = 1;
+        /**
+         * @brief Entity the camera follows.
+         */
+        Entity _follows;
+        PlatformPhysicsSystem * _physicsSystem;
+        DrawableSystem * _drawableSystem;
+        bool _default = false;
 
 };
 
@@ -127,7 +158,6 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
          *
          * @param entity Entity to associate the component with.
          * @param originalView Default view of the window.
-         * @param cameraPhysics Physics component for the camera.
          * @param renderPriority The render priority of the camera.
          * @param scale The scale the camera will zoom to, defaults to 1.0f.
          *
@@ -138,14 +168,6 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
                 const sf::View & originalView,
                 int renderPriority,
                 float scale = 1.0f);
-
-        /**
-         * @brief Inflate a camera component.
-         */
-        void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) override;
 
 };
 

@@ -41,19 +41,18 @@ void DrawableSystem::RemoveCamera(CameraComponent * camera)
 DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
 {
     Assert(_defaultCamera != nullptr, "Default camera not set");
-    return CreateComponent(entity, *_defaultCamera);
+    return CreateComponent(entity, _defaultCamera);
 }
 
 DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
-        CameraComponent & camera)
+        CameraComponent * camera)
 {
     auto comp = new DrawableComponent(camera);
 
-    // if the camera isn't already in the cameras vector, add it now
-    if(std::find(_cameras.begin(), _cameras.end(), &camera) == _cameras.end())
+    if(alg::find(_cameras, camera) == _cameras.end())
     {
-        _cameras.push_back(&camera); 
+        _cameras.push_back(camera); 
     }
 
     AttachComponent(entity, comp);
@@ -62,7 +61,7 @@ DrawableComponent * DrawableSystem::CreateComponent(
 
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
-    std::vector<Drawable * > compDrawables = component->GetDrawables();
+    std::vector<Drawable * > compDrawables = component->GetKeylessDrawables();
     for(Drawable * drawable : compDrawables)
     {
         for(CameraComponent * camera : _cameras)
@@ -72,21 +71,13 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
     }
 }
 
-
-void * DrawableSystem::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
+/* getters and setters */
+void DrawableSystem::SetDefaultCamera(CameraComponent * defaultCamera)
 {
-    DrawableComponent * drawable = loadingContext->GetSystems().GetSystem<DrawableSystem>("drawable")->CreateComponent(entity);
-    for(const Json::Value & drawablesJson : object["drawables"])
+    if(_defaultCamera != nullptr)
     {
-        drawable->AddDrawable(
-                drawablesJson["key"].asString(), 
-                loadingContext->GetInflaterMap().GetInflater(drawablesJson["drawable"]["type"].asString())->InflateTo<Drawable>(
-                    drawablesJson["drawable"],
-                    entity,
-                    loadingContext));
+        RemoveCamera(_defaultCamera);
     }
-    return drawable;
+    _defaultCamera = defaultCamera;
+    AddCamera(defaultCamera);
 }

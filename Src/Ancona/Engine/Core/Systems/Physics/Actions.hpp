@@ -31,11 +31,16 @@ class Actions
 {
     public:
         /**
+         * @brief Default constructor that should only be used for serialization.
+         */
+        Actions() {}
+
+        /**
          * @brief Construct a container for actions.
          *
          * @param physicsSystem Physics system that the actions belong to.
          */
-        Actions(BasePhysicsSystem & physicsSystem);
+        Actions(BasePhysicsSystem * physicsSystem);
 
         /**
          * @brief Update the position based on active Actions in 
@@ -60,6 +65,11 @@ class Actions
         VectorActionProxy CreateVelocityAction();
 
         /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
+        /**
          * @brief Used to set if an entity is affected by gravity.  Defaults to true.
          *
          * @param value Boolean value determining if the entity is affected by gravity.
@@ -70,7 +80,18 @@ class Actions
          * @brief Remove any acceleration that has been caused by gravity.
          */
         void StopFall();
+
+        /* Getters and Setters */
+        void SetPhysics(BasePhysicsSystem * physicsSystem) { _physicsSystem = physicsSystem; }
+
     private:
+        std::vector<VectorActionProxy> _positionActions;
+        std::vector<VectorActionProxy> _velocityActions;
+        Point _totalGravity;
+        BasePhysicsSystem * _physicsSystem;
+        bool _affectedByGravity = false;
+        bool _onGround = false;
+
         /**
          * @brief Update the velocity based on Gravity.
          *
@@ -81,12 +102,6 @@ class Actions
         Point ApplyPositionActions(const Position & position, float delta);
         Point ApplyVelocityActions(const Position & position, float delta);
 
-        std::vector<VectorActionProxy> _positionActions;
-        std::vector<VectorActionProxy> _velocityActions;
-        Point _totalGravity;
-        BasePhysicsSystem & _physicsSystem;
-        bool _affectedByGravity = false;
-        bool _onGround = false;
 };
 
 }

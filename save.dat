@@ -1,6 +1,39 @@
 {
-    "screen-maps": {
-        "game": "Map1",
-        "jumpy-game": "JumpyMap"
-    }
+    "profiles": [
+        {
+            "name": "Tucker",
+            "screen-maps": {
+                "game": "Map1",
+                "jumpy-game": "JumpyMap"
+            },
+            "systems": {
+                "physics": {
+                    "components": {
+                        "player": {
+                            "__cpp_type": "ild::PlatformPhysicsComponent",
+                            "actions": {
+                                "platform-position-actions": [
+                                    {
+                                        "value": {
+                                            "x": 50.0,
+                                            "y": 200.0
+                                        },
+                                        "tween": 0,
+                                        "duration": 0
+                                    }
+                                ],
+                                "gravity": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name" : "JumpyDuck",
+            "screen-maps" : {
+                "jumpy-game" : "JumpyMap"
+            }
+        }
+    ]
 }

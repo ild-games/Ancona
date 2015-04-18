@@ -7,7 +7,7 @@ namespace ild
 {
 
 /**
- * @brief Represents a box in 3rd space with a dimmension, position,
+ * @brief Represents a box in 3rd space with a dimension, position,
  * and rotation
  * @author Jeff Swenson
  */
@@ -18,11 +18,11 @@ class Box3
          * @brief Initialize a 3 dimensional box
          *
          * @param position The position of the box
-         * @param dimmension The size of the box
+         * @param dimension The size of the box
          * @param rotation The rotation of the box
          */
         Box3(const sf::Vector3f & position,
-             const sf::Vector3f & dimmension,
+             const sf::Vector3f & dimension,
              const sf::Vector2f & rotation=sf::Vector2f());
 
         /**
@@ -31,9 +31,9 @@ class Box3
          */
         sf::Vector3f Position;
         /**
-         * @brief Dimmension of the box: Length X Width X Height
+         * @brief Dimension of the box: Length X Width X Height
          */
-        sf::Vector3f Dimmension;
+        sf::Vector3f Dimension;
         /**
          * @brief The rotation of the box.
          */

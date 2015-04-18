@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Core_Systems_DrawableSystem_H_
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
-#include <vector>
+#include <vector> 
 
 #include <SFML/Window.hpp>
 
@@ -74,23 +74,14 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          */
         DrawableComponent * CreateComponent(
                 const Entity & entity,
-                CameraComponent & camera);
-
-        /**
-         * @brief Inflate a drawable component.
-         */
-        void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) override;
+                CameraComponent * camera);
 
         /* gettes and setters */
-        void SetDefaultCamera(CameraComponent * defaultCamera) { _defaultCamera = defaultCamera; }
-
-
+        void SetDefaultCamera(CameraComponent * defaultCamera);
+        CameraComponent * GetDefaultCamera() { return _defaultCamera; }
     protected:
         /**
-         * @see ild::SystemManager::OnComponentRemove(Entity, ComponentType*)
+         * @see copydoc::SystemManager::OnComponentRemove
          */
         void OnComponentRemove(Entity entity, DrawableComponent * component);
 

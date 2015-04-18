@@ -3,9 +3,9 @@
 using namespace ild;
 
 Box3::Box3(const sf::Vector3f & position,
-           const sf::Vector3f & dimmension,
+           const sf::Vector3f & dimension,
            const sf::Vector2f & rotation)
-        : Position(position),Dimmension(dimmension),
+        : Position(position),Dimension(dimension),
           Rotation(rotation)
 {
 

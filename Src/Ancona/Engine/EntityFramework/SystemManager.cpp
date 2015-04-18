@@ -5,7 +5,6 @@
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/Assert.hpp>
 
@@ -18,6 +17,7 @@ SystemManager::SystemManager()
 
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
+    FetchWaitingDependencies();
     for(AbstractSystem * system : _systems[updateStep])
     {
         system->Update(delta);
@@ -114,6 +114,7 @@ void SystemManager::RegisterComponent(Entity entity, AbstractSystem * owningSyst
     Assert(_components.find(entity) != _components.end(),
             "Cannot add a component to an entity that does not exist");
    _components[entity].insert(owningSystem); 
+   _needDependencyFetch.emplace_back(entity, owningSystem);
 }
 
 void SystemManager::UnregisterComponent(Entity entity, AbstractSystem * owningSystem)
@@ -135,12 +136,11 @@ void SystemManager::DeleteQueuedEntities()
     _deleteQueue.clear();
 }
 
-std::vector<std::pair<std::string, AbstractInflater *>> SystemManager::GetComponentInflaters()
+void SystemManager::FetchWaitingDependencies()
 {
-    std::vector<std::pair<std::string, AbstractInflater *>> toReturn;
-    for(auto & namedSystemPair : _keyedSystems)
+    for(auto & entitySystemPair : _needDependencyFetch)
     {
-        toReturn.emplace_back(namedSystemPair.first, namedSystemPair.second->GetInflater().release());
+        entitySystemPair.second->FetchComponentDependencies(entitySystemPair.first);
     }
-    return toReturn;
+    _needDependencyFetch.clear();
 }

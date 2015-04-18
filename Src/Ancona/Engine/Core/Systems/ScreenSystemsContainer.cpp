@@ -2,8 +2,11 @@
 
 using namespace ild;
 
-ScreenSystemsContainer::ScreenSystemsContainer(ScreenManager & screenManager) :
+ScreenSystemsContainer::ScreenSystemsContainer(
+        ScreenManager & screenManager,
+        int profile) :
     _systemManager(new SystemManager()),
-    _screenManager(screenManager)
+    _screenManager(screenManager),
+    _profile(profile)
 {
 }

@@ -1,10 +1,12 @@
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
+REGISTER_POLYMORPHIC_SERIALIZER(ild::AnimatedDrawable)
+
 using namespace ild;
 
 AnimatedDrawable::AnimatedDrawable(
-        const BasePhysicsComponent & physicsComponent, 
+        BasePhysicsSystem * physicsSystem,
         const std::string textureKey,
         const int priority,
         sf::Vector2f frameDimensions,
@@ -13,25 +15,14 @@ AnimatedDrawable::AnimatedDrawable(
         int priorityOffset,
         sf::Vector2f positionOffset) :
     SpriteDrawable(
-            physicsComponent,
+            physicsSystem,
             textureKey,
             priority,
             priorityOffset,
             positionOffset),
     _frameDimensions(frameDimensions),
-    DURATION(duration),
-    _timeUntilChange(duration),
     _numFrames(numFrames)
 {
-    _sprite->setTextureRect(
-            sf::IntRect(
-                0,
-                0,
-                _frameDimensions.x, 
-                _frameDimensions.y));
-    _sprite->setOrigin(
-            _frameDimensions.x / 2,
-            _frameDimensions.y / 2);
 }
 
 void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
@@ -39,7 +30,7 @@ void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
     _timeUntilChange -= delta;
     if(_timeUntilChange <= 0) 
     {
-        _timeUntilChange += DURATION;
+        _timeUntilChange += _duration;
         AdvanceFrame();
     }
     SpriteDrawable::Draw(window, delta);
@@ -71,19 +62,24 @@ void AnimatedDrawable::AdvanceFrame()
                 _frameDimensions.y));
 }
 
-void * AnimatedDrawable::Inflate(
-        const Json::Value & object,
-        const Entity & entity,
-        LoadingContext * loadingContext)
-{
-    AnimatedDrawable * animation = new AnimatedDrawable(
-            *loadingContext->GetSystems().GetSystem<BasePhysicsSystem>("physics")->at(entity),
-            object["texture-key"].asString(),
-            object["render-priority"].asInt(),
-            sf::Vector2f(object["frame-dim"]["width"].asFloat(), object["frame-dim"]["height"].asFloat()),
-            object["num-frames"].asInt(),
-            object["duration"].asFloat(),
-            object["priority-offset"].asInt(),
-            sf::Vector2f(object["position-offset"]["x"].asFloat(), object["position-offset"]["y"].asFloat()));
-    return animation;
+void AnimatedDrawable::FetchDependencies(const Entity &entity) {
+    SpriteDrawable::FetchDependencies(entity);
+    _timeUntilChange = _duration;
+    _curFrame = 0;
+    _sprite->setTextureRect(
+            sf::IntRect(
+                    0,
+                    0,
+                    _frameDimensions.x,
+                    _frameDimensions.y));
+    _sprite->setOrigin(
+            _frameDimensions.x / 2,
+            _frameDimensions.y / 2);
+}
+
+void AnimatedDrawable::Serialize(Archive &archive) {
+    SpriteDrawable::Serialize(archive);
+    archive(_frameDimensions, "frame-dimensions");
+    archive(_numFrames, "num-frames");
+    archive(_duration, "duration");
 }

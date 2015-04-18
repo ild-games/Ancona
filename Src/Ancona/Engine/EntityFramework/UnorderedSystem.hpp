@@ -2,25 +2,27 @@
 #define Ancona_Engine_EntityFramework_UnorderedSystem_H_
 
 #include <unordered_map>
+#include <type_traits>
 
 #include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Engine/Loading/Loading.hpp>
+#include <Ancona/Util/Algorithm/Types.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 namespace ild
 {
 
-class SystemManager;
+GENERATE_METHOD_TESTER(FetchDependencies);
 
-/**
+/** 
  * @brief Implements most of the logic needed by a system for tracking components.
  * Any system that does not need its components stored in a specific order should 
  * inherit from this class.
  *
- * @owner Jeff Swenson
+ * @author Jeff Swenson
  *
  * @tparam ComponentType The type of component that the system manages.
  */
@@ -81,7 +83,7 @@ class UnorderedSystem : public AbstractSystem
         /**
          * @brief Implementation for AbstractSystem method
          */
-        void Update(float delta) = 0;
+        virtual void Update(float delta) = 0;
 
         /**
          * @brief Implementation for AbstractSystem method
@@ -118,29 +120,57 @@ class UnorderedSystem : public AbstractSystem
         }
 
         /**
-         * @brief Default implementation of GetInflater.  By default it returns a null inflater.
-         *
-         * @return A unique_ptr to an inflater created by a child class.  If the child class did not implement
-         * the method then it will be null.
+         * @brief Implements a default system serializer. It will serialzie polymorphic and non-polymorphic components.
          */
-        std::unique_ptr<AbstractInflater> GetInflater() override
+        virtual void Serialize(Archive & arc)
         {
-            return std::unique_ptr<AbstractInflater>(new DynamicInflater<UnorderedSystem<ComponentType>>(*this));
+            Serialize(arc, HasMethod::Serialize<ComponentType, Archive>());
+        }
+
+    private:
+        void Serialize(Archive & arc, std::true_type)
+        {
+            if (arc.IsLoading())
+            {
+                arc.EnterProperty("components");
+                for(auto entityKey : arc.CurrentBranch().getMemberNames())
+                {
+                    ComponentType * value; 
+                    arc(value, entityKey);
+                    auto entity = arc.GetEntity(entityKey);
+                    AttachComponent(entity, value);
+                }
+                arc.ExitProperty();
+            }
+            else
+            {
+                //TODO ANC-78 Implement saving of unordered systems
+            }
+        }
+
+        void Serialize(Archive & arc, std::false_type)
+        {
+            Assert(false, "Cannot serialize system if its components lack a serialize method.");
+        }
+
+        bool FetchDependencies(const Entity & entity, std::true_type) 
+        {
+            (*this)[entity]->FetchDependencies(entity);
+            return true;
+        }
+
+        bool FetchDependencies(const Entity & entity, std::false_type)
+        {
+            return false;
         }
 
         /**
-         * @brief Inflates the unordered system.
+         * @copydoc AbstractSystem::FetchComponentDependencies()
          */
-        void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext) override
+        void FetchComponentDependencies(const Entity & entity) override
         {
-            Assert(false, "No inflater defined for this system");
-            return NULL;
+            FetchDependencies(entity, HasMethod::FetchDependencies<ComponentType, Entity>());
         }
-
-
 
     protected:
         /**
@@ -192,7 +222,7 @@ class UnorderedSystem : public AbstractSystem
          * @param entity Component that should be attached to the entity
          * @param component Entity to attach the component to
          */
-        void AttachComponent(const Entity & entity, ComponentType * component)
+        virtual void AttachComponent(const Entity & entity, ComponentType * component)
         {
             Assert(component != NULL, "Can not attach a null component");
             Assert(_components.find(entity) == _components.end(),
@@ -207,6 +237,7 @@ class UnorderedSystem : public AbstractSystem
          * @brief Used to store components
          */
         std::unordered_map<Entity, ComponentType *> _components;
+
 };
 
 }

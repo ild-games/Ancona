@@ -1,6 +1,4 @@
-
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
-
 
 namespace ild
 {
@@ -22,5 +20,10 @@ bool Position::IsOnGround() const
     return _groundDirection != Point();
 }
 
+void Position::Serialize(Archive & arc)
+{
+    arc(_position, "position");
+    arc(_velocity, "velocity");
 }
 
+}

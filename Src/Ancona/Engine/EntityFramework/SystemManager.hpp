@@ -8,7 +8,6 @@
 
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Engine/Loading/AbstractInflater.hpp>
 
 namespace ild
 {
@@ -118,11 +117,13 @@ class SystemManager
          */
         void UnregisterComponent(Entity entity, AbstractSystem * owningSystem);
 
+        /**
+         * @brief Called when all components should fetch their dependencies.
+         */
+        void FetchWaitingDependencies();
 
         /* getters and setters */
-        std::vector<std::pair<std::string, AbstractInflater *>> GetComponentInflaters();
         std::vector<std::pair<std::string, AbstractSystem *>> GetKeyedSystems() { return _keyedSystems; }
-
     private:
         /**
          * @brief Used to track which systems are controlled by the manager and
@@ -142,6 +143,10 @@ class SystemManager
          * @brief Holds the entities queued for deletion
          */
         std::vector<Entity> _deleteQueue;
+        /**
+         * @brief Holds pairs of entities and systems that haven't yet fetched their dependencies.
+         */
+        std::vector<std::pair<Entity, AbstractSystem *>> _needDependencyFetch;
         /**
          * @brief A map used to key entities using strings.
          */
@@ -164,6 +169,8 @@ class SystemManager
          * @brief Returns true if the systemName is already associated with a system being managed.
          */
         bool ContainsName(std::string & systemName);
+
+
 };
 
 }

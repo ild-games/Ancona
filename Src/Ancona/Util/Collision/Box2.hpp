@@ -5,14 +5,13 @@
 
 #include <SFML/System.hpp>
 
-#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 #include <Ancona/Util/Collision/Box3.hpp>
 
 namespace ild
 {
 
 /**
- * @brief Represents a square in 2d space with dimmension, position,
+ * @brief Represents a square in 2d space with dimension, position,
  * and rotation
  * @author Jeff Swenson
  */
@@ -20,14 +19,27 @@ class Box2
 {
     public:
         /**
+         * @brief Position of the box.  The position is located at the center.
+         */
+        sf::Vector2f Position;
+        /**
+         * @brief Dimension of the box:  Length X Width
+         */
+        sf::Vector2f Dimension;
+        /**
+         * @brief The rotation of the box.
+         */
+        float Rotation;
+
+        /**
          * @brief Create a square
          *
          * @param position Position of the square.  The position is in the center of the square.
-         * @param dimmension Dimmension of the square
+         * @param dimension Dimension of the square
          * @param rotation Rotation of the square
          */
-        Box2(const sf::Vector2f & position,
-             const sf::Vector2f & dimmension,
+        Box2(const sf::Vector2f & position = sf::Vector2f(),
+             const sf::Vector2f & dimension = sf::Vector2f(),
              const float & rotation=0.0f);
 
         /**
@@ -41,8 +53,8 @@ class Box2
         /**
          * @brief Construct a box with zero position and rotation.
          *
-         * @param dimX Size in the X dimmension.
-         * @param dimY Size in the Y dimmension.
+         * @param dimX Size in the X dimension.
+         * @param dimY Size in the Y dimension.
          */
         Box2(float dimX, float dimY);
 
@@ -53,19 +65,6 @@ class Box2
          * @param y Y position.
          */
         void SetPosition(float x, float y);
-
-        /**
-         * @brief Position of the box.  The position is located at the center.
-         */
-        sf::Vector2f Position;
-        /**
-         * @brief Dimmension of the box:  Length X Width
-         */
-        sf::Vector2f Dimmension;
-        /**
-         * @brief The rotation of the box.
-         */
-        float Rotation;
 
         /**
          * @brief Test if the two boxes intersect

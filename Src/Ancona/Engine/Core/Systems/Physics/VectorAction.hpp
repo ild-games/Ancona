@@ -1,8 +1,9 @@
 #ifndef Ancona_Engine_Physics_VectorAction_hpp
 #define Ancona_Engine_Physics_VectorAction_hpp
 
-#include <Ancona/Engine/Core/Systems/Physics/Action.hpp>
 #include <SFML/System.hpp>
+
+#include <Ancona/Engine/Core/Systems/Physics/Action.hpp>
 
 namespace ild
 {
@@ -42,12 +43,12 @@ class VectorAction : public Action<VectorAction>
         VectorAction * RelativeToGround(bool value) { _relativeToGround = value; return this; }
 
         /**
-         * @brief Get the ratio that the value should be tweened by.
-         *
-         * @return The tween ratio.
+         * @copydoc ild::CameraComponent::Serialize
          */
-        float GetTweenRatio();
+        void Serialize(Archive & arc);
 
+        /* getters and setters */
+        float GetTweenRatio();
         const sf::Vector2f & GetValue() { return _value; }
         bool GetRelativeToGround() { return _relativeToGround; }
     private:

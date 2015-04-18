@@ -1,6 +1,7 @@
 #ifndef Ancona_Engine_Physics_Action_hpp
 #define Ancona_Engine_Physics_Action_hpp
 
+#include <Ancona/Engine/Loading/Loading.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 namespace ild
@@ -76,6 +77,13 @@ class Action
         bool Done() 
         {
             return _duration < _age;
+        }
+
+        void Serialize(Archive & arc)
+        {
+            arc(_duration, "duration");
+            arc(_age, "age");
+            arc(_priority, "priority");
         }
 
         int GetPriority() { return _priority; }

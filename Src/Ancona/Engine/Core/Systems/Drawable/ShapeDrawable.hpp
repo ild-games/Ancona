@@ -20,17 +20,22 @@ class ShapeDrawable : public Drawable
 {
     public:
         /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
+        ShapeDrawable() {}
+
+        /**
          * @brief An element to draw a shape to an entity.
          *
-         * @param positionComponent Component that defines the entity's position.
+         * @param physicsSystem System that defines the entity's position
          * @param shape SFML Shape that is going to be drawn.
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param priorityOffset Optional offset to the render priority
          * @param positionOffset Offset coordinates from the PositionComponent
          */
         ShapeDrawable(
-                const BasePhysicsComponent & physicsComponent, 
-                sf::Shape & shape,
+                BasePhysicsSystem * physicsSystem,
+                sf::Shape * shape,
                 const int priority,
                 int priorityOffset,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
@@ -44,22 +49,25 @@ class ShapeDrawable : public Drawable
         void Draw(sf::RenderWindow & window, float delta);
 
         /**
-         * @brief Inflate a shape drawable.
+         * @copydoc ild::CameraComponent::Serialize
          */
-        static void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext);
+        void Serialize(Archive & arc);
+
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
         sf::Vector2u GetSize();
         int GetAlpha();
         void SetAlpha(int alpha);
+
     private:
         /**
          * @brief Shape used for the drawing.
          */
-        sf::Shape & _shape;
+        std::unique_ptr<sf::Shape> _shape;
 };
 
 }

@@ -27,11 +27,16 @@ class DrawableComponent
 {
     public:
         /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
+        DrawableComponent();
+    
+        /**
          * @brief Construct a DrawableComponent.
          *
          * @param cameraComponent CameraComponent used to render these renderables.
          */
-        DrawableComponent(CameraComponent & cameraComponent);
+        DrawableComponent(CameraComponent * cameraComponent);
 
         /**
          * @brief Adds a drawable element to the component.
@@ -50,9 +55,18 @@ class DrawableComponent
          */
         void RemoveDrawable(const std::string key);
 
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
+
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
 
         /* getters and setters */
-        std::vector<Drawable *> GetDrawables();
+        std::vector<Drawable *> GetKeylessDrawables();
         Drawable * GetDrawable(std::string key) { return _drawables[key].get(); }
         template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); } 
     private:
@@ -63,7 +77,10 @@ class DrawableComponent
         /**
          * @brief Camera the drawables for this component are rendered with.
          */
-        CameraComponent & _camera;
+        CameraComponent * _camera;
+        CameraSystem * _cameraSystem;
+        DrawableSystem * _drawableSystem;
+        Entity _camEntity = nullentity;
 };
 
 }

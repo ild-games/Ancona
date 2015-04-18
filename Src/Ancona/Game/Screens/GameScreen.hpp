@@ -3,8 +3,10 @@
 
 #include <map>
 
-#include <Ancona/Engine/Screens/AbstractScreen.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
+#include <Ancona/Engine/Screens/AbstractScreen.hpp>
+#include <Ancona/Game/EntityFactories/EnvironmentFactory.hpp>
+#include <Ancona/Game/EntityFactories/PlayerFactory.hpp>
 #include <Ancona/Game/Systems/GameScreenSystems.hpp>
 
 namespace ild
@@ -22,8 +24,11 @@ class GameScreen : public AbstractScreen
          * @brief Default constructor for screen.
          *
          * @param manager ScreenManager instance for the game.
+         * @param profile The profile used for this screen.
          */
-        GameScreen(ScreenManager & manager);
+        GameScreen(
+                ScreenManager & manager,
+                int profile);
 
         /**
          * @brief Updates the entity systems on the screen.

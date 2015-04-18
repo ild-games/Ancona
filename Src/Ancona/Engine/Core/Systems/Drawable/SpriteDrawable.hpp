@@ -16,16 +16,21 @@ class SpriteDrawable : public Drawable
 {
     public:
         /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
+        SpriteDrawable() {}
+
+        /**
          * @brief An element to draw a sprite to an entity.
          *
-         * @param positionComponent Component that defines the entity's position.
+         * @param physicsSystem System that describes the entity's location.
          * @param textureKey String that describes which texture should be used
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param priorityOffset Optional offset to the render priority
          * @param positionOffset Offset coordinates from the PositionComponent
          */
         SpriteDrawable(
-                const BasePhysicsComponent & physicsComponent, 
+                BasePhysicsSystem * physicsSystem,
                 const std::string textureKey,
                 const int priority,
                 int priorityOffset = 0,
@@ -40,22 +45,22 @@ class SpriteDrawable : public Drawable
         virtual void Draw(sf::RenderWindow & window, float delta);
 
         /**
-         * @brief Inflate a sprite drawable.
+         * @copydoc ild::CameraComponent::Serialize
          */
-        static void * Inflate(
-                const Json::Value & object,
-                const Entity & entity,
-                LoadingContext * loadingContext);
+        void Serialize(Archive & arc);
+
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
         sf::Vector2u GetSize();
         int GetAlpha();
         void SetAlpha(int alpha);
     protected:
-        /**
-         * @brief Sprite being drawn.
-         */
         sf::Sprite * _sprite;
+        std::string _textureKey;
 };
 
 }

@@ -7,6 +7,7 @@
 #include <jsoncpp/json/json.h>
 
 #include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
+#include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Engine/Loading/LoadingContext.hpp>
 #include <Ancona/Engine/Resource/RequestList.hpp>
 
@@ -38,7 +39,7 @@ class MapLoader
         /**
          * @brief Create a loader to initialize the systems.
          *
-         * @param key Key that describes the screen file.
+         * @param key Key that describes the map the screen is currently on.
          * @param systems Instance of the system container for the screen being loaded.
          */
         MapLoader(std::string key, ScreenSystemsContainer & systems);
@@ -66,9 +67,10 @@ class MapLoader
         void LoadAssets();
         void LoadEntities();
         void LoadComponents();
+        void LoadSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive & currentArc);
 
         /**
-         * @brief Key that describes the map.
+         * @brief Key that describes the map the screen is currently on.
          */
         std::string _key;
         /**
@@ -82,11 +84,19 @@ class MapLoader
         /**
          * @brief Root of the map json being loaded.
          */
-        Json::Value _root;
+        Json::Value _mapRoot;
+        /**
+         * @brief Root of the save json for the file.
+         */
+        Json::Value _saveRoot;
         /**
          * @brief Loading context for the current load.
          */
         std::unique_ptr<LoadingContext> _loadingContext;
+        /**
+         * @brief Profile of the game session.
+         */
+        int _profile;
 };
 
 }
