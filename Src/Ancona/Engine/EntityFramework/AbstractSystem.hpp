@@ -39,6 +39,11 @@ class AbstractSystem
                 UpdateStepEnum updateStep);
 
         /**
+         * @brief Overridable destructor for systems.
+         */
+        virtual ~AbstractSystem() {}
+
+        /**
          * @brief Called to update all components controlled by the system.
          *
          * @param delta The amount of time that has passed since the last update in ms
@@ -78,8 +83,6 @@ class AbstractSystem
          * @param entity Entity the component is associated with.
          */
         virtual void FetchComponentDependencies(const Entity & entity) = 0;
-
-        virtual ~AbstractSystem() {}
 
     protected:
         SystemManager & _systemManager;
