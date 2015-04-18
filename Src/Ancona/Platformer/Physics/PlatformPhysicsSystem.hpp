@@ -1,13 +1,14 @@
-#ifndef Ancona_Engine_Physics_PhysicsSystem_hpp
-#define Ancona_Engine_Physics_PhysicsSystem_hpp
+#ifndef Ancona_Platformer_Physics_PhysicsSystem_hpp
+#define Ancona_Platformer_Physics_PhysicsSystem_hpp
 
 #include <memory>
 #include <string>
 
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/Actions.hpp>
 #include <Ancona/Engine/Loading/LoadingContext.hpp>
+
+#include "Actions.hpp"
 
 namespace ild
 {

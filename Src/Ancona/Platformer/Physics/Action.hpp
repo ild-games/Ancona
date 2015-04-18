@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Physics_Action_hpp
-#define Ancona_Engine_Physics_Action_hpp
+#ifndef Ancona_Platformer_Physics_Action_hpp
+#define Ancona_Platformer_Physics_Action_hpp
 
 #include <Ancona/Engine/Loading/Loading.hpp>
 #include <Ancona/Util/Assert.hpp>
