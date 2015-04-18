@@ -1,4 +1,5 @@
 #include <Ancona/Engine/Core/Systems/Physics/Actions.hpp>
+#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 
 using namespace ild;
 
@@ -36,8 +37,8 @@ void Actions::Serialize(Archive & arc)
 void RemoveDoneActions(std::vector<VectorActionProxy> & actions)
 {
     actions.erase(
-            std::remove_if(
-                actions.begin(), actions.end(),
+            alg::remove_if(
+                actions,
                 [](VectorActionProxy & action) { return action->Done(); }
                 ),
             actions.end()
