@@ -3,8 +3,6 @@
 
 #include <SFML/System.hpp>
 
-
-
 namespace ild
 {
 
