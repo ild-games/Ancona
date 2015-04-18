@@ -1,6 +1,6 @@
-#include<Ancona/Util/Collision/Box2.hpp>
-#include<Ancona/Util/Collision/Math.hpp>
-#include<Ancona/Util/VectorMath.hpp>
+#include<Ancona/Util2D/Collision/Box2.hpp>
+#include<Ancona/Util2D/Collision/Math.hpp>
+#include<Ancona/Util2D/VectorMath.hpp>
 
 #include<cmath>
 

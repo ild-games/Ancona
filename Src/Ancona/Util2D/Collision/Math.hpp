@@ -1,5 +1,5 @@
-#ifndef Ancona_Util_Collision_Math_H_
-#define Ancona_Util_Collision_Math_H_
+#ifndef Ancona_Util2D_Collision_Math_H_
+#define Ancona_Util2D_Collision_Math_H_
 
 #include <utility>
 #include <vector>

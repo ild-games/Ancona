@@ -1,4 +1,6 @@
-#include <Ancona/Util/VectorMath.hpp>
+#include <cmath>
+
+#include <Ancona/Util2D/VectorMath.hpp>
 
 namespace ild
 {

@@ -5,7 +5,7 @@
 #include <Ancona/Engine/Loading/Serializer.hpp>
 #include <Ancona/Engine/Loading/SFMLSerializer.hpp>
 #include <Ancona/Engine/Loading/StdSerializer.hpp>
-#include <Ancona/Util/Collision/Box2.hpp>
+#include <Ancona/Util2D/Collision/Box2.hpp>
 
 namespace ild {
 

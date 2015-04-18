@@ -2,7 +2,7 @@
 #define Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Util/Collision/Box2.hpp>
+#include <Ancona/Util2D/Collision/Box2.hpp>
 
 namespace ild
 {

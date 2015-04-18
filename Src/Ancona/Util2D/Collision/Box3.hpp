@@ -1,5 +1,5 @@
-#ifndef Ancona_Util_Box3_H_
-#define Ancona_Util_Box3_H_
+#ifndef Ancona_Util2D_Box3_H_
+#define Ancona_Util2D_Box3_H_
 
 #include <SFML/System.hpp>
 

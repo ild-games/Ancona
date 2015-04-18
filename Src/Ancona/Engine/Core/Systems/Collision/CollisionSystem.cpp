@@ -2,7 +2,7 @@
 
 #include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Util/Assert.hpp>
-#include <Ancona/Util/VectorMath.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 using namespace ild;
 
