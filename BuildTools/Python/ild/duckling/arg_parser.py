@@ -38,7 +38,7 @@ _BUILD_FLAG_NOT_GIVEN = "no^build^specified"
 #
 def parse():
     parser = create_parser()
-    return create_tuple(parser.parse_args())
+    return ArgumentInfo(parser.parse_args())
 
 
 def create_parser():
@@ -70,6 +70,21 @@ def create_parser():
             )
     
     return parser
+
+class ArgumentInfo:
+    def __init__(self, arguments):
+        platform,target,documentation = create_tuple(arguments)
+        self.__build_platform = platform
+        self.__run_target = target
+        self.__generate_documentation = documentation
+    def get_build_platform(self):
+        return self.__build_platform
+    def get_run_target(self):
+        return self.__run_target
+    def should_generate_documentation(self):
+        return self.__generate_documentation
+    def should_build(self):
+        return (not self.should_generate_documentation()) and self.get_build_platform()
 
 def create_tuple(arguments):
     if not arguments.platform and not arguments.target:
