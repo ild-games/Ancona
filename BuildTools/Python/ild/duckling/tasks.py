@@ -1,4 +1,6 @@
-from ild import building
+import os
+
+from ild import building,get_depend
 
 ##
 # @brief File that contains the different tasks that duckling can
@@ -19,7 +21,7 @@ class Tasks:
     ##
     # @brief Clean up the build directory
     def clean_build_directory(self):
-        building.command("rm -rf build/*",directory=project_root)
+        building.command("rm -rf build/*",directory=self.project_root)
 
     ##
     # @brief Download and build dependencies for an Android build
