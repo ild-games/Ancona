@@ -24,7 +24,7 @@ typedef int PlayerDirectionEnum;
  * @brief Contains the functions for manipulating the player's
  *        state based on input.
  *
- * @owner Tucker Lein
+ * @author Tucker Lein
  */
 class PlayerInputComponent : public InputControlComponent
 {

@@ -11,7 +11,7 @@ class PlayerInputComponent;
 /**
  * @brief Gathers input for the player using the keyboard.
  *
- * @owner Tucker Lein
+ * @author Tucker Lein
  */
 class PlayerKeyboard : public InputHandler
 {

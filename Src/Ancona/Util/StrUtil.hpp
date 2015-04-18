@@ -12,7 +12,7 @@ namespace ild
  *  to make up for some of that. Note that because of they way the c++ memory
  *  model works most functions in this class will mutate the argument string.
  *
- * @owner Jeff Swenson
+ * @author Jeff Swenson
  */
 class StrUtil
 {

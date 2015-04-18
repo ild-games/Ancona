@@ -10,9 +10,10 @@ namespace ild
 
 /**
  * @brief SFMLLoader can be used to define a loader for any SFML resource type that implements loadFromFile
- * @owner Jeff Swenson
  *
  * @tparam SFMLType Type of SFML resource to be loaded
+ *
+ * @author Jeff Swenson
  */
 template <class SFMLType>
 class SFMLResourceLoader : public AbstractLoader

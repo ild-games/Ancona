@@ -10,7 +10,7 @@ class InputControlComponent;
  * @brief Abstract input handler used to collect input for 
  *        specific actions
  *
- * @owner Tucker Lein
+ * @author Tucker Lein
  */
 class InputHandler
 {
