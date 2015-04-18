@@ -1,8 +1,8 @@
-#include <gtest/gtest.h>
-
 #include <cmath>
 
-#include <Ancona/Util/VectorMath.hpp>
+#include <gtest/gtest.h>
+
+#include <Ancona/Util2D/VectorMath.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 
 
