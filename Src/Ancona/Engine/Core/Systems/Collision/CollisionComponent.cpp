@@ -37,7 +37,7 @@ struct Serializer<BodyTypeEnum> {
     {
         if (arc.IsLoading())
         {
-            const std::string & val = arc.GetTopJson()->asString();
+            const std::string & val = arc.CurrentBranch().asString();
             if (val == "none")
             {
                 property = BodyType::None;

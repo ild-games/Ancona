@@ -13,9 +13,9 @@ namespace ild {
     template <> struct Serializer<type> { \
         static void Serialize(type & property, Archive & arc) { \
             if(arc.IsLoading()) { \
-                property = arc.GetTopJson()->method(); \
+                property = arc.CurrentBranch().method(); \
             } else { \
-                (*arc.GetTopJson()) = property; \
+                arc.CurrentBranch() = property; \
             } \
         } \
     };
@@ -42,7 +42,7 @@ template<class T>
 struct Serializer<std::vector<T>> {
     static void Serialize(std::vector<T> &property, Archive &arc) {
         if (arc.IsLoading()) {
-            for (int i = 0; i < arc.GetTopJson()->size(); i++) {
+            for (int i = 0; i < arc.CurrentBranch().size(); i++) {
                 property.emplace_back();
                 arc(property.back(), i);
             }
@@ -59,7 +59,7 @@ template<class T>
 struct Serializer<std::map<std::string, T>> {
     static void Serialize(std::map<std::string, T> &property, Archive &arc) {
         if (arc.IsLoading()) {
-            for (auto &entityKey : arc.GetTopJson()->getMemberNames()) {
+            for (auto &entityKey : arc.CurrentBranch().getMemberNames()) {
                 arc(property[entityKey], entityKey);
             }
         }

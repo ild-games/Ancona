@@ -132,7 +132,7 @@ class UnorderedSystem : public AbstractSystem
             if (arc.IsLoading())
             {
                 arc.EnterProperty("components");
-                for(auto entityKey : arc.GetTopJson()->getMemberNames())
+                for(auto entityKey : arc.CurrentBranch().getMemberNames())
                 {
                     ComponentType * value; 
                     arc(value, entityKey);

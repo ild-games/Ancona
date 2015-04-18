@@ -144,8 +144,14 @@ class Archive
          */
         void ExitProperty();
 
+        /**
+         * @brief Get a reference to the Json::Value that is currently being
+         * serialized to/from.
+         * @return Reference to the top of the property stack.
+         */
+        Json::Value & CurrentBranch();
+
         /* getters and setters */
-        Json::Value * GetTopJson() { return _jsonBranch.top(); }
         bool IsLoading() { return _loading; }
         LoadingContext & GetContext() { return _context; }
         Entity GetEntity(const std::string & key) 
@@ -164,7 +170,7 @@ class Archive
         std::stack<Json::Value *> _jsonBranch;
         LoadingContext & _context;
 
-        Json::Value & CurrentBranch();
+
 };
 
 }
