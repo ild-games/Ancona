@@ -1,9 +1,9 @@
-#include <Ancona/Engine/Config/Config.hpp>
 #include <Core/JumpyGame.hpp>
-#include <Ancona/Engine/Loading/PolymorphicRegistration.hpp>
+#include <Ancona/Engine/Config/Config.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
-#include <Ancona/Engine/Core/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Engine/Core/Systems/Drawable/TextDrawable.hpp>
+#include <Ancona/Engine/Core/Systems/Drawable/ShapeDrawable.hpp>
+#include <Ancona/Engine/Loading/PolymorphicRegistration.hpp>
 
 using namespace ild;
 

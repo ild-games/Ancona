@@ -7,11 +7,11 @@
 using namespace ild;
 
 Box2::Box2(const sf::Vector2f & position,
-        const sf::Vector2f & dimmension,
+        const sf::Vector2f & dimension,
         const float & rotation)
 {
     Position = position;
-    Dimension = dimmension;
+    Dimension = dimension;
     Rotation = rotation;
 }
 

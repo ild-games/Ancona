@@ -58,7 +58,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         /**
          * @brief Create a Type that can be assigned to a component.
          *
-         * @param Key describing the collision type.
+         * @param key describing the collision type.
          *
          * @return A unique Collision Type.
          */
@@ -79,28 +79,22 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          */
         void SetHandler(CollisionType typeA, CollisionType typeB, CollisionCallback callback);
 
-        /**
-         * @brief Set the max slope for an entity to be considered on the ground.
-         *
-         * @param value Max slope degrees that an entity can be on the ground for.
-         */
-        void SetMaxSlope(float value) { _maxSlope = value; }
 
         /* Getters and Setters */
         BasePhysicsSystem & GetPhysics() { return _positions; }
+        void SetMaxSlope(float value) { _maxSlope = value; }
     private:
-        void UpdateGravityBounds();
-        void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
-        bool IsOnGround(const Point & groundNormal);
-
         int _nextType;
         std::vector< std::vector<CollisionCallback> > _callbackTable;
         BasePhysicsSystem & _positions;
         std::unordered_map<std::string,CollisionType> _collisionTypes;
-
         Point _leftGravityBound;
         Point _rightGravityBound;
         float _maxSlope = 45;
+
+        void UpdateGravityBounds();
+        void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
+        bool IsOnGround(const Point & groundNormal);
 };
 
 }

@@ -3,8 +3,6 @@
 
 #include <SFML/System.hpp>
 
-#include <iostream>
-
 #include <Ancona/Engine/Loading/Loading.hpp>
 
 namespace ild
@@ -25,14 +23,17 @@ std::ostream & operator << (std::ostream& os, const Point&pt);
 class Position
 {
     public:
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
         //Access the current physical state of the entity.
         inline const Point & GetPosition() const { return _position; }
         inline const Point & GetVelocity() const { return _velocity; }
 
         inline void SetPosition(const Point & position) { _position = position; }
         inline void SetVelocity(const Point & velocity) { _velocity = velocity; }
-
-        void Serialize(Archive & arc);
 
         /**
          * @brief Determine if the object is on the ground.  

@@ -1,8 +1,5 @@
 #include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
 
-//TODO remove iostream
-#include <iostream>
-
 REGISTER_POLYMORPHIC_SERIALIZER(ild::PlatformPhysicsComponent);
 
 using namespace ild;
@@ -24,7 +21,6 @@ void PlatformPhysicsComponent::Serialize(Archive & archive)
 
 void PlatformPhysicsComponent::Update(float delta)
 {
-    std::cout << GetInfo().GetPosition().x << " " << GetInfo().GetPosition().y << std::endl;
     _actions.Apply(_position, delta);
 }
 

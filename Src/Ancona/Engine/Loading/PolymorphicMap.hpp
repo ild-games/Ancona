@@ -2,8 +2,8 @@
 #define Ancona_Engine_Loading_PolymorphicMap_H_
 
 #include <memory>
-#include <typeindex>
 #include <string>
+#include <typeindex>
 #include <unordered_map>
 
 #include <Ancona/Engine/Loading/PolymorphicSerializer.hpp>

@@ -15,12 +15,15 @@ namespace ild
 class SpriteDrawable : public Drawable
 {
     public:
+        /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
         SpriteDrawable() {}
 
         /**
          * @brief An element to draw a sprite to an entity.
          *
-         * @param physicsSystem System that describes the entities location.
+         * @param physicsSystem System that describes the entity's location.
          * @param textureKey String that describes which texture should be used
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param priorityOffset Optional offset to the render priority
@@ -41,17 +44,21 @@ class SpriteDrawable : public Drawable
          */
         virtual void Draw(sf::RenderWindow & window, float delta);
 
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
+
         /* getters and setters */
         sf::Vector2u GetSize();
         int GetAlpha();
         void SetAlpha(int alpha);
-
-        void FetchDependencies(const Entity & entity);
-        void Serialize(Archive & archive);
     protected:
-        /**
-         * @brief Sprite being drawn.
-         */
         sf::Sprite * _sprite;
         std::string _textureKey;
 };

@@ -1,8 +1,5 @@
-//
-// Created by jeff on 3/29/15.
-//
-
 #include <SFML/Graphics/RectangleShape.hpp>
+
 #include <Ancona/Engine/Loading/Loading.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER_ABSTRACT_BASE(sf::Shape);

@@ -26,4 +26,3 @@ void PolymorphicMap::RegisterType(const std::string & name, std::type_index type
     (*_typeToName)[type] = name;
     (*_serializers)[name] = std::unique_ptr<PolymorphicSerializer>(serializer);
 }
-

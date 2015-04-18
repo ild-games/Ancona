@@ -22,14 +22,13 @@ TextDrawable::TextDrawable(
             priorityOffset,
             positionOffset)
 {
-    _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
-    _text->setColor(color);
-    _text->setCharacterSize(characterSize);
-    if(!smooth)
-    {
-        const_cast<sf::Texture&>(_text->getFont()->getTexture(characterSize)).setSmooth(false);
-    }
-    CenterOrigin();
+     _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
+     _text->setColor(color);
+     _text->setCharacterSize(characterSize);
+     if(!smooth)
+     {
+         const_cast<sf::Texture&>(_text->getFont()->getTexture(characterSize)).setSmooth(false);
+     }
 }
 
 void TextDrawable::Draw(sf::RenderWindow & window, float delta)
@@ -48,6 +47,16 @@ void TextDrawable::CenterOrigin()
     sf::FloatRect textRect = _text->getLocalBounds();
     _text->setOrigin(textRect.left + (textRect.width / 2.0f),
                      textRect.top  + (textRect.height / 2.0f));
+}
+
+void TextDrawable::Serialize(Archive &archive) {
+    Drawable::Serialize(archive);
+    archive(_text, "text");
+}
+
+void TextDrawable::FetchDependencies(const Entity &entity) {
+    Drawable::FetchDependencies(entity);
+    CenterOrigin();
 }
 
 /* getters and setters */
@@ -75,14 +84,3 @@ void TextDrawable::SetAlpha(int alpha)
     _text->setColor(*col);
     delete col;
 }
-
-void TextDrawable::Serialize(Archive &archive) {
-    Drawable::Serialize(archive);
-    archive(_text, "text");
-}
-
-void TextDrawable::FetchDependencies(const Entity &entity) {
-    Drawable::FetchDependencies(entity);
-    CenterOrigin();
-}
-

@@ -1,6 +1,5 @@
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
 
-
 namespace ild
 {
 
@@ -28,4 +27,3 @@ void Position::Serialize(Archive & arc)
 }
 
 }
-

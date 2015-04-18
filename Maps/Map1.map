@@ -53,7 +53,7 @@
         "camera": {
             "components": {
                 "screen-cam": {
-                    "renderPriority": 0,
+                    "render-priority": 0,
                     "scale": 1.0,
                     "default": true,
                     "follows": "player"
@@ -71,7 +71,7 @@
                                 "__cpp_type": "sf::RectangleShape",
                                 "width": 16.0,
                                 "height": 17.0
-                             },
+                            },
                             "render-priority": 0,
                             "priority-offset": -2,
                             "position-offset": {

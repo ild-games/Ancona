@@ -30,6 +30,7 @@ class ScreenSystemsContainer
          * @brief Constructs the container for the game's systems.
          *
          * @param screenManager The screen manager for the game.
+         * @param profile The profile for this instance of the game.
          */
         ScreenSystemsContainer(
                 ScreenManager & screenManager,

@@ -26,6 +26,9 @@ class DrawableSystem;
 class DrawableComponent
 {
     public:
+        /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
         DrawableComponent();
     
         /**
@@ -53,14 +56,17 @@ class DrawableComponent
         void RemoveDrawable(const std::string key);
 
         /**
-         * @copydoc ild::BasePhysicsComponent::FetchDependencies
+         * @copydoc ild::CameraComponent::FetchDependencies
          */
         void FetchDependencies(const Entity & entity);
 
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
         void Serialize(Archive & arc);
 
         /* getters and setters */
-        std::vector<Drawable *> GetDrawables();
+        std::vector<Drawable *> GetKeylessDrawables();
         Drawable * GetDrawable(std::string key) { return _drawables[key].get(); }
         template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); } 
     private:

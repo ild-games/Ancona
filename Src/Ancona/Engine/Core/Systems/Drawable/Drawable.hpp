@@ -45,7 +45,11 @@ class Drawable
 {
 
     public:
+        /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
         Drawable () {}
+
         /**
          * @brief Constructs a Drawable.
          *
@@ -69,6 +73,16 @@ class Drawable
                 sf::RenderWindow & window, 
                 float delta) = 0;
 
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        virtual void FetchDependencies(const Entity & entity);
+
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        virtual void Serialize(Archive & arc);
+
         /* getters and setters */
         int GetRenderPriority() { return _renderPriority + _priorityOffset; }
         float GetRotation() { return _rotation; }
@@ -77,9 +91,6 @@ class Drawable
         virtual int GetAlpha() = 0;
         virtual void SetAlpha(int alpha) = 0;
 
-        virtual void FetchDependencies(const Entity & entity);
-
-        virtual void Serialize(Archive & archive);
 
     protected:
         BasePhysicsSystem * _physicsSystem;

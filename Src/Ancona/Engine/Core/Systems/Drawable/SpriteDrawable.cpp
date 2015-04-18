@@ -16,7 +16,8 @@ SpriteDrawable::SpriteDrawable(
             physicsSystem,
             priority,
             priorityOffset,
-            positionOffset), _textureKey(textureKey)
+            positionOffset), 
+    _textureKey(textureKey)
 {
 }
 
@@ -29,6 +30,20 @@ void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
     _sprite->setPosition(position.x,position.y);
     _sprite->setRotation(_rotation);
     window.draw(*_sprite);
+}
+
+void SpriteDrawable::FetchDependencies(const Entity &entity) {
+    Drawable::FetchDependencies(entity);
+    sf::Texture & texture = *ResourceLibrary::Get<sf::Texture>(_textureKey);
+    _sprite = new sf::Sprite(texture);
+    _sprite->setOrigin(
+            texture.getSize().x / 2,
+            texture.getSize().y / 2);
+}
+
+void SpriteDrawable::Serialize(Archive &archive) {
+    Drawable::Serialize(archive);
+    archive(_textureKey, "texture-key");
 }
 
 /* getters and setters */
@@ -49,19 +64,4 @@ void SpriteDrawable::SetAlpha(int alpha)
     sf::Color col(_sprite->getColor());
     col.a = alpha;
     _sprite->setColor(col);
-}
-
-void SpriteDrawable::FetchDependencies(const Entity &entity) {
-    Drawable::FetchDependencies(entity);
-    sf::Texture & texture = *ResourceLibrary::Get<sf::Texture>(_textureKey);
-    _sprite = new sf::Sprite(texture);
-    _sprite->setOrigin(
-            texture.getSize().x / 2,
-            texture.getSize().y / 2);
-    _rotation = 0.0f;
-}
-
-void SpriteDrawable::Serialize(Archive &archive) {
-    Drawable::Serialize(archive);
-    archive(_textureKey, "texture-key");
 }

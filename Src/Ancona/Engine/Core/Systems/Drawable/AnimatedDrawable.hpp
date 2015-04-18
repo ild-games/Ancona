@@ -14,12 +14,15 @@ namespace ild
 class AnimatedDrawable : public SpriteDrawable
 {
     public:
+        /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
         AnimatedDrawable() {}
 
         /**
          * @brief Constructs an AnimatedDrawable
          *
-         * @param physicsSystem Physics system used to determine the entitie's location.
+         * @param physicsSystem Physics system used to determine the entity's location.
          * @param textureKey Key of the texture used for the animation.
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param frameDimensions Dimensions of a frame in the animated texture.
@@ -45,8 +48,16 @@ class AnimatedDrawable : public SpriteDrawable
          */
         void Draw(sf::RenderWindow & window, float delta);
 
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
         void FetchDependencies(const Entity & entity);
-        void Serialize(Archive & archive);
+
     private:
         /**
          * @brief Dimensions of a frame in the animated texture.

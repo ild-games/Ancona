@@ -12,17 +12,17 @@
                         "player": {
                             "__cpp_type": "ild::PlatformPhysicsComponent",
                             "actions": {
-                                    "platform-position-actions": [
-                                        {
-                                            "value": {
-                                                "x": 50.0,
-                                                "y": 200.0
-                                            },
-                                            "tween": 0,
-                                            "duration": 0
-                                        }
-                                    ],
-                                    "gravity": true
+                                "platform-position-actions": [
+                                    {
+                                        "value": {
+                                            "x": 50.0,
+                                            "y": 200.0
+                                        },
+                                        "tween": 0,
+                                        "duration": 0
+                                    }
+                                ],
+                                "gravity": true
                             }
                         }
                     }

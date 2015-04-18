@@ -79,7 +79,7 @@ namespace PolymorphicRegistration
     }
 
     /**
-     * @brief Saves a mapping between the string name and an abstract type type.
+     * @brief Saves a mapping between the string name and an abstract type.
      *
      * @tparam T Type being registered
      * @param name Name representing the type.

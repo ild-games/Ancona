@@ -17,7 +17,8 @@ namespace ild
 
 GENERATE_METHOD_TESTER(FetchDependencies);
 
-/** * @brief Implements most of the logic needed by a system for tracking components.
+/** 
+ * @brief Implements most of the logic needed by a system for tracking components.
  * Any system that does not need its components stored in a specific order should 
  * inherit from this class.
  *
@@ -149,7 +150,7 @@ class UnorderedSystem : public AbstractSystem
 
         void Serialize(Archive & arc, std::false_type)
         {
-            //no-op
+            Assert(false, "Cannot serialize system if its components lack a serialize method.");
         }
 
         bool FetchDependencies(const Entity & entity, std::true_type) 
@@ -231,6 +232,7 @@ class UnorderedSystem : public AbstractSystem
             _systemManager.RegisterComponent(entity, this);
         }
 
+    private:
         /**
          * @brief Used to store components
          */

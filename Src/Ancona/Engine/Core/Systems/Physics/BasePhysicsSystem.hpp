@@ -12,6 +12,16 @@ class BasePhysicsComponent
 {
     public:
         /**
+         * @brief Overriable default destructor.
+         */
+        virtual ~BasePhysicsComponent() {}
+
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
+        /**
          * @brief Get information about the Entities position.
          *
          * @return A constant reference to the position information.
@@ -25,10 +35,6 @@ class BasePhysicsComponent
          * @return A mutable reference to the entities position.
          */
         Position & GetMutableInfo() { return _position; }
-
-        void Serialize(Archive & arc);
-
-        virtual ~BasePhysicsComponent() {}
 
     protected:
         /**
