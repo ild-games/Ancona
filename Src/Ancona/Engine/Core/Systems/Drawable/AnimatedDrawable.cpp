@@ -1,5 +1,5 @@
 #include <Ancona/Engine/Core/Systems/Drawable/AnimatedDrawable.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::AnimatedDrawable)
 

@@ -7,7 +7,7 @@
 #include <SFML/Window.hpp>
 
 #include <Ancona/Engine/Core/Systems/Drawable/Drawable.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Loading/Loading.hpp>
 
@@ -124,7 +124,7 @@ class CameraComponent
          * @brief Entity the camera follows.
          */
         Entity _follows;
-        PlatformPhysicsSystem * _physicsSystem;
+        BasePhysicsSystem * _physicsSystem;
         DrawableSystem * _drawableSystem;
         bool _default = false;
 

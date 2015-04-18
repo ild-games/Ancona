@@ -3,7 +3,7 @@
 
 #include <SFML/System.hpp>
 
-#include <Ancona/Engine/Core/Systems/Physics/Action.hpp>
+#include "Action.hpp"
 
 namespace ild
 {

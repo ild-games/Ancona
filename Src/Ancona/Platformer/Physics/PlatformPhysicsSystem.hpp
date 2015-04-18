@@ -6,8 +6,9 @@
 
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/Actions.hpp>
 #include <Ancona/Engine/Loading/LoadingContext.hpp>
+
+#include "Actions.hpp"
 
 namespace ild
 {

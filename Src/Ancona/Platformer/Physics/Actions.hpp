@@ -5,9 +5,10 @@
 #include <memory>
 #include <vector>
 
-#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/VectorAction.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
+
+#include "VectorAction.hpp"
 
 namespace ild
 {

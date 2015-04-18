@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 
 #include <Ancona/Engine/EntityFramework/SystemManager.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 
 using namespace ild;
 
