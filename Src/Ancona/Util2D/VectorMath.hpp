@@ -1,5 +1,5 @@
-#ifndef Ancona_Util_VectorMath_H_
-#define Ancona_Util_VectorMath_H_
+#ifndef Ancona_Util2D_VectorMath_H_
+#define Ancona_Util2D_VectorMath_H_
 
 #include <SFML/System.hpp>
 

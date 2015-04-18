@@ -1,5 +1,5 @@
-#ifndef Ancona_Util_Box2_H_
-#define Ancona_Util_Box2_H_
+#ifndef Ancona_Util2D_Box2_H_
+#define Ancona_Util2D_Box2_H_
 
 #include <vector>
 
