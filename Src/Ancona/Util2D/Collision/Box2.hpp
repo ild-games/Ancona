@@ -5,7 +5,7 @@
 
 #include <SFML/System.hpp>
 
-#include <Ancona/Util/Collision/Box3.hpp>
+#include <Ancona/Util2D/Collision/Box3.hpp>
 
 namespace ild
 {
