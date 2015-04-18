@@ -18,7 +18,7 @@ class SystemManager;
  * @brief Class that all systems must indirectly inherit from. It is used to hide the 
  *  component type of the system from the system manager.
  *
- * @owner Jeff Swenson
+ * @author Jeff Swenson
  */
 class AbstractSystem 
 {

@@ -12,7 +12,7 @@ namespace ild
  * @brief Provides static methods to determine the state of the
  *        keyboard.
  *
- * @owner Tucker Lein
+ * @author Tucker Lein
  */
 class Keyboard
 {

@@ -10,7 +10,9 @@ namespace ild
 
 /**
  * @brief Class that all resource loaders should inherit from
- * @owner Jeff Swenson & Tucker Lein
+ *
+ * @author Jeff Swenson
+ * @author Tucker Lein
  */
 class AbstractLoader
 {

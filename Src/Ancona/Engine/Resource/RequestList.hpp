@@ -12,7 +12,9 @@ namespace ild
 
 /**
  * @brief Describes a list of resources to be loaded
- * @owner Jeff Swenson & Tucker Lein
+ *
+ * @author Jeff Swenson
+ * @author Tucker Lein
  */
 class RequestList
 {

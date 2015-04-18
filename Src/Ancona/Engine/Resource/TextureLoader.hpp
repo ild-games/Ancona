@@ -11,7 +11,7 @@ namespace ild
 /**
  * @brief Texture loader is used to load an sf::Texture
 *
- * @owner Jeff Swenson
+ * @author Jeff Swenson
  */
 class TextureLoader : public SFMLResourceLoader<sf::Texture>
 {

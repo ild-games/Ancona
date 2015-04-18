@@ -11,7 +11,7 @@ namespace ild
 /**
  * @brief Used to load and store configuration options.  Load should be the first method called in
  * the ancona engine.
- * @owner Jeff Swenson
+ * @author Jeff Swenson
  */
 class Config 
 {

@@ -14,7 +14,7 @@ namespace UpdateStep
     
     /**
      * @brief Defines when a system should be updated
-     * @owner Jeff Swenson
+     * @author Jeff Swenson
      */
     enum UpdateStep
     {
@@ -26,7 +26,7 @@ namespace UpdateStep
 
 /**
  * @brief Defines when a system should be updated.
- * @owner Jeff Swenson
+ * @author Jeff Swenson
  */
 typedef UpdateStep::UpdateStep UpdateStepEnum;
 
