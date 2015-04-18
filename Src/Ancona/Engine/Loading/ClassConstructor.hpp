@@ -7,6 +7,16 @@
 
 namespace ild {
 
+
+/**
+ * @brief Template that is used by the loading framework to construct objects.  The point
+ * is it can be specialized to prevent construction or to construct an object using something
+ * other than the default constructor.
+ *
+ * @author Jeff Swenson
+ *
+ * @tparam T Type that is constructed.
+ */
 template<typename T>
 class ClassConstructor {
     public:
@@ -17,6 +27,16 @@ class ClassConstructor {
 
 }
 
+/**
+ * @brief Used to specify that a class is abstract and should not be constructed
+ * by the loading system.
+ *
+ * Generates a ClassConstructor template specialization for an
+ * abstract class.  Instead of calling the constructor it calls an assert that
+ * prevents the abstract class from being initialized.
+ *
+ * @param CLASS Abstract class that cannot be serialized.
+ */
 #define GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(CLASS)                       \
     namespace ild {                                                      \
     template <> class ClassConstructor<CLASS> {                          \
@@ -25,4 +45,4 @@ class ClassConstructor {
             return nullptr;                                              \
     }};}
 
-#endif //ANCONA_CLASSCONSTRUCTOR_H
+#endif

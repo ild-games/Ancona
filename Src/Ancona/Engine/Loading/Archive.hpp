@@ -49,6 +49,19 @@ class Archive
             ExitProperty();
         }
 
+       /**
+       * @brief Serialize or deserialize the property based on if the game is being loaded or saved.
+       *        When loading it will check if the property has a __cpp_type value.  If it does that
+       *        will be used to look up the polymorphic serializer in PolymorphicMap.  If it is not
+       *        in the map then the normal serializer will be used.  The object will be constructed
+       *        using ClassConstructor<T>.  By default ClassConstructor uses the object's default
+       *        constructor.  When saving the polymorphic serializer will be used if one exists in
+       *        the PolymorphicMap.  Otherwise the standard serializer will be used.
+       *
+       * @tparam T Type of the property being archived.
+       * @param property Pointer that is being archived.
+       * @param key Key of the JSON for this property.
+       */
         template <class T, class Key>
         void operator ()(T *& property,const Key & key)
         {
@@ -73,6 +86,9 @@ class Archive
             ExitProperty();
         }
 
+        /**
+         * @copydoc ild::operator()(T *& property, const Key & key)
+         */
         template <class T, class Key>
         void operator ()(std::unique_ptr<T> & property,const Key & key)
         {
@@ -88,7 +104,10 @@ class Archive
                 (*this)(obj, key);
             }
         }
-        
+
+        /**
+        * @copydoc ild::operator()(T *& property, const Key & key)
+        */
         template <class T, class Key>
         void operator ()(std::shared_ptr<T> & property,const Key & key)
         {

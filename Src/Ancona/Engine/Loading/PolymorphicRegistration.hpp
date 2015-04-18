@@ -8,10 +8,26 @@
 #include <Ancona/Engine/Loading/PolymorphicSerializer.hpp>
 #include <Ancona/Util/Assert.hpp>
 
+//TODO ANC-72 Update the these registration macros
+/**
+ * @brief Called to register a polymorphic class that can be serialized by the
+ * loading framework.
+ *
+ * Example:
+ * REGISTER_POLYMORPHIC_SERIALIZER(ild::ShapeDrawable)
+ *
+ */
 #define REGISTER_POLYMORPHIC_SERIALIZER(CLASS)                           \
     template<> const std::string ild::PolymorphicTypeKey<CLASS>::Key =   \
         PolymorphicRegistration::RegisterType<CLASS>(#CLASS);
 
+/**
+ * @brief Called to register an abstract base class whose children can be serialized
+ * by the loading framework.
+ *
+ * Example:
+ * REGISTER_POLYMORPHIC_SERIALIZER(ild::Drawable)
+ */
 #define REGISTER_POLYMORPHIC_SERIALIZER_ABSTRACT_BASE(CLASS)             \
     template <> const std::string ild::PolymorphicTypeKey<CLASS>::Key =  \
         PolymorphicRegistration::RegisterAbstractType<CLASS>(#CLASS);

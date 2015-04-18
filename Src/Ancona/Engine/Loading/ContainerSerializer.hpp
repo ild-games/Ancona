@@ -6,6 +6,10 @@
 #include <Ancona/Engine/Loading/Archive.hpp>
 #include <Ancona/Engine/Loading/Serializer.hpp>
 
+/**
+ * @brief Template that is a specialization of Serializer<>.  It implements
+ * a serializer for unordered_maps keyed by strings.
+ */
 template <class Key, class Value>
 struct Serializer<std::unordered_map<Key, Value *>>
 {
@@ -17,12 +21,11 @@ struct Serializer<std::unordered_map<Key, Value *>>
             {
                 Value * value = new Value();
                 arc(*value, entityKey);
-                
             }
         }
         else
         {
-
+            //TODO ANC-82 Implement saving
         }
     }
 };
