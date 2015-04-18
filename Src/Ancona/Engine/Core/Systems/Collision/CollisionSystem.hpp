@@ -6,6 +6,8 @@
 
 #include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Util/Data.hpp>
+
 #include "CollisionComponent.hpp"
 
 namespace ild
@@ -70,31 +72,51 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         CollisionType GetType(const std::string & key);
 
         /**
-         * @brief Set a handler for collisions between the two types.
+         * @brief Define the handler that will be used for the collisions between the two types.
          *
          * @param typeA One type involved in the collision.
          * @param typeB The second type involved in the collision.
          * @param callback The callback will be called as callback(entityA, entityB) where
          *  entityA is an entity of the first type and entityB is an entity of second type.
          */
-        void SetHandler(CollisionType typeA, CollisionType typeB, CollisionCallback callback);
+        void DefineCollisionCallback(CollisionType typeA, CollisionType typeB, CollisionCallback callback);
 
+        /**
+         * @brief Determine if the collision type has already been created.
+         *
+         * @param key Key that was used to create the collision type.
+         *
+         * @return True if the collision type is defined.  False otherwise.
+         */
+        bool IsCollisionTypeDefined(std::string const &key);
 
         /* Getters and Setters */
         BasePhysicsSystem & GetPhysics() { return _positions; }
         void SetMaxSlope(float value) { _maxSlope = value; }
     private:
         int _nextType;
-        std::vector< std::vector<CollisionCallback> > _callbackTable;
+        Table<CollisionCallback> _callbackTable;
         BasePhysicsSystem & _positions;
         std::unordered_map<std::string,CollisionType> _collisionTypes;
         Point _leftGravityBound;
         Point _rightGravityBound;
         float _maxSlope = 45;
 
+        bool UniqueCollision(const Entity & entityA, const Entity & entityB);
+        void HandleCollision(
+                EntityComponentPair &pairA,
+                EntityComponentPair &pairB,
+                const Point &fixNormal,
+                float fixMagnitude);
+        bool EntitiesOverlapping(float fixMagnitude);
+
         void UpdateGravityBounds();
         void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
         bool IsOnGround(const Point & groundNormal);
+
+        void PushApart(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);
+        void PushFirstOutOfSecond(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);
+
 };
 
 }

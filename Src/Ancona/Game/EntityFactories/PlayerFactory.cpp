@@ -27,7 +27,7 @@ void factories::SetupCollisions(
 
     /* Collision Handlers */
     // ground collision
-    gameSystems.GetCollision().SetHandler(
+    gameSystems.GetCollision().DefineCollisionCallback(
             collisionTypes["player"],
             collisionTypes["ground"],
             factories::GroundCollisionHandler(&gameSystems));
