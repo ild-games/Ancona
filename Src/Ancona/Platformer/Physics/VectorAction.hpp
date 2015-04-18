@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Physics_VectorAction_hpp
-#define Ancona_Engine_Physics_VectorAction_hpp
+#ifndef Ancona_Platformer_Physics_VectorAction_hpp
+#define Ancona_Platformer_Physics_VectorAction_hpp
 
 #include <SFML/System.hpp>
 

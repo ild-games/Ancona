@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Physics_PhysicsSystem_hpp
-#define Ancona_Engine_Physics_PhysicsSystem_hpp
+#ifndef Ancona_Platformer_Physics_PhysicsSystem_hpp
+#define Ancona_Platformer_Physics_PhysicsSystem_hpp
 
 #include <memory>
 #include <string>
