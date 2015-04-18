@@ -17,6 +17,8 @@ RUN_FLAG_HELP_TEXT = "\
         run by default.\
         ".format(DEFAULT_TARGET)
 
+DOC_FLAG_HELP = "Include if you want to generate documentation instead of building the game"
+
 EPILOG_HELP_TEXT = \
         "Running duckling with no arguments will behave as if it was given the -b flag"
 
@@ -59,13 +61,20 @@ def create_parser():
             metavar="target",
             help=RUN_FLAG_HELP_TEXT
             )
+
+    parser.add_argument(
+            '-docs',
+            dest="generate_documentation",
+            action="store_true",
+            help=DOC_FLAG_HELP
+            )
     
     return parser
 
 def create_tuple(arguments):
     if not arguments.platform and not arguments.target:
         print("Ancona platform:",DEFAULT_TARGET,"Ancona Target:",None)
-        return DEFAULT_TARGET,None
+        return DEFAULT_TARGET,None,arguments.generate_documentation
     
     if arguments.platform in [None , DO_NOT_BUILD_OPTION]:
         ancona_platform = None
@@ -79,7 +88,7 @@ def create_tuple(arguments):
     else:
         ancona_target = arguments.target
 
-    print("Ancona platform:",ancona_platform,"Ancona Target:",ancona_target)
-    return ancona_platform,ancona_target
+    print("Ancona platform:",ancona_platform,"Ancona Target:",ancona_target,"Generate documentation:",arguments.generate_documentation)
+    return ancona_platform,ancona_target,arguments.generate_documentation
 
     

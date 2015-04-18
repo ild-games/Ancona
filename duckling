@@ -16,7 +16,11 @@ from ild import get_depend,building,generate_mk_file
 from ild.duckling import arg_parser,build_state
 
 #Parse the command line arguments
-ancona_platform,ancona_target = arg_parser.parse()
+ancona_platform,ancona_target,generate_documentation = arg_parser.parse()
+
+if generate_documentation:
+    building.generate_documentation(os.path.join(cmake_root,"Doc",".doxyrc"))
+    sys.exit()
 
 #If ancona_platform is set then we should build the project for that platform
 if ancona_platform:

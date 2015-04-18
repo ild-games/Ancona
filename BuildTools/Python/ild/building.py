@@ -1,7 +1,6 @@
 import os,sys
 
 TOOL_CHAINS = {"android": "android.toolchain.cmake"}
-#TOOL_CHAINS = {"Android": "android.toolchain.cmake"}
 
 def get_toolchain(cmake_dir, platform):
     platform = platform.lower()
@@ -164,6 +163,14 @@ def build_cmake_project(src_dir, build_dir, toolchain_file,install=False):
         command("make -j5")
         if install:
             command("make install")
+
+##
+# @brief Generate doxygen documentation
+#
+# @param config_file Path to the doxygen configuration file
+def generate_documentation(config_file):
+    os.system("doxygen {}".format(config_file))
+
 
 ##
 # @brief Get the absolute path to a the Android build directory for the target
