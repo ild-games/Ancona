@@ -6,17 +6,19 @@
 
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Engine/Loading/Archive.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 namespace ild 
 {
 
+class Archive;
 class SystemManager;
 
 /**
  * @brief Class that all systems must indirectly inherit from. It is used to hide the 
  *  component type of the system from the system manager.
+ *
+ * Note: Systems cannot be allocated on the stack.
  *
  * @author Jeff Swenson
  */
@@ -77,9 +79,10 @@ class AbstractSystem
          */
         virtual void FetchComponentDependencies(const Entity & entity) = 0;
 
+        virtual ~AbstractSystem() {}
+
     protected:
         SystemManager & _systemManager;
-
 };
 
 }

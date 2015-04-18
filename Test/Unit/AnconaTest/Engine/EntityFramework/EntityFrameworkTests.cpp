@@ -38,7 +38,7 @@ TEST(EntitySystem, CreatesUniqueEntities)
 TEST(EntitySystem, RegisterAndUpdateSystem)
 {
     SystemManager manager;
-    MockSystem system(manager);
+    MockSystem & system = *(new MockSystem(manager));
     Entity entity = manager.CreateEntity();
     MockComponent * component = system.CreateComponent(entity);
 
@@ -52,7 +52,7 @@ TEST(EntitySystem, RegisterAndUpdateSystem)
 TEST(EntitySystem, DeleteEntity)
 {
     SystemManager manager;
-    MockSystem system(manager);
+    MockSystem & system = *(new MockSystem(manager));
     std::vector<Entity> entity;
     std::vector<MockComponent *> component;
     for(int i = 0; i < 5; i++)
@@ -95,7 +95,7 @@ TEST(EntitySystem, DeleteEntity)
 TEST(EntitySystem, RemoveComponent)
 {
     SystemManager manager;
-    MockSystem system(manager);
+    MockSystem & system = *(new MockSystem(manager));
     std::vector<Entity> entity;
     std::vector<MockComponent *> component;
     for(int i = 0; i < 5; i++)
@@ -138,7 +138,7 @@ TEST(EntitySystem, RemoveComponent)
 TEST(EntitySystem, ComponentRemoved)
 {
     SystemManager manager;
-    MockSystem system(manager);
+    MockSystem & system = *(new MockSystem(manager));
     Entity entity1 = manager.CreateEntity();
     Entity entity2 = manager.CreateEntity();
 
@@ -161,7 +161,7 @@ TEST(EntitySystem, ComponentRemoved)
 TEST(EntitySystem, AssertGaurds)
 {
     SystemManager manager;
-    MockSystem system(manager);
+    MockSystem & system = *(new MockSystem(manager));
     Entity entity1 = manager.CreateEntity();
     Entity entity3 = manager.CreateEntity();
 
@@ -222,7 +222,7 @@ TEST(EntitySystem, AssertGaurds)
 TEST(EntitySystem, KeyedEntityRetrival)
 {
     SystemManager manager;
-    MockSystem system(manager);
+    MockSystem & system = *(new MockSystem(manager));
     Entity entity1 = manager.CreateEntity("EntityA");
     Entity entity2 = manager.CreateEntity("EntityB");
 
@@ -234,7 +234,7 @@ TEST(EntitySystem, KeyedEntityRetrival)
 TEST(EntitySystem, KeyedEntityRetrivalAfterDelete)
 {
     SystemManager manager;
-    MockSystem system(manager);
+    MockSystem & system = *(new MockSystem(manager));
     Entity entity1 = manager.CreateEntity("EntityA");
     Entity entity2 = manager.CreateEntity("EntityB");
 
