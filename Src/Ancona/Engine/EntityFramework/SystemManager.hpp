@@ -2,20 +2,23 @@
 #define Ancona_Engine_EntityFramework_SystemManager_H_
 
 #include <map>
+#include <memory>
 #include <set>
 #include <unordered_map>
 #include <vector>
 
+#include <Ancona/Engine/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Engine/EntityFramework/Entity.hpp>
 #include <Ancona/Engine/EntityFramework/UpdateStep.hpp>
 
 namespace ild
 {
 
-class AbstractSystem;
-
 /**
  * @brief Used to update entity systems and track entity state.
+ *
+ * Note: Systems cannot be allocated on the stack. Any system registered
+ * with the manager will be deleted when the manager is destroyed.
  *
  * @author Jeff Swenson
  */
@@ -129,7 +132,7 @@ class SystemManager
          * @brief Used to track which systems are controlled by the manager and
          * when they should be updated.
          */
-        std::map< UpdateStepEnum, std::vector<AbstractSystem * > > _systems;
+        std::map< UpdateStepEnum, std::vector<std::unique_ptr<AbstractSystem>>> _systems;
         /**
          * @brief Used to track which systems manage a component for each entity
          */
@@ -169,8 +172,6 @@ class SystemManager
          * @brief Returns true if the systemName is already associated with a system being managed.
          */
         bool ContainsName(std::string & systemName);
-
-
 };
 
 }

@@ -22,6 +22,8 @@ GENERATE_METHOD_TESTER(FetchDependencies);
  * Any system that does not need its components stored in a specific order should 
  * inherit from this class.
  *
+ * Note: All components in the system will be destroyed when the system is destroyed.
+ *
  * @author Jeff Swenson
  *
  * @tparam ComponentType The type of component that the system manages.
@@ -116,7 +118,7 @@ class UnorderedSystem : public AbstractSystem
 
             _components.erase(componentIter);
             //Since the component is now unreachable it should be deleted.
-            delete component; 
+            delete component;
         }
 
         /**
@@ -230,6 +232,16 @@ class UnorderedSystem : public AbstractSystem
 
             _components[entity] = component;
             _systemManager.RegisterComponent(entity, this);
+        }
+
+        ~UnorderedSystem()
+        {
+            //We use delete instead of unique_ptrs because it makes implementing
+            //the begin() and end() iterators much easier.
+            for(auto & entityComponentPair : *this)
+            {
+                delete entityComponentPair.second;
+            }
         }
 
     private:

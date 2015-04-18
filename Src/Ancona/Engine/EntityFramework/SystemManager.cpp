@@ -18,7 +18,7 @@ SystemManager::SystemManager()
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
     FetchWaitingDependencies();
-    for(AbstractSystem * system : _systems[updateStep])
+    for(auto & system : _systems[updateStep])
     {
         system->Update(delta);
     }
@@ -98,9 +98,13 @@ void SystemManager::RegisterSystem(
         UpdateStepEnum updateStep)
 {
     auto & systems = _systems[updateStep]; 
-    Assert(!alg::count(systems,system), "A System Manager cannot contain the same system twice");
+    Assert(!alg::count_if(systems,[system](std::unique_ptr<AbstractSystem> & ptr)
+        {
+            return ptr.get() == system;
+        }
+    ), "A System Manager cannot contain the same system twice");
 
-    systems.push_back(system);
+    systems.emplace_back(system);
 
     if(systemName != "")
     {
