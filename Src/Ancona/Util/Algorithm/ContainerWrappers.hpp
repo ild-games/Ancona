@@ -170,6 +170,20 @@ void sort(Container & container, Compare comp)
     std::sort(container.begin(), container.end(), comp);
 }
 
+template <class Container, class T>
+auto remove(Container & container, const T& value) -> decltype(container.begin())
+{
+    return std::remove(container.begin(), container.end(), value);
+}
+
+template <class Container, class UPredicate>
+auto remove_if(Container & container, const UPredicate& pred) -> decltype(container.begin())
+{
+    return std::remove_if(container.begin(), container.end(), pred);
+}
+
+
+
 };
 
 
