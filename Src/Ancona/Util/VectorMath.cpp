@@ -1,7 +1,5 @@
 #include <Ancona/Util/VectorMath.hpp>
 
-#include <math.h>
-
 namespace ild
 {
 namespace VectorMath
