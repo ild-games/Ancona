@@ -83,7 +83,7 @@ struct Serializer<sf::Shape>
 {
     static void Serialize(sf::Shape & shape, Archive & arc)
     {
-        //no-op
+        Assert(false, "Cannot serialize sf::Shape");
     }
 };
 
