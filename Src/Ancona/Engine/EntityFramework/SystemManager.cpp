@@ -21,6 +21,7 @@ void SystemManager::Update(float delta, UpdateStepEnum updateStep)
     for(auto & system : _systems[updateStep])
     {
         system->Update(delta);
+        system->DeleteQueuedComponents();
     }
     DeleteQueuedEntities();
 }
@@ -45,7 +46,7 @@ void SystemManager::DeleteEntity(Entity entity)
     _components.erase(entity);
 }
 
-void SystemManager::QueueDelete(Entity entity)
+void SystemManager::QueueDeleteEntity(Entity entity)
 {
     _deleteQueue.push_back(entity);
 }

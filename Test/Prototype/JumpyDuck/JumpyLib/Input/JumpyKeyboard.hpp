@@ -1,16 +1,17 @@
 #ifndef Test_Prototype_JumpyDuck_Input_JumpyKeyboard_H_
 #define Test_Prototype_JumpyDuck_Input_JumpyKeyboard_H_
 
-#include <Ancona/Engine/Screens/ScreenManager.hpp>
+#include <SFML/Window.hpp>
+
 #include <Ancona/Engine/Core/Systems/InputControlComponent.hpp>
 #include <Ancona/Engine/InputDevices/InputHandler.hpp>
+#include <Ancona/Engine/Screens/ScreenManager.hpp>
 #include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
-
-#include <SFML/Window.hpp>
 
 namespace ild
 {
 
+class JumpyGameSystems;
 class JumpyInputComponent;
 
 class JumpyKeyboard : public InputHandler
@@ -19,14 +20,21 @@ class JumpyKeyboard : public InputHandler
         void RegisterInputComponent(JumpyInputComponent * component);
 
         void HandleInput();
+
+        /* getters and setters */
+        void SetSystems(JumpyGameSystems * systems) { _systems = systems; }
     private:
         JumpyInputComponent * _playerComponent;
+        JumpyGameSystems * _systems;
 };
 
 class JumpyInputComponent : public InputControlComponent
 {
     public:
-        JumpyInputComponent(const Entity & player, PlatformPhysicsComponent & physicsComponent, JumpyKeyboard & inputHandler);
+        JumpyInputComponent(
+                const Entity & player,
+                PlatformPhysicsComponent & physicsComponent,
+                JumpyKeyboard & inputHandler);
 
         void GoDirection(int direction);
         void Move(int direction);

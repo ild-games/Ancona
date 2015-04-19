@@ -28,6 +28,7 @@ class JumpyGameSystems : public ScreenSystemsContainer
         PlatformPhysicsSystem & GetPhysics() { return *_physics; }
         CameraSystem & GetCamera() { return *_camera; }
         CollisionSystem & GetCollision() { return *_collision; }
+        FadeDrawableSystem & GetFadeDrawable() { return *_fadeDrawable; }
 
         CollisionType GetNullCollision() { return 0; }
     private:
@@ -51,6 +52,10 @@ class JumpyGameSystems : public ScreenSystemsContainer
          * @brief System for managing collisions.
          */
         CollisionSystem * _collision;
+        /**
+         * @brief System for managing collisions.
+         */
+        FadeDrawableSystem * _fadeDrawable;
 };
 
 
