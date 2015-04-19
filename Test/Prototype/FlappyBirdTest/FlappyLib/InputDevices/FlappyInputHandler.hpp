@@ -1,8 +1,8 @@
 #ifndef Test_Prototype_FlappyBirdTest_InputDevices_FlappyInputHandler_H_
 #define Test_Prototype_FlappyBirdTest_InputDevices_FlappyInputHandler_H_
 
-#include <Ancona/Engine/Screens/ScreenManager.hpp>
-#include <Ancona/Engine/InputDevices/InputHandler.hpp>
+#include <Ancona/Framework/Screens/ScreenManager.hpp>
+#include <Ancona/Framework/InputDevices/InputHandler.hpp>
 #include <Ancona/Util/StateMachine/SharedMachine.hpp>
 #include "../States/FlappyStates.hpp"
 #include "../Systems/FlappyGameSystems.hpp"

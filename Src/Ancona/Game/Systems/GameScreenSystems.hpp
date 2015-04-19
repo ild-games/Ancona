@@ -7,9 +7,9 @@
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/InputControlSystem.hpp>
-#include <Ancona/Engine/Systems/ScreenSystemsContainer.hpp>
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
-#include <Ancona/Engine/Screens/ScreenManager.hpp>
+#include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
+#include <Ancona/Framework/EntityFramework/SystemManager.hpp>
+#include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 
 namespace ild

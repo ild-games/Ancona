@@ -1,6 +1,6 @@
 #include <Ancona/Core2D/Systems/Drawable/SpriteDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Engine/Resource/ResourceLibrary.hpp>
+#include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::SpriteDrawable)
 

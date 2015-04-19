@@ -3,8 +3,8 @@
 
 #include <map>
 
-#include <Ancona/Engine/EntityFramework/Entity.hpp>
-#include <Ancona/Engine/Screens/AbstractScreen.hpp>
+#include <Ancona/Framework/EntityFramework/Entity.hpp>
+#include <Ancona/Framework/Screens/AbstractScreen.hpp>
 #include <Ancona/Game/EntityFactories/EnvironmentFactory.hpp>
 #include <Ancona/Game/EntityFactories/PlayerFactory.hpp>
 #include <Ancona/Game/Systems/GameScreenSystems.hpp>

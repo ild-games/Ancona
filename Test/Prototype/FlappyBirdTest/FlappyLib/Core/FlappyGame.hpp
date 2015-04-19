@@ -1,9 +1,9 @@
 #ifndef Ancona_Game_Core_FlappyGame_H_
 #define Ancona_Game_Core_FlappyGame_H_
 
-#include <Ancona/Engine/Core/Game.hpp>
+#include <Ancona/Framework/Core/Game.hpp>
 #include <Ancona/Game/Core/AnconaGame.hpp>
-#include <Ancona/Engine/Resource/RequestList.hpp>
+#include <Ancona/Framework/Resource/RequestList.hpp>
 #include "../InputDevices/FlappyInputHandler.hpp"
 #include "FactoryBase.hpp"
 
