@@ -100,12 +100,9 @@ class UnorderedSystem : public AbstractSystem
         }
 
         /**
-         * @brief Queues the component on the passed in entity for deletion. The deletion will happen
-         *        at the end of the update step.
-         *
-         * @param entity The entity that has the component that is being deleted.
+         * @copydoc ild::AbstractSystem::QueuDeleteComponent
          */
-        void QueueDeleteComponent(const Entity & entity)
+        void QueueDeleteComponent(const Entity & entity) override
         {
             _deleteComponentQueue.push_back(entity);
         }

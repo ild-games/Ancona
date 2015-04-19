@@ -59,6 +59,14 @@ class AbstractSystem
         virtual void RemoveComponent(const Entity & entity) = 0;
 
         /**
+         * @brief Queues the component on the passed in entity for deletion. The deletion will happen
+         *        at the end of the update step.
+         *
+         * @param entity The entity that has the component that is being deleted.
+         */
+        virtual void QueueDeleteComponent(const Entity & entity) = 0;
+
+        /**
          * @brief Deletes the components queued for deletion, happens at the end of the update step.
          */
         virtual void DeleteQueuedComponents() = 0;
