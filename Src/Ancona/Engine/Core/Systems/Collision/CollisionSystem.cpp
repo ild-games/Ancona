@@ -59,7 +59,7 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
     {
         PushFirstOutOfSecond(b, a, -correctFix);
     }
-    if(typeA == BodyType::Solid && typeB == BodyType::Solid)
+    else if(typeA == BodyType::Solid && typeB == BodyType::Solid)
     {
         PushApart(a, b, correctFix);
     }
@@ -73,34 +73,35 @@ void CollisionSystem::PushFirstOutOfSecond(CollisionComponent *a, CollisionCompo
 
     auto groundDirection = VectorMath::Normalize(b->GetBox().GetNormalOfCollisionEdge(a->GetBox()));
     if(IsOnGround(groundDirection))
-        {
-            posA.SetGroundDirection(groundDirection);
-        }
+    {
+        posA.SetGroundDirection(groundDirection);
+    }
 
     posA.SetPosition(posA.GetPosition() + correctFix);
     return;
 }
 
 void CollisionSystem::PushApart(CollisionComponent *a, CollisionComponent *b, const Point &correctFix)
-{//If both bodies are solid then push them out of eachoter.
+{
+    //If both bodies are solid then push them out of eachoter.
     auto & physicsA = a->GetPhysicsComponent();
     auto & infoA = physicsA.GetMutableInfo();
     auto & physicsB = b->GetPhysicsComponent();
     auto & infoB = physicsB.GetMutableInfo();
 
     if(infoA.GetVelocity() == Point())
-        {
-            infoB.SetPosition(infoB.GetPosition() + -correctFix);
-        }
+    {
+        infoB.SetPosition(infoB.GetPosition() + -correctFix);
+    }
         else if(infoB.GetVelocity() == Point())
-        {
-            infoA.SetPosition(infoA.GetPosition() + correctFix);
-        }
-        else
-        {
-            infoA.SetPosition(infoA.GetPosition() + 0.5f * correctFix);
-            infoB.SetPosition(infoB.GetPosition() + -0.5f * correctFix);
-        }
+    {
+        infoA.SetPosition(infoA.GetPosition() + correctFix);
+    }
+    else
+    {
+        infoA.SetPosition(infoA.GetPosition() + 0.5f * correctFix);
+        infoB.SetPosition(infoB.GetPosition() + -0.5f * correctFix);
+    }
 
     return;
 }
