@@ -23,13 +23,18 @@ class FadeDrawableComponent
          * @brief Constructs a new FadeDrawableComponent
          *
          * @param drawableComponent DrawableComponent being faded.
-         * @param fadeDrawableSys FadeDrawableSystem for the screen.
+         * @param system FadeDrawableSystem used to make these components.
+         * @param owner The entity this component is attached to.
          * @param fadeIn True if the graphics are fading in, false if they are fading out.
+         * @param destroySelf True if the the component should remove itself after finishing the fade, otherwise false. Defaults to true.
          * @param fadeSpeed Speed at which the fade occurs, defaults to 650.0f
          */
         FadeDrawableComponent(
                 DrawableComponent & drawableComponent,
+                FadeDrawableSystem * system,
+                const Entity & owner,
                 float fadeIn,
+                bool destroySelf = true,
                 float fadeSpeed = 650.0f);
 
         /**
@@ -39,6 +44,7 @@ class FadeDrawableComponent
          */
         void Update(float delta);
 
+
         /* getters and setters */
         bool fadeIn() { return _fadeIn; }
         void fadeIn(bool fadeIn) { _fadeIn = fadeIn; }
@@ -47,16 +53,34 @@ class FadeDrawableComponent
          * @brief The drawable component being faded.
          */
         DrawableComponent & _drawableComponent;
-
+        /**
+         * @brief The FadeDrawableSystem instance for the current screen.
+         */
+        FadeDrawableSystem * _system;
+        /**
+         * @brief The entity this component is attached to.
+         */
+        Entity _owner;
         /**
          * @brief Speed the fade occurs at.
          */
         float const FADE_SPEED;
-
         /**
          * @brief True if the drawable is fading in, false if it is fading out.
          */
         bool _fadeIn;
+        /**
+         * @brief True if the componenet should remove itself after the fade, otherwise false.
+         */
+        bool _destroySelf;
+
+        /**
+         * @brief Manipulates the fade of an alpha at one step.
+         *
+         * @param alpha The alpha as it was at the start of this fade step.
+         * @param delta Seconds since the last update.
+         */
+        int FadeStep(int alpha, float delta);
 };
 
 /**
@@ -70,9 +94,10 @@ class FadeDrawableSystem : public UnorderedSystem<FadeDrawableComponent>
         /**
          * @brief Default constructor
          *
+         * @param name Name to identify the system by.
          * @param manager SystemManager instance for the current screen.
          */
-        FadeDrawableSystem(SystemManager & manager);
+        FadeDrawableSystem(const std::string & name, SystemManager & manager);
 
         /**
          * @brief Updates the components managed by the system.

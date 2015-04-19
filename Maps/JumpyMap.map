@@ -202,13 +202,13 @@
                                     "a": 255
                                 },
                                 "character-size": 15,
-                                "smooth": false,
-                                "render-priority": 0,
-                                "priority-offset": 2,
-                                "position-offset": {
-                                    "x": 0,
-                                    "y": -50
-                                }
+                                "smooth": false
+                            },
+                            "render-priority": 0,
+                            "priority-offset": 2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": -20
                             }
                         }
                     }

@@ -1,6 +1,9 @@
 #include <iostream>
 #include <Ancona/Engine/InputDevices/Keyboard.hpp>
+
+#include "../Systems/JumpyGameSystems.hpp"
 #include "JumpyKeyboard.hpp"
+
 
 using namespace ild;
 
@@ -41,10 +44,22 @@ void JumpyKeyboard::HandleInput()
     {
         _playerComponent->Jump();
     }
+    if(Keyboard::IsKeyPressed(sf::Keyboard::F))
+    {
+        Entity player = _systems->systemManager().GetEntity("player");
+        _systems->fadeDrawable().CreateComponent(
+                player,
+                *_systems->drawable()[player],
+                false);
+    }
 }
 
-JumpyInputComponent::JumpyInputComponent(const Entity & player, PlatformPhysicsComponent & physicsComponent, JumpyKeyboard & inputHandler)
-    : InputControlComponent(inputHandler),_physics(physicsComponent)
+JumpyInputComponent::JumpyInputComponent(
+        const Entity & player,
+        PlatformPhysicsComponent & physicsComponent,
+        JumpyKeyboard & inputHandler) :
+    InputControlComponent(inputHandler),
+    _physics(physicsComponent)
 {
     inputHandler.RegisterInputComponent(this);
     action = physicsComponent.actions().CreateVelocityAction();

@@ -52,7 +52,7 @@ class SystemManager
          *
          * @param entity Entity to be deleted.
          */
-        void QueueDelete(Entity entity);
+        void QueueDeleteEntity(Entity entity);
 
         /**
          * @brief Create a new unique Entity. Since no key is provided you will
