@@ -1,7 +1,7 @@
 #ifndef Ancona_Game_Core_AnconaGame_H_
 #define Ancona_Game_Core_AnconaGame_H_
 
-#include <Ancona/Engine/Core/Game.hpp>
+#include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Engine/Resource/RequestList.hpp>
 
 namespace ild

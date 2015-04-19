@@ -222,7 +222,7 @@ TEST(EntitySystem, AssertGaurds)
 TEST(EntitySystem, KeyedEntityRetrival)
 {
     SystemManager manager;
-    MockSystem & system = *(new MockSystem(manager));
+    new MockSystem(manager);
     Entity entity1 = manager.CreateEntity("EntityA");
     Entity entity2 = manager.CreateEntity("EntityB");
 
@@ -234,7 +234,7 @@ TEST(EntitySystem, KeyedEntityRetrival)
 TEST(EntitySystem, KeyedEntityRetrivalAfterDelete)
 {
     SystemManager manager;
-    MockSystem & system = *(new MockSystem(manager));
+    new MockSystem(manager);
     Entity entity1 = manager.CreateEntity("EntityA");
     Entity entity2 = manager.CreateEntity("EntityB");
 
