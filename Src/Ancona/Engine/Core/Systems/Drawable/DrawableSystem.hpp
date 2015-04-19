@@ -77,8 +77,8 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
                 CameraComponent * camera);
 
         /* gettes and setters */
-        void SetDefaultCamera(CameraComponent * defaultCamera);
-        CameraComponent * GetDefaultCamera() { return _defaultCamera; }
+        void defaultCamera(CameraComponent *defaultCamera);
+        CameraComponent * defaultCamera() { return _defaultCamera; }
     protected:
         /**
          * @see copydoc::SystemManager::OnComponentRemove

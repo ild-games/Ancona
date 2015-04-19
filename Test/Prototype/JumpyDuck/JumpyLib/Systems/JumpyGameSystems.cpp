@@ -13,5 +13,5 @@ JumpyGameSystems::JumpyGameSystems(ScreenManager & screenManager) :
     _collision = ConstructSystem<CollisionSystem>("collision", *_systemManager,*_physics);
 
     _collision->CreateType("null-type");
-    _physics->SetGravity(Point(0,200));
+    _physics->gravity(Point(0, 200));
 }

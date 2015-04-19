@@ -13,15 +13,15 @@ LoadingScreen::LoadingScreen(
 {
     _systemsContainer = std::unique_ptr<ScreenSystemsContainer>(new ScreenSystemsContainer(manager));
     _mapLoader.reset(new MapLoader(
-                screenLoading->GetKey(),
-                *screenLoading->GetSystemsContainer()));
+            screenLoading->key(),
+                *screenLoading->systemsContainer()));
 }
 
 void LoadingScreen::Update(float delta)
 {
     if(!_mapLoader->ContinueLoading())
     {
-        _screenLoading->SetRequestList(_mapLoader->GetRequestList());
+        _screenLoading->requestList(_mapLoader->requestList());
         _screenManager.Pop();
     }
 }
@@ -52,7 +52,7 @@ void LoadingScreen::Exiting(float delta)
     __Exiting = false;
 }
 
-ScreenSystemsContainer * LoadingScreen::GetSystemsContainer()
+ScreenSystemsContainer * LoadingScreen::systemsContainer()
 {
     return _systemsContainer.get();
 }

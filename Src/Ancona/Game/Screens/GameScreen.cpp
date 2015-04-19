@@ -9,8 +9,8 @@ GameScreen::GameScreen(
 {
     _gameSystems = std::unique_ptr<GameScreenSystems>(
             new GameScreenSystems(manager, profile));
-    _collisionTypes["player"] = _gameSystems->GetCollision().CreateType("player");
-    _collisionTypes["ground"] = _gameSystems->GetCollision().CreateType("ground");
+    _collisionTypes["player"] = _gameSystems->collision().CreateType("player");
+    _collisionTypes["ground"] = _gameSystems->collision().CreateType("ground");
 }
 
 void GameScreen::Init()
@@ -25,12 +25,12 @@ void GameScreen::Init()
 
 void GameScreen::Update(float delta)
 {
-    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Update);
-    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Input);
+    _gameSystems->systemManager().Update(delta, UpdateStep::Update);
+    _gameSystems->systemManager().Update(delta, UpdateStep::Input);
 }
 
 void GameScreen::Draw(float delta)
 {
     _screenManager.Window.clear(sf::Color::Blue);
-    _gameSystems->GetSystemManager().Update(delta, UpdateStep::Draw);
+    _gameSystems->systemManager().Update(delta, UpdateStep::Draw);
 }

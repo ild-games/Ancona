@@ -12,16 +12,6 @@ AbstractLoader::AbstractLoader(
     ResourceLibrary::RegisterLoader(this);
 }
 
-const std::type_index & AbstractLoader::GetResourceType()
-{
-    return _resourceType;
-}
-
-const std::string & AbstractLoader::GetResourceName()
-{
-    return _resourceName;
-}
-
 std::string AbstractLoader::GetResourceFileName(
         const std::string & resourceDir,
         const std::string & resourceKey,

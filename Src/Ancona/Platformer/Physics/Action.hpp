@@ -23,21 +23,21 @@ class Action
         /**
          * @brief Builder method used to set the priority of the action.
          *
-         * @param priority Priority of the action.  Lower priority actions are applied before higher priority actions.
+         * @param priority priority of the action.  Lower priority actions are applied before higher priority actions.
          *
          * @return A pointer to the action.
          */
-        SubClass * Priority(int priority) { _priority = priority; return static_cast<SubClass *>(this); }
+        SubClass * priority(int priority) { _priority = priority; return static_cast<SubClass *>(this); }
 
         /**
          * @brief Builder method used to set the duration of the action.
          *
-         * @param duration Duration of the action.  An action with a duration of 0 will expire after a single update step.  The 
+         * @param duration duration of the action.  An action with a duration of 0 will expire after a single update step.  The
          * duration is the number of seconds the action should apply for.
          *
          * @return A pointer to the action.
          */
-        SubClass * Duration(float duration) { _duration = duration; return static_cast<SubClass *>(this); }
+        SubClass * duration(float duration) { _duration = duration; return static_cast<SubClass *>(this); }
 
         /**
          * @brief Reset the age of the action to zero.  This is useful if you want to retween a value.
@@ -86,11 +86,10 @@ class Action
             arc(_priority, "priority");
         }
 
-        int GetPriority() { return _priority; }
-        float GetDuration() { return _duration; }
-        float GetAge() { return _age; }
-
-
+        /* getters and setters */
+        int priority() { return _priority; }
+        float duration() { return _duration; }
+        float age() { return _age; }
     private:
         int _priority = 0;
         float _duration = 0;

@@ -87,7 +87,7 @@ sf::Vector2f Box2::GetNormalOfCollisionEdge(const Box2 & box) const
 }
 
 
-void Box2::SetPosition(float x, float y)
+void Box2::position(float x, float y)
 {
     Position.x = x;
     Position.y = y;

@@ -4,11 +4,11 @@
 
 using namespace ild;
 
-float VectorAction::GetTweenRatio()
+float VectorAction::tweenRatio()
 {
     if(_tweenTime > 0)
     {
-        return std::min(GetAge() / _tweenTime, 1.0f);
+        return std::min(age() / _tweenTime, 1.0f);
     }
     else
     {
@@ -16,7 +16,7 @@ float VectorAction::GetTweenRatio()
     }
 }
 
-VectorAction * VectorAction::Tween(float time)
+VectorAction * VectorAction::tween(float time)
 {
     _tweenTime = time;
     return this;

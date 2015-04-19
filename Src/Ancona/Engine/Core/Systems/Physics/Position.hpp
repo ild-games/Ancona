@@ -28,34 +28,15 @@ class Position
          */
         void Serialize(Archive & arc);
 
+        /* getters and setters */
         //Access the current physical state of the entity.
-        inline const Point & GetPosition() const { return _position; }
-        inline const Point & GetVelocity() const { return _velocity; }
-
-        inline void SetPosition(const Point & position) { _position = position; }
-        inline void SetVelocity(const Point & velocity) { _velocity = velocity; }
-
-        /**
-         * @brief Determine if the object is on the ground.  
-         *
-         * @return True if it is on the ground.  False otherwise.
-         */
-        bool IsOnGround() const;
-
-        /**
-         * @brief Set the ground direction of the entity.
-         *
-         * @param groundDirection A normalized vector that points right along the ground.
-         */
-        void SetGroundDirection(Point groundDirection) { _groundDirection = groundDirection; }
-
-        /**
-         * @brief Get a vector that points to the right along the ground. The direction is only valid
-         * when the entity is on the ground.
-         *
-         * @return A normalzied vector that points right along the ground.
-         */
-        const Point & GetGroundDirection() const { return _groundDirection; }
+        inline const Point & position() const { return _position; }
+        inline const Point & velocity() const { return _velocity; }
+        inline void position(const Point & position) { _position = position; }
+        inline void velocity(const Point & velocity) { _velocity = velocity; }
+        bool onGround() const;
+        void groundDirection(Point groundDirection) { _groundDirection = groundDirection; }
+        const Point & groundDirection() const { return _groundDirection; }
     private:
         Point _position;
         Point _velocity;

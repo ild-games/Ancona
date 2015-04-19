@@ -71,7 +71,7 @@ class Archive
                 if(CurrentBranch().isMember("__cpp_type"))
                 {
                     const auto & cppType = CurrentBranch()["__cpp_type"].asString();
-                    PolymorphicMap::GetSerializer(cppType)->Serialize((void *&)(property), *this);
+                    PolymorphicMap::serializer(cppType)->Serialize((void *&)(property), *this);
                 }
                 else 
                 {
@@ -81,7 +81,7 @@ class Archive
             } 
             else 
             {
-                PolymorphicMap::GetSerializer(property)->Serialize((void *&)(property), *this);
+                PolymorphicMap::serializer(property)->Serialize((void *&)(property), *this);
             }
             ExitProperty();
         }
@@ -136,7 +136,7 @@ class Archive
         {
             if (_loading) 
             {
-                systemProperty = _context.GetSystems().GetSystem<SystemType>(systemKey);
+                systemProperty = _context.systems().GetSystem<SystemType>(systemKey);
             }
         }
 
@@ -150,7 +150,7 @@ class Archive
         {
             if(_loading)
             {
-                entity = GetEntity(CurrentBranch()[entityJsonKey].asString());
+                entity = Archive::entity(CurrentBranch()[entityJsonKey].asString());
             }
             //TODO ANC-79 implement saving
         }
@@ -183,18 +183,18 @@ class Archive
         void ExitProperty();
 
         /**
-         * @brief Get a reference to the Json::Value that is currently being
+         * @brief Get a reference to the Json::value that is currently being
          * serialized to/from.
          * @return Reference to the top of the property stack.
          */
         Json::Value & CurrentBranch();
 
         /* getters and setters */
-        bool IsLoading() { return _loading; }
-        LoadingContext & GetContext() { return _context; }
-        Entity GetEntity(const std::string & key) 
+        bool loading() { return _loading; }
+        LoadingContext & context() { return _context; }
+        Entity entity(const std::string &key)
         { 
-            return _context.GetSystems().GetSystemManager().GetEntity(key); 
+            return _context.systems().systemManager().GetEntity(key);
         }
 
 

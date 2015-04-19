@@ -65,10 +65,27 @@ class DrawableComponent
          */
         void Serialize(Archive & arc);
 
-        /* getters and setters */
-        std::vector<Drawable *> GetKeylessDrawables();
+        /**
+         * @brief Get a drawable being handled by the component.
+         *
+         * @param key Key of the drawable.
+         *
+         * @return Drawable instance.
+         */
         Drawable * GetDrawable(std::string key) { return _drawables[key].get(); }
-        template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); } 
+
+        /**
+         * @brief Get a drawable out and cast it to the preferred type.
+         *
+         * @tparam T Type to cast the drawable to.
+         * @param key Key of the drawable
+         *
+         * @return Drawable with the preferred type.
+         */
+        template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); }
+
+        /* getters and setters */
+        std::vector<Drawable *> keylessDrawables();
     private:
         /**
          * @brief Holds all the drawables the component controls.

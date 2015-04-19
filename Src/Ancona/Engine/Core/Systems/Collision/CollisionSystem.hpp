@@ -91,8 +91,8 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         bool IsCollisionTypeDefined(std::string const &key);
 
         /* Getters and Setters */
-        BasePhysicsSystem & GetPhysics() { return _positions; }
-        void SetMaxSlope(float value) { _maxSlope = value; }
+        BasePhysicsSystem & physics() { return _positions; }
+        void maxSlope(float value) { _maxSlope = value; }
     private:
         int _nextType;
         Table<CollisionCallback> _callbackTable;

@@ -32,7 +32,7 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
 {
     if(_camEntity == nullentity)
     {
-        _camera = _drawableSystem->GetDefaultCamera();
+        _camera = _drawableSystem->defaultCamera();
     }
     else
     {
@@ -53,7 +53,7 @@ void DrawableComponent::Serialize(Archive & arc)
 }
 
 /* getters and setters */
-std::vector<Drawable *> DrawableComponent::GetKeylessDrawables()
+std::vector<Drawable *> DrawableComponent::keylessDrawables()
 {
     std::vector<Drawable *> toReturn;
     for(auto it = _drawables.begin(); it != _drawables.end(); ++it)

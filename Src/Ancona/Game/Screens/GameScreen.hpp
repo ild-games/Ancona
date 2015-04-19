@@ -52,7 +52,7 @@ class GameScreen : public AbstractScreen
         void Draw(float delta);
 
         /* getters and setters */
-        ScreenSystemsContainer * GetSystemsContainer() override { return _gameSystems.get(); }
+        ScreenSystemsContainer * systemsContainer() override { return _gameSystems.get(); }
     private:
         /**
          * @brief Container for all systems.

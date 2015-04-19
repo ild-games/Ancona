@@ -36,10 +36,10 @@ class PolymorphicMap
         static void RegisterType(const std::string & name, std::type_index type, PolymorphicSerializer * serializer);
 
         /* getters and setters */
-        static PolymorphicSerializer * GetSerializer(const std::string & name); 
+        static PolymorphicSerializer * serializer(const std::string &name);
 
         template <class T>
-        static PolymorphicSerializer * GetSerializer(T * object) 
+        static PolymorphicSerializer * serializer(T *object)
         { 
             if (_typeToName->find(typeid(object)) != _typeToName->end())
             {

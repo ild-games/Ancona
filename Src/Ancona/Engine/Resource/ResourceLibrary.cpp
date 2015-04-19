@@ -13,7 +13,7 @@ std::unordered_map<std::string, AbstractLoader *> ResourceLibrary::_loaders;
 
 void ResourceLibrary::RegisterLoader(AbstractLoader * loader)
 {
-    _loaders[loader->GetResourceName()] = loader;
+    _loaders[loader->resourceName()] = loader;
 }
 
 void ResourceLibrary::Request(const RequestList & request)
@@ -25,7 +25,7 @@ void ResourceLibrary::Return(const RequestList & request)
     for(auto & resource : request)
     {
         auto loader = _loaders[resource.first];
-        auto & type = loader->GetResourceType(); 
+        auto & type = loader->resourceType();
 
         //Decrement the reference count of the resource by one
         auto resourceIterator = _resources[type].find(resource.second);
@@ -52,7 +52,7 @@ bool ResourceLibrary::DoneLoading(RequestList & request)
        }
 
        auto loader = _loaders[requestIter->first];
-       auto type = loader->GetResourceType();
+       auto type = loader->resourceType();
        resource_map & resources = _resources[type];
 
        auto resourceIter = resources.find(requestIter->second);

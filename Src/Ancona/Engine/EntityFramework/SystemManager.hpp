@@ -56,7 +56,7 @@ class SystemManager
 
         /**
          * @brief Create a new unique Entity. Since no key is provided you will
-         * be unable to retrieve the entity using GetEntity(std::string).
+         * be unable to retrieve the entity using entity(std::string).
          *
          * @return A new anonymous entity.
          */
@@ -64,7 +64,7 @@ class SystemManager
 
         /**
          * @brief Create a new unique Entity.  The key can be used to retrieve the
-         * entity from the system using GetEntity(std::string).
+         * entity from the system using entity(std::string).
          *
          * @param key String key used to retrieve the entity.
          *
@@ -126,7 +126,7 @@ class SystemManager
         void FetchWaitingDependencies();
 
         /* getters and setters */
-        std::vector<std::pair<std::string, AbstractSystem *>> GetKeyedSystems() { return _keyedSystems; }
+        std::vector<std::pair<std::string, AbstractSystem *>> keyedSystems() { return _keyedSystems; }
     private:
         /**
          * @brief Used to track which systems are controlled by the manager and

@@ -37,7 +37,7 @@ struct Serializer<sf::Text>
 {
     static void Serialize(sf::Text & property, Archive & arc)
     {
-        if (arc.IsLoading())
+        if (arc.loading())
         {
             std::string text;
             std::string fontKey;

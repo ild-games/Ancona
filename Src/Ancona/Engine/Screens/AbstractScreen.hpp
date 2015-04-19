@@ -87,9 +87,9 @@ class AbstractScreen
         bool __Exiting;
 
         /* getters and setters */
-        std::string GetKey() { return KEY; }
-        void SetRequestList(std::shared_ptr<RequestList> requestList) { _requestList = requestList; }
-        virtual ScreenSystemsContainer * GetSystemsContainer() = 0;
+        std::string key() { return KEY; }
+        void requestList(std::shared_ptr<RequestList> requestList) { _requestList = requestList; }
+        virtual ScreenSystemsContainer * systemsContainer() = 0;
     protected:
         /**
          * @brief Manages all the screens in the game

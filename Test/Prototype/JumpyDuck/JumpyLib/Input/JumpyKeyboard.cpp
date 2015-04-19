@@ -47,35 +47,35 @@ JumpyInputComponent::JumpyInputComponent(const Entity & player, PlatformPhysicsC
     : InputControlComponent(inputHandler),_physics(physicsComponent)
 {
     inputHandler.RegisterInputComponent(this);
-    action = physicsComponent.GetActions().CreateVelocityAction();
-    action->Duration(ActionDuration::PERSISTENT)
-          ->Tween(0.5);
+    action = physicsComponent.actions().CreateVelocityAction();
+    action->duration(ActionDuration::PERSISTENT)
+          ->tween(0.5);
 
-    jumpAction = physicsComponent.GetActions().CreateVelocityAction();
+    jumpAction = physicsComponent.actions().CreateVelocityAction();
     jumpAction
-        ->Duration(ActionDuration::PERSISTENT);
+        ->duration(ActionDuration::PERSISTENT);
 }
 
 void JumpyInputComponent::Jump()
 {
-    if(_physics.GetInfo().IsOnGround())
+    if(_physics.GetInfo().onGround())
     {
-        jumpAction->Value(200.0f * directions[UP]);
+        jumpAction->value(200.0f * directions[UP]);
     }
 }
 
 void JumpyInputComponent::GoDirection(int direction)
 {
-    if(_physics.GetInfo().IsOnGround() != _isOnGround)
+    if(_physics.GetInfo().onGround() != _isOnGround)
     {
-        _isOnGround = _physics.GetInfo().IsOnGround();
+        _isOnGround = _physics.GetInfo().onGround();
 
         if(_isOnGround)
         {
-            jumpAction->Value(Point());
+            jumpAction->value(Point());
         }
 
-        action->RelativeToGround(_isOnGround);
+        action->isRelativeToGround(_isOnGround);
         lastDir = NO_DIR;
     }
 
@@ -92,11 +92,11 @@ void JumpyInputComponent::Move(int direction)
         {
 
             action->ResetAge();
-            action->Value(directions[direction] * speed);
+            action->value(directions[direction] * speed);
         }
         else
         {
-            action->Value(Point());
+            action->value(Point());
         }
         lastDir = direction;
     }

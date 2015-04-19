@@ -33,7 +33,7 @@ TextDrawable::TextDrawable(
 
 void TextDrawable::Draw(sf::RenderWindow & window, float delta)
 {
-    auto pos = _physicsComponent->GetInfo().GetPosition();
+    auto pos = _physicsComponent->GetInfo().position();
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
@@ -60,23 +60,23 @@ void TextDrawable::FetchDependencies(const Entity &entity) {
 }
 
 /* getters and setters */
-void TextDrawable::SetText(std::string text) 
+void TextDrawable::text(std::string text)
 { 
     _text->setString(text); 
     CenterOrigin();
 }
 
-sf::Vector2u TextDrawable::GetSize()
+sf::Vector2u TextDrawable::size()
 {
     return sf::Vector2u(_text->getLocalBounds().width, _text->getLocalBounds().height);
 }
 
-int TextDrawable::GetAlpha()
+int TextDrawable::alpha()
 {
     return _text->getColor().a;
 }
 
-void TextDrawable::SetAlpha(int alpha)
+void TextDrawable::alpha(int alpha)
 {
     sf::Color * col = 
         new sf::Color(_text->getColor());

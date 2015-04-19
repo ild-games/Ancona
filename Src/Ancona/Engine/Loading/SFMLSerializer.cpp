@@ -10,7 +10,7 @@ using namespace ild;
 void Serializer<sf::RectangleShape>::Serialize(sf::RectangleShape & shape, Archive & arc){
     sf::Vector2f dim;
     sf::Color color;
-    if (!arc.IsLoading()) {
+    if (!arc.loading()) {
         dim = shape.getSize();
         color = shape.getFillColor();
     }
@@ -18,7 +18,7 @@ void Serializer<sf::RectangleShape>::Serialize(sf::RectangleShape & shape, Archi
     arc(dim.y, "height");
     arc(color, "fill-color");
 
-    if (arc.IsLoading())
+    if (arc.loading())
     {
         shape.setSize(dim);
         shape.setFillColor(color);

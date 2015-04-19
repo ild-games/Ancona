@@ -21,7 +21,7 @@ class JumpyScreen : public AbstractScreen
         void Draw(float delta);
 
         /* getters and setters */
-        ScreenSystemsContainer * GetSystemsContainer() override { return _systems.get(); }
+        ScreenSystemsContainer * systemsContainer() override { return _systems.get(); }
     private:
         std::unique_ptr<JumpyGameSystems> _systems;
         Entity player;

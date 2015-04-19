@@ -55,9 +55,9 @@ class SpriteDrawable : public Drawable
         void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
-        sf::Vector2u GetSize();
-        int GetAlpha();
-        void SetAlpha(int alpha);
+        sf::Vector2u size();
+        int alpha();
+        void alpha(int alpha);
     protected:
         sf::Sprite * _sprite;
         std::string _textureKey;

@@ -16,12 +16,12 @@ void JumpyScreen::Init()
 
 void JumpyScreen::Update(float delta)
 {
-    _systems->GetSystemManager().Update(delta,UpdateStep::Update);
-    _systems->GetSystemManager().Update(delta,UpdateStep::Input);
+    _systems->systemManager().Update(delta,UpdateStep::Update);
+    _systems->systemManager().Update(delta,UpdateStep::Input);
 }
 
 void JumpyScreen::Draw(float delta)
 {
     _screenManager.Window.clear(sf::Color::Blue);
-    _systems->GetSystemManager().Update(0,UpdateStep::Draw);
+    _systems->systemManager().Update(0,UpdateStep::Draw);
 }

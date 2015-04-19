@@ -40,19 +40,9 @@ class AbstractLoader
          */
         virtual void DeleteResource(void * resource) = 0;
 
-        /**
-         * @brief Get a type_index that refers to the type of resource loaded by the loader.
-         *
-         * @return Type_index for the loaded type.
-         */
-        const std::type_index & GetResourceType();
-
-        /**
-         * @brief Get the name that describes the resource type. EX "Texture"
-         *
-         * @return A string that describes the resource type.
-         */
-        const std::string & GetResourceName();
+        /* getters and setters */
+        const std::type_index &resourceType() { return _resourceType; }
+        const std::string & resourceName() { return _resourceName; }
 
     private:
         /**

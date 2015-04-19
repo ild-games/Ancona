@@ -13,5 +13,5 @@ GameScreenSystems::GameScreenSystems(
     _collision = ConstructSystem<CollisionSystem>("collision", *_systemManager, *_physics);
     _drawable = ConstructSystem<DrawableSystem>("drawable", screenManager.Window, *_systemManager);
 
-    _physics->SetGravity(Point(0,10));
+    _physics->gravity(Point(0, 10));
 }

@@ -132,14 +132,14 @@ class UnorderedSystem : public AbstractSystem
     private:
         void Serialize(Archive & arc, std::true_type)
         {
-            if (arc.IsLoading())
+            if (arc.loading())
             {
                 arc.EnterProperty("components");
                 for(auto entityKey : arc.CurrentBranch().getMemberNames())
                 {
                     ComponentType * value; 
                     arc(value, entityKey);
-                    auto entity = arc.GetEntity(entityKey);
+                    auto entity = arc.entity(entityKey);
                     AttachComponent(entity, value);
                 }
                 arc.ExitProperty();

@@ -47,7 +47,7 @@ class PolymorphicSerializerImpl : public PolymorphicSerializer
         void Serialize(void *& property, Archive & arc) override
         {
             T *& typedProp = (T *&)(property);
-            if(arc.IsLoading())
+            if(arc.loading())
             {
                 typedProp = new T();
             }

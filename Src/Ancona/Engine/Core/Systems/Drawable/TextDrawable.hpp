@@ -62,11 +62,11 @@ class TextDrawable : public Drawable
         void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
-        std::string GetText() { return _text->getString(); }
-        void SetText(std::string text);
-        sf::Vector2u GetSize();
-        int GetAlpha();
-        void SetAlpha(int alpha);
+        std::string text() { return _text->getString(); }
+        void text(std::string text);
+        sf::Vector2u size();
+        int alpha();
+        void alpha(int alpha);
     private:
         std::unique_ptr<sf::Text> _text;
 

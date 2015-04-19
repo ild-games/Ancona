@@ -40,8 +40,8 @@ class FadeDrawableComponent
         void Update(float delta);
 
         /* getters and setters */
-        bool GetFadeIn() { return _fadeIn; }
-        void SetFadeIn(bool fadeIn) { _fadeIn = fadeIn; }
+        bool fadeIn() { return _fadeIn; }
+        void fadeIn(bool fadeIn) { _fadeIn = fadeIn; }
     private:
         /**
          * @brief The drawable component being faded.

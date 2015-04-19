@@ -23,13 +23,13 @@ class JumpyGameSystems : public ScreenSystemsContainer
 
 
         /* getters and setters */
-        DrawableSystem & GetDrawable() { return *_drawable; } 
-        InputControlSystem & GetInput() { return *_input; } 
-        PlatformPhysicsSystem & GetPhysics() { return *_physics; }
-        CameraSystem & GetCamera() { return *_camera; }
-        CollisionSystem & GetCollision() { return *_collision; }
+        DrawableSystem & drawable() { return *_drawable; }
+        InputControlSystem & input() { return *_input; }
+        PlatformPhysicsSystem & physics() { return *_physics; }
+        CameraSystem & camera() { return *_camera; }
+        CollisionSystem & collision() { return *_collision; }
 
-        CollisionType GetNullCollision() { return 0; }
+        CollisionType nullCollision() { return 0; }
     private:
         /**
          * @brief System for managing an entity's drawables.

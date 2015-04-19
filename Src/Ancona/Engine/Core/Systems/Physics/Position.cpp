@@ -15,7 +15,7 @@ std::ostream & operator << (std::ostream&& os, const Point&pt)
     return os;
 }
 
-bool Position::IsOnGround() const
+bool Position::onGround() const
 {
     return _groundDirection != Point();
 }

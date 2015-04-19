@@ -37,8 +37,8 @@ void CameraComponent::MoveCamera()
     if(_followPhysics != nullptr)
     {
         _view.setCenter(
-            _followPhysics->GetInfo().GetPosition().x,
-            _followPhysics->GetInfo().GetPosition().y);
+                _followPhysics->GetInfo().position().x,
+            _followPhysics->GetInfo().position().y);
     }
 }
 
@@ -52,7 +52,7 @@ void CameraComponent::AddDrawable(Drawable * drawable)
                 _renderQueue.end(),
                 [](Drawable * lhs, Drawable * rhs)
                 {
-                    return lhs->GetRenderPriority() < rhs->GetRenderPriority();
+                    return lhs->renderPriority() < rhs->renderPriority();
                 });
     }
 }
@@ -68,10 +68,10 @@ void CameraComponent::FetchDependencies(const Entity & entity)
     {
         _followPhysics = (*_physicsSystem)[_follows];
     }
-    SetScale(_scale);
+    scale(_scale);
     if(_default)
     {
-        _drawableSystem->SetDefaultCamera(this);
+        _drawableSystem->defaultCamera(this);
     }
 }
 
@@ -85,14 +85,14 @@ void CameraComponent::Serialize(Archive & arc)
     arc.system(_drawableSystem, "drawable");
 }
 
-void CameraComponent::SetFollows(Entity follows)
+void CameraComponent::follows(Entity follows)
 {
     _follows = follows;
     _followPhysics = _physicsSystem->at(follows);
 }
 
 /* getters and setters */
-void CameraComponent::SetScale(float scale) 
+void CameraComponent::scale(float scale)
 { 
     Assert(scale != float(0), "Scale cannot be 0");
     _view.zoom(1 / _scale);
