@@ -78,7 +78,9 @@ macro(ancona_add_target target)
 
     if(is_platform_match)
         if(DESKTOP)
+            set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${target})
             add_executable(${target} ${ARGS_SRC})
+            set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
             #Add custom includes
             if(ARGS_INCLUDES)
