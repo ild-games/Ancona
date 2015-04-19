@@ -1,11 +1,11 @@
 #ifndef Ancona_Engine_Core_Systems_Collision_CollisionSystem_H_
 #define Ancona_Engine_Core_Systems_Collision_CollisionSystem_H_
 
-#include <vector>
 #include <functional>
+#include <vector>
 
-#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Util/Data.hpp>
 
 #include "CollisionComponent.hpp"
