@@ -1,14 +1,14 @@
 #ifndef JumpyGame_Systems_JumpyGameSystems_Hpp
 #define JumpyGame_Systems_JumpyGameSystems_Hpp
 
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
+#include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/FadeDrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/InputControlSystem.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
-#include <Ancona/Engine/Screens/ScreenManager.hpp>
-#include <Ancona/Engine/Systems/ScreenSystemsContainer.hpp>
+#include <Ancona/Framework/Screens/ScreenManager.hpp>
+#include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 
 #include "../Input/JumpyKeyboard.hpp"

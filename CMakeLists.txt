@@ -77,7 +77,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #be created and a line should be added here.
 add_subdirectory(Src/Ancona/Util)
 add_subdirectory(Src/Ancona/Util2D)
-add_subdirectory(Src/Ancona/Engine)
+add_subdirectory(Src/Ancona/Framework)
 add_subdirectory(Src/Ancona/Core2D)
 add_subdirectory(Src/Ancona/Platformer)
 add_subdirectory(Src/Ancona/Game)

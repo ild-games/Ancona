@@ -8,8 +8,8 @@
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
-#include <Ancona/Engine/Loading/Loading.hpp>
+#include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Framework/Loading/Loading.hpp>
 
 namespace ild
 {

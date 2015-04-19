@@ -8,9 +8,9 @@
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
-#include <Ancona/Engine/Loading/LoadingContext.hpp>
-#include <Ancona/Engine/Resource/ResourceLibrary.hpp>
+#include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Framework/Loading/LoadingContext.hpp>
+#include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 
 namespace ild
 {

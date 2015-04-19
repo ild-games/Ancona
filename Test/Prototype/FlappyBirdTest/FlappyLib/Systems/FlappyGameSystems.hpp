@@ -1,13 +1,13 @@
 #ifndef Test_Prototype_FlappyBirdTest_Systems_FlappyGameSystems_H_
 #define Test_Prototype_FlappyBirdTest_Systems_FlappyGameSystems_H_
 
-#include <Ancona/Engine/EntityFramework/SystemManager.hpp>
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/Drawable/DrawableSystem.hpp>
-#include <Ancona/Engine/Core/Systems/Drawable/FadeDrawableSystem.hpp>
-#include <Ancona/Engine/Core/Systems/InputControlSystem.hpp>
-#include <Ancona/Engine/Core/Systems/SimpleGravitySystem.hpp>
-#include <Ancona/Engine/Core/Systems/Collision/CollisionSystem.hpp>
+#include <Ancona/Framework/EntityFramework/SystemManager.hpp>
+#include <Ancona/Framework/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Framework/Core/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Framework/Core/Systems/Drawable/FadeDrawableSystem.hpp>
+#include <Ancona/Framework/Core/Systems/InputControlSystem.hpp>
+#include <Ancona/Framework/Core/Systems/SimpleGravitySystem.hpp>
+#include <Ancona/Framework/Core/Systems/Collision/CollisionSystem.hpp>
 #include "FlappyRotateSystem.hpp"
 #include "PipeSpawnerSystem.hpp"
 

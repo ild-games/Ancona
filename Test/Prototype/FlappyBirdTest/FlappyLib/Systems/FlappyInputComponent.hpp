@@ -1,8 +1,8 @@
 #ifndef Ancona_Game_Systems_FlappyInputComponent_H_
 #define Ancona_Game_Systems_FlappyInputComponent_H_
 
-#include <Ancona/Engine/Core/Systems/PositionSystem.hpp>
-#include <Ancona/Engine/Core/Systems/InputControlComponent.hpp>
+#include <Ancona/Framework/Core/Systems/PositionSystem.hpp>
+#include <Ancona/Framework/Core/Systems/InputControlComponent.hpp>
 #include "../InputDevices/FlappyInputHandler.hpp"
 #include "FlappyRotateComponent.hpp"
 

@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Config_Systems_InputControlSystem_H_
 #define Ancona_Engine_Config_Systems_InputControlSystem_H_
 
-#include <Ancona/Engine/EntityFramework/UnorderedSystem.hpp>
+#include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 
 #include "InputControlComponent.hpp"
 

@@ -1,9 +1,9 @@
 #include "JumpyGame.hpp"
 #include "../Screens/JumpyScreen.hpp"
-#include <Ancona/Engine/Resource/ResourceLoaderInit.hpp>
-#include <Ancona/Engine/Resource/ResourceLibrary.hpp>
-#include <Ancona/Engine/Resource/RequestList.hpp>
-#include <Ancona/Engine/Screens/LoadingScreen.hpp>
+#include <Ancona/Framework/Resource/ResourceLoaderInit.hpp>
+#include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/Framework/Resource/RequestList.hpp>
+#include <Ancona/Framework/Screens/LoadingScreen.hpp>
 
 using namespace ild;
 
