@@ -7,10 +7,11 @@ STATE_FILE_NAME = ".duckling_state"
 # You must use the with keyword or call .close on the object once you are done using it.
 # 
 class BuildState:
-    def __init__(self, cmake_src):
+    def __init__(self, cmake_src, user_instructions):
         self.state = {}
         self.filename = os.path.join(cmake_src,"build",STATE_FILE_NAME)
         os.makedirs(os.path.join(cmake_src,"build"),exist_ok=True)
+        self.user_instructions = user_instructions
 
         #Read in the state file if there is one
         if os.path.isfile(self.filename):
@@ -41,3 +42,11 @@ class BuildState:
         with open(self.filename, "w") as state_file:
             for key,val in self.state.items():
                 print("{}={}".format(key,val),file=state_file)
+
+    def build_platform_changed(self):
+        return self["platform"] != self.user_instructions.get_build_platform()
+
+    def update_build_platform(self):
+        self["platform"] = self.user_instructions.get_build_platform()
+
+

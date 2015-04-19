@@ -8,35 +8,38 @@
 
 import os,sys,argparse
 
+#We need to bootstrap the python path to include the Ancona build tools
+#library
 cmake_root = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
 python_path = os.path.join(cmake_root,"BuildTools","Python")
 sys.path.append(python_path)
 
 from ild import get_depend,building,generate_mk_file
-from ild.duckling import arg_parser,build_state
+from ild.duckling import arg_parser,build_state,tasks
 
 #Parse the command line arguments
-ancona_platform,ancona_target = arg_parser.parse()
+user_instructions = arg_parser.parse()
 
-#If ancona_platform is set then we should build the project for that platform
-if ancona_platform:
-    with build_state.BuildState(cmake_root) as state:
-        #Check to see if the platform has changed. If it has then we need to clean the 
-        #build directory
-        if state["platform"] != ancona_platform:
+duckling_tasks = tasks.Tasks(cmake_root)
+
+if user_instructions.should_generate_documentation():
+    duckling_tasks.generate_documentation()
+
+if user_instructions.should_build():
+    with build_state.BuildState(cmake_root, user_instructions) as state:
+        if state.build_platform_changed():
             print("Cleaning build directory")
-            state["platform"] = ancona_platform
-            building.command("rm -rf build/*")
+            state.update_build_platform()
+            duckling_tasks.clean_build_directory()
 
-        print("Duckling: Building for",ancona_platform)
-        if ancona_platform == "android":
+        print("Duckling: Building for",user_instructions.get_build_platform())
+        if user_instructions.get_build_platform() == "android":
             if not building.is_android_ndk_installed():
                 print("Error: Failed to build ancona for Android")
                 sys.exit(1)
-            get_depend.main(cmake_root,"Android")
+            duckling_tasks.get_android_dependencies() 
 
-        building.generate_ancona_build(cmake_root,ancona_platform)
+        duckling_tasks.build_ancona(user_instructions.get_build_platform())
         
-#If ancona_target is set then we should run the project for the given target
-if ancona_target:
+if user_instructions.get_run_target():
     print("Warning: -r is not yet implemented")
