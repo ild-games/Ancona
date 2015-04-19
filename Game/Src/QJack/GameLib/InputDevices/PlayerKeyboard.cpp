@@ -1,6 +1,6 @@
-#include <Ancona/Game/InputDevices/PlayerKeyboard.hpp>
+#include <QJack/GameLib/InputDevices/PlayerKeyboard.hpp>
 #include <Ancona/Core2D/InputDevices/Keyboard.hpp>
-#include <Ancona/Game/Systems/PlayerInputComponent.hpp>
+#include <QJack/GameLib/Systems/PlayerInputComponent.hpp>
 
 #include <SFML/Window.hpp>
 #include <iostream>

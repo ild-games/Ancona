@@ -5,9 +5,9 @@
 
 #include <Ancona/Framework/EntityFramework/Entity.hpp>
 #include <Ancona/Framework/Screens/AbstractScreen.hpp>
-#include <Ancona/Game/EntityFactories/EnvironmentFactory.hpp>
-#include <Ancona/Game/EntityFactories/PlayerFactory.hpp>
-#include <Ancona/Game/Systems/GameScreenSystems.hpp>
+#include <QJack/GameLib/EntityFactories/EnvironmentFactory.hpp>
+#include <QJack/GameLib/EntityFactories/PlayerFactory.hpp>
+#include <QJack/GameLib/Systems/GameScreenSystems.hpp>
 
 namespace ild
 {
