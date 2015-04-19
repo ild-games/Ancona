@@ -1,7 +1,7 @@
 #ifndef Ancona_Game_Systems_PlayerInputComponent_H_
 #define Ancona_Game_Systems_PlayerInputComponent_H_
 
-#include <Ancona/Engine/Core/Systems/InputControlComponent.hpp>
+#include <Ancona/Core2D/Systems/InputControlComponent.hpp>
 #include <Ancona/Game/InputDevices/PlayerKeyboard.hpp>
 #include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 

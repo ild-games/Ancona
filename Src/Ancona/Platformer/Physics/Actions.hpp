@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 
-#include <Ancona/Engine/Core/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Engine/Core/Systems/Physics/Position.hpp>
+#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Physics/Position.hpp>
 
 #include "VectorAction.hpp"
 

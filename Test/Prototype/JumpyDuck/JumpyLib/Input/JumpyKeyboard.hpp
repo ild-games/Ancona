@@ -1,9 +1,9 @@
 #ifndef Test_Prototype_JumpyDuck_Input_JumpyKeyboard_H_
 #define Test_Prototype_JumpyDuck_Input_JumpyKeyboard_H_
 
+#include <Ancona/Core2D/InputDevices/InputHandler.hpp>
+#include <Ancona/Core2D/Systems/InputControlComponent.hpp>
 #include <Ancona/Engine/Screens/ScreenManager.hpp>
-#include <Ancona/Engine/Core/Systems/InputControlComponent.hpp>
-#include <Ancona/Engine/InputDevices/InputHandler.hpp>
 #include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 
 #include <SFML/Window.hpp>

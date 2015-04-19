@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Loading_LoadingContext_H_
 #define Ancona_Engine_Loading_LoadingContext_H_
 
-#include <Ancona/Engine/Core/Systems/ScreenSystemsContainer.hpp>
+#include <Ancona/Engine/Systems/ScreenSystemsContainer.hpp>
 
 namespace ild
 {

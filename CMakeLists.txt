@@ -75,16 +75,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 #When more folders are added at the Ancona level a CMakeTest file must 
 #be created and a line should be added here.
-add_subdirectory(Src/Ancona/Engine)
 add_subdirectory(Src/Ancona/Util)
 add_subdirectory(Src/Ancona/Util2D)
+add_subdirectory(Src/Ancona/Engine)
+add_subdirectory(Src/Ancona/Core2D)
 add_subdirectory(Src/Ancona/Platformer)
 add_subdirectory(Src/Ancona/Game)
 
 
 #Libs is a variables containing a reference to all linkable libraries
-set(Ancona_Libs Ancona_Game Ancona_Platformer Ancona_Engine Ancona_Util2D Ancona_Util ${Jsoncpp_LIBRARY})
-set(Libs ${Ancona_Libs} ${SFML_LIBS} )
+set(Ancona_Libs Ancona_Game Ancona_Platformer Ancona_Core2D Ancona_Engine Ancona_Util2D Ancona_Util ${Jsoncpp_LIBRARY})
+set(Libs ${Ancona_Libs} ${SFML_LIBS})
 
 
 #Add test directory
