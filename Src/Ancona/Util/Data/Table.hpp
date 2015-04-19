@@ -11,7 +11,7 @@ namespace ild
  * @brief Table is a generic two dimensional table that is designed to grow
  * dynamically.
  *
- * @tparam T Value type that is stored in the table.
+ * @tparam T value type that is stored in the table.
  *
  * @author Jeff Swenson
  */
@@ -23,7 +23,7 @@ class Table
          * @brief Adds a row to the table.  The new row will be initialized
          * using defaultValue.
          *
-         * @param defaultValue Value that is used to initialize the row.
+         * @param defaultValue value that is used to initialize the row.
          */
         void AddRow(const T &defaultValue)
         {
@@ -35,7 +35,7 @@ class Table
          * @brief Adds a column to the table.  The new column will be initialized
          * using defaultValue.
          *
-         * @param defaultValue Value that is used to initialize the column.
+         * @param defaultValue value that is used to initialize the column.
          */
         void AddColumn(const T &defaultValue)
         {

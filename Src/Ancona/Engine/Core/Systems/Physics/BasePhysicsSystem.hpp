@@ -51,17 +51,10 @@ class BasePhysicsComponent
 class BasePhysicsSystem : public UnorderedSystem<BasePhysicsComponent>
 {
     public:
-        inline void SetGravity(Point gravity)
-        {
-            _gravity = gravity;
-        }
-        
-        inline const Point & GetGravity()
-        {
-            return _gravity;
-        }
 
-
+        /* getters and setters */
+        inline void gravity(Point gravity) { _gravity = gravity; }
+        inline const Point & gravity() { return _gravity; }
     protected:
         /**
          * @brief Constructor of a BasePhysicsSystem and register it with the manager.  

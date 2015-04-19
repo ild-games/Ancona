@@ -9,7 +9,7 @@ MapLoader::MapLoader(
     _key(key), 
     _request(new RequestList()),
     _loadingContext(new LoadingContext(systems)),
-    _profile(systems.GetProfile())
+    _profile(systems.profile())
 {
     Assert(_profile != -1, "A profile must be specified for the map");
 }
@@ -90,7 +90,7 @@ void MapLoader::LoadEntities()
 {
     for(Json::Value & curEntity : _mapRoot["entities"])
     {
-        _loadingContext->GetSystems().GetSystemManager().CreateEntity(curEntity.asString());
+        _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
     }
     _state = LoadingState::LoadingComponents;
 }
@@ -99,12 +99,12 @@ void MapLoader::LoadComponents()
 {
     Archive mapArc(_mapRoot["systems"], *_loadingContext.get());
     Archive saveArc(_saveRoot["systems"], *_loadingContext.get());
-    for(auto systemNamePair : _loadingContext->GetSystems().GetSystemManager().GetKeyedSystems())
+    for(auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
     {
         LoadSpecifiedSystem(systemNamePair, mapArc);
         LoadSpecifiedSystem(systemNamePair, saveArc);
     }
-    _loadingContext->GetSystems().GetSystemManager().FetchWaitingDependencies();
+    _loadingContext->systems().systemManager().FetchWaitingDependencies();
     _state = LoadingState::DoneLoading;
 }
 
@@ -113,7 +113,7 @@ void MapLoader::LoadSpecifiedSystem(std::pair<std::string, AbstractSystem *> sys
     if (currentArc.HasProperty(systemNamePair.first))
     {
         currentArc.EnterProperty(systemNamePair.first);
-        _loadingContext->GetSystems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(currentArc);
+        _loadingContext->systems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(currentArc);
         currentArc.ExitProperty();
     }
 }

@@ -29,7 +29,7 @@ void DrawableSystem::AddCamera(CameraComponent * camera)
     alg::sort(_cameras,
             [](CameraComponent * lhs, CameraComponent * rhs)
             {
-                return lhs->GetRenderPriority() < rhs->GetRenderPriority();
+                return lhs->renderPriority() < rhs->renderPriority();
             });
 }
 
@@ -61,7 +61,7 @@ DrawableComponent * DrawableSystem::CreateComponent(
 
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
-    std::vector<Drawable * > compDrawables = component->GetKeylessDrawables();
+    std::vector<Drawable * > compDrawables = component->keylessDrawables();
     for(Drawable * drawable : compDrawables)
     {
         for(CameraComponent * camera : _cameras)
@@ -72,7 +72,7 @@ void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * compon
 }
 
 /* getters and setters */
-void DrawableSystem::SetDefaultCamera(CameraComponent * defaultCamera)
+void DrawableSystem::defaultCamera(CameraComponent *defaultCamera)
 {
     if(_defaultCamera != nullptr)
     {

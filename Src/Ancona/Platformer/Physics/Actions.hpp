@@ -83,7 +83,7 @@ class Actions
         void StopFall();
 
         /* Getters and Setters */
-        void SetPhysics(BasePhysicsSystem * physicsSystem) { _physicsSystem = physicsSystem; }
+        void physics(BasePhysicsSystem * physicsSystem) { _physicsSystem = physicsSystem; }
 
     private:
         std::vector<VectorActionProxy> _positionActions;

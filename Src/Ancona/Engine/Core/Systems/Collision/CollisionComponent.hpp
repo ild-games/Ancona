@@ -88,10 +88,10 @@ class CollisionComponent
         void Serialize(Archive & arc);
 
         /* getters and setters */
-        CollisionType GetType();
-        BodyTypeEnum GetBodyType() { return _bodyType; }
-        BasePhysicsComponent & GetPhysicsComponent() { return *_position; }
-        const Box2 & GetBox() const { return _dim; }
+        CollisionType type();
+        BodyTypeEnum bodyType() { return _bodyType; }
+        BasePhysicsComponent & physicsComponent() { return *_position; }
+        const Box2 & box() const { return _dim; }
 
     private:
         BasePhysicsComponent * _position;

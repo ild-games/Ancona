@@ -24,7 +24,7 @@ class LoadingContext
 
 
         /* getters and setters */
-        ScreenSystemsContainer & GetSystems() { return _systems; }
+        ScreenSystemsContainer & systems() { return _systems; }
     private:
         ScreenSystemsContainer & _systems;
 

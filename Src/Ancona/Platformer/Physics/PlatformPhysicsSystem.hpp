@@ -55,7 +55,7 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
         void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
-        inline Actions & GetActions() { return _actions; }
+        inline Actions & actions() { return _actions; }
     private:
         Actions _actions;
         PlatformPhysicsSystem * _system;

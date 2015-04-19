@@ -18,42 +18,35 @@ class VectorAction : public Action<VectorAction>
         /**
          * @brief Buitder style method used to set the value of the action.
          *
-         * @param value Value that the action will be set to.
+         * @param value value that the action will be set to.
          *
          * @return A reference to the action.
          */
-        VectorAction * Value(sf::Vector2f value) { _value = value; return this; }
+        VectorAction * value(sf::Vector2f value) { _value = value; return this; }
 
         /**
-         * @brief Tween the action for the given amount of time.
+         * @brief tween the action for the given amount of time.
          *
          * @param time Time to tween the action for.
          *
          * @return A pointer to the action.
          */
-        VectorAction * Tween(float time);
-
-        /**
-         * @brief Set if the action should be taken relative to the ground.  Defaults to false.
-         *
-         * @param value True if the action is relative to the ground.
-         *
-         * @return A pointer to the action.
-         */
-        VectorAction * RelativeToGround(bool value) { _relativeToGround = value; return this; }
+        VectorAction * tween(float time);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
         void Serialize(Archive & arc);
 
+
         /* getters and setters */
-        float GetTweenRatio();
-        const sf::Vector2f & GetValue() { return _value; }
-        bool GetRelativeToGround() { return _relativeToGround; }
+        float tweenRatio();
+        const sf::Vector2f & value() { return _value; }
+        bool isRelativeToGround() { return _relativeToGround; }
+        VectorAction * isRelativeToGround(bool value) { _relativeToGround = value; return this; }
     private:
         /**
-         * @brief Value of the action.  For a velocity action this would be the velocity.
+         * @brief value of the action.  For a velocity action this would be the velocity.
          */
         sf::Vector2f _value;
         /**

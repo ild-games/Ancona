@@ -61,6 +61,9 @@ class RequestList
          */
         iterator Next();
 
+        /**
+         * @brief Call when the ResourceList needs to start being used.
+         */
         void Start();
 
         /**

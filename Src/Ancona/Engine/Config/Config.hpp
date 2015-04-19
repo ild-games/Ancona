@@ -36,7 +36,7 @@ class Config
          *
          * @param optionName Name of the option.
          *
-         * @return Value of the option.  If the value was not set the "" is returned.
+         * @return value of the option.  If the value was not set the "" is returned.
          */
         static const std::string & GetOption(const std::string & optionName);
     private:

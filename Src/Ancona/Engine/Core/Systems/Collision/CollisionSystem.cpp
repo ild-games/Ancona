@@ -18,7 +18,7 @@ CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manag
 
 void CollisionSystem::UpdateGravityBounds()
 {
-    auto invGravity =  -_positions.GetGravity();
+    auto invGravity =  -_positions.gravity();
     
     _leftGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(90 - _maxSlope));
     _rightGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(-(90 - _maxSlope)));
@@ -35,8 +35,8 @@ bool CollisionSystem::IsOnGround(const Point &groundNormal)
 
 void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude)
 {
-    auto typeA = a->GetBodyType();
-    auto typeB = b->GetBodyType();
+    auto typeA = a->bodyType();
+    auto typeB = b->bodyType();
     Point correctFix = fixMagnitude * fixNormal;
 
     //If either has a body type of None then the collision should not effect the position.
@@ -68,39 +68,39 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
 
 void CollisionSystem::PushFirstOutOfSecond(CollisionComponent *a, CollisionComponent *b, const Point &correctFix)
 {
-    auto & physicsA = a->GetPhysicsComponent();
+    auto & physicsA = a->physicsComponent();
     auto & posA = physicsA.GetMutableInfo();
 
-    auto groundDirection = VectorMath::Normalize(b->GetBox().GetNormalOfCollisionEdge(a->GetBox()));
+    auto groundDirection = VectorMath::Normalize(b->box().GetNormalOfCollisionEdge(a->box()));
     if(IsOnGround(groundDirection))
     {
-        posA.SetGroundDirection(groundDirection);
+        posA.groundDirection(groundDirection);
     }
 
-    posA.SetPosition(posA.GetPosition() + correctFix);
+    posA.position(posA.position() + correctFix);
     return;
 }
 
 void CollisionSystem::PushApart(CollisionComponent *a, CollisionComponent *b, const Point &correctFix)
 {
     //If both bodies are solid then push them out of eachoter.
-    auto & physicsA = a->GetPhysicsComponent();
+    auto & physicsA = a->physicsComponent();
     auto & infoA = physicsA.GetMutableInfo();
-    auto & physicsB = b->GetPhysicsComponent();
+    auto & physicsB = b->physicsComponent();
     auto & infoB = physicsB.GetMutableInfo();
 
-    if(infoA.GetVelocity() == Point())
+    if(infoA.velocity() == Point())
     {
-        infoB.SetPosition(infoB.GetPosition() + -correctFix);
+        infoB.position(infoB.position() + -correctFix);
     }
-        else if(infoB.GetVelocity() == Point())
+        else if(infoB.velocity() == Point())
     {
-        infoA.SetPosition(infoA.GetPosition() + correctFix);
+        infoA.position(infoA.position() + correctFix);
     }
     else
     {
-        infoA.SetPosition(infoA.GetPosition() + 0.5f * correctFix);
-        infoB.SetPosition(infoB.GetPosition() + -0.5f * correctFix);
+        infoA.position(infoA.position() + 0.5f * correctFix);
+        infoB.position(infoB.position() + -0.5f * correctFix);
     }
 
     return;
@@ -189,8 +189,8 @@ void CollisionSystem::HandleCollision(
         EntityComponentPair &pairA, EntityComponentPair &pairB,
         const Point &fixNormal, float fixMagnitude)
 {
-    auto typeA = pairA.second->GetType();
-    auto typeB = pairB.second->GetType();
+    auto typeA = pairA.second->type();
+    auto typeB = pairB.second->type();
 
     FixCollision(pairA.second, pairB.second, fixNormal, fixMagnitude);
 

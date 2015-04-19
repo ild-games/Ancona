@@ -59,14 +59,6 @@ class Box2
         Box2(float dimX, float dimY);
 
         /**
-         * @brief Set the position of the box to the given value.
-         *
-         * @param x X position.
-         * @param y Y position.
-         */
-        void SetPosition(float x, float y);
-
-        /**
          * @brief Test if the two boxes intersect
          *
          * @param box Box to test intersection on
@@ -102,6 +94,9 @@ class Box2
          * @param vertices A vector used as an output parameter for the vertices.
          */
         void GetVertices(std::vector< std::pair<float,float> > & vertices) const;
+
+        /* getters and setters */
+        void position(float x, float y);
 };
 
 }

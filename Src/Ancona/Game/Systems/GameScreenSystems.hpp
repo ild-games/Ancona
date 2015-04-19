@@ -35,11 +35,11 @@ class GameScreenSystems : public ScreenSystemsContainer
                 int profile);
 
         /* getters and setters */
-        PlatformPhysicsSystem & GetPhysics() { return *_physics; } 
-        DrawableSystem & GetDrawable() { return *_drawable; } 
-        InputControlSystem & GetInput() { return *_input; } 
-        CollisionSystem & GetCollision() { return *_collision; } 
-        CameraSystem & GetCamera() { return *_camera; }
+        PlatformPhysicsSystem & physics() { return *_physics; }
+        DrawableSystem & drawable() { return *_drawable; }
+        InputControlSystem & input() { return *_input; }
+        CollisionSystem & collision() { return *_collision; }
+        CameraSystem & camera() { return *_camera; }
 
     private:
         /**

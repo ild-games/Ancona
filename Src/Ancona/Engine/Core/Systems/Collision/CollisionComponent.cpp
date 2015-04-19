@@ -20,12 +20,12 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Poi
 void CollisionComponent::Update()
 {
     auto & info = _position->GetMutableInfo();
-    auto & pos = info.GetPosition();
-    _dim.SetPosition(pos.x, pos.y);
-    info.SetGroundDirection(Point());
+    auto & pos = info.position();
+    _dim.position(pos.x, pos.y);
+    info.groundDirection(Point());
 }
 
-CollisionType CollisionComponent::GetType()
+CollisionType CollisionComponent::type()
 {
     return _type;
 }
@@ -35,7 +35,7 @@ template<>
 struct Serializer<BodyTypeEnum> {
     static void Serialize(BodyTypeEnum & property, Archive & arc)
     {
-        if (arc.IsLoading())
+        if (arc.loading())
         {
             const std::string & val = arc.CurrentBranch().asString();
             if (val == "none")
@@ -69,19 +69,19 @@ void CollisionComponent::Serialize(Archive &arc) {
     arc.system(_system, "collision");
 
     std::string key;
-    if (!arc.IsLoading())
+    if (!arc.loading())
     {
         //TODO ANC-77 implement CollisionComponent saving
     }
 
     arc(key, "collision-type");
 
-    if (arc.IsLoading())
+    if (arc.loading())
     {
         _type = _system->GetType(key);
     }
 }
 
 void CollisionComponent::FetchDependencies(const Entity &entity) {
-    _position = _system->GetPhysics()[entity];
+    _position = _system->physics()[entity];
 }

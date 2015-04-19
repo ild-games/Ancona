@@ -16,10 +16,10 @@ FadeDrawableComponent::FadeDrawableComponent(
 
 void FadeDrawableComponent::Update(float delta)
 {
-    std::vector<Drawable *> drawables = _drawableComponent.GetKeylessDrawables();
+    std::vector<Drawable *> drawables = _drawableComponent.keylessDrawables();
     for(Drawable * drawable : drawables)
     {
-        int alpha = drawable->GetAlpha();
+        int alpha = drawable->alpha();
         if(_fadeIn)
         {
             alpha += (FADE_SPEED * delta);
@@ -36,7 +36,7 @@ void FadeDrawableComponent::Update(float delta)
                 alpha = 0;
             }
         }
-        drawable->SetAlpha(alpha);
+        drawable->alpha(alpha);
     }
 }
 

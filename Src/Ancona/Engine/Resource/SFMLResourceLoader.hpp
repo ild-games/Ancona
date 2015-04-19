@@ -21,9 +21,10 @@ class SFMLResourceLoader : public AbstractLoader
     public:
         /**
          * @brief Initialize the resource loader with values that make sense for the template arguments
-         * @brief resourceName Name that describes resource type
-         * @brief fileExtension File extension used for the resource
-         * @brief directory Describes the directory the resource is stored in
+         *
+         * @param resourceName Name that describes resource type
+         * @param fileExtension File extension used for the resource
+         * @param directory Describes the directory the resource is stored in
          */
         SFMLResourceLoader(
                 const std::string & resourceName,
@@ -35,9 +36,9 @@ class SFMLResourceLoader : public AbstractLoader
         }
 
         /**
-         * @brief see ild::ResourceLoader
+         * @copydoc ild::AbstractLoader::Load
          */
-        void * Load(const std::string & resourceKey)
+        void * Load(const std::string & resourceKey) override
         {
             SFMLType * object = new SFMLType();
             std::string fileName = GetResourceFileName(
@@ -55,9 +56,9 @@ class SFMLResourceLoader : public AbstractLoader
         }
 
         /**
-         * @brief see ild::ResourceLoader
+         * @copydoc ild::AbstractLoader::DeleteResource
          */
-        void DeleteResource(void * resource)
+        void DeleteResource(void * resource) override
         {
             SFMLType * object = static_cast<SFMLType *>(resource);
             delete object;

@@ -23,7 +23,7 @@ SpriteDrawable::SpriteDrawable(
 
 void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
 {
-    auto pos = _physicsComponent->GetInfo().GetPosition();
+    auto pos = _physicsComponent->GetInfo().position();
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
@@ -47,19 +47,19 @@ void SpriteDrawable::Serialize(Archive &archive) {
 }
 
 /* getters and setters */
-sf::Vector2u SpriteDrawable::GetSize()
+sf::Vector2u SpriteDrawable::size()
 {
     return sf::Vector2u(
             _sprite->getLocalBounds().width,
             _sprite->getLocalBounds().height);
 }
 
-int SpriteDrawable::GetAlpha()
+int SpriteDrawable::alpha()
 {
     return _sprite->getColor().a;
 }
 
-void SpriteDrawable::SetAlpha(int alpha)
+void SpriteDrawable::alpha(int alpha)
 {
     sf::Color col(_sprite->getColor());
     col.a = alpha;

@@ -65,7 +65,7 @@ TEST(Table, SetAndRetrieve)
 
     table.Get(4,3) = 3;
 
-    ASSERT_EQ(table.Get(4,3), 3)  << "Value is not set correctly";
-    ASSERT_EQ(table.Get(3,3), 0)  << "Value should not have changed from the default";
+    ASSERT_EQ(table.Get(4,3), 3)  << "value is not set correctly";
+    ASSERT_EQ(table.Get(3,3), 0)  << "value should not have changed from the default";
 }
 

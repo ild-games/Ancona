@@ -51,7 +51,7 @@ class LoadingScreen : public AbstractScreen
         virtual void Exiting(float delta);
 
         /* getters and setters */
-        ScreenSystemsContainer * GetSystemsContainer() override;
+        ScreenSystemsContainer * systemsContainer() override;
     private:
         /**
          * @brief The Screen that will be loaded.

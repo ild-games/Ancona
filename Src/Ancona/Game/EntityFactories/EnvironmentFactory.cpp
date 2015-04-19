@@ -7,10 +7,10 @@ Entity factories::CreateGround(
         std::map<std::string, CollisionType> collisionTypes)
 {
     // collision component
-    gameSystems.GetCollision().CreateComponent(
-            gameSystems.GetSystemManager().GetEntity("ground"),
+    gameSystems.collision().CreateComponent(
+            gameSystems.systemManager().GetEntity("ground"),
             sf::Vector3f(540, 80, 0),
             collisionTypes["ground"]);
 
-    return gameSystems.GetSystemManager().GetEntity("ground");
+    return gameSystems.systemManager().GetEntity("ground");
 }

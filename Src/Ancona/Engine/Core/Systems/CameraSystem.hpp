@@ -33,7 +33,7 @@ class CameraComponent
          * @brief Constructs a new CameraComponent.
          *
          * @param originalView Default view of the window.
-         * @param renderPriority Priority to render the camera by.
+         * @param renderPriority priority to render the camera by.
          * @param scale The scale the camera will zoom to, defaults to 1.0f.
          */
         CameraComponent(
@@ -92,10 +92,10 @@ class CameraComponent
         void Serialize(Archive & arc);
 
         /* getters and setters */
-        int GetRenderPriority() { return _renderPriority; }
-        void SetFollows(Entity follows);
-        void SetScale(float scale);
-        float GetScale() { return _scale; }
+        int renderPriority() { return _renderPriority; }
+        void follows(Entity follows);
+        void scale(float scale);
+        float scale() { return _scale; }
 
     protected:
         /**
@@ -109,7 +109,7 @@ class CameraComponent
          */
         sf::View _view;
         /**
-         * @brief Priority in which the camera is rendered, lower priority means  it will be rendered sooner.
+         * @brief priority in which the camera is rendered, lower priority means  it will be rendered sooner.
          */
         int _renderPriority;
         /**

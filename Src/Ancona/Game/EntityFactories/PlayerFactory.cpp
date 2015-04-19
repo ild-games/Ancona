@@ -8,26 +8,26 @@ Entity factories::CreatePlayer(
 {
     // collision component
     factories::SetupCollisions(
-            gameSystems.GetSystemManager().GetEntity("player"),
+            gameSystems.systemManager().GetEntity("player"),
             gameSystems,
             collisionTypes);
 
-    return gameSystems.GetSystemManager().GetEntity("player");
+    return gameSystems.systemManager().GetEntity("player");
 }
 
 void factories::SetupCollisions(
         Entity player,
         GameScreenSystems & gameSystems,
         std::map<std::string, CollisionType> collisionTypes)
-{ 
-    gameSystems.GetCollision().CreateComponent(
+{
+    gameSystems.collision().CreateComponent(
             player,
             sf::Vector3f(17.0f, 17.0f, 0),
             collisionTypes["player"]);
 
     /* Collision Handlers */
     // ground collision
-    gameSystems.GetCollision().DefineCollisionCallback(
+    gameSystems.collision().DefineCollisionCallback(
             collisionTypes["player"],
             collisionTypes["ground"],
             factories::GroundCollisionHandler(&gameSystems));
@@ -37,7 +37,7 @@ std::function<void(Entity player, Entity ground)> factories::GroundCollisionHand
 {
     return [gameSystems](Entity player, Entity ground)
     {
-        auto & actions = gameSystems->GetPhysics().at(player)->GetActions();
+        auto & actions = gameSystems->physics().at(player)->actions();
         actions.StopFall();
         actions.SetAffectedByGravity(false);
     };

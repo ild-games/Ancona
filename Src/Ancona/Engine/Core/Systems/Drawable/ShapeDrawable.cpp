@@ -22,7 +22,7 @@ ShapeDrawable::ShapeDrawable(
 
 void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
 {
-    auto pos = _physicsComponent->GetInfo().GetPosition();
+    auto pos = _physicsComponent->GetInfo().position();
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
@@ -44,19 +44,19 @@ void ShapeDrawable::Serialize(Archive &archive) {
 }
 
 /* getters and setters */
-sf::Vector2u ShapeDrawable::GetSize()
+sf::Vector2u ShapeDrawable::size()
 {
     return sf::Vector2u(
             _shape->getLocalBounds().width,
             _shape->getLocalBounds().height);
 }
 
-int ShapeDrawable::GetAlpha()
+int ShapeDrawable::alpha()
 {
     return _shape->getFillColor().a;
 }
 
-void ShapeDrawable::SetAlpha(int alpha)
+void ShapeDrawable::alpha(int alpha)
 {
     sf::Color * outlineCol = 
         new sf::Color(_shape->getOutlineColor());

@@ -18,8 +18,8 @@ PlayerInputComponent::PlayerInputComponent(
       _positionComponent(positionComponent)
 {
     inputHandler.RegisterInputComponent(this);
-    _movementAction = _positionComponent.GetActions().CreateVelocityAction();
-    _movementAction->Duration(ActionDuration::PERSISTENT);
+    _movementAction = _positionComponent.actions().CreateVelocityAction();
+    _movementAction->duration(ActionDuration::PERSISTENT);
 }
 
 void PlayerInputComponent::Move(PlayerDirectionEnum direction)
@@ -42,5 +42,5 @@ void PlayerInputComponent::Move(PlayerDirectionEnum direction)
         directionVector.x += VELOCITY;
     }
 
-    _movementAction->Value(directionVector);
+    _movementAction->value(directionVector);
 }

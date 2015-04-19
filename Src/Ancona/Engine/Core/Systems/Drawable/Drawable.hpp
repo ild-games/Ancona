@@ -84,12 +84,12 @@ class Drawable
         virtual void Serialize(Archive & arc);
 
         /* getters and setters */
-        int GetRenderPriority() { return _renderPriority + _priorityOffset; }
-        float GetRotation() { return _rotation; }
-        void SetRotation(float rotation) { _rotation = rotation; }
-        virtual sf::Vector2u GetSize() = 0;
-        virtual int GetAlpha() = 0;
-        virtual void SetAlpha(int alpha) = 0;
+        int renderPriority() { return _renderPriority + _priorityOffset; }
+        float rotation() { return _rotation; }
+        void rotation(float rotation) { _rotation = rotation; }
+        virtual sf::Vector2u size() = 0;
+        virtual int alpha() = 0;
+        virtual void alpha(int alpha) = 0;
 
 
     protected:
@@ -114,7 +114,7 @@ class Drawable
          */
         sf::Vector2f _positionOffset;
         /**
-         * @brief Priority of rendering this obj.
+         * @brief priority of rendering this obj.
          */
         int _renderPriority;
         /**

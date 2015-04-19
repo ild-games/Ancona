@@ -59,7 +59,7 @@ class MapLoader
         bool ContinueLoading();
 
         /* getters and setters */
-        std::shared_ptr<RequestList> GetRequestList() { return _request; }
+        std::shared_ptr<RequestList> requestList() { return _request; }
 
     private:
 

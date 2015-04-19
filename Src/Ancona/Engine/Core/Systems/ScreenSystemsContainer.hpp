@@ -70,9 +70,9 @@ class ScreenSystemsContainer
         }
 
         /* getters and setters */
-        SystemManager & GetSystemManager() { return *_systemManager; }
-        ScreenManager & GetScreenManager() { return _screenManager; }
-        int GetProfile() { return _profile; }
+        SystemManager & systemManager() { return *_systemManager; }
+        ScreenManager & screenManager() { return _screenManager; }
+        int profile() { return _profile; }
     protected:
         /**
          * @brief Map used to store the system references. It is not recommended you use this to get the systems during gameplay, only for loading.

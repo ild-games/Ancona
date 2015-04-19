@@ -48,15 +48,15 @@ void RemoveDoneActions(std::vector<VectorActionProxy> & actions)
 static Point TweenPosition(VectorAction & action, float beforeRatio,
         const Point & position)
 {
-    float afterRatio = action.GetTweenRatio();
+    float afterRatio = action.tweenRatio();
 
     if(afterRatio == 1)
     {
-        return action.GetValue();
+        return action.value();
     }
 
     return position + (afterRatio - beforeRatio) / (1 - beforeRatio) *
-        (action.GetValue() - position);
+        (action.value() - position);
 }
 
 void Actions::StopFall()
@@ -66,18 +66,18 @@ void Actions::StopFall()
 
 void Actions::ApplyGravity(Point &velocity, float delta)
 {
-    _totalGravity += delta * _physicsSystem->GetGravity();
+    _totalGravity += delta * _physicsSystem->gravity();
     velocity += _totalGravity;
 }
 
 Point Actions::ApplyPositionActions(const Position & position, float delta)
 {
-    Point location = position.GetPosition();
+    Point location = position.position();
     for(auto& action : _positionActions)
     {
-        float beforeRatio = action->GetTweenRatio();
+        float beforeRatio = action->tweenRatio();
         action->Update(delta);
-        location = TweenPosition(*action,beforeRatio,position.GetPosition());
+        location = TweenPosition(*action,beforeRatio, position.position());
     }
     return location;
 }
@@ -88,11 +88,11 @@ Point Actions::ApplyVelocityActions(const Position & position, float delta)
     for(auto& action : _velocityActions)
     {
         float overflow = action->Update(delta);
-        auto value = action->GetValue();
+        auto value = action->value();
 
-        if(action->GetRelativeToGround())
+        if(action->isRelativeToGround())
         {
-            auto groundDirection = position.GetGroundDirection();
+            auto groundDirection = position.groundDirection();
             value = value.x * Point(-groundDirection.y,groundDirection.x);
         }
 
@@ -102,7 +102,7 @@ Point Actions::ApplyVelocityActions(const Position & position, float delta)
         }
         else
         {
-            velocity += action->GetTweenRatio() * value;
+            velocity += action->tweenRatio() * value;
         }
     }
     return velocity;
@@ -113,7 +113,7 @@ void Actions::Apply(Position & position, float delta)
     //Velocity actions apply additively
     Point velocity = ApplyVelocityActions(position,delta);
 
-    if(position.IsOnGround())
+    if(position.onGround())
     {
         StopFall();
     }
@@ -122,16 +122,16 @@ void Actions::Apply(Position & position, float delta)
         ApplyGravity(velocity, delta);
     }
 
-    position.SetVelocity(velocity);
+    position.velocity(velocity);
 
     //Only update the position from the velocity if there are no position actions in effect.
     if(_positionActions.size() == 0)
     {
-        position.SetPosition(position.GetPosition() + delta * velocity);
+        position.position(position.position() + delta * velocity);
     }
 
     //Only a single position action will effect the result
-    position.SetPosition(ApplyPositionActions(position, delta));
+    position.position(ApplyPositionActions(position, delta));
 
     RemoveDoneActions(_velocityActions);
     RemoveDoneActions(_positionActions);
