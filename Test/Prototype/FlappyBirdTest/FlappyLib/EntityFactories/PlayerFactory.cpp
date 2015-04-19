@@ -124,7 +124,7 @@ void factories::SetupPlayerCollisions(
 
     /* Collision Handlers */
     // ground collision
-    gameSystems->GetCollision().SetHandler(
+    gameSystems->GetCollision().DefineCollisionCallback(
             collisionTypes["player"],
             collisionTypes["ground"],
             factories::PlayerToGroundCollisionHandler(
@@ -133,7 +133,7 @@ void factories::SetupPlayerCollisions(
                 inputHandler));
 
     // pipe collision
-    gameSystems->GetCollision().SetHandler(
+    gameSystems->GetCollision().DefineCollisionCallback(
             collisionTypes["player"],
             collisionTypes["pipe"],
             factories::PlayerToPipeCollisionHandler(
@@ -142,7 +142,7 @@ void factories::SetupPlayerCollisions(
                 inputHandler));
 
     // point collision
-    gameSystems->GetCollision().SetHandler(
+    gameSystems->GetCollision().DefineCollisionCallback(
             collisionTypes["player"],
             collisionTypes["point"],
             factories::PlayerToPointCollisionHandler(

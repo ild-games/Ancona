@@ -82,7 +82,7 @@ void factories::SetupGroundCollisions(
             groundWarp,
             sf::Vector3f(5, 5, 0),
             collisionTypes["groundWarp"]);
-    collisionSystem.SetHandler(
+    collisionSystem.DefineCollisionCallback(
             collisionTypes["ground"],
             collisionTypes["groundWarp"],
             factories::GroundToGroundWarpCollisionHandler(positionSystem));
