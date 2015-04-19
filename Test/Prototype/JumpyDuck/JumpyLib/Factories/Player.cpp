@@ -9,6 +9,8 @@ Entity JumpyPlayer::Create(JumpyGameSystems *gameSystems)
 
     //Set up input
     auto inputHandler = new JumpyKeyboard();
+    inputHandler->SetSystems(gameSystems);
+    
     auto controlComponent = new JumpyInputComponent(entity, *physicsComponent, *inputHandler);
     gameSystems->GetInput().AddComponent(entity, controlComponent);
 

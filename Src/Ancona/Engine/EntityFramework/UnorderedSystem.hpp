@@ -100,6 +100,29 @@ class UnorderedSystem : public AbstractSystem
         }
 
         /**
+         * @brief Queues the component on the passed in entity for deletion. The deletion will happen
+         *        at the end of the update step.
+         *
+         * @param entity The entity that has the component that is being deleted.
+         */
+        void QueueDeleteComponent(const Entity & entity)
+        {
+            _deleteComponentQueue.push_back(entity);
+        }
+
+        /**
+         * @copydoc ild::AbstractSystem::DeleteQueuedComponents
+         */
+        void DeleteQueuedComponents() override
+        {
+            for(Entity & entity : _deleteComponentQueue)
+            {
+                RemoveComponent(entity); 
+            }
+            _deleteComponentQueue.clear();
+        }
+
+        /**
          * @brief Implementation for AbstractSystem method
          *
          * NOTE: This method should only be called by SystemManager
@@ -249,6 +272,10 @@ class UnorderedSystem : public AbstractSystem
          * @brief Used to store components
          */
         std::unordered_map<Entity, ComponentType *> _components;
+        /**
+         * @brief Holds the entities that are queued to have their components deleted.
+         */
+        std::vector<Entity> _deleteComponentQueue;
 
 };
 
