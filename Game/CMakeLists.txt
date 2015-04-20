@@ -1,11 +1,11 @@
-add_subdirectory(Src/QJack/GameLib)
+add_subdirectory(Src/Mallard/GameLib)
 
-ancona_add_target(QJack LINK_SFML
-    SRC Src/QJack/Platforms/Desktop/main.cpp
+ancona_add_target(Mallard LINK_SFML
+    SRC Src/Mallard/Platforms/Desktop/main.cpp
     STATIC_LIBS ${Ancona_Libs}
-    PLATFORMS ALL)
+    PLATFORMS DESKTOP)
 
 #Move files to the build directory
-configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/QJack/Config.txt @ONLY)
-configure_file(save.dat ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/QJack/save.dat COPYONLY)
-file(COPY Maps DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/QJack)
+configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Mallard/Config.txt @ONLY)
+configure_file(save.dat ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Mallard/save.dat COPYONLY)
+file(COPY Maps DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Mallard)

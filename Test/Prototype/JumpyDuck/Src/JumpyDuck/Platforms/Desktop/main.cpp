@@ -1,9 +1,10 @@
-#include <Core/JumpyGame.hpp>
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Framework/Loading/PolymorphicRegistration.hpp>
+
+#include "../../JumpyLib/Core/JumpyGame.hpp"
 
 using namespace ild;
 

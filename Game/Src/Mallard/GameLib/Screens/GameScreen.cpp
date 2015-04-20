@@ -1,4 +1,4 @@
-#include <QJack/GameLib/Screens/GameScreen.hpp>
+#include <Mallard/GameLib/Screens/GameScreen.hpp>
 
 using namespace ild;
 

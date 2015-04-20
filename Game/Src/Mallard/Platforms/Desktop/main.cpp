@@ -2,7 +2,7 @@
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
-#include <QJack/GameLib/Core/AnconaGame.hpp>
+#include <Mallard/GameLib/Core/AnconaGame.hpp>
 
 using namespace ild;
 

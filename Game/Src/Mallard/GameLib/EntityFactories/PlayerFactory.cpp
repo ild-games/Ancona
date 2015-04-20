@@ -1,4 +1,4 @@
-#include <QJack/GameLib/EntityFactories/PlayerFactory.hpp>
+#include <Mallard/GameLib/EntityFactories/PlayerFactory.hpp>
 
 using namespace ild;
 

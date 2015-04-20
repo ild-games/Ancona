@@ -1,4 +1,4 @@
-#include <QJack/GameLib/Systems/PlayerInputComponent.hpp>
+#include <Mallard/GameLib/Systems/PlayerInputComponent.hpp>
 
 using namespace ild;
 

@@ -5,7 +5,7 @@
 
 #include <SFML/Window.hpp>
 
-#include <QJack/GameLib/Systems/GameScreenSystems.hpp>
+#include <Mallard/GameLib/Systems/GameScreenSystems.hpp>
 
 namespace ild
 {

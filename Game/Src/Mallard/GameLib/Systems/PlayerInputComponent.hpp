@@ -2,7 +2,7 @@
 #define Ancona_Game_Systems_PlayerInputComponent_H_
 
 #include <Ancona/Core2D/Systems/InputControlComponent.hpp>
-#include <QJack/GameLib/InputDevices/PlayerKeyboard.hpp>
+#include <Mallard/GameLib/InputDevices/PlayerKeyboard.hpp>
 #include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 
 namespace ild 

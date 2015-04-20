@@ -2,8 +2,8 @@
 #include <Ancona/Framework/Resource/ResourceLoaderInit.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Screens/LoadingScreen.hpp>
-#include <QJack/GameLib/Core/AnconaGame.hpp>
-#include <QJack/GameLib/Screens/GameScreen.hpp>
+#include <Mallard/GameLib/Core/AnconaGame.hpp>
+#include <Mallard/GameLib/Screens/GameScreen.hpp>
 
 using namespace ild;
 
