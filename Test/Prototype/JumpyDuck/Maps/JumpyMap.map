@@ -1,0 +1,219 @@
+{
+    "key": "JumpyMap",
+    "assets": [
+        {
+            "type": "TexturePNG",
+            "key": "player-walking"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "flappy"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "flappy-ground"
+        },
+        {
+            "type": "FontTTF",
+            "key": "dimitri-plain"
+        }
+    ],
+    "entities": [
+        "ground1",
+        "ground2",
+        "player",
+        "hover-solid-body",
+        "screen-cam"
+    ],
+    "systems": {
+        "physics" : {
+            "components": {
+                "ground1" : {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions" : {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 0.0,
+                                    "y": 0.0
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ]
+                    }
+                },
+                "ground2" : {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions" : {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 200.0,
+                                    "y": 100.0
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ]
+                    }
+                },
+                "player" : {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions" : {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 0.0,
+                                    "y": -20.0
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ],
+                        "affected-by-gravity" : true
+                    }
+                }
+            }
+        },
+        "camera": {
+            "components": {
+                "screen-cam": {
+                    "render-priority": 0,
+                    "scale": 1.0,
+                    "default": true,
+                    "follows": "player"
+                }
+            }
+        },
+        "collision" : {
+            "components" : {
+                "ground1" : {
+                    "body-type" : "environment",
+                    "collision-type" : "null-type",
+                    "dimension" : {
+                        "dimension" : {
+                            "x" : 250.0,
+                            "y" : 10.0
+                        }
+                    }
+                },
+                "ground2" : {
+                    "body-type" : "environment",
+                    "collision-type" : "null-type",
+                    "dimension" : {
+                        "dimension" : {
+                            "x" : 250.0,
+                            "y" : 10.0
+                        }
+                    }
+                },
+                "player" : {
+                    "body-type" : "solid",
+                    "collision-type" : "null-type",
+                    "dimension" : {
+                        "dimension" : {
+                            "x" : 15.0,
+                            "y" : 15.0
+                        }
+                    }
+                }
+            }
+        },
+        "drawable": {
+            "components" : {
+                "ground1" : {
+                    "drawables": {
+                        "ground-rect" : {
+                            "key": "player-shape-rect",
+                            "__cpp_type" : "ild::ShapeDrawable",
+                            "shape" : {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 250.0,
+                                "height": 10.0,
+                                "fill-color" : {
+                                    "r" : 255,
+                                    "a" : 255
+                                }
+                            },
+                            "render-priority": 0,
+                            "priority-offset": -2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "ground2" : {
+                    "drawables": {
+                        "ground-rect" : {
+                            "key": "player-shape-rect",
+                            "__cpp_type" : "ild::ShapeDrawable",
+                            "shape" : {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 250.0,
+                                "height": 10.0,
+                                "fill-color" : {
+                                    "r" : 255,
+                                    "a" : 255
+                                }
+                            },
+                            "render-priority": 0,
+                            "priority-offset": -2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "player": {
+                    "drawables": {
+                        "player-shape-rect": {
+                            "key": "player-shape-rect",
+                            "__cpp_type" : "ild::ShapeDrawable",
+                             "shape" : {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 15.0,
+                                "height": 15.0,
+                                "fill-color" : {
+                                    "r" : 255,
+                                    "a" : 255
+                                }
+                             },
+                            "render-priority": 0,
+                            "priority-offset": -2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        },
+                        "player-text": {
+                            "key": "player-text",
+                            "__cpp_type": "ild::TextDrawable",
+                            "text": {
+                                "text": "I'm the player",
+                                "font-key": "dimitri-plain",
+                                "color": {
+                                    "r": 53,
+                                    "b": 34,
+                                    "g": 124,
+                                    "a": 255
+                                },
+                                "character-size": 15,
+                                "smooth": false
+                            },
+                            "render-priority": 0,
+                            "priority-offset": 2,
+                            "position-offset": {
+                                "x": 0,
+                                "y": -20
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
