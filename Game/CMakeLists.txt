@@ -1,7 +1,7 @@
-add_subdirectory(Src/QJack)
+add_subdirectory(Src/QJack/GameLib)
 
 ancona_add_target(QJack LINK_SFML
-    SRC Src/Platforms/Desktop/main.cpp
+    SRC Src/QJack/Platforms/Desktop/main.cpp
     STATIC_LIBS ${Ancona_Libs}
     PLATFORMS ALL)
 
