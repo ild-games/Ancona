@@ -1,0 +1,12 @@
+{
+    "profiles": [
+        {
+            "name": "Tucker",
+            "screen-maps": {
+                "impossible-game": "ImpossibleMap"
+            },
+            "systems": {
+            }
+        }
+    ]
+}

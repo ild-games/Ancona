@@ -72,7 +72,7 @@ class BasePhysicsSystem : public UnorderedSystem<BasePhysicsComponent>
          *
          * @param delta Fraction of a second since the last update.
          */
-        void Update(float delta) = 0;
+        virtual void Update(float delta) = 0;
 
     private:
         Point _gravity;

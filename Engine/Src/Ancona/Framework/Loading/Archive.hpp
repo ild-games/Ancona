@@ -4,7 +4,7 @@
 #include <stack>
 #include <string>
 
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 
 #include <Ancona/Framework/Loading/ClassConstructor.hpp>
 #include <Ancona/Framework/Loading/LoadingContext.hpp>

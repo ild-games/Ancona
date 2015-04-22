@@ -1,1 +1,2 @@
 add_subdirectory(JumpyDuck)
+add_subdirectory(ImpossibleDuck)

@@ -38,7 +38,7 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
         PlatformPhysicsComponent() { }
 
         /**
-         * @brief Update the component.  This will apply any active actions to the physical state.
+         * @brief Update the component.  This will apply any inactive actions to the physical state.
          *
          * @param delta 
          */

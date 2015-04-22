@@ -2,11 +2,8 @@
 #include <unordered_map>
 
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
-#include <Ancona/Framework/EntityFramework/Entity.hpp>
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
-#include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Util/Algorithm.hpp>
-#include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
 
