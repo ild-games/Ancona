@@ -1,0 +1,373 @@
+{
+    "key": "Map",
+    "assets": [
+        {
+            "type": "TexturePNG",
+            "key": "player-walking"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "player-jump"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "ground"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "block"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "bg"
+        }
+    ],
+    "entities": [
+        "ground",
+        "ground-warp",
+        "player",
+        "screen-cam",
+        "cam-follow",
+        "bg",
+        "death",
+        "block1"
+    ],
+    "systems": {
+        "physics": {
+            "components": {
+                "ground": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions": {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 800,
+                                    "y": 0
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ],
+                        "platform-velocity-actions": [
+                            {
+                                "value": {
+                                    "x": -180,
+                                    "y": 0
+                                },
+                                "tween": 0,
+                                "duration": 1000
+                            }
+                        ]
+                    }
+                },
+                "block1": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions": {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 500,
+                                    "y": -87
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ],
+                        "platform-velocity-actions": [
+                            {
+                                "value": {
+                                    "x": -180,
+                                    "y": 0
+                                },
+                                "tween": 0,
+                                "duration": 1000
+                            }
+                        ]
+                    }
+                },
+                "ground-warp": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions": {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": -1077,
+                                    "y": -50
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ]
+                    }
+                },
+                "death": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions": {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": -155,
+                                    "y": -5000
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ]
+                    }
+                },
+                "bg": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions": {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 125,
+                                    "y": -250
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ]
+                    }
+                },
+                "player": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions": {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 0,
+                                    "y": -100
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ],
+                        "affected-by-gravity": true
+                    }
+                },
+                "cam-follow": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions": {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 0,
+                                    "y": -100
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "camera": {
+            "components": {
+                "screen-cam": {
+                    "render-priority": 0,
+                    "scale": 0.3,
+                    "default": true,
+                    "follows": "cam-follow",
+                    "size": {
+                        "x": 1920,
+                        "y": 1080
+                    },
+                    "offset": {
+                        "x": 150,
+                        "y": -75
+                    }
+                }
+            }
+        },
+        "collision": {
+            "components": {
+                "ground": {
+                    "body-type": "environment",
+                    "collision-type": "ground-type",
+                    "dimension": {
+                        "dimension": {
+                            "x": 2160,
+                            "y": 160
+                        }
+                    }
+                },
+                "ground-warp": {
+                    "body-type": "none",
+                    "collision-type": "ground-warp-type",
+                    "dimension": {
+                        "dimension": {
+                            "x": 16,
+                            "y": 16
+                        }
+                    }
+                },
+                "block1": {
+                    "body-type": "environment",
+                    "collision-type": "ground-type",
+                    "dimension": {
+                        "dimension": {
+                            "x": 16,
+                            "y": 16
+                        }
+                    }
+                },
+                "player": {
+                    "body-type": "solid",
+                    "collision-type": "player-type",
+                    "dimension": {
+                        "dimension": {
+                            "x": 15,
+                            "y": 15
+                        }
+                    }
+                },
+                "death": {
+                    "body-type": "none",
+                    "collision-type": "death-type",
+                    "dimension": {
+                        "dimension": {
+                            "x": 16,
+                            "y": 10000
+                        }
+                    }
+                }
+            }
+        },
+        "drawable": {
+            "components": {
+                "ground": {
+                    "drawables": {
+                        "ground-sprite": {
+                            "key": "ground-sprite",
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "texture-key": "ground",
+                            "render-priority": 0,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "ground-warp": {
+                    "drawables": {
+                        "ground-warp-shape": {
+                            "key": "ground-warp-shape",
+                            "__cpp_type": "ild::ShapeDrawable",
+                            "shape": {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 16,
+                                "height": 16,
+                                "fill-color": {
+                                    "r": 255,
+                                    "a": 255
+                                }
+                            },
+                            "render-priority": 1,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "bg": {
+                    "drawables": {
+                        "bg-sprite": {
+                            "key": "bg-sprite",
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "texture-key": "bg",
+                            "render-priority": -100,
+                            "priority-offset": 0,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "block1": {
+                    "drawables": {
+                        "block1-sprite": {
+                            "key": "block1-sprite",
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "texture-key": "block",
+                            "render-priority": 0,
+                            "priority-offset": 0,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "death": {
+                    "drawables": {
+                        "death-rect" : {
+                            "key": "death-rect",
+                            "__cpp_type" : "ild::ShapeDrawable",
+                            "shape" : {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 16.0,
+                                "height": 10000.0,
+                                "fill-color" : {
+                                    "r" : 255,
+                                    "a" : 255
+                                }
+                            },
+                            "render-priority": 0,
+                            "priority-offset": 10,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "player": {
+                    "drawables": {
+                        "player-walk-animation": {
+                            "key": "player-walk-animation",
+                            "__cpp_type": "ild::AnimatedDrawable",
+                            "texture-key": "player-walking",
+                            "render-priority": 0,
+                            "frame-dimensions": {
+                                "x": 16,
+                                "y": 17
+                            },
+                            "num-frames": 6,
+                            "duration": 0.1,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        },
+                        "player-jump-animation": {
+                            "key": "player-jump-animation",
+                            "__cpp_type": "ild::AnimatedDrawable",
+                            "texture-key": "player-jump",
+                            "render-priority": 0,
+                            "frame-dimensions": {
+                                "x": 16,
+                                "y": 17
+                            },
+                            "num-frames": 6,
+                            "duration": 0.05,
+                            "priority-offset": -1,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "inactive": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

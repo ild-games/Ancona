@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 
 #include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>

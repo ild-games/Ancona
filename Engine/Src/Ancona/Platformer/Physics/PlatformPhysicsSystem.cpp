@@ -34,7 +34,6 @@ PlatformPhysicsSystem::PlatformPhysicsSystem(
         SystemManager & manager) : 
     BasePhysicsSystem(systemName, manager)
 {
-    
 }
 
 void PlatformPhysicsSystem::Update(float delta)

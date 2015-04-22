@@ -14,7 +14,7 @@ class AbstractScreen;
  *         Screen are stored using stock logic, with the stack order being the order
  *         the screen were added to the system. This means the screen at the top of the stack
  *         is the current screen being run by the game, but when that screen exits it
- *         gets popped off the stack and the screen below it is then the active screen.
+ *         gets popped off the stack and the screen below it is then the inactive screen.
  *
  * @author Tucker Lein
  */
