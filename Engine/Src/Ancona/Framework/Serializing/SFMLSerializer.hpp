@@ -1,11 +1,11 @@
-#ifndef Ancona_Engine_Loading_SFMLSerializer_H_
-#define Ancona_Engine_Loading_SFMLSerializer_H_
+#ifndef Ancona_Engine_Serializing_SFMLSerializer_H_
+#define Ancona_Engine_Serializing_SFMLSerializer_H_
 
 #include <SFML/System.hpp>
 
-#include <Ancona/Framework/Loading/Archive.hpp>
-#include <Ancona/Framework/Loading/Serializer.hpp>
-#include <Ancona/Framework/Loading/StdSerializer.hpp>
+#include <Ancona/Framework/Serializing/Archive.hpp>
+#include <Ancona/Framework/Serializing/Serializer.hpp>
+#include <Ancona/Framework/Serializing/StdSerializer.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 
 namespace ild

@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Loading_MapLoader_H_
-#define Ancona_Engine_Loading_MapLoader_H_
+#ifndef Ancona_Engine_Serializing_MapSerializer_H_
+#define Ancona_Engine_Serializing_MapSerializer_H_
 
 #include <memory>
 #include <string>
@@ -8,48 +8,41 @@
 
 #include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
-#include <Ancona/Framework/Loading/LoadingContext.hpp>
+#include "SerializingContext.hpp"
 #include <Ancona/Framework/Resource/RequestList.hpp>
 
 namespace ild
 {
 
 /**
- * @brief MapLoader is used to intialize an Entity System from a JSON map
+ * @brief MapSerializer is used to serialize or deserialize an Entity System from a JSON map
  * file.
  *
  * @author Jeff Swenson
  * @author Tucker Lein
  */
-class MapLoader
+class MapSerializer
 {
     /**
-     * @brief State the loader is in.
+     * @brief State the Serializer is in.
      */
-    enum LoadingState 
+    enum SerializerState
     {
         LoadingMapFile,
         LoadingAssets,
         LoadingEntities,
-        LoadingComponents,
-        DoneLoading
+        SerializingComponents,
+        DoneSerializing
     };
 
     public:
         /**
-         * @brief Create a loader to initialize the systems.
+         * @brief Create a serializer to initialize the systems.
          *
          * @param key Key that describes the map the screen is currently on.
-         * @param systems Instance of the system container for the screen being loaded.
+         * @param systems Instance of the system container for the screen being serialized.
          */
-        MapLoader(std::string key, ScreenSystemsContainer & systems);
-
-        /**
-         * @brief  Calculates the percentage of map loaded.
-         *
-         * @return Percentage between 0..1 of the map loaded.
-         */
-        float PercentLoaded();
+        MapSerializer(std::string key, ScreenSystemsContainer & systems);
 
         /**
          * @brief Continue the loading process of the Map.
@@ -66,8 +59,8 @@ class MapLoader
         void LoadMapFile();
         void LoadAssets();
         void LoadEntities();
-        void LoadComponents();
-        void LoadSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive & currentArc);
+        void SerializeComponents();
+        void SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive &currentArc);
 
         /**
          * @brief Key that describes the map the screen is currently on.
@@ -80,7 +73,7 @@ class MapLoader
         /**
          * @brief State in the loading process that the object is in.
          */
-        LoadingState _state = LoadingMapFile;
+        SerializerState _state = LoadingMapFile;
         /**
          * @brief Root of the map json being loaded.
          */
@@ -90,9 +83,9 @@ class MapLoader
          */
         Json::Value _saveRoot;
         /**
-         * @brief Loading context for the current load.
+         * @brief Serializing context for the current load.
          */
-        std::unique_ptr<LoadingContext> _loadingContext;
+        std::unique_ptr<SerializingContext> _loadingContext;
         /**
          * @brief Profile of the game session.
          */

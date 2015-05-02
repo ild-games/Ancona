@@ -1,7 +1,7 @@
 #ifndef Ancona_Platformer_Physics_Action_hpp
 #define Ancona_Platformer_Physics_Action_hpp
 
-#include <Ancona/Framework/Loading/Loading.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 namespace ild

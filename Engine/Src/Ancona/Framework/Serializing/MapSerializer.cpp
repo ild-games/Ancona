@@ -1,39 +1,20 @@
 #include <Ancona/Framework/Config/Config.hpp>
-#include <Ancona/Framework/Loading/Loading.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 
 using namespace ild;
 
-MapLoader::MapLoader(
+MapSerializer::MapSerializer(
         std::string key, 
         ScreenSystemsContainer & systems) : 
     _key(key), 
     _request(new RequestList()),
-    _loadingContext(new LoadingContext(systems)),
+    _loadingContext(new SerializingContext(systems)),
     _profile(systems.profile())
 {
     Assert(_profile != -1, "A profile must be specified for the map");
 }
 
-float MapLoader::PercentLoaded()
-{
-    switch(_state)
-    {
-        case LoadingMapFile:
-            return 0;
-        case LoadingAssets:
-            return _request->PercentLoaded() / 80;
-        case LoadingEntities:
-            return 80;
-        case LoadingComponents:
-            return 81;
-        case DoneLoading:
-            return 100;
-    }
-    Assert(false, "Unknown map loader state");
-    return 0;
-}
-
-bool MapLoader::ContinueLoading()
+bool MapSerializer::ContinueLoading()
 {
     switch(_state)
     {
@@ -46,16 +27,16 @@ bool MapLoader::ContinueLoading()
         case LoadingEntities:
             LoadEntities();
             break;
-        case LoadingComponents:
-            LoadComponents();
+        case SerializingComponents:
+            SerializeComponents();
             break;
-        case DoneLoading:
+        case DoneSerializing:
             return false;
     }
     return true;
 }
 
-void MapLoader::LoadMapFile()
+void MapSerializer::LoadMapFile()
 {
     std::ifstream saveStream(Config::GetOption("SaveData"), std::ifstream::binary);
     saveStream >> _saveRoot;
@@ -75,40 +56,41 @@ void MapLoader::LoadMapFile()
     }
     _request->Start();
 
-    _state = LoadingState::LoadingAssets;
+    _state = SerializerState::LoadingAssets;
 }
 
-void MapLoader::LoadAssets()
+void MapSerializer::LoadAssets()
 {
     if(ResourceLibrary::DoneLoading(*_request)) 
     {
-        _state = LoadingState::LoadingEntities;
+        _state = SerializerState::LoadingEntities;
     }
 }
 
-void MapLoader::LoadEntities()
+void MapSerializer::LoadEntities()
 {
     for(Json::Value & curEntity : _mapRoot["entities"])
     {
         _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
     }
-    _state = LoadingState::LoadingComponents;
+    _state = SerializerState::SerializingComponents;
 }
 
-void MapLoader::LoadComponents()
+void MapSerializer::SerializeComponents()
 {
     Archive mapArc(_mapRoot["systems"], *_loadingContext.get());
     Archive saveArc(_saveRoot["systems"], *_loadingContext.get());
     for(auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
     {
-        LoadSpecifiedSystem(systemNamePair, mapArc);
-        LoadSpecifiedSystem(systemNamePair, saveArc);
+        SerializeSpecifiedSystem(systemNamePair, mapArc);
+        SerializeSpecifiedSystem(systemNamePair, saveArc);
     }
     _loadingContext->systems().systemManager().FetchWaitingDependencies();
-    _state = LoadingState::DoneLoading;
+    _state = SerializerState::DoneSerializing;
 }
 
-void MapLoader::LoadSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive & currentArc)
+void MapSerializer::SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair,
+                                             Archive &currentArc)
 {
     if (currentArc.HasProperty(systemNamePair.first))
     {

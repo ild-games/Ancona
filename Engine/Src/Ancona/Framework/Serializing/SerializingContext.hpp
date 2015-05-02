@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Loading_LoadingContext_H_
-#define Ancona_Engine_Loading_LoadingContext_H_
+#ifndef Ancona_Engine_Serializing_SerializingContext_H_
+#define Ancona_Engine_Serializing_SerializingContext_H_
 
 #include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
 
@@ -12,15 +12,15 @@ namespace ild
  * @author Jeff Swenson
  * @author Tucker Lein
  */
-class LoadingContext 
+class SerializingContext
 {
     public:
         /**
-         * @brief Construct the LoadingContext.
+         * @brief Construct the SerializingContext.
          *
          * @param systems System container for the screen.
          */
-        LoadingContext(ScreenSystemsContainer & systems);
+        SerializingContext(ScreenSystemsContainer & systems);
 
 
         /* getters and setters */

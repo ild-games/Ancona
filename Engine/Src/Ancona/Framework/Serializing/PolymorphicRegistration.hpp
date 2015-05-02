@@ -1,11 +1,11 @@
-#ifndef Ancona_Engine_Loading_PolymorphicRegistration_H_
-#define Ancona_Engine_Loading_PolymorphicRegistration_H_
+#ifndef Ancona_Engine_Serializing_PolymorphicRegistration_H_
+#define Ancona_Engine_Serializing_PolymorphicRegistration_H_
 
 #include <string>
 
-#include <Ancona/Framework/Loading/Archive.hpp>
-#include <Ancona/Framework/Loading/ClassConstructor.hpp>
-#include <Ancona/Framework/Loading/PolymorphicSerializer.hpp>
+#include <Ancona/Framework/Serializing/Archive.hpp>
+#include <Ancona/Framework/Serializing/ClassConstructor.hpp>
+#include <Ancona/Framework/Serializing/PolymorphicSerializer.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 //TODO ANC-72 Update the these registration macros

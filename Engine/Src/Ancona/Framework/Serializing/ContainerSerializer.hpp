@@ -1,10 +1,10 @@
-#ifndef Ancona_Engine_Loading_ContainerSerializer_H_
-#define Ancona_Engine_Loading_ContainerSerializer_H_
+#ifndef Ancona_Engine_Serialzing_ContainerSerializer_H_
+#define Ancona_Engine_Serialzing_ContainerSerializer_H_
 
 #include <unordered_map>
 
-#include <Ancona/Framework/Loading/Archive.hpp>
-#include <Ancona/Framework/Loading/Serializer.hpp>
+#include <Ancona/Framework/Serializing/Archive.hpp>
+#include <Ancona/Framework/Serializing/Serializer.hpp>
 
 /**
  * @brief Template that is a specialization of Serializer<>.  It implements

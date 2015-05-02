@@ -1,9 +1,5 @@
-//
-// Created by jeff on 3/29/15.
-//
-
-#ifndef Ancona_Engine_Loading_ClassConstructor_H_
-#define Ancona_Engine_Loading_ClassConstructor_H_
+#ifndef Ancona_Engine_Serializing_ClassConstructor_H_
+#define Ancona_Engine_Serializing_ClassConstructor_H_
 
 namespace ild {
 

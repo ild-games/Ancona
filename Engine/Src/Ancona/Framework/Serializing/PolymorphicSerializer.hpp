@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Loading_PolymorphicSerializer_H_
-#define Ancona_Engine_Loading_PolymorphicSerializer_H_
+#ifndef Ancona_Engine_Serializing_PolymorphicSerializer_H_
+#define Ancona_Engine_Serializing_PolymorphicSerializer_H_
 
 namespace ild
 {

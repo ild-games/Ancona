@@ -12,7 +12,7 @@ LoadingScreen::LoadingScreen(
     _screenLoading(screenLoading)
 {
     _systemsContainer = std::unique_ptr<ScreenSystemsContainer>(new ScreenSystemsContainer(manager));
-    _mapLoader.reset(new MapLoader(
+    _mapLoader.reset(new MapSerializer(
             screenLoading->key(),
                 *screenLoading->systemsContainer()));
 }
@@ -28,18 +28,7 @@ void LoadingScreen::Update(float delta)
 
 void LoadingScreen::Draw(float delta)
 {
-    _screenManager.Window.clear(sf::Color::White);
-    sf::RectangleShape outerBar(sf::Vector2f(750, 30));
-    outerBar.setFillColor(sf::Color::Transparent);
-    outerBar.setOutlineThickness(1.0f);
-    outerBar.setOutlineColor(sf::Color::Black);
-    outerBar.setPosition(25, 10);
-    sf::RectangleShape innerBar(sf::Vector2f(750 * _mapLoader->PercentLoaded(), 30));
-    innerBar.setFillColor(sf::Color::Blue);
-    innerBar.setOutlineColor(sf::Color::Blue);
-    innerBar.setPosition(25, 10);
-    _screenManager.Window.draw(innerBar);
-    _screenManager.Window.draw(outerBar);
+    _screenManager.Window.clear(sf::Color::Green);
 }
 
 void LoadingScreen::Entering(float delta)

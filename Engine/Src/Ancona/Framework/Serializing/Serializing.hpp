@@ -1,9 +1,9 @@
-#ifndef Ancona_Engine_Loading_Loading_hpp
-#define Ancona_Engine_Loading_Loading_hpp
+#ifndef Ancona_Engine_Serializing_Serializing_hpp
+#define Ancona_Engine_Serializing_Serializing_hpp
 
 #include "Archive.hpp"
 #include "ClassConstructor.hpp"
-#include "MapLoader.hpp"
+#include "MapSerializer.hpp"
 #include "PolymorphicRegistration.hpp"
 #include "Serializer.hpp"
 #include "SFMLSerializer.hpp"

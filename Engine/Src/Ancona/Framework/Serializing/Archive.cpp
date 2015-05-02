@@ -1,8 +1,8 @@
-#include <Ancona/Framework/Loading/Archive.hpp>
+#include <Ancona/Framework/Serializing/Archive.hpp>
 
 using namespace ild;
 
-Archive::Archive(Json::Value root, LoadingContext & context) :
+Archive::Archive(Json::Value root, SerializingContext & context) :
     _root(root), _context(context)
 {
     _jsonBranch.push(&_root);
