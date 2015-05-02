@@ -91,6 +91,7 @@ class ScreenManager
          * @brief called when the screen has been popped and the exit code has finished.
          */
         void RemoveScreen();
+        void SaveScreen();
 
 
 };

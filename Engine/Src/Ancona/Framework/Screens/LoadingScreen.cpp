@@ -14,7 +14,8 @@ LoadingScreen::LoadingScreen(
     _systemsContainer = std::unique_ptr<ScreenSystemsContainer>(new ScreenSystemsContainer(manager));
     _mapLoader.reset(new MapSerializer(
             screenLoading->key(),
-                *screenLoading->systemsContainer()));
+            *screenLoading->systemsContainer(),
+            true));
 }
 
 void LoadingScreen::Update(float delta)

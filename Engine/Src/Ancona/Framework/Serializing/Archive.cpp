@@ -2,8 +2,13 @@
 
 using namespace ild;
 
-Archive::Archive(Json::Value root, SerializingContext & context) :
-    _root(root), _context(context)
+Archive::Archive(
+        Json::Value root,
+        SerializingContext & context,
+        bool loading) :
+    _loading(loading),
+    _root(root),
+    _context(context)
 {
     _jsonBranch.push(&_root);
 }

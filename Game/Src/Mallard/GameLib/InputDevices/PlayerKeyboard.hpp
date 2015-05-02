@@ -2,6 +2,7 @@
 #define Ancona_Game_InputDevices_PlayerKeyboard_H_
 
 #include <Ancona/Core2D/InputDevices/InputHandler.hpp>
+#include <Ancona/Framework/Screens/ScreenManager.hpp>
 
 namespace ild 
 {
@@ -16,6 +17,8 @@ class PlayerInputComponent;
 class PlayerKeyboard : public InputHandler
 {
     public:
+        PlayerKeyboard(ScreenManager & screenManager);
+
         /**
          * @see Ancona/Engine/InputDevices/InputHandler.hpp
          */
@@ -31,12 +34,7 @@ class PlayerKeyboard : public InputHandler
 
     private:
         PlayerInputComponent * _component;
-
-        /**
-         * @brief StateMachine that controls which input handling 
-         *        functions are called.
-         */
-        //SharedMachine<PlayerKeyboard, void> _machine;
+        ScreenManager & _screenManager;
 };
 
 }

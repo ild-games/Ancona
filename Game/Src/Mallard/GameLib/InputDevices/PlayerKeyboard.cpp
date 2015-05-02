@@ -4,8 +4,15 @@
 
 #include <SFML/Window.hpp>
 #include <iostream>
+#include <Mallard/GameLib/Screens/GameScreen.hpp>
 
 using namespace ild;
+
+PlayerKeyboard::PlayerKeyboard(
+        ScreenManager & screenManager) :
+    _screenManager(screenManager)
+{
+}
 
 void PlayerKeyboard::HandleInput()
 {
@@ -34,6 +41,10 @@ void PlayerKeyboard::HandleInput()
     if(Keyboard::IsKeyDown(sf::Keyboard::Key::D))
     {
         direction = direction | PlayerDirection::Right;
+    }
+    if(Keyboard::IsKeyPressed(sf::Keyboard::Key::R))
+    {
+        _screenManager.Replace(new GameScreen(_screenManager, 0));
     }
 
     _component->Move(direction);

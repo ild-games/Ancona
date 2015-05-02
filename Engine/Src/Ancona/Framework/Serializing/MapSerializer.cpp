@@ -5,11 +5,13 @@ using namespace ild;
 
 MapSerializer::MapSerializer(
         std::string key, 
-        ScreenSystemsContainer & systems) : 
+        ScreenSystemsContainer & systems,
+        bool loading) :
     _key(key), 
     _request(new RequestList()),
     _loadingContext(new SerializingContext(systems)),
-    _profile(systems.profile())
+    _profile(systems.profile()),
+    _loading(loading)
 {
     Assert(_profile != -1, "A profile must be specified for the map");
 }
@@ -31,6 +33,7 @@ bool MapSerializer::ContinueLoading()
             SerializeComponents();
             break;
         case DoneSerializing:
+            SaveMapFiles();
             return false;
     }
     return true;
@@ -40,11 +43,11 @@ void MapSerializer::LoadMapFile()
 {
     std::ifstream saveStream(Config::GetOption("SaveData"), std::ifstream::binary);
     saveStream >> _saveRoot;
-    _saveRoot = _saveRoot["profiles"][_profile];
-    auto map = _saveRoot["screen-maps"][_key].asString();
-    Assert(map != "", "Cannot have a null map");
+    _saveProfileRoot = _saveRoot["profiles"][_profile];
+    _mapName = _saveProfileRoot["screen-maps"][_key].asString();
+    Assert(_mapName != "", "Cannot have a null map");
 
-    std::ifstream mapStream("Maps/" + map + ".map", std::ifstream::binary);
+    std::ifstream mapStream("Maps/" + _mapName + ".map", std::ifstream::binary);
     Assert(mapStream.is_open(), "Failed to load the map file.");
     mapStream >> _mapRoot;
 
@@ -61,6 +64,11 @@ void MapSerializer::LoadMapFile()
 
 void MapSerializer::LoadAssets()
 {
+    if(!_loading)
+    {
+        _state = SerializerState::LoadingEntities;
+        return;
+    }
     if(ResourceLibrary::DoneLoading(*_request)) 
     {
         _state = SerializerState::LoadingEntities;
@@ -69,6 +77,11 @@ void MapSerializer::LoadAssets()
 
 void MapSerializer::LoadEntities()
 {
+    if(!_loading)
+    {
+        _state = SerializerState::SerializingComponents;
+        return;
+    }
     for(Json::Value & curEntity : _mapRoot["entities"])
     {
         _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
@@ -78,8 +91,8 @@ void MapSerializer::LoadEntities()
 
 void MapSerializer::SerializeComponents()
 {
-    Archive mapArc(_mapRoot["systems"], *_loadingContext.get());
-    Archive saveArc(_saveRoot["systems"], *_loadingContext.get());
+    Archive mapArc(_mapRoot["systems"], *_loadingContext.get(), _loading);
+    Archive saveArc(_saveProfileRoot["systems"], *_loadingContext.get(), _loading);
     for(auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
     {
         SerializeSpecifiedSystem(systemNamePair, mapArc);
@@ -98,4 +111,20 @@ void MapSerializer::SerializeSpecifiedSystem(std::pair<std::string, AbstractSyst
         _loadingContext->systems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(currentArc);
         currentArc.ExitProperty();
     }
+}
+
+void MapSerializer::SaveMapFiles()
+{
+    if(_loading)
+    {
+        return;
+    }
+    std::ofstream saveStream(Config::GetOption("SaveData"), std::ofstream::binary);
+    _saveRoot["profiles"][_profile] = _saveProfileRoot;
+    saveStream << _saveRoot;
+    _saveRoot = _saveRoot["profiles"][_profile];
+
+    std::ofstream mapStream("Maps/" + _mapName + ".map", std::ofstream::binary);
+    Assert(mapStream.is_open(), "Failed to load the map file.");
+    mapStream << _mapRoot;
 }
