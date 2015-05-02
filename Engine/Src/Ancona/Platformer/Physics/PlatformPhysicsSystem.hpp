@@ -6,7 +6,7 @@
 
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Core2D/Systems/Physics/Position.hpp>
-#include <Ancona/Framework/Loading/LoadingContext.hpp>
+#include <Ancona/Framework/Serializing/SerializingContext.hpp>
 
 #include "Actions.hpp"
 

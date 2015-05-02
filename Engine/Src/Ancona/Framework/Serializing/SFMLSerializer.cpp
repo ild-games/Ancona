@@ -1,6 +1,6 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
-#include <Ancona/Framework/Loading/Loading.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER_ABSTRACT_BASE(sf::Shape);
 REGISTER_POLYMORPHIC_SERIALIZER(sf::RectangleShape);

@@ -1,15 +1,15 @@
-#ifndef Ancona_Engine_Loading_Archive_H_
-#define Ancona_Engine_Loading_Archive_H_
+#ifndef Ancona_Engine_Serializing_Archive_H_
+#define Ancona_Engine_Serializing_Archive_H_
 
 #include <stack>
 #include <string>
 
 #include <jsoncpp/json/json.h>
 
-#include <Ancona/Framework/Loading/ClassConstructor.hpp>
-#include <Ancona/Framework/Loading/LoadingContext.hpp>
-#include <Ancona/Framework/Loading/PolymorphicMap.hpp>
-#include <Ancona/Framework/Loading/Serializer.hpp>
+#include <Ancona/Framework/Serializing/ClassConstructor.hpp>
+#include "SerializingContext.hpp"
+#include <Ancona/Framework/Serializing/PolymorphicMap.hpp>
+#include <Ancona/Framework/Serializing/Serializer.hpp>
 
 namespace ild
 {
@@ -29,7 +29,7 @@ class Archive
          * @param root Root of the json for the archive.
          * @param context Current loading context.
          */
-        Archive(Json::Value root, LoadingContext & context);
+        Archive(Json::Value root, SerializingContext & context);
 
         /**
          * @brief Serialize or deserialize the property based on if the game is being loaded or saved.
@@ -191,7 +191,7 @@ class Archive
 
         /* getters and setters */
         bool loading() { return _loading; }
-        LoadingContext & context() { return _context; }
+        SerializingContext & context() { return _context; }
         Entity entity(const std::string &key)
         { 
             return _context.systems().systemManager().GetEntity(key);
@@ -206,7 +206,7 @@ class Archive
          *        being archived.
          */
         std::stack<Json::Value *> _jsonBranch;
-        LoadingContext & _context;
+        SerializingContext & _context;
 
 
 };

@@ -12,7 +12,7 @@ LoadingScreen::LoadingScreen(
     _screenLoading(screenLoading)
 {
     _systemsContainer = std::unique_ptr<ScreenSystemsContainer>(new ScreenSystemsContainer(manager));
-    _mapLoader.reset(new MapLoader(
+    _mapLoader.reset(new MapSerializer(
             screenLoading->key(),
                 *screenLoading->systemsContainer()));
 }

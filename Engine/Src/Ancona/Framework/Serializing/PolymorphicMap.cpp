@@ -1,4 +1,4 @@
-#include <Ancona/Framework/Loading/PolymorphicMap.hpp>
+#include <Ancona/Framework/Serializing/PolymorphicMap.hpp>
 
 using namespace ild;
 

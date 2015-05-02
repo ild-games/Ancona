@@ -1,12 +1,12 @@
-#ifndef Ancona_Engine_Loading_PolymorphicMap_H_
-#define Ancona_Engine_Loading_PolymorphicMap_H_
+#ifndef Ancona_Engine_Serializing_PolymorphicMap_H_
+#define Ancona_Engine_Serializing_PolymorphicMap_H_
 
 #include <memory>
 #include <string>
 #include <typeindex>
 #include <unordered_map>
 
-#include <Ancona/Framework/Loading/PolymorphicSerializer.hpp>
+#include <Ancona/Framework/Serializing/PolymorphicSerializer.hpp>
 
 namespace ild
 {

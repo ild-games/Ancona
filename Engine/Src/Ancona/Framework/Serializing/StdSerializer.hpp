@@ -1,11 +1,11 @@
-#ifndef Ancona_Engine_Loading_StdSerializer_H_
-#define Ancona_Engine_Loading_StdSerializer_H_
+#ifndef Ancona_Engine_Serializing_StdSerializer_H_
+#define Ancona_Engine_Serializing_StdSerializer_H_
 
 #include <string>
 #include <vector>
 
-#include <Ancona/Framework/Loading/Archive.hpp>
-#include <Ancona/Framework/Loading/Serializer.hpp>
+#include <Ancona/Framework/Serializing/Archive.hpp>
+#include <Ancona/Framework/Serializing/Serializer.hpp>
 
 namespace ild {
 
