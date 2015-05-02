@@ -45,13 +45,6 @@ class MapSerializer
         MapSerializer(std::string key, ScreenSystemsContainer & systems);
 
         /**
-         * @brief  Calculates the percentage of map loaded.
-         *
-         * @return Percentage between 0..1 of the map loaded.
-         */
-        float PercentLoaded();
-
-        /**
          * @brief Continue the loading process of the Map.
          *
          * @return True if the map is still loading.  False otherwise.

@@ -14,25 +14,6 @@ MapSerializer::MapSerializer(
     Assert(_profile != -1, "A profile must be specified for the map");
 }
 
-float MapSerializer::PercentLoaded()
-{
-    switch(_state)
-    {
-        case LoadingMapFile:
-            return 0;
-        case LoadingAssets:
-            return _request->PercentLoaded() / 80;
-        case LoadingEntities:
-            return 80;
-        case SerializingComponents:
-            return 81;
-        case DoneSerializing:
-            return 100;
-    }
-    Assert(false, "Unknown map loader state");
-    return 0;
-}
-
 bool MapSerializer::ContinueLoading()
 {
     switch(_state)
