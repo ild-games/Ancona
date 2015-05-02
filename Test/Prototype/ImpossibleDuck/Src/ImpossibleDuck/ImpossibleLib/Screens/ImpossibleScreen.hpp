@@ -16,6 +16,8 @@ class ImpossibleScreen : public AbstractScreen
                 ScreenManager & manager,
                 ImpossibleInputHandler * inputHandler);
 
+        ~ImpossibleScreen();
+
         void Update(float delta);
 
         void Init();

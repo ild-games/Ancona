@@ -13,6 +13,11 @@ ImpossibleScreen::ImpossibleScreen(
     _systems = std::unique_ptr<ImpossibleGameSystems>(new ImpossibleGameSystems(manager));
 }
 
+ImpossibleScreen::~ImpossibleScreen()
+{
+    _inputHandler.release();
+}
+
 void ImpossibleScreen::Init()
 {
     player = ImpossiblePlayer::Create(_systems.get(), _inputHandler.get());
