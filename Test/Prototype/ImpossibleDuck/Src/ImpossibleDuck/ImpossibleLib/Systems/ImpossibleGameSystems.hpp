@@ -1,5 +1,5 @@
-#ifndef ImpossibleGame_Systems_ImpossibleGameSystems_Hpp
-#define ImpossibleGame_Systems_ImpossibleGameSystems_Hpp
+#ifndef ImpossibleGame_Systems_ImpossibleGameSystems_H_
+#define ImpossibleGame_Systems_ImpossibleGameSystems_H_
 
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
