@@ -77,5 +77,4 @@ void DrawableSystem::defaultCamera(CameraComponent *defaultCamera)
         RemoveCamera(_defaultCamera);
     }
     _defaultCamera = defaultCamera;
-    AddCamera(defaultCamera);
 }

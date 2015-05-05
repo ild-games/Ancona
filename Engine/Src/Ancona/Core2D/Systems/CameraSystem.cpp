@@ -76,6 +76,7 @@ void CameraComponent::FetchDependencies(const Entity & entity)
     }
     _view.setSize(_size);
     scale(_originalScale);
+    _drawableSystem->AddCamera(this);
     if(_default)
     {
         _drawableSystem->defaultCamera(this);

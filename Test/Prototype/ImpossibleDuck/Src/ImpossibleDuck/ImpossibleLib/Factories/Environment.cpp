@@ -2,6 +2,17 @@
 
 using namespace ild;
 
+void ImpossibleEnvironment::CreateCounter(ild::ImpossibleGameSystems *gameSystems)
+{
+    Entity counterEntity = gameSystems->systemManager().GetEntity("counter");
+    CounterComponent & counterComponent = *gameSystems->counter()[counterEntity];
+    counterComponent.AddCounter();
+    int counterValue = counterComponent.counter();
+    std::string counterString = std::to_string(counterValue);
+    TextDrawable & counterTextDrawable = *gameSystems->drawable()[counterEntity]->GetDrawable<TextDrawable>("counter-text");
+    counterTextDrawable.text(counterTextDrawable.text() + counterString);
+}
+
 void ImpossibleEnvironment::SetupCollisions(ImpossibleGameSystems *gameSystems)
 {
     gameSystems->collision().DefineCollisionCallback(

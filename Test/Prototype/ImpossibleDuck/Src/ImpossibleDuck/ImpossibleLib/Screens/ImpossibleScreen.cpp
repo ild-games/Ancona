@@ -21,6 +21,7 @@ ImpossibleScreen::~ImpossibleScreen()
 void ImpossibleScreen::Init()
 {
     player = ImpossiblePlayer::Create(_systems.get(), _inputHandler.get());
+    ImpossibleEnvironment::CreateCounter(_systems.get());
     ImpossibleEnvironment::SetupCollisions(_systems.get());
 }
 

@@ -20,6 +20,10 @@
         {
             "type": "TexturePNG",
             "key": "bg"
+        },
+        {
+            "type": "FontTTF",
+            "key": "SF Intellivised"
         }
     ],
     "entities": [
@@ -27,12 +31,22 @@
         "ground-warp",
         "player",
         "screen-cam",
+        "hud-cam",
         "cam-follow",
         "bg",
         "death",
+        "counter",
         "block1"
     ],
     "systems": {
+        "counter": {
+            "components": {
+                "counter": {
+                    "count": 0,
+                    "count-interval": 1
+                }
+            }
+        },
         "physics": {
             "components": {
                 "ground": {
@@ -93,6 +107,21 @@
                                 "value": {
                                     "x": -1077,
                                     "y": -50
+                                },
+                                "tween": 0,
+                                "duration": 0
+                            }
+                        ]
+                    }
+                },
+                "counter": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "actions": {
+                        "platform-position-actions": [
+                            {
+                                "value": {
+                                    "x": 100,
+                                    "y": -500
                                 },
                                 "tween": 0,
                                 "duration": 0
@@ -177,6 +206,15 @@
                     "offset": {
                         "x": 150,
                         "y": -75
+                    }
+                },
+                "hud-cam": {
+                    "render-priority": 100,
+                    "scale": 1,
+                    "follows": "cam-follow",
+                    "size": {
+                        "x": 1920,
+                        "y": 1080
                     }
                 }
             }
@@ -289,6 +327,33 @@
                             }
                         }
                     }
+                },
+                "counter": {
+                    "drawables": {
+                        "counter-text": {
+                            "key": "counter-text",
+                            "__cpp_type": "ild::TextDrawable",
+                            "text": {
+                                "text": "Attempt: ",
+                                "font-key": "SF Intellivised",
+                                "color": {
+                                    "r": 255,
+                                    "g": 255,
+                                    "b": 255,
+                                    "a": 255
+                                },
+                                "character-size": 50,
+                                "smooth": true
+                            },
+                            "render-priority": 100,
+                            "priority-offset": 0,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    },
+                    "cam-entity": "hud-cam"
                 },
                 "block1": {
                     "drawables": {

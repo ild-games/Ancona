@@ -9,6 +9,8 @@ namespace ild
 namespace ImpossibleEnvironment
 {
 
+void CreateCounter(ImpossibleGameSystems * gameSystems);
+
 void SetupCollisions(ImpossibleGameSystems * gameSystems);
 std::function<void(Entity ground, Entity groundWarp)> GroundToGroundWarpCollisionHandler(ImpossibleGameSystems * systems);
 

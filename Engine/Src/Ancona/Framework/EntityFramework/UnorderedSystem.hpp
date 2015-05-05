@@ -166,7 +166,13 @@ class UnorderedSystem : public AbstractSystem
             }
             else
             {
-                //TODO ANC-78 Implement saving of unordered systems
+                arc.EnterProperty("components");
+                for(auto entityKey : arc.CurrentBranch().getMemberNames())
+                {
+                    ComponentType * value;
+                    arc(value, entityKey);
+                }
+                arc.ExitProperty();
             }
         }
 

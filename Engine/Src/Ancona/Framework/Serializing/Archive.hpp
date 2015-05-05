@@ -77,7 +77,7 @@ class Archive
                     const auto & cppType = CurrentBranch()["__cpp_type"].asString();
                     PolymorphicMap::serializer(cppType)->Serialize((void *&)(property), *this);
                 }
-                else 
+                else
                 {
                     property = ClassConstructor<T>::Construct();
                     Serializer<T>::Serialize(*property, *this);
@@ -85,7 +85,15 @@ class Archive
             } 
             else 
             {
-                PolymorphicMap::serializer(property)->Serialize((void *&)(property), *this);
+                if(CurrentBranch().isMember("__cpp_type"))
+                {
+                    const auto & cppType = CurrentBranch()["__cpp_type"].asString();
+                    PolymorphicMap::serializer(cppType)->Serialize((void *&)(property), *this);
+                }
+                else
+                {
+                    Serializer<T>::Serialize(*property, *this);
+                }
             }
             ExitProperty();
         }

@@ -12,6 +12,7 @@
 #include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 
 #include "../Input/ImpossibleInputHandler.hpp"
+#include "CounterSystem.hpp"
 
 namespace ild
 {
@@ -29,6 +30,7 @@ class ImpossibleGameSystems : public ScreenSystemsContainer
         CameraSystem & camera() { return *_camera; }
         CollisionSystem & collision() { return *_collision; }
         FadeDrawableSystem & fadeDrawable() { return *_fadeDrawable; }
+        CounterSystem & counter() { return *_counter; }
 
         CollisionType nullCollision() { return 0; }
     private:
@@ -56,6 +58,7 @@ class ImpossibleGameSystems : public ScreenSystemsContainer
          * @brief System for managing collisions.
          */
         FadeDrawableSystem * _fadeDrawable;
+        CounterSystem * _counter;
 };
 
 
