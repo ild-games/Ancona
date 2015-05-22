@@ -98,12 +98,16 @@ void MapSerializer::SerializeComponents()
         SerializeSpecifiedSystem(systemNamePair, mapArc);
         SerializeSpecifiedSystem(systemNamePair, saveArc);
     }
-    _loadingContext->systems().systemManager().FetchWaitingDependencies();
+    if(_loading)
+    {
+        _loadingContext->systems().systemManager().FetchWaitingDependencies();
+    }
     _state = SerializerState::DoneSerializing;
 }
 
-void MapSerializer::SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair,
-                                             Archive &currentArc)
+void MapSerializer::SerializeSpecifiedSystem(
+        std::pair<std::string, AbstractSystem *> systemNamePair,
+        Archive &currentArc)
 {
     if (currentArc.HasProperty(systemNamePair.first))
     {

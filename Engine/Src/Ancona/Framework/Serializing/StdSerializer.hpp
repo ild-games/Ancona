@@ -20,7 +20,22 @@ namespace ild {
         } \
     };
 
-GENERATE_STDSERIALIZER(Json::Value::Int, asInt)
+//GENERATE_STDSERIALIZER(Json::Value::Int, asInt)
+template <> struct Serializer<Json::Value::Int> 
+{
+    static void Serialize(Json::Value::Int & property, Archive & arc)
+    {
+        if(arc.loading())
+        {
+            property = arc.CurrentBranch().asInt();
+        } 
+        else 
+        {
+            Json::Value val(property);
+            arc.CurrentBranch().swap(val);
+        }
+    }
+};
 
 GENERATE_STDSERIALIZER(float, asFloat)
 
