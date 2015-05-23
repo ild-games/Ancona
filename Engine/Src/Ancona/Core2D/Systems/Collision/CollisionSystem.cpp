@@ -157,6 +157,7 @@ CollisionType CollisionSystem::CreateType(const std::string &key)
     _callbackTable.AddColumn(nop);
     _callbackTable.AddRow(nop);
     _collisionTypes.emplace(key, newType);
+    _collisionTypeToKey.emplace(newType, key);
 
     return newType;
 }
@@ -169,13 +170,19 @@ void CollisionSystem::DefineCollisionCallback(CollisionType typeA, CollisionType
     _callbackTable.Get(typeA, typeB) = callback;
 }
 
-CollisionType CollisionSystem::GetType(const std::string &key) {
+CollisionType CollisionSystem::GetType(const std::string &key)
+{
     Assert(IsCollisionTypeDefined(key), "The collision type must exist");
 
     return _collisionTypes[key];
 }
 
-bool CollisionSystem::IsCollisionTypeDefined(std::string const &key)
+std::string CollisionSystem::GetKeyFromType(const CollisionType & type)
+{
+    return _collisionTypeToKey[type];
+}
+
+bool CollisionSystem::IsCollisionTypeDefined(const std::string & key)
 {
     return _collisionTypes.find(key) != _collisionTypes.end();
 }

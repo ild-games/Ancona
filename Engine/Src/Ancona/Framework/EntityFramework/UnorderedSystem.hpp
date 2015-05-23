@@ -8,7 +8,7 @@
 #include <Ancona/Framework/EntityFramework/Entity.hpp>
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
-#include <Ancona/Framework/Loading/Loading.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Util/Algorithm/Types.hpp>
 #include <Ancona/Util/Assert.hpp>
 
@@ -150,6 +150,15 @@ class UnorderedSystem : public AbstractSystem
         }
 
     private:
+        /**
+         * @brief Used to store components
+         */
+        std::unordered_map<Entity, ComponentType *> _components;
+        /**
+         * @brief Holds the entities that are queued to have their components deleted.
+         */
+        std::vector<Entity> _deleteComponentQueue;
+
         void Serialize(Archive & arc, std::true_type)
         {
             if (arc.loading())
@@ -166,7 +175,14 @@ class UnorderedSystem : public AbstractSystem
             }
             else
             {
-                //TODO ANC-78 Implement saving of unordered systems
+                arc.EnterProperty("components");
+                for(auto entityKey : arc.CurrentBranch().getMemberNames())
+                {
+                    Entity en = _systemManager.GetEntity(entityKey);
+                    ComponentType * value = _components[en];
+                    arc(value, entityKey);
+                }
+                arc.ExitProperty();
             }
         }
 
@@ -263,17 +279,6 @@ class UnorderedSystem : public AbstractSystem
                 delete entityComponentPair.second;
             }
         }
-
-    private:
-        /**
-         * @brief Used to store components
-         */
-        std::unordered_map<Entity, ComponentType *> _components;
-        /**
-         * @brief Holds the entities that are queued to have their components deleted.
-         */
-        std::vector<Entity> _deleteComponentQueue;
-
 };
 
 }

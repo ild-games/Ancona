@@ -26,6 +26,7 @@ void Drawable::Serialize(Archive &arc)
     arc(_priorityOffset,"priority-offset");
     arc(_rotation,"rotation");
     arc(_positionOffset,"position-offset");
+    arc(_inactive, "inactive");
     arc(_key, "key");
 }
 

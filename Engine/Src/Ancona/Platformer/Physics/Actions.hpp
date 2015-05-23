@@ -44,7 +44,7 @@ class Actions
         Actions(BasePhysicsSystem * physicsSystem);
 
         /**
-         * @brief Update the position based on active Actions in 
+         * @brief Update the position based on inactive Actions in
          * the object.
          *
          * @param position Position object to be updated.

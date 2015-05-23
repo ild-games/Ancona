@@ -16,7 +16,7 @@ void ScreenManager::Push(AbstractScreen * screen, bool load)
 {
     _screens.push(screen);
     screen->__Entering = true;
-    if(load) 
+    if(load)
     {
         Push(new LoadingScreen(screen, *this), false);
     }
@@ -79,11 +79,26 @@ bool ScreenManager::Empty()
 
 void ScreenManager::RemoveScreen()
 {
+    if(_screens.top()->systemsContainer()->profile() >= 0)
+    {
+        SaveScreen();
+    }
     delete _screens.top();
     _screens.pop();
     if(_replacementScreen != nullptr)
     {
         Push(_replacementScreen);
         _replacementScreen = nullptr;
+    }
+}
+
+void ScreenManager::SaveScreen()
+{
+    MapSerializer * mapSerializer = new MapSerializer(
+            _screens.top()->key(),
+            *_screens.top()->systemsContainer(),
+            false);
+    while(mapSerializer->ContinueLoading())
+    {
     }
 }

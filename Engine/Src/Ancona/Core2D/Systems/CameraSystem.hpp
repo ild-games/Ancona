@@ -9,7 +9,7 @@
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
-#include <Ancona/Framework/Loading/Loading.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 
 namespace ild
 {
@@ -35,11 +35,13 @@ class CameraComponent
          * @param originalView Default view of the window.
          * @param renderPriority priority to render the camera by.
          * @param scale The scale the camera will zoom to, defaults to 1.0f.
+         * @param offset The offset the camera will center on, defaults to {0, 0}
          */
         CameraComponent(
                 const sf::View & originalView,
                 int renderPriority,
-                float scale = 1.0f);
+                float scale = 1.0f,
+                sf::Vector2f offset = sf::Vector2f(0, 0));
 
         /**
          * @brief Overridable destructor.
@@ -120,10 +122,13 @@ class CameraComponent
          * @brief Scale of the camera.
          */
         float _scale = 1;
+        float _originalScale = 1;
+        sf::Vector2f _offset;
         /**
          * @brief Entity the camera follows.
          */
         Entity _follows;
+        sf::Vector2f _size;
         BasePhysicsSystem * _physicsSystem;
         DrawableSystem * _drawableSystem;
         bool _default = false;

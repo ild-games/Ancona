@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 
 #include <Ancona/Framework/Screens/AbstractScreen.hpp>
 

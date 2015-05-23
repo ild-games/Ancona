@@ -5,7 +5,6 @@ using namespace ild;
 
 Actions::Actions(BasePhysicsSystem * physicsSystem) : _physicsSystem(physicsSystem)
 {
-
 }
 
 VectorActionProxy Actions::CreatePositionAction()

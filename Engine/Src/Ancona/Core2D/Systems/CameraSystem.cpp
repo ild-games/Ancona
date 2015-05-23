@@ -6,15 +6,17 @@
 using namespace ild;
 
 /* Component */
-CameraComponent::CameraComponent() { }
+CameraComponent::CameraComponent() : _offset(sf::Vector2f(0, 0)) { }
 
 CameraComponent::CameraComponent(
         const sf::View & originalView,
         int renderPriority,
-        float scale) :
+        float scale,
+        sf::Vector2f offset) :
     _view(sf::View(originalView)),
     _renderPriority(renderPriority),
-    _scale(scale)
+    _scale(scale),
+    _offset(offset)
 {
 }
 
@@ -28,7 +30,10 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
     window.setView(_view);
     for(Drawable * drawable : _renderQueue)
     {
-        drawable->Draw(window, delta);
+        if(!drawable->inactive())
+        {
+            drawable->Draw(window, delta);
+        }
     }
 }
 
@@ -38,8 +43,9 @@ void CameraComponent::MoveCamera()
     {
         _view.setCenter(
                 _followPhysics->GetInfo().position().x,
-            _followPhysics->GetInfo().position().y);
+                _followPhysics->GetInfo().position().y);
     }
+    _view.setCenter(_view.getCenter() + _offset);
 }
 
 void CameraComponent::AddDrawable(Drawable * drawable)
@@ -68,7 +74,9 @@ void CameraComponent::FetchDependencies(const Entity & entity)
     {
         _followPhysics = (*_physicsSystem)[_follows];
     }
-    scale(_scale);
+    _view.setSize(_size);
+    scale(_originalScale);
+    _drawableSystem->AddCamera(this);
     if(_default)
     {
         _drawableSystem->defaultCamera(this);
@@ -78,8 +86,10 @@ void CameraComponent::FetchDependencies(const Entity & entity)
 void CameraComponent::Serialize(Archive & arc)
 {
     arc(_renderPriority, "render-priority");
-    arc(_scale, "scale");  
-    arc(_default, "default");  
+    arc(_originalScale, "scale");
+    arc(_default, "default");
+    arc(_size, "size");
+    arc(_offset, "offset");
     arc.entityUsingJsonKey(_follows, "follows");
     arc.system(_physicsSystem, "physics");
     arc.system(_drawableSystem, "drawable");

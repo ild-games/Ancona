@@ -5,7 +5,7 @@
 #include <SFML/System.hpp>
 
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Framework/Loading/Loading.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 
 namespace ild
 {
@@ -90,6 +90,8 @@ class Drawable
         virtual sf::Vector2u size() = 0;
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;
+        bool inactive() { return _inactive; }
+        void inactive(bool inactive) { _inactive = inactive; }
 
 
     protected:
@@ -125,6 +127,10 @@ class Drawable
          * @brief Amount to rotate the drawable element. 
          */
         float _rotation = 0;
+        /**
+         * @brief True if the drawable is actively drawn/updated. Otherwise false.
+         */
+        bool _inactive = false;
         /**
          * @brief Key that describes the Drawable.
          */

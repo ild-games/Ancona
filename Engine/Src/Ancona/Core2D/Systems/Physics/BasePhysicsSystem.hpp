@@ -3,7 +3,7 @@
 
 #include <Ancona/Core2D/Systems/Physics/Position.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
-#include <Ancona/Framework/Loading/Loading.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 
 namespace ild
 {
@@ -72,7 +72,7 @@ class BasePhysicsSystem : public UnorderedSystem<BasePhysicsComponent>
          *
          * @param delta Fraction of a second since the last update.
          */
-        void Update(float delta) = 0;
+        virtual void Update(float delta) = 0;
 
     private:
         Point _gravity;

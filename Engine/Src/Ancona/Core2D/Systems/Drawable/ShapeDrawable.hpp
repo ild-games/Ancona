@@ -1,11 +1,10 @@
 #ifndef Ancona_Engine_Core_Systems_ShapeDrawable_H_
 #define Ancona_Engine_Core_Systems_ShapeDrawable_H_
 
-#include <jsoncpp/json/json.h>
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
-#include <Ancona/Framework/Loading/LoadingContext.hpp>
+#include <Ancona/Framework/Serializing/SerializingContext.hpp>
 
 
 namespace ild

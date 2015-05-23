@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <Ancona/Framework/Loading/MapLoader.hpp>
+#include <Ancona/Framework/Serializing/MapSerializer.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Screens/AbstractScreen.hpp>
 
@@ -60,7 +60,7 @@ class LoadingScreen : public AbstractScreen
         /**
          * @brief Loads in the map data.
          */
-        std::unique_ptr<MapLoader> _mapLoader;
+        std::unique_ptr<MapSerializer> _mapLoader;
         /**
          * @brief Systems container for the load screen.
          */

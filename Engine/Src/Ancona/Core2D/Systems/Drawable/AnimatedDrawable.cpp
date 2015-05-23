@@ -28,7 +28,7 @@ AnimatedDrawable::AnimatedDrawable(
 void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
 {
     _timeUntilChange -= delta;
-    if(_timeUntilChange <= 0) 
+    if(_timeUntilChange <= 0)
     {
         _timeUntilChange += _duration;
         AdvanceFrame();

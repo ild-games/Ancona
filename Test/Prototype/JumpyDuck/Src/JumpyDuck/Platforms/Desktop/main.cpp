@@ -2,7 +2,7 @@
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
-#include <Ancona/Framework/Loading/PolymorphicRegistration.hpp>
+#include <Ancona/Framework/Serializing/PolymorphicRegistration.hpp>
 
 #include "../../JumpyLib/Core/JumpyGame.hpp"
 

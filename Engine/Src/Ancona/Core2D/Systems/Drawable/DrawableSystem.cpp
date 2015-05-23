@@ -1,5 +1,3 @@
-#include <jsoncpp/json/json.h>
-
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Util/Algorithm.hpp>
@@ -79,5 +77,4 @@ void DrawableSystem::defaultCamera(CameraComponent *defaultCamera)
         RemoveCamera(_defaultCamera);
     }
     _defaultCamera = defaultCamera;
-    AddCamera(defaultCamera);
 }

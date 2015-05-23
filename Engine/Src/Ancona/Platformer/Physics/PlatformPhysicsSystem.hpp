@@ -6,7 +6,7 @@
 
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Core2D/Systems/Physics/Position.hpp>
-#include <Ancona/Framework/Loading/LoadingContext.hpp>
+#include <Ancona/Framework/Serializing/SerializingContext.hpp>
 
 #include "Actions.hpp"
 
@@ -38,7 +38,7 @@ class PlatformPhysicsComponent : public BasePhysicsComponent
         PlatformPhysicsComponent() { }
 
         /**
-         * @brief Update the component.  This will apply any active actions to the physical state.
+         * @brief Update the component.  This will apply any inactive actions to the physical state.
          *
          * @param delta 
          */

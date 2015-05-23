@@ -15,8 +15,11 @@ PlatformPhysicsComponent::PlatformPhysicsComponent(
 
 void PlatformPhysicsComponent::Serialize(Archive & archive)
 {
-    archive.system(_system,"physics");
-    archive(_actions, "actions");
+    if(archive.loading())
+    {
+        archive.system(_system,"physics");
+        archive(_actions, "actions");
+    }
 }
 
 void PlatformPhysicsComponent::Update(float delta)
@@ -34,7 +37,6 @@ PlatformPhysicsSystem::PlatformPhysicsSystem(
         SystemManager & manager) : 
     BasePhysicsSystem(systemName, manager)
 {
-    
 }
 
 void PlatformPhysicsSystem::Update(float delta)
