@@ -52,12 +52,27 @@ struct Serializer<BodyTypeEnum> {
             }
             else
             {
-                Assert(false, "Unkown body type");
+                Assert(false, "Unknown body type");
             }
         }
         else
         {
-            //TODO ANC-77 implement BodyTypeEnum saving
+            if(property == BodyType::None)
+            {
+                arc.CurrentBranch() = "none";
+            }
+            else if(property == BodyType::Solid)
+            {
+                arc.CurrentBranch() = "solid";
+            }
+            else if(property == BodyType::Environment)
+            {
+                arc.CurrentBranch() = "environment";
+            }
+            else
+            {
+                Assert(false, "Unknown body type");
+            }
         }
     }
 };
@@ -71,7 +86,7 @@ void CollisionComponent::Serialize(Archive &arc) {
     std::string key;
     if (!arc.loading())
     {
-        //TODO ANC-77 implement CollisionComponent saving
+        key = _system->GetKeyFromType(_type);
     }
 
     arc(key, "collision-type");

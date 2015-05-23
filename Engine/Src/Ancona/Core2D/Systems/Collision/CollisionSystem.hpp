@@ -72,6 +72,13 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         CollisionType GetType(const std::string & key);
 
         /**
+         * @brief Get the key associated with the collision type.
+         *
+         * @type CollisionType used to get the key from.
+         */
+        std::string GetKeyFromType(const CollisionType & type);
+
+        /**
          * @brief Define the handler that will be used for the collisions between the two types.
          *
          * @param typeA One type involved in the collision.
@@ -88,7 +95,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          *
          * @return True if the collision type is defined.  False otherwise.
          */
-        bool IsCollisionTypeDefined(std::string const &key);
+        bool IsCollisionTypeDefined(const std::string & key);
 
         /* Getters and Setters */
         BasePhysicsSystem & physics() { return _positions; }
@@ -98,6 +105,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         Table<CollisionCallback> _callbackTable;
         BasePhysicsSystem & _positions;
         std::unordered_map<std::string,CollisionType> _collisionTypes;
+        std::unordered_map<CollisionType,std::string> _collisionTypeToKey;
         Point _leftGravityBound;
         Point _rightGravityBound;
         float _maxSlope = 45;

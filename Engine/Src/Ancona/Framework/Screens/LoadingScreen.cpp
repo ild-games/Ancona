@@ -29,7 +29,7 @@ void LoadingScreen::Update(float delta)
 
 void LoadingScreen::Draw(float delta)
 {
-    _screenManager.Window.clear(sf::Color::Green);
+    _screenManager.Window.clear(sf::Color::Black);
 }
 
 void LoadingScreen::Entering(float delta)

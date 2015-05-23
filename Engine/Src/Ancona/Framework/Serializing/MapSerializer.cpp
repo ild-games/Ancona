@@ -50,14 +50,19 @@ void MapSerializer::LoadMapFile()
     std::ifstream mapStream("Maps/" + _mapName + ".map", std::ifstream::binary);
     Assert(mapStream.is_open(), "Failed to load the map file.");
     mapStream >> _mapRoot;
+    std::string test;
+    mapStream >> test;
 
-    for(Json::Value & assetJson : _mapRoot["assets"])
+    if(_loading)
     {
-        _request->Add(
-                assetJson["type"].asString(),
-                assetJson["key"].asString());
+        for(Json::Value & assetJson : _mapRoot["assets"])
+        {
+            _request->Add(
+                    assetJson["type"].asString(),
+                    assetJson["key"].asString());
+        }
+        _request->Start();
     }
-    _request->Start();
 
     _state = SerializerState::LoadingAssets;
 }
@@ -102,12 +107,14 @@ void MapSerializer::SerializeComponents()
     {
         _loadingContext->systems().systemManager().FetchWaitingDependencies();
     }
+    _mapRoot["systems"] = mapArc.CurrentBranch();
+    _saveRoot["systems"] = saveArc.CurrentBranch();
     _state = SerializerState::DoneSerializing;
 }
 
 void MapSerializer::SerializeSpecifiedSystem(
         std::pair<std::string, AbstractSystem *> systemNamePair,
-        Archive &currentArc)
+        Archive & currentArc)
 {
     if (currentArc.HasProperty(systemNamePair.first))
     {
@@ -123,12 +130,14 @@ void MapSerializer::SaveMapFiles()
     {
         return;
     }
-    std::ofstream saveStream(Config::GetOption("SaveData"), std::ofstream::binary);
+    std::ofstream saveStream(Config::GetOption("SaveData"), std::ofstream::out);
+    Assert(saveStream.is_open(), "Failed to load the save file.");
     _saveRoot["profiles"][_profile] = _saveProfileRoot;
     saveStream << _saveRoot;
-    _saveRoot = _saveRoot["profiles"][_profile];
+    saveStream.close();
 
-    std::ofstream mapStream("Maps/" + _mapName + ".map", std::ofstream::binary);
+    std::ofstream mapStream("Maps/" + _mapName + ".map", std::ofstream::out);
     Assert(mapStream.is_open(), "Failed to load the map file.");
     mapStream << _mapRoot;
+    mapStream.close();
 }

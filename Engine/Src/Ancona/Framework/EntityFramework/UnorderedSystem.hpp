@@ -150,6 +150,15 @@ class UnorderedSystem : public AbstractSystem
         }
 
     private:
+        /**
+         * @brief Used to store components
+         */
+        std::unordered_map<Entity, ComponentType *> _components;
+        /**
+         * @brief Holds the entities that are queued to have their components deleted.
+         */
+        std::vector<Entity> _deleteComponentQueue;
+
         void Serialize(Archive & arc, std::true_type)
         {
             if (arc.loading())
@@ -169,7 +178,8 @@ class UnorderedSystem : public AbstractSystem
                 arc.EnterProperty("components");
                 for(auto entityKey : arc.CurrentBranch().getMemberNames())
                 {
-                    ComponentType * value;
+                    Entity en = _systemManager.GetEntity(entityKey);
+                    ComponentType * value = _components[en];
                     arc(value, entityKey);
                 }
                 arc.ExitProperty();
@@ -269,17 +279,6 @@ class UnorderedSystem : public AbstractSystem
                 delete entityComponentPair.second;
             }
         }
-
-    private:
-        /**
-         * @brief Used to store components
-         */
-        std::unordered_map<Entity, ComponentType *> _components;
-        /**
-         * @brief Holds the entities that are queued to have their components deleted.
-         */
-        std::vector<Entity> _deleteComponentQueue;
-
 };
 
 }
