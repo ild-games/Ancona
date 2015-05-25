@@ -15,11 +15,12 @@ PlatformPhysicsComponent::PlatformPhysicsComponent(
 
 void PlatformPhysicsComponent::Serialize(Archive & archive)
 {
+    BasePhysicsComponent::Serialize(archive);
     if(archive.loading())
     {
         archive.system(_system,"physics");
-        archive(_actions, "actions");
     }
+    archive(_actions, "actions");
 }
 
 void PlatformPhysicsComponent::Update(float delta)

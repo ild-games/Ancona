@@ -51,17 +51,13 @@
             "components": {
                 "ground": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": 800,
+                            "y": 0
+                        }
+                    },
                     "actions": {
-                        "platform-position-actions": [
-                            {
-                                "value": {
-                                    "x": 800,
-                                    "y": 0
-                                },
-                                "tween": 0,
-                                "duration": 0
-                            }
-                        ],
                         "platform-velocity-actions": [
                             {
                                 "value": {
@@ -76,17 +72,13 @@
                 },
                 "block1": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": 500,
+                            "y": -87
+                        }
+                    },
                     "actions": {
-                        "platform-position-actions": [
-                            {
-                                "value": {
-                                    "x": 500,
-                                    "y": -87
-                                },
-                                "tween": 0,
-                                "duration": 0
-                            }
-                        ],
                         "platform-velocity-actions": [
                             {
                                 "value": {
@@ -101,93 +93,59 @@
                 },
                 "ground-warp": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
-                    "actions": {
-                        "platform-position-actions": [
-                            {
-                                "value": {
-                                    "x": -1077,
-                                    "y": -50
-                                },
-                                "tween": 0,
-                                "duration": 0
-                            }
-                        ]
+                    "info": {
+                        "position": {
+                            "x": -1077,
+                            "y": -50
+                        }
                     }
                 },
                 "counter": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
-                    "actions": {
-                        "platform-position-actions": [
-                            {
-                                "value": {
-                                    "x": 100,
-                                    "y": -500
-                                },
-                                "tween": 0,
-                                "duration": 0
-                            }
-                        ]
+                    "info": {
+                        "position": {
+                            "x": 85,
+                            "y": -500
+                        }
                     }
                 },
                 "death": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
-                    "actions": {
-                        "platform-position-actions": [
-                            {
-                                "value": {
-                                    "x": -155,
-                                    "y": -5000
-                                },
-                                "tween": 0,
-                                "duration": 0
-                            }
-                        ]
+                    "info": {
+                        "position": {
+                            "x": -155,
+                            "y": -5000
+                        }
                     }
                 },
                 "bg": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
-                    "actions": {
-                        "platform-position-actions": [
-                            {
-                                "value": {
-                                    "x": 125,
-                                    "y": -250
-                                },
-                                "tween": 0,
-                                "duration": 0
-                            }
-                        ]
+                    "info": {
+                        "position": {
+                            "x": 125,
+                            "y": -250
+                        }
                     }
                 },
                 "player": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": 0,
+                            "y": -100
+                        }
+                    },
                     "actions": {
-                        "platform-position-actions": [
-                            {
-                                "value": {
-                                    "x": 0,
-                                    "y": -100
-                                },
-                                "tween": 0,
-                                "duration": 0
-                            }
-                        ],
                         "affected-by-gravity": true
                     }
                 },
                 "cam-follow": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
-                    "actions": {
-                        "platform-position-actions": [
-                            {
-                                "value": {
-                                    "x": 0,
-                                    "y": -100
-                                },
-                                "tween": 0,
-                                "duration": 0
-                            }
-                        ]
+                    "info": {
+                        "position": {
+                            "x": 0,
+                            "y": -100
+                        }
                     }
                 }
             }
