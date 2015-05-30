@@ -176,15 +176,15 @@ class UnorderedSystem : public AbstractSystem
             else
             {
                 arc.EnterProperty("components");
-                for(auto entityKey : arc.CurrentBranch().getMemberNames())
+                const std::vector<std::string> & entityKeysToSave = 
+                    arc.snapshotSave() ? 
+                        arc.CurrentBranch().getMemberNames() : 
+                        _systemManager.entitySaveableSystems()[_systemName];
+                for(auto entityKey : entityKeysToSave)
                 {
-                    std::pair<std::string, std::string> entitySysPair(entityKey, _systemName);
-                    if(arc.snapshotSave() || alg::count(_systemManager.entitySaveableSystems(), entitySysPair))
-                    {
-                        Entity en = _systemManager.GetEntity(entityKey);
-                        ComponentType * value = _components[en];
-                        arc(value, entityKey);
-                    }
+                    Entity en = _systemManager.GetEntity(entityKey);
+                    ComponentType * value = _components[en];
+                    arc(value, entityKey);
                 }
                 arc.ExitProperty();
             }

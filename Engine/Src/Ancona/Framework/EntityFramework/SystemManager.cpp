@@ -138,8 +138,11 @@ void SystemManager::AddEntitySaveableSystemPair(std::string entity, std::string 
             return sysNamePair.first == system; 
         }
     ), "Cannot add entity-system saveable pair: System " + system + " does not exist or is not keyed.");
-    
-    _entitySaveableSystems.emplace_back(entity, system);
+
+    if(alg::count(_entitySaveableSystems[system], entity))
+    {
+        _entitySaveableSystems[system].push_back(entity);
+    }
 }
 
 void SystemManager::DeleteQueuedEntities()

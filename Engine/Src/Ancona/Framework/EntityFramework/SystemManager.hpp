@@ -144,7 +144,7 @@ class SystemManager
 
         /* getters and setters */
         std::vector<std::pair<std::string, AbstractSystem *>> & keyedSystems() { return _keyedSystems; }
-        std::vector<std::pair<std::string, std::string>> & entitySaveableSystems() { return _entitySaveableSystems; }
+        std::map<std::string, std::vector<std::string>> & entitySaveableSystems() { return _entitySaveableSystems; }
     private:
         /**
          * @brief Used to track which systems are controlled by the manager and
@@ -181,9 +181,9 @@ class SystemManager
          */
         std::vector<std::pair<std::string, AbstractSystem *> > _keyedSystems;
         /**
-         * @brief Stores pairs of entities and the systems that entity allows to be saved regularly (outside of snapshot saves).
+         * @brief Stores a map of systems and their corresponding entities that are allowed to be saved during non snapshot saves.
          */
-        std::vector<std::pair<std::string, std::string>> _entitySaveableSystems;
+        std::map<std::string, std::vector<std::string>> _entitySaveableSystems;
 
         /**
          * @brief Deletes all the entities queued for deletion.
