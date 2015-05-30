@@ -27,8 +27,8 @@ VectorActionProxy Actions::CreateVelocityAction()
 
 void Actions::Serialize(Archive & arc)
 {
-    arc(_positionActions, "platform-position-actions");
     arc(_velocityActions, "platform-velocity-actions");
+    arc(_positionActions, "platform-position-actions");
     arc(_affectedByGravity, "affected-by-gravity");
     arc.system(_physicsSystem, "physics");
 }

@@ -10,9 +10,12 @@
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Framework/EntityFramework/Entity.hpp>
 #include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
+#include <Ancona/Util/Algorithm.hpp>
 
 namespace ild
 {
+
+class Archive;
 
 /**
  * @brief Used to update entity systems and track entity state.
@@ -121,12 +124,27 @@ class SystemManager
         void UnregisterComponent(Entity entity, AbstractSystem * owningSystem);
 
         /**
+         * @brief Adds the rule that the given entity can have its component from the given system saved 
+         * by non-snapshot saves.
+         *
+         * @param entity Name of the entity
+         * @param system Name of the system
+         */
+        void AddEntitySaveableSystemPair(std::string entity, std::string system);
+
+        /**
          * @brief Called when all components should fetch their dependencies.
          */
         void FetchWaitingDependencies();
 
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
+        void Serialize(Archive & arc);
+
         /* getters and setters */
-        std::vector<std::pair<std::string, AbstractSystem *>> keyedSystems() { return _keyedSystems; }
+        std::vector<std::pair<std::string, AbstractSystem *>> & keyedSystems() { return _keyedSystems; }
+        std::map<std::string, std::vector<std::string>> & entitySaveableSystems() { return _entitySaveableSystems; }
     private:
         /**
          * @brief Used to track which systems are controlled by the manager and
@@ -162,6 +180,10 @@ class SystemManager
          * @brief The systems stored with their keys in the order they were added to the manager.
          */
         std::vector<std::pair<std::string, AbstractSystem *> > _keyedSystems;
+        /**
+         * @brief Stores a map of systems and their corresponding entities that are allowed to be saved during non snapshot saves.
+         */
+        std::map<std::string, std::vector<std::string>> _entitySaveableSystems;
 
         /**
          * @brief Deletes all the entities queued for deletion.

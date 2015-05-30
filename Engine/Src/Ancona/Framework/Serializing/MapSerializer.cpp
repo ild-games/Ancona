@@ -6,12 +6,14 @@ using namespace ild;
 MapSerializer::MapSerializer(
         std::string key, 
         ScreenSystemsContainer & systems,
-        bool loading) :
+        bool loading,
+        bool snapshotSave) :
     _key(key), 
     _request(new RequestList()),
     _loadingContext(new SerializingContext(systems)),
     _profile(systems.profile()),
-    _loading(loading)
+    _loading(loading),
+    _snapshotSave(snapshotSave)
 {
     Assert(_profile != -1, "A profile must be specified for the map");
 }
@@ -91,13 +93,20 @@ void MapSerializer::LoadEntities()
     {
         _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
     }
+    SerializeEntitySystemSaveables();
     _state = SerializerState::SerializingComponents;
+}
+
+void MapSerializer::SerializeEntitySystemSaveables()
+{
+    Archive entitySaveablesArc(_mapRoot, *_loadingContext.get(), _loading);
+    _loadingContext->systems().systemManager().Serialize(entitySaveablesArc);
 }
 
 void MapSerializer::SerializeComponents()
 {
-    Archive mapArc(_mapRoot["systems"], *_loadingContext.get(), _loading);
-    Archive saveArc(_saveProfileRoot["systems"], *_loadingContext.get(), _loading);
+    Archive mapArc(_mapRoot["systems"], *_loadingContext.get(), _loading, _snapshotSave);
+    Archive saveArc(_saveProfileRoot["systems"], *_loadingContext.get(), _loading, true);
     for(auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
     {
         SerializeSpecifiedSystem(systemNamePair, mapArc);

@@ -99,6 +99,7 @@ class AbstractSystem
 
     protected:
         SystemManager & _systemManager;
+        std::string _systemName;
 };
 
 }

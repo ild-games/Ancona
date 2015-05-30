@@ -9,7 +9,7 @@
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
-#include <Ancona/Util/Algorithm/Types.hpp>
+#include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/Assert.hpp>
 
 namespace ild
@@ -176,7 +176,11 @@ class UnorderedSystem : public AbstractSystem
             else
             {
                 arc.EnterProperty("components");
-                for(auto entityKey : arc.CurrentBranch().getMemberNames())
+                const std::vector<std::string> & entityKeysToSave = 
+                    arc.snapshotSave() ? 
+                        arc.CurrentBranch().getMemberNames() : 
+                        _systemManager.entitySaveableSystems()[_systemName];
+                for(auto entityKey : entityKeysToSave)
                 {
                     Entity en = _systemManager.GetEntity(entityKey);
                     ComponentType * value = _components[en];

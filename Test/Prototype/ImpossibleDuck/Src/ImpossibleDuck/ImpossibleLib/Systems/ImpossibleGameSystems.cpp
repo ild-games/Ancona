@@ -11,7 +11,7 @@ ImpossibleGameSystems::ImpossibleGameSystems(ScreenManager & screenManager) :
     _drawable = ConstructSystem<DrawableSystem>("drawable", screenManager.Window, *_systemManager);
     _collision = ConstructSystem<CollisionSystem>("collision", *_systemManager,*_physics);
     _fadeDrawable = ConstructSystem<FadeDrawableSystem>("fadeDrawable", *_systemManager);
-    _counter = ConstructSystem<CounterSystem>("counter", *_systemManager);
+    _counter = ConstructSystem<CounterSystem>("counterSys", *_systemManager);
 
     _collision->CreateType("null-type");
     _collision->CreateType("player-type");

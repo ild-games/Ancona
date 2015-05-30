@@ -9,6 +9,9 @@
 
 namespace ild {
 
+const float FLOAT_INF = std::numeric_limits<float>::infinity();
+const double DOUBLE_INF = std::numeric_limits<double>::infinity();
+
 #define GENERATE_STDSERIALIZER(type, method) \
     template <> struct Serializer<type> { \
         static void Serialize(type & property, Archive & arc) { \
@@ -20,11 +23,55 @@ namespace ild {
         } \
     };
 
+template <> struct Serializer<float> {
+    static void Serialize(float & property, Archive & arc) {
+        if(arc.loading()) {
+            if(arc.CurrentBranch().isString() && arc.CurrentBranch().asString() == "inf")
+            {
+                property = FLOAT_INF;
+            }
+            else
+            {
+                property = arc.CurrentBranch().asFloat();
+            }
+        } else {
+            if(property == FLOAT_INF)
+            {
+                arc.CurrentBranch() = "inf";
+            }
+            else
+            {
+                arc.CurrentBranch() = property;
+            }
+        }
+    }
+};
+
+template <> struct Serializer<double> {
+    static void Serialize(double & property, Archive & arc) {
+        if(arc.loading()) {
+            if(arc.CurrentBranch().isString() && arc.CurrentBranch().asString() == "inf")
+            {
+                property = DOUBLE_INF;
+            }
+            else
+            {
+                property = arc.CurrentBranch().asDouble();
+            }
+        } else {
+            if(property == DOUBLE_INF)
+            {
+                arc.CurrentBranch() = "inf";
+            }
+            else
+            {
+                arc.CurrentBranch() = property;
+            }
+        }
+    }
+};
+
 GENERATE_STDSERIALIZER(Json::Value::Int, asInt)
-
-GENERATE_STDSERIALIZER(float, asFloat)
-
-GENERATE_STDSERIALIZER(double, asDouble)
 
 GENERATE_STDSERIALIZER(bool, asBool)
 
@@ -52,6 +99,14 @@ struct Serializer<std::vector<T>> {
                 arc(property[i], i);
             }
         }
+    }
+};
+
+template<class T, class V>
+struct Serializer<std::pair<T, V>> {
+    static void Serialize(std::pair<T, V> & property, Archive & arc) {
+        arc(property.first, "first");
+        arc(property.second, "second");
     }
 };
 

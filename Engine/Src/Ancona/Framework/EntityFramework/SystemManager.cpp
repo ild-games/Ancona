@@ -3,6 +3,7 @@
 
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 
 using namespace ild;
@@ -129,6 +130,21 @@ void SystemManager::UnregisterComponent(Entity entity, AbstractSystem * owningSy
     _components[entity].erase(owningSystem);
 }
 
+void SystemManager::AddEntitySaveableSystemPair(std::string entity, std::string system)
+{
+    Assert(_entities.count(entity), "Cannot add entity-system saveable pair: Entity " + entity + " does not exist.");
+    Assert(alg::count_if(_keyedSystems, [system](std::pair<std::string, AbstractSystem *> sysNamePair)
+        {
+            return sysNamePair.first == system; 
+        }
+    ), "Cannot add entity-system saveable pair: System " + system + " does not exist or is not keyed.");
+
+    if(!alg::count(_entitySaveableSystems[system], entity))
+    {
+        _entitySaveableSystems[system].push_back(entity);
+    }
+}
+
 void SystemManager::DeleteQueuedEntities()
 {
     for(Entity & entity : _deleteQueue)
@@ -145,4 +161,9 @@ void SystemManager::FetchWaitingDependencies()
         entitySystemPair.second->FetchComponentDependencies(entitySystemPair.first);
     }
     _needDependencyFetch.clear();
+}
+
+void SystemManager::Serialize(Archive & arc)
+{
+    arc(_entitySaveableSystems, "entity-system-saveables");
 }
