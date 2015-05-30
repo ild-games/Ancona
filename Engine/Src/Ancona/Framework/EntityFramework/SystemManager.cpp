@@ -1,5 +1,4 @@
 #include <map>
-
 #include <unordered_map>
 
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
