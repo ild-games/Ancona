@@ -102,6 +102,14 @@ struct Serializer<std::vector<T>> {
     }
 };
 
+template<class T, class V>
+struct Serializer<std::pair<T, V>> {
+    static void Serialize(std::pair<T, V> & property, Archive & arc) {
+        arc(property.first, "first");
+        arc(property.second, "second");
+    }
+};
+
 template<class T>
 struct Serializer<std::map<std::string, T>> {
     static void Serialize(std::map<std::string, T> &property, Archive &arc) {

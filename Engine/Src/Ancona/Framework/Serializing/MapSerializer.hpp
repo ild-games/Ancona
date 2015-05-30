@@ -42,11 +42,13 @@ class MapSerializer
          * @param key Key that describes the map the screen is currently on.
          * @param systems Instance of the system container for the screen being serialized.
          * @param loading True if the MapSerializer is loading the map, false if it is saving it.
+         * @param snapshotSave True if everything will be saved, otherwise only specified systems will be saved. Defaults to false.
          */
         MapSerializer(
                 std::string key,
                 ScreenSystemsContainer & systems,
-                bool loading);
+                bool loading,
+                bool snapshotSave = false);
 
         /**
          * @brief Continue the loading process of the Map.
@@ -63,6 +65,7 @@ class MapSerializer
         void LoadMapFile();
         void LoadAssets();
         void LoadEntities();
+        void SerializeEntitySystemSaveables();
         void SerializeComponents();
         void SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive &currentArc);
         void SaveMapFiles();
@@ -107,6 +110,10 @@ class MapSerializer
          * @brief True if the MapSerializer is loading the map, false if it is saving it.
          */
         bool _loading;
+        /**
+         * @brief True if the saving will save everything, false if not.
+         */
+        bool _snapshotSave;
 };
 
 }

@@ -5,8 +5,10 @@ using namespace ild;
 Archive::Archive(
         Json::Value root,
         SerializingContext & context,
-        bool loading) :
+        bool loading,
+        bool snapshotSave) :
     _loading(loading),
+    _snapshotSave(snapshotSave),
     _root(root),
     _context(context)
 {

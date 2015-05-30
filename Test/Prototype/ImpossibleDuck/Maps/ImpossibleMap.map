@@ -38,8 +38,14 @@
         "counter",
         "block1"
     ],
+    "entity-system-saveables": [
+        {
+            "first": "counter",
+            "second": "counterSys"
+        }
+    ],
     "systems": {
-        "counter": {
+        "counterSys": {
             "components": {
                 "counter": {
                     "count": 0,

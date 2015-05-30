@@ -8,7 +8,8 @@ AbstractSystem::AbstractSystem(
         std::string systemName,
         SystemManager & systemManager,
         UpdateStepEnum updateStep) :
-    _systemManager(systemManager)
+    _systemManager(systemManager),
+    _systemName(systemName)
 {
     systemManager.RegisterSystem(systemName, this, updateStep);
 }

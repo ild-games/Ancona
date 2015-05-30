@@ -29,11 +29,13 @@ class Archive
          * @param root Root of the json for the archive.
          * @param context Current loading context.
          * @param loading True if the archive is loading data, false if saving.
+         * @param snapshotSave True if the archive is saving via a snapshot (EVERYTHING gets saved), otherwise false. Defaults to false.
          */
         Archive(
                 Json::Value root,
                 SerializingContext & context,
-                bool loading);
+                bool loading,
+                bool snapshotSave = false);
 
         /**
          * @brief Serialize or deserialize the property based on if the game is being loaded or saved.
@@ -203,6 +205,7 @@ class Archive
 
         /* getters and setters */
         bool loading() { return _loading; }
+        bool snapshotSave() { return _snapshotSave; }
         void loading(bool loading) { _loading = loading; }
         SerializingContext & context() { return _context; }
         Entity entity(const std::string &key)
@@ -213,6 +216,7 @@ class Archive
 
     private:
         bool _loading;
+        bool _snapshotSave;
         Json::Value _root;
         /**
          * @brief Contains the visited levels of the JSON file, the top of the stack is the current json
