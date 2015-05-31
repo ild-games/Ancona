@@ -9,9 +9,9 @@ namespace alg
 {
 
 template <class Container, class T>
-int indexOf(Container & c, T & v)
+bool contains(Container & c, T & v)
 {
-    return std::find(c.begin(), c.end(), v) - c.begin();
+    return std::find(c.begin(), c.end(), v) != c.end();
 }
 
 }

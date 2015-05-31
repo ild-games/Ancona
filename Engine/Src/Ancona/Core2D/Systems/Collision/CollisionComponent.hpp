@@ -3,6 +3,7 @@
 
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Util2D/Collision/Box2.hpp>
+#include <Ancona/Util/Data.hpp>
 
 namespace ild
 {
@@ -35,8 +36,12 @@ namespace BodyType
         Count
     };
 }
-static const std::vector<std::string> BodyTypeEnumStrings = { "none", "solid", "environment" };
 typedef BodyType::Type BodyTypeEnum;
+static DualMap<std::string, BodyTypeEnum> BodyTypeEnumStringMap {
+        { "none", BodyType::None },
+        { "solid", BodyType::Solid },
+        { "environment", BodyType::Environment }
+};
 
 /**
  * @brief Component attached to entities by the collision system.  It keeps track of state describing how the entity interacts

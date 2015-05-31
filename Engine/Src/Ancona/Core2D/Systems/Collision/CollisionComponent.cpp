@@ -38,9 +38,12 @@ struct Serializer<BodyTypeEnum> {
         if (arc.loading())
         {
             const std::string & val = arc.CurrentBranch().asString();
-            if(alg::find(BodyTypeEnumStrings, val) != BodyTypeEnumStrings.end())
+            if(alg::count_if(BodyTypeEnumStringMap.normal(), [val](std::pair<std::string, BodyTypeEnum> stringEnumPair)
+                {
+                    return stringEnumPair.first == val;
+                }))
             {
-                property = static_cast<BodyTypeEnum>(alg::indexOf(BodyTypeEnumStrings, val));
+                property = BodyTypeEnumStringMap.normal().at(val);
             }
             else
             {
@@ -49,10 +52,12 @@ struct Serializer<BodyTypeEnum> {
         }
         else
         {
-            int index = static_cast<int>(property);
-            if(index >= 0 && index <= BodyTypeEnumStrings.size() - 1)
+            if(alg::count_if(BodyTypeEnumStringMap.reverse(), [property](std::pair<BodyTypeEnum, std::string> bodyTypeEnumPair)
+                {
+                    return bodyTypeEnumPair.first == property;
+                }))
             {
-                arc.CurrentBranch() = BodyTypeEnumStrings[index];
+                arc.CurrentBranch() = BodyTypeEnumStringMap.reverse().at(property);
             }
             else
             {
