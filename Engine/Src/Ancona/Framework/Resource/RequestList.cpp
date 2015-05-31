@@ -68,7 +68,7 @@ void RequestList::LoadFromFile(std::istream & openStream)
         std::getline(openStream, line);
         pieces.clear();
 
-        StrUtil::Split(line, ',', pieces, 2);
+        pieces = StrUtil::Split(line, ',', 2);
 
         if(pieces.size() == 2)
         {

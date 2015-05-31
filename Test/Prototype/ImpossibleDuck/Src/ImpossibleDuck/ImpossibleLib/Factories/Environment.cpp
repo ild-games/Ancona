@@ -1,5 +1,8 @@
 #include "Environment.hpp"
 
+#include <Ancona/Util/StrUtil.hpp>
+
+
 using namespace ild;
 
 void ImpossibleEnvironment::CreateCounter(ild::ImpossibleGameSystems *gameSystems)
@@ -10,7 +13,9 @@ void ImpossibleEnvironment::CreateCounter(ild::ImpossibleGameSystems *gameSystem
     int counterValue = counterComponent.counter();
     std::string counterString = std::to_string(counterValue);
     TextDrawable & counterTextDrawable = *gameSystems->drawable()[counterEntity]->GetDrawable<TextDrawable>("counter-text");
-    counterTextDrawable.text(counterTextDrawable.text() + counterString);
+
+
+    counterTextDrawable.text(StrUtil::Split(counterTextDrawable.text(), ' ')[0] + " " + counterString);
 }
 
 void ImpossibleEnvironment::SetupCollisions(ImpossibleGameSystems *gameSystems)
