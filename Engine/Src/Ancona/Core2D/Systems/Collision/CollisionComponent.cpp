@@ -38,17 +38,9 @@ struct Serializer<BodyTypeEnum> {
         if (arc.loading())
         {
             const std::string & val = arc.CurrentBranch().asString();
-            if (val == "none")
+            if(alg::find(BodyTypeEnumStrings, val) != BodyTypeEnumStrings.end())
             {
-                property = BodyType::None;
-            }
-            else if (val == "solid")
-            {
-                property = BodyType::Solid;
-            }
-            else if (val == "environment")
-            {
-                property = BodyType::Environment;
+                property = static_cast<BodyTypeEnum>(alg::indexOf(BodyTypeEnumStrings, val));
             }
             else
             {
@@ -57,17 +49,10 @@ struct Serializer<BodyTypeEnum> {
         }
         else
         {
-            if(property == BodyType::None)
+            int index = static_cast<int>(property);
+            if(index >= 0 && index <= BodyTypeEnumStrings.size() - 1)
             {
-                arc.CurrentBranch() = "none";
-            }
-            else if(property == BodyType::Solid)
-            {
-                arc.CurrentBranch() = "solid";
-            }
-            else if(property == BodyType::Environment)
-            {
-                arc.CurrentBranch() = "environment";
+                arc.CurrentBranch() = BodyTypeEnumStrings[index];
             }
             else
             {

@@ -35,6 +35,7 @@ namespace BodyType
         Count
     };
 }
+static const std::vector<std::string> BodyTypeEnumStrings = { "none", "solid", "environment" };
 typedef BodyType::Type BodyTypeEnum;
 
 /**
@@ -90,6 +91,7 @@ class CollisionComponent
         /* getters and setters */
         CollisionType type();
         BodyTypeEnum bodyType() { return _bodyType; }
+        void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
         BasePhysicsComponent & physicsComponent() { return *_position; }
         const Box2 & box() const { return _dim; }
 
