@@ -23,11 +23,11 @@ std::string & StrUtil::RTrim(std::string & str, const std::string & delimiters)
     return str;
 }
 
-std::vector<std::string> & 
-StrUtil::Split(const std::string & str, char splitVal, std::vector<std::string> & result, size_t max)
+std::vector<std::string> StrUtil::Split(const std::string & str, char splitVal, size_t max)
 {
     size_t position = 0;
     size_t newPosition;
+    std::vector<std::string> result;
 
     //Loop until the max number of splits are made or the end of the string is reached
     for(size_t i = 0; i < max && position < str.size(); i++)

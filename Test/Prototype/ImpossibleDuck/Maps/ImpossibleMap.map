@@ -41,6 +41,9 @@
     "entity-system-saveables": {
         "counterSys": [
             "counter"
+        ],
+        "drawable": [
+            "counter"
         ]
     },
     "systems": {
@@ -297,7 +300,7 @@
                             "key": "counter-text",
                             "__cpp_type": "ild::TextDrawable",
                             "text": {
-                                "text": "Attempt: ",
+                                "text": "Attempt: -99",
                                 "font-key": "SF Intellivised",
                                 "color": {
                                     "r": 255,
