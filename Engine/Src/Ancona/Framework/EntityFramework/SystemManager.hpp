@@ -86,6 +86,15 @@ class SystemManager
         Entity GetEntity(const std::string & key);
 
         /**
+         * @brief Get the key used to store a keyed entity.
+         *
+         * @param entity Entity associated with the key.
+         *
+         * @return The key used to store the given entity.
+         */
+        std::string GetEntityKey(const Entity & entity);
+
+        /**
          * @brief Register the System with the system manager.  This is needed in order for the
          * SystemManager to notify a system if an entity is deleted.  A system can only be
          * registered once.

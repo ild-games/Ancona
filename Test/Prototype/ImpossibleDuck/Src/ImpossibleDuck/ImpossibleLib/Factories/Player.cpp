@@ -29,6 +29,7 @@ std::function<void(Entity player, Entity ground)> ImpossiblePlayer::PlayerToGrou
 {
     return[systems](Entity player, Entity ground)
     {
+        systems->camera().at(systems->systemManager().GetEntity("screen-cam"))->follows(player);
         systems->drawable().at(player)->GetDrawable("player-jump-animation")->inactive(true);
         systems->drawable().at(player)->GetDrawable("player-walk-animation")->inactive(false);
     };

@@ -166,7 +166,10 @@ class Archive
             {
                 entity = Archive::entity(CurrentBranch()[entityJsonKey].asString());
             }
-            //TODO ANC-79 implement saving
+            else
+            {
+                CurrentBranch()[entityJsonKey] = _context.systems().systemManager().GetEntityKey(entity);
+            }
         }
 
         /**

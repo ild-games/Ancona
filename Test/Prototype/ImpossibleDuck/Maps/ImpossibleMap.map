@@ -41,6 +41,9 @@
     "entity-system-saveables": {
         "counterSys": [
             "counter"
+        ],
+        "camera": [
+            "screen-cam"
         ]
     },
     "systems": {
