@@ -12,10 +12,36 @@
 namespace ild
 {
 
+/**
+ * @brief DualMap encapsulates a std::map but manages a reversed map of the same data.
+ * If you use a map<std::string, int> a map<int, std::string> of duplicate data is managed
+ * along with the original map.
+ *
+ * @tparam T value type for the normal map's key
+ * @tparam V value type for the normal map's values
+ *
+ * @author Tucker Lein
+ */
 template<typename T, typename V>
 class DualMap
 {
     public:
+        /**
+         * @brief Default constructor with blank maps.
+         */
+        DualMap()
+        {
+            _normal.reset(new std::map<T, V>());
+            _reverse.reset(new std::map<V, T>());
+        }
+
+        /**
+         * @brief Constructs the DualMap with an initializer list
+         *
+         * @param normal Initializer list of pairs so the DualMap can be constructed using this syntax:
+         *               { { "hello", 0 },
+         *                 { "goodbye", 1} }
+         */
         DualMap(std::initializer_list<std::pair<const T, V>> normal)
         {
             _normal.reset(new std::map<T, V>(normal));
@@ -26,6 +52,12 @@ class DualMap
             }
         }
 
+        /**
+         * @brief Adds a key and value into the DualMap.
+         *
+         * @param key Key to add, will be the value in the reverse map.
+         * @param val Value to add, will be the key in the reverse map.
+         */
         void Add(T key, V val)
         {
             Assert(alg::contains(_normal, key), "Key already exists in map");
@@ -33,6 +65,11 @@ class DualMap
             _reverse->at(val) = key;
         }
 
+        /**
+         * @brief Deletes a key and its value from the DualMap.
+         *
+         * @param key Key to delete
+         */
         void Delete(T key)
         {
             Assert(!alg::contains(_normal, key), "Key does not exists in map");
@@ -41,6 +78,7 @@ class DualMap
             _reverse->erase(valOfNormal);
         }
 
+        /* getters and setters */
         const std::map<T, V> & normal() { return *(_normal.get()); }
         const std::map<V, T> & reverse() { return *(_reverse.get()); }
     private:
