@@ -82,6 +82,11 @@ Entity SystemManager::GetEntity(const std::string & key)
     return entityIter->second; 
 }
 
+std::string SystemManager::GetEntityKey(const Entity & entity)
+{
+    return _entitiesReverse[entity];
+}
+
 bool SystemManager::ContainsName(std::string & systemName)
 {
     return alg::any_of(_keyedSystems,
