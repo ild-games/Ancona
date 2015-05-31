@@ -47,7 +47,7 @@ void Config::Load(std::istream & file)
         }
 
         //Split the line along the assignment operator
-        StrUtil::Split(line, '=', pieces, 2);
+        pieces = StrUtil::Split(line, '=', 2);
 
         if(pieces.size() == 2)
         {

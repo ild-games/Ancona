@@ -49,14 +49,11 @@ class StrUtil
          *
          * @param str String to be split.
          * @param splitVal Character that the string should be split on.
-         * @param result Vector used to store the result.  The split values 
-         *  will be added to the end of the vector.
          * @param max Maximum number of splits that will occur.  Defaults to max_size_t.
          *
-         * @return A reference to the vector passed in as result.
+         * @return A vector of the results.
          */
-        static std::vector<std::string> & 
-        Split(const std::string  & str, char splitVal, std::vector<std::string> & result, size_t max=(size_t)-1);
+        static std::vector<std::string> Split(const std::string  & str, char splitVal, size_t max=(size_t)-1);
 };
 
 

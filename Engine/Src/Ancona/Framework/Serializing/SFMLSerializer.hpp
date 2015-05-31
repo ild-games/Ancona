@@ -37,19 +37,28 @@ struct Serializer<sf::Text>
 {
     static void Serialize(sf::Text & property, Archive & arc)
     {
+        std::string text;
+        std::string fontKey;
+        sf::Color color;
+        int characterSize;
+        bool smooth;
+
+        if (!arc.loading())
+        {
+            text = property.getString();
+            characterSize = property.getCharacterSize();
+            color = property.getColor();
+            smooth = property.getFont()->getTexture(characterSize).isSmooth();
+        }
+
+        arc(text, "text");
+        arc(color, "color");
+        arc(characterSize,"character-size");
+        arc(smooth, "smooth");
+
         if (arc.loading())
         {
-            std::string text;
-            std::string fontKey;
-            sf::Color color;
-            int characterSize;
-            bool smooth;
-            arc(text, "text");
             arc(fontKey, "font-key");
-            arc(color, "color");
-            arc(characterSize,"character-size");
-            arc(smooth, "smooth");
-
             property.setString(text);
             property.setFont(*ResourceLibrary::Get<sf::Font>(fontKey));
             property.setColor(color);
@@ -58,11 +67,6 @@ struct Serializer<sf::Text>
             {
                 const_cast<sf::Texture&>(property.getFont()->getTexture(characterSize)).setSmooth(false);
             }
-        }
-        else
-        {
-
-            //TODO ANC-80 Implement saving
         }
     }
 };
