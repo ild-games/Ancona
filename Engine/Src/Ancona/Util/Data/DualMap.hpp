@@ -60,7 +60,7 @@ class DualMap
          */
         void Add(T key, V val)
         {
-            Assert(alg::contains(_normal, key), "Key already exists in map");
+            Assert(!ContainsKey(key), "Key already exists in map");
             _normal->at(key) = val;
             _reverse->at(val) = key;
         }
@@ -72,15 +72,34 @@ class DualMap
          */
         void Delete(T key)
         {
-            Assert(!alg::contains(_normal, key), "Key does not exists in map");
+            Assert(ContainsKey(key), "Key does not exist in map");
             V valOfNormal = _normal->at(key);
             _normal->erase(key);
             _reverse->erase(valOfNormal);
         }
 
-        /* getters and setters */
-        const std::map<T, V> & normal() { return *(_normal.get()); }
-        const std::map<V, T> & reverse() { return *(_reverse.get()); }
+        T GetKey(V value)
+        {
+            Assert(ContainsValue(value), "Value does not exist in map");
+            _reverse->at(value);
+        }
+
+        V GetValue(T key)
+        {
+            Assert(ContainsKey(key), "Key does not exist in map")
+            _normal->at(key);
+        }
+
+        bool ContainsKey(T key)
+        {
+            return alg::contains(_normal, key);
+        }
+
+        bool ContainsValue(V value)
+        {
+            return alg::contains(_reverse, value);
+        }
+
     private:
         std::unique_ptr<std::map<T, V>> _normal;
         std::unique_ptr<std::map<V, T>> _reverse;

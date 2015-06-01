@@ -91,7 +91,6 @@ class Actions
         Point _totalGravity;
         BasePhysicsSystem * _physicsSystem;
         bool _affectedByGravity = false;
-        bool _onGround = false;
 
         /**
          * @brief Update the velocity based on Gravity.
