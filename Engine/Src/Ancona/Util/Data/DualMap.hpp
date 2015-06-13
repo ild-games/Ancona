@@ -61,8 +61,9 @@ class DualMap
         void Add(T key, V val)
         {
             Assert(!ContainsKey(key), "Key already exists in map");
-            _normal->at(key) = val;
-            _reverse->at(val) = key;
+            Assert(!ContainsValue(val), "Value already exists in map");
+            (*_normal)[key] = val;
+            (*_reverse)[val] = key;
         }
 
         /**
@@ -70,7 +71,7 @@ class DualMap
          *
          * @param key Key to delete
          */
-        void Delete(T key)
+        void RemoveByKey(T key)
         {
             Assert(ContainsKey(key), "Key does not exist in map");
             V valOfNormal = _normal->at(key);
@@ -78,26 +79,67 @@ class DualMap
             _reverse->erase(valOfNormal);
         }
 
+        /**
+         * @brief Deletes a value and its key from the DualMap.
+         *
+         * @param val Value to delete
+         */
+        void RemoveByValue(V val)
+        {
+            Assert(ContainsValue(val), "Value does not exist in map");
+            T keyOfReverse = _reverse->at(val);
+            _reverse->erase(val);
+            _normal->erase(keyOfReverse);
+        }
+
+        /**
+         * @brief Returns the key associated with the given value.
+         *
+         * @param value Value used to get associated key.
+         *
+         * @return Associated key.
+         */
         T GetKey(V value)
         {
             Assert(ContainsValue(value), "Value does not exist in map");
-            _reverse->at(value);
+            return _reverse->at(value);
         }
 
+        /**
+         * @brief Returns the value associated with the given key.
+         *
+         * @param key Key used to get associated value.
+         *
+         * @return Associated value.
+         */
         V GetValue(T key)
         {
             Assert(ContainsKey(key), "Key does not exist in map")
-            _normal->at(key);
+            return _normal->at(key);
         }
 
+        /**
+         * @brief Checks if the given key exists in the DualMap.
+         *
+         * @param key Key to check.
+         *
+         * @return True if it exists, otherwise false.
+         */
         bool ContainsKey(T key)
         {
-            return alg::contains(_normal, key);
+            return _normal->find(key) != _normal->end();
         }
 
+        /**
+         * @brief Checks if the given value exists in the DualMap.
+         *
+         * @param value Value to check.
+         *
+         * @return True if it exists, otherwise false.
+         */
         bool ContainsValue(V value)
         {
-            return alg::contains(_reverse, value);
+            return _reverse->find(value) != _reverse->end();
         }
 
     private:

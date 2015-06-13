@@ -3,6 +3,12 @@
 
 using namespace ild;
 
+static DualMap<std::string, BodyTypeEnum> BodyTypeEnumStringMap {
+        { "none", BodyType::None },
+        { "solid", BodyType::Solid },
+        { "environment", BodyType::Environment }
+};
+
 CollisionComponent::CollisionComponent(CollisionSystem * collisionSystem,
         const sf::Vector3f & dim,
         CollisionType type,
@@ -37,13 +43,10 @@ struct Serializer<BodyTypeEnum> {
     {
         if (arc.loading())
         {
-            const std::string & val = arc.CurrentBranch().asString();
-            if(alg::count_if(BodyTypeEnumStringMap.normal(), [val](std::pair<std::string, BodyTypeEnum> stringEnumPair)
-                {
-                    return stringEnumPair.first == val;
-                }))
+            const std::string & bodyTypeKey = arc.CurrentBranch().asString();
+            if(BodyTypeEnumStringMap.ContainsKey(bodyTypeKey))
             {
-                property = BodyTypeEnumStringMap.normal().at(val);
+                property = BodyTypeEnumStringMap.GetValue(bodyTypeKey);
             }
             else
             {
@@ -52,12 +55,9 @@ struct Serializer<BodyTypeEnum> {
         }
         else
         {
-            if(alg::count_if(BodyTypeEnumStringMap.reverse(), [property](std::pair<BodyTypeEnum, std::string> bodyTypeEnumPair)
-                {
-                    return bodyTypeEnumPair.first == property;
-                }))
+            if(BodyTypeEnumStringMap.ContainsValue(property))
             {
-                arc.CurrentBranch() = BodyTypeEnumStringMap.reverse().at(property);
+                arc.CurrentBranch() = BodyTypeEnumStringMap.GetKey(property);
             }
             else
             {

@@ -37,11 +37,6 @@ namespace BodyType
     };
 }
 typedef BodyType::Type BodyTypeEnum;
-static DualMap<std::string, BodyTypeEnum> BodyTypeEnumStringMap {
-        { "none", BodyType::None },
-        { "solid", BodyType::Solid },
-        { "environment", BodyType::Environment }
-};
 
 /**
  * @brief Component attached to entities by the collision system.  It keeps track of state describing how the entity interacts
