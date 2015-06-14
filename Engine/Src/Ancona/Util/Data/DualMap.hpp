@@ -42,7 +42,7 @@ class DualMap
          *               { { "hello", 0 },
          *                 { "goodbye", 1} }
          */
-        DualMap(std::initializer_list<std::pair<const T, V>> normal)
+        DualMap(const std::initializer_list<std::pair<const T, V>> & normal)
         {
             _normal.reset(new std::map<T, V>(normal));
             _reverse.reset(new std::map<V, T>());
@@ -58,7 +58,7 @@ class DualMap
          * @param key Key to add, will be the value in the reverse map.
          * @param val Value to add, will be the key in the reverse map.
          */
-        void Add(T key, V val)
+        void Add(const T & key, const V & val)
         {
             Assert(!ContainsKey(key), "Key already exists in map");
             Assert(!ContainsValue(val), "Value already exists in map");
@@ -71,12 +71,12 @@ class DualMap
          *
          * @param key Key to delete
          */
-        void RemoveByKey(T key)
+        void RemoveByKey(const T & key)
         {
             Assert(ContainsKey(key), "Key does not exist in map");
-            V valOfNormal = _normal->at(key);
-            _normal->erase(key);
-            _reverse->erase(valOfNormal);
+            auto valOfNormal = _normal->find(key);
+            _reverse->erase(valOfNormal->second);
+            _normal->erase(valOfNormal);
         }
 
         /**
@@ -84,12 +84,12 @@ class DualMap
          *
          * @param val Value to delete
          */
-        void RemoveByValue(V val)
+        void RemoveByValue(const V & val)
         {
             Assert(ContainsValue(val), "Value does not exist in map");
-            T keyOfReverse = _reverse->at(val);
-            _reverse->erase(val);
-            _normal->erase(keyOfReverse);
+            auto keyOfReverse = _reverse->find(val);
+            _normal->erase(keyOfReverse->second);
+            _reverse->erase(keyOfReverse);
         }
 
         /**
