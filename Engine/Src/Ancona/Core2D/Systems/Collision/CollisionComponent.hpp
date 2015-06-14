@@ -3,6 +3,7 @@
 
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Util2D/Collision/Box2.hpp>
+#include <Ancona/Util/Data.hpp>
 
 namespace ild
 {
@@ -90,6 +91,7 @@ class CollisionComponent
         /* getters and setters */
         CollisionType type();
         BodyTypeEnum bodyType() { return _bodyType; }
+        void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
         BasePhysicsComponent & physicsComponent() { return *_position; }
         const Box2 & box() const { return _dim; }
 

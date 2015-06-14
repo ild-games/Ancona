@@ -4,6 +4,7 @@
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Screens/LoadingScreen.hpp>
+#include <Ancona/Util/Data.hpp>
 
 using namespace ild;
 
