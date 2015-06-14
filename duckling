@@ -15,7 +15,7 @@ python_path = os.path.join(cmake_root,"BuildTools","Python")
 sys.path.append(python_path)
 
 from ild import get_depend,building,generate_mk_file
-from ild.duckling import arg_parser,build_state,tasks
+from ild.duckling import arg_parser,build_state,tasks,template
 
 #Parse the command line arguments
 user_instructions = arg_parser.parse()
@@ -43,3 +43,7 @@ if user_instructions.should_build():
         
 if user_instructions.get_run_target():
     print("Warning: -r is not yet implemented")
+
+if user_instructions.should_template():
+    template_args = user_instructions.get_template()
+    template.start_template(template_args[0], template_args[1])
