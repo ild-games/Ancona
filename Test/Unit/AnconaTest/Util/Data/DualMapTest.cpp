@@ -41,8 +41,16 @@ TEST(DualMap, Delete)
     dualMap.Add("Goodbye", 2);
 
     dualMap.RemoveByKey("Hello");
-    ASSERT_EQ(dualMap.ContainsKey("Hello"), false) << "key is not removed correctly";
-    ASSERT_EQ(dualMap.ContainsValue(1), false) << "value is not removed correctly";
-    ASSERT_EQ(dualMap.ContainsKey("Goodbye"), true) << "incorrect key was removed";
-    ASSERT_EQ(dualMap.ContainsValue(2), true) << "incorrect value was removed";
+    ASSERT_EQ(dualMap.ContainsKey("Hello"), false) << "key is not removed correctly when removing by key";
+    ASSERT_EQ(dualMap.ContainsValue(1), false) << "value is not removed correctly when removing by key";
+    ASSERT_EQ(dualMap.ContainsKey("Goodbye"), true) << "incorrect key was removed when removing by key";
+    ASSERT_EQ(dualMap.ContainsValue(2), true) << "incorrect value was removed when removing by key";
+
+    dualMap.Add("Later", 3);
+
+    dualMap.RemoveByValue(2);
+    ASSERT_EQ(dualMap.ContainsKey("Goodbye"), false) << "key is not removed correctly when removing by value";
+    ASSERT_EQ(dualMap.ContainsValue(2), false) << "value is not removed correctly when removing by value";
+    ASSERT_EQ(dualMap.ContainsKey("Later"), true) << "incorrect key was removed when removing by value";
+    ASSERT_EQ(dualMap.ContainsValue(3), true) << "incorrect value was removed when removing by value";
 }

@@ -46,7 +46,7 @@ class DualMap
         {
             _normal.reset(new std::map<T, V>(normal));
             _reverse.reset(new std::map<V, T>());
-            for(auto normalPair : *_normal)
+            for(auto & normalPair : *_normal)
             {
                 _reverse->insert({normalPair.second, normalPair.first});
             }
@@ -99,7 +99,7 @@ class DualMap
          *
          * @return Associated key.
          */
-        T GetKey(V value)
+        const T & GetKey(V value)
         {
             Assert(ContainsValue(value), "Value does not exist in map");
             return _reverse->at(value);
@@ -112,7 +112,7 @@ class DualMap
          *
          * @return Associated value.
          */
-        V GetValue(T key)
+        const V & GetValue(T key)
         {
             Assert(ContainsKey(key), "Key does not exist in map")
             return _normal->at(key);
