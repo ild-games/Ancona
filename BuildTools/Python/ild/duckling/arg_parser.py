@@ -82,7 +82,6 @@ def create_parser():
 
 class ArgumentInfo:
     def __init__(self, arguments):
-        print(arguments)
         platform,target,documentation,template = create_tuple(arguments)
         self.__build_platform = platform
         self.__run_target = target
