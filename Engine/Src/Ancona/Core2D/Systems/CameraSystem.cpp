@@ -75,6 +75,7 @@ void CameraComponent::FetchDependencies(const Entity & entity)
         _followPhysics = (*_physicsSystem)[_follows];
     }
     _view.setSize(_size);
+    _view.setCenter(0, 0);
     scale(_originalScale);
     _drawableSystem->AddCamera(this);
     if(_default)

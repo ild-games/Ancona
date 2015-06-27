@@ -73,8 +73,8 @@ def create_parser():
 
     parser.add_argument(
             '-t',
-            dest="template",
-            nargs=2,
+            dest='template',
+            nargs='*',
             help=TEMPLATE_FLAG_HELP_TEXT
             )
     
@@ -96,12 +96,12 @@ class ArgumentInfo:
     def should_build(self):
         return (not self.should_generate_documentation()) and (not self.should_template()) and self.get_build_platform()
     def should_template(self):
-        return self.__template and len(self.__template) > 0
+        return self.__template != None
     def get_template(self):
         return self.__template
 
 def create_tuple(arguments):
-    if not arguments.platform and not arguments.target and not arguments.template:
+    if not arguments.platform and not arguments.target and arguments.template == None:
         print("Ancona platform:",DEFAULT_TARGET,"Ancona Target:",None)
         return DEFAULT_TARGET,None,arguments.generate_documentation,arguments.template
     
@@ -117,7 +117,6 @@ def create_tuple(arguments):
     else:
         ancona_target = arguments.target
 
-    print("Ancona platform:",ancona_platform,"Ancona Target:",ancona_target,"Generate documentation:",arguments.generate_documentation)
-    print("Template: ",arguments.template)
+    print("Ancona platform:",ancona_platform,"Ancona Target:",ancona_target,"Generate documentation:",arguments.generate_documentation,"Template:",arguments.template)
     return ancona_platform,ancona_target,arguments.generate_documentation,arguments.template
 

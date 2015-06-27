@@ -17,6 +17,10 @@ Resources
 resources/
 resources
 
+# Ignore generated template folders (that shouldn't ever be present)
+__template__
+__applied__
+
 # Ignore CTags file
 tags
 
