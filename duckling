@@ -25,6 +25,18 @@ duckling_tasks = tasks.Tasks(cmake_root)
 if user_instructions.should_generate_documentation():
     duckling_tasks.generate_documentation()
 
+if user_instructions.should_template():
+    template_args = user_instructions.get_template()
+    gameName = ""
+    gameAbbr = ""
+    if len(template_args) == 2:
+        gameName = template_args[0]
+        gameAbbr = template_args[1]
+    else:
+        gameName = input("Enter the full name of the game (e.g. The Duckling of Time): ")
+        gameAbbr = input("Enter the abbreviation of the game (e.g. DuckTime): ")
+    template.start_template(gameName, gameAbbr)
+
 if user_instructions.should_build():
     with build_state.BuildState(cmake_root, user_instructions) as state:
         if state.build_platform_changed():
@@ -43,15 +55,3 @@ if user_instructions.should_build():
         
 if user_instructions.get_run_target():
     print("Warning: -r is not yet implemented")
-
-if user_instructions.should_template():
-    template_args = user_instructions.get_template()
-    gameName = ""
-    gameAbbr = ""
-    if len(template_args) == 2:
-        gameName = template_args[0]
-        gameAbbr = template_args[1]
-    else:
-        gameName = input("Enter the full name of the game (e.g. The Duckling of Time): ")
-        gameAbbr = input("Enter the abbreviation of the game (e.g. DuckTime): ")
-    template.start_template(gameName, gameAbbr)

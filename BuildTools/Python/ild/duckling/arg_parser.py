@@ -82,6 +82,7 @@ def create_parser():
 
 class ArgumentInfo:
     def __init__(self, arguments):
+        print(arguments)
         platform,target,documentation,template = create_tuple(arguments)
         self.__build_platform = platform
         self.__run_target = target
@@ -94,16 +95,16 @@ class ArgumentInfo:
     def should_generate_documentation(self):
         return self.__generate_documentation
     def should_build(self):
-        return (not self.should_generate_documentation()) and (not self.should_template()) and self.get_build_platform()
+        return (not self.should_generate_documentation()) and self.get_build_platform()
     def should_template(self):
         return self.__template != None
     def get_template(self):
         return self.__template
 
 def create_tuple(arguments):
-    if not arguments.platform and not arguments.target and arguments.template == None:
-        print("Ancona platform:",DEFAULT_TARGET,"Ancona Target:",None)
-        return DEFAULT_TARGET,None,arguments.generate_documentation,arguments.template
+    if not arguments.platform and not arguments.target:
+        print("Ancona platform:",DEFAULT_PLATFORM,"Ancona Target:",None)
+        return DEFAULT_PLATFORM,None,arguments.generate_documentation,arguments.template
     
     if arguments.platform in [None , DO_NOT_BUILD_OPTION]:
         ancona_platform = None
