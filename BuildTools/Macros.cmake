@@ -123,3 +123,16 @@ macro(ancona_add_target target)
     endif(is_platform_match)
 
 endmacro()
+
+# runs add_subdirectory for all directories in current directory
+# ex: SUBDIRLIST(SUBDIRS ${MY_CURRENT_DIR})
+MACRO(SUBDIRLIST result curdir)
+  FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
+  SET(dirlist "")
+  FOREACH(child ${children})
+    IF(IS_DIRECTORY ${curdir}/${child})
+        LIST(APPEND dirlist ${child})
+    ENDIF()
+  ENDFOREACH()
+  SET(${result} ${dirlist})
+ENDMACRO()

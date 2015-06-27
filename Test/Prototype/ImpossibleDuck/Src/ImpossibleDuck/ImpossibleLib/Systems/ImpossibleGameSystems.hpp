@@ -1,12 +1,12 @@
 #ifndef ImpossibleGame_Systems_ImpossibleGameSystems_H_
 #define ImpossibleGame_Systems_ImpossibleGameSystems_H_
 
-#include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/FadeDrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/InputControlSystem.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
+#include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
@@ -54,9 +54,7 @@ class ImpossibleGameSystems : public ScreenSystemsContainer
          * @brief System for managing collisions.
          */
         CollisionSystem * _collision;
-        /**
-         * @brief System for managing collisions.
-         */
+
         FadeDrawableSystem * _fadeDrawable;
         CounterSystem * _counter;
 };

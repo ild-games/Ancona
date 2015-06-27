@@ -19,6 +19,8 @@ RUN_FLAG_HELP_TEXT = "\
 
 DOC_FLAG_HELP = "Include if you want to generate documentation instead of building the game"
 
+TEMPLATE_FLAG_HELP_TEXT = "Generate a template game by specifying the name and abbreviation"
+
 EPILOG_HELP_TEXT = \
         "Running duckling with no arguments will behave as if it was given the -b flag"
 
@@ -68,15 +70,23 @@ def create_parser():
             action="store_true",
             help=DOC_FLAG_HELP
             )
+
+    parser.add_argument(
+            '-t',
+            dest='template',
+            nargs='*',
+            help=TEMPLATE_FLAG_HELP_TEXT
+            )
     
     return parser
 
 class ArgumentInfo:
     def __init__(self, arguments):
-        platform,target,documentation = create_tuple(arguments)
+        platform,target,documentation,template = create_tuple(arguments)
         self.__build_platform = platform
         self.__run_target = target
         self.__generate_documentation = documentation
+        self.__template = template
     def get_build_platform(self):
         return self.__build_platform
     def get_run_target(self):
@@ -85,11 +95,15 @@ class ArgumentInfo:
         return self.__generate_documentation
     def should_build(self):
         return (not self.should_generate_documentation()) and self.get_build_platform()
+    def should_template(self):
+        return self.__template != None
+    def get_template(self):
+        return self.__template
 
 def create_tuple(arguments):
     if not arguments.platform and not arguments.target:
-        print("Ancona platform:",DEFAULT_TARGET,"Ancona Target:",None)
-        return DEFAULT_TARGET,None,arguments.generate_documentation
+        print("Ancona platform:",DEFAULT_PLATFORM,"Ancona Target:",None)
+        return DEFAULT_PLATFORM,None,arguments.generate_documentation,arguments.template
     
     if arguments.platform in [None , DO_NOT_BUILD_OPTION]:
         ancona_platform = None
@@ -103,7 +117,6 @@ def create_tuple(arguments):
     else:
         ancona_target = arguments.target
 
-    print("Ancona platform:",ancona_platform,"Ancona Target:",ancona_target,"Generate documentation:",arguments.generate_documentation)
-    return ancona_platform,ancona_target,arguments.generate_documentation
+    print("Ancona platform:",ancona_platform,"Ancona Target:",ancona_target,"Generate documentation:",arguments.generate_documentation,"Template:",arguments.template)
+    return ancona_platform,ancona_target,arguments.generate_documentation,arguments.template
 
-    

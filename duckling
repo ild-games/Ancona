@@ -15,7 +15,7 @@ python_path = os.path.join(cmake_root,"BuildTools","Python")
 sys.path.append(python_path)
 
 from ild import get_depend,building,generate_mk_file
-from ild.duckling import arg_parser,build_state,tasks
+from ild.duckling import arg_parser,build_state,tasks,template
 
 #Parse the command line arguments
 user_instructions = arg_parser.parse()
@@ -24,6 +24,21 @@ duckling_tasks = tasks.Tasks(cmake_root)
 
 if user_instructions.should_generate_documentation():
     duckling_tasks.generate_documentation()
+
+if user_instructions.should_template():
+    template_args = user_instructions.get_template()
+    gameName = ""
+    gameAbbr = ""
+    if len(template_args) == 2:
+        gameName = template_args[0]
+        gameAbbr = template_args[1]
+    else:
+        gameName = input("Enter the full name of the game (e.g. The Duckling of Time): ")
+        gameAbbr = input("Enter the abbreviation of the game (e.g. DuckTime): ")
+    succeeded = template.start_template(gameName, gameAbbr)
+    if not succeeded:
+        print("Template generation proccess failed or was aborted, goodbye.")
+        sys.exit()
 
 if user_instructions.should_build():
     with build_state.BuildState(cmake_root, user_instructions) as state:
