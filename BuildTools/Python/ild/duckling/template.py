@@ -16,10 +16,12 @@ TEMPLATE_GIT_REPO = 'git@bitbucket.org:ilikeducks/ancona-template-game.git'
 # @param game_name Name of the game being generated.
 # @param game_abbr Abbreviation of the game being generated.
 # 
-# @returns true if template generation succeeded, otherwise false
+# @returns true if template generation succeeded, otherwise false. If failed because of a crash, will also
+# return the exception raised.
 def start_template(game_name, game_abbr):
     if game_name == "" or game_abbr == "":
-        return False
+        return False,None
+    error = None
     
     game_full_name = game_name
     game_name = ''.join(game_name.split(' '))
@@ -27,19 +29,17 @@ def start_template(game_name, game_abbr):
         prep_work()
         templatize_project(game_name, game_full_name, game_abbr)
         succeeded = create_prototype_folder(game_name)
-    except:
+    except Exception as err_exception:
         succeeded = False
+        error = err_exception
     finally:
-        clean_up(game_name) 
-    return succeeded
+        clean_up()
+    return succeeded,error
 
 ##
 # @brief Does preperation work for the prototype generation process.
 def prep_work():
-    if os.path.exists('__applied__'):
-        shutil.rmtree('__applied__')
-    if os.path.exists('__template__'):
-        shutil.rmtree('__template__')
+    remove_temp_directories()
     os.system('git clone ' + TEMPLATE_GIT_REPO + ' __template__')
 
 ##
@@ -116,11 +116,13 @@ def create_prototype_folder(game_name):
 
 ##
 # @brief Cleans up temporary folders used by the generation process.
-#
-# @param game_name Name of the game being generated.
-def clean_up(game_name):
+def clean_up():
+    remove_temp_directories()
+
+##
+# @brief removes temporary directories used by the generation process.
+def remove_temp_directories():
     if os.path.exists('__template__'):
         shutil.rmtree('__template__')
     if os.path.exists('__applied__'):
         shutil.rmtree('__applied__')
-

@@ -35,9 +35,12 @@ if user_instructions.should_template():
     else:
         gameName = input("Enter the full name of the game (e.g. The Duckling of Time): ")
         gameAbbr = input("Enter the abbreviation of the game (e.g. DuckTime): ")
-    succeeded = template.start_template(gameName, gameAbbr)
+    succeeded,err = template.start_template(gameName, gameAbbr)
     if not succeeded:
-        print("Template generation proccess failed or was aborted, goodbye.")
+        if err:
+            print('Template generation process failed: {0}'.format(str(err)))
+        else:
+            print("Template generation was aborted, goodbye.")
         sys.exit()
 
 if user_instructions.should_build():
