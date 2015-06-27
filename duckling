@@ -35,7 +35,10 @@ if user_instructions.should_template():
     else:
         gameName = input("Enter the full name of the game (e.g. The Duckling of Time): ")
         gameAbbr = input("Enter the abbreviation of the game (e.g. DuckTime): ")
-    template.start_template(gameName, gameAbbr)
+    succeeded = template.start_template(gameName, gameAbbr)
+    if not succeeded:
+        print("Template generation proccess failed or was aborted, goodbye.")
+        sys.exit()
 
 if user_instructions.should_build():
     with build_state.BuildState(cmake_root, user_instructions) as state:

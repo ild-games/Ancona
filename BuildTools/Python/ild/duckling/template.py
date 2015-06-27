@@ -15,15 +15,23 @@ TEMPLATE_GIT_REPO = 'git@bitbucket.org:ilikeducks/ancona-template-game.git'
 #
 # @param game_name Name of the game being generated.
 # @param game_abbr Abbreviation of the game being generated.
+# 
+# @returns true if template generation succeeded, otherwise false
 def start_template(game_name, game_abbr):
+    if game_name == "" or game_abbr == "":
+        return False
+    
     game_full_name = game_name
     game_name = ''.join(game_name.split(' '))
     try:
         prep_work()
         templatize_project(game_name, game_full_name, game_abbr)
-        create_prototype_folder(game_name)
+        succeeded = create_prototype_folder(game_name)
+    except:
+        succeeded = False
     finally:
         clean_up(game_name) 
+    return succeeded
 
 ##
 # @brief Does preperation work for the prototype generation process.
@@ -51,6 +59,8 @@ def templatize_project(game_name, game_full_name, game_abbr):
 # itself is a dotfile
 #
 # @param file File to examine, can include any amount of its path.
+#
+# @returns True if the file or any of directories in its path begin with '.', otherwise false.
 def includes_dot_files_or_directories(file):
     return ildlib.any_map(lambda path_part: path_part.startswith('.'), file.split(os.sep))
 
@@ -90,6 +100,8 @@ def apply_template_to_file(file, game_name, game_full_name, game_abbr):
 # @brief Creates the folder the prototype will live in.
 #
 # @param game_name Name of the game being generated.
+#
+# @returns True if protoype was successfully made, otherwise false
 def create_prototype_folder(game_name):
     project_path = 'Test/Prototype/' + game_name + '/'
 
@@ -100,6 +112,7 @@ def create_prototype_folder(game_name):
             shutil.rmtree(project_path)
     if keep_going:
         shutil.copytree('__applied__', 'Test/Prototype/' + game_name)
+    return keep_going
 
 ##
 # @brief Cleans up temporary folders used by the generation process.
