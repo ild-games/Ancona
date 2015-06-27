@@ -1,2 +1,4 @@
-add_subdirectory(JumpyDuck)
-add_subdirectory(ImpossibleDuck)
+SUBDIRLIST(SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
+FOREACH(subdir ${SUBDIRS})
+    ADD_SUBDIRECTORY(${subdir})
+ENDFOREACH()
