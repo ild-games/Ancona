@@ -16,10 +16,11 @@ TEMPLATE_GIT_REPO = 'git@bitbucket.org:ilikeducks/ancona-template-game.git'
 # @param game_name Name of the game being generated.
 # @param game_abbr Abbreviation of the game being generated.
 def start_template(game_name, game_abbr):
+    game_full_name = game_name
     game_name = ''.join(game_name.split(' '))
     try:
         prep_work()
-        templatize_project(game_name, game_abbr)
+        templatize_project(game_name, game_full_name, game_abbr)
         create_prototype_folder(game_name)
     finally:
         clean_up(game_name) 
@@ -37,12 +38,13 @@ def prep_work():
 # @brief Creates the prototype's files and replaces template variable instances to prototype info.
 #
 # @param game_name Name of the game being generated.
+# @param game_full_name Name as it was exactly entered by the user (includes spaces).
 # @param game_abbr Abbrevation of the game being generated.
-def templatize_project(game_name, game_abbr):
+def templatize_project(game_name, game_full_name, game_abbr):
     template_files = stream.Stream(sscript.walk_files('__template__')) \
             .filter(lambda file: not includes_dot_files_or_directories(file))
     for old_file in template_files:
-        move_file_to_applied(old_file, game_name, game_abbr)
+        move_file_to_applied(old_file, game_name, game_full_name, game_abbr)
 
 ##
 # @brief Examines a file and its path and determines if there are any dot directories in its path or if
@@ -57,27 +59,30 @@ def includes_dot_files_or_directories(file):
 #
 # @param old_file current file being moved to the applied folder
 # @param game_name Name of the game being generated.
+# @param game_full_name Name as it was exactly entered by the user (includes spaces).
 # @param game_abbr Abbreviation of the game being generated.
-def move_file_to_applied(old_file, game_name, game_abbr):
+def move_file_to_applied(old_file, game_name, game_full_name, game_abbr):
     new_file = old_file \
                 .replace('$!GAME_ABBR!$', game_abbr) \
                 .replace('$!GAME_NAME!$', game_name) \
+                .replace('$!GAME_FULL_NAME!$', game_full_name) \
                 .replace('__template__', '__applied__')
     if not os.path.exists(os.path.dirname(new_file)):
         os.makedirs(os.path.dirname(new_file))
     shutil.copyfile(old_file, new_file)
 
-    apply_template_to_file(new_file, game_name, game_abbr)
+    apply_template_to_file(new_file, game_name, game_full_name, game_abbr)
 
 ##
 # @brief Applies the template replacement logic to a given file.
 #
 # @param file File to apply the template logic to.
 # @param game_name Name of the game being generated.
+# @param game_full_name Name as it was exactly entered by the user (includes spaces).
 # @param game_abbr Abbreviation of the game being generated.
-def apply_template_to_file(file, game_name, game_abbr):
+def apply_template_to_file(file, game_name, game_full_name, game_abbr):
     template = pyratemp.Template(filename=file)
-    result = template(GAME_NAME=game_name, GAME_ABBR=game_abbr)
+    result = template(GAME_NAME=game_name, GAME_FULL_NAME=game_full_name, GAME_ABBR=game_abbr)
     with open(file, "wt") as out_file:
         out_file.write(result)
 
