@@ -62,7 +62,6 @@ endmacro()
 
 macro(create_android_mk_file target)
     cmake_parse_arguments(ARGS "" "" "SRC;STATIC_LIBS;DYNAMIC_LIBS;INCLUDES" ${ARGN})
-    execute_process(COMMAND echo test testtout.txt)
     execute_process(COMMAND python3 ${CMAKE_SOURCE_DIR}/BuildTools/Python/ild/generate_mk_file.py ${target} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} -s ${ARGS_SRC} -d ${ARGS_DYNAMIC_LIBS} -l ${ARGS_STATIC_LIBS} -i ${CMAKE_SOURCE_DIR}/Src ${ARGS_INCLUDES})
 endmacro()
 

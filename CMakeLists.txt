@@ -55,9 +55,11 @@ include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 
-#Find Jsoncpp library
-find_package(JsonCpp)
-include_directories(${Jsoncpp_INCLUDE_DIR})
+#Find Jsoncpp library if building for desktop
+if(NOT ANDROID)
+    find_package(JsonCpp)
+    include_directories(${Jsoncpp_INCLUDE_DIR})
+endif(NOT ANDROID)
 
 #Include the engine and game headers
 include_directories(Game/Src/ Engine/Src)

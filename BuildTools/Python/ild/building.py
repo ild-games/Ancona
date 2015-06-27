@@ -105,7 +105,7 @@ def get_patch(cmake_dir,patch_name):
 # @param patch Absolute path to a patch file that should be applied
 #
 # @return Absolute path to the cloned repository
-def get_git_repo(cmake_dir,repo_name, giturl,tag,patch=None):
+def get_git_repo(cmake_dir,repo_name, giturl,tag=None,patch=None):
     destination = get_lib_dir(cmake_dir,repo_name)
     #Only clone the repo if it does not exist already
     if not os.path.isdir(destination):

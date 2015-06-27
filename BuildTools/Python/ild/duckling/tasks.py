@@ -34,5 +34,3 @@ class Tasks:
     # @param platform Platform that is being built for.
     def build_ancona(self, platform):
         building.generate_ancona_build(self.project_root, platform)
-
-
