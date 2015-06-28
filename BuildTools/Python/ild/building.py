@@ -1,18 +1,10 @@
-import os,sys
+import os,sys,functools
 
-TOOL_CHAINS = {"android": "android.toolchain.cmake"}
-
-def get_toolchain(cmake_dir, platform):
-    platform = platform.lower()
-    if platform in TOOL_CHAINS:
-        return os.path.join(cmake_dir,"BuildTools","Toolchain",TOOL_CHAINS[platform])
-    return ""
-
-def generate_ancona_build(cmake_dir, platform):
+def generate_ancona_build(cmake_dir, platform, target_architecture):
     build_cmake_project(
             cmake_dir,
             os.path.join(cmake_dir,"build"),
-            get_toolchain(cmake_dir,platform)
+            platform.get_cmake_args(target_architecture)
             )
 
 ##
@@ -148,16 +140,14 @@ def is_android_ndk_installed():
 #
 # @param src_dir Root of the cmake directory for the project
 # @param build_dir Directory that the project should be built in
-# @param toolchain_file (OPTIONAL) Toolchain file that will be used to build the project
+# @param cmake_args (OPTIONAL) List of tuples of cmake arguments
 # @param install (OPTIONAL) If true make install will be run after the build
-def build_cmake_project(src_dir, build_dir, toolchain_file,install=False):
+def build_cmake_project(src_dir, build_dir, cmake_args=[], install=False):
     os.makedirs(build_dir,exist_ok=True)
     with DirContext(build_dir):
-        if toolchain_file:
-            #TODO: Make this command less hacky
-            cmake_cmd = "cmake -DCMAKE_TOOLCHAIN_FILE={} -DANDROID_ABI=armeabi -DANDROID_STL=gnustl_static -DANDROID_NATIVE_API_LEVEL=android-9 {}".format(toolchain_file,src_dir)
-        else:
-            cmake_cmd = "cmake {}".format(src_dir)
+        cmake_args_str = functools.reduce(lambda arg_str, arg: arg_str + " -D" + arg[0] + "=" + arg[1], cmake_args, "") 
+        cmake_cmd = "cmake {} {}".format(cmake_args_str, src_dir)
+        print("BUILD_CMAKE_PROJECT!!!!", cmake_cmd)
         command(cmake_cmd)
         command("make -j5")
 

@@ -11,7 +11,7 @@ class Dependency:
     def build(self):
         src_dir = self.get_src_dir()
         full_build_dir = os.path.join(src_dir, self.get_build_dir())
-        building.build_cmake_project(src_dir, full_build_dir, self.build_info.toolchain_file)
+        building.build_cmake_project(src_dir, full_build_dir, self.build_info.platform.get_cmake_args(self.build_info.target_architecture))
 
     def move_includes(self):
         full_inc_dir = os.path.join(self.get_src_dir(), self.get_include_dir())
@@ -30,7 +30,6 @@ class Dependency:
             self.move_binaries()
         else:
             print("{0} is already installed for this platform".format(self.get_name()))
-
 
     def get_build_dir(self):
         return os.path.join("build", self.build_info.target_platform, self.build_info.target_architecture)

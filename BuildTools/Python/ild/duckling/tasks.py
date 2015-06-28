@@ -2,6 +2,9 @@ import os
 
 from ild import building
 from ild.dependency import get_depend
+from ild.platform.platform import *
+from ild.platform.system import *
+from ild.platform.android import *
 
 ##
 # @brief File that contains the different tasks that duckling can
@@ -10,6 +13,7 @@ from ild.dependency import get_depend
 # @author Jeff Swenson
 
 class Tasks:
+    PLATFORMS = { "desktop": System, "android": Android }
 
     def __init__(self, project_root):
         self.project_root = project_root
@@ -26,12 +30,16 @@ class Tasks:
 
     ##
     # @brief Download and build dependencies for a specified platform
-    def get_dependencies(self, platform):
+    def get_dependencies(self, platform_name):
+        platform = self.PLATFORMS[platform_name](self.project_root)
         get_depend.main(self.project_root, platform)
 
     ##
     # @brief Build the Ancona based game for the given platform.
     #
     # @param platform Platform that is being built for.
-    def build_ancona(self, platform):
-        building.generate_ancona_build(self.project_root, platform)
+    def build_ancona(self, platform_name, target_architecture=None):
+        platform = self.PLATFORMS[platform_name](self.project_root)
+        if not target_architecture:
+            target_architecture = platform.get_default_architecture()
+        building.generate_ancona_build(self.project_root, platform, target_architecture)
