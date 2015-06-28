@@ -98,21 +98,19 @@ def get_patch(cmake_dir,patch_name):
 ##
 # @brief Clone a git repo into the libs folder
 #
-# @param cmake_dir Root directory of the CMake build
-# @param repo_name Name of the repo to clone (EX "SFML")
+# @param dest_dir Destination of the git repo
 # @param giturl URL of the repo to clone
 # @param tag Tag of the repo to clone
 # @param patch Absolute path to a patch file that should be applied
 #
 # @return Absolute path to the cloned repository
-def get_git_repo(cmake_dir,repo_name, giturl,tag=None,patch=None):
-    destination = get_lib_dir(cmake_dir,repo_name)
+def get_git_repo(dest_dir, giturl,tag=None,patch=None):
     #Only clone the repo if it does not exist already
-    if not os.path.isdir(destination):
+    if not os.path.isdir(dest_dir):
         #Create the directory the repository will be cloned to
-        os.makedirs(destination,exist_ok=True)
-        print("Cloning repo into {}!".format(destination))
-        with DirContext(destination):
+        os.makedirs(dest_dir,exist_ok=True)
+        print("Cloning repo into {}!".format(dest_dir))
+        with DirContext(dest_dir):
             print("Cloning in directory",os.getcwd())
             #Clone the repo into the directory
             command("git clone {} .".format(giturl)) 
@@ -120,8 +118,8 @@ def get_git_repo(cmake_dir,repo_name, giturl,tag=None,patch=None):
                 #Checkout the correct tag
                 command("git checkout tags/{}".format(tag))
             if patch:
-                apply_git_patch(destination,patch)
-    return destination
+                apply_git_patch(dest_dir,patch)
+    return dest_dir
 
 ##
 # @brief Check if all of the tools needed by the Android NDK are installed.

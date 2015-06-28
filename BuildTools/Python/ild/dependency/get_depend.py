@@ -14,23 +14,11 @@ if __name__ == "__main__":
     sys.path.append(python_dir)
 
 from ild.building import *
+from ild.dependency.jsoncpp import *
+from ild.dependency.sfml import *
+from ild.dependency.build_info import *
 
-
-# Dependency format:
-# { 
-#     "name": name,
-#     "repo": [url, tag (optional)]
-# }
-DEPENDENCIES = [ \
-    { \
-        "name": "SFML", \
-        "repo": ["git@bitbucket.org:JeffSwenson/sfml.git", "2.2"] \
-    }, \
-    { \
-        "name": "JsonCpp", \
-        "repo": ["https://github.com/open-source-parsers/jsoncpp.git"] \
-    } \
-]
+DEPENDENCIES = [ JsonCpp, SFML ]
 
 
 ##
@@ -39,38 +27,27 @@ DEPENDENCIES = [ \
 # @param cmake_dir CMake directory
 # @param platform Target platform to install on
 def main(cmake_dir, platform):
-    install_dependencies(DEPENDENCIES, cmake_dir, platform)
+    build_info = BuildInfo(cmake_dir)
+    install_dependencies(DEPENDENCIES, build_info)
 
 ##
 # @brief installs all the dependencies specified in DEPENDENCIES
 # 
 # @param dependencies The dependencies to install
-# Dependency format:
-# { 
-#     "name": name,
-#     "repo": [url, tag (optional)]
-# }
-# @param cmake_dir CMake directory
-# @param platform Target platform to install on
-def install_dependencies(dependencies, cmake_dir, platform):
+# @param build_info BuildInfo instance for the dependencies
+def install_dependencies(dependencies, build_info): 
     for dependency in DEPENDENCIES:
-        install_dependency(dependency, cmake_dir, platform)
+        dependency(build_info).install()
     
 ##
 # @brief Install a specific dependency
 # 
 # @param dependency_info The dependency to install
-# Dependency format:
-# { 
-#     "name": name,
-#     "repo": [url, tag (optional)]
-# }
 # @param cmake_dir CMake directory
 # @param platform Target platform to install on
 def install_dependency(dependency_info, cmake_dir, platform):
     if not dependency_installed(get_lib_dir(cmake_dir,dependency_info["name"]),platform):
-        git_repo = get_git_repo(cmake_dir, dependency_info["name"], *dependency_info["repo"])
-        build_dependency(git_repo, cmake_dir, platform)
+        build_dependency(#TODO)
     else:
         print("{0} is already installed for this platform".format(dependency_info["name"]))
 
@@ -89,17 +66,6 @@ def dependency_installed(lib_src,platform):
 # @param platform Target platform to install on
 def get_build_dir(lib_src, platform):
     return os.path.join(lib_src,"build",platform)
-
-##
-# @brief Builds the dependency
-#
-# @param lib_src library source path for dependency
-# @param cmake_dir CMake directory
-# @param platform Target platform to install on
-def build_dependency(lib_src, cmake_dir, platform):
-    build_dir = get_build_dir(lib_src,platform)
-    toolchain = get_toolchain(cmake_dir, platform)
-    build_cmake_project(lib_src,build_dir,toolchain,install=True)
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
