@@ -19,6 +19,7 @@ from ild.dependency.sfml import *
 from ild.dependency.build_info import *
 
 DEPENDENCIES = [ JsonCpp, SFML ]
+DEPENDENCIES = [ ]
 
 
 ##
@@ -27,6 +28,7 @@ DEPENDENCIES = [ JsonCpp, SFML ]
 # @param cmake_dir CMake directory
 # @param platform Target platform to install on
 def main(cmake_dir, platform):
+    #TODO implement platform
     build_info = BuildInfo(cmake_dir)
     install_dependencies(DEPENDENCIES, build_info)
 
@@ -39,26 +41,6 @@ def install_dependencies(dependencies, build_info):
     for dependency in DEPENDENCIES:
         dependency(build_info).install()
     
-##
-# @brief Install a specific dependency
-# 
-# @param dependency_info The dependency to install
-# @param cmake_dir CMake directory
-# @param platform Target platform to install on
-def install_dependency(dependency_info, cmake_dir, platform):
-    if not dependency_installed(get_lib_dir(cmake_dir,dependency_info["name"]),platform):
-        build_dependency(#TODO)
-    else:
-        print("{0} is already installed for this platform".format(dependency_info["name"]))
-
-##
-# @brief Checks if a given dependency is already installed
-# 
-# @param lib_src library source path for dependency
-# @param platform Target platform to install on
-def dependency_installed(lib_src,platform):
-    return os.path.isdir(get_build_dir(lib_src,platform))
-
 ##
 # @brief Gets the build directory for a given library source path
 # 

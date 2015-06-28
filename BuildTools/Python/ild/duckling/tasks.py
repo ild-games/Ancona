@@ -1,6 +1,7 @@
 import os
 
-from ild import building,get_depend
+from ild import building
+from ild.dependency import get_depend
 
 ##
 # @brief File that contains the different tasks that duckling can
@@ -24,9 +25,9 @@ class Tasks:
         building.command("rm -rf build/*",directory=self.project_root)
 
     ##
-    # @brief Download and build dependencies for an Android build
-    def get_android_dependencies(self):
-        get_depend.main(self.project_root, "Android")
+    # @brief Download and build dependencies for a specified platform
+    def get_dependencies(self, platform):
+        get_depend.main(self.project_root, platform)
 
     ##
     # @brief Build the Ancona based game for the given platform.

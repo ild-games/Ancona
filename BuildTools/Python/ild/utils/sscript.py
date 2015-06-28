@@ -1,4 +1,4 @@
-import os
+import os, shutil
 
 ##
 # @brief Get an iterator that recursively walks over all of the files in
@@ -41,3 +41,12 @@ def input_yn(question, default="yes"):
             return valid[choice]
         else:
             print("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
+
+def merge_copy(src_dir, dest_dir):
+    for directory,child_directories,files in os.walk(src_dir):
+        sub_dest_dir = os.path.join(dest_dir, os.path.relpath(directory, src_dir))
+        print("MERG_ECOP{Y: ", sub_dest_dir)
+
+        os.makedirs(sub_dest_dir, exist_ok=True)
+        for file_name in files:
+            shutil.copy(os.path.join(directory, file_name), os.path.join(sub_dest_dir, file_name))

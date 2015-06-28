@@ -1,3 +1,5 @@
+from ild.dependency.dependency import *
+
 class SFML(Dependency):
     def get_name(self):
         return "SFML"

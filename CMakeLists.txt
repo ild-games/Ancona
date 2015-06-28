@@ -9,6 +9,7 @@ include(BuildTools/Macros.cmake)
 option(BuildPrototypes "BuildPrototypes" ON)
 option(BuildTests "BuildTests" ON)
 
+
 # Set variables to indicate the build platform
 # There will be one platform variable defined and one form factor variable defined
 # 
@@ -51,18 +52,16 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif()
 
+include_directories(BEFORE dependency/include)
+#TODO configure platform/architecure (where system/system is)
+link_directories(dependency/lib/system/system)
+
 include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 
-#Find Jsoncpp library if building for desktop
-if(NOT ANDROID)
-    find_package(JsonCpp)
-    include_directories(${Jsoncpp_INCLUDE_DIR})
-endif(NOT ANDROID)
-if(ANDROID)
-    set(Jsoncpp_LIBRARY jsoncpp)
-endif(ANDROID)
+#Add jsoncpp
+set(Jsoncpp_LIBRARY jsoncpp)
 
 #Include the engine and game headers
 include_directories(Game/Src/ Engine/Src)

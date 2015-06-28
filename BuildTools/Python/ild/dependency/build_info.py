@@ -14,4 +14,4 @@ class BuildInfo:
         return os.path.join(self.src_dir, dependency_name)
 
     def get_lib_dir(self):
-        return os.path.join(self.bin_dest_dir, self.target_platform(), self.target_architecture())
+        return os.path.join(self.bin_dest_dir, self.target_platform, self.target_architecture)
