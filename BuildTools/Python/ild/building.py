@@ -147,7 +147,6 @@ def build_cmake_project(src_dir, build_dir, cmake_args=[], install=False):
     with DirContext(build_dir):
         cmake_args_str = functools.reduce(lambda arg_str, arg: arg_str + " -D" + arg[0] + "=" + arg[1], cmake_args, "") 
         cmake_cmd = "cmake {} {}".format(cmake_args_str, src_dir)
-        print("BUILD_CMAKE_PROJECT!!!!", cmake_cmd)
         command(cmake_cmd)
         command("make -j5")
 
