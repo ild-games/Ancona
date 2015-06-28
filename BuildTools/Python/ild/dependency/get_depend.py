@@ -19,7 +19,6 @@ from ild.dependency.sfml import *
 from ild.dependency.build_info import *
 
 DEPENDENCIES = [ JsonCpp, SFML ]
-DEPENDENCIES = [ ]
 
 
 ##
