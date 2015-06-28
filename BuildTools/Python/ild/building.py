@@ -37,11 +37,12 @@ class DirContext:
 #
 # @return 
 def command(cmd,directory=None):
+    exit_code = 0
     if directory:
         with DirContext(directory):
-            os.system(cmd)
+            exit_code = os.system(cmd)
     else:
-        os.system(cmd)
+        exit_code = os.system(cmd)
 
 ##
 # @brief Get the directory libraries are downloaded to
@@ -157,10 +158,8 @@ def build_cmake_project(src_dir, build_dir, toolchain_file,install=False):
             cmake_cmd = "cmake -DCMAKE_TOOLCHAIN_FILE={} -DANDROID_ABI=armeabi -DANDROID_STL=gnustl_static -DANDROID_NATIVE_API_LEVEL=android-9 {}".format(toolchain_file,src_dir)
         else:
             cmake_cmd = "cmake {}".format(src_dir)
-        os.system(cmake_cmd)
+        command(cmake_cmd)
         command("make -j5")
-        if install:
-            command("make install")
 
 ##
 # @brief Generate doxygen documentation

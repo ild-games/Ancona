@@ -1,11 +1,13 @@
 import os
 
 class BuildInfo:
+    EXTLIB_DIR = "extlibs"
+
     def __init__(self, proj_dir, src_dir=None, inc_dest_dir=None, bin_dest_dir=None, toolchain_file=None, target_platform=None, target_architecture=None):
         self.proj_dir = proj_dir
-        self.src_dir = src_dir or os.path.join(proj_dir, "depedency", "src")
-        self.inc_dest_dir = inc_dest_dir or os.path.join(proj_dir, "depedency", "include")
-        self.bin_dest_dir = bin_dest_dir or os.path.join(proj_dir, "depedency", "lib")
+        self.src_dir = src_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "src")
+        self.inc_dest_dir = inc_dest_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "include")
+        self.bin_dest_dir = bin_dest_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "lib")
         self.toolchain_file = toolchain_file
         self.target_platform = target_platform or "system"
         self.target_architecture = target_architecture or "system"

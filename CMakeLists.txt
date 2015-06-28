@@ -52,9 +52,9 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif()
 
-include_directories(BEFORE dependency/include)
+include_directories(BEFORE extlibs/include)
 #TODO configure platform/architecure (where system/system is)
-link_directories(dependency/lib/system/system)
+link_directories(extlibs/lib/system/system)
 
 include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
