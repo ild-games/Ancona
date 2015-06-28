@@ -60,6 +60,9 @@ if(NOT ANDROID)
     find_package(JsonCpp)
     include_directories(${Jsoncpp_INCLUDE_DIR})
 endif(NOT ANDROID)
+if(ANDROID)
+    set(Jsoncpp_LIBRARY jsoncpp)
+endif(ANDROID)
 
 #Include the engine and game headers
 include_directories(Game/Src/ Engine/Src)

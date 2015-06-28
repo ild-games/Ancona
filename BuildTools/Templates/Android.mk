@@ -39,6 +39,7 @@ LOCAL_SHARED_LIBRARIES += sfml-window
 LOCAL_SHARED_LIBRARIES += sfml-graphics
 LOCAL_SHARED_LIBRARIES += sfml-audio
 LOCAL_SHARED_LIBRARIES += sfml-network
+LOCAL_SHARED_LIBRARIES += jsoncpp
 <!--(for lib in dynamic_libraries)-->
 LOCAL_SHARED_LIBRARIES += $!lib!$
 <!--(end)-->
