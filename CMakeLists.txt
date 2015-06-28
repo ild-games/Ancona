@@ -54,7 +54,6 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 include_directories(BEFORE extlibs/include)
-#TODO configure platform/architecure (where system/system is)
 link_directories(${CMAKE_SOURCE_DIR}/extlibs/lib/${PLATFORM_NAME}/${ARCHITECTURE_NAME})
 
 include(BuildTools/FindLibs.cmake)

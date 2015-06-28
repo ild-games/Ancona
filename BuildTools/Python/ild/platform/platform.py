@@ -18,6 +18,8 @@ class Platform:
 
     def get_cmake_args(self, target_architecture):
         args = []
+        args.append(("PLATFORM_NAME", self.get_name()))
+        args.append(("ARCHITECTURE_NAME", target_architecture))
         if self.get_toolchain_file():
             args.append(("CMAKE_TOOLCHAIN_FILE", self.build_toolchain_file_arg()))
         return args
