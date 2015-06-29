@@ -12,9 +12,11 @@ if(DESKTOP)
     set(ImpossibleSrc Src/ImpossibleDuck/Platforms/Desktop/main.cpp)
 endif(DESKTOP)
 
-ancona_add_target(ImpossibleDuckProto LINK_SFML
+ancona_add_target(ImpossibleDuckProto
     SRC ${ImpossibleSrc}
-    STATIC_LIBS  Impossible_Lib ${Ancona_Libs}
+    DYNAMIC_DEPEND_LIBS ${SFML_DYNAMIC}
+    STATIC_DEPEND_LIBS JsonCpp ${SFML_STATIC}
+    STATIC_PROJECT_LIBS Impossible_Lib ${Ancona_Libs}
     PLATFORMS ANDROID DESKTOP
     INCLUDES ${CMAKE_CURRENT_LIST_DIR}/ImpossibleLib)
 

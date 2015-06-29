@@ -61,8 +61,17 @@ macro(ancona_platform_glob)
 endmacro()
 
 macro(create_android_mk_file target)
-    cmake_parse_arguments(ARGS "" "" "SRC;STATIC_LIBS;DYNAMIC_LIBS;INCLUDES" ${ARGN})
-    execute_process(COMMAND python3 ${CMAKE_SOURCE_DIR}/BuildTools/Python/ild/generate_mk_file.py ${target} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} -s ${ARGS_SRC} -d ${ARGS_DYNAMIC_LIBS} -l ${ARGS_STATIC_LIBS} -i ${CMAKE_SOURCE_DIR}/Src ${ARGS_INCLUDES})
+    cmake_parse_arguments(ARGS "" "" "SRC;PLATFORMS;STATIC_PROJECT_LIBS;DYNAMIC_PROJECT_LIBS;STATIC_DEPEND_LIBS;DYNAMIC_DEPEND_LIBS;INCLUDES" ${ARGN})
+    execute_process(COMMAND python3 ${CMAKE_SOURCE_DIR}/BuildTools/Python/ild/generate_mk_file.py
+        ${target} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} 
+        -s ${ARGS_SRC} 
+        -d-dep ${ARGS_DYNAMIC_DEPEND_LIBS} 
+        -l-dep ${ARGS_STATIC_DEPEND_LIBS} 
+        -d-prj ${ARGS_DYNAMIC_PROJECT_LIBS}
+        -l-prj ${ARGS_STATIC_PROJECT_LIBS}
+        -i ${CMAKE_SOURCE_DIR}/Src ${EXT_INCLUDE}
+        -lib ${EXT_DEP_DIR}
+        ${ARGS_INCLUDES})
 endmacro()
 
 # ex: ancona_add_target(flappy_demo
@@ -71,7 +80,7 @@ endmacro()
 # INCLUDES /Abs/Paths/To/Add/To/Includes
 # PLATFORMS ALL)
 macro(ancona_add_target target)
-    cmake_parse_arguments(ARGS "LINK_SFML" "" "SRC;STATIC_PROJECT_LIBS;DYNAMIC_PROJECT_LIBS;STATIC_DEPEND_LIBS;DYNAMIC_DEPEND_LIBS;PLATFORMS;INCLUDES" ${ARGN})
+    cmake_parse_arguments(ARGS "" "" "SRC;STATIC_PROJECT_LIBS;DYNAMIC_PROJECT_LIBS;STATIC_DEPEND_LIBS;DYNAMIC_DEPEND_LIBS;PLATFORMS;INCLUDES" ${ARGN})
 
     ancona_match_platform(is_platform_match ${ARGS_PLATFORMS})
 
@@ -86,12 +95,8 @@ macro(ancona_add_target target)
                 target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
             endif(ARGS_INCLUDES)
 
-            #Link libraries
-            if(ARGS_LINK_SFML)
-                target_link_libraries(${target} ${ARGS_STATIC_LIBS} ${ARGS_DYNAMIC_LIBS} ${SFML_LIBS})
-            else(ARGS_LINK_SFML)
-                target_link_libraries(${target} ${ARGS_STATIC_LIBS} ${ARGS_DYNAMIC_LIBS})
-            endif(ARGS_LINK_SFML)
+            target_link_libraries(${target} ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
+                ${ARGS_STATIC_DYNAMIC_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
             
         endif(DESKTOP)
 
@@ -111,7 +116,7 @@ macro(ancona_add_target target)
                 DYNAMIC_PROJECT_LIBS ${ARGS_DYNAMIC_PROJECT_LIBS}
                 STATIC_DEPEND_LIBS ${ARGS_STATIC_DEPEND_LIBS}
                 DYNAMIC_DEPEND_LIBS ${ARGS_DYNAMIC_DEPEND_LIBS}
-                INCLUDES ${ARGS_INCLUDES})
+                INCLUDES ${EXT_LIB_INCLUDE} ${ARGS_INCLUDES})
 
             #TODO: Determine if this is the correct way to handle dependencies
             add_custom_target(Android_Build_${target} ALL DEPENDS ${ARGS_STATIC_LIBS}

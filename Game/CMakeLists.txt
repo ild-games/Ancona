@@ -2,7 +2,9 @@ add_subdirectory(Src/Mallard/GameLib)
 
 ancona_add_target(Mallard LINK_SFML
     SRC Src/Mallard/Platforms/Desktop/main.cpp
-    STATIC_LIBS ${Ancona_Libs}
+    STATIC_PROJECT_LIBS ${Ancona_Libs}
+    DYNAMIC_DEPEND_LIBS ${SFML_DYNAMIC}
+    STATIC_DEPEND_LIBS JsonCpp ${SFML_STATIC}
     PLATFORMS DESKTOP)
 
 #Move files to the build directory

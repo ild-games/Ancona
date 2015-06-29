@@ -8,8 +8,12 @@ include(BuildTools/Macros.cmake)
 
 option(BuildPrototypes "BuildPrototypes" ON)
 option(BuildTests "BuildTests" ON)
+
 set(PLATFORM_NAME "system" CACHE STRING "[ system android ]")
 set(ARCHITECTURE_NAME "system" CACHE STRING "[ system x64 x86 armeabi ]")
+
+set(EXT_LIB_DIR ${CMAKE_SOURCE_DIR}/extlibs/lib/${PLATFORM_NAME}/${ARCHITECTURE_NAME})
+set(EXT_INCLUDE ${CMAKE_SOURCE_DIR}/extlibs/include)
 
 # Set variables to indicate the build platform
 # There will be one platform variable defined and one form factor variable defined
@@ -53,12 +57,14 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif()
 
-include_directories(BEFORE extlibs/include)
-link_directories(${CMAKE_SOURCE_DIR}/extlibs/lib/${PLATFORM_NAME}/${ARCHITECTURE_NAME})
+include_directories(${EXT_INCLUDE})
+link_directories(${EXT_LIB_DIR})
 
 include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
+set(SFML_DYNAMIC sfml-graphics sfml-window sfml-system)
+set(SFML_STATIC sfml-main)
 
 #Add jsoncpp
 set(Jsoncpp_LIBRARY jsoncpp)
