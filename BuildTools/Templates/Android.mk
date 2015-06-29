@@ -1,55 +1,70 @@
 LOCAL_PATH := $(call my-dir)
 
-<!--(for i,lib in enumerate(static_libraries))-->
+<!--(for i,lib in enumerate(static_depend_libraries))-->
 include $(CLEAR_VARS)
-LOCAL_MODULE := $!lib!$
-LOCAL_SRC_FILES := $!build_dir!$/lib/lib$!lib!$.a
-	<!--(if i==0)-->
-		<!--(for path in include_paths)-->
+LOCAL_MODULE := $!lib1$
+LOCAL_SRC_FILES := $!depend_lib_dir!$/lib$!lib!$.a
+	<!--(for path in include_paths)-->
 LOCAL_EXPORT_C_INCLUDES += $!path!$
-		<!--(end)-->
 	<!--(end)-->
 include $(PREBUILT_STATIC_LIBRARY)
-
 <!--(end)-->
-<!--(for lib in dynamic_libraries)-->
+
+<!--(for i,lib in enumerate(dynamic_depend_libraries))-->
 include $(CLEAR_VARS)
-LOCAL_MODULE := $!module!$
-LOCAL_SRC_FILES := $!build_dir!$/lib/lib$!lib!$.so
-	<!--(if i==0)-->
-		<!--(for path in include_paths)-->
+LOCAL_MODULE := $!lib1$
+LOCAL_SRC_FILES := $!depend_lib_dir!$/lib$!lib!$.a
+	<!--(for path in include_paths)-->
 LOCAL_EXPORT_C_INCLUDES += $!path!$
-		<!--(end)-->
 	<!--(end)-->
 include $(PREBUILT_DYNAMIC_LIBRARY)
-
 <!--(end)-->
+
+<!--(for i,lib in enumerate(static_project_libraries))-->
+include $(CLEAR_VARS)
+LOCAL_MODULE := $!lib1$
+LOCAL_SRC_FILES := $!project_lib_dir!$/lib$!lib!$.a
+	<!--(for path in include_paths)-->
+LOCAL_EXPORT_C_INCLUDES += $!path!$
+	<!--(end)-->
+include $(PREBUILT_STATIC_LIBRARY)
+<!--(end)-->
+
+<!--(for i,lib in enumerate(dynamic_project_libraries))-->
+include $(CLEAR_VARS)
+LOCAL_MODULE := $!lib1$
+LOCAL_SRC_FILES := $!project_lib_dir!$/lib$!lib!$.a
+	<!--(for path in include_paths)-->
+LOCAL_EXPORT_C_INCLUDES += $!path!$
+	<!--(end)-->
+include $(PREBUILT_DYNAMIC_LIBRARY)
+<!--(end)-->
+
 include $(CLEAR_VARS)
 
+#TODO: Change to project name
 LOCAL_MODULE := sfml-example
 
 <!--(for file in source_files)-->
 LOCAL_SRC_FILES += $!file!$
 <!--(end)-->
 
-LOCAL_CFLAGS := -std=gnu++11
-
-LOCAL_SHARED_LIBRARIES := sfml-system
-LOCAL_SHARED_LIBRARIES += sfml-window
-LOCAL_SHARED_LIBRARIES += sfml-graphics
-LOCAL_SHARED_LIBRARIES += sfml-audio
-LOCAL_SHARED_LIBRARIES += sfml-network
-LOCAL_SHARED_LIBRARIES += jsoncpp
-<!--(for lib in dynamic_libraries)-->
+<!--(for lib in dynamic_project_libraries)-->
 LOCAL_SHARED_LIBRARIES += $!lib!$
 <!--(end)-->
 
-<!--(for lib in static_libraries)-->
+<!--(for lib in static_project_libraries)-->
 LOCAL_WHOLE_STATIC_LIBRARIES += $!lib!$
 <!--(end)-->
+
+<!--(for lib in dynamic_depend_libraries)-->
+LOCAL_SHARED_LIBRARIES += $!lib!$
+<!--(end)-->
+
+<!--(for lib in static_depend_libraries)-->
+LOCAL_WHOLE_STATIC_LIBRARIES += $!lib!$
+<!--(end)-->
+
 LOCAL_WHOLE_STATIC_LIBRARIES += sfml-main
 
-
 include $(BUILD_SHARED_LIBRARY)
-
-$(call import-module,sfml)

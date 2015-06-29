@@ -4,11 +4,7 @@
 #        a target
 # @author Jeff Swenson
 #
-# usage: python3 generate_mk.py [target] [cmake_dir] [build_dir]
-#               -s [source files ...]
-#               -d [dynamic libs ...] 
-#               -l [static libs ...]
-#               -i [include directories ...]
+# pass the help flag for usage instructions
 import os,sys,argparse
 
 if __name__ == "__main__":
@@ -26,12 +22,23 @@ import pyratemp
 # @param source_files List of source files to add compile.
 # @param cmake_dir Root of the cmake directory.
 # @param build_dir Root of the build directory.
-# @param dynamic_libs List of dynamic libraries that should be linked against the the target.
-# @param static_libs List of static libraries that should be linked against the target.
+# @param dynamic_depend_libs List of dynamic libraries that should be linked against the the target.
+# @param static_depend_libs List of static libraries that should be linked against the target.
+# @param dynamic_project_libs Dynamic library files built for the project.
+# @param static_project_libs Static library files built for the project.
 # @param include_dirs List of include directories that the project depends on.
 #
 # @return The filepath to the generated Android.mk file.
-def generate_mk(target_name, cmake_dir, build_dir, source_files, dynamic_libs, static_libs, include_dirs):
+def generate_mk(target_name, 
+        cmake_dir, 
+        build_dir, 
+        source_files, 
+        dynamic_depend_libs,
+        static_depend_libs,
+        dynamic_project_libs,
+        static_project_libs,
+        include_dirs,
+        lib_dir):
     #Find the destination directory and create it if needed
     destination_dir = building.get_android_build_dir(build_dir,target_name)
     os.makedirs(os.path.join(destination_dir, "jni"),exist_ok=True)
@@ -43,10 +50,13 @@ def generate_mk(target_name, cmake_dir, build_dir, source_files, dynamic_libs, s
     result = template(
                 build_dir=build_dir,
                 source_files=source_files,
-                dynamic_libraries=dynamic_libs,
-                static_libraries=static_libs,
+                dynamic_depend_libraries=dynamic_depend_libs,
+                static_depend_libraries=static_depend_libs,
+                dynamic_project_libraries=dynamic_project_libs,
+                static_project_libraries=static_depend_libs,
                 target=target_name,
-                include_paths=include_dirs
+                include_paths=include_dirs,
+                depend_lib_dir=lib_dir
             )
     
     #Write the Android.mk file to disk
@@ -66,21 +76,36 @@ if __name__ == "__main__":
 
     parser.add_argument('-s', nargs='+',dest="source_files",
             metavar="main.cpp", type=file_name, help="Source files to build")
-    parser.add_argument('-d', nargs='*',dest="dynamic_libs",
-            metavar="Dynamic_Lib", type=str, help="Libs that should be linked dynamically")
-    parser.add_argument('-l', nargs='*',dest="static_libs",
-            metavar="Ancona_Util", type=str, help="Libs that should be linked statically")
+
+    parser.add_argument('-d-dep', nargs='*',dest="dynamic_depend_libraries",
+            metavar="Dynamic_Depend", type=str, help="Libs that should be linked dynamically")
+
+    parser.add_argument('-l-dep', nargs='*',dest="static_depend_libraries",
+            metavar="Static_Depend", type=str, help="Libs that should be linked statically")
+
+    parser.add_argument('-d-prj', nargs='*',dest="dynamic_project_libraries",
+            metavar="Dynamic_Prj_Lib", type=str, help="Libs that should be linked dynamically")
+
+    parser.add_argument('-l-prj', nargs='*',dest="static_project_libraries",
+            metavar="Static_Prj_Lib", type=str, help="Libs that should be linked statically")
+
     parser.add_argument('-i', nargs='*',dest="include_paths",
             metavar="path/to/include", type=os.path.realpath, help="Header paths to be included")
+
+    parser.add_argument('-lib', nargs='*', dest="library_paths",
+            metavar="path/to/libraries", type=os.path.realpath, help="Folder to find libraries")
 
     args = vars(parser.parse_args())
 
     generate_mk(
-            args['target'],
-            args['cmake_dir'],
-            args['build_dir'],
-            args['source_files'],
-            args['dynamic_libs'],
-            args['static_libs'],
-            args['include_paths']
+            target_name=args['target'],
+            cmake_dir=args['cmake_dir'],
+            build_dir=args['build_dir'],
+            source_files=args['source_files'],
+            dynamic_depend_libs=args['dynamic_depend_libraries'],
+            static_depend_libs=args['static_depend_libraries'],
+            dynamic_project_libs=args['dynamic_project_libraries'],
+            static_project_libs=args['static_project_libraries'],
+            include_dirs=args['include_paths'],
+            lib_dir=args['library_paths']
             )

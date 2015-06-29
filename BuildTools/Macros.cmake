@@ -71,7 +71,7 @@ endmacro()
 # INCLUDES /Abs/Paths/To/Add/To/Includes
 # PLATFORMS ALL)
 macro(ancona_add_target target)
-    cmake_parse_arguments(ARGS "LINK_SFML" "" "SRC;STATIC_LIBS;DYNAMIC_LIBS;PLATFORMS;INCLUDES" ${ARGN})
+    cmake_parse_arguments(ARGS "LINK_SFML" "" "SRC;STATIC_PROJECT_LIBS;DYNAMIC_PROJECT_LIBS;STATIC_DEPEND_LIBS;DYNAMIC_DEPEND_LIBS;PLATFORMS;INCLUDES" ${ARGN})
 
     ancona_match_platform(is_platform_match ${ARGS_PLATFORMS})
 
@@ -107,8 +107,10 @@ macro(ancona_add_target target)
             #Configure and create the Android.mk file
             create_android_mk_file(${target}
                 SRC ${ARGS_SRC}
-                STATIC_LIBS ${ARGS_STATIC_LIBS}
-                DYNAMIC_LIBS ${ARGS_DYNAMIC_LIBS}
+                STATIC_PROJECT_LIBS ${ARGS_STATIC_PROJECT_LIBS}
+                DYNAMIC_PROJECT_LIBS ${ARGS_DYNAMIC_PROJECT_LIBS}
+                STATIC_DEPEND_LIBS ${ARGS_STATIC_DEPEND_LIBS}
+                DYNAMIC_DEPEND_LIBS ${ARGS_DYNAMIC_DEPEND_LIBS}
                 INCLUDES ${ARGS_INCLUDES})
 
             #TODO: Determine if this is the correct way to handle dependencies

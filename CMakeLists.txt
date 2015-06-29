@@ -54,7 +54,7 @@ endif()
 
 include_directories(BEFORE extlibs/include)
 #TODO configure platform/architecure (where system/system is)
-link_directories(extlibs/lib/system/system)
+link_directories(${CMAKE_SOURCE_DIR}/extlibs/lib/system/system)
 
 include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
