@@ -11,7 +11,7 @@ class Dependency:
     def build(self):
         src_dir = self.get_src_dir()
         full_build_dir = os.path.join(src_dir, self.get_build_dir())
-        building.build_cmake_project(src_dir, full_build_dir, self.build_info.platform.get_cmake_args(self.build_info.target_architecture))
+        building.build_cmake_project(src_dir, full_build_dir, self.build_info.platform.get_cmake_args(self.build_info.target_architecture) + self.get_cmake_args())
 
     def move_includes(self):
         full_inc_dir = os.path.join(self.get_src_dir(), self.get_include_dir())
@@ -54,3 +54,6 @@ class Dependency:
 
     def is_installed(self):
         return os.path.isdir(os.path.join(self.get_src_dir(), self.get_build_dir()))
+
+    def get_cmake_args(self):
+        return []
