@@ -1,16 +1,18 @@
 import os
+import ild.platform.platform
+
 
 class BuildInfo:
     EXTLIB_DIR = "extlibs"
 
-    def __init__(self, proj_dir, src_dir=None, inc_dest_dir=None, bin_dest_dir=None, toolchain_file=None, target_platform=None, target_architecture=None):
+    def __init__(self, platform, proj_dir, architecture=None, src_dir=None, inc_dest_dir=None, bin_dest_dir=None):
+        self.platform = platform
         self.proj_dir = proj_dir
         self.src_dir = src_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "src")
         self.inc_dest_dir = inc_dest_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "include")
         self.bin_dest_dir = bin_dest_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "lib")
-        self.toolchain_file = toolchain_file
-        self.target_platform = target_platform or "system"
-        self.target_architecture = target_architecture or "system"
+        self.target_platform = platform.get_name()
+        self.target_architecture = architecture or platform.get_default_architecture()
 
     def get_dependency_dir(self, dependency_name):
         return os.path.join(self.src_dir, dependency_name)

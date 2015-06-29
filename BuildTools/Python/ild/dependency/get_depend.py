@@ -4,7 +4,7 @@
 # @author Jeff Swenson
 # @author Tucker Lein
 #
-# usage: python3 get_depend.py [cmake_dir] [platform]
+# usage: python3 get_depend.py [cmake_dir] [platform_name]
 
 import os,sys
 
@@ -17,6 +17,9 @@ from ild.building import *
 from ild.dependency.jsoncpp import *
 from ild.dependency.sfml import *
 from ild.dependency.build_info import *
+from ild.platform.platform import *
+from ild.platform.system import *
+from ild.platform.android import *
 
 DEPENDENCIES = [ JsonCpp, SFML ]
 
@@ -27,8 +30,7 @@ DEPENDENCIES = [ JsonCpp, SFML ]
 # @param cmake_dir CMake directory
 # @param platform Target platform to install on
 def main(cmake_dir, platform):
-    #TODO implement platform
-    build_info = BuildInfo(cmake_dir)
+    build_info = BuildInfo(platform, cmake_dir)
     install_dependencies(DEPENDENCIES, build_info)
 
 ##
@@ -50,6 +52,6 @@ def get_build_dir(lib_src, platform):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: {} [cmake_src_dir] [platform]".format(sys.argv[0]))
+        print("Usage: {} [cmake_src_dir] [platform_name]".format(sys.argv[0]))
         sys.exit(1)
     main(os.path.abspath(sys.argv[1]),sys.argv[2])

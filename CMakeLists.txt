@@ -8,7 +8,8 @@ include(BuildTools/Macros.cmake)
 
 option(BuildPrototypes "BuildPrototypes" ON)
 option(BuildTests "BuildTests" ON)
-
+set(PLATFORM_NAME "system" CACHE STRING "[ system android ]")
+set(ARCHITECTURE_NAME "system" CACHE STRING "[ system x64 x86 armeabi ]")
 
 # Set variables to indicate the build platform
 # There will be one platform variable defined and one form factor variable defined
@@ -53,8 +54,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 include_directories(BEFORE extlibs/include)
-#TODO configure platform/architecure (where system/system is)
-link_directories(${CMAKE_SOURCE_DIR}/extlibs/lib/system/system)
+link_directories(${CMAKE_SOURCE_DIR}/extlibs/lib/${PLATFORM_NAME}/${ARCHITECTURE_NAME})
 
 include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
@@ -64,7 +64,7 @@ set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 set(Jsoncpp_LIBRARY jsoncpp)
 
 #Include the engine and game headers
-include_directories(Game/Src/ Engine/Src)
+include_directories(Game/Src Engine/Src)
 
 #Configure output directories to be something sensible
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
