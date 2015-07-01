@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 <!--(for i,lib in enumerate(static_depend_libraries))-->
 include $(CLEAR_VARS)
-LOCAL_MODULE := $!lib1$
+LOCAL_MODULE := $!lib!$
 LOCAL_SRC_FILES := $!depend_lib_dir!$/lib$!lib!$.a
 	<!--(for path in include_paths)-->
 LOCAL_EXPORT_C_INCLUDES += $!path!$
@@ -12,7 +12,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 <!--(for i,lib in enumerate(dynamic_depend_libraries))-->
 include $(CLEAR_VARS)
-LOCAL_MODULE := $!lib1$
+LOCAL_MODULE := $!lib!$
 LOCAL_SRC_FILES := $!depend_lib_dir!$/lib$!lib!$.a
 	<!--(for path in include_paths)-->
 LOCAL_EXPORT_C_INCLUDES += $!path!$
@@ -22,7 +22,7 @@ include $(PREBUILT_DYNAMIC_LIBRARY)
 
 <!--(for i,lib in enumerate(static_project_libraries))-->
 include $(CLEAR_VARS)
-LOCAL_MODULE := $!lib1$
+LOCAL_MODULE := $!lib!$
 LOCAL_SRC_FILES := $!project_lib_dir!$/lib$!lib!$.a
 	<!--(for path in include_paths)-->
 LOCAL_EXPORT_C_INCLUDES += $!path!$
@@ -32,7 +32,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 <!--(for i,lib in enumerate(dynamic_project_libraries))-->
 include $(CLEAR_VARS)
-LOCAL_MODULE := $!lib1$
+LOCAL_MODULE := $!lib!$
 LOCAL_SRC_FILES := $!project_lib_dir!$/lib$!lib!$.a
 	<!--(for path in include_paths)-->
 LOCAL_EXPORT_C_INCLUDES += $!path!$
