@@ -23,10 +23,13 @@ def start_template(game_name, game_abbr):
 
     game_full_name = game_name
     game_name = ''.join(game_name.split(' '))
-    prep_work()
-    templatize_project(game_name, game_full_name, game_abbr)
-    succeeded = create_prototype_folder(game_name)
-    clean_up()
+    succeeded = False
+    try:
+        prep_work()
+        templatize_project(game_name, game_full_name, game_abbr)
+        succeeded = create_prototype_folder(game_name)
+    finally:
+        remove_temp_directories()
     return succeeded
 
 ##
@@ -106,11 +109,6 @@ def create_prototype_folder(game_name):
     if keep_going:
         shutil.copytree('__applied__', 'Test/Prototype/' + game_name)
     return keep_going
-
-##
-# @brief Cleans up temporary folders used by the generation process.
-def clean_up():
-    remove_temp_directories()
 
 ##
 # @brief removes temporary directories used by the generation process.
