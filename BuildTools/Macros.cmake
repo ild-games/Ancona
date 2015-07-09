@@ -69,9 +69,9 @@ macro(create_android_mk_file target)
         -l-dep ${ARGS_STATIC_DEPEND_LIBS} 
         -d-prj ${ARGS_DYNAMIC_PROJECT_LIBS}
         -l-prj ${ARGS_STATIC_PROJECT_LIBS}
-        -i ${CMAKE_SOURCE_DIR}/Src ${EXT_INCLUDE}
-        -lib ${EXT_DEP_DIR}
-        ${ARGS_INCLUDES})
+        -i ${CMAKE_SOURCE_DIR}/Engine/Src ${CMAKE_SOURCE_DIR}/Game/Src ${EXT_INCLUDE} ${ARGS_INCLUDES}
+        -lib ${EXT_LIB_DIR}
+        )
 endmacro()
 
 # ex: ancona_add_target(flappy_demo

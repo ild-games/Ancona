@@ -53,7 +53,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Module
 #Set C++ Version to 11
 SET(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif()
 
@@ -63,7 +63,7 @@ link_directories(${EXT_LIB_DIR})
 include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
-set(SFML_DYNAMIC sfml-graphics sfml-window sfml-system)
+set(SFML_DYNAMIC sfml-activity sfml-graphics sfml-window sfml-system)
 set(SFML_STATIC sfml-main)
 
 #Add jsoncpp
@@ -78,7 +78,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 #Libs is a variables containing a reference to all linkable libraries
-set(Ancona_Libs Ancona_Game Ancona_Platformer Ancona_Core2D Ancona_Framework Ancona_Util2D Ancona_Util ${Jsoncpp_LIBRARY})
+set(Ancona_Libs Ancona_Game Ancona_Platformer Ancona_Core2D Ancona_Framework Ancona_Util2D Ancona_Util)
 set(Libs ${Ancona_Libs} ${SFML_LIBS})
 
 add_subdirectory(Engine)

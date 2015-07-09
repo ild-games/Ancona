@@ -7,11 +7,12 @@ namespace ild
 {
 
 
-    class ImpossibleTouch : public ImpossibleInputHandler
-    {
+class ImpossibleTouch : public ImpossibleInputHandler
+{
     public:
         void HandleInput() override;
-    };
+
+};
 
 }
 

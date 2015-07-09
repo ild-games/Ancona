@@ -53,10 +53,11 @@ def generate_mk(target_name,
                 dynamic_depend_libraries=dynamic_depend_libs,
                 static_depend_libraries=static_depend_libs,
                 dynamic_project_libraries=dynamic_project_libs,
-                static_project_libraries=static_depend_libs,
+                static_project_libraries=static_project_libs,
                 target=target_name,
                 include_paths=include_dirs,
-                depend_lib_dir=lib_dir
+                depend_lib_dir=lib_dir,
+                project_lib_dir=os.path.join(build_dir,"lib")
             )
     
     #Write the Android.mk file to disk
@@ -92,7 +93,7 @@ if __name__ == "__main__":
     parser.add_argument('-i', nargs='*',dest="include_paths",
             metavar="path/to/include", type=os.path.realpath, help="Header paths to be included")
 
-    parser.add_argument('-lib', nargs='*', dest="library_paths",
+    parser.add_argument('-lib', dest="library_paths",
             metavar="path/to/libraries", type=os.path.realpath, help="Folder to find libraries")
 
     args = vars(parser.parse_args())

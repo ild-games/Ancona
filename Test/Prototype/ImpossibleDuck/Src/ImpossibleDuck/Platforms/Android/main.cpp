@@ -2,9 +2,10 @@
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
-#include <Ancona/Framework/Loading/PolymorphicRegistration.hpp>
+#include <Ancona/Framework/Serializing/PolymorphicRegistration.hpp>
 
-#include "../../ImpossibleLib/Core/ImpossibleGame.hpp"
+#include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleGame.hpp>
+#include <ImpossibleDuck/ImpossibleLib/Core/AndroidPlatform.hpp>
 
 using namespace ild;
 
@@ -18,7 +19,7 @@ int main(int argc, const char *argv[])
 
     Config::Load("Config.txt");
 
-    ImpossibleGame game(1920, 1080);
+    ImpossibleGame game(1920, 1080, new AndroidPlatform());
     game.Run();
     
     return 0;

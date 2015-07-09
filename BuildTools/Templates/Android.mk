@@ -13,7 +13,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 <!--(for i,lib in enumerate(dynamic_depend_libraries))-->
 include $(CLEAR_VARS)
 LOCAL_MODULE := $!lib!$
-LOCAL_SRC_FILES := $!depend_lib_dir!$/lib$!lib!$.a
+LOCAL_SRC_FILES := $!depend_lib_dir!$/lib$!lib!$.so
 	<!--(for path in include_paths)-->
 LOCAL_EXPORT_C_INCLUDES += $!path!$
 	<!--(end)-->
@@ -33,7 +33,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 <!--(for i,lib in enumerate(dynamic_project_libraries))-->
 include $(CLEAR_VARS)
 LOCAL_MODULE := $!lib!$
-LOCAL_SRC_FILES := $!project_lib_dir!$/lib$!lib!$.a
+LOCAL_SRC_FILES := $!project_lib_dir!$/lib$!lib!$.so
 	<!--(for path in include_paths)-->
 LOCAL_EXPORT_C_INCLUDES += $!path!$
 	<!--(end)-->
@@ -42,6 +42,10 @@ include $(PREBUILT_DYNAMIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
+
+
+LOCAL_CFLAGS := -std=gnu++11
+
 #TODO: Change to project name
 LOCAL_MODULE := sfml-example
 
@@ -49,15 +53,15 @@ LOCAL_MODULE := sfml-example
 LOCAL_SRC_FILES += $!file!$
 <!--(end)-->
 
-<!--(for lib in dynamic_project_libraries)-->
-LOCAL_SHARED_LIBRARIES += $!lib!$
+<!--(for path in include_paths)-->
+LOCAL_EXPORT_C_INCLUDES += $!path!$
 <!--(end)-->
 
 <!--(for lib in static_project_libraries)-->
 LOCAL_WHOLE_STATIC_LIBRARIES += $!lib!$
 <!--(end)-->
 
-<!--(for lib in dynamic_depend_libraries)-->
+<!--(for lib in dynamic_project_libraries)-->
 LOCAL_SHARED_LIBRARIES += $!lib!$
 <!--(end)-->
 
@@ -65,6 +69,8 @@ LOCAL_SHARED_LIBRARIES += $!lib!$
 LOCAL_WHOLE_STATIC_LIBRARIES += $!lib!$
 <!--(end)-->
 
-LOCAL_WHOLE_STATIC_LIBRARIES += sfml-main
+<!--(for lib in dynamic_depend_libraries)-->
+LOCAL_SHARED_LIBRARIES += $!lib!$
+<!--(end)-->
 
 include $(BUILD_SHARED_LIBRARY)

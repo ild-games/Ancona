@@ -4,8 +4,8 @@
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Framework/Serializing/PolymorphicRegistration.hpp>
 
-#include "../../ImpossibleLib/Core/ImpossibleGame.hpp"
-#include "../../ImpossibleLib/Core/DesktopPlatform.hpp"
+#include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleGame.hpp>
+#include <ImpossibleDuck/ImpossibleLib/Core/DesktopPlatform.hpp>
 
 using namespace ild;
 
