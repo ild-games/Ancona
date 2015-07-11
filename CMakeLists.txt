@@ -12,7 +12,8 @@ option(BuildTests "BuildTests" ON)
 set(PLATFORM_NAME "system" CACHE STRING "[ system android ]")
 set(ARCHITECTURE_NAME "system" CACHE STRING "[ system x64 x86 armeabi ]")
 
-set(EXT_LIB_DIR ${CMAKE_SOURCE_DIR}/extlibs/lib/${PLATFORM_NAME}/${ARCHITECTURE_NAME})
+set(EXT_PLAT_DIR ${CMAKE_SOURCE_DIR}/extlibs/lib/${PLATFORM_NAME})
+set(EXT_LIB_DIR ${EXT_PLAT_DIR}/${ARCHITECTURE_NAME})
 set(EXT_INCLUDE ${CMAKE_SOURCE_DIR}/extlibs/include)
 
 # Set variables to indicate the build platform

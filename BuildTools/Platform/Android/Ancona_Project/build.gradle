@@ -28,7 +28,7 @@ android {
         java.srcDirs = []
         res.srcDirs = ['res']
         jni.srcDirs = [] // This prevents the auto generation of Android.mk
-        jniLibs.srcDirs = ['jnilibs','@EXT_LIB_DIR@'] 
+        jniLibs.srcDirs = ['jnilibs','@EXT_PLAT_DIR@'] 
         assets.srcDirs = ['assets'] 
     }
 }

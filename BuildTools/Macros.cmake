@@ -104,7 +104,7 @@ macro(ancona_add_target target)
                 target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
             endif(ARGS_INCLUDES)
 
-            set_target_properties(${target} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${Android_Output_Dir}/jniLibs)
+            set_target_properties(${target} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${Android_Output_Dir}/jnilibs/${ARCHITECTURE_NAME})
 
             target_link_libraries(${target} ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
                 ${ARGS_STATIC_DEPEND_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
