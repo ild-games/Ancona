@@ -12,7 +12,7 @@ class SFML(Dependency):
         super().move_binaries()
 
         if self.build_info.platform.get_name() == "android":
-            ext_path = os.path.join(self.get_src_dir(),"extlibs","libs-android")
+            ext_path = os.path.join(self.get_src_dir(),"extlibs","libs-android",self.build_info.target_architecture)
 
         if ext_path:
-            sscript.merge_copy(ext_path,os.path.dirname(self.build_info.get_lib_dir())) 
+            sscript.merge_copy(ext_path,self.build_info.get_lib_dir()) 
