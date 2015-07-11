@@ -92,7 +92,6 @@ macro(ancona_add_target target)
 
             file(COPY ${Android_Project_Dir} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target})
             file(COPY ${Android_Assets} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/assets/resources)
-            file(COPY ${ARGS_SRC} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/jni/)
 
             add_library(${target} SHARED ${ARGS_SRC})
 
@@ -100,6 +99,8 @@ macro(ancona_add_target target)
             if(ARGS_INCLUDES)
                 target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
             endif(ARGS_INCLUDES)
+
+            set_target_properties(${target} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Android/${target}/jniLibs)
 
             target_link_libraries(${target} ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
                 ${ARGS_STATIC_DEPEND_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
