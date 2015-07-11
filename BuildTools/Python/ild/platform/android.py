@@ -18,6 +18,6 @@ class Android(Platform):
         args.append(("BuildTests", "0"))
         args.append(("ANDROID_ABI", target_architecture))
         args.append(("ANDROID_STL", "gnustl_static"))
-        args.append(("ANDROID_NATIVE_API_LEVEL", "android-9"))
+        args.append(("ANDROID_NATIVE_API_LEVEL", "android-14"))
         return args
 

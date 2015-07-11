@@ -109,22 +109,16 @@ macro(ancona_add_target target)
             file(COPY ${Android_Assets} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/assets/resources)
             file(COPY ${ARGS_SRC} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/jni/)
 
-            #Configure and create the Android.mk file
-            create_android_mk_file(${target}
-                SRC ${ARGS_SRC}
-                STATIC_PROJECT_LIBS ${ARGS_STATIC_PROJECT_LIBS}
-                DYNAMIC_PROJECT_LIBS ${ARGS_DYNAMIC_PROJECT_LIBS}
-                STATIC_DEPEND_LIBS ${ARGS_STATIC_DEPEND_LIBS}
-                DYNAMIC_DEPEND_LIBS ${ARGS_DYNAMIC_DEPEND_LIBS}
-                INCLUDES ${EXT_LIB_INCLUDE} ${ARGS_INCLUDES})
+            message("!@!@$!@ make shared: ${CMAKE_CXX_CREATE_SHARED_LIBRARY}") 
+            add_library(sfml-example SHARED ${ARGS_SRC})
 
-            #TODO: Determine if this is the correct way to handle dependencies
-            add_custom_target(Android_Build_${target} ALL DEPENDS ${ARGS_STATIC_LIBS}
-                COMMAND echo Building Android App ${target}
-                COMMAND ndk-build
-                COMMAND android update project -p . --target android-14
-                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Android/${target})
+            #Add custom includes
+            if(ARGS_INCLUDES)
+                target_include_directories(sfml-example PUBLIC ${ARGS_INCLUDES})
+            endif(ARGS_INCLUDES)
 
+            target_link_libraries(sfml-example ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
+                ${ARGS_STATIC_DYNAMIC_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
         endif(ANDROID)
     endif(is_platform_match)
 
