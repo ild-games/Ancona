@@ -98,6 +98,18 @@ struct Serializer<sf::RectangleShape>
     static void Serialize(sf::RectangleShape & shape, Archive & arc);
 };
 
+template <>
+struct Serializer<sf::IntRect>
+{
+    static void Serialize(sf::IntRect & rect, Archive & arc)
+    {
+        arc(rect.left, "left");
+        arc(rect.top, "top");
+        arc(rect.width, "width");
+        arc(rect.height, "height");
+    }
+};
+
 }
 
 GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(sf::Shape)

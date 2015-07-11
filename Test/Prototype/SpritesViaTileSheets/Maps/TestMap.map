@@ -1,0 +1,119 @@
+{
+    "key": "TestMap",
+    "assets": [
+        {
+            "type": "TexturePNG",
+            "key": "tileset"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "duck-logo"
+        }
+    ],
+    "entities": [
+        "door",
+        "duck-logo",
+        "screen-cam"
+    ],
+    "systems": {
+        "physics": {
+            "components": {
+                "door": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        }
+                    }
+                },
+                "duck-logo": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": -150,
+                            "y": -150
+                        }
+                    }
+                }
+            }
+        },
+        "camera": {
+            "components": {
+                "screen-cam": {
+                    "render-priority": 0,
+                    "scale": 1.0,
+                    "default": true,
+                    "size": {
+                        "x": 800,
+                        "y": 600
+                    }
+                }
+            }
+        },
+        "drawable": {
+            "components": {
+                "duck-logo": {
+                    "drawables": {
+                        "duck-logo-sprite": {
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "key": "duck-logo-sprite",
+                            "texture-key": "duck-logo",
+                            "render-priority": 0,
+                            "priority-offset": 0,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                },
+                "door": {
+                    "drawables": {
+                        "door-sprite": {
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "key": "door-sprite",
+                            "texture-key": "tileset",
+                            "texture-rects": [
+                                {
+                                    "first": {
+                                        "left": 656,
+                                        "top": 96,
+                                        "width": 16,
+                                        "height": 16
+                                    },
+                                    "second": {
+                                        "left": 0,
+                                        "top": 0,
+                                        "width": 16,
+                                        "height": 16
+                                    }
+                                },
+                                {
+                                    "first": {
+                                        "left": 656,
+                                        "top": 112,
+                                        "width": 16,
+                                        "height": 16
+                                    },
+                                    "second": {
+                                        "left": 0,
+                                        "top": 16,
+                                        "width": 16,
+                                        "height": 16
+                                    }
+                                }
+                            ],
+                            "render-priority": 0,
+                            "priority-offset": 0,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
