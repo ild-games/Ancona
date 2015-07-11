@@ -51,7 +51,7 @@ set(${Ancona_Form_Factor} True)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
 #Set C++ Version to 11
-SET(CMAKE_CXX_FLAGS "-std=c++11 -g -Wall")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wall")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
@@ -64,7 +64,7 @@ include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
 set(SFML_DYNAMIC sfml-activity sfml-graphics sfml-window sfml-system)
-set(SFML_STATIC sfml-main)
+set(SFML_STATIC sfml-main android)
 
 #Add jsoncpp
 set(Jsoncpp_LIBRARY jsoncpp)

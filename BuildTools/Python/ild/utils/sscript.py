@@ -49,3 +49,7 @@ def merge_copy(src_dir, dest_dir):
         os.makedirs(sub_dest_dir, exist_ok=True)
         for file_name in files:
             shutil.copy(os.path.join(directory, file_name), os.path.join(sub_dest_dir, file_name))
+
+def remove_dir(path):
+    if os.path.isdir(path):
+        shutil.rmtree(path)

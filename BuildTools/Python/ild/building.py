@@ -14,11 +14,9 @@ class DirContext:
         self.old_dir = os.getcwd()
         self.new_dir = new_working_dir
     def __enter__(self):
-        print("Entering",self.new_dir)
         os.chdir(self.new_dir)
         return self
     def __exit__(self,type,value,traceback):
-        print("Exiting", self.old_dir)
         os.chdir(self.old_dir)
 
 ##

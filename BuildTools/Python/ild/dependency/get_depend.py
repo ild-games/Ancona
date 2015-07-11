@@ -34,6 +34,18 @@ def main(cmake_dir, platform):
     install_dependencies(DEPENDENCIES, build_info)
 
 ##
+# @brief Clean all of the dependency build folders generated for the platform.
+#
+# @param cmake_dir Root directory of the project.
+# @param platform Platform that the build files should be cleaned for.
+def clean_dependencies(cmake_dir, platform):
+    for arch in platform.get_supported_architectures():
+        build_info = BuildInfo(platform, cmake_dir, arch)
+        for depend in DEPENDENCIES:
+            depend(build_info).clean()
+            
+
+##
 # @brief installs all the dependencies specified in DEPENDENCIES
 # 
 # @param dependencies The dependencies to install

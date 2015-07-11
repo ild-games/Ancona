@@ -23,6 +23,10 @@ user_instructions = arg_parser.parse()
 
 duckling_tasks = tasks.Tasks(cmake_root)
 
+if user_instructions.should_clean():
+    duckling_tasks.clean()
+    sys.exit(0)
+
 if user_instructions.should_generate_documentation():
     duckling_tasks.generate_documentation()
 

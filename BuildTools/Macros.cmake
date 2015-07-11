@@ -57,21 +57,6 @@ endmacro()
 
 macro(ancona_platform_glob)
     cmake_parse_arguments(ARGS "" "" "" ${ARGN})
-
-endmacro()
-
-macro(create_android_mk_file target)
-    cmake_parse_arguments(ARGS "" "" "SRC;PLATFORMS;STATIC_PROJECT_LIBS;DYNAMIC_PROJECT_LIBS;STATIC_DEPEND_LIBS;DYNAMIC_DEPEND_LIBS;INCLUDES" ${ARGN})
-    execute_process(COMMAND python3 ${CMAKE_SOURCE_DIR}/BuildTools/Python/ild/generate_mk_file.py
-        ${target} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} 
-        -s ${ARGS_SRC} 
-        -d-dep ${ARGS_DYNAMIC_DEPEND_LIBS} 
-        -l-dep ${ARGS_STATIC_DEPEND_LIBS} 
-        -d-prj ${ARGS_DYNAMIC_PROJECT_LIBS}
-        -l-prj ${ARGS_STATIC_PROJECT_LIBS}
-        -i ${CMAKE_SOURCE_DIR}/Engine/Src ${CMAKE_SOURCE_DIR}/Game/Src ${EXT_INCLUDE} ${ARGS_INCLUDES}
-        -lib ${EXT_LIB_DIR}
-        )
 endmacro()
 
 # ex: ancona_add_target(flappy_demo
@@ -109,16 +94,15 @@ macro(ancona_add_target target)
             file(COPY ${Android_Assets} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/assets/resources)
             file(COPY ${ARGS_SRC} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/jni/)
 
-            message("!@!@$!@ make shared: ${CMAKE_CXX_CREATE_SHARED_LIBRARY}") 
-            add_library(sfml-example SHARED ${ARGS_SRC})
+            add_library(${target} SHARED ${ARGS_SRC})
 
             #Add custom includes
             if(ARGS_INCLUDES)
-                target_include_directories(sfml-example PUBLIC ${ARGS_INCLUDES})
+                target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
             endif(ARGS_INCLUDES)
 
-            target_link_libraries(sfml-example ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
-                ${ARGS_STATIC_DYNAMIC_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
+            target_link_libraries(${target} ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
+                ${ARGS_STATIC_DEPEND_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
         endif(ANDROID)
     endif(is_platform_match)
 

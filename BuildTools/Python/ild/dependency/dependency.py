@@ -9,9 +9,8 @@ class Dependency:
         building.get_git_repo(self.get_src_dir(), self.get_git_repo_url(), self.get_git_tag())
 
     def build(self):
-        src_dir = self.get_src_dir()
-        full_build_dir = os.path.join(src_dir, self.get_build_dir())
-        building.build_cmake_project(src_dir, full_build_dir, self.build_info.platform.get_cmake_args(self.build_info.target_architecture) + self.get_cmake_args())
+        full_build_dir = self.get_full_build_dir()
+        building.build_cmake_project(self.get_src_dir(), full_build_dir, self.build_info.platform.get_cmake_args(self.build_info.target_architecture) + self.get_cmake_args())
 
     def move_includes(self):
         full_inc_dir = os.path.join(self.get_src_dir(), self.get_include_dir())
@@ -20,6 +19,9 @@ class Dependency:
     def move_binaries(self):
         full_lib_dir = os.path.join(self.get_src_dir(), self.get_build_dir(), self.get_lib_dir())
         sscript.merge_copy(full_lib_dir, self.build_info.get_lib_dir())
+
+    def clean(self):
+        sscript.remove_dir(self.get_full_build_dir())
 
     def install(self):
         if not os.path.isdir(self.get_src_dir()):
@@ -33,6 +35,9 @@ class Dependency:
 
     def get_build_dir(self):
         return os.path.join("build", self.build_info.target_platform, self.build_info.target_architecture)
+
+    def get_full_build_dir(self):
+        return os.path.join(self.get_src_dir(),self.get_build_dir())
 
     def get_include_dir(self):
         return "include"
@@ -53,7 +58,7 @@ class Dependency:
         return self.build_info.get_dependency_dir(self.get_name())
 
     def is_installed(self):
-        return os.path.isdir(os.path.join(self.get_src_dir(), self.get_build_dir()))
+        return os.path.isdir(self.get_full_build_dir())
 
     def get_cmake_args(self):
         return []

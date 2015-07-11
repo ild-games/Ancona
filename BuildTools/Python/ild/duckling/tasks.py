@@ -43,3 +43,11 @@ class Tasks:
         if not target_architecture:
             target_architecture = platform.get_default_architecture()
         building.generate_ancona_build(self.project_root, platform, target_architecture)
+
+    ##
+    # @brief Clean the ancona build folder and dependency build folders.
+    def clean(self):
+        self.clean_build_directory()
+        for platform in self.PLATFORMS.values():
+            get_depend.clean_dependencies(self.project_root, platform(self.project_root))
+
