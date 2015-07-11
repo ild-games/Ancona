@@ -86,12 +86,16 @@ macro(ancona_add_target target)
         endif(DESKTOP)
 
         if(ANDROID)
+            set(Android_Template_Dir ${CMAKE_SOURCE_DIR}/BuildTools/Platform/Android/Ancona_Project)
+            set(Android_Output_Dir ${CMAKE_BINARY_DIR}/Android/${target})
             #Copy files over
-            file(GLOB Android_Project_Dir ${CMAKE_SOURCE_DIR}/BuildTools/Platform/Android/Ancona_Project/*)
+            file(GLOB Android_Project_Dir ${Android_Template_Dir}/*)
             file(GLOB Android_Assets ${CMAKE_SOURCE_DIR}/resources/*)
 
-            file(COPY ${Android_Project_Dir} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target})
+            file(COPY ${Android_Project_Dir} DESTINATION ${Android_Output_Dir})
             file(COPY ${Android_Assets} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/assets/resources)
+
+            configure_file(${Android_Template_Dir}/build.gradle ${Android_Output_Dir}/build.gradle @ONLY)
 
             add_library(${target} SHARED ${ARGS_SRC})
 
@@ -100,7 +104,7 @@ macro(ancona_add_target target)
                 target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
             endif(ARGS_INCLUDES)
 
-            set_target_properties(${target} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Android/${target}/jniLibs)
+            set_target_properties(${target} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${Android_Output_Dir}/jniLibs)
 
             target_link_libraries(${target} ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
                 ${ARGS_STATIC_DEPEND_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
