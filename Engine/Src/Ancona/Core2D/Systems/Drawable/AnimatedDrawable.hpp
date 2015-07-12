@@ -11,7 +11,7 @@ namespace ild
  *
  * @author Tucker Lein
  */
-class AnimatedDrawable : public SpriteDrawable
+class AnimatedDrawable : public Drawable
 {
     public:
         /**
@@ -23,20 +23,14 @@ class AnimatedDrawable : public SpriteDrawable
          * @brief Constructs an AnimatedDrawable
          *
          * @param physicsSystem Physics system used to determine the entity's location.
-         * @param textureKey Key of the texture used for the animation.
          * @param priority RenderPriority that determines when the drawable obj is rendered.
-         * @param frameDimensions Dimensions of a frame in the animated texture.
-         * @param numFrames Number of frames in the animation.
          * @param duration Seconds per frame.
          * @param priorityOffset Optional offset to the render priority.
          * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
          */
         AnimatedDrawable(
                 BasePhysicsSystem * physicsSystem,
-                const std::string textureKey,
                 const int priority,
-                sf::Vector2f frameDimensions,
-                int numFrames,
                 float duration,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
@@ -58,11 +52,13 @@ class AnimatedDrawable : public SpriteDrawable
          */
         void FetchDependencies(const Entity & entity);
 
+        /* getters and setters */
+        sf::Vector2u size();
+        int alpha();
+        void alpha(int alpha);
+
     private:
-        /**
-         * @brief Dimensions of a frame in the animated texture.
-         */
-        sf::Vector2f _frameDimensions;
+        std::vector<std::unique_ptr<Image>> _frames;
         /**
          * @brief Seconds per frame.
          */
@@ -72,19 +68,12 @@ class AnimatedDrawable : public SpriteDrawable
          */
         float _timeUntilChange;
         /**
-         * @brief Number of frames in the animation.
-         */
-        int _numFrames;
-        /**
          * @brief The current frame being shown.
          */
         int _curFrame = 0;
-        /**
-         * @brief Advances the frame.
-         */
-        void AdvanceFrame();
-        
 
+        void AdvanceFrame();
+        void Tick(float delta);
 };
 
 }

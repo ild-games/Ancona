@@ -13,6 +13,7 @@
     "entities": [
         "door",
         "duck-logo",
+       
         "screen-cam"
     ],
     "systems": {
@@ -58,12 +59,15 @@
                         "duck-logo-sprite": {
                             "__cpp_type": "ild::SpriteDrawable",
                             "key": "duck-logo-sprite",
-                            "texture-key": "duck-logo",
                             "render-priority": 0,
                             "priority-offset": 0,
                             "position-offset": {
                                 "x": 0,
                                 "y": 0
+                            },
+                            "image": {
+                                "__cpp_type": "ild::SoloImage",
+                                "texture-key": "duck-logo"
                             }
                         }
                     }
@@ -73,42 +77,45 @@
                         "door-sprite": {
                             "__cpp_type": "ild::SpriteDrawable",
                             "key": "door-sprite",
-                            "texture-key": "tileset",
-                            "texture-rects": [
-                                {
-                                    "first": {
-                                        "left": 656,
-                                        "top": 96,
-                                        "width": 16,
-                                        "height": 16
-                                    },
-                                    "second": {
-                                        "left": 0,
-                                        "top": 0,
-                                        "width": 16,
-                                        "height": 16
-                                    }
-                                },
-                                {
-                                    "first": {
-                                        "left": 656,
-                                        "top": 112,
-                                        "width": 16,
-                                        "height": 16
-                                    },
-                                    "second": {
-                                        "left": 0,
-                                        "top": 16,
-                                        "width": 16,
-                                        "height": 16
-                                    }
-                                }
-                            ],
                             "render-priority": 0,
                             "priority-offset": 0,
                             "position-offset": {
                                 "x": 0,
                                 "y": 0
+                            },
+                            "image": {
+                                "__cpp_type": "ild::TiledImage",
+                                "texture-key": "tileset",
+                                "texture-rects": [
+                                    {
+                                        "first": {
+                                            "left": 656,
+                                            "top": 96,
+                                            "width": 16,
+                                            "height": 16
+                                        },
+                                        "second": {
+                                            "left": 0,
+                                            "top": 0,
+                                            "width": 16,
+                                            "height": 16
+                                        }
+                                    },
+                                    {
+                                        "first": {
+                                            "left": 656,
+                                            "top": 112,
+                                            "width": 16,
+                                            "height": 16
+                                        },
+                                        "second": {
+                                            "left": 0,
+                                            "top": 16,
+                                            "width": 16,
+                                            "height": 16
+                                        }
+                                    }
+                                ]
                             }
                         }
                     }

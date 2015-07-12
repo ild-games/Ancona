@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Core2D/Systems/Drawable/Image.hpp>
 
 namespace ild
 {
@@ -28,7 +29,6 @@ class SpriteDrawable : public Drawable
          * @brief An element to draw a sprite to an entity.
          *
          * @param physicsSystem System that describes the entity's location.
-         * @param textureKey String that describes which texture should be used
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param textureRects Optional list of IntRect pairs that describe the "tiles"
          *        the SpriteDrawable is made up of. The first IntRect is the location
@@ -41,9 +41,7 @@ class SpriteDrawable : public Drawable
          */
         SpriteDrawable(
                 BasePhysicsSystem * physicsSystem,
-                const std::string textureKey,
                 const int priority,
-                const std::vector<std::pair<sf::IntRect, sf::IntRect>> textureRects = std::vector<std::pair<sf::IntRect, sf::IntRect>>(),
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
@@ -67,16 +65,11 @@ class SpriteDrawable : public Drawable
 
         /* getters and setters */
         sf::Vector2u size();
-        int alpha() { return _alpha; }
+        int alpha();
         void alpha(int alpha);
     protected:
-        std::unique_ptr<sf::Sprite> _sprite;
-        std::vector<std::unique_ptr<sf::Sprite>> _sprites;
-        std::vector<std::pair<sf::IntRect, sf::IntRect>> _textureRects;
-        std::string _textureKey;
-        int _alpha = 255;
+        std::unique_ptr<Image> _image;
 
-        bool IsWholeTexture();
 };
 
 }
