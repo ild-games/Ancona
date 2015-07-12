@@ -11,6 +11,7 @@ using namespace ild;
 int main(int argc, const char *argv[])
 {
     PolymorphicRegistration::RegisterType<SpriteDrawable>("ild::SpriteDrawable");
+    PolymorphicRegistration::RegisterType<AnimatedDrawable>("ild::AnimatedDrawable");
     PolymorphicRegistration::RegisterType<TiledImage>("ild::TiledImage");
     PolymorphicRegistration::RegisterType<SoloImage>("ild::SoloImage");
 
