@@ -19,7 +19,6 @@ using namespace ild;
 
 int main(int argc, const char *argv[])
 {
-    __android_log_print(ANDROID_LOG_VERBOSE, "Ancona", "ANCONA_SFML!!: starting main");
     PolymorphicRegistration::RegisterType<sf::RectangleShape>("sf::RectangleShape");
     PolymorphicRegistration::RegisterType<AnimatedDrawable>("ild::AnimatedDrawable");
     PolymorphicRegistration::RegisterType<TextDrawable>("ild::TextDrawable");
@@ -45,6 +44,7 @@ int main(int argc, const char *argv[])
         }
 
 
+
         int nb_read = 0;
         while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)
         {
@@ -60,10 +60,9 @@ int main(int argc, const char *argv[])
     AAssetDir_close(assetDir);
 
 
-    Config::Load("Config.txt");
-    __android_log_print(ANDROID_LOG_VERBOSE, "Ancona", "ANCONA_SFML!!: Loading Config");
+    Config::Load(configStream);
 
-    ImpossibleGame game(1920, 1080, new AndroidPlatform());
+    ImpossibleGame game(270, 480, new AndroidPlatform());
     game.Run();
     
     return 0;
