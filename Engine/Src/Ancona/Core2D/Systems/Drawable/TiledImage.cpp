@@ -4,6 +4,14 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::TiledImage)
 
 using namespace ild;
 
+TiledImage::TiledImage(
+        std::string textureKey,
+        std::vector<std::pair<sf::IntRect, sf::IntRect>> textureRects):
+    Image(textureKey),
+    _textureRects(textureRects)
+{
+}
+
 void TiledImage::Draw(sf::RenderWindow & window, float delta)
 {
     for(int i = 0; i < _textureRects.size(); i++)

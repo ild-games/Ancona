@@ -8,6 +8,10 @@ namespace ild
 
 /**
  * @brief Responsible for drawing an animated sprite to the window.
+ *        
+ *        Note: AnimatedDrawables can use both SoloImages and TiledImages
+ *        for its frames. It is highly recommended to use TiledImages 
+ *        so only one texture is used for the drawable.
  *
  * @author Tucker Lein
  */
@@ -72,8 +76,11 @@ class AnimatedDrawable : public Drawable
          */
         int _curFrame = 0;
 
-        void AdvanceFrame();
+        /**
+         * @brief Ticks the animation, will switch the frame when it is time to do so.
+         */
         void Tick(float delta);
+        void AdvanceFrame();
 };
 
 }

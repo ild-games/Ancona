@@ -4,6 +4,8 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::SoloImage)
 
 using namespace ild;
 
+SoloImage::SoloImage(std::string textureKey): Image(textureKey) { }
+
 void SoloImage::Draw(sf::RenderWindow & window, float delta)
 {
     _sprite->setPosition(_position.x, _position.y);
