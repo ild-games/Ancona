@@ -8,6 +8,12 @@ class Dependency:
     def clone_src(self):
         building.get_git_repo(self.get_src_dir(), self.get_git_repo_url(), self.get_git_tag())
 
+    def patch_src(self):
+        patch_name = self.get_name() + ".patch"
+        patch_path = os.path.join(self.build_info.patch_dir,patch_name)
+        if os.path.isfile(patch_path):
+            building.apply_git_patch(self.get_src_dir(),patch_path)
+
     def build(self):
         full_build_dir = self.get_full_build_dir()
         building.build_cmake_project(self.get_src_dir(), full_build_dir, self.build_info.platform.get_cmake_args(self.build_info.target_architecture) + self.get_cmake_args())
@@ -26,6 +32,7 @@ class Dependency:
     def install(self):
         if not os.path.isdir(self.get_src_dir()):
             self.clone_src()
+            self.patch_src()
         if not self.is_installed():
             self.build()
             self.move_includes()

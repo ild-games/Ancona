@@ -8,6 +8,7 @@ class BuildInfo:
     def __init__(self, platform, proj_dir, architecture=None, src_dir=None, inc_dest_dir=None, bin_dest_dir=None):
         self.platform = platform
         self.proj_dir = proj_dir
+        self.patch_dir = os.path.join(proj_dir,"BuildTools","Patch")
         self.src_dir = src_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "src")
         self.inc_dest_dir = inc_dest_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "include")
         self.bin_dest_dir = bin_dest_dir or os.path.join(proj_dir, self.EXTLIB_DIR, "lib")

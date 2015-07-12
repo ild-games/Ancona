@@ -11,6 +11,7 @@ class SFML(Dependency):
     def move_binaries(self):
         super().move_binaries()
 
+        ext_path = None
         if self.build_info.platform.get_name() == "android":
             ext_path = os.path.join(self.get_src_dir(),"extlibs","libs-android",self.build_info.target_architecture)
 

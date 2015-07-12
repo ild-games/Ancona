@@ -1,40 +1,25 @@
-From bc725fd841fa77764d7d8c3a4d52ab3e90d99bb1 Mon Sep 17 00:00:00 2001
-From: Jeff Swenson <jeffpswenson@gmail.com>
-Date: Mon, 5 Jan 2015 20:59:06 -0600
-Subject: [PATCH] Fix for Ancona build
+From d8edc3e901ceee176c86613d1f423debfac0d0f3 Mon Sep 17 00:00:00 2001
+From: Jeff <jeffswenson@betterthannull.com>
+Date: Sun, 12 Jul 2015 14:47:29 -0500
+Subject: [PATCH] Make changes needed for patch file.
 
 ---
- cmake/Macros.cmake             | 3 ++-
- src/SFML/Main/SFMLActivity.cpp | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ src/SFML/Main/MainAndroid.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/cmake/Macros.cmake b/cmake/Macros.cmake
-index 49ad2c3..2df8057 100644
---- a/cmake/Macros.cmake
-+++ b/cmake/Macros.cmake
-@@ -98,7 +98,8 @@ macro(sfml_add_library target)
-         if (${target} MATCHES "sfml-activity")
-             set_target_properties(${target} PROPERTIES COMPILE_FLAGS -fpermissive)
-             set_target_properties(${target} PROPERTIES LINK_FLAGS "-landroid -llog")
--            set(CMAKE_CXX_CREATE_SHARED_LIBRARY ${CMAKE_CXX_CREATE_SHARED_LIBRARY_WITHOUT_STLPORT})
-+            #set(CMAKE_CXX_CREATE_SHARED_LIBRARY ${CMAKE_CXX_CREATE_SHARED_LIBRARY_WITHOUT_STLPORT})
-+            set(CMAKE_CXX_CREATE_SHARED_LIBRARY ${CMAKE_CXX_CREATE_SHARED_LIBRARY_WITH_STLPORT})
-         else()
-             set(CMAKE_CXX_CREATE_SHARED_LIBRARY ${CMAKE_CXX_CREATE_SHARED_LIBRARY_WITH_STLPORT})
-         endif()
-diff --git a/src/SFML/Main/SFMLActivity.cpp b/src/SFML/Main/SFMLActivity.cpp
-index 549303d..418a7c4 100644
---- a/src/SFML/Main/SFMLActivity.cpp
-+++ b/src/SFML/Main/SFMLActivity.cpp
-@@ -159,7 +159,7 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* savedState, size_
-     jobject ObjectActivityInfo = lJNIEnv->CallObjectMethod(ObjectPackageManager, MethodGetActivityInfo, ObjectComponentName, GET_META_DATA);
+diff --git a/src/SFML/Main/MainAndroid.cpp b/src/SFML/Main/MainAndroid.cpp
+index 52e3816..e4af0a1 100644
+--- a/src/SFML/Main/MainAndroid.cpp
++++ b/src/SFML/Main/MainAndroid.cpp
+@@ -117,7 +117,7 @@ void* main(ActivityStates* states)
+     initializeMain(states);
  
-     // Load our libraries in reverse order
--    loadLibrary("c++_shared", lJNIEnv, ObjectActivityInfo);
-+    //loadLibrary("c++_shared", lJNIEnv, ObjectActivityInfo);
-     loadLibrary("sndfile", lJNIEnv, ObjectActivityInfo);
-     loadLibrary("openal", lJNIEnv, ObjectActivityInfo);
+     sleep(seconds(0.5));
+-    ::main(0, NULL);
++    ::main(0, (char**)states->activity);
  
+     // Terminate properly the main thread and wait until it's done
+     terminateMain(states);
 -- 
-1.9.1
+2.4.5
 
