@@ -64,8 +64,8 @@ link_directories(${EXT_LIB_DIR})
 include(BuildTools/FindLibs.cmake)
 #Add all SFML libraries that need to be included
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
-set(SFML_DYNAMIC sfml-activity sfml-graphics sfml-window sfml-system)
-set(SFML_STATIC sfml-main android)
+set(SFML_DYNAMIC sfml-graphics sfml-window sfml-system)
+set(SFML_WHOLE -lsfml-main)
 
 #Add jsoncpp
 set(Jsoncpp_LIBRARY jsoncpp)

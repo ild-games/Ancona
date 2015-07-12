@@ -8,9 +8,8 @@ set(JumpySrc Src/JumpyDuck/Platforms/Desktop/main.cpp)
 
 ancona_add_target(JumpyDuckProto
     SRC ${JumpySrc}
-    STATIC_PROJECT_LIBS  Jumpy_Lib ${Ancona_Libs}
-    DYNAMIC_DEPEND_LIBS ${SFML_DYNAMIC}
-    STATIC_DEPEND_LIBS JsonCpp ${SFML_STATIC}
+    LIBS Jumpy_Lib ${Ancona_Libs} ${SFML_LIBS} jsoncpp android EGL log
+    WHOLE_STATIC_LIBS ${SFML_WHOLE}
     PLATFORMS DESKTOP)
 
 configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/JumpyDuckProto/Config.txt @ONLY)

@@ -14,9 +14,8 @@ endif(DESKTOP)
 
 ancona_add_target(ImpossibleDuckProto
     SRC ${ImpossibleSrc}
-    DYNAMIC_DEPEND_LIBS ${SFML_DYNAMIC}
-    STATIC_DEPEND_LIBS jsoncpp  ${SFML_STATIC}
-    STATIC_PROJECT_LIBS Impossible_Lib ${Ancona_Libs}
+    LIBS Impossible_Lib ${Ancona_Libs} ${SFML_LIBS} jsoncpp android EGL log
+    WHOLE_STATIC_LIBS ${SFML_WHOLE}
     PLATFORMS ANDROID DESKTOP
     INCLUDES ${CMAKE_CURRENT_LIST_DIR}/Src)
 

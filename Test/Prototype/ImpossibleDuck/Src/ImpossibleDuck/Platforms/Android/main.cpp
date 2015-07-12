@@ -19,6 +19,7 @@ using namespace ild;
 
 int main(int argc, const char *argv[])
 {
+    __android_log_print(ANDROID_LOG_INFO,"ancona-main","Impossible Main Called");
     PolymorphicRegistration::RegisterType<sf::RectangleShape>("sf::RectangleShape");
     PolymorphicRegistration::RegisterType<AnimatedDrawable>("ild::AnimatedDrawable");
     PolymorphicRegistration::RegisterType<TextDrawable>("ild::TextDrawable");

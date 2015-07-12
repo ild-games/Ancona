@@ -65,7 +65,7 @@ endmacro()
 # INCLUDES /Abs/Paths/To/Add/To/Includes
 # PLATFORMS ALL)
 macro(ancona_add_target target)
-    cmake_parse_arguments(ARGS "" "" "SRC;STATIC_PROJECT_LIBS;DYNAMIC_PROJECT_LIBS;STATIC_DEPEND_LIBS;DYNAMIC_DEPEND_LIBS;PLATFORMS;INCLUDES" ${ARGN})
+    cmake_parse_arguments(ARGS "" "" "SRC;LIBS;WHOLE_STATIC_LIBS;PLATFORMS;INCLUDES" ${ARGN})
 
     ancona_match_platform(is_platform_match ${ARGS_PLATFORMS})
 
@@ -80,8 +80,10 @@ macro(ancona_add_target target)
                 target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
             endif(ARGS_INCLUDES)
 
-            target_link_libraries(${target} ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
-                ${ARGS_STATIC_DYNAMIC_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
+
+            target_link_libraries(${target} -Wl,--whole-archive ${ARGS_WHOLE_STATIC_LIBS} -Wl,--no-whole-archive)
+
+            target_link_libraries(${target} ${ARGS_LIBS})
             
         endif(DESKTOP)
 
@@ -107,8 +109,8 @@ macro(ancona_add_target target)
             set_target_properties(${target} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${Android_Output_Dir}/jnilibs/${ARCHITECTURE_NAME})
             set_target_properties(${target} PROPERTIES OUTPUT_NAME sfml-example)
 
-            target_link_libraries(${target} ${ARGS_STATIC_PROJECT_LIBS} ${ARGS_DYNAMIC_PROJECT_LIBS} 
-                ${ARGS_STATIC_DEPEND_LIBS} ${ARGS_DYNAMIC_DEPEND_LIBS})
+            target_link_libraries(${target} -Wl,--whole-archive ${ARGS_WHOLE_STATIC_LIBS} -Wl,--no-whole-archive)
+            target_link_libraries(${target} ${ARGS_LIBS})
         endif(ANDROID)
     endif(is_platform_match)
 
