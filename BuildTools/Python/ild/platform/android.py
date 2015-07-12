@@ -1,4 +1,5 @@
 from ild.platform.platform import *
+from os import environ
 
 class Android(Platform):
     def get_name(self):
@@ -20,4 +21,7 @@ class Android(Platform):
         args.append(("ANDROID_STL", "gnustl_shared"))
         args.append(("ANDROID_NATIVE_API_LEVEL", "android-14"))
         return args
+
+    def get_ndk_path(self):
+        return environ["ANDROID_NDK"]
 

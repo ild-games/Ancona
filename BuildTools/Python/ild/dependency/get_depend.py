@@ -17,11 +17,12 @@ from ild.building import *
 from ild.dependency.jsoncpp import *
 from ild.dependency.sfml import *
 from ild.dependency.build_info import *
+from ild.dependency.cppstl import *
 from ild.platform.platform import *
 from ild.platform.system import *
 from ild.platform.android import *
 
-DEPENDENCIES = [ JsonCpp, SFML ]
+DEPENDENCIES = [ JsonCpp, SFML, CppStl ]
 
 
 ##
