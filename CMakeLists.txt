@@ -65,7 +65,7 @@ link_directories(${EXT_LIB_DIR})
 include(BuildTools/FindLibs.cmake)
 
 set(ANCONA_LIBS Ancona_Game Ancona_Platformer Ancona_Core2D 
-    Ancona_Framework Ancona_Util2D Ancona_Util)
+    Ancona_Framework Ancona_Util2D Ancona_Util Ancona_System)
 
 set(ANCONA_EXT_LIBS sfml-graphics sfml-window sfml-system jsoncpp)
 

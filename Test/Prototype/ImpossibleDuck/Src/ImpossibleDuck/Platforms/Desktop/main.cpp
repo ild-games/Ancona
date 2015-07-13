@@ -5,7 +5,7 @@
 #include <Ancona/Framework/Serializing/PolymorphicRegistration.hpp>
 
 #include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleGame.hpp>
-#include <ImpossibleDuck/ImpossibleLib/Core/DesktopPlatform.hpp>
+#include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleDesktopFactory.hpp>
 
 using namespace ild;
 
@@ -19,7 +19,7 @@ int main(int argc, const char *argv[])
 
     Config::Load("Config.txt");
 
-    ImpossibleGame game(1920, 1080, new DesktopPlatform());
+    ImpossibleGame game(1920, 1080, new ImpossibleDesktopFactory());
     game.Run();
     
     return 0;

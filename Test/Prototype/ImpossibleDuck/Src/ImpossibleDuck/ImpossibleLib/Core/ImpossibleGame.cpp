@@ -11,7 +11,7 @@ using namespace ild;
 ImpossibleGame::ImpossibleGame(
         int width,
         int height,
-        PlatformBase * platform) :
+        ImpossiblePlatformFactory * platform) :
     Game(width,height,"Impossible Duck"),
     _platform(platform)
 {

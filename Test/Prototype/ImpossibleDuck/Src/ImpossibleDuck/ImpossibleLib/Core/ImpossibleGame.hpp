@@ -2,7 +2,7 @@
 #define ImpossibleDuck_Core_ImpossibleGame_hpp
 
 #include <Ancona/Core2D/Core/Game.hpp>
-#include "PlatformBase.hpp"
+#include "ImpossiblePlatformFactory.hpp"
 
 namespace ild
 {
@@ -13,13 +13,13 @@ class ImpossibleGame : public Game
         ImpossibleGame(
                 int width,
                 int height,
-                PlatformBase * platform);
+                ImpossiblePlatformFactory * platform);
 
     protected:
         void CreateInitialScreen();
 
     private:
-        PlatformBase * _platform;
+        ImpossiblePlatformFactory * _platform;
 };
 
 }

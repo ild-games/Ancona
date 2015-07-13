@@ -43,17 +43,14 @@ bool MapSerializer::ContinueLoading()
 
 void MapSerializer::LoadMapFile()
 {
-    std::ifstream saveStream(Config::GetOption("SaveData"), std::ifstream::binary);
-    saveStream >> _saveRoot;
+    auto saveStream = Platform::GetInputFileStream(Config::GetOption("SaveData"));
+    (*saveStream) >> _saveRoot;
     _saveProfileRoot = _saveRoot["profiles"][_profile];
     _mapName = _saveProfileRoot["screen-maps"][_key].asString();
     Assert(_mapName != "", "Cannot have a null map");
 
-    std::ifstream mapStream("Maps/" + _mapName + ".map", std::ifstream::binary);
-    Assert(mapStream.is_open(), "Failed to load the map file.");
-    mapStream >> _mapRoot;
-    std::string test;
-    mapStream >> test;
+    auto mapStream = Platform::GetInputFileStream("Maps/" + _mapName + ".map");
+    (*mapStream) >> _mapRoot;
 
     if(_loading)
     {

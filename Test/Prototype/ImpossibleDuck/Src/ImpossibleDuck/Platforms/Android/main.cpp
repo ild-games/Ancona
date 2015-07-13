@@ -1,20 +1,14 @@
-#include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
+#include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Serializing/PolymorphicRegistration.hpp>
+#include <Ancona/System/Android/AndroidPlatform.hpp>
+#include <Ancona/System/Platform.hpp>
 
 #include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleGame.hpp>
-#include <ImpossibleDuck/ImpossibleLib/Core/AndroidPlatform.hpp>
+#include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleAndroidFactory.hpp>
 
-
-#include <sstream>
-#include <cstring>
-
-#include <android/asset_manager.h>
-#include <android/log.h>
-#include <android/native_activity.h>
-#include <android/window.h>
 using namespace ild;
 
 int main(int argc, const char *argv[])
@@ -25,44 +19,11 @@ int main(int argc, const char *argv[])
     PolymorphicRegistration::RegisterType<ShapeDrawable>("ild::ShapeDrawable");
     PolymorphicRegistration::RegisterType<SpriteDrawable>("ild::SpriteDrawable");
 
+    AndroidPlatform::assetManager((AAssetManager *) argv);
 
-    AAssetManager * mgr = (AAssetManager *) argv;
-    const char* dirname = "";
-    AAssetDir* assetDir = AAssetManager_openDir(mgr, dirname);
-    const char* filename = (const char*)NULL;
-    std::ostringstream fileStream;
+    Config::Load(*Platform::GetInputFileStream("Config.txt"));
 
-    while ((filename = AAssetDir_getNextFileName(assetDir)) != NULL) 
-    {
-        AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
-        char buf[BUFSIZ + 1];
-        memset(buf,0, (BUFSIZ + 1 ) * sizeof(char));
-
-        if(strcmp("Config.txt",filename))
-        {
-            continue;
-        }
-
-
-
-        int nb_read = 0;
-        while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)
-        {
-            fileStream << buf;
-
-            memset(buf,0, (BUFSIZ + 1 ) * sizeof(char));
-        }
-        break;
-    }
-
-    std::istringstream configStream(fileStream.str());
-
-    AAssetDir_close(assetDir);
-
-
-    Config::Load(configStream);
-
-    ImpossibleGame game(270, 480, new AndroidPlatform());
+    ImpossibleGame game(270, 480, new ImpossibleAndroidFactory());
     game.Run();
     
     return 0;
