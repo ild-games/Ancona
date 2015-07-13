@@ -80,7 +80,9 @@ macro(ancona_add_target target)
                 target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
             endif(ARGS_INCLUDES)
 
-            #target_link_libraries(${target} -Wl,--whole-archive ${ARGS_WHOLE_STATIC_LIBS} -Wl,--no-whole-archive)
+            if(ARGS_WHOLE_STATIC_LIBS)
+                target_link_libraries(${target} -Wl,--whole-archive ${ARGS_WHOLE_STATIC_LIBS} -Wl,--no-whole-archive)
+            endif(ARGS_WHOLE_STATIC_LIBS)
 
             target_link_libraries(${target} ${ARGS_LIBS})
             

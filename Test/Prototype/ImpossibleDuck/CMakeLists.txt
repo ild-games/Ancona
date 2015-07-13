@@ -19,6 +19,14 @@ ancona_add_target(ImpossibleDuckProto
     PLATFORMS ANDROID DESKTOP
     INCLUDES ${CMAKE_CURRENT_LIST_DIR}/Src)
 
-configure_file(Config.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ImpossibleDuckProto/Config.txt @ONLY)
-configure_file(save.dat ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ImpossibleDuckProto/save.dat COPYONLY)
-file(COPY Maps DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ImpossibleDuckProto)
+if(ANDROID)
+    set(AssetOutputDir ${CMAKE_BINARY_DIR}/Android/ImpossibleDuckProto/assets)
+    set(COMPILED_PRJ_SRC_DIR)
+elseif(DESKTOP)
+    set(AssetOutputDir ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ImpossibleDuckProto)
+    set(COMPILED_PRJ_SRC_DIR ${CMAKE_SRC_DIR}/)
+endif()
+
+configure_file(Config.txt ${AssetOutputDir}/Config.txt @ONLY)
+configure_file(save.dat ${AssetOutputDir}/save.dat COPYONLY)
+file(COPY Maps DESTINATION ${AssetOutputDir})

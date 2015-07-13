@@ -24,7 +24,6 @@ ImpossibleInputComponent::ImpossibleInputComponent(
     action = _physics.actions().CreateVelocityAction();
     action->duration(ActionDuration::PERSISTENT)
           ->tween(0.5);
-
     jumpAction = _physics.actions().CreateVelocityAction();
     jumpAction
         ->duration(ActionDuration::PERSISTENT);
@@ -66,7 +65,6 @@ void ImpossibleInputComponent::Move(int direction)
     {
         if(direction == RIGHT || direction == LEFT)
         {
-
             action->ResetAge();
             action->value(directions[direction] * speed);
         }

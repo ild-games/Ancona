@@ -1,5 +1,3 @@
-#include <android/log.h>
-
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
@@ -50,11 +48,10 @@ void MapSerializer::LoadMapFile()
     reader.parse(*saveStream, _saveRoot);
     _saveProfileRoot = _saveRoot["profiles"][_profile];
     _mapName = _saveProfileRoot["screen-maps"][_key].asString();
-    __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "INCOMING !!!!");
-    __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", _mapName.c_str());
     Assert(_mapName != "", "Cannot have a null map");
+    std::string mapFileName = "Maps/" + _mapName + ".map";
 
-    auto mapStream = Platform::GetInputFileStream("Maps/" + _mapName + ".map");
+    auto mapStream = Platform::GetInputFileStream(mapFileName);
     reader.parse(*mapStream, _mapRoot);
 
     if(_loading)

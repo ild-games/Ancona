@@ -23,7 +23,7 @@ int main(int argc, const char *argv[])
 
     Config::Load(*Platform::GetInputFileStream("Config.txt"));
 
-    ImpossibleGame game(270, 480, new ImpossibleAndroidFactory());
+    ImpossibleGame game(1920, 1080, new ImpossibleAndroidFactory());
     game.Run();
     
     return 0;

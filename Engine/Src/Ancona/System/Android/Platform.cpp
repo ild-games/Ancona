@@ -9,36 +9,28 @@ AAssetManager * AndroidPlatform::_assetManager = nullptr;
 
 std::unique_ptr<std::istream> Platform::GetInputFileStream(const std::string & desiredFile)
 {
+    const int BUFFER_SIZE=255;
+    char buf[BUFFER_SIZE];
     AAssetManager * mgr = AndroidPlatform::assetManager();
-    const char* dirname = "";
-    AAssetDir* assetDir = AAssetManager_openDir(mgr, dirname);
-    const char* filename = (const char*)NULL;
     std::ostringstream fileStream;
 
-    while ((filename = AAssetDir_getNextFileName(assetDir)) != NULL) 
+    AAsset * assetFile = AAssetManager_open(mgr, desiredFile.c_str(), AASSET_MODE_BUFFER);
+    if(!assetFile)
     {
-        AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_STREAMING);
-        char buf[BUFSIZ + 1];
-        memset(buf,0, (BUFSIZ + 1 ) * sizeof(char));
-
-        if(strcmp(desiredFile.c_str(),filename))
-        {
-            continue;
-        }
-
-        int nb_read = 0;
-        while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)
-        {
-            fileStream << buf;
-
-            memset(buf,0, (BUFSIZ + 1 ) * sizeof(char));
-        }
-        break;
+        return nullptr;
     }
+
+    int nb_read = 0;
+    while ((nb_read = AAsset_read(assetFile, buf, BUFFER_SIZE)) > 0)
+    {
+        fileStream << buf;
+
+        memset(buf,0, (BUFFER_SIZE + 1 ) * sizeof(char));
+    }
+    AAsset_close(assetFile);
 
     std::unique_ptr<std::istream> returnStream(new std::istringstream(fileStream.str()));
 
-    AAssetDir_close(assetDir);
 
     return returnStream;
 }
