@@ -1,3 +1,5 @@
+#include <android/log.h>
+
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
@@ -44,13 +46,16 @@ bool MapSerializer::ContinueLoading()
 void MapSerializer::LoadMapFile()
 {
     auto saveStream = Platform::GetInputFileStream(Config::GetOption("SaveData"));
-    (*saveStream) >> _saveRoot;
+    Json::Reader reader;
+    reader.parse(*saveStream, _saveRoot);
     _saveProfileRoot = _saveRoot["profiles"][_profile];
     _mapName = _saveProfileRoot["screen-maps"][_key].asString();
+    __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "INCOMING !!!!");
+    __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", _mapName.c_str());
     Assert(_mapName != "", "Cannot have a null map");
 
     auto mapStream = Platform::GetInputFileStream("Maps/" + _mapName + ".map");
-    (*mapStream) >> _mapRoot;
+    reader.parse(*mapStream, _mapRoot);
 
     if(_loading)
     {

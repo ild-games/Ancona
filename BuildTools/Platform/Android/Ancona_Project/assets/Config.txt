@@ -7,3 +7,4 @@
 
 #Path to the resource folder
 ResourceRoot = resources
+SaveData = save.dat
