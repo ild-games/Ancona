@@ -5,6 +5,8 @@
 
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
 
+#include <android/log.h>
+
 namespace ild
 {
 
@@ -46,12 +48,15 @@ class SFMLResourceLoader : public AbstractLoader
                     resourceKey,
                     _fileExtension);
 
+
             if(!(object->loadFromFile(fileName)))
             {
                 //If the load failed then null should be returned
                 delete object;
                 return NULL;
             }
+            __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", fileName.c_str());
+            __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "Hello");
             return object;
         }
 

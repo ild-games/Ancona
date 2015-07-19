@@ -19,7 +19,9 @@ int main(int argc, const char *argv[])
     PolymorphicRegistration::RegisterType<ShapeDrawable>("ild::ShapeDrawable");
     PolymorphicRegistration::RegisterType<SpriteDrawable>("ild::SpriteDrawable");
 
-    AndroidPlatform::assetManager((AAssetManager *) argv);
+    ANativeActivity * activity = (ANativeActivity *) argv;
+    AndroidPlatform::internalPath(std::string(activity->internalDataPath));
+    AndroidPlatform::assetManager(activity->assetManager);
 
     Config::Load(*Platform::GetInputFileStream("Config.txt"));
 

@@ -14,6 +14,7 @@ class Platform
 {
     public:
         static std::unique_ptr<std::istream> GetInputFileStream(const std::string & desiredFile);          
+        static std::unique_ptr<std::ostream> GetOutputFileStream(const std::string & desiredFile);          
 };
 
 }

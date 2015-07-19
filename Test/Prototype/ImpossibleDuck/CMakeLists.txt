@@ -24,7 +24,7 @@ if(ANDROID)
     set(COMPILED_PRJ_SRC_DIR)
 elseif(DESKTOP)
     set(AssetOutputDir ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ImpossibleDuckProto)
-    set(COMPILED_PRJ_SRC_DIR ${CMAKE_SRC_DIR}/)
+    set(COMPILED_PRJ_SRC_DIR ${CMAKE_SOURCE_DIR}/)
 endif()
 
 configure_file(Config.txt ${AssetOutputDir}/Config.txt @ONLY)
