@@ -33,8 +33,8 @@ void TiledImage::SetupSprite()
         auto curRect = _textureRects[i];
         _sprites[i]->setTextureRect(curRect.first);
         _sprites[i]->setOrigin(
-                (curRect.second.width / 2),
-                (curRect.second.height / 2));
+                ((float) curRect.second.width / 2),
+                ((float) curRect.second.height / 2));
     }
 }
 
@@ -52,14 +52,8 @@ sf::Vector2u TiledImage::size()
     {
         curWidth = sprite->getPosition().x + sprite->getLocalBounds().width > maxWidth;
         curHeight = sprite->getPosition().y + sprite->getLocalBounds().height > maxHeight;
-        if(curWidth > maxWidth)
-        {
-            maxWidth = curWidth;
-        }
-        if(curHeight > maxHeight)
-        {
-            maxHeight = curHeight;
-        }
+        maxWidth = std::max(maxWidth, curWidth);
+        maxHeight = std::max(maxHeight, curHeight);
     }
     return sf::Vector2u(maxWidth, maxHeight);
 }
