@@ -1,6 +1,4 @@
 #include <Ancona/Core2D/Systems/Drawable/SpriteDrawable.hpp>
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::SpriteDrawable)
 
@@ -8,7 +6,6 @@ using namespace ild;
 
 SpriteDrawable::SpriteDrawable(
         BasePhysicsSystem * physicsSystem,
-        const std::string textureKey,
         const int priority,
         int priorityOffset,
         sf::Vector2f positionOffset) :
@@ -16,8 +13,7 @@ SpriteDrawable::SpriteDrawable(
             physicsSystem,
             priority,
             priorityOffset,
-            positionOffset), 
-    _textureKey(textureKey)
+            positionOffset)
 {
 }
 
@@ -27,41 +23,35 @@ void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
-    _sprite->setPosition(position.x,position.y);
-    _sprite->setRotation(_rotation);
-    window.draw(*_sprite);
+    _image->position(position);
+    _image->rotation(_rotation);
+    _image->Draw(window, delta);
 }
 
-void SpriteDrawable::FetchDependencies(const Entity &entity) {
+void SpriteDrawable::FetchDependencies(const Entity &entity) 
+{
     Drawable::FetchDependencies(entity);
-    sf::Texture & texture = *ResourceLibrary::Get<sf::Texture>(_textureKey);
-    _sprite = new sf::Sprite(texture);
-    _sprite->setOrigin(
-            texture.getSize().x / 2,
-            texture.getSize().y / 2);
+    _image->SetupSprite();
 }
 
-void SpriteDrawable::Serialize(Archive &archive) {
+void SpriteDrawable::Serialize(Archive &archive) 
+{
     Drawable::Serialize(archive);
-    archive(_textureKey, "texture-key");
+    archive(_image, "image");
 }
 
 /* getters and setters */
 sf::Vector2u SpriteDrawable::size()
 {
-    return sf::Vector2u(
-            _sprite->getLocalBounds().width,
-            _sprite->getLocalBounds().height);
+    return _image->size();
 }
 
 int SpriteDrawable::alpha()
 {
-    return _sprite->getColor().a;
+    return _image->alpha();
 }
 
 void SpriteDrawable::alpha(int alpha)
 {
-    sf::Color col(_sprite->getColor());
-    col.a = alpha;
-    _sprite->setColor(col);
+    _image->alpha(alpha);
 }

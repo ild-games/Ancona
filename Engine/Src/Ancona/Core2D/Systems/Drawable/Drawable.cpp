@@ -36,4 +36,3 @@ void Drawable::FetchDependencies(const Entity & entity)
     _drawableComponent = _drawableSystem->at(entity);
     _drawableComponent->AddDrawable(_key, this);
 }
-

@@ -7,25 +7,33 @@ using namespace ild;
 
 AnimatedDrawable::AnimatedDrawable(
         BasePhysicsSystem * physicsSystem,
-        const std::string textureKey,
         const int priority,
-        sf::Vector2f frameDimensions,
-        int numFrames,
         float duration,
         int priorityOffset,
         sf::Vector2f positionOffset) :
-    SpriteDrawable(
+    Drawable(
             physicsSystem,
-            textureKey,
             priority,
             priorityOffset,
-            positionOffset),
-    _frameDimensions(frameDimensions),
-    _numFrames(numFrames)
+            positionOffset)
 {
 }
 
 void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
+{
+    auto pos = _physicsComponent->GetInfo().position();
+    sf::Vector2f position = sf::Vector2f(
+            pos.x + _positionOffset.x,
+            pos.y + _positionOffset.y);
+    _frames[_curFrame]->position(position);
+    _frames[_curFrame]->rotation(_rotation);
+    _frames[_curFrame]->Draw(window, delta);
+
+    Tick(delta);
+}
+
+
+void AnimatedDrawable::Tick(float delta)
 {
     _timeUntilChange -= delta;
     if(_timeUntilChange <= 0)
@@ -33,53 +41,48 @@ void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
         _timeUntilChange += _duration;
         AdvanceFrame();
     }
-    SpriteDrawable::Draw(window, delta);
 }
 
 void AnimatedDrawable::AdvanceFrame()
 {
     _curFrame++;
-    if(_curFrame == _numFrames)
+    if(_curFrame == _frames.size())
     {
         _curFrame = 0;
     }
-    float newX = _sprite->getTextureRect().left + _frameDimensions.x;
-    float newY = _sprite->getTextureRect().top;
-    if(newX >= _sprite->getTexture()->getSize().x)
-    {
-        newX = 0;
-        newY += _frameDimensions.y;
-        if(newY >= _sprite->getTexture()->getSize().y)
-        {
-            newY = 0;
-        }
-    }
-    _sprite->setTextureRect(
-            sf::IntRect(
-                newX,
-                newY,
-                _frameDimensions.x, 
-                _frameDimensions.y));
 }
 
 void AnimatedDrawable::FetchDependencies(const Entity &entity) {
-    SpriteDrawable::FetchDependencies(entity);
+    Drawable::FetchDependencies(entity);
     _timeUntilChange = _duration;
     _curFrame = 0;
-    _sprite->setTextureRect(
-            sf::IntRect(
-                    0,
-                    0,
-                    _frameDimensions.x,
-                    _frameDimensions.y));
-    _sprite->setOrigin(
-            _frameDimensions.x / 2,
-            _frameDimensions.y / 2);
+    for(auto & frame : _frames)
+    {
+        frame->SetupSprite();
+    }
 }
 
 void AnimatedDrawable::Serialize(Archive &archive) {
-    SpriteDrawable::Serialize(archive);
-    archive(_frameDimensions, "frame-dimensions");
-    archive(_numFrames, "num-frames");
+    Drawable::Serialize(archive);
     archive(_duration, "duration");
+    archive(_frames, "frames");
+}
+
+/* getters and setters */
+sf::Vector2u AnimatedDrawable::size()
+{
+    return _frames[_curFrame]->size();
+}
+
+int AnimatedDrawable::alpha()
+{
+    return _frames[_curFrame]->alpha();
+}
+
+void AnimatedDrawable::alpha(int newAlpha)
+{
+    for(auto & frame : _frames)
+    {
+        frame->alpha(newAlpha);
+    }
 }

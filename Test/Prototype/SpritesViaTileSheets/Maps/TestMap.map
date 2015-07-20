@@ -1,0 +1,424 @@
+{
+    "key": "TestMap",
+    "assets": [
+        {
+            "type": "TexturePNG",
+            "key": "tileset"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "duck-logo"
+        }
+    ],
+    "entities": [
+        "door",
+        "duck-logo",
+        "waterfall",
+        "screen-cam"
+    ],
+    "systems": {
+        "physics": {
+            "components": {
+                "door": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        }
+                    }
+                },
+                "waterfall": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": 100,
+                            "y": 100
+                        }
+                    }
+                },
+                "duck-logo": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": -150,
+                            "y": -150
+                        }
+                    }
+                }
+            }
+        },
+        "camera": {
+            "components": {
+                "screen-cam": {
+                    "render-priority": 0,
+                    "scale": 1.0,
+                    "default": true,
+                    "size": {
+                        "x": 800,
+                        "y": 600
+                    }
+                }
+            }
+        },
+        "drawable": {
+            "components": {
+                "duck-logo": {
+                    "drawables": {
+                        "duck-logo-sprite": {
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "key": "duck-logo-sprite",
+                            "render-priority": 0,
+                            "priority-offset": 0,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "image": {
+                                "__cpp_type": "ild::SoloImage",
+                                "texture-key": "duck-logo"
+                            }
+                        }
+                    }
+                },
+                "waterfall": {
+                    "drawables": {
+                        "waterfall-animation": {
+                            "__cpp_type": "ild::AnimatedDrawable",
+                            "key": "waterfall-animation",
+                            "render-priority": 0,
+                            "priority-offset": 0,
+                            "position-offet": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "duration": 0.02,
+                            "frames": [
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "texture-key": "tileset",
+                                    "texture-rects": [
+                                        {
+                                            "first": {
+                                                "left": 560,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 560,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "texture-key": "tileset",
+                                    "texture-rects": [
+                                        {
+                                            "first": {
+                                                "left": 592,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 592,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "texture-key": "tileset",
+                                    "texture-rects": [
+                                        {
+                                            "first": {
+                                                "left": 624,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 624,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "texture-key": "tileset",
+                                    "texture-rects": [
+                                        {
+                                            "first": {
+                                                "left": 656,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 656,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "texture-key": "tileset",
+                                    "texture-rects": [
+                                        {
+                                            "first": {
+                                                "left": 688,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 688,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "texture-key": "tileset",
+                                    "texture-rects": [
+                                        {
+                                            "first": {
+                                                "left": 720,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 720,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "texture-key": "tileset",
+                                    "texture-rects": [
+                                        {
+                                            "first": {
+                                                "left": 752,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 752,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "texture-key": "tileset",
+                                    "texture-rects": [
+                                        {
+                                            "first": {
+                                                "left": 784,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 784,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                "door": {
+                    "drawables": {
+                        "door-sprite": {
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "key": "door-sprite",
+                            "render-priority": 0,
+                            "priority-offset": 0,
+                            "position-offset": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "image": {
+                                "__cpp_type": "ild::TiledImage",
+                                "texture-key": "tileset",
+                                "texture-rects": [
+                                    {
+                                        "first": {
+                                            "left": 656,
+                                            "top": 96,
+                                            "width": 16,
+                                            "height": 16
+                                        },
+                                        "second": {
+                                            "left": 0,
+                                            "top": 0,
+                                            "width": 16,
+                                            "height": 16
+                                        }
+                                    },
+                                    {
+                                        "first": {
+                                            "left": 656,
+                                            "top": 112,
+                                            "width": 16,
+                                            "height": 16
+                                        },
+                                        "second": {
+                                            "left": 0,
+                                            "top": 16,
+                                            "width": 16,
+                                            "height": 16
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
