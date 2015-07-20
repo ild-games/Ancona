@@ -33,8 +33,8 @@ void TiledImage::SetupSprite()
         auto curRect = _textureRects[i];
         _sprites[i]->setTextureRect(curRect.first);
         _sprites[i]->setOrigin(
-                ((float) curRect.second.width / 2),
-                ((float) curRect.second.height / 2));
+                (((float) curRect.second.width) / 2),
+                (((float) curRect.second.height) / 2));
     }
 }
 
