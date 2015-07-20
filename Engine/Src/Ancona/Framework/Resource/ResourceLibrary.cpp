@@ -3,6 +3,8 @@
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
 
+#include <android/log.h>
+
 using namespace ild;
 
 typedef std::unordered_map<std::string, std::pair<void *,int> > resource_map;
@@ -41,34 +43,44 @@ void ResourceLibrary::Return(const RequestList & request)
 
 bool ResourceLibrary::DoneLoading(RequestList & request)
 {
-   bool onDisk = false; 
-   while(!onDisk)
-   {
-       auto requestIter = request.Next();
-       if(requestIter == request.end())
-       {
+    bool onDisk = false; 
+    while(!onDisk)
+    {
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "in while loop");
+        auto requestIter = request.Next();
+        if(requestIter == request.end())
+        {
+            __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "done loading");
             //We are done loading so return true
             return true;
-       }
+        }
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "after end check");
 
-       auto loader = _loaders[requestIter->first];
-       auto type = loader->resourceType();
-       resource_map & resources = _resources[type];
+        auto loader = _loaders[requestIter->first];
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "after loader lookup");
+        auto type = loader->resourceType();
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "after loader type lookup " + type);
+        resource_map & resources = _resources[type];
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "after resource map lookup");
 
-       auto resourceIter = resources.find(requestIter->second);
-       if(resourceIter == resources.end())
-       {
+        auto resourceIter = resources.find(requestIter->second);
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "pre Load");
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", requestIter->second.c_str());
+        if(resourceIter == resources.end())
+        {
             //The resource does not exist in the dictionary and needs to be loaded
             onDisk = true;
             resources[requestIter->second].first = loader->Load(requestIter->second);
 
             resourceIter = resources.find(requestIter->second);
             resourceIter->second.second = 0;
-       }
-   
-       resourceIter->second.second++;
-   }
-   return false;
+        }
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "post Load");
+        __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", requestIter->second.c_str());
+
+        resourceIter->second.second++;
+    }
+    return false;
 }
 
 const std::string & ResourceLibrary::ResourceRoot()
