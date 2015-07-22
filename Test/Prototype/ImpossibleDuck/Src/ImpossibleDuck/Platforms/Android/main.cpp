@@ -3,8 +3,8 @@
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Serializing/PolymorphicRegistration.hpp>
-#include <Ancona/System/Android/AndroidPlatform.hpp>
-#include <Ancona/System/Platform.hpp>
+#include <Ancona/System/Android/AndroidFileOperations.hpp>
+#include <Ancona/System/FileOperations.hpp>
 
 #include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleGame.hpp>
 #include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleAndroidFactory.hpp>
@@ -19,9 +19,11 @@ int main(int argc, const char *argv[])
     PolymorphicRegistration::RegisterType<ShapeDrawable>("ild::ShapeDrawable");
     PolymorphicRegistration::RegisterType<SpriteDrawable>("ild::SpriteDrawable");
 
-    AndroidPlatform::assetManager((AAssetManager *) argv);
+    ANativeActivity * activity = (ANativeActivity *) argv;
+    AndroidFileOperations::internalPath(std::string(activity->internalDataPath));
+    AndroidFileOperations::assetManager(activity->assetManager);
 
-    Config::Load(*Platform::GetInputFileStream("Config.txt"));
+    Config::Load(*FileOperations::GetInputFileStream("Config.txt"));
 
     ImpossibleGame game(1920, 1080, new ImpossibleAndroidFactory());
     game.Run();

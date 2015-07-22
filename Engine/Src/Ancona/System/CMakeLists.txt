@@ -1,7 +1,12 @@
 IF(ANDROID)
-    set(Src Android/Platform.cpp)
+    file(GLOB_RECURSE Ancona_System_Code Android/*.cpp)
+    file(GLOB_RECURSE Ancona_System_Headers Android/*.hpp)
 ELSEIF(DESKTOP)
-    set(Src Desktop/Platform.cpp)
+    file(GLOB_RECURSE Ancona_System_Code Desktop/*.cpp)
+    file(GLOB_RECURSE Ancona_System_Headers Desktop/*.hpp)
 ENDIF()
 
-add_library(Ancona_System ${Src})
+file(GLOB Ancona_System_Generic_Code *.cpp)
+file(GLOB Ancona_System_Generic_Headers *.hpp)
+
+add_library(Ancona_System ${Ancona_System_Code} ${Ancona_System_Headers} ${Ancona_System_Generic_Code} ${Ancona_System_Generic_Headers})

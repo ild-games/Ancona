@@ -16,7 +16,7 @@ index 52e3816..e4af0a1 100644
  
      sleep(seconds(0.5));
 -    ::main(0, NULL);
-+    ::main(0, (char**)states->activity->assetManager);
++    ::main(0, (char**)states->activity);
  
      // Terminate properly the main thread and wait until it's done
      terminateMain(states);

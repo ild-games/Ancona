@@ -46,6 +46,7 @@ class SFMLResourceLoader : public AbstractLoader
                     resourceKey,
                     _fileExtension);
 
+
             if(!(object->loadFromFile(fileName)))
             {
                 //If the load failed then null should be returned

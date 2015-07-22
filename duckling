@@ -14,7 +14,7 @@ cmake_root = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
 python_path = os.path.join(cmake_root,"BuildTools","Python")
 sys.path.append(python_path)
 
-from ild import building,generate_mk_file
+from ild import building
 from ild.dependency import get_depend
 from ild.duckling import arg_parser,build_state,tasks,template
 

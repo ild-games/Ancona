@@ -41,34 +41,34 @@ void ResourceLibrary::Return(const RequestList & request)
 
 bool ResourceLibrary::DoneLoading(RequestList & request)
 {
-   bool onDisk = false; 
-   while(!onDisk)
-   {
-       auto requestIter = request.Next();
-       if(requestIter == request.end())
-       {
+    bool onDisk = false; 
+    while(!onDisk)
+    {
+        auto requestIter = request.Next();
+        if(requestIter == request.end())
+        {
             //We are done loading so return true
             return true;
-       }
+        }
 
-       auto loader = _loaders[requestIter->first];
-       auto type = loader->resourceType();
-       resource_map & resources = _resources[type];
+        auto loader = _loaders[requestIter->first];
+        auto type = loader->resourceType();
+        resource_map & resources = _resources[type];
 
-       auto resourceIter = resources.find(requestIter->second);
-       if(resourceIter == resources.end())
-       {
+        auto resourceIter = resources.find(requestIter->second);
+        if(resourceIter == resources.end())
+        {
             //The resource does not exist in the dictionary and needs to be loaded
             onDisk = true;
             resources[requestIter->second].first = loader->Load(requestIter->second);
 
             resourceIter = resources.find(requestIter->second);
             resourceIter->second.second = 0;
-       }
-   
-       resourceIter->second.second++;
-   }
-   return false;
+        }
+
+        resourceIter->second.second++;
+    }
+    return false;
 }
 
 const std::string & ResourceLibrary::ResourceRoot()
