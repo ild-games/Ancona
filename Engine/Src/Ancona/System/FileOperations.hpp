@@ -18,55 +18,57 @@ class FileOperations
 {
     public:
         /**
-         * @brief 
+         * @brief Gets an input stream from a desired file on the system.
          *
-         * @param desiredFile
+         * @param desiredFile Path to the given file.
          *
-         * @return 
+         * @return Input Stream for the file, null if file is not found.
          */
         static std::unique_ptr<std::istream> GetInputFileStream(const std::string & desiredFile);          
 
         /**
-         * @brief 
+         * @brief Gets an output stream from a desired file on the system.
          *
-         * @param desiredFile
+         * @param desiredFile Path to the given file.
          *
-         * @return 
+         * @return Output Stream for the file, null if file is not found.
          */
         static std::unique_ptr<std::ofstream> GetOutputFileStream(const std::string & desiredFile);          
+
         /**
-         * @brief 
+         * @brief Gets the full directory (minus the actual file) for a given filepath.
          *
-         * @param filePath
+         * @param filePath Filepath to get the directory from.
          *
-         * @return 
+         * @return Just the path potion of the filepath.
          */
         static std::string GetDirName(const std::string & filePath);
 
         /**
-         * @brief 
+         * @brief Determines if the given directory path is an existing directory.
          *
-         * @param dirPath
+         * @param dirPath Path to check.
          *
-         * @return 
+         * @return True if the directory exists, otherwise false.
          */
         static bool IsDir(const std::string & dirPath);
 
         /**
-         * @brief 
+         * @brief Determines if the given file is an existing file.
          *
-         * @param filePath
+         * @param filePath Filepath to chec.
          *
-         * @return 
+         * @return True if the file exists, otherwise false.
          */
         static bool IsFile(const std::string & filePath);
 
         /**
-         * @brief 
+         * @brief Creates the directory specified by the given directory path. Will recursively
+         *        create the directory structure if needed.
          *
-         * @param dirPath
+         * @param dirPath Path for the desired directory structure.
          *
-         * @return 
+         * @return True if the directory didn't exist and was made, false if the directory already exists.
          */
         static bool CreateDirectory(const std::string & dirPath);
 };
