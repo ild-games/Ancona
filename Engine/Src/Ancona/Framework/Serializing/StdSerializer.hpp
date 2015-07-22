@@ -89,13 +89,13 @@ template<class T>
 struct Serializer<std::vector<T>> {
     static void Serialize(std::vector<T> &property, Archive &arc) {
         if (arc.loading()) {
-            for (uint i = 0; i < arc.CurrentBranch().size(); i++) {
+            for (size_t i = 0; i < arc.CurrentBranch().size(); i++) {
                 property.emplace_back();
                 arc(property.back(), i);
             }
         }
         else {
-            for (uint i = 0; i < property.size(); i++) {
+            for (size_t i = 0; i < property.size(); i++) {
                 arc(property[i], i);
             }
         }

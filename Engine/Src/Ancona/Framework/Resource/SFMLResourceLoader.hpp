@@ -5,8 +5,6 @@
 
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
 
-#include <android/log.h>
-
 namespace ild
 {
 
@@ -47,8 +45,6 @@ class SFMLResourceLoader : public AbstractLoader
                     _directory,
                     resourceKey,
                     _fileExtension);
-            __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "begin Load");
-            __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", fileName.c_str());
 
 
             if(!(object->loadFromFile(fileName)))
@@ -57,8 +53,6 @@ class SFMLResourceLoader : public AbstractLoader
                 delete object;
                 return NULL;
             }
-            __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", "end Load");
-            __android_log_print(ANDROID_LOG_VERBOSE, "com.example.sfml", fileName.c_str());
             return object;
         }
 
