@@ -21,13 +21,13 @@ std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::stri
 std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::string & desiredFile)
 {
     std::string fullFileName = AndroidFileOperations::internalPath() + "/" + desiredFile;
-    ILD_Log("Creating file: " + fullFileName);
 
     CreateDirectory(GetDirName(fullFileName));
 
     std::unique_ptr<std::ofstream> returnStream { new std::ofstream(fullFileName, std::ofstream::out) };
 
-    if (!returnStream->is_open()) {
+    if (!returnStream->is_open()) 
+    {
         ILD_Log("Failed to open: " + desiredFile);
     }
 
@@ -129,6 +129,7 @@ void AndroidFileOperations::MakeFilesDir()
 
 void AndroidFileOperations::WriteApkFileToNonApkStorage(const std::string & filename, std::istream * streamToWrite)
 {
+    ILD_Log("Creating file in local app storage: " + filename);
     auto outFile = FileOperations::GetOutputFileStream(filename);
     (*outFile) << streamToWrite->rdbuf();
 }
