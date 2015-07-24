@@ -1,7 +1,7 @@
 #include "Environment.hpp"
 
+#include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/StrUtil.hpp>
-
 
 using namespace ild;
 
@@ -11,7 +11,7 @@ void ImpossibleEnvironment::CreateCounter(ild::ImpossibleGameSystems *gameSystem
     CounterComponent & counterComponent = *gameSystems->counter()[counterEntity];
     counterComponent.AddCounter();
     int counterValue = counterComponent.counter();
-    std::string counterString = std::to_string(counterValue);
+    std::string counterString = alg::to_string(counterValue);
     TextDrawable & counterTextDrawable = *gameSystems->drawable()[counterEntity]->GetDrawable<TextDrawable>("counter-text");
 
 

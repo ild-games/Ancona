@@ -1,18 +1,10 @@
-import os,sys
+import os,sys,functools
 
-TOOL_CHAINS = {"android": "android.toolchain.cmake"}
-
-def get_toolchain(cmake_dir, platform):
-    platform = platform.lower()
-    if platform in TOOL_CHAINS:
-        return os.path.join(cmake_dir,"BuildTools","Toolchain",TOOL_CHAINS[platform])
-    return ""
-
-def generate_ancona_build(cmake_dir, platform):
+def generate_ancona_build(cmake_dir, platform, target_architecture):
     build_cmake_project(
             cmake_dir,
             os.path.join(cmake_dir,"build"),
-            get_toolchain(cmake_dir,platform)
+            platform.get_cmake_args(target_architecture)
             )
 
 ##
@@ -22,11 +14,9 @@ class DirContext:
         self.old_dir = os.getcwd()
         self.new_dir = new_working_dir
     def __enter__(self):
-        print("Entering",self.new_dir)
         os.chdir(self.new_dir)
         return self
     def __exit__(self,type,value,traceback):
-        print("Exiting", self.old_dir)
         os.chdir(self.old_dir)
 
 ##
@@ -37,11 +27,12 @@ class DirContext:
 #
 # @return 
 def command(cmd,directory=None):
+    exit_code = 0
     if directory:
         with DirContext(directory):
-            os.system(cmd)
+            exit_code = os.system(cmd)
     else:
-        os.system(cmd)
+        exit_code = os.system(cmd)
 
 ##
 # @brief Get the directory libraries are downloaded to
@@ -98,21 +89,19 @@ def get_patch(cmake_dir,patch_name):
 ##
 # @brief Clone a git repo into the libs folder
 #
-# @param cmake_dir Root directory of the CMake build
-# @param repo_name Name of the repo to clone (EX "SFML")
+# @param dest_dir Destination of the git repo
 # @param giturl URL of the repo to clone
 # @param tag Tag of the repo to clone
 # @param patch Absolute path to a patch file that should be applied
 #
 # @return Absolute path to the cloned repository
-def get_git_repo(cmake_dir,repo_name, giturl,tag,patch=None):
-    destination = get_lib_dir(cmake_dir,repo_name)
+def get_git_repo(dest_dir, giturl,tag=None,patch=None):
     #Only clone the repo if it does not exist already
-    if not os.path.isdir(destination):
+    if not os.path.isdir(dest_dir):
         #Create the directory the repository will be cloned to
-        os.makedirs(destination,exist_ok=True)
-        print("Cloning repo into {}!".format(destination))
-        with DirContext(destination):
+        os.makedirs(dest_dir,exist_ok=True)
+        print("Cloning repo into {}!".format(dest_dir))
+        with DirContext(dest_dir):
             print("Cloning in directory",os.getcwd())
             #Clone the repo into the directory
             command("git clone {} .".format(giturl)) 
@@ -120,8 +109,8 @@ def get_git_repo(cmake_dir,repo_name, giturl,tag,patch=None):
                 #Checkout the correct tag
                 command("git checkout tags/{}".format(tag))
             if patch:
-                apply_git_patch(destination,patch)
-    return destination
+                apply_git_patch(dest_dir,patch)
+    return dest_dir
 
 ##
 # @brief Check if all of the tools needed by the Android NDK are installed.
@@ -149,20 +138,15 @@ def is_android_ndk_installed():
 #
 # @param src_dir Root of the cmake directory for the project
 # @param build_dir Directory that the project should be built in
-# @param toolchain_file (OPTIONAL) Toolchain file that will be used to build the project
+# @param cmake_args (OPTIONAL) List of tuples of cmake arguments
 # @param install (OPTIONAL) If true make install will be run after the build
-def build_cmake_project(src_dir, build_dir, toolchain_file,install=False):
+def build_cmake_project(src_dir, build_dir, cmake_args=[], install=False):
     os.makedirs(build_dir,exist_ok=True)
     with DirContext(build_dir):
-        if toolchain_file:
-            #TODO: Make this command less hacky
-            cmake_cmd = "cmake -DCMAKE_TOOLCHAIN_FILE={} -DANDROID_ABI=armeabi -DANDROID_STL=gnustl_static -DANDROID_NATIVE_API_LEVEL=android-9 {}".format(toolchain_file,src_dir)
-        else:
-            cmake_cmd = "cmake {}".format(src_dir)
-        os.system(cmake_cmd)
+        cmake_args_str = functools.reduce(lambda arg_str, arg: arg_str + " -D" + arg[0] + "=" + arg[1], cmake_args, "") 
+        cmake_cmd = "cmake {} {}".format(cmake_args_str, src_dir)
+        command(cmake_cmd)
         command("make -j5")
-        if install:
-            command("make install")
 
 ##
 # @brief Generate doxygen documentation

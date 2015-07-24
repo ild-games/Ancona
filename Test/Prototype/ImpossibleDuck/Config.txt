@@ -6,5 +6,5 @@
 ##
 
 #Path to the resource folder
-ResourceRoot = @CMAKE_SOURCE_DIR@/resources/ImpossibleDuck
+ResourceRoot = @COMPILED_PRJ_SRC_DIR@resources/ImpossibleDuck
 SaveData = save.dat

@@ -57,13 +57,6 @@ endmacro()
 
 macro(ancona_platform_glob)
     cmake_parse_arguments(ARGS "" "" "" ${ARGN})
-
-endmacro()
-
-macro(create_android_mk_file target)
-    cmake_parse_arguments(ARGS "" "" "SRC;STATIC_LIBS;DYNAMIC_LIBS;INCLUDES" ${ARGN})
-    execute_process(COMMAND echo test testtout.txt)
-    execute_process(COMMAND python3 ${CMAKE_SOURCE_DIR}/BuildTools/Python/ild/generate_mk_file.py ${target} ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} -s ${ARGS_SRC} -d ${ARGS_DYNAMIC_LIBS} -l ${ARGS_STATIC_LIBS} -i ${CMAKE_SOURCE_DIR}/Src ${ARGS_INCLUDES})
 endmacro()
 
 # ex: ancona_add_target(flappy_demo
@@ -72,7 +65,7 @@ endmacro()
 # INCLUDES /Abs/Paths/To/Add/To/Includes
 # PLATFORMS ALL)
 macro(ancona_add_target target)
-    cmake_parse_arguments(ARGS "LINK_SFML" "" "SRC;STATIC_LIBS;DYNAMIC_LIBS;PLATFORMS;INCLUDES" ${ARGN})
+    cmake_parse_arguments(ARGS "" "" "SRC;LIBS;WHOLE_STATIC_LIBS;PLATFORMS;INCLUDES" ${ARGN})
 
     ancona_match_platform(is_platform_match ${ARGS_PLATFORMS})
 
@@ -87,38 +80,38 @@ macro(ancona_add_target target)
                 target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
             endif(ARGS_INCLUDES)
 
-            #Link libraries
-            if(ARGS_LINK_SFML)
-                target_link_libraries(${target} ${ARGS_STATIC_LIBS} ${ARGS_DYNAMIC_LIBS} ${SFML_LIBS})
-            else(ARGS_LINK_SFML)
-                target_link_libraries(${target} ${ARGS_STATIC_LIBS} ${ARGS_DYNAMIC_LIBS})
-            endif(ARGS_LINK_SFML)
+            if(ARGS_WHOLE_STATIC_LIBS)
+                target_link_libraries(${target} -Wl,--whole-archive ${ARGS_WHOLE_STATIC_LIBS} -Wl,--no-whole-archive)
+            endif(ARGS_WHOLE_STATIC_LIBS)
+
+            target_link_libraries(${target} ${ARGS_LIBS})
             
         endif(DESKTOP)
 
         if(ANDROID)
+            set(Android_Template_Dir ${CMAKE_SOURCE_DIR}/BuildTools/Platform/Android/Ancona_Project)
+            set(Android_Output_Dir ${CMAKE_BINARY_DIR}/Android/${target})
             #Copy files over
-            file(GLOB Android_Project_Dir ${CMAKE_SOURCE_DIR}/BuildTools/Platform/Android/Ancona_Project/*)
+            file(GLOB Android_Project_Dir ${Android_Template_Dir}/*)
             file(GLOB Android_Assets ${CMAKE_SOURCE_DIR}/resources/*)
 
-            file(COPY ${Android_Project_Dir} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target})
+            file(COPY ${Android_Project_Dir} DESTINATION ${Android_Output_Dir})
             file(COPY ${Android_Assets} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/assets/resources)
-            file(COPY ${ARGS_SRC} DESTINATION ${CMAKE_BINARY_DIR}/Android/${target}/jni/)
 
-            #Configure and create the Android.mk file
-            create_android_mk_file(${target}
-                SRC ${ARGS_SRC}
-                STATIC_LIBS ${ARGS_STATIC_LIBS}
-                DYNAMIC_LIBS ${ARGS_DYNAMIC_LIBS}
-                INCLUDES ${ARGS_INCLUDES})
+            configure_file(${Android_Template_Dir}/build.gradle ${Android_Output_Dir}/build.gradle @ONLY)
 
-            #TODO: Determine if this is the correct way to handle dependencies
-            add_custom_target(Android_Build_${target} ALL DEPENDS ${ARGS_STATIC_LIBS}
-                COMMAND echo Building Android App ${target}
-                COMMAND ndk-build
-                COMMAND android update project -p . --target android-14
-                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Android/${target})
+            add_library(${target} SHARED ${ARGS_SRC})
 
+            #Add custom includes
+            if(ARGS_INCLUDES)
+                target_include_directories(${target} PUBLIC ${ARGS_INCLUDES})
+            endif(ARGS_INCLUDES)
+
+            set_target_properties(${target} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${Android_Output_Dir}/jnilibs/${ARCHITECTURE_NAME})
+            set_target_properties(${target} PROPERTIES OUTPUT_NAME sfml-example)
+
+            target_link_libraries(${target} -Wl,--whole-archive ${ARGS_WHOLE_STATIC_LIBS} -Wl,--no-whole-archive)
+            target_link_libraries(${target} ${ARGS_LIBS})
         endif(ANDROID)
     endif(is_platform_match)
 

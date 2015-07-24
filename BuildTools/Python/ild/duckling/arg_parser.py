@@ -19,12 +19,15 @@ RUN_FLAG_HELP_TEXT = "\
 
 DOC_FLAG_HELP = "Include if you want to generate documentation instead of building the game"
 
+CLEAN_FLAG_HELP = "Include if you want to clean the dependency and project build folders"
+
 TEMPLATE_FLAG_HELP_TEXT = "Generate a template game by specifying the name and abbreviation"
 
 EPILOG_HELP_TEXT = \
         "Running duckling with no arguments will behave as if it was given the -b flag"
 
 DESCRIPTION_HELP_TEXT = "Script used to automate the Ancona build process"
+
 
 
 #Flags that are only used withing duckling_arg_parser.py
@@ -35,9 +38,7 @@ _BUILD_FLAG_NOT_GIVEN = "no^build^specified"
 # @brief Parse arguments for duckling.
 #
 # @return A (ancona_platform, ancona_target) tuple.
-#     ancona_platform := The platform the ancona engine should be built for.
-#     ancona_target   := The target that should be run.
-#
+#     ancona_platform := The platform the ancona engine should be built for.  #     ancona_target   := The target that should be run.  #
 def parse():
     parser = create_parser()
     return ArgumentInfo(parser.parse_args())
@@ -77,16 +78,23 @@ def create_parser():
             nargs='*',
             help=TEMPLATE_FLAG_HELP_TEXT
             )
+
+    parser.add_argument(
+            '-clean',
+            dest="clean",
+            action="store_true",
+            help=CLEAN_FLAG_HELP)
     
     return parser
 
 class ArgumentInfo:
     def __init__(self, arguments):
-        platform,target,documentation,template = create_tuple(arguments)
+        platform,target,documentation,template,clean = create_tuple(arguments)
         self.__build_platform = platform
         self.__run_target = target
         self.__generate_documentation = documentation
         self.__template = template
+        self.__clean = clean
     def get_build_platform(self):
         return self.__build_platform
     def get_run_target(self):
@@ -99,11 +107,13 @@ class ArgumentInfo:
         return self.__template != None
     def get_template(self):
         return self.__template
+    def should_clean(self):
+        return self.__clean
 
 def create_tuple(arguments):
     if not arguments.platform and not arguments.target:
         print("Ancona platform:",DEFAULT_PLATFORM,"Ancona Target:",None)
-        return DEFAULT_PLATFORM,None,arguments.generate_documentation,arguments.template
+        return DEFAULT_PLATFORM,None,arguments.generate_documentation,arguments.template,arguments.clean
     
     if arguments.platform in [None , DO_NOT_BUILD_OPTION]:
         ancona_platform = None
@@ -118,5 +128,5 @@ def create_tuple(arguments):
         ancona_target = arguments.target
 
     print("Ancona platform:",ancona_platform,"Ancona Target:",ancona_target,"Generate documentation:",arguments.generate_documentation,"Template:",arguments.template)
-    return ancona_platform,ancona_target,arguments.generate_documentation,arguments.template
+    return ancona_platform,ancona_target,arguments.generate_documentation,arguments.template,arguments.clean
 

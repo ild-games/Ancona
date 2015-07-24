@@ -43,17 +43,17 @@ bool MapSerializer::ContinueLoading()
 
 void MapSerializer::LoadMapFile()
 {
-    std::ifstream saveStream(Config::GetOption("SaveData"), std::ifstream::binary);
-    saveStream >> _saveRoot;
+    auto saveStream = FileOperations::GetInputFileStream(Config::GetOption("SaveData"));
+    Json::Reader reader;
+    reader.parse(*saveStream, _saveRoot);
+
     _saveProfileRoot = _saveRoot["profiles"][_profile];
     _mapName = _saveProfileRoot["screen-maps"][_key].asString();
     Assert(_mapName != "", "Cannot have a null map");
+    std::string mapFileName = "Maps/" + _mapName + ".map";
 
-    std::ifstream mapStream("Maps/" + _mapName + ".map", std::ifstream::binary);
-    Assert(mapStream.is_open(), "Failed to load the map file.");
-    mapStream >> _mapRoot;
-    std::string test;
-    mapStream >> test;
+    auto mapStream = FileOperations::GetInputFileStream(mapFileName);
+    reader.parse(*mapStream, _mapRoot);
 
     if(_loading)
     {
@@ -139,14 +139,11 @@ void MapSerializer::SaveMapFiles()
     {
         return;
     }
-    std::ofstream saveStream(Config::GetOption("SaveData"), std::ofstream::out);
-    Assert(saveStream.is_open(), "Failed to load the save file.");
-    _saveRoot["profiles"][_profile] = _saveProfileRoot;
-    saveStream << _saveRoot;
-    saveStream.close();
 
-    std::ofstream mapStream("Maps/" + _mapName + ".map", std::ofstream::out);
-    Assert(mapStream.is_open(), "Failed to load the map file.");
-    mapStream << _mapRoot;
-    mapStream.close();
+    auto saveStream = FileOperations::GetOutputFileStream(Config::GetOption("SaveData"));
+    _saveRoot["profiles"][_profile] = _saveProfileRoot;
+    (*saveStream) << _saveRoot;
+
+    auto mapStream = FileOperations::GetOutputFileStream("Maps/" + _mapName + ".map");
+    (*mapStream) << _mapRoot;
 }

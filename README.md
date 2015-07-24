@@ -17,18 +17,18 @@ The binaries will be in the Build/bin folder.
 
 To build on Android:
 
-    1. Download the android NDK.
-    2. Add ndk to your PATH environment variable.
-    3. Install JDK7 and the Android SKD.
-    4. Add <path_to_androidsdk>/tools to you PATH.
+    1. Download and install android studio.
+    2. Install JDK 8, Android Studio, the Android SDK (V22), and Android NDK.
+    3. Add ndk to your PATH environment variable.
+    4. Add gradle from Android Studio to your path.
+    5. Add <path_to_androidsdk>/platformtools to you PATH.
     5. Run the android command to open the SDK manager.  
-    6. Using the SDK manager install the android-14 platform and the newest build tools.
+    6. Using the SDK manager install the android-22 platform and the newest build tools.
     7. Set the ANDROID_NDK environment variables to be the path to the android NDK.
-    8. Open a terminal in the ancona root.
-    9. Run the ancona script in the root directory.
-    10. Change into the "build/Android" "ant debug install" to install the app on your phone.
+    8. Set the ANDROID_HOME environment variables to be the path to the android SDK.
+    9. Run the 'duckling -b android' in the root directory.
+    10. Change into the "build/Android/project" and run "gradle debugInstall" to install the app on your phone.
     11. Rund ddms to view log output.
-
 
 Coming Soon:
 Windows VS build instructions.

@@ -14,13 +14,18 @@ cmake_root = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
 python_path = os.path.join(cmake_root,"BuildTools","Python")
 sys.path.append(python_path)
 
-from ild import get_depend,building,generate_mk_file
+from ild import building
+from ild.dependency import get_depend
 from ild.duckling import arg_parser,build_state,tasks,template
 
 #Parse the command line arguments
 user_instructions = arg_parser.parse()
 
 duckling_tasks = tasks.Tasks(cmake_root)
+
+if user_instructions.should_clean():
+    duckling_tasks.clean()
+    sys.exit(0)
 
 if user_instructions.should_generate_documentation():
     duckling_tasks.generate_documentation()
@@ -51,13 +56,14 @@ if user_instructions.should_build():
             state.update_build_platform()
             duckling_tasks.clean_build_directory()
 
+
         print("Duckling: Building for",user_instructions.get_build_platform())
         if user_instructions.get_build_platform() == "android":
             if not building.is_android_ndk_installed():
                 print("Error: Failed to build ancona for Android")
                 sys.exit(1)
-            duckling_tasks.get_android_dependencies() 
 
+        duckling_tasks.get_dependencies(user_instructions.get_build_platform())
         duckling_tasks.build_ancona(user_instructions.get_build_platform())
         
 if user_instructions.get_run_target():

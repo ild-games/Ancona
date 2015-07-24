@@ -21,6 +21,9 @@ resources
 __template__
 __applied__
 
+# Ignore extlibs folder
+extlibs/
+
 # Ignore CTags file
 tags
 

@@ -18,13 +18,5 @@ void ImpossibleKeyboard::HandleInput()
         _playerComponent->GoDirection(NO_DIR);
     }
 
-    if(Keyboard::IsKeyPressed(sf::Keyboard::F))
-    {
-        Entity player = _systems->systemManager().GetEntity("player");
-        _systems->fadeDrawable().CreateComponent(
-                player,
-                *_systems->drawable()[player],
-                false);
-    }
 }
 

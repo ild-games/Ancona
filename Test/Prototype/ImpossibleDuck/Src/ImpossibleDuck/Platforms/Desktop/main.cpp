@@ -1,11 +1,12 @@
-#include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
+#include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Serializing/PolymorphicRegistration.hpp>
+#include <Ancona/System/FileOperations.hpp>
 
-#include "../../ImpossibleLib/Core/ImpossibleGame.hpp"
-#include "../../ImpossibleLib/Core/DesktopPlatform.hpp"
+#include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleGame.hpp>
+#include <ImpossibleDuck/ImpossibleLib/Core/ImpossibleDesktopFactory.hpp>
 
 using namespace ild;
 
@@ -17,9 +18,9 @@ int main(int argc, const char *argv[])
     PolymorphicRegistration::RegisterType<ShapeDrawable>("ild::ShapeDrawable");
     PolymorphicRegistration::RegisterType<SpriteDrawable>("ild::SpriteDrawable");
 
-    Config::Load("Config.txt");
+    Config::Load(*FileOperations::GetInputFileStream("Config.txt"));
 
-    ImpossibleGame game(1920, 1080, new DesktopPlatform());
+    ImpossibleGame game(1920, 1080, new ImpossibleDesktopFactory());
     game.Run();
     
     return 0;
