@@ -61,7 +61,7 @@ endmacro()
 
 # ex: ancona_add_target(flappy_demo
 # SRC main.cpp ...
-# STATIC_LIBS Ancona_Util Ancona_Game Flapp_Game
+# STATIC_LIBS Ancona_Util Flappy_Game
 # INCLUDES /Abs/Paths/To/Add/To/Includes
 # PLATFORMS ALL)
 macro(ancona_add_target target)

@@ -64,7 +64,7 @@ link_directories(${EXT_LIB_DIR})
 
 include(BuildTools/FindLibs.cmake)
 
-set(ANCONA_LIBS Ancona_Game Ancona_Platformer Ancona_Core2D 
+set(ANCONA_LIBS Ancona_Platformer Ancona_Core2D 
     Ancona_Framework Ancona_Util2D Ancona_Util Ancona_System)
 
 set(ANCONA_EXT_LIBS sfml-graphics sfml-window sfml-system jsoncpp)
@@ -80,5 +80,4 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(Engine)
-add_subdirectory(Game)
 add_subdirectory(Test)
