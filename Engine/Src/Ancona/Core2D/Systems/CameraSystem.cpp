@@ -86,7 +86,7 @@ void CameraComponent::FetchDependencies(const Entity & entity)
 
 void CameraComponent::Serialize(Archive & arc)
 {
-    arc(_renderPriority, "render-priority");
+    arc(_renderPriority, "renderPriority");
     arc(_originalScale, "scale");
     arc(_default, "default");
     arc(_size, "size");

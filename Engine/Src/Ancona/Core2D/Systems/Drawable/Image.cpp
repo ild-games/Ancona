@@ -8,5 +8,5 @@ Image::Image(std::string textureKey): _textureKey(textureKey) { }
 
 void Image::Serialize(Archive & arc)
 {
-    arc(_textureKey, "texture-key");
+    arc(_textureKey, "textureKey");
 }

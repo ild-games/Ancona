@@ -30,7 +30,7 @@ void CounterComponent::FetchDependencies(const Entity & entity)
 void CounterComponent::Serialize(Archive & arc)
 {
     arc(_counter, "count");
-    arc(_countInterval, "count-interval");
+    arc(_countInterval, "countInterval");
 }
 
 /* System */

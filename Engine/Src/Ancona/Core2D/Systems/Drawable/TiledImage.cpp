@@ -41,7 +41,7 @@ void TiledImage::SetupSprite()
 void TiledImage::Serialize(Archive & arc)
 {
     Image::Serialize(arc);
-    arc(_textureRects, "texture-rects");
+    arc(_textureRects, "textureRects");
 }
 
 /* getters and setters */
