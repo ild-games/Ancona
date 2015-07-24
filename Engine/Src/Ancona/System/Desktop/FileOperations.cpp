@@ -7,12 +7,10 @@ using namespace ild;
 
 std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::string & desiredFile)
 {
-    ILD_Log("Testing FileOperations::GetInputFileStream");
     return std::unique_ptr<std::istream>(new std::ifstream(desiredFile, std::ifstream::binary));
 }
 
 std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::string & desiredFile)
 {
-    ILD_Log("Testing FileOperations::GetOutputFileStream");
     return std::unique_ptr<std::ofstream> { new std::ofstream(desiredFile, std::ofstream::out) };
 }

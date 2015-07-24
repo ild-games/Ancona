@@ -26,10 +26,7 @@ std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::st
 
     std::unique_ptr<std::ofstream> returnStream { new std::ofstream(fullFileName, std::ofstream::out) };
 
-    if (!returnStream->is_open()) 
-    {
-        ILD_Log("Failed to open: " + desiredFile);
-    }
+    Assert(returnStream->is_open(), "Failed to open " + desiredFile);
 
     return returnStream;
 }
@@ -44,11 +41,9 @@ bool FileOperations::CreateDirectory(const std::string & dirPath)
     if (!IsDir(dirPath)) 
     {
         CreateDirectory(GetDirName(dirPath));
-        ILD_Log("Creating directory: " + dirPath);
         mkdir(dirPath.c_str(), 0770);
         return true;
     }
-    ILD_Log("Directory already exists: " + dirPath);
     return false;
 }
 
@@ -71,12 +66,10 @@ std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::strin
     std::string fullInternalPath =_internalPath + "/" + desiredFile;
     if (FileOperations::IsFile(fullInternalPath))
     {
-        ILD_Log("Found desired file in locals: " + fullInternalPath);
         return new std::ifstream(fullInternalPath, std::ifstream::binary);
     }
     else 
     {
-        ILD_Log("Found desired file in APK: " + desiredFile);
         std::ostringstream * apkFileStream = OpenFile(desiredFile);
         Assert(apkFileStream != nullptr, "Could not find the " + desiredFile + " file in app storage or within apk.");
 
@@ -129,7 +122,6 @@ void AndroidFileOperations::MakeFilesDir()
 
 void AndroidFileOperations::WriteApkFileToNonApkStorage(const std::string & filename, std::istream * streamToWrite)
 {
-    ILD_Log("Creating file in local app storage: " + filename);
     auto outFile = FileOperations::GetOutputFileStream(filename);
     (*outFile) << streamToWrite->rdbuf();
 }
