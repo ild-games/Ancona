@@ -22,10 +22,10 @@ void Drawable::Serialize(Archive &arc)
 {
     arc.system(_physicsSystem, "physics");
     arc.system(_drawableSystem, "drawable");
-    arc(_renderPriority,"render-priority");
-    arc(_priorityOffset,"priority-offset");
+    arc(_renderPriority,"renderPriority");
+    arc(_priorityOffset,"priorityOffset");
     arc(_rotation,"rotation");
-    arc(_positionOffset,"position-offset");
+    arc(_positionOffset,"positionOffset");
     arc(_inactive, "inactive");
     arc(_key, "key");
 }

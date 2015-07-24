@@ -53,12 +53,12 @@ struct Serializer<sf::Text>
 
         arc(text, "text");
         arc(color, "color");
-        arc(characterSize,"character-size");
+        arc(characterSize,"characterSize");
         arc(smooth, "smooth");
 
         if (arc.loading())
         {
-            arc(fontKey, "font-key");
+            arc(fontKey, "fontKey");
             property.setString(text);
             property.setFont(*ResourceLibrary::Get<sf::Font>(fontKey));
             property.setColor(color);

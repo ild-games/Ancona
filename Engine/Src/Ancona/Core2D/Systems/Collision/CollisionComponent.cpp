@@ -70,7 +70,7 @@ struct Serializer<BodyTypeEnum> {
 
 void CollisionComponent::Serialize(Archive &arc) {
     arc(_dim, "dimension");
-    arc(_bodyType, "body-type");
+    arc(_bodyType, "bodyType");
     arc.system(_system, "collision");
 
     std::string key;
@@ -79,7 +79,7 @@ void CollisionComponent::Serialize(Archive &arc) {
         key = _system->GetKeyFromType(_type);
     }
 
-    arc(key, "collision-type");
+    arc(key, "collisionType");
 
     if (arc.loading())
     {
