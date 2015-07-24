@@ -7,14 +7,14 @@
         },
         {
             "type": "TexturePNG",
-            "key": "duck-logo"
+            "key": "duckLogo"
         }
     ],
     "entities": [
         "door",
-        "duck-logo",
+        "duckLogo",
         "waterfall",
-        "screen-cam"
+        "screenCam"
     ],
     "systems": {
         "physics": {
@@ -37,7 +37,7 @@
                         }
                     }
                 },
-                "duck-logo": {
+                "duckLogo": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
                     "info": {
                         "position": {
@@ -50,8 +50,8 @@
         },
         "camera": {
             "components": {
-                "screen-cam": {
-                    "render-priority": 0,
+                "screenCam": {
+                    "renderPriority": 0,
                     "scale": 1.0,
                     "default": true,
                     "size": {
@@ -63,32 +63,32 @@
         },
         "drawable": {
             "components": {
-                "duck-logo": {
+                "duckLogo": {
                     "drawables": {
-                        "duck-logo-sprite": {
+                        "duckLogoSprite": {
                             "__cpp_type": "ild::SpriteDrawable",
-                            "key": "duck-logo-sprite",
-                            "render-priority": 0,
-                            "priority-offset": 0,
-                            "position-offset": {
+                            "key": "duckLogoSprite",
+                            "renderPriority": 0,
+                            "priorityOffset": 0,
+                            "positionOffset": {
                                 "x": 0,
                                 "y": 0
                             },
                             "image": {
                                 "__cpp_type": "ild::SoloImage",
-                                "texture-key": "duck-logo"
+                                "textureKey": "duckLogo"
                             }
                         }
                     }
                 },
                 "waterfall": {
                     "drawables": {
-                        "waterfall-animation": {
+                        "waterfallAnimation": {
                             "__cpp_type": "ild::AnimatedDrawable",
-                            "key": "waterfall-animation",
-                            "render-priority": 0,
-                            "priority-offset": 0,
-                            "position-offet": {
+                            "key": "waterfallAnimation",
+                            "renderPriority": 0,
+                            "priorityOffset": 0,
+                            "positionOffet": {
                                 "x": 0,
                                 "y": 0
                             },
@@ -96,8 +96,8 @@
                             "frames": [
                                 {
                                     "__cpp_type": "ild::TiledImage",
-                                    "texture-key": "tileset",
-                                    "texture-rects": [
+                                    "textureKey": "tileset",
+                                    "textureRects": [
                                         {
                                             "first": {
                                                 "left": 560,
@@ -130,8 +130,8 @@
                                 },
                                 {
                                     "__cpp_type": "ild::TiledImage",
-                                    "texture-key": "tileset",
-                                    "texture-rects": [
+                                    "textureKey": "tileset",
+                                    "textureRects": [
                                         {
                                             "first": {
                                                 "left": 592,
@@ -164,8 +164,8 @@
                                 },
                                 {
                                     "__cpp_type": "ild::TiledImage",
-                                    "texture-key": "tileset",
-                                    "texture-rects": [
+                                    "textureKey": "tileset",
+                                    "textureRects": [
                                         {
                                             "first": {
                                                 "left": 624,
@@ -198,8 +198,8 @@
                                 },
                                 {
                                     "__cpp_type": "ild::TiledImage",
-                                    "texture-key": "tileset",
-                                    "texture-rects": [
+                                    "textureKey": "tileset",
+                                    "textureRects": [
                                         {
                                             "first": {
                                                 "left": 656,
@@ -232,8 +232,8 @@
                                 },
                                 {
                                     "__cpp_type": "ild::TiledImage",
-                                    "texture-key": "tileset",
-                                    "texture-rects": [
+                                    "textureKey": "tileset",
+                                    "textureRects": [
                                         {
                                             "first": {
                                                 "left": 688,
@@ -266,8 +266,8 @@
                                 },
                                 {
                                     "__cpp_type": "ild::TiledImage",
-                                    "texture-key": "tileset",
-                                    "texture-rects": [
+                                    "textureKey": "tileset",
+                                    "textureRects": [
                                         {
                                             "first": {
                                                 "left": 720,
@@ -300,8 +300,8 @@
                                 },
                                 {
                                     "__cpp_type": "ild::TiledImage",
-                                    "texture-key": "tileset",
-                                    "texture-rects": [
+                                    "textureKey": "tileset",
+                                    "textureRects": [
                                         {
                                             "first": {
                                                 "left": 752,
@@ -334,8 +334,8 @@
                                 },
                                 {
                                     "__cpp_type": "ild::TiledImage",
-                                    "texture-key": "tileset",
-                                    "texture-rects": [
+                                    "textureKey": "tileset",
+                                    "textureRects": [
                                         {
                                             "first": {
                                                 "left": 784,
@@ -372,19 +372,19 @@
                 },
                 "door": {
                     "drawables": {
-                        "door-sprite": {
+                        "doorSprite": {
                             "__cpp_type": "ild::SpriteDrawable",
-                            "key": "door-sprite",
-                            "render-priority": 0,
-                            "priority-offset": 0,
-                            "position-offset": {
+                            "key": "doorSprite",
+                            "renderPriority": 0,
+                            "priorityOffset": 0,
+                            "positionOffset": {
                                 "x": 0,
                                 "y": 0
                             },
                             "image": {
                                 "__cpp_type": "ild::TiledImage",
-                                "texture-key": "tileset",
-                                "texture-rects": [
+                                "textureKey": "tileset",
+                                "textureRects": [
                                     {
                                         "first": {
                                             "left": 656,
