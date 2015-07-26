@@ -9,7 +9,6 @@ SoloImage::SoloImage(std::string textureKey): Image(textureKey) { }
 void SoloImage::Draw(sf::RenderWindow & window, float delta)
 {
     _sprite->setPosition(_position.x, _position.y);
-    _sprite->setRotation(_rotation);
     window.draw(*_sprite);
 }
 
@@ -33,4 +32,14 @@ sf::Vector2u SoloImage::size()
     return sf::Vector2u(
             _sprite->getLocalBounds().width,
             _sprite->getLocalBounds().height);
+}
+
+void SoloImage::rotation(float newRotation)
+{
+    _sprite->setRotation(newRotation);
+}
+
+void SoloImage::scale(sf::Vector2f newScale)
+{
+    _sprite->setScale(newScale);
 }

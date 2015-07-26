@@ -54,6 +54,8 @@ class TiledImage : public Image
         /* getters and setters */
         virtual sf::Vector2u size();
         virtual void alpha(int newAlpha);
+        void rotation(float newRotation) override;
+        void scale(sf::Vector2f newScale) override;
     private:
         std::vector<std::unique_ptr<sf::Sprite>> _sprites;
         /**
@@ -64,6 +66,11 @@ class TiledImage : public Image
          *        texture is used for the sprite without any tiling system.
          */
         std::vector<std::pair<sf::IntRect, sf::IntRect>> _textureRects;
+        std::map<std::string, float> _rectRotations;
+        std::map<std::string, sf::Vector2f> _rectScales;
+
+        void SetupRectRotations();
+        void SetupRectScales();
 };
 
 }

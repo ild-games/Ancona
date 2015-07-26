@@ -25,6 +25,7 @@ void Drawable::Serialize(Archive &arc)
     arc(_renderPriority,"renderPriority");
     arc(_priorityOffset,"priorityOffset");
     arc(_rotation,"rotation");
+    arc(_scale,"scale");
     arc(_positionOffset,"positionOffset");
     arc(_inactive, "inactive");
     arc(_key, "key");
@@ -35,4 +36,6 @@ void Drawable::FetchDependencies(const Entity & entity)
     _physicsComponent = _physicsSystem->at(entity);
     _drawableComponent = _drawableSystem->at(entity);
     _drawableComponent->AddDrawable(_key, this);
+    rotation(_rotation);
+    scale(_scale);
 }

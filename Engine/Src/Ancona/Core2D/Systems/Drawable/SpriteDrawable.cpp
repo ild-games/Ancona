@@ -24,14 +24,13 @@ void SpriteDrawable::Draw(sf::RenderWindow & window, float delta)
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _image->position(position);
-    _image->rotation(_rotation);
     _image->Draw(window, delta);
 }
 
 void SpriteDrawable::FetchDependencies(const Entity &entity) 
 {
-    Drawable::FetchDependencies(entity);
     _image->SetupSprite();
+    Drawable::FetchDependencies(entity);
 }
 
 void SpriteDrawable::Serialize(Archive &archive) 
@@ -54,4 +53,16 @@ int SpriteDrawable::alpha()
 void SpriteDrawable::alpha(int alpha)
 {
     _image->alpha(alpha);
+}
+
+void SpriteDrawable::rotation(float newRotation)
+{
+    _rotation = newRotation;
+    _image->rotation(newRotation);
+}
+
+void SpriteDrawable::scale(sf::Vector2f newScale)
+{
+    _scale = newScale;
+    _image->scale(newScale);
 }

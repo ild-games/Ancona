@@ -26,7 +26,6 @@ void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _frames[_curFrame]->position(position);
-    _frames[_curFrame]->rotation(_rotation);
     _frames[_curFrame]->Draw(window, delta);
 
     Tick(delta);
@@ -53,13 +52,13 @@ void AnimatedDrawable::AdvanceFrame()
 }
 
 void AnimatedDrawable::FetchDependencies(const Entity &entity) {
-    Drawable::FetchDependencies(entity);
     _timeUntilChange = _duration;
     _curFrame = 0;
     for(auto & frame : _frames)
     {
         frame->SetupSprite();
     }
+    Drawable::FetchDependencies(entity);
 }
 
 void AnimatedDrawable::Serialize(Archive &archive) {
@@ -84,5 +83,23 @@ void AnimatedDrawable::alpha(int newAlpha)
     for(auto & frame : _frames)
     {
         frame->alpha(newAlpha);
+    }
+}
+
+void AnimatedDrawable::rotation(float newRotation)
+{
+    _rotation = newRotation;
+    for (auto & frame : _frames)
+    {
+        frame->rotation(_rotation);
+    }
+}
+
+void AnimatedDrawable::scale(sf::Vector2f newScale)
+{
+    _scale = newScale;
+    for(auto & frame : _frames)
+    {
+        frame->scale(_scale);
     }
 }

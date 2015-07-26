@@ -58,6 +58,8 @@ class SpriteDrawable : public Drawable
         void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
+        void rotation(float newRotation) override;
+        void scale(sf::Vector2f newScale) override;
         sf::Vector2u size();
         int alpha();
         void alpha(int alpha);

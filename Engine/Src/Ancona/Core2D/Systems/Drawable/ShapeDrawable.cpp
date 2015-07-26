@@ -27,7 +27,6 @@ void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _shape->setPosition(position.x, position.y);
-    _shape->setRotation(_rotation);
     window.draw(*_shape);
 }
 
@@ -70,4 +69,16 @@ void ShapeDrawable::alpha(int alpha)
 
     delete outlineCol;
     delete fillCol;
+}
+
+void ShapeDrawable::rotation(float newRotation)
+{
+    _rotation = newRotation;
+    _shape->setRotation(_rotation);
+}
+
+void ShapeDrawable::scale(sf::Vector2f newScale)
+{
+    _scale = newScale;
+    _shape->setScale(_scale);
 }

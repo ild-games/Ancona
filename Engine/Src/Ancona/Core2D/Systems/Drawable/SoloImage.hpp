@@ -45,6 +45,8 @@ class SoloImage : public Image
 
         /* getters and setters */
         virtual sf::Vector2u size();
+        void rotation(float newRotation) override;
+        void scale(sf::Vector2f newScale) override;
     private:
         std::unique_ptr<sf::Sprite> _sprite;
 

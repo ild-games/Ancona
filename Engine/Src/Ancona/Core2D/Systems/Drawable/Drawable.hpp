@@ -86,7 +86,9 @@ class Drawable
         /* getters and setters */
         int renderPriority() { return _renderPriority + _priorityOffset; }
         float rotation() { return _rotation; }
-        void rotation(float rotation) { _rotation = rotation; }
+        sf::Vector2f scale() { return _scale; }
+        virtual void rotation(float rotation) = 0;
+        virtual void scale(sf::Vector2f scale) = 0;
         virtual sf::Vector2u size() = 0;
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;
@@ -127,6 +129,10 @@ class Drawable
          * @brief Amount to rotate the drawable element. 
          */
         float _rotation = 0;
+        /**
+         * @brief Amount to scale the drawable element.
+         */
+        sf::Vector2f _scale = sf::Vector2f(1.0f, 1.0f);
         /**
          * @brief True if the drawable is actively drawn/updated. Otherwise false.
          */

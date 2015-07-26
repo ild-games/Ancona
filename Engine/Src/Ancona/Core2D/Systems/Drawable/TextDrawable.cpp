@@ -84,3 +84,15 @@ void TextDrawable::alpha(int alpha)
     _text->setColor(*col);
     delete col;
 }
+
+void TextDrawable::rotation(float newRotation)
+{
+    _rotation = newRotation;
+    _text->setRotation(newRotation);
+}
+
+void TextDrawable::scale(sf::Vector2f newScale)
+{
+    _scale = newScale;
+    _text->setScale(_scale);
+}

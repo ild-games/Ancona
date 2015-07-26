@@ -48,8 +48,8 @@ class Image
         /* getters and setters */
         void position(sf::Vector2f newPosition) { _position = newPosition; }
         sf::Vector2f position() { return _position; }
-        void rotation(float newRotation) { _rotation = newRotation; }
-        float rotation() { return _rotation; }
+        virtual void rotation(float newRotation) = 0;
+        virtual void scale(sf::Vector2f newScale) = 0;
         int alpha() { return _alpha; }
         virtual void alpha(int newAlpha) { _alpha = newAlpha; }
         virtual sf::Vector2u size() = 0;
@@ -57,7 +57,6 @@ class Image
     protected:
         std::string _textureKey = "";
         sf::Vector2f _position;
-        float _rotation;
         int _alpha = 255;
 };
 
