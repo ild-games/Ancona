@@ -34,11 +34,9 @@ void SystemManager::DeleteEntity(Entity entity)
         system->EntityIsDeleted(entity);
     }
 
-    auto reverseIter = _entitiesReverse.find(entity);
-    if(reverseIter != _entitiesReverse.end())
+    if (_entities.ContainsValue(entity))
     {
-        _entities.erase(reverseIter->second);
-        _entitiesReverse.erase(reverseIter);
+        _entities.RemoveByValue(entity);
     }
 
     _components.erase(entity);
@@ -63,28 +61,26 @@ Entity SystemManager::CreateEntity()
 
 Entity SystemManager::CreateEntity(const std::string & key)
 {
-    Assert(_entities.find(key) == _entities.end(), "Cannot use the same key for two entities.");
+    Assert(!_entities.ContainsKey(key), "Cannot use the same key for two entities.");
 
     Entity entity = CreateEntity();
-    _entities[key] = entity;
-    _entitiesReverse[entity] = key;
+    _entities.Add(key, entity);
 
     return entity;
 }
 
 Entity SystemManager::GetEntity(const std::string & key)
 {
-    auto entityIter = _entities.find(key);
-    if(entityIter == _entities.end())
+    if (!_entities.ContainsKey(key))
     {
         return nullentity;
     }
-    return entityIter->second; 
+    return _entities.GetValue(key);
 }
 
 std::string SystemManager::GetEntityKey(const Entity & entity)
 {
-    return _entitiesReverse[entity];
+    return _entities.GetKey(entity);
 }
 
 bool SystemManager::ContainsName(std::string & systemName)
@@ -137,7 +133,7 @@ void SystemManager::UnregisterComponent(Entity entity, AbstractSystem * owningSy
 
 void SystemManager::AddEntitySaveableSystemPair(std::string entity, std::string system)
 {
-    Assert(_entities.count(entity), "Cannot add entity-system saveable pair: Entity " + entity + " does not exist.");
+    Assert(_entities.ContainsKey(entity), "Cannot add entity-system saveable pair: Entity " + entity + " does not exist.");
     Assert(alg::count_if(_keyedSystems, [system](std::pair<std::string, AbstractSystem *> sysNamePair)
         {
             return sysNamePair.first == system; 

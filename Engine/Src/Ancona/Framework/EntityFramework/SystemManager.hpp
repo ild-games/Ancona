@@ -11,6 +11,7 @@
 #include <Ancona/Framework/EntityFramework/Entity.hpp>
 #include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Util/Algorithm.hpp>
+#include <Ancona/Util/Data/DualMap.hpp>
 
 namespace ild
 {
@@ -180,11 +181,7 @@ class SystemManager
         /**
          * @brief A map used to key entities using strings.
          */
-        std::map<std::string, Entity> _entities; 
-        /**
-         * @brief A map for doing reversal lookup of entity keys.
-         */
-        std::map<Entity, std::string> _entitiesReverse;
+        DualMap<std::string, Entity> _entities;
         /**
          * @brief The systems stored with their keys in the order they were added to the manager.
          */
