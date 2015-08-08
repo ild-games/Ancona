@@ -19,9 +19,9 @@
  *     std::cout << "Bar False " << arg1 << arg2;
  * }
  *
- * bar(4, 2, HasMethod::Foo<AwsomeClass,int>());
+ * bar(4, 2, HasMethod::Foo<AwesomeClass,int>());
  * 
- * Will print Bar True 42 if AwsomeClass contains the method Foo(int).  Will
+ * Will print Bar True 42 if AwesomeClass contains the method Foo(int).  Will
  * print Bar False 42 if it does not contain the method.
  *
  * @param METHOD_NAME Name of the method that will be tested for.
