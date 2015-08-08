@@ -18,36 +18,37 @@
  * {
  *     std::cout << "Bar False " << arg1 << arg2;
  * }
+ *
+ * bar(4, 2, HasMethod::Foo<AwesomeClass,int>());
  * 
- * Will print Bar True 42 if AwsomeClass contains the method Foo(int).  Will
+ * Will print Bar True 42 if AwesomeClass contains the method Foo(int).  Will
  * print Bar False 42 if it does not contain the method.
- * bar(4, 2, HasMethod::Foo<AwsomeClass,int>());  *
  *
  * @param METHOD_NAME Name of the method that will be tested for.
  *
  * @author Jeff Swenson
  */
-#define GENERATE_METHOD_TESTER(METHOD_NAME)                                                           \
-    namespace HasMethod { namespace Internal {                                                        \
-            template <class T, class ... Args>                                                        \
-            constexpr auto __##METHOD_NAME##__(T & t, Args & ... args)                                \
-                -> decltype(t.METHOD_NAME(args...), std::true_type())                                 \
-            {                                                                                         \
-                return std::true_type();                                                              \
-            }                                                                                         \
-                                                                                                      \
-            template <class ... Args>                                                                 \
-            constexpr std::false_type __##METHOD_NAME##__(Args & ... args)                            \
-            {                                                                                         \
-                return std::false_type();                                                             \
-            }                                                                                         \
-        }                                                                                             \
-        template <class T, class ... Args>                                                            \
-        constexpr auto METHOD_NAME()                                                                  \
-            -> decltype(Internal::__##METHOD_NAME##__(*(T*) NULL, (*(Args*) NULL) ...))               \
-        {                                                                                             \
-            return Internal::__##METHOD_NAME##__(*(T*) NULL, (*(Args*) NULL) ...);                    \
-        }                                                                                             \
+#define GENERATE_METHOD_TESTER(METHOD_NAME)                                                         \
+    namespace HasMethod {                                                                           \
+        namespace Internal {                                                                        \
+            template<typename T, typename ... Args>                                                 \
+            constexpr auto METHOD_NAME(int)                                                         \
+                -> decltype((*(T*) NULL).METHOD_NAME((*(Args*) NULL) ...), std::true_type())        \
+            {                                                                                       \
+                return std::true_type();                                                            \
+            }                                                                                       \
+            template<typename ... Args>                                                             \
+            constexpr std::false_type METHOD_NAME(float)                                            \
+            {                                                                                       \
+                return std::false_type();                                                           \
+            }                                                                                       \
+        }                                                                                           \
+        template<typename ... Args>                                                                 \
+        constexpr auto METHOD_NAME() -> decltype(Internal::METHOD_NAME<Args ...>(0))                \
+        {                                                                                           \
+            return Internal::METHOD_NAME<Args ...>(0);                                              \
+        }                                                                                           \
     }
+    
 
 #endif
