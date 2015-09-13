@@ -44,7 +44,7 @@ class AnimatedDrawable : public Drawable
          *
          * @param window RenderWindow for the game.
          */
-        void Draw(sf::RenderWindow & window, float delta);
+        void Draw(sf::RenderWindow & window, sf::Transform transform, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize

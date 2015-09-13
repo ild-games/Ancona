@@ -1,0 +1,484 @@
+{
+    "key": "TestMap",
+    "assets": [
+        {
+            "type": "FontTTF",
+            "key": "vcr_osd_mono"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "duckLogo"
+        },
+        {
+            "type": "TexturePNG",
+            "key": "tileset"
+        }
+    ],
+    "entities": [
+        "rotatingEntity",
+        "screenCam"
+    ],
+    "systems": {
+        "physics": {
+            "components": {
+                "rotatingEntity": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        }
+                    }
+                }
+            }
+        },
+        "camera": {
+            "components": {
+                "screenCam": {
+                    "renderPriority": 0,
+                    "scale": 1.0,
+                    "default": true,
+                    "size": {
+                        "x": 800,
+                        "y": 600
+                    },
+                    "follows": "rotatingEntity"
+                }
+            }
+        },
+        "rotate": {
+            "components": {
+                "rotatingEntity": {
+                    "speed": 125.0,
+                    "drawablesSpeeds": {
+                        "rotatingEntity_shape3": 50.0,
+                        "rotatingEntity_text1": 300.0,
+                        "rotatingEntity_sprite1": -150.0,
+                        "rotatingEntity_waterfallAnimation": -175.0
+                    }
+                }
+            }
+        },
+        "drawable": {
+            "components": {
+                "rotatingEntity": {
+                    "rotation": 0,
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "drawables": {
+                        "rotatingEntity_shape1": {
+                            "__cpp_type": "ild::ShapeDrawable",
+                            "key": "rotatingEntity_shape1",
+                            "renderPriority": 0,
+                            "priorityOffset": 0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            },
+                            "positionOffset": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "shape": {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 15,
+                                "height": 500,
+                                "fillColor": {
+                                    "r": 255,
+                                    "g": 0,
+                                    "b": 0,
+                                    "a": 255
+                                }
+                            }
+                        },
+                        "rotatingEntity_shape2": {
+                            "__cpp_type": "ild::ShapeDrawable",
+                            "key": "rotatingEntity_shape2",
+                            "renderPriority": 0,
+                            "priorityOffset": 0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            },
+                            "positionOffset": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "shape": {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 500,
+                                "height": 15,
+                                "fillColor": {
+                                    "r": 255,
+                                    "g": 0,
+                                    "b": 0,
+                                    "a": 255
+                                }
+                            }
+                        },
+                        "rotatingEntity_shape3": {
+                            "__cpp_type": "ild::ShapeDrawable",
+                            "key": "rotatingEntity_shape3",
+                            "renderPriority": 1,
+                            "priorityOffset": 0,
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            },
+                            "positionOffset": {
+                                "x": 0,
+                                "y": -250
+                            },
+                            "shape": {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 75,
+                                "height": 20,
+                                "fillColor": {
+                                    "r": 0,
+                                    "g": 255,
+                                    "b": 0,
+                                    "a": 255
+                                }
+                            }
+                        },
+                        "rotatingEntity_text1": {
+                            "__cpp_type": "ild::TextDrawable",
+                            "key": "rotatingEntity_text1",
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            },
+                            "text": {
+                                "text": "ROTATION",
+                                "fontKey": "vcr_osd_mono",
+                                "color": {
+                                    "r": 0,
+                                    "g": 0,
+                                    "b": 0,
+                                    "a": 255
+                                },
+                                "characterSize": 25,
+                                "smooth": true
+                            },
+                            "renderPriority": 1,
+                            "priorityOffset": 0,
+                            "positionOffset": {
+                                "x": 250,
+                                "y": 0
+                            }
+                        },
+                        "rotatingEntity_sprite1": {
+                            "__cpp_type": "ild::SpriteDrawable",
+                            "key": "rotatingEntity_sprite1",
+                            "renderPriority": 1,
+                            "priorityOffset": 0,
+                            "positionOffset": {
+                                "x": -250,
+                                "y": 0
+                            },
+                            "scale": {
+                                "x": 0.5,
+                                "y": 0.5
+                            },
+                            "image": {
+                                "__cpp_type": "ild::SoloImage",
+                                "textureKey": "duckLogo"
+                            }
+                        },
+                        "rotatingEntity_waterfallAnimation": {
+                            "__cpp_type": "ild::AnimatedDrawable",
+                            "key": "rotatingEntity_waterfallAnimation",
+                            "renderPriority": 0,
+                            "priorityOffset": 0,
+                            "scale": {
+                                "x": 2,
+                                "y": 2
+                            },
+                            "positionOffset": {
+                                "x": 0,
+                                "y": 250
+                            },
+                            "duration": 0.02,
+                            "frames": [
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "textureKey": "tileset",
+                                    "textureRects": [
+                                        {
+                                            "first": {
+                                                "left": 560,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 560,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "textureKey": "tileset",
+                                    "textureRects": [
+                                        {
+                                            "first": {
+                                                "left": 592,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 592,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "textureKey": "tileset",
+                                    "textureRects": [
+                                        {
+                                            "first": {
+                                                "left": 624,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 624,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "textureKey": "tileset",
+                                    "textureRects": [
+                                        {
+                                            "first": {
+                                                "left": 656,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 656,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "textureKey": "tileset",
+                                    "textureRects": [
+                                        {
+                                            "first": {
+                                                "left": 688,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 688,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "textureKey": "tileset",
+                                    "textureRects": [
+                                        {
+                                            "first": {
+                                                "left": 720,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 720,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "textureKey": "tileset",
+                                    "textureRects": [
+                                        {
+                                            "first": {
+                                                "left": 752,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 752,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "__cpp_type": "ild::TiledImage",
+                                    "textureKey": "tileset",
+                                    "textureRects": [
+                                        {
+                                            "first": {
+                                                "left": 784,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        },
+                                        {
+                                            "first": {
+                                                "left": 784,
+                                                "top": 0,
+                                                "width": 32,
+                                                "height": 16
+                                            },
+                                            "second": {
+                                                "left": 0,
+                                                "top": 16,
+                                                "width": 32,
+                                                "height": 16
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

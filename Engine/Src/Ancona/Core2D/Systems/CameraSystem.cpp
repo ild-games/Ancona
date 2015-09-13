@@ -32,7 +32,7 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
     {
         if(!drawable->inactive())
         {
-            drawable->Draw(window, delta);
+            drawable->Draw(window, drawable->drawableComponent().transform(), delta);
         }
     }
 }

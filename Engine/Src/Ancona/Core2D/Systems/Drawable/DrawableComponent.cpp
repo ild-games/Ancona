@@ -42,6 +42,9 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
     {
         keyDrawable.second->FetchDependencies(entity);
     }
+    _physicsComponent = _physicsSystem->at(entity);
+    rotation(_serializedRotation);
+    scale(_serializedScale);
 }
 
 void DrawableComponent::Serialize(Archive & arc)
@@ -49,7 +52,10 @@ void DrawableComponent::Serialize(Archive & arc)
     arc.entityUsingJsonKey(_camEntity, "camEntity");
     arc.system(_cameraSystem, "camera");
     arc.system(_drawableSystem, "drawable");
+    arc.system(_physicsSystem, "physics");
     arc(_drawables, "drawables");
+    arc(_serializedRotation, "rotation");
+    arc(_serializedScale, "scale");
 }
 
 /* getters and setters */
@@ -61,4 +67,46 @@ std::vector<Drawable *> DrawableComponent::keylessDrawables()
         toReturn.push_back(it->second.get());
     }
     return toReturn;
+}
+
+void DrawableComponent::rotation(float newRotation)
+{
+    _transform.rotate(
+            -_rotation,
+            _physicsComponent->GetInfo().position().x,
+            _physicsComponent->GetInfo().position().y);
+    _rotation = newRotation;
+    _transform.rotate(
+            newRotation,
+            _physicsComponent->GetInfo().position().x,
+            _physicsComponent->GetInfo().position().y);
+}
+
+void DrawableComponent::scale(sf::Vector2f newScale)
+{
+    _transform.scale(
+            1 / _scale.x,
+            1 / _scale.y,
+            _physicsComponent->GetInfo().position().x,
+            _physicsComponent->GetInfo().position().y);
+    _scale = newScale;
+    _transform.scale(
+            newScale.x,
+            newScale.y,
+            _physicsComponent->GetInfo().position().x,
+            _physicsComponent->GetInfo().position().y);
+}
+
+sf::Vector2u DrawableComponent::size()
+{
+    float maxWidth = 0, maxHeight = 0, curWidth = 0, curHeight = 0;
+    for (auto & drawable : _drawables)
+    {
+        sf::Vector2u drawableSize = drawable.second->size();
+        curWidth = drawable.second->positionOffset().x + drawableSize.x;
+        curHeight = drawable.second->positionOffset().y + drawableSize.y;
+        maxWidth = std::max(maxWidth, curWidth);
+        maxHeight = std::max(maxHeight, curHeight);
+    }
+    return sf::Vector2u(maxWidth, maxHeight);
 }

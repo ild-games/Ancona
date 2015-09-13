@@ -45,7 +45,7 @@ class SpriteDrawable : public Drawable
          *
          * @param window Window the sprite should be drawn to.
          */
-        virtual void Draw(sf::RenderWindow & window, float delta);
+        virtual void Draw(sf::RenderWindow & window, sf::Transform transform, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize

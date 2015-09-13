@@ -7,6 +7,7 @@
         }
     ],
     "entities": [
+        "testShape",
         "screenCam",
         "bg",
         "1",
@@ -15,6 +16,15 @@
     "systems": {
         "physics": {
             "components": {
+                "testShape": {
+                    "__cpp_type": "ild::PlatformPhysicsComponent",
+                    "info": {
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        }
+                    }
+                },
                 "bg": {
                     "__cpp_type": "ild::PlatformPhysicsComponent",
                     "info": {
@@ -60,7 +70,44 @@
         },
         "drawable": {
             "components": {
+                "testShape": {
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
+                    "drawables": {
+                        "testShape_shape1": {
+                            "__cpp_type": "ild::ShapeDrawable",
+                            "key": "testShape_shape1",
+                            "renderPriority": 1,
+                            "priorityOffset": 0,
+                            "positionOffset": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0
+                            },
+                            "shape": {
+                                "__cpp_type": "sf::RectangleShape",
+                                "width": 16,
+                                "height": 16,
+                                "fillColor": {
+                                    "r": 255,
+                                    "g": 0,
+                                    "b": 0,
+                                    "a": 255
+                                }
+                            }
+                        }
+                    }
+                },
                 "bg": {
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
                     "drawables": {
                         "bg_shape1": {
                             "__cpp_type": "ild::ShapeDrawable",
@@ -90,6 +137,10 @@
                     }
                 },
                 "1": {
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
                     "drawables": {
                         "1_sprite1": {
                             "__cpp_type": "ild::SpriteDrawable",
@@ -170,6 +221,10 @@
                     }
                 },
                 "2": {
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0
+                    },
                     "drawables": {
                         "2_shape1": {
                             "__cpp_type": "ild::ShapeDrawable",

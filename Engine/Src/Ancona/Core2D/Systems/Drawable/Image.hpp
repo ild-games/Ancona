@@ -33,7 +33,7 @@ class Image
          *
          * @param window RenderWindow for the game.
          */
-        virtual void Draw(sf::RenderWindow & window, float delta) = 0;
+        virtual void Draw(sf::RenderWindow & window, sf::Transform transform, float delta) = 0;
 
         /**
          * @copydoc ild::CameraComponent::Serialize

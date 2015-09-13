@@ -31,14 +31,15 @@ TextDrawable::TextDrawable(
      }
 }
 
-void TextDrawable::Draw(sf::RenderWindow & window, float delta)
+void TextDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, float delta)
 {
     auto pos = _physicsComponent->GetInfo().position();
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _text->setPosition(position.x, position.y);
-    window.draw(*_text);
+    sf::RenderStates states(transform);
+    window.draw(*_text, states);
 }
 
 

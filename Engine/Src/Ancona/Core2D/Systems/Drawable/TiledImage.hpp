@@ -39,7 +39,7 @@ class TiledImage : public Image
         /**
          * @copydoc ild::Image::Draw
          */
-        void Draw(sf::RenderWindow & window, float delta);
+        void Draw(sf::RenderWindow & window, sf::Transform transform, float delta);
 
         /**
          * @copydoc ild::Image::SetupSprite

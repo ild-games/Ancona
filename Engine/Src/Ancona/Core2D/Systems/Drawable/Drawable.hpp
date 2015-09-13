@@ -70,7 +70,8 @@ class Drawable
          * @param window RenderWindow for the game.
          */
         virtual void Draw(
-                sf::RenderWindow & window, 
+                sf::RenderWindow & window,
+                sf::Transform transform,
                 float delta) = 0;
 
         /**
@@ -85,6 +86,7 @@ class Drawable
 
         /* getters and setters */
         int renderPriority() { return _renderPriority + _priorityOffset; }
+        sf::Vector2f positionOffset() { return _positionOffset; }
         float rotation() { return _rotation; }
         sf::Vector2f scale() { return _scale; }
         virtual void rotation(float rotation) = 0;
@@ -94,6 +96,7 @@ class Drawable
         virtual void alpha(int alpha) = 0;
         bool inactive() { return _inactive; }
         void inactive(bool inactive) { _inactive = inactive; }
+        const DrawableComponent & drawableComponent() { return *_drawableComponent; }
 
 
     protected:
@@ -141,6 +144,10 @@ class Drawable
          * @brief Key that describes the Drawable.
          */
         std::string _key;
+        sf::Transform _transform;
+    private:
+        float _serializedRotation = 0;
+        sf::Vector2f _serializedScale = sf::Vector2f(1.0f, 1.0f);
 };
 
 }

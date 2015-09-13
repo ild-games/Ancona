@@ -86,6 +86,11 @@ class DrawableComponent
 
         /* getters and setters */
         std::vector<Drawable *> keylessDrawables();
+        void rotation(float newRotation);
+        float rotation() { return _rotation; }
+        void scale(sf::Vector2f newScale);
+        const sf::Transform & transform() const { return _transform; }
+        sf::Vector2u size();
     private:
         /**
          * @brief Holds all the drawables the component controls.
@@ -96,8 +101,15 @@ class DrawableComponent
          */
         CameraComponent * _camera;
         CameraSystem * _cameraSystem;
+        BasePhysicsSystem * _physicsSystem;
+        BasePhysicsComponent * _physicsComponent;
         DrawableSystem * _drawableSystem;
         Entity _camEntity = nullentity;
+        float _rotation = 0;
+        sf::Vector2f _scale = sf::Vector2f(1.0f, 1.0f);
+        float _serializedRotation = 0;
+        sf::Vector2f _serializedScale = sf::Vector2f(1.0f, 1.0f);
+        sf::Transform _transform;
 };
 
 }

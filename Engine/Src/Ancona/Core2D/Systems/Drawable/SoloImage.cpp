@@ -6,10 +6,11 @@ using namespace ild;
 
 SoloImage::SoloImage(std::string textureKey): Image(textureKey) { }
 
-void SoloImage::Draw(sf::RenderWindow & window, float delta)
+void SoloImage::Draw(sf::RenderWindow & window, sf::Transform transform, float delta)
 {
     _sprite->setPosition(_position.x, _position.y);
-    window.draw(*_sprite);
+    sf::RenderStates states(transform);
+    window.draw(*_sprite, states);
 }
 
 void SoloImage::SetupSprite()

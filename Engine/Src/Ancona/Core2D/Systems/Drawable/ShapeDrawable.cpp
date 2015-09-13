@@ -20,14 +20,15 @@ ShapeDrawable::ShapeDrawable(
 {
 }
 
-void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
+void ShapeDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, float delta)
 {
     auto pos = _physicsComponent->GetInfo().position();
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _shape->setPosition(position.x, position.y);
-    window.draw(*_shape);
+    sf::RenderStates states(transform);
+    window.draw(*_shape, states);
 }
 
 void ShapeDrawable::FetchDependencies(const Entity &entity) {

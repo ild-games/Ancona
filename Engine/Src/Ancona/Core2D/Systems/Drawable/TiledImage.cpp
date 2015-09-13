@@ -12,7 +12,7 @@ TiledImage::TiledImage(
 {
 }
 
-void TiledImage::Draw(sf::RenderWindow & window, float delta)
+void TiledImage::Draw(sf::RenderWindow & window, sf::Transform transform, float delta)
 {
     for(int i = 0; i < _textureRects.size(); i++)
     {
@@ -21,8 +21,8 @@ void TiledImage::Draw(sf::RenderWindow & window, float delta)
         float newY = _position.y +
                 (_textureRects[i].second.top + (_textureRects[i].second.height / 2.0f));
         _sprites[i]->setPosition(newX, newY);
-        sf::Vector2f test = _sprites[i]->getScale();
-        window.draw(*_sprites[i]);
+        sf::RenderStates states(transform);
+        window.draw(*_sprites[i], states);
     }
 }
 
@@ -38,6 +38,8 @@ void TiledImage::SetupSprite()
                 (((float) curRect.second.width) / 2),
                 (((float) curRect.second.height) / 2));
     }
+    SetupRectRotations();
+    SetupRectScales();
 }
 
 void TiledImage::SetupRectRotations()
@@ -78,11 +80,11 @@ void TiledImage::Serialize(Archive & arc)
 /* getters and setters */
 sf::Vector2u TiledImage::size()
 {
-    float maxWidth = 0, maxHeight = 0, curWidth, curHeight;
-    for(auto & sprite : _sprites)
+    float maxWidth = 0, maxHeight = 0, curWidth = 0, curHeight = 0;
+    for(auto textureRect : _textureRects)
     {
-        curWidth = sprite->getPosition().x + sprite->getLocalBounds().width > maxWidth;
-        curHeight = sprite->getPosition().y + sprite->getLocalBounds().height > maxHeight;
+        curWidth = textureRect.second.left + textureRect.second.width;
+        curHeight = textureRect.second.top + textureRect.second.height;
         maxWidth = std::max(maxWidth, curWidth);
         maxHeight = std::max(maxHeight, curHeight);
     }

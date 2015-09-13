@@ -19,14 +19,14 @@ AnimatedDrawable::AnimatedDrawable(
 {
 }
 
-void AnimatedDrawable::Draw(sf::RenderWindow & window, float delta)
+void AnimatedDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, float delta)
 {
     auto pos = _physicsComponent->GetInfo().position();
     sf::Vector2f position = sf::Vector2f(
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _frames[_curFrame]->position(position);
-    _frames[_curFrame]->Draw(window, delta);
+    _frames[_curFrame]->Draw(window, transform.combine(_transform), delta);
 
     Tick(delta);
 }
@@ -88,18 +88,28 @@ void AnimatedDrawable::alpha(int newAlpha)
 
 void AnimatedDrawable::rotation(float newRotation)
 {
+    _transform.rotate(
+            -_rotation,
+            _physicsComponent->GetInfo().position().x + _positionOffset.x,
+            _physicsComponent->GetInfo().position().y + _positionOffset.y);
     _rotation = newRotation;
-    for (auto & frame : _frames)
-    {
-        frame->rotation(_rotation);
-    }
+    _transform.rotate(
+            newRotation,
+            _physicsComponent->GetInfo().position().x + _positionOffset.x,
+            _physicsComponent->GetInfo().position().y + _positionOffset.y);
 }
 
 void AnimatedDrawable::scale(sf::Vector2f newScale)
 {
+    _transform.scale(
+            1 / _scale.x,
+            1 /_scale.y,
+            _physicsComponent->GetInfo().position().x + _positionOffset.x,
+            _physicsComponent->GetInfo().position().y + _positionOffset.y);
     _scale = newScale;
-    for(auto & frame : _frames)
-    {
-        frame->scale(_scale);
-    }
+    _transform.scale(
+            newScale.x,
+            newScale.y,
+            _physicsComponent->GetInfo().position().x + _positionOffset.x,
+            _physicsComponent->GetInfo().position().y + _positionOffset.y);
 }
