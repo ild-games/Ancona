@@ -29,8 +29,8 @@ void SpriteDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, fl
 
 void SpriteDrawable::FetchDependencies(const Entity &entity) 
 {
-    _image->SetupSprite();
     Drawable::FetchDependencies(entity);
+    _image->SetupSprite();
 }
 
 void SpriteDrawable::Serialize(Archive &archive) 
@@ -55,30 +55,3 @@ void SpriteDrawable::alpha(int alpha)
     _image->alpha(alpha);
 }
 
-void SpriteDrawable::rotation(float newRotation)
-{
-    _transform.rotate(
-            -_rotation,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
-    _rotation = newRotation;
-    _transform.rotate(
-            newRotation,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
-}
-
-void SpriteDrawable::scale(sf::Vector2f newScale)
-{
-    _transform.scale(
-            1 / _scale.x,
-            1 /_scale.y,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
-    _scale = newScale;
-    _transform.scale(
-            newScale.x,
-            newScale.y,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
-}

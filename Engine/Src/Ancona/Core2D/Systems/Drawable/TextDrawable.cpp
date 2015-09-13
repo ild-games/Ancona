@@ -38,7 +38,7 @@ void TextDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, floa
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _text->setPosition(position.x, position.y);
-    sf::RenderStates states(transform);
+    sf::RenderStates states(transform.combine(_transform));
     window.draw(*_text, states);
 }
 
@@ -86,14 +86,3 @@ void TextDrawable::alpha(int alpha)
     delete col;
 }
 
-void TextDrawable::rotation(float newRotation)
-{
-    _rotation = newRotation;
-    _text->setRotation(newRotation);
-}
-
-void TextDrawable::scale(sf::Vector2f newScale)
-{
-    _scale = newScale;
-    _text->setScale(_scale);
-}

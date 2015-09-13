@@ -52,13 +52,13 @@ void AnimatedDrawable::AdvanceFrame()
 }
 
 void AnimatedDrawable::FetchDependencies(const Entity &entity) {
+    Drawable::FetchDependencies(entity);
     _timeUntilChange = _duration;
     _curFrame = 0;
     for(auto & frame : _frames)
     {
         frame->SetupSprite();
     }
-    Drawable::FetchDependencies(entity);
 }
 
 void AnimatedDrawable::Serialize(Archive &archive) {
@@ -86,30 +86,3 @@ void AnimatedDrawable::alpha(int newAlpha)
     }
 }
 
-void AnimatedDrawable::rotation(float newRotation)
-{
-    _transform.rotate(
-            -_rotation,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
-    _rotation = newRotation;
-    _transform.rotate(
-            newRotation,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
-}
-
-void AnimatedDrawable::scale(sf::Vector2f newScale)
-{
-    _transform.scale(
-            1 / _scale.x,
-            1 /_scale.y,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
-    _scale = newScale;
-    _transform.scale(
-            newScale.x,
-            newScale.y,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
-}

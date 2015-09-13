@@ -27,7 +27,7 @@ void ShapeDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, flo
             pos.x + _positionOffset.x,
             pos.y + _positionOffset.y);
     _shape->setPosition(position.x, position.y);
-    sf::RenderStates states(transform);
+    sf::RenderStates states(transform.combine(_transform));
     window.draw(*_shape, states);
 }
 
@@ -72,14 +72,3 @@ void ShapeDrawable::alpha(int alpha)
     delete fillCol;
 }
 
-void ShapeDrawable::rotation(float newRotation)
-{
-    _rotation = newRotation;
-    _shape->setRotation(_rotation);
-}
-
-void ShapeDrawable::scale(sf::Vector2f newScale)
-{
-    _scale = newScale;
-    _shape->setScale(_scale);
-}

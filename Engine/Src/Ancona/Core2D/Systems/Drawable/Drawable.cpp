@@ -40,3 +40,31 @@ void Drawable::FetchDependencies(const Entity & entity)
     rotation(_serializedRotation);
     scale(_serializedScale);
 }
+
+void Drawable::rotation(float newRotation)
+{
+    _transform.rotate(
+            -_rotation,
+            _physicsComponent->GetInfo().position().x + _positionOffset.x,
+            _physicsComponent->GetInfo().position().y + _positionOffset.y);
+    _rotation = newRotation;
+    _transform.rotate(
+            newRotation,
+            _physicsComponent->GetInfo().position().x + _positionOffset.x,
+            _physicsComponent->GetInfo().position().y + _positionOffset.y);
+}
+
+void Drawable::scale(sf::Vector2f newScale)
+{
+    _transform.scale(
+            1 / _scale.x,
+            1 /_scale.y,
+            _physicsComponent->GetInfo().position().x + _positionOffset.x,
+            _physicsComponent->GetInfo().position().y + _positionOffset.y);
+    _scale = newScale;
+    _transform.scale(
+            newScale.x,
+            newScale.y,
+            _physicsComponent->GetInfo().position().x + _positionOffset.x,
+            _physicsComponent->GetInfo().position().y + _positionOffset.y);
+}

@@ -67,8 +67,6 @@ class TextDrawable : public Drawable
         sf::Vector2u size();
         int alpha();
         void alpha(int alpha);
-        void rotation(float newRotation) override;
-        void scale(sf::Vector2f newScale) override;
     private:
         std::unique_ptr<sf::Text> _text;
 
