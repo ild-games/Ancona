@@ -1,7 +1,5 @@
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 
 using namespace ild;
 
@@ -32,6 +30,7 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
     {
         if(!drawable->inactive())
         {
+            drawable->drawableComponent().UpdatePosition();
             drawable->Draw(window, drawable->drawableComponent().transform(), delta);
         }
     }
@@ -50,7 +49,7 @@ void CameraComponent::MoveCamera()
 
 void CameraComponent::AddDrawable(Drawable * drawable)
 {
-    if(alg::find(_renderQueue, drawable) == _renderQueue.end())
+    if(!alg::contains(_renderQueue, drawable))
     {
         _renderQueue.push_back(drawable);
         std::sort(

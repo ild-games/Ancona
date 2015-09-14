@@ -14,8 +14,7 @@ void DrawableComponent::AddDrawable(
         const std::string key,
         Drawable * drawable)
 {
-    auto keyDrawablePair = _drawables.find(key);
-    if (keyDrawablePair == _drawables.end() || keyDrawablePair->second.get() != drawable)
+    if (!_drawables.count(key))
     {
         _drawables[key] = std::unique_ptr<Drawable>(drawable);
     }
@@ -40,6 +39,7 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
     }
     for (auto & keyDrawable : _drawables)
     {
+        AddDrawable(keyDrawable.first, keyDrawable.second.get());
         keyDrawable.second->FetchDependencies(entity);
     }
     _physicsComponent = _physicsSystem->at(entity);
@@ -58,6 +58,14 @@ void DrawableComponent::Serialize(Archive & arc)
     arc(_serializedScale, "scale");
 }
 
+void DrawableComponent::UpdatePosition()
+{
+    sf::Vector2f newPosition = _physicsComponent->GetInfo().position();
+    _dynamicTransform = sf::Transform();
+    _dynamicTransform.translate(newPosition);
+    _transform = _dynamicTransform.combine(_staticTransform);
+}
+
 /* getters and setters */
 std::vector<Drawable *> DrawableComponent::keylessDrawables()
 {
@@ -71,30 +79,20 @@ std::vector<Drawable *> DrawableComponent::keylessDrawables()
 
 void DrawableComponent::rotation(float newRotation)
 {
-    _transform.rotate(
-            -_rotation,
-            _physicsComponent->GetInfo().position().x,
-            _physicsComponent->GetInfo().position().y);
+    _staticTransform.rotate(-_rotation);
     _rotation = newRotation;
-    _transform.rotate(
-            newRotation,
-            _physicsComponent->GetInfo().position().x,
-            _physicsComponent->GetInfo().position().y);
+    _staticTransform.rotate(newRotation);
 }
 
 void DrawableComponent::scale(sf::Vector2f newScale)
 {
-    _transform.scale(
+    _staticTransform.scale(
             1 / _scale.x,
-            1 / _scale.y,
-            _physicsComponent->GetInfo().position().x,
-            _physicsComponent->GetInfo().position().y);
+            1 / _scale.y);
     _scale = newScale;
-    _transform.scale(
+    _staticTransform.scale(
             newScale.x,
-            newScale.y,
-            _physicsComponent->GetInfo().position().x,
-            _physicsComponent->GetInfo().position().y);
+            newScale.y);
 }
 
 sf::Vector2u DrawableComponent::size()
@@ -110,3 +108,4 @@ sf::Vector2u DrawableComponent::size()
     }
     return sf::Vector2u(maxWidth, maxHeight);
 }
+

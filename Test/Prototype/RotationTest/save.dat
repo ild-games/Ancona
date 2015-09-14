@@ -3,7 +3,7 @@
         {
             "name": "Profile1",
             "screen-maps": {
-                "test-screen": "TestMap"
+                "test-screen": "DrawingOverhaul"
             },
             "systems": {
             }

@@ -53,13 +53,11 @@ class Drawable
         /**
          * @brief Constructs a Drawable.
          *
-         * @param positionSystem PositionSystem that can be used to fetch the position component.
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param priorityOffset Optional offset to the render priority.
          * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
          */
         Drawable(
-                BasePhysicsSystem * positionSystem,
                 const int priority,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
@@ -70,8 +68,8 @@ class Drawable
          * @param window RenderWindow for the game.
          */
         virtual void Draw(
-                sf::RenderWindow & window,
-                sf::Transform transform,
+                sf::RenderWindow &window,
+                sf::Transform parentTransform,
                 float delta) = 0;
 
         /**
@@ -96,22 +94,14 @@ class Drawable
         virtual void alpha(int alpha) = 0;
         bool inactive() { return _inactive; }
         void inactive(bool inactive) { _inactive = inactive; }
-        const DrawableComponent & drawableComponent() { return *_drawableComponent; }
+        DrawableComponent & drawableComponent() { return *_drawableComponent; }
 
 
     protected:
         /**
-         * @brief Physics system for the current screen.
-         */
-        BasePhysicsSystem * _physicsSystem;
-        /**
          * @brief Drawable system for the current screen.
          */
         DrawableSystem * _drawableSystem;
-        /**
-         * @brief Component that defines the entity's position.
-         */
-        BasePhysicsComponent * _physicsComponent;
         /**
          * @brief Component that defines the entity's drawables.
          */
@@ -144,6 +134,8 @@ class Drawable
          * @brief Key that describes the Drawable.
          */
         std::string _key;
+        sf::Transform _staticTransform;
+        sf::Transform _dynamicTransform;
         sf::Transform _transform;
     private:
         float _serializedRotation = 0;

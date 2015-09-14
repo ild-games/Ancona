@@ -34,7 +34,6 @@ class TextDrawable : public Drawable
          * @param smooth Optional bool to determine if the text should be smoothed, defaults to true.
          */
         TextDrawable(
-                BasePhysicsSystem * physicsSystem,
                 const std::string text,
                 const std::string fontKey,
                 const sf::Color color,
@@ -49,7 +48,7 @@ class TextDrawable : public Drawable
          *
          * @param window
          */
-        void Draw(sf::RenderWindow & window, sf::Transform transform, float delta);
+        void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize

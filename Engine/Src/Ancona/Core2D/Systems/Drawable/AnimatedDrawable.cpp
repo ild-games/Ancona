@@ -6,28 +6,22 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::AnimatedDrawable)
 using namespace ild;
 
 AnimatedDrawable::AnimatedDrawable(
-        BasePhysicsSystem * physicsSystem,
         const int priority,
         float duration,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
-            physicsSystem,
             priority,
             priorityOffset,
-            positionOffset)
+            positionOffset),
+    _duration(duration)
 {
 }
 
-void AnimatedDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, float delta)
+void AnimatedDrawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
 {
-    auto pos = _physicsComponent->GetInfo().position();
-    sf::Vector2f position = sf::Vector2f(
-            pos.x + _positionOffset.x,
-            pos.y + _positionOffset.y);
-    _frames[_curFrame]->position(position);
-    _frames[_curFrame]->Draw(window, transform.combine(_transform), delta);
-
+    Drawable::Draw(window, parentTransform, delta);
+    _frames[_curFrame]->Draw(window, parentTransform.combine(_transform), delta);
     Tick(delta);
 }
 
@@ -55,9 +49,9 @@ void AnimatedDrawable::FetchDependencies(const Entity &entity) {
     Drawable::FetchDependencies(entity);
     _timeUntilChange = _duration;
     _curFrame = 0;
-    for(auto & frame : _frames)
+    for (auto & drawable : _frames)
     {
-        frame->SetupSprite();
+        drawable->FetchDependencies(entity);
     }
 }
 

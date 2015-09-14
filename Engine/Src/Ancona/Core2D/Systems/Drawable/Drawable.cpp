@@ -6,11 +6,9 @@ REGISTER_POLYMORPHIC_SERIALIZER_ABSTRACT_BASE(ild::Drawable);
 using namespace ild;
 
 Drawable::Drawable(
-        BasePhysicsSystem * physicsSystem,
         const int priority,
         int priorityOffset,
         sf::Vector2f positionOffset) :
-    _physicsSystem(physicsSystem),
     _positionOffset(positionOffset),
     _renderPriority(priority),
     _priorityOffset(priorityOffset)
@@ -20,7 +18,6 @@ Drawable::Drawable(
 
 void Drawable::Serialize(Archive &arc)
 {
-    arc.system(_physicsSystem, "physics");
     arc.system(_drawableSystem, "drawable");
     arc(_renderPriority,"renderPriority");
     arc(_priorityOffset,"priorityOffset");
@@ -31,11 +28,16 @@ void Drawable::Serialize(Archive &arc)
     arc(_key, "key");
 }
 
+void Drawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
+{
+    _dynamicTransform = sf::Transform();
+    _dynamicTransform.translate(_positionOffset);
+    _transform = _dynamicTransform.combine(_staticTransform);
+}
+
 void Drawable::FetchDependencies(const Entity & entity)
 {
-    _physicsComponent = _physicsSystem->at(entity);
     _drawableComponent = _drawableSystem->at(entity);
-    _drawableComponent->AddDrawable(_key, this);
 
     rotation(_serializedRotation);
     scale(_serializedScale);
@@ -43,28 +45,18 @@ void Drawable::FetchDependencies(const Entity & entity)
 
 void Drawable::rotation(float newRotation)
 {
-    _transform.rotate(
-            -_rotation,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
+    _staticTransform.rotate(-_rotation);
     _rotation = newRotation;
-    _transform.rotate(
-            newRotation,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
+    _staticTransform.rotate(newRotation);
 }
 
 void Drawable::scale(sf::Vector2f newScale)
 {
-    _transform.scale(
+    _staticTransform.scale(
             1 / _scale.x,
-            1 /_scale.y,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
+            1 / _scale.y);
     _scale = newScale;
-    _transform.scale(
+    _staticTransform.scale(
             newScale.x,
-            newScale.y,
-            _physicsComponent->GetInfo().position().x + _positionOffset.x,
-            _physicsComponent->GetInfo().position().y + _positionOffset.y);
+            newScale.y);
 }

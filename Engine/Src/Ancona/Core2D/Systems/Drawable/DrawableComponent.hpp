@@ -9,7 +9,6 @@
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
-#include <Ancona/Core2D/Systems/Drawable/SpriteDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 
@@ -84,12 +83,14 @@ class DrawableComponent
          */
         template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); }
 
+        void UpdatePosition();
+
         /* getters and setters */
         std::vector<Drawable *> keylessDrawables();
         void rotation(float newRotation);
         float rotation() { return _rotation; }
         void scale(sf::Vector2f newScale);
-        const sf::Transform & transform() const { return _transform; }
+        const sf::Transform & transform() { return _transform; }
         sf::Vector2u size();
     private:
         /**
@@ -110,6 +111,9 @@ class DrawableComponent
         float _serializedRotation = 0;
         sf::Vector2f _serializedScale = sf::Vector2f(1.0f, 1.0f);
         sf::Transform _transform;
+        sf::Transform _staticTransform;
+        sf::Transform _dynamicTransform;
+        sf::Vector2f _position = sf::Vector2f(0, 0);
 };
 
 }

@@ -1,18 +1,16 @@
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 
-REGISTER_POLYMORPHIC_SERIALIZER(ild::ShapeDrawable)
+REGISTER_POLYMORPHIC_SERIALIZER(ild::ShapeDrawable);
 
 using namespace ild;
 
 ShapeDrawable::ShapeDrawable(
-        BasePhysicsSystem * physicsSystem,
         sf::Shape * shape,
         const int priorty,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
-            physicsSystem,
             priorty,
             priorityOffset,
             positionOffset),
@@ -20,14 +18,10 @@ ShapeDrawable::ShapeDrawable(
 {
 }
 
-void ShapeDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, float delta)
+void ShapeDrawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
 {
-    auto pos = _physicsComponent->GetInfo().position();
-    sf::Vector2f position = sf::Vector2f(
-            pos.x + _positionOffset.x,
-            pos.y + _positionOffset.y);
-    _shape->setPosition(position.x, position.y);
-    sf::RenderStates states(transform.combine(_transform));
+    Drawable::Draw(window, parentTransform, delta);
+    sf::RenderStates states(parentTransform.combine(_transform));
     window.draw(*_shape, states);
 }
 

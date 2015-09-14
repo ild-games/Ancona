@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Core_Systems_AnimatedDrawable_H_
 #define Ancona_Engine_Core_Systems_AnimatedDrawable_H_
 
-#include <Ancona/Core2D/Systems/Drawable/SpriteDrawable.hpp>
+#include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 
 namespace ild
 {
@@ -26,14 +26,12 @@ class AnimatedDrawable : public Drawable
         /**
          * @brief Constructs an AnimatedDrawable
          *
-         * @param physicsSystem Physics system used to determine the entity's location.
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param duration Seconds per frame.
          * @param priorityOffset Optional offset to the render priority.
          * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
          */
         AnimatedDrawable(
-                BasePhysicsSystem * physicsSystem,
                 const int priority,
                 float duration,
                 int priorityOffset = 0,
@@ -44,7 +42,7 @@ class AnimatedDrawable : public Drawable
          *
          * @param window RenderWindow for the game.
          */
-        void Draw(sf::RenderWindow & window, sf::Transform transform, float delta);
+        void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -62,7 +60,7 @@ class AnimatedDrawable : public Drawable
         void alpha(int alpha);
 
     private:
-        std::vector<std::unique_ptr<Image>> _frames;
+        std::vector<std::unique_ptr<Drawable>> _frames;
         /**
          * @brief Seconds per frame.
          */

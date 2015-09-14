@@ -33,7 +33,6 @@ class ShapeDrawable : public Drawable
          * @param positionOffset Offset coordinates from the PositionComponent
          */
         ShapeDrawable(
-                BasePhysicsSystem * physicsSystem,
                 sf::Shape * shape,
                 const int priority,
                 int priorityOffset,
@@ -45,7 +44,7 @@ class ShapeDrawable : public Drawable
          *
          * @param window Window the shape should be drawn to.
          */
-        void Draw(sf::RenderWindow & window, sf::Transform transform, float delta);
+        void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -58,11 +57,11 @@ class ShapeDrawable : public Drawable
         void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
-        sf::Vector2u size();
-        int alpha();
-        void alpha(int alpha);
+        sf::Vector2u size() override;
+        int alpha() override;
+        void alpha(int alpha) override;
 
-    private:
+
         /**
          * @brief Shape used for the drawing.
          */

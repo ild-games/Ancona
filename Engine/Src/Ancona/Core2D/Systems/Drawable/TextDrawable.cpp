@@ -7,7 +7,6 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::TextDrawable)
 using namespace ild;
 
 TextDrawable::TextDrawable(
-        BasePhysicsSystem * physicsSystem,
         const std::string text,
         const std::string fontKey,
         const sf::Color color,
@@ -17,7 +16,6 @@ TextDrawable::TextDrawable(
         sf::Vector2f positionOffset,
         bool smooth) :
     Drawable(
-            physicsSystem,
             priority,
             priorityOffset,
             positionOffset)
@@ -31,14 +29,10 @@ TextDrawable::TextDrawable(
      }
 }
 
-void TextDrawable::Draw(sf::RenderWindow & window, sf::Transform transform, float delta)
+void TextDrawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
 {
-    auto pos = _physicsComponent->GetInfo().position();
-    sf::Vector2f position = sf::Vector2f(
-            pos.x + _positionOffset.x,
-            pos.y + _positionOffset.y);
-    _text->setPosition(position.x, position.y);
-    sf::RenderStates states(transform.combine(_transform));
+    Drawable::Draw(window, parentTransform, delta);
+    sf::RenderStates states(parentTransform.combine(_transform));
     window.draw(*_text, states);
 }
 

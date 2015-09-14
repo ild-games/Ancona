@@ -3,8 +3,8 @@
 #include "../../SpriteTilesheetLib/Core/SpriteTilesheetGame.hpp"
 #include "../../SpriteTilesheetLib/Core/DesktopPlatform.hpp"
 
-#include <Ancona/Core2D/Systems/Drawable/SoloImage.hpp>
-#include <Ancona/Core2D/Systems/Drawable/TiledImage.hpp>
+#include "SoloImageDrawable.hpp"
+#include "TiledImageDrawable.hpp"
 
 using namespace ild;
 
@@ -12,8 +12,8 @@ int main(int argc, const char *argv[])
 {
     PolymorphicRegistration::RegisterType<SpriteDrawable>("ild::SpriteDrawable");
     PolymorphicRegistration::RegisterType<AnimatedDrawable>("ild::AnimatedDrawable");
-    PolymorphicRegistration::RegisterType<TiledImage>("ild::TiledImage");
-    PolymorphicRegistration::RegisterType<SoloImage>("ild::SoloImage");
+    PolymorphicRegistration::RegisterType<TiledImageDrawable>("ild::TileImageDrawable");
+    PolymorphicRegistration::RegisterType<SoloImageDrawable>("ild::SoloImageDrawable");
 
     Config::Load("Config.txt");
 
