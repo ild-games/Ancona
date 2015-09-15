@@ -38,6 +38,7 @@ void Drawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, flo
 void Drawable::FetchDependencies(const Entity & entity)
 {
     _drawableComponent = _drawableSystem->at(entity);
+    _drawableComponent->AddCachedDrawable(_key, this);
 
     rotation(_serializedRotation);
     scale(_serializedScale);

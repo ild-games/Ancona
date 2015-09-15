@@ -9,13 +9,12 @@ RotateComponent::RotateComponent()
 
 void RotateComponent::Update(float delta)
 {
-    float rotation = _drawableComponent->rotation();
+    float rotation = _drawableComponent->topDrawable()->rotation();
     rotation += _speed * delta;
-    _drawableComponent->rotation(rotation);
-
+    _drawableComponent->topDrawable()->rotation(rotation);
     for (auto & drawableKey : _drawablesSpeeds)
     {
-        Drawable * drawable = _drawableComponent->GetDrawable(drawableKey.first);
+        Drawable * drawable = _drawableComponent->GetCachedDrawable(drawableKey.first);
         rotation = drawable->rotation();
         rotation += drawableKey.second * delta;
         drawable->rotation(rotation);

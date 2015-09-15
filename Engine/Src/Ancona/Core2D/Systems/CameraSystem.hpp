@@ -66,18 +66,18 @@ class CameraComponent
         virtual void MoveCamera();
 
         /**
-         * @brief Adds a drawable to the camera's render queue.
+         * @brief Adds a DrawableComponent to the camera's render queue.
          *
-         * @param drawable Drawable to add.
+         * @param drawable DrawableComponent to add.
          */
-        void AddDrawable(Drawable * drawable);
+        void AddDrawableComponent(DrawableComponent * drawable);
 
         /**
-         * @brief Remove a drawable from the camera's render queue.
+         * @brief Remove a DrawableComponent from the camera's render queue.
          *
-         * @param drawable Drawable to remove.
+         * @param drawable DrawableComponent to remove.
          */
-        void RemoveDrawable(Drawable * drawable);
+        void RemoveDrawableComponent(DrawableComponent * drawable);
 
         /**
          * @brief Called before the component is used to gather any dependcies necessary for it to operate.
@@ -117,16 +117,10 @@ class CameraComponent
         /**
          * @brief Queue for the drawables on the camera, sorted by the drawable's render priority + render offset.
          */
-        std::vector<Drawable *> _renderQueue;
-        /**
-         * @brief Scale of the camera.
-         */
+        std::vector<DrawableComponent *> _renderQueue;
         float _scale = 1;
         float _originalScale = 1;
         sf::Vector2f _offset;
-        /**
-         * @brief Entity the camera follows.
-         */
         Entity _follows;
         sf::Vector2f _size;
         BasePhysicsSystem * _physicsSystem;

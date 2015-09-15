@@ -26,13 +26,9 @@ void CameraComponent::Update(float delta)
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 {
     window.setView(_view);
-    for(Drawable * drawable : _renderQueue)
+    for(DrawableComponent * drawable : _renderQueue)
     {
-        if(!drawable->inactive())
-        {
-            drawable->drawableComponent().UpdatePosition();
-            drawable->Draw(window, drawable->drawableComponent().transform(), delta);
-        }
+        drawable->Draw(window, delta);
     }
 }
 
@@ -47,24 +43,23 @@ void CameraComponent::MoveCamera()
     _view.setCenter(_view.getCenter() + _offset);
 }
 
-void CameraComponent::AddDrawable(Drawable * drawable)
+void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
 {
     if(!alg::contains(_renderQueue, drawable))
     {
         _renderQueue.push_back(drawable);
-        std::sort(
-                _renderQueue.begin(),
-                _renderQueue.end(),
-                [](Drawable * lhs, Drawable * rhs)
+        alg::sort(
+                _renderQueue,
+                [](DrawableComponent * lhs, DrawableComponent * rhs)
                 {
-                    return lhs->renderPriority() < rhs->renderPriority();
+                    return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
                 });
     }
 }
 
-void CameraComponent::RemoveDrawable(Drawable * drawable)
+void CameraComponent::RemoveDrawableComponent(DrawableComponent * drawable)
 {
-    _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
+    _renderQueue.erase(alg::remove(_renderQueue, drawable));
 }
 
 void CameraComponent::FetchDependencies(const Entity & entity)

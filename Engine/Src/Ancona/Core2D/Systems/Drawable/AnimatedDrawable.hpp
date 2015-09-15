@@ -7,11 +7,8 @@ namespace ild
 {
 
 /**
- * @brief Responsible for drawing an animated sprite to the window.
- *        
- *        Note: AnimatedDrawables can use both SoloImages and TiledImages
- *        for its frames. It is highly recommended to use TiledImages 
- *        so only one texture is used for the drawable.
+ * @brief Responsible for drawing an animation that is made up of multiple frames, each frame
+ *        is its own drawable.
  *
  * @author Tucker Lein
  */
@@ -29,7 +26,7 @@ class AnimatedDrawable : public Drawable
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param duration Seconds per frame.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
+         * @param positionOffset Vector that defines the offset from its parent drawable.
          */
         AnimatedDrawable(
                 const int priority,
@@ -60,6 +57,9 @@ class AnimatedDrawable : public Drawable
         void alpha(int alpha);
 
     private:
+        /**
+         * Contains the drawables that will be displayed, the order in this list is the order they are displayed in.
+         */
         std::vector<std::unique_ptr<Drawable>> _frames;
         /**
          * @brief Seconds per frame.

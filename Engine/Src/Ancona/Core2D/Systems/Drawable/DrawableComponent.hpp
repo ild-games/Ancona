@@ -6,10 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
-#include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
-#include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
-#include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
-#include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
+#include <Ancona/Core2D/Systems/Drawable/ContainerDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 
 namespace ild
@@ -38,21 +35,36 @@ class DrawableComponent
         DrawableComponent(CameraComponent * cameraComponent);
 
         /**
-         * @brief Adds a drawable element to the component.
+         * @brief Caches a drawable that is in the topDrawable tree onto a map for future access via the drawable key.
          *
          * @param key Key for the drawable element on the component.
          * @param drawable Drawable being added.
          */
-        void AddDrawable(
+        void AddCachedDrawable(
                 const std::string key,
                 Drawable * drawable);
 
         /**
-         * @brief Removes a drawable from the component.
+         * @brief Removes the specified drawable from the drawable cache, does not remove the drawable from the topDrawable
+         *        tree!
          *
-         * @param key Key of the drawable.
+         * @param key Key for the drawable element.
          */
-        void RemoveDrawable(const std::string key);
+        void RemoveCachedDrawable(const std::string key);
+
+        /**
+         * @brief Gets the specified drawable from the drawable cache
+         *
+         * @param key Key for the drawable element.
+         */
+        Drawable * GetCachedDrawable(const std::string key);
+
+        /**
+         * @brief Draws the DrawableComponent
+         *
+         * @param window RenderWindow to draw it on
+         */
+        void Draw(sf::RenderWindow & window, float delta);
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
@@ -64,56 +76,17 @@ class DrawableComponent
          */
         void Serialize(Archive & arc);
 
-        /**
-         * @brief Get a drawable being handled by the component.
-         *
-         * @param key Key of the drawable.
-         *
-         * @return Drawable instance.
-         */
-        Drawable * GetDrawable(std::string key) { return _drawables[key].get(); }
-
-        /**
-         * @brief Get a drawable out and cast it to the preferred type.
-         *
-         * @tparam T Type to cast the drawable to.
-         * @param key Key of the drawable
-         *
-         * @return Drawable with the preferred type.
-         */
-        template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); }
-
-        void UpdatePosition();
-
         /* getters and setters */
-        std::vector<Drawable *> keylessDrawables();
-        void rotation(float newRotation);
-        float rotation() { return _rotation; }
-        void scale(sf::Vector2f newScale);
-        const sf::Transform & transform() { return _transform; }
-        sf::Vector2u size();
+        ContainerDrawable * topDrawable() { return _topDrawable; }
     private:
-        /**
-         * @brief Holds all the drawables the component controls.
-         */
-        std::map<std::string, std::unique_ptr<Drawable> > _drawables;
-        /**
-         * @brief Camera the drawables for this component are rendered with.
-         */
+        ContainerDrawable * _topDrawable;
+        std::map<std::string, Drawable *> _drawables;
         CameraComponent * _camera;
         CameraSystem * _cameraSystem;
         BasePhysicsSystem * _physicsSystem;
         BasePhysicsComponent * _physicsComponent;
         DrawableSystem * _drawableSystem;
         Entity _camEntity = nullentity;
-        float _rotation = 0;
-        sf::Vector2f _scale = sf::Vector2f(1.0f, 1.0f);
-        float _serializedRotation = 0;
-        sf::Vector2f _serializedScale = sf::Vector2f(1.0f, 1.0f);
-        sf::Transform _transform;
-        sf::Transform _staticTransform;
-        sf::Transform _dynamicTransform;
-        sf::Vector2f _position = sf::Vector2f(0, 0);
 };
 
 }

@@ -32,6 +32,17 @@ void ContainerDrawable::FetchDependencies(const Entity &entity)
     {
         drawable->FetchDependencies(entity);
     }
+    SortDrawables();
+}
+
+void ContainerDrawable::SortDrawables()
+{
+    alg::sort(
+            _drawables,
+            [](Drawable * lhs, Drawable * rhs)
+            {
+                return lhs->renderPriority() < rhs->renderPriority();
+            });
 }
 
 void ContainerDrawable::Serialize(Archive & arc)

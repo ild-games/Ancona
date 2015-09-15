@@ -9,7 +9,7 @@ namespace ild
 {
 
 /**
- * @brief An image which is made up of various tiles from a single texture.
+ * @brief A drawable which can display either a whole image or a portion of an image.
  *
  * @author Tucker Lein
  */
@@ -34,6 +34,9 @@ class ImageDrawable : public Drawable
                 std::string textureKey,
                 sf::IntRect textureRect);
 
+        /**
+         * @copydoc ild::Drawable::Draw
+         */
         void Draw(sf::RenderWindow &window, sf::Transform transform, float delta);
 
         /**
@@ -41,6 +44,9 @@ class ImageDrawable : public Drawable
          */
         void Serialize(Archive & arc) override;
 
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
         void FetchDependencies(const Entity & entity) override;
 
         /* getters and setters */

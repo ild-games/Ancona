@@ -39,10 +39,7 @@ class ShapeDrawable : public Drawable
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
         /**
-         * @brief Draws the shape to the window.  The position the shape is drawn to will be the center
-         *        of the sprite.
-         *
-         * @param window Window the shape should be drawn to.
+         * @copydoc ild::Drawable::Draw
          */
         void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
 
@@ -62,6 +59,7 @@ class ShapeDrawable : public Drawable
         void alpha(int alpha) override;
 
 
+    private:
         /**
          * @brief Shape used for the drawing.
          */

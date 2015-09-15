@@ -44,9 +44,7 @@ class TextDrawable : public Drawable
                 bool smooth = true);
 
         /**
-         * @brief Draws the text to the window. The position
-         *
-         * @param window
+         * @copydoc ild::Drawable::Draw
          */
         void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
 

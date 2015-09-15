@@ -6,7 +6,7 @@ using namespace ild;
 
 DrawableSystem::DrawableSystem(
         std::string systemName,
-        sf::RenderWindow & window, 
+        sf::RenderWindow & window,
         SystemManager & systemManager) :
     UnorderedSystem(systemName, systemManager, UpdateStep::Draw),
     _window(window)
@@ -59,13 +59,9 @@ DrawableComponent * DrawableSystem::CreateComponent(
 
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
-    std::vector<Drawable * > compDrawables = component->keylessDrawables();
-    for(Drawable * drawable : compDrawables)
+    for(CameraComponent * camera : _cameras)
     {
-        for(CameraComponent * camera : _cameras)
-        {
-            camera->RemoveDrawable(drawable);
-        }
+        camera->RemoveDrawableComponent(component);
     }
 }
 

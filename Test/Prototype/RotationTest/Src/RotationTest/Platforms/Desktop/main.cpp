@@ -1,6 +1,8 @@
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ImageDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ContainerDrawable.hpp>
+#include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
+#include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Framework/Config/Config.hpp>
 
 #include "../../RotationLib/Core/RotationGame.hpp"

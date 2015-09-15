@@ -20,24 +20,44 @@ class ContainerDrawable : public Drawable
          */
         ContainerDrawable() {}
 
+        /**
+         * @brief Constructs a ContainerDrawable
+         *
+         * @param priority RenderPriority that determines when the drawable obj is rendered.
+         * @param priorityOffset Optional offset to the render priority.
+         * @param positionOffset Vector that defines the offset from its parent drawable or from the BasePhysicsComponent
+         *                       position if it is the top drawable.
+         *
+         */
         ContainerDrawable(
                 const int priority,
                 int priorityOffset,
                 sf::Vector2f positionOffset);
 
+        /**
+         * @copydoc ild::Drawable::Draw
+         */
         void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
 
+        /**
+         * @copydoc ild::CameraComponent::Serialize
+         */
         void Serialize(Archive & arc);
 
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
         void FetchDependencies(const Entity & entity);
 
+        /* getters and setters */
         sf::Vector2u size() override;
         int alpha() override;
         void alpha(int alpha) override;
 
     private:
-        std::vector<std::unique_ptr<Drawable>> _drawables;
-        sf::RenderTexture _renderTexture;
+        std::vector<Drawable *> _drawables;
+
+        void SortDrawables();
 };
 
 }

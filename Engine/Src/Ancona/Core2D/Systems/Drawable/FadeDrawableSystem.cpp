@@ -22,11 +22,7 @@ FadeDrawableComponent::FadeDrawableComponent(
 
 void FadeDrawableComponent::Update(float delta)
 {
-    std::vector<Drawable *> drawables = _drawableComponent.keylessDrawables();
-    for(Drawable * drawable : drawables)
-    {
-        drawable->alpha(FadeStep(drawable->alpha(), delta));
-    }
+    _drawableComponent.topDrawable()->alpha(FadeStep(_drawableComponent.topDrawable()->alpha(), delta));
 }
 
 int FadeDrawableComponent::FadeStep(int alpha, float delta)

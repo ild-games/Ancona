@@ -55,7 +55,7 @@ class Drawable
          *
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
+         * @param positionOffset Vector that defines the offset from its parent drawable.
          */
         Drawable(
                 const int priority,
@@ -66,6 +66,7 @@ class Drawable
          * @brief Draws the object to the window.
          *
          * @param window RenderWindow for the game.
+         * @param parentTransform Transform of the parent drawable.
          */
         virtual void Draw(
                 sf::RenderWindow &window,
