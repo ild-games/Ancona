@@ -45,6 +45,11 @@ class AnimatedDrawable : public Drawable
          */
         void FetchDependencies(const Entity & entity);
 
+        /**
+         * @copydoc ild::Drawable::FindDrawable
+         */
+        Drawable * FindDrawable(const std::string & key);
+
         /* getters and setters */
         sf::Vector2f size();
         int alpha();

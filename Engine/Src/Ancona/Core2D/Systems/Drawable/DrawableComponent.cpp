@@ -10,25 +10,10 @@ DrawableComponent::DrawableComponent(CameraComponent * cameraComponent) :
 {
 }
 
-void DrawableComponent::AddCachedDrawable(const std::string key, Drawable *drawable)
-{
-    if (!_drawables.count(key))
-    {
-        _drawables[key] = drawable;
-    }
-}
 
-void DrawableComponent::RemoveCachedDrawable(const std::string key)
+Drawable * DrawableComponent::GetDrawable(const std::string & key)
 {
-    if (_drawables.count(key))
-    {
-        _drawables.erase(key);
-    }
-}
-
-Drawable * DrawableComponent::GetCachedDrawable(const std::string key)
-{
-    return _drawables[key];
+    return _topDrawable->FindDrawable(key);
 }
 
 

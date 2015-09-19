@@ -83,6 +83,18 @@ class Drawable
          */
         virtual void Serialize(Archive & arc);
 
+        /**
+         * @brief Finds a drawable contained within this drawable. The default
+         *        implementation simply returns itself if the keys match. Container
+         *        and Animation drawables will walk their children to try and find
+         *        the drawable if the keys do not match.
+         *
+         * @param key Key of the drawable to find
+         *
+         * @returns Pointer to the drawable, nullptr if no such drawable exists.
+         */
+        virtual Drawable * FindDrawable(const std::string & key);
+
         /* getters and setters */
         int renderPriority() { return _renderPriority + _priorityOffset; }
         sf::Vector2f positionOffset() { return _positionOffset; }

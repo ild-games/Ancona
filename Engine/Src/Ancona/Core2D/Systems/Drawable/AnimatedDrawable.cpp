@@ -60,6 +60,23 @@ void AnimatedDrawable::Serialize(Archive &archive) {
     archive(_frames, "frames");
 }
 
+Drawable * AnimatedDrawable::FindDrawable(const std::string & key)
+{
+    Drawable * toReturn = Drawable::FindDrawable(key);
+    if (toReturn == nullptr)
+    {
+        for (auto &drawable : _frames)
+        {
+            toReturn = drawable->FindDrawable(key);
+            if (toReturn != nullptr)
+            {
+                break;
+            }
+        }
+    }
+    return toReturn;
+}
+
 /* getters and setters */
 sf::Vector2f AnimatedDrawable::size()
 {

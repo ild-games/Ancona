@@ -33,6 +33,23 @@ void ContainerDrawable::FetchDependencies(const Entity &entity)
     SortDrawables();
 }
 
+Drawable * ContainerDrawable::FindDrawable(const std::string & key)
+{
+    Drawable * toReturn = Drawable::FindDrawable(key);
+    if (toReturn == nullptr)
+    {
+        for (auto &drawable : _drawables)
+        {
+            toReturn = drawable->FindDrawable(key);
+            if (toReturn != nullptr)
+            {
+                break;
+            }
+        }
+    }
+    return toReturn;
+}
+
 void ContainerDrawable::SortDrawables()
 {
     alg::sort(

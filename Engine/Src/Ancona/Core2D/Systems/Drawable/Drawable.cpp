@@ -43,6 +43,14 @@ sf::Transform Drawable::CalculateTransforms()
 void Drawable::FetchDependencies(const Entity & entity)
 {
     _drawableComponent = _drawableSystem->at(entity);
-    _drawableComponent->AddCachedDrawable(_key, this);
+}
+
+Drawable * Drawable::FindDrawable(const std::string &key)
+{
+    if (key == _key)
+    {
+        return this;
+    }
+    return nullptr;
 }
 

@@ -35,29 +35,11 @@ class DrawableComponent
         DrawableComponent(CameraComponent * cameraComponent);
 
         /**
-         * @brief Caches a drawable that is in the topDrawable tree onto a map for future access via the drawable key.
-         *
-         * @param key Key for the drawable element on the component.
-         * @param drawable Drawable being added.
-         */
-        void AddCachedDrawable(
-                const std::string key,
-                Drawable * drawable);
-
-        /**
-         * @brief Removes the specified drawable from the drawable cache, does not remove the drawable from the topDrawable
-         *        tree!
+         * @brief Gets the specified drawable that is on the component.
          *
          * @param key Key for the drawable element.
          */
-        void RemoveCachedDrawable(const std::string key);
-
-        /**
-         * @brief Gets the specified drawable from the drawable cache
-         *
-         * @param key Key for the drawable element.
-         */
-        Drawable * GetCachedDrawable(const std::string key);
+        Drawable * GetDrawable(const std::string & key);
 
         /**
          * @brief Draws the DrawableComponent
@@ -77,10 +59,9 @@ class DrawableComponent
         void Serialize(Archive & arc);
 
         /* getters and setters */
-        ContainerDrawable * topDrawable() { return _topDrawable; }
+        Drawable * topDrawable() { return _topDrawable; }
     private:
         ContainerDrawable * _topDrawable;
-        std::map<std::string, Drawable *> _drawables;
         CameraComponent * _camera;
         CameraSystem * _cameraSystem;
         BasePhysicsSystem * _physicsSystem;
