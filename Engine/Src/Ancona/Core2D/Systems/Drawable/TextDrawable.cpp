@@ -60,9 +60,9 @@ void TextDrawable::text(std::string text)
     CenterOrigin();
 }
 
-sf::Vector2u TextDrawable::size()
+sf::Vector2f TextDrawable::size()
 {
-    return sf::Vector2u(_text->getLocalBounds().width, _text->getLocalBounds().height);
+    return sf::Vector2f(_text->getLocalBounds().width, _text->getLocalBounds().height);
 }
 
 int TextDrawable::alpha()

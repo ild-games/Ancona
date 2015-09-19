@@ -46,7 +46,7 @@ class ContainerDrawable : public Drawable
         void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
-        sf::Vector2u size() override;
+        sf::Vector2f size() override;
         int alpha() override;
         void alpha(int alpha) override;
 

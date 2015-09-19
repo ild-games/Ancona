@@ -56,7 +56,7 @@ class TextDrawable : public Drawable
         /* getters and setters */
         std::string text() { return _text->getString(); }
         void text(std::string text);
-        sf::Vector2u size();
+        sf::Vector2f size();
         int alpha();
         void alpha(int alpha);
     private:

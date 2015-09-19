@@ -37,9 +37,9 @@ void ShapeDrawable::Serialize(Archive &archive) {
 }
 
 /* getters and setters */
-sf::Vector2u ShapeDrawable::size()
+sf::Vector2f ShapeDrawable::size()
 {
-    return sf::Vector2u(
+    return sf::Vector2f(
             _shape->getLocalBounds().width,
             _shape->getLocalBounds().height);
 }

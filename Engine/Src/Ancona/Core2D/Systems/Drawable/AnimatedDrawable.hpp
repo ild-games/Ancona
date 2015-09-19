@@ -46,7 +46,7 @@ class AnimatedDrawable : public Drawable
         void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
-        sf::Vector2u size();
+        sf::Vector2f size();
         int alpha();
         void alpha(int alpha);
 

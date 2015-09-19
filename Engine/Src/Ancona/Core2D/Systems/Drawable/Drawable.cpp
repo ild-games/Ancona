@@ -46,12 +46,3 @@ void Drawable::FetchDependencies(const Entity & entity)
     _drawableComponent->AddCachedDrawable(_key, this);
 }
 
-void Drawable::rotation(float newRotation)
-{
-    _rotation = newRotation;
-}
-
-void Drawable::scale(sf::Vector2f newScale)
-{
-    _scale = newScale;
-}

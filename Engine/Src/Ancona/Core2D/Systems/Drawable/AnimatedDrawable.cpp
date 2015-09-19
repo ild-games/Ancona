@@ -61,7 +61,7 @@ void AnimatedDrawable::Serialize(Archive &archive) {
 }
 
 /* getters and setters */
-sf::Vector2u AnimatedDrawable::size()
+sf::Vector2f AnimatedDrawable::size()
 {
     return _frames[_curFrame]->size();
 }

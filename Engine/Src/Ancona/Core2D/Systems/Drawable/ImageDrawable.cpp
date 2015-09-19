@@ -58,16 +58,21 @@ void ImageDrawable::FetchDependencies(const Entity &entity)
 }
 
 /* getters and setters */
-sf::Vector2u ImageDrawable::size()
+sf::Vector2f ImageDrawable::size()
 {
+    float width, height;
     if (_isWholeImage)
     {
         sf::Texture &texture = *ResourceLibrary::Get<sf::Texture>(_textureKey);
+        width = texture.getSize().x;
+        height = texture.getSize().y;
     }
     else
     {
-        return sf::Vector2u(_textureRect.width, _textureRect.height);
+        width = _textureRect.width;
+        height = _textureRect.height;
     }
+    return sf::Vector2f(width, height);
 }
 
 void ImageDrawable::alpha(int newAlpha)

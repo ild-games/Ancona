@@ -88,9 +88,9 @@ class Drawable
         sf::Vector2f positionOffset() { return _positionOffset; }
         float rotation() { return _rotation; }
         sf::Vector2f scale() { return _scale; }
-        void rotation(float rotation);
-        void scale(sf::Vector2f scale);
-        virtual sf::Vector2u size() = 0;
+        void rotation(float rotation) { _rotation = rotation; }
+        void scale(sf::Vector2f scale) { _scale = scale; };
+        virtual sf::Vector2f size() = 0;
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;
         bool inactive() { return _inactive; }

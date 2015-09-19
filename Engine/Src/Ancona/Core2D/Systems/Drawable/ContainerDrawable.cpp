@@ -49,34 +49,34 @@ void ContainerDrawable::Serialize(Archive & arc)
     arc(_drawables, "drawables");
 }
 
-sf::Vector2u ContainerDrawable::size()
+sf::Vector2f ContainerDrawable::size()
 {
     float minX = INFINITY, minY = INFINITY, maxX = -INFINITY, maxY = -INFINITY;
     for (auto & drawable : _drawables)
     {
-        sf::Vector2u drawableSize = drawable->size();
+        sf::Vector2f drawableSize = drawable->size();
 
         float curX = drawable->positionOffset().x;
-        if (curX - (drawableSize.x / 2) < minX)
+        if (curX - (drawableSize.x / 2.0f) < minX)
         {
-            minX = curX - (drawableSize.x / 2);
+            minX = curX - (drawableSize.x / 2.0f);
         }
-        if (curX + (drawableSize.x / 2) > maxX)
+        if (curX + (drawableSize.x / 2.0f) > maxX)
         {
-            maxX = curX + (drawableSize.x / 2);
+            maxX = curX + (drawableSize.x / 2.0f);
         }
 
         float curY = drawable->positionOffset().y;
-        if (curY - (drawableSize.y / 2) < minY)
+        if (curY - (drawableSize.y / 2.0f) < minY)
         {
-            minY = curY - (drawableSize.y / 2);
+            minY = curY - (drawableSize.y / 2.0f);
         }
-        if (curY + (drawableSize.y / 2) > maxY)
+        if (curY + (drawableSize.y / 2.0f) > maxY)
         {
-            maxY = curY + (drawableSize.y / 2);
+            maxY = curY + (drawableSize.y / 2.0f);
         }
     }
-    return sf::Vector2u(maxX - minX, maxY - minY);
+    return sf::Vector2f(maxX - minX, maxY - minY);
 }
 
 int ContainerDrawable::alpha()

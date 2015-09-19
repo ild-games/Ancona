@@ -45,7 +45,7 @@ class ImageDrawable : public Drawable
         void FetchDependencies(const Entity & entity) override;
 
         /* getters and setters */
-        sf::Vector2u size() override;
+        sf::Vector2f size() override;
         void alpha(int newAlpha) override;
         int alpha() override;
     private:
