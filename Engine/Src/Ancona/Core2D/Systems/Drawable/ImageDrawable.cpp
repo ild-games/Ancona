@@ -38,7 +38,7 @@ void ImageDrawable::SetupSprite()
     }
 
     _sprite->setTextureRect(_textureRect);
-    _sprite->setOrigin(_textureRect.width / 2, _textureRect.height / 2);
+    _sprite->setOrigin(_textureRect.width / 2.0f, _textureRect.height / 2.0f);
 }
 
 
