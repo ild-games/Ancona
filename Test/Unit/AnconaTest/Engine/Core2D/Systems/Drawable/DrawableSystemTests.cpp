@@ -91,6 +91,10 @@ TEST(DrawableSystem, AnimatedDrawable)
 
     ASSERT_EQ(animatedDrawable.size(), sf::Vector2f(50.0f, 50.0f));
 
+    shape1->scale(sf::Vector2f(2.0f, 2.0f));
+
+    ASSERT_EQ(animatedDrawable.size(), sf::Vector2f(100.0f, 100.0f));
+
     ASSERT_EQ(animatedDrawable.FindDrawable("shape1"), shape1);
     animatedDrawable.RemoveFrame("shape1");
     ASSERT_EQ(animatedDrawable.FindDrawable("shape1"), nullptr);
