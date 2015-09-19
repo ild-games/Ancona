@@ -20,10 +20,9 @@ ImageDrawable::ImageDrawable(
     SetupSprite();
 }
 
-void ImageDrawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
+void ImageDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    Drawable::Draw(window, parentTransform, delta);
-    sf::RenderStates states(parentTransform.combine(_transform));
+    sf::RenderStates states(drawableTransform);
     window.draw(*_sprite, states);
 }
 

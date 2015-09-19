@@ -68,10 +68,10 @@ class Drawable
          * @param window RenderWindow for the game.
          * @param parentTransform Transform of the parent drawable.
          */
-        virtual void Draw(
+        void Draw(
                 sf::RenderWindow &window,
                 sf::Transform parentTransform,
-                float delta) = 0;
+                float delta);
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
@@ -135,12 +135,14 @@ class Drawable
          * @brief Key that describes the Drawable.
          */
         std::string _key;
-        sf::Transform _staticTransform;
-        sf::Transform _dynamicTransform;
-        sf::Transform _transform;
+
     private:
-        float _serializedRotation = 0;
-        sf::Vector2f _serializedScale = sf::Vector2f(1.0f, 1.0f);
+
+        sf::Transform CalculateTransforms();
+        virtual void OnDraw(
+                sf::RenderWindow &window,
+                sf::Transform drawableTransform,
+                float delta) = 0;
 };
 
 }

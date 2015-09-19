@@ -34,12 +34,6 @@ class AnimatedDrawable : public Drawable
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
-        /**
-         * @brief Draws the animated sprite to the window. 
-         *
-         * @param window RenderWindow for the game.
-         */
-        void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -79,6 +73,7 @@ class AnimatedDrawable : public Drawable
          */
         void Tick(float delta);
         void AdvanceFrame();
+        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
 };
 
 }

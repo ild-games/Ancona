@@ -44,11 +44,6 @@ class TextDrawable : public Drawable
                 bool smooth = true);
 
         /**
-         * @copydoc ild::Drawable::Draw
-         */
-        void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
-
-        /**
          * @copydoc ild::CameraComponent::Serialize
          */
         void Serialize(Archive & arc);
@@ -68,6 +63,7 @@ class TextDrawable : public Drawable
         std::unique_ptr<sf::Text> _text;
 
         void CenterOrigin();
+        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
 };
 
 }

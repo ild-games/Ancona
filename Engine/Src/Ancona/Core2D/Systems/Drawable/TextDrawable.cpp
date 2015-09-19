@@ -29,10 +29,9 @@ TextDrawable::TextDrawable(
      }
 }
 
-void TextDrawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
+void TextDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    Drawable::Draw(window, parentTransform, delta);
-    sf::RenderStates states(parentTransform.combine(_transform));
+    sf::RenderStates states(drawableTransform);
     window.draw(*_text, states);
 }
 

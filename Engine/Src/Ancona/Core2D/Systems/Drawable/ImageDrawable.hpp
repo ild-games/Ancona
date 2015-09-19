@@ -35,11 +35,6 @@ class ImageDrawable : public Drawable
                 sf::IntRect textureRect);
 
         /**
-         * @copydoc ild::Drawable::Draw
-         */
-        void Draw(sf::RenderWindow &window, sf::Transform transform, float delta);
-
-        /**
          * @copydoc ild::CameraComponent::Serialize
          */
         void Serialize(Archive & arc) override;
@@ -60,6 +55,7 @@ class ImageDrawable : public Drawable
         std::unique_ptr<sf::Sprite> _sprite;
 
         void SetupSprite();
+        void OnDraw(sf::RenderWindow &window, sf::Transform transform, float delta) override;
 };
 
 }

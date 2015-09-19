@@ -34,10 +34,6 @@ class ContainerDrawable : public Drawable
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
-        /**
-         * @copydoc ild::Drawable::Draw
-         */
-        void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -58,6 +54,7 @@ class ContainerDrawable : public Drawable
         std::vector<Drawable *> _drawables;
 
         void SortDrawables();
+        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
 };
 
 }

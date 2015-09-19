@@ -15,13 +15,11 @@ ContainerDrawable::ContainerDrawable(
 {
 }
 
-void ContainerDrawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
+void ContainerDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    Drawable::Draw(window, parentTransform, delta);
-    auto & newTransform = parentTransform.combine(_transform);
     for (auto & drawable : _drawables)
     {
-        drawable->Draw(window, newTransform, delta);
+        drawable->Draw(window, drawableTransform, delta);
     }
 }
 

@@ -18,10 +18,9 @@ AnimatedDrawable::AnimatedDrawable(
 {
 }
 
-void AnimatedDrawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
+void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    Drawable::Draw(window, parentTransform, delta);
-    _frames[_curFrame]->Draw(window, parentTransform.combine(_transform), delta);
+    _frames[_curFrame]->Draw(window, drawableTransform, delta);
     Tick(delta);
 }
 

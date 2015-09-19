@@ -39,11 +39,6 @@ class ShapeDrawable : public Drawable
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
         /**
-         * @copydoc ild::Drawable::Draw
-         */
-        void Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta);
-
-        /**
          * @copydoc ild::CameraComponent::Serialize
          */
         void Serialize(Archive & arc);
@@ -64,6 +59,9 @@ class ShapeDrawable : public Drawable
          * @brief Shape used for the drawing.
          */
         std::unique_ptr<sf::Shape> _shape;
+
+        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
+
 };
 
 }

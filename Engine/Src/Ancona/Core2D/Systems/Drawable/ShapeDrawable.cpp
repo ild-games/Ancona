@@ -18,10 +18,9 @@ ShapeDrawable::ShapeDrawable(
 {
 }
 
-void ShapeDrawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
+void ShapeDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    Drawable::Draw(window, parentTransform, delta);
-    sf::RenderStates states(parentTransform.combine(_transform));
+    sf::RenderStates states(drawableTransform);
     window.draw(*_shape, states);
 }
 
