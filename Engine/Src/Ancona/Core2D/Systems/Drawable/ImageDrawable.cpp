@@ -33,13 +33,12 @@ void ImageDrawable::SetupSprite()
 
     if (_isWholeImage)
     {
-        _sprite->setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
+        _textureRect.width = texture.getSize().x;
+        _textureRect.height = texture.getSize().y;
     }
-    else
-    {
-        _sprite->setTextureRect(_textureRect);
-        _sprite->setOrigin(_textureRect.width / 2, _textureRect.height / 2);
-    }
+
+    _sprite->setTextureRect(_textureRect);
+    _sprite->setOrigin(_textureRect.width / 2, _textureRect.height / 2);
 }
 
 
@@ -60,19 +59,9 @@ void ImageDrawable::FetchDependencies(const Entity &entity)
 /* getters and setters */
 sf::Vector2f ImageDrawable::size()
 {
-    float width, height;
-    if (_isWholeImage)
-    {
-        sf::Texture &texture = *ResourceLibrary::Get<sf::Texture>(_textureKey);
-        width = texture.getSize().x;
-        height = texture.getSize().y;
-    }
-    else
-    {
-        width = _textureRect.width;
-        height = _textureRect.height;
-    }
-    return sf::Vector2f(width * _scale.x, height * _scale.y);
+    return sf::Vector2f(
+            _textureRect.width * _scale.x,
+            _textureRect.height * _scale.y);
 }
 
 void ImageDrawable::alpha(int newAlpha)
