@@ -1,7 +1,5 @@
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
-#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 
 using namespace ild;
 
@@ -11,12 +9,14 @@ CameraComponent::CameraComponent() : _offset(sf::Vector2f(0, 0)) { }
 CameraComponent::CameraComponent(
         const sf::View & originalView,
         int renderPriority,
+        DrawableSystem * drawableSystem,
         float scale,
         sf::Vector2f offset) :
     _view(sf::View(originalView)),
     _renderPriority(renderPriority),
     _scale(scale),
-    _offset(offset)
+    _offset(offset),
+    _drawableSystem(drawableSystem)
 {
 }
 
@@ -28,12 +28,9 @@ void CameraComponent::Update(float delta)
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 {
     window.setView(_view);
-    for(Drawable * drawable : _renderQueue)
+    for(DrawableComponent * drawable : _renderQueue)
     {
-        if(!drawable->inactive())
-        {
-            drawable->Draw(window, delta);
-        }
+        drawable->Draw(window, delta);
     }
 }
 
@@ -48,24 +45,23 @@ void CameraComponent::MoveCamera()
     _view.setCenter(_view.getCenter() + _offset);
 }
 
-void CameraComponent::AddDrawable(Drawable * drawable)
+void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
 {
-    if(alg::find(_renderQueue, drawable) == _renderQueue.end())
+    if(!alg::contains(_renderQueue, drawable))
     {
         _renderQueue.push_back(drawable);
-        std::sort(
-                _renderQueue.begin(),
-                _renderQueue.end(),
-                [](Drawable * lhs, Drawable * rhs)
+        alg::sort(
+                _renderQueue,
+                [](DrawableComponent * lhs, DrawableComponent * rhs)
                 {
-                    return lhs->renderPriority() < rhs->renderPriority();
+                    return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
                 });
     }
 }
 
-void CameraComponent::RemoveDrawable(Drawable * drawable)
+void CameraComponent::RemoveDrawableComponent(DrawableComponent * drawable)
 {
-    _renderQueue.erase(std::remove(_renderQueue.begin(), _renderQueue.end(), drawable), _renderQueue.end());
+    _renderQueue.erase(alg::remove(_renderQueue, drawable));
 }
 
 void CameraComponent::FetchDependencies(const Entity & entity)
@@ -131,11 +127,13 @@ CameraComponent * CameraSystem::CreateComponent(
         const Entity & entity,
         const sf::View & originalView,
         int renderPriority,
+        DrawableSystem * drawableSystem,
         float scale)
 {
     CameraComponent * comp = new CameraComponent(
             originalView,
             renderPriority,
+            drawableSystem,
             scale);
     AttachComponent(entity, comp);
     return comp;

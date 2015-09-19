@@ -1,0 +1,12 @@
+{
+    "profiles": [
+        {
+            "name": "Profile1",
+            "screen-maps": {
+                "test-screen": "DrawingOverhaul"
+            },
+            "systems": {
+            }
+        }
+    ]
+}

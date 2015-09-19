@@ -1,24 +1,25 @@
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::TextDrawable)
 
 using namespace ild;
 
 TextDrawable::TextDrawable(
-        BasePhysicsSystem * physicsSystem,
         const std::string text,
         const std::string fontKey,
         const sf::Color color,
         const int characterSize,
         const int priority,
+        const std::string & key,
         int priorityOffset,
         sf::Vector2f positionOffset,
         bool smooth) :
     Drawable(
-            physicsSystem,
             priority,
+            key,
             priorityOffset,
             positionOffset)
 {
@@ -31,14 +32,10 @@ TextDrawable::TextDrawable(
      }
 }
 
-void TextDrawable::Draw(sf::RenderWindow & window, float delta)
+void TextDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    auto pos = _physicsComponent->GetInfo().position();
-    sf::Vector2f position = sf::Vector2f(
-            pos.x + _positionOffset.x,
-            pos.y + _positionOffset.y);
-    _text->setPosition(position.x, position.y);
-    window.draw(*_text);
+    sf::RenderStates states(drawableTransform);
+    window.draw(*_text, states);
 }
 
 
@@ -66,9 +63,10 @@ void TextDrawable::text(std::string text)
     CenterOrigin();
 }
 
-sf::Vector2u TextDrawable::size()
+sf::Vector2f TextDrawable::size()
 {
-    return sf::Vector2u(_text->getLocalBounds().width, _text->getLocalBounds().height);
+    sf::Vector2f size(_text->getLocalBounds().width, _text->getLocalBounds().height);
+    return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 int TextDrawable::alpha()
@@ -84,3 +82,4 @@ void TextDrawable::alpha(int alpha)
     _text->setColor(*col);
     delete col;
 }
+

@@ -1,17 +1,14 @@
 #ifndef Ancona_Engine_Core_Systems_AnimatedDrawable_H_
 #define Ancona_Engine_Core_Systems_AnimatedDrawable_H_
 
-#include <Ancona/Core2D/Systems/Drawable/SpriteDrawable.hpp>
+#include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 
 namespace ild
 {
 
 /**
- * @brief Responsible for drawing an animated sprite to the window.
- *        
- *        Note: AnimatedDrawables can use both SoloImages and TiledImages
- *        for its frames. It is highly recommended to use TiledImages 
- *        so only one texture is used for the drawable.
+ * @brief Responsible for drawing an animation that is made up of multiple frames, each frame
+ *        is its own drawable.
  *
  * @author Tucker Lein
  */
@@ -26,25 +23,18 @@ class AnimatedDrawable : public Drawable
         /**
          * @brief Constructs an AnimatedDrawable
          *
-         * @param physicsSystem Physics system used to determine the entity's location.
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param duration Seconds per frame.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
+         * @param positionOffset Vector that defines the offset from its parent drawable.
          */
         AnimatedDrawable(
-                BasePhysicsSystem * physicsSystem,
                 const int priority,
+                const std::string & key,
                 float duration,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
-        /**
-         * @brief Draws the animated sprite to the window. 
-         *
-         * @param window RenderWindow for the game.
-         */
-        void Draw(sf::RenderWindow & window, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -56,13 +46,35 @@ class AnimatedDrawable : public Drawable
          */
         void FetchDependencies(const Entity & entity);
 
+        /**
+         * @brief Adds a frame to the AnimatedDrawable
+         *
+         * @param Drawable to add as frame.
+         */
+        void AddFrame(Drawable * frame);
+
+        /**
+         * @brief Removes a frame from the AnimatedDrawable
+         *
+         * @param key Key of drawable to remove.
+         */
+        void RemoveFrame(const std::string & key);
+
+        /**
+         * @copydoc ild::Drawable::FindDrawable
+         */
+        Drawable * FindDrawable(const std::string & key);
+
         /* getters and setters */
-        sf::Vector2u size();
+        sf::Vector2f size();
         int alpha();
         void alpha(int alpha);
 
     private:
-        std::vector<std::unique_ptr<Image>> _frames;
+        /**
+         * Contains the drawables that will be displayed, the order in this list is the order they are displayed in.
+         */
+        std::vector<std::unique_ptr<Drawable>> _frames;
         /**
          * @brief Seconds per frame.
          */
@@ -81,6 +93,7 @@ class AnimatedDrawable : public Drawable
          */
         void Tick(float delta);
         void AdvanceFrame();
+        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
 };
 
 }

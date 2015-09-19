@@ -6,7 +6,7 @@ using namespace ild;
 
 DrawableSystem::DrawableSystem(
         std::string systemName,
-        sf::RenderWindow & window, 
+        sf::RenderWindow & window,
         SystemManager & systemManager) :
     UnorderedSystem(systemName, systemManager, UpdateStep::Draw),
     _window(window)
@@ -36,17 +36,22 @@ void DrawableSystem::RemoveCamera(CameraComponent * camera)
     _cameras.erase(std::remove(_cameras.begin(), _cameras.end(), camera), _cameras.end());
 }
 
-DrawableComponent * DrawableSystem::CreateComponent(const Entity & entity)
+DrawableComponent * DrawableSystem::CreateComponent(
+        const Entity & entity,
+        Drawable * topDrawable,
+        BasePhysicsSystem * physics)
 {
     Assert(_defaultCamera != nullptr, "Default camera not set");
-    return CreateComponent(entity, _defaultCamera);
+    return CreateComponent(entity, topDrawable, physics, _defaultCamera);
 }
 
 DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
+        Drawable * topDrawable,
+        BasePhysicsSystem * physics,
         CameraComponent * camera)
 {
-    auto comp = new DrawableComponent(camera);
+    auto comp = new DrawableComponent(topDrawable, this, physics, camera);
 
     if(alg::find(_cameras, camera) == _cameras.end())
     {
@@ -59,13 +64,9 @@ DrawableComponent * DrawableSystem::CreateComponent(
 
 void DrawableSystem::OnComponentRemove(Entity entity, DrawableComponent * component)
 {
-    std::vector<Drawable * > compDrawables = component->keylessDrawables();
-    for(Drawable * drawable : compDrawables)
+    for(CameraComponent * camera : _cameras)
     {
-        for(CameraComponent * camera : _cameras)
-        {
-            camera->RemoveDrawable(drawable);
-        }
+        camera->RemoveDrawableComponent(component);
     }
 }
 

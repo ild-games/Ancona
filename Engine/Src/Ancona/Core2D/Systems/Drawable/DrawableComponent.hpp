@@ -6,11 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
-#include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
-#include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
-#include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
-#include <Ancona/Core2D/Systems/Drawable/SpriteDrawable.hpp>
-#include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
+#include <Ancona/Core2D/Systems/Drawable/ContainerDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 
 namespace ild
@@ -34,26 +30,28 @@ class DrawableComponent
         /**
          * @brief Construct a DrawableComponent.
          *
+         * @param topDrawable Drawable to associate the DrawableComponent with.
          * @param cameraComponent CameraComponent used to render these renderables.
          */
-        DrawableComponent(CameraComponent * cameraComponent);
+        DrawableComponent(
+                Drawable * topDrawable,
+                DrawableSystem * drawableSystem,
+                BasePhysicsSystem * physicsSystem,
+                CameraComponent * cameraComponent);
 
         /**
-         * @brief Adds a drawable element to the component.
+         * @brief Gets the specified drawable that is on the component.
          *
-         * @param key Key for the drawable element on the component.
-         * @param drawable Drawable being added.
+         * @param key Key for the drawable element.
          */
-        void AddDrawable(
-                const std::string key,
-                Drawable * drawable);
+        Drawable * GetDrawable(const std::string & key);
 
         /**
-         * @brief Removes a drawable from the component.
+         * @brief Draws the DrawableComponent
          *
-         * @param key Key of the drawable.
+         * @param window RenderWindow to draw it on
          */
-        void RemoveDrawable(const std::string key);
+        void Draw(sf::RenderWindow & window, float delta);
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
@@ -65,37 +63,14 @@ class DrawableComponent
          */
         void Serialize(Archive & arc);
 
-        /**
-         * @brief Get a drawable being handled by the component.
-         *
-         * @param key Key of the drawable.
-         *
-         * @return Drawable instance.
-         */
-        Drawable * GetDrawable(std::string key) { return _drawables[key].get(); }
-
-        /**
-         * @brief Get a drawable out and cast it to the preferred type.
-         *
-         * @tparam T Type to cast the drawable to.
-         * @param key Key of the drawable
-         *
-         * @return Drawable with the preferred type.
-         */
-        template <class T> T * GetDrawable(std::string key) { return static_cast<T *>(_drawables[key].get()); }
-
         /* getters and setters */
-        std::vector<Drawable *> keylessDrawables();
+        Drawable * topDrawable() { return _topDrawable; }
     private:
-        /**
-         * @brief Holds all the drawables the component controls.
-         */
-        std::map<std::string, std::unique_ptr<Drawable> > _drawables;
-        /**
-         * @brief Camera the drawables for this component are rendered with.
-         */
+        Drawable * _topDrawable;
         CameraComponent * _camera;
         CameraSystem * _cameraSystem;
+        BasePhysicsSystem * _physicsSystem;
+        BasePhysicsComponent * _physicsComponent;
         DrawableSystem * _drawableSystem;
         Entity _camEntity = nullentity;
 };

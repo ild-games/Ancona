@@ -60,20 +60,27 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief Creates a DrawableComponent on the system.
          * @param entity Entity to attach the component to.
+         * @param drawable Drawable to associate with the DrawableComponent.
          *
          * @return Pointer to the newly created DrawableComponent.
          */
-        DrawableComponent * CreateComponent(const Entity & entity);
+        DrawableComponent * CreateComponent(
+                const Entity & entity,
+                Drawable * topDrawable,
+                BasePhysicsSystem * physics);
 
         /**
          * @brief Creates a DrawableComponent on the system.
          * @param entity Entity to attach the component to.
+         * @param drawable Drawable to associate with the DrawableComponent.
          * @param camera CameraComponent for the DrawableComponent.
          *
          * @return Pointer to the newly created DrawableComponent.
          */
         DrawableComponent * CreateComponent(
                 const Entity & entity,
+                Drawable * topDrawable,
+                BasePhysicsSystem * physics,
                 CameraComponent * camera);
 
         /* gettes and setters */

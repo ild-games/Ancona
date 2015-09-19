@@ -1,34 +1,30 @@
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
-REGISTER_POLYMORPHIC_SERIALIZER(ild::ShapeDrawable)
+REGISTER_POLYMORPHIC_SERIALIZER(ild::ShapeDrawable);
 
 using namespace ild;
 
 ShapeDrawable::ShapeDrawable(
-        BasePhysicsSystem * physicsSystem,
         sf::Shape * shape,
         const int priorty,
+        const std::string & key,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
-            physicsSystem,
             priorty,
+            key,
             priorityOffset,
             positionOffset),
     _shape(shape)
 {
 }
 
-void ShapeDrawable::Draw(sf::RenderWindow & window, float delta)
+void ShapeDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    auto pos = _physicsComponent->GetInfo().position();
-    sf::Vector2f position = sf::Vector2f(
-            pos.x + _positionOffset.x,
-            pos.y + _positionOffset.y);
-    _shape->setPosition(position.x, position.y);
-    _shape->setRotation(_rotation);
-    window.draw(*_shape);
+    sf::RenderStates states(drawableTransform);
+    window.draw(*_shape, states);
 }
 
 void ShapeDrawable::FetchDependencies(const Entity &entity) {
@@ -44,11 +40,10 @@ void ShapeDrawable::Serialize(Archive &archive) {
 }
 
 /* getters and setters */
-sf::Vector2u ShapeDrawable::size()
+sf::Vector2f ShapeDrawable::size()
 {
-    return sf::Vector2u(
-            _shape->getLocalBounds().width,
-            _shape->getLocalBounds().height);
+    sf::Vector2f size(_shape->getLocalBounds().width, _shape->getLocalBounds().height);
+    return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 int ShapeDrawable::alpha()
@@ -58,16 +53,12 @@ int ShapeDrawable::alpha()
 
 void ShapeDrawable::alpha(int alpha)
 {
-    sf::Color * outlineCol = 
-        new sf::Color(_shape->getOutlineColor());
-    outlineCol->a = alpha;
-    _shape->setOutlineColor(*outlineCol);
+    sf::Color outlineCol(_shape->getOutlineColor());
+    outlineCol.a = alpha;
+    _shape->setOutlineColor(outlineCol);
 
-    sf::Color * fillCol = 
-        new sf::Color(_shape->getFillColor());
-    fillCol->a = alpha;
-    _shape->setFillColor(*fillCol);
-
-    delete outlineCol;
-    delete fillCol;
+    sf::Color fillCol(_shape->getFillColor());
+    fillCol.a = alpha;
+    _shape->setFillColor(fillCol);
 }
+

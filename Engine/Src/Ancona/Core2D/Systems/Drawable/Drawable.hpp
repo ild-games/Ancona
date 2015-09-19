@@ -53,14 +53,14 @@ class Drawable
         /**
          * @brief Constructs a Drawable.
          *
-         * @param positionSystem PositionSystem that can be used to fetch the position component.
          * @param priority RenderPriority that determines when the drawable obj is rendered.
+         * @param key Key of the drawable.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from the DrawableComponent's position.
+         * @param positionOffset Vector that defines the offset from its parent drawable.
          */
         Drawable(
-                BasePhysicsSystem * positionSystem,
                 const int priority,
+                const std::string & key,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
@@ -68,10 +68,12 @@ class Drawable
          * @brief Draws the object to the window.
          *
          * @param window RenderWindow for the game.
+         * @param parentTransform Transform of the parent drawable.
          */
-        virtual void Draw(
-                sf::RenderWindow & window, 
-                float delta) = 0;
+        void Draw(
+                sf::RenderWindow &window,
+                sf::Transform parentTransform,
+                float delta);
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
@@ -83,34 +85,35 @@ class Drawable
          */
         virtual void Serialize(Archive & arc);
 
+        /**
+         * @brief Finds a drawable contained within this drawable. The default
+         *        implementation simply returns itself if the keys match. Container
+         *        and Animation drawables will walk their children to try and find
+         *        the drawable if the keys do not match.
+         *
+         * @param key Key of the drawable to find
+         *
+         * @returns Pointer to the drawable, nullptr if no such drawable exists.
+         */
+        virtual Drawable * FindDrawable(const std::string & key);
+
         /* getters and setters */
-        int renderPriority() { return _renderPriority + _priorityOffset; }
+        int renderPriority() const { return _renderPriority + _priorityOffset; }
+        sf::Vector2f positionOffset() { return _positionOffset; }
+        void positionOffset(sf::Vector2f positionOffset) { _positionOffset = positionOffset; }
         float rotation() { return _rotation; }
+        sf::Vector2f scale() { return _scale; }
         void rotation(float rotation) { _rotation = rotation; }
-        virtual sf::Vector2u size() = 0;
+        void scale(sf::Vector2f scale) { _scale = scale; };
+        virtual sf::Vector2f size() = 0;
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;
+        std::string key() { return _key; }
         bool inactive() { return _inactive; }
         void inactive(bool inactive) { _inactive = inactive; }
 
 
     protected:
-        /**
-         * @brief Physics system for the current screen.
-         */
-        BasePhysicsSystem * _physicsSystem;
-        /**
-         * @brief Drawable system for the current screen.
-         */
-        DrawableSystem * _drawableSystem;
-        /**
-         * @brief Component that defines the entity's position.
-         */
-        BasePhysicsComponent * _physicsComponent;
-        /**
-         * @brief Component that defines the entity's drawables.
-         */
-        DrawableComponent * _drawableComponent;
         /**
          * @brief Offset coordinate for this drawable element.
          */
@@ -128,6 +131,10 @@ class Drawable
          */
         float _rotation = 0;
         /**
+         * @brief Amount to scale the drawable element.
+         */
+        sf::Vector2f _scale = sf::Vector2f(1.0f, 1.0f);
+        /**
          * @brief True if the drawable is actively drawn/updated. Otherwise false.
          */
         bool _inactive = false;
@@ -135,6 +142,14 @@ class Drawable
          * @brief Key that describes the Drawable.
          */
         std::string _key;
+
+    private:
+
+        sf::Transform CalculateTransforms();
+        virtual void OnDraw(
+                sf::RenderWindow &window,
+                sf::Transform drawableTransform,
+                float delta) = 0;
 };
 
 }

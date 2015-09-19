@@ -1,31 +1,35 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 
 using namespace ild;
 
 DrawableComponent::DrawableComponent() { }
 
-DrawableComponent::DrawableComponent(CameraComponent * cameraComponent) :
-    _camera(cameraComponent)
+DrawableComponent::DrawableComponent(
+        Drawable * topDrawable,
+        DrawableSystem * drawableSystem,
+        BasePhysicsSystem * physicsSystem,
+        CameraComponent * cameraComponent) :
+    _topDrawable(topDrawable),
+    _camera(cameraComponent),
+    _physicsSystem(physicsSystem),
+    _drawableSystem(drawableSystem)
 {
 }
 
-void DrawableComponent::AddDrawable(
-        const std::string key,
-        Drawable * drawable)
+
+Drawable * DrawableComponent::GetDrawable(const std::string & key)
 {
-    auto keyDrawablePair = _drawables.find(key);
-    if (keyDrawablePair == _drawables.end() || keyDrawablePair->second.get() != drawable)
-    {
-        _drawables[key] = std::unique_ptr<Drawable>(drawable);
-    }
-    _camera->AddDrawable(drawable);
+    return _topDrawable->FindDrawable(key);
 }
 
-void DrawableComponent::RemoveDrawable(const std::string key)
+
+void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
 {
-    _camera->RemoveDrawable(_drawables[key].get());
-    _drawables.erase(key);
+    sf::Transform transform;
+    transform.translate(_physicsComponent->GetInfo().position());
+    _topDrawable->Draw(window, transform, delta);
 }
 
 void DrawableComponent::FetchDependencies(const Entity & entity)
@@ -38,10 +42,9 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
     {
         _camera = (*_cameraSystem)[_camEntity];
     }
-    for (auto & keyDrawable : _drawables)
-    {
-        keyDrawable.second->FetchDependencies(entity);
-    }
+    _camera->AddDrawableComponent(this);
+    _physicsComponent = _physicsSystem->at(entity);
+    _topDrawable->FetchDependencies(entity);
 }
 
 void DrawableComponent::Serialize(Archive & arc)
@@ -49,16 +52,6 @@ void DrawableComponent::Serialize(Archive & arc)
     arc.entityUsingJsonKey(_camEntity, "camEntity");
     arc.system(_cameraSystem, "camera");
     arc.system(_drawableSystem, "drawable");
-    arc(_drawables, "drawables");
-}
-
-/* getters and setters */
-std::vector<Drawable *> DrawableComponent::keylessDrawables()
-{
-    std::vector<Drawable *> toReturn;
-    for(auto it = _drawables.begin(); it != _drawables.end(); ++it)
-    {
-        toReturn.push_back(it->second.get());
-    }
-    return toReturn;
+    arc.system(_physicsSystem, "physics");
+    arc(_topDrawable, "topDrawable");
 }

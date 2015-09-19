@@ -34,22 +34,15 @@ class TextDrawable : public Drawable
          * @param smooth Optional bool to determine if the text should be smoothed, defaults to true.
          */
         TextDrawable(
-                BasePhysicsSystem * physicsSystem,
                 const std::string text,
                 const std::string fontKey,
                 const sf::Color color,
                 const int characterSize,
                 const int priority,
+                const std::string & key,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
                 bool smooth = true);
-
-        /**
-         * @brief Draws the text to the window. The position
-         *
-         * @param window
-         */
-        void Draw(sf::RenderWindow & window, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -64,13 +57,14 @@ class TextDrawable : public Drawable
         /* getters and setters */
         std::string text() { return _text->getString(); }
         void text(std::string text);
-        sf::Vector2u size();
+        sf::Vector2f size();
         int alpha();
         void alpha(int alpha);
     private:
         std::unique_ptr<sf::Text> _text;
 
         void CenterOrigin();
+        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
 };
 
 }

@@ -33,19 +33,11 @@ class ShapeDrawable : public Drawable
          * @param positionOffset Offset coordinates from the PositionComponent
          */
         ShapeDrawable(
-                BasePhysicsSystem * physicsSystem,
                 sf::Shape * shape,
                 const int priority,
-                int priorityOffset,
+                const std::string & key,
+                int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
-
-        /**
-         * @brief Draws the shape to the window.  The position the shape is drawn to will be the center
-         *        of the sprite.
-         *
-         * @param window Window the shape should be drawn to.
-         */
-        void Draw(sf::RenderWindow & window, float delta);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -58,15 +50,19 @@ class ShapeDrawable : public Drawable
         void FetchDependencies(const Entity & entity);
 
         /* getters and setters */
-        sf::Vector2u size();
-        int alpha();
-        void alpha(int alpha);
+        sf::Vector2f size() override;
+        int alpha() override;
+        void alpha(int alpha) override;
+
 
     private:
         /**
          * @brief Shape used for the drawing.
          */
         std::unique_ptr<sf::Shape> _shape;
+
+        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
+
 };
 
 }
