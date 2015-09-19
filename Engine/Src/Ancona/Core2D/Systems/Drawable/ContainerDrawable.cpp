@@ -71,7 +71,7 @@ void ContainerDrawable::Serialize(Archive & arc)
 
 void ContainerDrawable::AddDrawable(Drawable * drawable)
 {
-    _drawables.push_back(std::unique_ptr<Drawable>(drawable));
+    _drawables.emplace_back(drawable);
 }
 
 void ContainerDrawable::RemoveDrawable(const std::string & key)

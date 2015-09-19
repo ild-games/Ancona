@@ -82,7 +82,7 @@ Drawable * AnimatedDrawable::FindDrawable(const std::string & key)
 
 void AnimatedDrawable::AddFrame(Drawable * frame)
 {
-    _frames.push_back(std::unique_ptr<Drawable>(frame));
+    _frames.emplace_back(frame);
 }
 
 void AnimatedDrawable::RemoveFrame(const std::string & key)
