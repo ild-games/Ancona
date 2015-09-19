@@ -22,17 +22,34 @@ class ImageDrawable : public Drawable
         ImageDrawable() { }
 
         /**
-         * @brief Constructs a TileImageDrawable
+         * @brief Constructs an ImageDrawable
          *
          * @param textureKey Key for the texture
          * @param textureRect IntRect that describes the rectangle of the texture to display.
          */
         ImageDrawable(
-                const int priority,
-                int priorityOffset,
-                sf::Vector2f positionOffset,
                 std::string textureKey,
-                sf::IntRect textureRect);
+                const int priority,
+                const std::string & key,
+                bool isWholeImage = true,
+                sf::IntRect textureRect = sf::IntRect(0, 0, 0, 0),
+                int priorityOffset = 0,
+                sf::Vector2f positionOffset = sf::Vector2f(0, 0));
+
+        /**
+         * @brief Constructs an ImageDrawable
+         *
+         * @param texture Texture to use for the image.
+         * @param textureRect IntRect that describes the rectangle of the texture to display.
+         */
+        ImageDrawable(
+                sf::Texture * texture,
+                const int priority,
+                const std::string & key,
+                bool isWholeImage = true,
+                sf::IntRect textureRect = sf::IntRect(0, 0, 0, 0),
+                int priorityOffset = 0,
+                sf::Vector2f positionOffset = sf::Vector2f(0, 0));
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -49,13 +66,14 @@ class ImageDrawable : public Drawable
         void alpha(int newAlpha) override;
         int alpha() override;
     private:
-        std::string _textureKey;
+        std::string _textureKey = "";
         sf::IntRect _textureRect;
+        sf::Texture * _texture = nullptr;
         bool _isWholeImage;
         std::unique_ptr<sf::Sprite> _sprite;
 
-        void SetupSprite();
         void OnDraw(sf::RenderWindow &window, sf::Transform transform, float delta) override;
+        void SetupSprite();
 };
 
 }

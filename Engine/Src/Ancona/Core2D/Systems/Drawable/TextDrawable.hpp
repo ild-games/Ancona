@@ -39,6 +39,7 @@ class TextDrawable : public Drawable
                 const sf::Color color,
                 const int characterSize,
                 const int priority,
+                const std::string & key,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
                 bool smooth = true);

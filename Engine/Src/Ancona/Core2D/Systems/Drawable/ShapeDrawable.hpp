@@ -35,7 +35,8 @@ class ShapeDrawable : public Drawable
         ShapeDrawable(
                 sf::Shape * shape,
                 const int priority,
-                int priorityOffset,
+                const std::string & key,
+                int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
         /**

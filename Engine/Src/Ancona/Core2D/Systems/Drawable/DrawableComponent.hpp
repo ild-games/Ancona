@@ -30,9 +30,14 @@ class DrawableComponent
         /**
          * @brief Construct a DrawableComponent.
          *
+         * @param topDrawable Drawable to associate the DrawableComponent with.
          * @param cameraComponent CameraComponent used to render these renderables.
          */
-        DrawableComponent(CameraComponent * cameraComponent);
+        DrawableComponent(
+                Drawable * topDrawable,
+                DrawableSystem * drawableSystem,
+                BasePhysicsSystem * physicsSystem,
+                CameraComponent * cameraComponent);
 
         /**
          * @brief Gets the specified drawable that is on the component.
@@ -61,7 +66,7 @@ class DrawableComponent
         /* getters and setters */
         Drawable * topDrawable() { return _topDrawable; }
     private:
-        ContainerDrawable * _topDrawable;
+        Drawable * _topDrawable;
         CameraComponent * _camera;
         CameraSystem * _cameraSystem;
         BasePhysicsSystem * _physicsSystem;

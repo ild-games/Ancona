@@ -9,12 +9,14 @@ CameraComponent::CameraComponent() : _offset(sf::Vector2f(0, 0)) { }
 CameraComponent::CameraComponent(
         const sf::View & originalView,
         int renderPriority,
+        DrawableSystem * drawableSystem,
         float scale,
         sf::Vector2f offset) :
     _view(sf::View(originalView)),
     _renderPriority(renderPriority),
     _scale(scale),
-    _offset(offset)
+    _offset(offset),
+    _drawableSystem(drawableSystem)
 {
 }
 
@@ -125,11 +127,13 @@ CameraComponent * CameraSystem::CreateComponent(
         const Entity & entity,
         const sf::View & originalView,
         int renderPriority,
+        DrawableSystem * drawableSystem,
         float scale)
 {
     CameraComponent * comp = new CameraComponent(
             originalView,
             renderPriority,
+            drawableSystem,
             scale);
     AttachComponent(entity, comp);
     return comp;

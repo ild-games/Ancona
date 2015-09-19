@@ -1,4 +1,5 @@
 #include <Ancona/Core2D/Systems/Drawable/ContainerDrawable.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::ContainerDrawable);
 
@@ -6,10 +7,12 @@ using namespace ild;
 
 ContainerDrawable::ContainerDrawable(
         const int priority,
+        const std::string & key,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
             priority,
+            key,
             priorityOffset,
             positionOffset)
 {
@@ -54,7 +57,7 @@ void ContainerDrawable::SortDrawables()
 {
     alg::sort(
             _drawables,
-            [](Drawable * lhs, Drawable * rhs)
+            [](const std::unique_ptr<Drawable> & lhs, const std::unique_ptr<Drawable> & rhs)
             {
                 return lhs->renderPriority() < rhs->renderPriority();
             });
@@ -64,6 +67,18 @@ void ContainerDrawable::Serialize(Archive & arc)
 {
     Drawable::Serialize(arc);
     arc(_drawables, "drawables");
+}
+
+void ContainerDrawable::AddDrawable(Drawable * drawable)
+{
+    _drawables.push_back(std::unique_ptr<Drawable>(drawable));
+}
+
+void ContainerDrawable::RemoveDrawable(const std::string & key)
+{
+    _drawables.erase(alg::remove_if(_drawables, [key](const std::unique_ptr<Drawable> & drawable) {
+        return key == drawable->key();
+    }));
 }
 
 sf::Vector2f ContainerDrawable::size()
@@ -93,9 +108,8 @@ sf::Vector2f ContainerDrawable::size()
             maxY = curY + (drawableSize.y / 2.0f);
         }
     }
-    return sf::Vector2f(
-            (maxX - minX) * _scale.x,
-            (maxY - minY) * _scale.y);
+    sf::Vector2f size(maxX - minX, maxY - minY);
+    return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 int ContainerDrawable::alpha()

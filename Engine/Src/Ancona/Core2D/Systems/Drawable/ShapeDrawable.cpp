@@ -1,5 +1,6 @@
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::ShapeDrawable);
 
@@ -8,10 +9,12 @@ using namespace ild;
 ShapeDrawable::ShapeDrawable(
         sf::Shape * shape,
         const int priorty,
+        const std::string & key,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
             priorty,
+            key,
             priorityOffset,
             positionOffset),
     _shape(shape)
@@ -39,9 +42,8 @@ void ShapeDrawable::Serialize(Archive &archive) {
 /* getters and setters */
 sf::Vector2f ShapeDrawable::size()
 {
-    return sf::Vector2f(
-            _shape->getLocalBounds().width * _scale.x,
-            _shape->getLocalBounds().height * _scale.y);
+    sf::Vector2f size(_shape->getLocalBounds().width, _shape->getLocalBounds().height);
+    return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 int ShapeDrawable::alpha()

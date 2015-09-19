@@ -1,23 +1,47 @@
 #include <Ancona/Core2D/Systems/Drawable/ImageDrawable.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::ImageDrawable);
 
 using namespace ild;
 
 ImageDrawable::ImageDrawable(
-        const int priority,
-        int priorityOffset,
-        sf::Vector2f positionOffset,
         std::string textureKey,
-        sf::IntRect textureRect) :
+        const int priority,
+        const std::string & key,
+        bool isWholeImage,
+        sf::IntRect textureRect,
+        int priorityOffset,
+        sf::Vector2f positionOffset) :
     Drawable(
             priority,
+            key,
             priorityOffset,
             positionOffset),
     _textureKey(textureKey),
-    _textureRect(textureRect)
+    _textureRect(textureRect),
+    _isWholeImage(isWholeImage)
 {
-    SetupSprite();
+}
+
+ImageDrawable::ImageDrawable(
+        sf::Texture * texture,
+        const int priority,
+        const std::string & key,
+        bool isWholeImage,
+        sf::IntRect textureRect,
+        int priorityOffset,
+        sf::Vector2f positionOffset) :
+    Drawable(
+            priority,
+            key,
+            priorityOffset,
+            positionOffset),
+    _textureKey(""),
+    _textureRect(textureRect),
+    _texture(texture),
+    _isWholeImage(isWholeImage)
+{
 }
 
 void ImageDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
@@ -28,13 +52,16 @@ void ImageDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTrans
 
 void ImageDrawable::SetupSprite()
 {
-    sf::Texture &texture = *ResourceLibrary::Get<sf::Texture>(_textureKey);
-    _sprite.reset(new sf::Sprite(texture));
+    if (_textureKey != "")
+    {
+        _texture = ResourceLibrary::Get<sf::Texture>(_textureKey);
+    }
+    _sprite.reset(new sf::Sprite(*_texture));
 
     if (_isWholeImage)
     {
-        _textureRect.width = texture.getSize().x;
-        _textureRect.height = texture.getSize().y;
+        _textureRect.width = _texture->getSize().x;
+        _textureRect.height = _texture->getSize().y;
     }
 
     _sprite->setTextureRect(_textureRect);
@@ -59,9 +86,8 @@ void ImageDrawable::FetchDependencies(const Entity &entity)
 /* getters and setters */
 sf::Vector2f ImageDrawable::size()
 {
-    return sf::Vector2f(
-            _textureRect.width * _scale.x,
-            _textureRect.height * _scale.y);
+    sf::Vector2f size(_textureRect.width, _textureRect.height);
+    return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 void ImageDrawable::alpha(int newAlpha)

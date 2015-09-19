@@ -1,6 +1,7 @@
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::TextDrawable)
 
@@ -12,11 +13,13 @@ TextDrawable::TextDrawable(
         const sf::Color color,
         const int characterSize,
         const int priority,
+        const std::string & key,
         int priorityOffset,
         sf::Vector2f positionOffset,
         bool smooth) :
     Drawable(
             priority,
+            key,
             priorityOffset,
             positionOffset)
 {
@@ -62,9 +65,8 @@ void TextDrawable::text(std::string text)
 
 sf::Vector2f TextDrawable::size()
 {
-    return sf::Vector2f(
-            _text->getLocalBounds().width * _scale.x,
-            _text->getLocalBounds().height * _scale.y);
+    sf::Vector2f size(_text->getLocalBounds().width, _text->getLocalBounds().height);
+    return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 int TextDrawable::alpha()

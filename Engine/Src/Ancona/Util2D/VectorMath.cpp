@@ -36,6 +36,16 @@ sf::Vector3f Rotate(sf::Vector3f vectToRotate, float rads)
     return toReturn;
 }
 
+sf::Vector2f ComponentMultiplication(sf::Vector2f lhs, sf::Vector2f rhs)
+{
+    return sf::Vector2f(lhs.x * rhs.x, lhs.y * rhs.y);
+}
+
+sf::Vector3f ComponentMultiplication(sf::Vector3f lhs, sf::Vector3f rhs)
+{
+    return sf::Vector3f(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z);
+}
+
 float DegreesToRadians(float degrees)
 {
     return degrees * (M_PI / 180);

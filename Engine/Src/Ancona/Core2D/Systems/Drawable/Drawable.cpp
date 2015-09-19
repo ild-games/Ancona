@@ -7,18 +7,19 @@ using namespace ild;
 
 Drawable::Drawable(
         const int priority,
+        const std::string & key,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     _positionOffset(positionOffset),
     _renderPriority(priority),
-    _priorityOffset(priorityOffset)
+    _priorityOffset(priorityOffset),
+    _key(key)
 {
 
 }
 
 void Drawable::Serialize(Archive &arc)
 {
-    arc.system(_drawableSystem, "drawable");
     arc(_renderPriority,"renderPriority");
     arc(_priorityOffset,"priorityOffset");
     arc(_rotation,"rotation");
@@ -42,7 +43,6 @@ sf::Transform Drawable::CalculateTransforms()
 
 void Drawable::FetchDependencies(const Entity & entity)
 {
-    _drawableComponent = _drawableSystem->at(entity);
 }
 
 Drawable * Drawable::FindDrawable(const std::string &key)

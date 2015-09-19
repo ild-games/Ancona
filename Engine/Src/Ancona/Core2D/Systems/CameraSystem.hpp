@@ -40,6 +40,7 @@ class CameraComponent
         CameraComponent(
                 const sf::View & originalView,
                 int renderPriority,
+                DrawableSystem * drawableSystem,
                 float scale = 1.0f,
                 sf::Vector2f offset = sf::Vector2f(0, 0));
 
@@ -121,7 +122,7 @@ class CameraComponent
         float _scale = 1;
         float _originalScale = 1;
         sf::Vector2f _offset;
-        Entity _follows;
+        Entity _follows = nullentity;
         sf::Vector2f _size;
         BasePhysicsSystem * _physicsSystem;
         DrawableSystem * _drawableSystem;
@@ -166,6 +167,7 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
                 const Entity & entity,
                 const sf::View & originalView,
                 int renderPriority,
+                DrawableSystem * drawableSystem,
                 float scale = 1.0f);
 
 };

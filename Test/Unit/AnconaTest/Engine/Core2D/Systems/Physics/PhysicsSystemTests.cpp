@@ -8,7 +8,8 @@ using namespace ild;
 
 UpdateStepEnum UPDATE = UpdateStep::Update;
 
-TEST(PhysicsSystem, CreateMultipleComponents) {
+TEST(PhysicsSystem, CreateMultipleComponents)
+{
     SystemManager manager;
     PlatformPhysicsSystem & physics = *(new PlatformPhysicsSystem("physics", manager));
 

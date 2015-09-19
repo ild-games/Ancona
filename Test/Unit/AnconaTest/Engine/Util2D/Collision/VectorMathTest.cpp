@@ -88,3 +88,14 @@ TEST(VectorMath, RightCollision)
 
     ASSERT_FALSE(PointsTo(vector,pointA,pointB));
 }
+
+TEST(VectorMath, ComponentMultiplication)
+{
+    ASSERT_EQ(
+            ComponentMultiplication(sf::Vector2f(3.0f, 3.0f), sf::Vector2f(3.0f, 3.0f)),
+            sf::Vector2f(9.0f, 9.0f));
+
+    ASSERT_EQ(
+            ComponentMultiplication(sf::Vector3f(2.0f, 2.0f, 1.0f), sf::Vector3f(3.0f, 3.0f, 5.0f)),
+            sf::Vector3f(6.0f, 6.0f, 5.0f));
+}

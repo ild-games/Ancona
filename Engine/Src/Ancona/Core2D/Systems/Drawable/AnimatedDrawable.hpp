@@ -30,6 +30,7 @@ class AnimatedDrawable : public Drawable
          */
         AnimatedDrawable(
                 const int priority,
+                const std::string & key,
                 float duration,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
@@ -44,6 +45,20 @@ class AnimatedDrawable : public Drawable
          * @copydoc ild::CameraComponent::FetchDependencies
          */
         void FetchDependencies(const Entity & entity);
+
+        /**
+         * @brief Adds a frame to the AnimatedDrawable
+         *
+         * @param Drawable to add as frame.
+         */
+        void AddFrame(Drawable * frame);
+
+        /**
+         * @brief Removes a frame from the AnimatedDrawable
+         *
+         * @param key Key of drawable to remove.
+         */
+        void RemoveFrame(const std::string & key);
 
         /**
          * @copydoc ild::Drawable::FindDrawable

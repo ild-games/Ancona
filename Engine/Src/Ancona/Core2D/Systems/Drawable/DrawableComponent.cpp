@@ -1,12 +1,20 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
 
 using namespace ild;
 
 DrawableComponent::DrawableComponent() { }
 
-DrawableComponent::DrawableComponent(CameraComponent * cameraComponent) :
-    _camera(cameraComponent)
+DrawableComponent::DrawableComponent(
+        Drawable * topDrawable,
+        DrawableSystem * drawableSystem,
+        BasePhysicsSystem * physicsSystem,
+        CameraComponent * cameraComponent) :
+    _topDrawable(topDrawable),
+    _camera(cameraComponent),
+    _physicsSystem(physicsSystem),
+    _drawableSystem(drawableSystem)
 {
 }
 

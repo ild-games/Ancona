@@ -54,11 +54,13 @@ class Drawable
          * @brief Constructs a Drawable.
          *
          * @param priority RenderPriority that determines when the drawable obj is rendered.
+         * @param key Key of the drawable.
          * @param priorityOffset Optional offset to the render priority.
          * @param positionOffset Vector that defines the offset from its parent drawable.
          */
         Drawable(
                 const int priority,
+                const std::string & key,
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
@@ -96,8 +98,9 @@ class Drawable
         virtual Drawable * FindDrawable(const std::string & key);
 
         /* getters and setters */
-        int renderPriority() { return _renderPriority + _priorityOffset; }
+        int renderPriority() const { return _renderPriority + _priorityOffset; }
         sf::Vector2f positionOffset() { return _positionOffset; }
+        void positionOffset(sf::Vector2f positionOffset) { _positionOffset = positionOffset; }
         float rotation() { return _rotation; }
         sf::Vector2f scale() { return _scale; }
         void rotation(float rotation) { _rotation = rotation; }
@@ -105,20 +108,12 @@ class Drawable
         virtual sf::Vector2f size() = 0;
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;
+        std::string key() { return _key; }
         bool inactive() { return _inactive; }
         void inactive(bool inactive) { _inactive = inactive; }
-        DrawableComponent & drawableComponent() { return *_drawableComponent; }
 
 
     protected:
-        /**
-         * @brief Drawable system for the current screen.
-         */
-        DrawableSystem * _drawableSystem;
-        /**
-         * @brief Component that defines the entity's drawables.
-         */
-        DrawableComponent * _drawableComponent;
         /**
          * @brief Offset coordinate for this drawable element.
          */

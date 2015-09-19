@@ -1,5 +1,6 @@
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::AnimatedDrawable)
 
@@ -7,11 +8,13 @@ using namespace ild;
 
 AnimatedDrawable::AnimatedDrawable(
         const int priority,
+        const std::string & key,
         float duration,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
             priority,
+            key,
             priorityOffset,
             positionOffset),
     _duration(duration)
@@ -77,13 +80,22 @@ Drawable * AnimatedDrawable::FindDrawable(const std::string & key)
     return toReturn;
 }
 
+void AnimatedDrawable::AddFrame(Drawable * frame)
+{
+    _frames.push_back(std::unique_ptr<Drawable>(frame));
+}
+
+void AnimatedDrawable::RemoveFrame(const std::string & key)
+{
+    _frames.erase(alg::remove_if(_frames, [key](const std::unique_ptr<Drawable> & drawable) {
+        return key == drawable->key();
+    }));
+}
+
 /* getters and setters */
 sf::Vector2f AnimatedDrawable::size()
 {
-    sf::Vector2f sizeVect = _frames[_curFrame]->size();
-    sizeVect.x *= _scale.x;
-    sizeVect.y *= _scale.y;
-    return sizeVect;
+    return VectorMath::ComponentMultiplication(_frames[_curFrame]->size(), _scale);
 }
 
 int AnimatedDrawable::alpha()

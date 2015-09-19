@@ -49,6 +49,28 @@ namespace VectorMath
     sf::Vector3f Rotate(sf::Vector3f vectToRotate, float rads);
 
     /**
+     * @brief Return a Vector2f where each component is multiplied by the
+     *        same component as another Vector2f
+     *
+     * @param lhs Vector2f used on left hand side of equation
+     * @param rhs Vector2f used on right hand side of equation
+     *
+     * @return Resulting Vector2f
+     */
+    sf::Vector2f ComponentMultiplication(sf::Vector2f lhs, sf::Vector2f rhs);
+
+    /**
+     * @brief Return a Vector2f where each component is multiplied by the
+     *        same component as another Vector2f
+     *
+     * @param lhs Vector2f used on left hand side of equation
+     * @param rhs Vector2f used on right hand side of equation
+     *
+     * @return Resulting Vector2f
+     */
+    sf::Vector3f ComponentMultiplication(sf::Vector3f lhs, sf::Vector3f rhs);
+
+    /**
      * @brief Test if the middle vector within the small angle between left and right bound vectors.
      *
      * @param leftBound Vector that is the left bound.  
@@ -100,6 +122,7 @@ namespace VectorMath
      * @return Degrees converted from radians.
      */
     float RadiansToDegrees(float rads);
+
 }
 
 }
