@@ -51,17 +51,12 @@ int ShapeDrawable::alpha()
 
 void ShapeDrawable::alpha(int alpha)
 {
-    sf::Color * outlineCol = 
-        new sf::Color(_shape->getOutlineColor());
-    outlineCol->a = alpha;
-    _shape->setOutlineColor(*outlineCol);
+    sf::Color outlineCol(_shape->getOutlineColor());
+    outlineCol.a = alpha;
+    _shape->setOutlineColor(outlineCol);
 
-    sf::Color * fillCol = 
-        new sf::Color(_shape->getFillColor());
-    fillCol->a = alpha;
-    _shape->setFillColor(*fillCol);
-
-    delete outlineCol;
-    delete fillCol;
+    sf::Color fillCol(_shape->getFillColor());
+    fillCol.a = alpha;
+    _shape->setFillColor(fillCol);
 }
 
