@@ -76,7 +76,9 @@ sf::Vector2f ContainerDrawable::size()
             maxY = curY + (drawableSize.y / 2.0f);
         }
     }
-    return sf::Vector2f(maxX - minX, maxY - minY);
+    return sf::Vector2f(
+            (maxX - minX) * _scale.x,
+            (maxY - minY) * _scale.y);
 }
 
 int ContainerDrawable::alpha()

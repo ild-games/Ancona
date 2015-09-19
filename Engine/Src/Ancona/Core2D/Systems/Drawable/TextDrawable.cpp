@@ -62,7 +62,9 @@ void TextDrawable::text(std::string text)
 
 sf::Vector2f TextDrawable::size()
 {
-    return sf::Vector2f(_text->getLocalBounds().width, _text->getLocalBounds().height);
+    return sf::Vector2f(
+            _text->getLocalBounds().width * _scale.x,
+            _text->getLocalBounds().height * _scale.y);
 }
 
 int TextDrawable::alpha()

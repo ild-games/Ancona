@@ -40,8 +40,8 @@ void ShapeDrawable::Serialize(Archive &archive) {
 sf::Vector2f ShapeDrawable::size()
 {
     return sf::Vector2f(
-            _shape->getLocalBounds().width,
-            _shape->getLocalBounds().height);
+            _shape->getLocalBounds().width * _scale.x,
+            _shape->getLocalBounds().height * _scale.y);
 }
 
 int ShapeDrawable::alpha()

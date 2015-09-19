@@ -63,7 +63,10 @@ void AnimatedDrawable::Serialize(Archive &archive) {
 /* getters and setters */
 sf::Vector2f AnimatedDrawable::size()
 {
-    return _frames[_curFrame]->size();
+    sf::Vector2f sizeVect = _frames[_curFrame]->size();
+    sizeVect.x *= _scale.x;
+    sizeVect.y *= _scale.y;
+    return sizeVect;
 }
 
 int AnimatedDrawable::alpha()

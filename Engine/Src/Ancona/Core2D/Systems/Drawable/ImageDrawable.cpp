@@ -72,7 +72,7 @@ sf::Vector2f ImageDrawable::size()
         width = _textureRect.width;
         height = _textureRect.height;
     }
-    return sf::Vector2f(width, height);
+    return sf::Vector2f(width * _scale.x, height * _scale.y);
 }
 
 void ImageDrawable::alpha(int newAlpha)
