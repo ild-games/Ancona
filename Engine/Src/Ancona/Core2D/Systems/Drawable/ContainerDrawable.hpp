@@ -31,8 +31,8 @@ class ContainerDrawable : public Drawable
          */
         ContainerDrawable(
                 const int priority,
-                int priorityOffset,
-                sf::Vector2f positionOffset);
+                int priorityOffset = 0,
+                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
 
         /**
          * @copydoc ild::Drawable::Draw
