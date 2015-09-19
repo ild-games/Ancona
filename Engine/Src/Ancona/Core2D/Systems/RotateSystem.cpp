@@ -30,7 +30,7 @@ void RotateComponent::Serialize(Archive & arc)
 
 void RotateComponent::FetchDependencies(const Entity &entity)
 {
-    _drawableComponent = (*_drawableSystem)[entity];
+    _drawableComponent = _drawableSystem->at(entity);
 }
 
 /* System */
