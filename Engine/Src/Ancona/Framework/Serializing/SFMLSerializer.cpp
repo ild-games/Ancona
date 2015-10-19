@@ -14,8 +14,7 @@ void Serializer<sf::RectangleShape>::Serialize(sf::RectangleShape & shape, Archi
         dim = shape.getSize();
         color = shape.getFillColor();
     }
-    arc(dim.x, "width");
-    arc(dim.y, "height");
+    arc(dim, "dimension");
     arc(color, "fillColor");
 
     if (arc.loading())
