@@ -44,7 +44,7 @@ class EditorMapGameSystems : public ScreenSystemsContainer
          */
         InputControlSystem * _input;
         /**
-         * @brief The position system for the game
+         * @brief System for managing the entity's position.
          */
         PositionSystem * _position;
         /**
@@ -55,12 +55,10 @@ class EditorMapGameSystems : public ScreenSystemsContainer
          * @brief System for managing collisions.
          */
         CollisionSystem * _collision;
-
         /**
          * @brief System for managing complex movements of Entities.
          */
         ActionSystem * _action;
-
 };
 
 }

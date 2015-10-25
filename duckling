@@ -32,21 +32,18 @@ if user_instructions.should_generate_documentation():
 
 if user_instructions.should_template():
     template_args = user_instructions.get_template()
-    gameName = ""
-    gameAbbr = ""
-    if len(template_args) == 2:
-        gameName = template_args[0]
-        gameAbbr = template_args[1]
-    else:
-        gameName = input("Enter the full name of the game (e.g. The Duckling of Time): ")
-        gameAbbr = input("Enter the abbreviation of the game (e.g. DuckTime): ")
-    try:
-        succeeded = template.start_template(gameName, gameAbbr)
-        if not succeeded:
-            print("Template generation was aborted, goodbye.")
-            sys.exit()
-    except Exception as err:
-        print('Template generation process failed: {0}'.format(str(err)))
+
+    if len(template_args) > 3:
+        print('At most three arguments should be supplied with the -t flag')
+        sys.exit()
+
+    if len(template_args) == 0:
+        template_args.append(input("Enter the full name of the game (e.g. The Duckling of Time): "))
+    if len(template_args) == 1:
+        template_args.append(input("Enter the abbreviation of the game (e.g. DuckTime): "))
+    succeeded = template.start_template(*template_args)
+    if not succeeded:
+        print("Template generation was aborted, goodbye.")
         sys.exit()
 
 if user_instructions.should_build():
@@ -65,6 +62,6 @@ if user_instructions.should_build():
 
         duckling_tasks.get_dependencies(user_instructions.get_build_platform())
         duckling_tasks.build_ancona(user_instructions.get_build_platform())
-        
+
 if user_instructions.get_run_target():
     print("Warning: -r is not yet implemented")

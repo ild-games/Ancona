@@ -21,7 +21,8 @@ DOC_FLAG_HELP = "Include if you want to generate documentation instead of buildi
 
 CLEAN_FLAG_HELP = "Include if you want to clean the dependency and project build folders"
 
-TEMPLATE_FLAG_HELP_TEXT = "Generate a template game by specifying the name and abbreviation"
+TEMPLATE_FLAG_HELP_TEXT = "Generate a template game by specifying the name, abbreviation, and optional path. \
+        If no path is proveded the default template stored on github will be used.  Usage: -t <name> <abbreviation> [<path>]"
 
 EPILOG_HELP_TEXT = \
         "Running duckling with no arguments will behave as if it was given the -b flag"
@@ -48,7 +49,7 @@ def create_parser():
     parser = argparse.ArgumentParser(description=DESCRIPTION_HELP_TEXT, epilog=EPILOG_HELP_TEXT)
 
     parser.add_argument(
-            '-b', 
+            '-b',
             dest="platform",
             nargs="?",
             const=DEFAULT_PLATFORM,
@@ -57,7 +58,7 @@ def create_parser():
             )
 
     parser.add_argument(
-            '-r', 
+            '-r',
             dest="target",
             nargs="?",
             const=_RUN_FLAG_NOT_GIVEN,
@@ -84,7 +85,7 @@ def create_parser():
             dest="clean",
             action="store_true",
             help=CLEAN_FLAG_HELP)
-    
+
     return parser
 
 class ArgumentInfo:
@@ -114,7 +115,7 @@ def create_tuple(arguments):
     if not arguments.platform and not arguments.target:
         print("Ancona platform:",DEFAULT_PLATFORM,"Ancona Target:",None)
         return DEFAULT_PLATFORM,None,arguments.generate_documentation,arguments.template,arguments.clean
-    
+
     if arguments.platform in [None , DO_NOT_BUILD_OPTION]:
         ancona_platform = None
     elif arguments.platform == _BUILD_FLAG_NOT_GIVEN:
@@ -129,4 +130,3 @@ def create_tuple(arguments):
 
     print("Ancona platform:",ancona_platform,"Ancona Target:",ancona_target,"Generate documentation:",arguments.generate_documentation,"Template:",arguments.template)
     return ancona_platform,ancona_target,arguments.generate_documentation,arguments.template,arguments.clean
-
