@@ -39,19 +39,19 @@ void DrawableSystem::RemoveCamera(CameraComponent * camera)
 DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
         Drawable * topDrawable,
-        BasePhysicsSystem * physics)
+        PositionSystem * position)
 {
     Assert(_defaultCamera != nullptr, "Default camera not set");
-    return CreateComponent(entity, topDrawable, physics, _defaultCamera);
+    return CreateComponent(entity, topDrawable, position, _defaultCamera);
 }
 
 DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
         Drawable * topDrawable,
-        BasePhysicsSystem * physics,
+        PositionSystem * position,
         CameraComponent * camera)
 {
-    auto comp = new DrawableComponent(topDrawable, this, physics, camera);
+    auto comp = new DrawableComponent(topDrawable, this, position, camera);
 
     if(alg::find(_cameras, camera) == _cameras.end())
     {

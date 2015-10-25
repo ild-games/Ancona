@@ -25,7 +25,7 @@ class ContainerDrawable : public Drawable
          *
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from its parent drawable or from the BasePhysicsComponent
+         * @param positionOffset Vector that defines the offset from its parent drawable or from the PositionComponent
          *                       position if it is the top drawable.
          *
          */

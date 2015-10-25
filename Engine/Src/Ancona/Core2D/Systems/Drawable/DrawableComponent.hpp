@@ -7,7 +7,7 @@
 
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ContainerDrawable.hpp>
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 
 namespace ild
 {
@@ -36,7 +36,7 @@ class DrawableComponent
         DrawableComponent(
                 Drawable * topDrawable,
                 DrawableSystem * drawableSystem,
-                BasePhysicsSystem * physicsSystem,
+                PositionSystem * positionSystem,
                 CameraComponent * cameraComponent);
 
         /**
@@ -69,8 +69,8 @@ class DrawableComponent
         Drawable * _topDrawable;
         CameraComponent * _camera;
         CameraSystem * _cameraSystem;
-        BasePhysicsSystem * _physicsSystem;
-        BasePhysicsComponent * _physicsComponent;
+        PositionSystem * _positionSystem;
+        PositionComponent * _positionComponent;
         DrawableSystem * _drawableSystem;
         Entity _camEntity = nullentity;
 };

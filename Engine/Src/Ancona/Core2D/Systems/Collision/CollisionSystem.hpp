@@ -4,7 +4,7 @@
 #include <functional>
 #include <vector>
 
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Util/Data.hpp>
 
@@ -32,7 +32,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          * @param manager Manager that the system belongs to.
          * @param positions System that defines the position of an entity.
          */
-        CollisionSystem(const std::string & name, SystemManager & manager, BasePhysicsSystem & positions);
+        CollisionSystem(const std::string & name, SystemManager & manager, PositionSystem & positions);
 
         /**
          * @brief Update the position for all components based off of their velocity
@@ -98,12 +98,12 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         bool IsCollisionTypeDefined(const std::string & key);
 
         /* Getters and Setters */
-        BasePhysicsSystem & physics() { return _positions; }
+        PositionSystem & position() { return _positions; }
         void maxSlope(float value) { _maxSlope = value; }
     private:
         int _nextType;
         Table<CollisionCallback> _callbackTable;
-        BasePhysicsSystem & _positions;
+        PositionSystem & _positions;
         std::unordered_map<std::string,CollisionType> _collisionTypes;
         std::unordered_map<CollisionType,std::string> _collisionTypeToKey;
         Point _leftGravityBound;

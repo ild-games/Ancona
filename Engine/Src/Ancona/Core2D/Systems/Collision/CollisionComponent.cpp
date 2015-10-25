@@ -15,7 +15,7 @@ CollisionComponent::CollisionComponent(CollisionSystem * collisionSystem,
         BodyTypeEnum bodyType)
     : _system(collisionSystem), _dim(dim.x,dim.y), _type(type), _bodyType(bodyType)
 {
-    
+
 }
 
 bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude)
@@ -25,10 +25,9 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Poi
 
 void CollisionComponent::Update()
 {
-    auto & info = _position->GetMutableInfo();
-    auto & pos = info.position();
+    auto & pos = _position->position();
     _dim.position(pos.x, pos.y);
-    info.groundDirection(Point());
+    _position->groundDirection(Point());
 }
 
 CollisionType CollisionComponent::type()
@@ -88,5 +87,5 @@ void CollisionComponent::Serialize(Archive &arc) {
 }
 
 void CollisionComponent::FetchDependencies(const Entity &entity) {
-    _position = _system->physics()[entity];
+    _position = _system->position()[entity];
 }

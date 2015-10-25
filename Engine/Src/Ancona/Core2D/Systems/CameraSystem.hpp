@@ -7,7 +7,7 @@
 #include <SFML/Window.hpp>
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
@@ -62,7 +62,7 @@ class CameraComponent
         void Draw(sf::RenderWindow & window, float delta);
 
         /**
-         * @brief Moves the camera, the default behavior is to lock onto the _followPhysics.
+         * @brief Moves the camera, the default behavior is to lock onto the _followPosition.
          */
         virtual void MoveCamera();
 
@@ -104,7 +104,7 @@ class CameraComponent
         /**
          * @brief Position component for what the camera is following.
          */
-        BasePhysicsComponent * _followPhysics = nullptr;
+        PositionComponent * _followPosition = nullptr;
 
     private:
         /**
@@ -124,7 +124,7 @@ class CameraComponent
         sf::Vector2f _offset;
         Entity _follows = nullentity;
         sf::Vector2f _size;
-        BasePhysicsSystem * _physicsSystem;
+        PositionSystem * _positionSystem;
         DrawableSystem * _drawableSystem;
         bool _default = false;
 

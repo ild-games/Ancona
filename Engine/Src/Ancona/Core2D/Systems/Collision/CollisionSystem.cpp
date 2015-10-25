@@ -9,8 +9,8 @@ using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2) {}
 
-CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manager, BasePhysicsSystem & positions)
-    : UnorderedSystem<CollisionComponent>(name, manager,UpdateStep::Update), _positions(positions)
+CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manager, PositionSystem & positions)
+    : UnorderedSystem<CollisionComponent>(name, manager,UpdateStep::Physics), _positions(positions)
 {
     _nextType = 0;
 
@@ -19,7 +19,7 @@ CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manag
 void CollisionSystem::UpdateGravityBounds()
 {
     auto invGravity =  -_positions.gravity();
-    
+
     _leftGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(90 - _maxSlope));
     _rightGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(-(90 - _maxSlope)));
 }
@@ -68,8 +68,7 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
 
 void CollisionSystem::PushFirstOutOfSecond(CollisionComponent *a, CollisionComponent *b, const Point &correctFix)
 {
-    auto & physicsA = a->physicsComponent();
-    auto & posA = physicsA.GetMutableInfo();
+    auto & posA = a->positionComponent();
 
     auto groundDirection = VectorMath::Normalize(b->box().GetNormalOfCollisionEdge(a->box()));
     if(IsOnGround(groundDirection))
@@ -84,26 +83,22 @@ void CollisionSystem::PushFirstOutOfSecond(CollisionComponent *a, CollisionCompo
 void CollisionSystem::PushApart(CollisionComponent *a, CollisionComponent *b, const Point &correctFix)
 {
     //If both bodies are solid then push them out of eachoter.
-    auto & physicsA = a->physicsComponent();
-    auto & infoA = physicsA.GetMutableInfo();
-    auto & physicsB = b->physicsComponent();
-    auto & infoB = physicsB.GetMutableInfo();
+    auto & posA = a->positionComponent();
+    auto & posB = b->positionComponent();
 
-    if(infoA.velocity() == Point())
+    if(posA.velocity() == Point())
     {
-        infoB.position(infoB.position() + -correctFix);
+        posB.position(posB.position() + -correctFix);
     }
-        else if(infoB.velocity() == Point())
+    else if(posB.velocity() == Point())
     {
-        infoA.position(infoA.position() + correctFix);
+        posA.position(posA.position() + correctFix);
     }
     else
     {
-        infoA.position(infoA.position() + 0.5f * correctFix);
-        infoB.position(infoB.position() + -0.5f * correctFix);
+        posA.position(posA.position() + 0.5f * correctFix);
+        posB.position(posB.position() + -0.5f * correctFix);
     }
-
-    return;
 }
 
 void CollisionSystem::Update(float delta)

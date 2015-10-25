@@ -1,6 +1,6 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
-#include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 
 using namespace ild;
 
@@ -9,11 +9,11 @@ DrawableComponent::DrawableComponent() { }
 DrawableComponent::DrawableComponent(
         Drawable * topDrawable,
         DrawableSystem * drawableSystem,
-        BasePhysicsSystem * physicsSystem,
+        PositionSystem * positionSystem,
         CameraComponent * cameraComponent) :
     _topDrawable(topDrawable),
     _camera(cameraComponent),
-    _physicsSystem(physicsSystem),
+    _positionSystem(positionSystem),
     _drawableSystem(drawableSystem)
 {
 }
@@ -28,7 +28,7 @@ Drawable * DrawableComponent::GetDrawable(const std::string & key)
 void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
 {
     sf::Transform transform;
-    transform.translate(_physicsComponent->GetInfo().position());
+    transform.translate(_positionComponent->position());
     _topDrawable->Draw(window, transform, delta);
 }
 
@@ -43,7 +43,7 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
         _camera = (*_cameraSystem)[_camEntity];
     }
     _camera->AddDrawableComponent(this);
-    _physicsComponent = _physicsSystem->at(entity);
+    _positionComponent = _positionSystem->at(entity);
     _topDrawable->FetchDependencies(entity);
 }
 
@@ -52,6 +52,6 @@ void DrawableComponent::Serialize(Archive & arc)
     arc.entityUsingJsonKey(_camEntity, "camEntity");
     arc.system(_cameraSystem, "camera");
     arc.system(_drawableSystem, "drawable");
-    arc.system(_physicsSystem, "physics");
+    arc.system(_positionSystem, "position");
     arc(_topDrawable, "topDrawable");
 }

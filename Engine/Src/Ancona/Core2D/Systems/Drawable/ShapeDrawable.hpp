@@ -26,7 +26,7 @@ class ShapeDrawable : public Drawable
         /**
          * @brief An element to draw a shape to an entity.
          *
-         * @param physicsSystem System that defines the entity's position
+         * @param positionSystem System that defines the entity's position
          * @param shape SFML Shape that is going to be drawn.
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param priorityOffset Optional offset to the render priority

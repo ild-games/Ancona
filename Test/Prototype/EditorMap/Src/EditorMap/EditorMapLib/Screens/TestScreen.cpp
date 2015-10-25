@@ -17,8 +17,9 @@ void TestScreen::Init()
 
 void TestScreen::Update(float delta)
 {
-    _systems->systemManager().Update(delta, UpdateStep::Update);
     _systems->systemManager().Update(delta, UpdateStep::Input);
+    _systems->systemManager().Update(delta, UpdateStep::Update);
+    _systems->systemManager().Update(delta, UpdateStep::Physics);
 }
 
 void TestScreen::Draw(float delta)

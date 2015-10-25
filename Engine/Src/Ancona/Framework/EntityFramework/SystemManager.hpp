@@ -108,7 +108,7 @@ class SystemManager
          */
         void RegisterSystem(
                 std::string systemName,
-                AbstractSystem * system, 
+                AbstractSystem * system,
                 UpdateStepEnum updateStep);
 
         /**
@@ -134,7 +134,7 @@ class SystemManager
         void UnregisterComponent(Entity entity, AbstractSystem * owningSystem);
 
         /**
-         * @brief Adds the rule that the given entity can have its component from the given system saved 
+         * @brief Adds the rule that the given entity can have its component from the given system saved
          * by non-snapshot saves.
          *
          * @param entity Name of the entity
@@ -166,8 +166,8 @@ class SystemManager
          */
         std::unordered_map< Entity, std::set<AbstractSystem * > > _components;
         /**
-         * @brief Highest id that has been assigned to an entity.  Used to assign 
-         * unique ids 
+         * @brief Highest id that has been assigned to an entity.  Used to assign
+         * unique ids
          */
         unsigned int _maxEntityId;
         /**
@@ -203,4 +203,4 @@ class SystemManager
 };
 
 }
-#endif 
+#endif
