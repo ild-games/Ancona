@@ -39,12 +39,12 @@ class ContainerDrawable : public Drawable
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
-        void Serialize(Archive & arc);
+        void Serialize(Archive & arc) override;
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
          */
-        void FetchDependencies(const Entity & entity);
+        void FetchDependencies(const Entity & entity) override;
 
         /**
          * @brief Adds a drawable to the container drawable
@@ -63,7 +63,7 @@ class ContainerDrawable : public Drawable
         /**
          * @copydoc ild::Drawable::FindDrawable
          */
-        Drawable * FindDrawable(const std::string & key);
+        Drawable * FindDrawable(const std::string & key) override;
 
         /* getters and setters */
         sf::Vector2f size() override;

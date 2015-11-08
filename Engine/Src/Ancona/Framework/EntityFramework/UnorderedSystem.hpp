@@ -85,12 +85,12 @@ class UnorderedSystem : public AbstractSystem
         /**
          * @brief Implementation for AbstractSystem method
          */
-        virtual void Update(float delta) = 0;
+        virtual void Update(float delta) override = 0;
 
         /**
          * @brief Implementation for AbstractSystem method
          */
-        void RemoveComponent(const Entity & entity)
+        void RemoveComponent(const Entity & entity) override
         {
             Assert(_components.find(entity) != _components.end(),
                     "Can not remove a component that does not exist");
@@ -124,7 +124,7 @@ class UnorderedSystem : public AbstractSystem
          *
          * NOTE: This method should only be called by SystemManager
          */
-        void EntityIsDeleted(const Entity & entity)
+        void EntityIsDeleted(const Entity & entity) override
         {
             Assert(_components.find(entity) != _components.end(),
                     "A system should not be notified of an entities deletion if the \
@@ -144,7 +144,7 @@ class UnorderedSystem : public AbstractSystem
         /**
          * @brief Implements a default system serializer. It will serialzie polymorphic and non-polymorphic components.
          */
-        virtual void Serialize(Archive & arc)
+        virtual void Serialize(Archive & arc) override
         {
             Serialize(arc, HasMethod::Serialize<ComponentType, Archive>());
         }
