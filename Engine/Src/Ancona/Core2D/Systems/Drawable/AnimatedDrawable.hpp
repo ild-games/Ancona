@@ -39,12 +39,12 @@ class AnimatedDrawable : public Drawable
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
-        void Serialize(Archive & arc);
+        void Serialize(Archive & arc) override;
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
          */
-        void FetchDependencies(const Entity & entity);
+        void FetchDependencies(const Entity & entity) override;
 
         /**
          * @brief Adds a frame to the AnimatedDrawable
@@ -63,12 +63,12 @@ class AnimatedDrawable : public Drawable
         /**
          * @copydoc ild::Drawable::FindDrawable
          */
-        Drawable * FindDrawable(const std::string & key);
+        Drawable * FindDrawable(const std::string & key) override;
 
         /* getters and setters */
-        sf::Vector2f size();
-        int alpha();
-        void alpha(int alpha);
+        sf::Vector2f size() override;
+        int alpha() override;
+        void alpha(int alpha) override;
 
     private:
         /**
