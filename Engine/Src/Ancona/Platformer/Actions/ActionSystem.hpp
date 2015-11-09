@@ -107,7 +107,6 @@ class ActionSystem : public UnorderedSystem<ActionComponent>
          */
         Point _gravity;
         PositionSystem * _positionSystem;
-        PositionComponent * _position;
 };
 
 }
