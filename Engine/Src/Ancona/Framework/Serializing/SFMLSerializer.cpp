@@ -23,3 +23,20 @@ void Serializer<sf::RectangleShape>::Serialize(sf::RectangleShape & shape, Archi
         shape.setFillColor(color);
     }
 }
+
+void Serializer<sf::CircleShape>::Serialize(sf::CircleShape & shape, Archive & arc){
+    float radius;
+    sf::Color color;
+    if (!arc.loading()) {
+        radius = shape.getRadius();
+        color = shape.getFillColor();
+    }
+    arc(radius, "radius");
+    arc(color, "fillColor");
+
+    if (arc.loading())
+    {
+        shape.setRadius(radius);
+        shape.setFillColor(color);
+    }
+}

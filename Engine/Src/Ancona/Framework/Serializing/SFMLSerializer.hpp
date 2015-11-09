@@ -99,6 +99,12 @@ struct Serializer<sf::RectangleShape>
 };
 
 template <>
+struct Serializer<sf::CircleShape>
+{
+    static void Serialize(sf::CircleShape & shape, Archive & arc);
+};
+
+template <>
 struct Serializer<sf::IntRect>
 {
     static void Serialize(sf::IntRect & rect, Archive & arc)
