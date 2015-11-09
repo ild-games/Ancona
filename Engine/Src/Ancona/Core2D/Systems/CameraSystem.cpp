@@ -36,11 +36,11 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 
 void CameraComponent::MoveCamera()
 {
-    if(_followPhysics != nullptr)
+    if(_followPosition != nullptr)
     {
         _view.setCenter(
-                _followPhysics->GetInfo().position().x,
-                _followPhysics->GetInfo().position().y);
+                _followPosition->position().x,
+                _followPosition->position().y);
     }
     _view.setCenter(_view.getCenter() + _offset);
 }
@@ -68,7 +68,7 @@ void CameraComponent::FetchDependencies(const Entity & entity)
 {
     if(_follows != nullentity)
     {
-        _followPhysics = (*_physicsSystem)[_follows];
+        _followPosition = (*_positionSystem)[_follows];
     }
     _view.setSize(_size);
     _view.setCenter(0, 0);
@@ -88,14 +88,14 @@ void CameraComponent::Serialize(Archive & arc)
     arc(_size, "size");
     arc(_offset, "offset");
     arc.entityUsingJsonKey(_follows, "follows");
-    arc.system(_physicsSystem, "physics");
+    arc.system(_positionSystem, "position");
     arc.system(_drawableSystem, "drawable");
 }
 
 void CameraComponent::follows(Entity follows)
 {
     _follows = follows;
-    _followPhysics = _physicsSystem->at(follows);
+    _followPosition = _positionSystem->at(follows);
 }
 
 /* getters and setters */

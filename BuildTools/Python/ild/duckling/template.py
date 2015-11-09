@@ -8,35 +8,44 @@ import os, shutil, errno, string, pyratemp
 from ild.utils import sscript, stream, ildlib
 
 # git repo where the template game code is stored
-TEMPLATE_GIT_REPO = 'git@bitbucket.org:ilikeducks/ancona-template-game.git'
+TEMPLATE_GIT_REPO = 'git@github.com:tlein/AnconaTemplateGame.git'
+
+# Directory the git repo is temporarily cloned into.
+DEFAULT_TEMPLATE_DIR = "__template__"
 
 ##
 # @brief Starts the template process.
 #
 # @param game_name Name of the game being generated.
 # @param game_abbr Abbreviation of the game being generated.
-# 
-# @returns true if template generation succeeded, otherwise false. 
-def start_template(game_name, game_abbr):
+# @param path (Optional) Path to the template folder that should be used.
+#
+# @returns true if template generation succeeded, otherwise false.
+def start_template(game_name, game_abbr, path=None):
     if game_name == "" or game_abbr == "":
         return False
+
+    remove_temp_directories()
+
+    if path=="" or path == None:
+        clone_default_template_repository(TEMPLATE_GIT_REPO, DEFAULT_TEMPLATE_DIR)
+        template_dir = DEFAULT_TEMPLATE_DIR
+    else:
+        template_dir = os.path.realpath(path)
 
     game_full_name = game_name
     game_name = ''.join(game_name.split(' '))
     succeeded = False
+
     try:
-        prep_work()
-        templatize_project(game_name, game_full_name, game_abbr)
+        templatize_project(template_dir, game_name, game_full_name, game_abbr)
         succeeded = create_prototype_folder(game_name)
     finally:
         remove_temp_directories()
     return succeeded
 
-##
-# @brief Does preperation work for the prototype generation process.
-def prep_work():
-    remove_temp_directories()
-    os.system('git clone ' + TEMPLATE_GIT_REPO + ' __template__')
+def clone_default_template_repository(repo_path, destination):
+    os.system('git clone {} {}'.format(repo_path, destination))
 
 ##
 # @brief Creates the prototype's files and replaces template variable instances to prototype info.
@@ -44,21 +53,23 @@ def prep_work():
 # @param game_name Name of the game being generated.
 # @param game_full_name Name as it was exactly entered by the user (includes spaces).
 # @param game_abbr Abbrevation of the game being generated.
-def templatize_project(game_name, game_full_name, game_abbr):
-    template_files = stream.Stream(sscript.walk_files('__template__')) \
-            .filter(lambda file: not includes_dot_files_or_directories(file))
+def templatize_project(template_dir, game_name, game_full_name, game_abbr):
+    template_files = stream.Stream(sscript.walk_files(template_dir)) \
+            .filter(lambda file: not is_hidden_file(file))
     for old_file in template_files:
-        move_file_to_applied(old_file, game_name, game_full_name, game_abbr)
+        move_file_to_applied(template_dir, old_file, game_name, game_full_name, game_abbr)
 
 ##
 # @brief Examines a file and its path and determines if there are any dot directories in its path or if
-# itself is a dotfile
+# itself is a dotfile.
 #
 # @param file File to examine, can include any amount of its path.
 #
 # @returns True if the file or any of directories in its path begin with '.', otherwise false.
-def includes_dot_files_or_directories(file):
-    return ildlib.any_map(lambda path_part: path_part.startswith('.'), file.split(os.sep))
+def is_hidden_file(file):
+    def ishidden(path_part):
+        return path_part.startswith('.') and not (path_part == '.' or path_part == '..')
+    return ildlib.any_map(ishidden, file.split(os.sep))
 
 ##
 # @brief Moves the pre-templatized file to the applied folder and applies the template logic.
@@ -67,12 +78,12 @@ def includes_dot_files_or_directories(file):
 # @param game_name Name of the game being generated.
 # @param game_full_name Name as it was exactly entered by the user (includes spaces).
 # @param game_abbr Abbreviation of the game being generated.
-def move_file_to_applied(old_file, game_name, game_full_name, game_abbr):
+def move_file_to_applied(template_path,old_file, game_name, game_full_name, game_abbr):
     new_file = old_file \
                 .replace('$!GAME_ABBR!$', game_abbr) \
                 .replace('$!GAME_NAME!$', game_name) \
                 .replace('$!GAME_FULL_NAME!$', game_full_name) \
-                .replace('__template__', '__applied__')
+                .replace(template_path, '__applied__')
     if not os.path.exists(os.path.dirname(new_file)):
         os.makedirs(os.path.dirname(new_file))
     shutil.copyfile(old_file, new_file)
@@ -108,12 +119,14 @@ def create_prototype_folder(game_name):
             shutil.rmtree(project_path)
     if keep_going:
         shutil.copytree('__applied__', 'Test/Prototype/' + game_name)
+
+    os.makedirs(os.path.join(project_path, "Maps"))
     return keep_going
 
 ##
 # @brief removes temporary directories used by the generation process.
 def remove_temp_directories():
-    if os.path.exists('__template__'):
-        shutil.rmtree('__template__')
+    if os.path.exists(DEFAULT_TEMPLATE_DIR):
+        shutil.rmtree(DEFAULT_TEMPLATE_DIR)
     if os.path.exists('__applied__'):
         shutil.rmtree('__applied__')

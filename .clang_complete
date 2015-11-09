@@ -1,1 +1,4 @@
--I Src
+-IEngine/Src
+-Iextlibs/include
+-ITest/ExtLibs/gtest-1.7.0/include
+-ITest/Prototype/EditorMap/Src

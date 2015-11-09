@@ -7,7 +7,7 @@
 
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
@@ -67,7 +67,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         DrawableComponent * CreateComponent(
                 const Entity & entity,
                 Drawable * topDrawable,
-                BasePhysicsSystem * physics);
+                PositionSystem * position);
 
         /**
          * @brief Creates a DrawableComponent on the system.
@@ -80,7 +80,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         DrawableComponent * CreateComponent(
                 const Entity & entity,
                 Drawable * topDrawable,
-                BasePhysicsSystem * physics,
+                PositionSystem * position,
                 CameraComponent * camera);
 
         /* gettes and setters */

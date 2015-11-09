@@ -8,19 +8,20 @@ namespace UpdateStep
 {
     //The namespace is used to prevent the enum values from leaking into
     //the ild namespace.  In order to use a enum value you type
-    //UpdateStep::Update or UpdateStep::Draw.  Without the namespace you 
+    //UpdateStep::Update or UpdateStep::Draw.  Without the namespace you
     //could have typed UpdateStep
-    
-    
+
+
     /**
      * @brief Defines when a system should be updated
      * @author Jeff Swenson
      */
     enum UpdateStep
     {
-        Draw,
         Input,
-        Update
+        Update,
+        Physics,
+        Draw
     };
 }
 

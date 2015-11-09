@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 #define Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Util2D/Collision/Box2.hpp>
 #include <Ancona/Util/Data.hpp>
 
@@ -92,11 +92,11 @@ class CollisionComponent
         CollisionType type();
         BodyTypeEnum bodyType() { return _bodyType; }
         void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
-        BasePhysicsComponent & physicsComponent() { return *_position; }
+        PositionComponent & positionComponent() { return *_position; }
         const Box2 & box() const { return _dim; }
 
     private:
-        BasePhysicsComponent * _position;
+        PositionComponent * _position;
         CollisionSystem * _system;
         Box2 _dim;
         CollisionType _type;

@@ -4,7 +4,7 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ImageDrawable.hpp>
-#include <Ancona/Platformer/Physics/PlatformPhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 
 using namespace ild;
@@ -31,7 +31,7 @@ TEST(DrawableSystem, ImageDrawableSize)
 
     DrawableSystem & drawable = *(new DrawableSystem("drawable", renderWindow, manager));
     CameraSystem & camera = *(new CameraSystem("camera", manager));
-    PlatformPhysicsSystem & physics = *(new PlatformPhysicsSystem("physics", manager));
+    PositionSystem & position = *(new PositionSystem("position", manager));
 
     sf::View view;
     drawable.defaultCamera(camera.CreateComponent(manager.CreateEntity(), view, 0, &drawable, 1.0f));
@@ -39,8 +39,8 @@ TEST(DrawableSystem, ImageDrawableSize)
     sf::Texture * texture = new sf::Texture();
     texture->create(50, 50);
     ImageDrawable * image = new ImageDrawable(texture, 0, "image");
-    physics.CreateComponent(entity);
-    drawable.CreateComponent(entity, image, &physics);
+    position.CreateComponent(entity);
+    drawable.CreateComponent(entity, image, &position);
 
     manager.Update(1, UpdateStep::Draw);
 

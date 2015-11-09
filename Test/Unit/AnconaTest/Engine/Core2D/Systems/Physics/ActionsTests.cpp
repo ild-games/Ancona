@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <Ancona/Platformer/Physics/Actions.hpp>
+#include <Ancona/Platformer/Actions/Actions.hpp>
 
 using namespace ild;
 

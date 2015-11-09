@@ -19,7 +19,7 @@
     "screenCam"
   ],
   "systems": {
-    "physics": {
+    "position": {
       "components": {
         "1": {
           "info": {
@@ -32,7 +32,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "2": {
           "info": {
@@ -45,7 +45,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "3": {
           "info": {
@@ -58,7 +58,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "4": {
           "info": {
@@ -71,7 +71,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "5": {
           "info": {
@@ -84,7 +84,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "6": {
           "info": {
@@ -97,7 +97,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "7": {
           "info": {
@@ -110,7 +110,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "8": {
           "info": {
@@ -123,7 +123,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "9": {
           "info": {
@@ -136,7 +136,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "10": {
           "info": {
@@ -149,7 +149,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "11": {
           "info": {
@@ -162,7 +162,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "12": {
           "info": {
@@ -175,7 +175,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "13": {
           "info": {
@@ -188,7 +188,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         },
         "14": {
           "info": {
@@ -201,7 +201,7 @@
               "y": 0
             }
           },
-          "__cpp_type": "ild::PlatformPhysicsComponent"
+          "__cpp_type": "ild::PositionComponent"
         }
       }
     },

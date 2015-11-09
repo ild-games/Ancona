@@ -1,5 +1,5 @@
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
-#include <Ancona/Core2D/Systems/Physics/BasePhysicsSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 

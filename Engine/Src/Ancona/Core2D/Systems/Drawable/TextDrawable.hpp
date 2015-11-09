@@ -23,14 +23,14 @@ class TextDrawable : public Drawable
         /**
          * @brief An element to draw text to an entity.
          *
-         * @param physicsSystem System that can be used to determine the entity's location.
+         * @param positionSystem System that can be used to determine the entity's location.
          * @param text Text being drawn.
          * @param fontKey Name of font to use.
          * @param color SFML Color of the text.
          * @param characterSize Font size in pixels.
          * @param priority RenderPriority that determines when the sprite is rendered.
          * @param priorityOffset Optional offset to the render priority, defaults to 0.
-         * @param positionOffset Offset coordinates from the PhysicsComponent
+         * @param positionOffset Offset coordinates from the PositionComponent
          * @param smooth Optional bool to determine if the text should be smoothed, defaults to true.
          */
         TextDrawable(
