@@ -33,22 +33,22 @@ class LoadingScreen : public AbstractScreen
          *
          * @param delta Seconds since last update.
          */
-        void Update(float delta);
+        void Update(float delta) override;
 
         /**
          * @brief Draws the default loading bar.
          */
-        virtual void Draw(float delta);
+        virtual void Draw(float delta) override;
 
         /**
          * @brief Used to determine if the screen is still in a state of entering.
          */
-        virtual void Entering(float delta);
+        virtual void Entering(float delta) override;
 
         /**
          * @brief Used to determine if the screen is still in a state of exiting.
          */
-        virtual void Exiting(float delta);
+        virtual void Exiting(float delta) override;
 
         /* getters and setters */
         ScreenSystemsContainer * systemsContainer() override;

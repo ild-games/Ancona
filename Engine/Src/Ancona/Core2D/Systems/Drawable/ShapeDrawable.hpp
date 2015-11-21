@@ -42,12 +42,12 @@ class ShapeDrawable : public Drawable
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
-        void Serialize(Archive & arc);
+        void Serialize(Archive & arc) override;
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
          */
-        void FetchDependencies(const Entity & entity);
+        void FetchDependencies(const Entity & entity) override;
 
         /* getters and setters */
         sf::Vector2f size() override;
