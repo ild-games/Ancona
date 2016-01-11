@@ -23,6 +23,7 @@ include_directories(Engine/Src)
 set(ANCONA_LIBS Ancona_Platformer Ancona_Core2D
     Ancona_Framework Ancona_Util2D Ancona_Util Ancona_System)
 
+
 set(ANCONA_EXT_LIBS sfml-graphics sfml-window sfml-system jsoncpp)
 
 if(ANDROID)
@@ -37,3 +38,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(Engine)
 add_subdirectory(Test)
+

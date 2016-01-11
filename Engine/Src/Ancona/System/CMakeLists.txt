@@ -10,3 +10,4 @@ file(GLOB Ancona_System_Generic_Code *.cpp)
 file(GLOB Ancona_System_Generic_Headers *.hpp)
 
 add_library(Ancona_System ${Ancona_System_Code} ${Ancona_System_Headers} ${Ancona_System_Generic_Code} ${Ancona_System_Generic_Headers})
+install(TARGETS Ancona_System DESTINATION lib)
