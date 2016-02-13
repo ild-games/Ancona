@@ -13,11 +13,9 @@ AbstractLoader::AbstractLoader(
 }
 
 std::string AbstractLoader::GetResourceFileName(
-        const std::string & resourceDir,
         const std::string & resourceKey,
         const std::string & fileExtension)
 {
     return ResourceLibrary::ResourceRoot() + "/" +
-           resourceDir + "/" +
            resourceKey + "." + fileExtension;
 }
