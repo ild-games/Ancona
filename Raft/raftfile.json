@@ -1,0 +1,20 @@
+{
+    "dependencies" : [
+        {
+            "name" : "sfml",
+            "repository" : {
+                "type" : "git",
+                "location" : "https://github.com/SFML/SFML"
+            },
+            "buildSystem" : "cmake"
+        },
+        {
+            "name" : "json_cpp",
+            "repository" : {
+                "type" : "git",
+                "location" : "https://github.com/open-source-parsers/jsoncpp"
+            },
+            "buildSystem" : "cmake"
+        }
+    ]
+}
