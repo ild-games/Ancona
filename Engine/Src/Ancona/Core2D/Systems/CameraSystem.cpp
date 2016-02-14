@@ -111,7 +111,7 @@ void CameraComponent::scale(float scale)
 CameraSystem::CameraSystem(
         std::string name,
         SystemManager & manager) :
-    UnorderedSystem(name, manager, UpdateStep::Update)
+    UnorderedSystem(name, manager, UpdateStep::Draw)
 {
 }
 
