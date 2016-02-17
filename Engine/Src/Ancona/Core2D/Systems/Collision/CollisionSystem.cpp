@@ -7,7 +7,7 @@
 
 using namespace ild;
 
-void nop(const Entity & e1,const Entity & e2) {}
+void nop(const Entity & e1,const Entity & e2,const Point & fixNormal, float fixMagnitude) {}
 
 CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manager, PositionSystem & positions)
     : UnorderedSystem<CollisionComponent>(name, manager,UpdateStep::Physics), _positions(positions)
@@ -198,8 +198,8 @@ void CollisionSystem::HandleCollision(
 
     if(EntitiesOverlapping(fixMagnitude))
     {
-        _callbackTable.Get(typeA, typeB)(pairA.first, pairB.first);
-        _callbackTable.Get(typeB, typeA)(pairB.first, pairA.first);
+        _callbackTable.Get(typeA, typeB)(pairA.first, pairB.first, fixNormal, fixMagnitude);
+        _callbackTable.Get(typeB, typeA)(pairB.first, pairA.first, fixNormal, fixMagnitude);
     }
 }
 

@@ -79,10 +79,11 @@ class Actions
         /**
          * @brief Remove any acceleration that has been caused by gravity.
          */
-        void StopFall();
+        void StopFall(Point velocity);
 
         /* Getters and Setters */
         void position(PositionSystem * positionSystem) { _positionSystem = positionSystem; }
+        const Point & totalGravity() { return _totalGravity; }
 
     private:
         std::vector<VectorActionProxy> _positionActions;

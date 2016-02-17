@@ -59,9 +59,13 @@ static Point TweenPosition(VectorAction & action, float beforeRatio,
         (action.value() - position);
 }
 
-void Actions::StopFall()
+void Actions::StopFall(Point velocity)
 {
-    _totalGravity = Point();
+    //std::cout << _totalGravity.y << " " << fabsf(velocity.y) << std::endl;
+    if (_totalGravity.y > fabsf(velocity.y))
+    {
+        _totalGravity = Point();
+    }
 }
 
 void Actions::ApplyGravity(Point &velocity, float delta)
@@ -115,7 +119,7 @@ void Actions::Apply(PositionComponent & position, float delta)
 
     if(position.onGround())
     {
-        StopFall();
+        StopFall(velocity);
     }
     else if(_affectedByGravity)
     {
