@@ -26,24 +26,27 @@ VectorActionProxy Actions::CreateVelocityAction()
     return action;
 }
 
+JumpActionProxy Actions::CreateJumpAction()
+{
+    auto jumpVelocityAction = CreateVelocityAction();
+    jumpVelocityAction->duration(ActionDuration::PERSISTENT);
+
+    JumpActionProxy action(new JumpAction());
+    action->velocityAction(jumpVelocityAction);
+    _jumpActions.push_back(action);
+
+    return action;
+}
+
 void Actions::Serialize(Archive & arc)
 {
     arc(_velocityActions, "platformVelocityActions");
     arc(_positionActions, "platformPositionActions");
+    arc(_jumpActions, "platformPositionActions");
     arc(_affectedByGravity, "affectedByGravity");
     arc.system(_positionSystem, "position");
 }
 
-void RemoveDoneActions(std::vector<VectorActionProxy> & actions)
-{
-    actions.erase(
-            alg::remove_if(
-                actions,
-                [](VectorActionProxy & action) { return action->Done(); }
-                ),
-            actions.end()
-            );
-}
 
 static Point TweenPosition(VectorAction & action, float beforeRatio,
         const Point & position)
@@ -59,13 +62,9 @@ static Point TweenPosition(VectorAction & action, float beforeRatio,
         (action.value() - position);
 }
 
-void Actions::StopFall(Point velocity)
+void Actions::StopFall()
 {
-    //std::cout << _totalGravity.y << " " << fabsf(velocity.y) << std::endl;
-    if (_totalGravity.y > fabsf(velocity.y))
-    {
-        _totalGravity = Point();
-    }
+    _totalGravity = Point();
 }
 
 void Actions::ApplyGravity(Point &velocity, float delta)
@@ -112,14 +111,25 @@ Point Actions::ApplyVelocityActions(const PositionComponent & position, float de
     return velocity;
 }
 
+void Actions::ApplyJumpActions()
+{
+    for (auto & jumpAction : _jumpActions)
+    {
+        jumpAction->ApplyJumpEvents(_totalGravity);
+    }
+}
+
 void Actions::Apply(PositionComponent & position, float delta)
 {
+    ApplyJumpActions();
+
     //Velocity actions apply additively
     Point velocity = ApplyVelocityActions(position,delta);
 
+    //ApplyGravity(velocity, delta);
     if(position.onGround())
     {
-        StopFall(velocity);
+        StopFall();
     }
     else if(_affectedByGravity)
     {
@@ -139,7 +149,7 @@ void Actions::Apply(PositionComponent & position, float delta)
         _actionVelocity = velocity;
     }
 
-
-    RemoveDoneActions(_velocityActions);
-    RemoveDoneActions(_positionActions);
+    RemoveDoneActions<VectorActionProxy>(_velocityActions);
+    RemoveDoneActions<VectorActionProxy>(_positionActions);
+    RemoveDoneActions<JumpActionProxy>(_jumpActions);
 }

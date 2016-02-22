@@ -16,7 +16,7 @@ class VectorAction : public Action<VectorAction>
 {
     public:
         /**
-         * @brief Buitder style method used to set the value of the action.
+         * @brief Builder style method used to set the value of the action.
          *
          * @param value value that the action will be set to.
          *

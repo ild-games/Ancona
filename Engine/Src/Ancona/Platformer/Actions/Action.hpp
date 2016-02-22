@@ -49,7 +49,7 @@ class Action
         /**
          * Stop any affects that the action has.  Once cancel is called Done will return true.
          */
-        void Cancel()
+        virtual void Cancel()
         {
             _duration = -1;
         };

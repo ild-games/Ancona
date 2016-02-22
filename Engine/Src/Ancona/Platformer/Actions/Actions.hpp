@@ -8,6 +8,7 @@
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 
 #include "VectorAction.hpp"
+#include "JumpAction.hpp"
 
 namespace ild
 {
@@ -21,6 +22,7 @@ const float INSTANT = 0.0f;
 }
 
 typedef std::shared_ptr<VectorAction> VectorActionProxy;
+typedef std::shared_ptr<JumpAction> JumpActionProxy;
 
 /**
  * @brief Actions is used to contain all of the Actions that are effecting
@@ -64,6 +66,8 @@ class Actions
          */
         VectorActionProxy CreateVelocityAction();
 
+        JumpActionProxy CreateJumpAction();
+
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
@@ -79,7 +83,7 @@ class Actions
         /**
          * @brief Remove any acceleration that has been caused by gravity.
          */
-        void StopFall(Point velocity);
+        void StopFall();
 
         /* Getters and Setters */
         void position(PositionSystem * positionSystem) { _positionSystem = positionSystem; }
@@ -88,6 +92,7 @@ class Actions
     private:
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
+        std::vector<JumpActionProxy> _jumpActions;
         Point _actionVelocity;
         Point _totalGravity;
         PositionSystem * _positionSystem;
@@ -100,8 +105,21 @@ class Actions
          */
         void ApplyGravity(Point & velocity, float delta);
 
+        template<typename T>
+        void RemoveDoneActions(std::vector<T> & actions)
+        {
+            actions.erase(
+                alg::remove_if(
+                    actions,
+                    [](T & action) {
+                        return action->Done();
+                    }),
+                actions.end());
+        }
+
         Point ApplyPositionActions(const PositionComponent & position, float delta);
         Point ApplyVelocityActions(const PositionComponent & position, float delta);
+        void ApplyJumpActions();
 
 };
 
