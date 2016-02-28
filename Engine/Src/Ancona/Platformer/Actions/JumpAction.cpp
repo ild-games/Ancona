@@ -33,6 +33,12 @@ sf::Vector2f JumpAction::JumpGravityDifference(sf::Vector2f totalGravity)
     return sf::Vector2f(0, fmin(_velocityAction->value().y + totalGravity.y, 0));
 }
 
+void JumpAction::Cancel()
+{
+    Action::Cancel();
+    _velocityAction->Cancel();
+}
+
 void JumpAction::Serialize(Archive & arc)
 {
     arc(_jumpSpeed, "jumpSpeed");

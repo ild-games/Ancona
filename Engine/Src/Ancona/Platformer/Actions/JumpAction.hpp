@@ -18,6 +18,7 @@ class JumpAction : public Action<JumpAction>
     public:
         void AddEvent(JumpEvent event);
         void ApplyJumpEvents(sf::Vector2f totalGravity);
+        void Cancel() override;
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -25,6 +26,7 @@ class JumpAction : public Action<JumpAction>
         void Serialize(Archive & arc);
 
         /* getters and setters */
+        float jumpSpeed() { return _jumpSpeed; }
         JumpAction * jumpSpeed(float jumpSpeed);
         JumpAction * velocityAction(std::shared_ptr<VectorAction> velocityAction) { _velocityAction = velocityAction; return this; }
         JumpAction * reducedByPercentage(float reducedByPercentage) { _reducedByPercentage = reducedByPercentage; return this; }

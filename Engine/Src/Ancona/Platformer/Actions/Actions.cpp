@@ -38,11 +38,24 @@ JumpActionProxy Actions::CreateJumpAction()
     return action;
 }
 
+RunActionProxy Actions::CreateRunAction()
+{
+    auto runVelocityAction = CreateVelocityAction();
+    runVelocityAction->duration(ActionDuration::PERSISTENT);
+
+    RunActionProxy action(new RunAction());
+    action->velocityAction(runVelocityAction);
+    _runActions.push_back(action);
+
+    return action;
+}
+
 void Actions::Serialize(Archive & arc)
 {
     arc(_velocityActions, "platformVelocityActions");
     arc(_positionActions, "platformPositionActions");
-    arc(_jumpActions, "platformPositionActions");
+    arc(_jumpActions, "platformJumpActions");
+    arc(_runActions, "platformRunActions");
     arc(_affectedByGravity, "affectedByGravity");
     arc.system(_positionSystem, "position");
 }
@@ -119,19 +132,27 @@ void Actions::ApplyJumpActions()
     }
 }
 
+void Actions::ApplyRunActions()
+{
+    for (auto & runAction : _runActions)
+    {
+        runAction->ApplyRunEvents();
+    }
+}
+
 void Actions::Apply(PositionComponent & position, float delta)
 {
     ApplyJumpActions();
+    ApplyRunActions();
 
     //Velocity actions apply additively
     Point velocity = ApplyVelocityActions(position,delta);
 
-    //ApplyGravity(velocity, delta);
-    if(position.onGround())
+    if (position.onGround())
     {
         StopFall();
     }
-    else if(_affectedByGravity)
+    else if (_affectedByGravity)
     {
         ApplyGravity(velocity, delta);
     }
@@ -152,4 +173,5 @@ void Actions::Apply(PositionComponent & position, float delta)
     RemoveDoneActions<VectorActionProxy>(_velocityActions);
     RemoveDoneActions<VectorActionProxy>(_positionActions);
     RemoveDoneActions<JumpActionProxy>(_jumpActions);
+    RemoveDoneActions<RunActionProxy>(_runActions);
 }
