@@ -20,7 +20,7 @@ class Game
          * @brief Construct the Game
          */
         Game(int windowWidth, int windowHeight, const std::string & title);
-        
+
         /**
          * @brief Begin the game loop, run the game
          */
@@ -36,6 +36,9 @@ class Game
          * @brief Window used for rendering the game
          */
         sf::RenderWindow _window;
+
+    private:
+        void ProcessEvent(sf::Event event);
 };
 
 }
