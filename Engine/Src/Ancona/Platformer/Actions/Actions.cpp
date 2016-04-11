@@ -38,12 +38,12 @@ JumpActionProxy Actions::CreateJumpAction()
     return action;
 }
 
-RunActionProxy Actions::CreateRunAction()
+RunActionProxy Actions::CreateRunAction(PositionComponent * positionComponent)
 {
     auto runVelocityAction = CreateVelocityAction();
     runVelocityAction->duration(ActionDuration::PERSISTENT);
 
-    RunActionProxy action(new RunAction());
+    RunActionProxy action(new RunAction(positionComponent));
     action->velocityAction(runVelocityAction);
     _runActions.push_back(action);
 

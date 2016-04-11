@@ -1,6 +1,8 @@
 #ifndef Ancona_Platformer_Action_RunAction_hpp
 #define Ancona_Platformer_Action_RunAction_hpp
 
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+
 #include "VectorAction.hpp"
 
 namespace ild
@@ -17,6 +19,13 @@ enum RunEvent
 class RunAction : public Action<RunAction>
 {
     public:
+        /**
+         * @brief Default constructor, should only be used by the serializer.
+         */
+        RunAction() {}
+
+        RunAction(PositionComponent * positionComponent);
+
         void AddEvent(RunEvent event);
         void ApplyRunEvents();
         void Cancel() override;
@@ -36,7 +45,9 @@ class RunAction : public Action<RunAction>
         float _maxSpeed = 0.0f;
         float _currentSpeed = 0.0f;
         float _acceleration = 0.0f;
+        sf::Vector2f _lastPosition = sf::Vector2f(0.0f, 0.0f);
         std::shared_ptr<VectorAction> _velocityAction;
+        std::unique_ptr<PositionComponent> _positionComponent;
         std::vector<RunEvent> _events;
 
         void GravitateTowards(float destination);

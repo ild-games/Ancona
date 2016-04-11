@@ -88,12 +88,15 @@ class CollisionComponent
          */
         void Serialize(Archive & arc);
 
+        void SetCollisionDimensionPosition();
+
         /* getters and setters */
         CollisionType type();
         BodyTypeEnum bodyType() { return _bodyType; }
         void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
         PositionComponent & positionComponent() { return *_position; }
         const Box2 & box() const { return _dim; }
+        const sf::Vector2f & oneWayNormal() const { return _oneWayNormal; }
 
     private:
         PositionComponent * _position;
@@ -101,6 +104,7 @@ class CollisionComponent
         Box2 _dim;
         CollisionType _type;
         BodyTypeEnum _bodyType;
+        sf::Vector2f _oneWayNormal;
 };
 
 }

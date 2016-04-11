@@ -25,9 +25,14 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Poi
 
 void CollisionComponent::Update()
 {
+    SetCollisionDimensionPosition();
+    _position->groundDirection(Point());
+}
+
+void CollisionComponent::SetCollisionDimensionPosition()
+{
     auto & pos = _position->position();
     _dim.position(pos.x, pos.y);
-    _position->groundDirection(Point());
 }
 
 CollisionType CollisionComponent::type()
@@ -70,6 +75,7 @@ struct Serializer<BodyTypeEnum> {
 void CollisionComponent::Serialize(Archive &arc) {
     arc(_dim, "dimension");
     arc(_bodyType, "bodyType");
+    arc(_oneWayNormal, "oneWayNormal");
     arc.system(_system, "collision");
 
     std::string key;

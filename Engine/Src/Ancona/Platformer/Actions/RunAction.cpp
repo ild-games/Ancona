@@ -1,7 +1,14 @@
 #include <Ancona/Platformer/Actions/RunAction.hpp>
 #include <Ancona/Util/Algorithm/ContainerExtensions.hpp>
 
+#include <iostream>
+
 using namespace ild;
+
+RunAction::RunAction(PositionComponent * positionComponent) :
+    _positionComponent(std::unique_ptr<PositionComponent>(positionComponent))
+{
+}
 
 void RunAction::AddEvent(RunEvent event)
 {
@@ -23,6 +30,12 @@ void RunAction::AddEvent(RunEvent event)
 
 void RunAction::ApplyRunEvents()
 {
+    if (_lastPosition.x == _positionComponent->position().x)
+    {
+        _currentSpeed = 0;
+    }
+    _lastPosition = sf::Vector2f(_positionComponent->position());
+
     if (_events.size() == 0)
     {
         GravitateTowards(0);

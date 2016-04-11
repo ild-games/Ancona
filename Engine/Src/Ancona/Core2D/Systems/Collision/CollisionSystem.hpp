@@ -2,6 +2,7 @@
 #define Ancona_Engine_Core_Systems_Collision_CollisionSystem_H_
 
 #include <functional>
+#include <map>
 #include <vector>
 
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
@@ -106,6 +107,8 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         PositionSystem & _positions;
         std::unordered_map<std::string,CollisionType> _collisionTypes;
         std::unordered_map<CollisionType,std::string> _collisionTypeToKey;
+        std::unordered_map<Entity, std::unordered_map<Entity, bool> > _lastCollisions;
+        std::unordered_map<Entity, std::unordered_map<Entity, bool> > _currentCollisions;
         Point _leftGravityBound;
         Point _rightGravityBound;
         float _maxSlope = 45;
@@ -119,7 +122,8 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         bool EntitiesOverlapping(float fixMagnitude);
 
         void UpdateGravityBounds();
-        void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
+        void FixCollision(EntityComponentPair & a, EntityComponentPair & b, const Point & fixNormal, float fixMagnitude);
+        bool CollisionAllowed(EntityComponentPair & a, EntityComponentPair & b, const Point & finalNormal);
         bool IsOnGround(const Point & groundNormal);
 
         void PushApart(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);

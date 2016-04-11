@@ -18,7 +18,7 @@ Box2::Box2(const sf::Vector2f & position,
 Box2::Box2(float dimX, float dimY)
     : Box2(sf::Vector2f(),sf::Vector2f(dimX,dimY))
 {
-    
+
 }
 
 void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const

@@ -80,7 +80,7 @@ class Actions
          *
          * @return A proxy to the run action.
          */
-        RunActionProxy CreateRunAction();
+        RunActionProxy CreateRunAction(PositionComponent * positionComponent);
 
         /**
          * @copydoc ild::CameraComponent::Serialize
