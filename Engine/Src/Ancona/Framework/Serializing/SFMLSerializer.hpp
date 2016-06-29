@@ -116,6 +116,8 @@ struct Serializer<sf::IntRect>
     }
 };
 
+GENERATE_PRIMITIVE_SERIALIZER(sf::Uint8, asUInt)
+
 }
 
 GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(sf::Shape)

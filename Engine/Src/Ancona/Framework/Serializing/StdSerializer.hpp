@@ -12,7 +12,7 @@ namespace ild {
 const float FLOAT_INF = std::numeric_limits<float>::infinity();
 const double DOUBLE_INF = std::numeric_limits<double>::infinity();
 
-#define GENERATE_STDSERIALIZER(type, method) \
+#define GENERATE_PRIMITIVE_SERIALIZER(type, method) \
     template <> struct Serializer<type> { \
         static void Serialize(type & property, Archive & arc) { \
             if(arc.loading()) { \
@@ -71,19 +71,21 @@ template <> struct Serializer<double> {
     }
 };
 
-GENERATE_STDSERIALIZER(Json::Value::Int, asInt)
+GENERATE_PRIMITIVE_SERIALIZER(Json::Value::Int, asInt)
 
-GENERATE_STDSERIALIZER(bool, asBool)
+GENERATE_PRIMITIVE_SERIALIZER(bool, asBool)
 
-GENERATE_STDSERIALIZER(std::string, asString)
+GENERATE_PRIMITIVE_SERIALIZER(std::string, asString)
 
-GENERATE_STDSERIALIZER(const char*, asCString)
+GENERATE_PRIMITIVE_SERIALIZER(const char*, asCString)
 
-GENERATE_STDSERIALIZER(Json::Value::UInt, asUInt)
+GENERATE_PRIMITIVE_SERIALIZER(Json::Value::UInt, asUInt)
 
-GENERATE_STDSERIALIZER(Json::Value::Int64, asInt64)
+GENERATE_PRIMITIVE_SERIALIZER(Json::Value::Int64, asInt64)
 
-GENERATE_STDSERIALIZER(u_char, asUInt)
+#ifndef _WIN32
+GENERATE_PRIMITIVE_SERIALIZER(u_char, asUInt)
+#endif
 
 template<class T>
 struct Serializer<std::vector<T>> {

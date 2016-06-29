@@ -12,7 +12,11 @@ option(BuildTests "BuildTests" ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
 #Set C++ Version to 11
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wall")
+if(WIN32)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+else()
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wall")
+endif()
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
@@ -24,7 +28,7 @@ set(ANCONA_LIBS Ancona_Platformer Ancona_Core2D
     Ancona_Framework Ancona_Util2D Ancona_Util Ancona_System)
 
 
-set(ANCONA_EXT_LIBS sfml-graphics sfml-window sfml-system jsoncpp)
+set(ANCONA_EXT_LIBS sfml-graphics-d sfml-window-d sfml-system-d jsoncpp)
 
 if(ANDROID)
     set(ANCONA_EXT_LIBS ${ANCONA_EXT_LIBS} android EGL log)
@@ -37,5 +41,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(Engine)
-add_subdirectory(Test)
+
+if(NOT WIN32)
+    add_subdirectory(Test)
+endif()
 
