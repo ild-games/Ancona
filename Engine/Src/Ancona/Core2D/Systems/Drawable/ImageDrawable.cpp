@@ -10,7 +10,7 @@ ImageDrawable::ImageDrawable(
         const int priority,
         const std::string & key,
         bool isWholeImage,
-        sf::IntRect textureRect,
+        Box2 textureRect,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
@@ -29,7 +29,7 @@ ImageDrawable::ImageDrawable(
         const int priority,
         const std::string & key,
         bool isWholeImage,
-        sf::IntRect textureRect,
+        Box2 textureRect,
         int priorityOffset,
         sf::Vector2f positionOffset) :
     Drawable(
@@ -60,12 +60,16 @@ void ImageDrawable::SetupSprite()
 
     if (_isWholeImage)
     {
-        _textureRect.width = _texture->getSize().x;
-        _textureRect.height = _texture->getSize().y;
+		_textureRect.Dimension.x = _texture->getSize().x;
+        _textureRect.Dimension.y = _texture->getSize().y;
     }
 
-    _sprite->setTextureRect(_textureRect);
-    _sprite->setOrigin(_textureRect.width / 2.0f, _textureRect.height / 2.0f);
+	_sprite->setTextureRect(sf::IntRect(
+		_textureRect.Position.x,
+		_textureRect.Position.y,
+		_textureRect.Dimension.x,
+		_textureRect.Dimension.x));
+    _sprite->setOrigin(_textureRect.Dimension.x / 2.0f, _textureRect.Dimension.y / 2.0f);
 }
 
 
@@ -86,8 +90,7 @@ void ImageDrawable::FetchDependencies(const Entity &entity)
 /* getters and setters */
 sf::Vector2f ImageDrawable::size()
 {
-    sf::Vector2f size(_textureRect.width, _textureRect.height);
-    return VectorMath::ComponentMultiplication(size, _scale);
+    return VectorMath::ComponentMultiplication(_textureRect.Dimension, _scale);
 }
 
 void ImageDrawable::alpha(int newAlpha)
