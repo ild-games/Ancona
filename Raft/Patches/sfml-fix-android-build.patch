@@ -34,7 +34,7 @@ index fb320b0..70afe4b 100644
 -    # install Android.mk so the NDK knows how to set up SFML
 -    install(FILES src/SFML/Android.mk DESTINATION .)
 -
-+    install(DIRECTORY extlibs/libs-android/${ANDROID_ABI} DESTINATION .)
++    install(DIRECTORY extlibs/libs-android/${ANDROID_ABI} DESTINATION ../lib)
  endif()
 -- 
 1.9.1
