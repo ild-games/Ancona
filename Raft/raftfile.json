@@ -6,7 +6,8 @@
                 "type" : "git",
                 "location" : "https://github.com/SFML/SFML"
             },
-            "buildSystem" : "cmake"
+            "buildSystem" : "cmake",
+            "patch" : "sfml-fix-android-build.patch"
         },
         {
             "name" : "json_cpp",
@@ -14,7 +15,13 @@
                 "type" : "git",
                 "location" : "https://github.com/open-source-parsers/jsoncpp"
             },
-            "buildSystem" : "cmake"
+            "buildSystem" : "cmake",
+            "configOptions" : [
+                { 
+                    name: "JSONCPP_WITH_TESTS",
+                    value: "OFF"
+                }
+            ]
         }
     ]
 }

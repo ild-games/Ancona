@@ -1,0 +1,38 @@
+From fbd1a46394e88f37eedb412b1270e5086b07b9ad Mon Sep 17 00:00:00 2001
+From: Jeff <jeffswenson@betterthannull.com>
+Date: Sat, 6 Aug 2016 11:28:48 -0700
+Subject: [PATCH] Fix android build.
+
+---
+ CMakeLists.txt | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index deda625..35bb5f1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -97,12 +97,6 @@ if(SFML_OS_ANDROID)
+         message(WARNING "CMake might not properly support setting the STL. Make sure to adjust all generated library projects!")
+     endif()
+ 
+-    # install everything in $NDK/sources/ because this path is appended by the NDK (convenient)
+-    set(CMAKE_INSTALL_PREFIX ${ANDROID_NDK}/sources/sfml)
+-
+-    # we install libs in a subdirectory named after the ABI (lib/mips/*.so)
+-    set(LIB_SUFFIX "/${ANDROID_ABI}")
+-
+     # pass shared STL configuration (if any)
+     if (ANDROID_STL MATCHES "_shared")
+         add_definitions("-DSTL_LIBRARY=${ANDROID_STL}")
+@@ -192,7 +186,7 @@ if(SFML_OS_MACOSX)
+         message(FATAL_ERROR "Only 64-bit architecture is supported")
+         return()
+     endif()
+-        
++
+     # configure Xcode templates
+     set(XCODE_TEMPLATES_ARCH "\$(NATIVE_ARCH_ACTUAL)")
+ endif()
+-- 
+1.9.1
+
