@@ -1,0 +1,41 @@
+From a50af2e068a2c8d3f2b07f12ccb6965ecf3f9fbc Mon Sep 17 00:00:00 2001
+From: Jeff <jeffswenson@betterthannull.com>
+Date: Sat, 6 Aug 2016 14:44:48 -0700
+Subject: [PATCH] Fix Android Install
+
+---
+ CMakeLists.txt | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fb320b0..70afe4b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -98,10 +98,10 @@ if(SFML_OS_ANDROID)
+     endif()
+ 
+     # install everything in $NDK/sources/ because this path is appended by the NDK (convenient)
+-    set(CMAKE_INSTALL_PREFIX ${ANDROID_NDK}/sources/sfml)
++    #set(CMAKE_INSTALL_PREFIX ${ANDROID_NDK}/sources/sfml)
+ 
+     # we install libs in a subdirectory named after the ABI (lib/mips/*.so)
+-    set(LIB_SUFFIX "/${ANDROID_ABI}")
++    #set(LIB_SUFFIX "/${ANDROID_ABI}")
+ 
+     # pass shared STL configuration (if any)
+     if (ANDROID_STL MATCHES "_shared")
+@@ -381,10 +381,5 @@ elseif(SFML_OS_IOS)
+ elseif(SFML_OS_ANDROID)
+ 
+     # install extlibs
+-    install(DIRECTORY extlibs/libs-android/${ANDROID_ABI} DESTINATION extlibs/lib)
+-    install(FILES extlibs/Android.mk DESTINATION extlibs)
+-
+-    # install Android.mk so the NDK knows how to set up SFML
+-    install(FILES src/SFML/Android.mk DESTINATION .)
+-
++    install(DIRECTORY extlibs/libs-android/${ANDROID_ABI}/ DESTINATION lib)
+ endif()
+-- 
+1.9.1
+
