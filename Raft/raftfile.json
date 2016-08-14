@@ -7,7 +7,7 @@
                 "location" : "https://github.com/SFML/SFML"
             },
             "buildSystem" : "cmake",
-            "patch" : "Patches/sfml-fix-android-build.patch"
+            "patches" : ["Patches/sfml-fix-android-build.patch"]
         },
         {
             "name" : "json_cpp",
