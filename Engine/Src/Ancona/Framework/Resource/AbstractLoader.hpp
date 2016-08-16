@@ -58,8 +58,6 @@ class AbstractLoader
         /**
          * @brief Return a string that describes the resource file location
          *
-         * @param resourceDir Resource directory where the resource is 
-         * located. Relative to the Resource root directory
          * @param resourceKey Filename (without extension) of resource to
          * load
          * @param fileExtension allowed filetype
@@ -67,8 +65,7 @@ class AbstractLoader
          * @return String that describes the resource file location
          */
         std::string GetResourceFileName(
-                const std::string & resourceDir, 
-                const std::string & resourceKey, 
+                const std::string & resourceKey,
                 const std::string & fileExtension);
 };
 
