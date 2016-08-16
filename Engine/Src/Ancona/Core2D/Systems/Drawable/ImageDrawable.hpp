@@ -23,16 +23,13 @@ class ImageDrawable : public Drawable
 
         /**
          * @brief Constructs an ImageDrawable
-         *
-         * @param textureKey Key for the texture
-         * @param textureRect IntRect that describes the rectangle of the texture to display.
          */
         ImageDrawable(
                 std::string textureKey,
                 const int priority,
                 const std::string & key,
                 bool isWholeImage = true,
-                sf::IntRect textureRect = sf::IntRect(0, 0, 0, 0),
+                Box2 textureRect = Box2(sf::Vector2f(0, 0), sf::Vector2f(0, 0)),
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0, 0));
 
@@ -47,7 +44,7 @@ class ImageDrawable : public Drawable
                 const int priority,
                 const std::string & key,
                 bool isWholeImage = true,
-                sf::IntRect textureRect = sf::IntRect(0, 0, 0, 0),
+                Box2 textureRect = Box2(sf::Vector2f(0, 0), sf::Vector2f(0, 0)),
                 int priorityOffset = 0,
                 sf::Vector2f positionOffset = sf::Vector2f(0, 0));
 
@@ -67,7 +64,7 @@ class ImageDrawable : public Drawable
         int alpha() override;
     private:
         std::string _textureKey = "";
-        sf::IntRect _textureRect;
+        Box2 _textureRect;
         sf::Texture * _texture = nullptr;
         bool _isWholeImage;
         std::unique_ptr<sf::Sprite> _sprite;
