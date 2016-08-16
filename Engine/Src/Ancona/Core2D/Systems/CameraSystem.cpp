@@ -100,10 +100,10 @@ void CameraComponent::follows(Entity follows)
 
 /* getters and setters */
 void CameraComponent::scale(float scale)
-{ 
+{
     Assert(scale != float(0), "Scale cannot be 0");
     _view.zoom(1 / _scale);
-    _scale = scale; 
+    _scale = scale;
     _view.zoom(_scale);
 }
 
@@ -111,7 +111,7 @@ void CameraComponent::scale(float scale)
 CameraSystem::CameraSystem(
         std::string name,
         SystemManager & manager) :
-    UnorderedSystem(name, manager, UpdateStep::Update)
+    UnorderedSystem(name, manager, UpdateStep::Draw)
 {
 }
 
