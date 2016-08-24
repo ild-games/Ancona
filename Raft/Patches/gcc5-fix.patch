@@ -1,0 +1,33 @@
+From 3383b4a472f0bd16a8161fb8760cd3e6333f1782 Mon Sep 17 00:00:00 2001
+From: David Yip <yipdw@member.fsf.org>
+Date: Sun, 8 May 2016 20:24:35 -0500
+Subject: [PATCH] A workaround for lingering GCC 5.3 errors.
+
+See also:
+
+* https://github.com/nothings/stb/issues/280
+* https://bugs.launchpad.net/ubuntu/+source/gcc-5/+bug/1568899
+---
+ src/SFML/Graphics/CMakeLists.txt | 7 +++++++
+ 1 file changed, 7 insertions(+), 0 deletions(-)
+
+diff --git a/src/SFML/Graphics/CMakeLists.txt b/src/SFML/Graphics/CMakeLists.txt
+index 6f02fb6..bdc84e7 100644
+--- a/src/SFML/Graphics/CMakeLists.txt
++++ b/src/SFML/Graphics/CMakeLists.txt
+@@ -148,6 +148,13 @@ add_definitions(-DSTBI_FAILURE_USERMSG)
+ # when gcc is used; otherwise saving PNGs may crash in stb_image_write
+ if(SFML_COMPILER_GCC)
+     set_source_files_properties(${SRCROOT}/ImageLoader.cpp PROPERTIES COMPILE_FLAGS -fno-strict-aliasing)
++
++endif()
++
++# see https://bugs.launchpad.net/ubuntu/+source/gcc-5/+bug/1568899
++if(SFML_COMPILER_GCC AND BUILD_SHARED_LIBS)
++    message(WARNING "Applying workaround for https://bugs.launchpad.net/ubuntu/+source/gcc-5/+bug/1568899")
++    list(APPEND GRAPHICS_EXT_LIBS "-lgcc_s -lgcc")
+ endif()
+ 
+ # define the sfml-graphics target
+--
+libgit2 0.24.0

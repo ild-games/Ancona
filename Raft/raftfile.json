@@ -16,6 +16,7 @@
                 "location" : "https://github.com/open-source-parsers/jsoncpp"
             },
             "buildSystem" : "cmake",
+	    "patches": ["Patches/jsoncpp-remove-locale.patch"],
             "configOptions" : [{
                 "name": "JSONCPP_WITH_TESTS",
                 "value": "OFF"
