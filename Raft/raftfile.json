@@ -4,16 +4,18 @@
             "name" : "sfml",
             "repository" : {
                 "type" : "git",
-                "location" : "https://github.com/SFML/SFML"
+                "location" : "https://github.com/SFML/SFML",
+                "branch": "tags/2.4.0"
             },
             "buildSystem" : "cmake",
-            "patches" : ["Patches/sfml-fix-android-build.patch"]
+            "patches" : ["Patches/sfml-fix-android-build.patch", "Patches/gcc5-fix.patch"]
         },
         {
             "name" : "json_cpp",
             "repository" : {
                 "type" : "git",
-                "location" : "https://github.com/open-source-parsers/jsoncpp"
+                "location" : "https://github.com/open-source-parsers/jsoncpp",
+                "branch": "tags/1.7.3"
             },
             "buildSystem" : "cmake",
             "configOptions" : [{
