@@ -55,7 +55,7 @@ DrawableComponent * DrawableSystem::CreateComponent(
 
     if(alg::find(_cameras, camera) == _cameras.end())
     {
-        _cameras.push_back(camera); 
+        _cameras.push_back(camera);
     }
 
     AttachComponent(entity, comp);

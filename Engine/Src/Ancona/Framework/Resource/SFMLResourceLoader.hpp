@@ -42,7 +42,6 @@ class SFMLResourceLoader : public AbstractLoader
         {
             SFMLType * object = new SFMLType();
             std::string fileName = GetResourceFileName(
-                    _directory,
                     resourceKey,
                     _fileExtension);
 

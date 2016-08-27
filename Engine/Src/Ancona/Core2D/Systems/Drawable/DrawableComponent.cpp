@@ -37,6 +37,7 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
     if(_camEntity == nullentity)
     {
         _camera = _drawableSystem->defaultCamera();
+        Assert(_drawableSystem->defaultCamera() != nullptr, "Default camera not set");
     }
     else
     {

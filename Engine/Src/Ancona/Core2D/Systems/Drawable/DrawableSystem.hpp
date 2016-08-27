@@ -1,7 +1,7 @@
 #ifndef Ancona_Engine_Core_Systems_DrawableSystem_H_
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
-#include <vector> 
+#include <vector>
 
 #include <SFML/Window.hpp>
 
@@ -104,7 +104,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief Default camera to use for drawable components.
          */
-        CameraComponent * _defaultCamera;
+        CameraComponent * _defaultCamera = nullptr;
 };
 
 
