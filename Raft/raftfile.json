@@ -7,16 +7,16 @@
                 "location" : "https://github.com/SFML/SFML"
             },
             "buildSystem" : "cmake",
-            "patches" : ["Patches/sfml-fix-android-build.patch"]
+            "patches" : ["Patches/sfml-fix-android-build.patch", "Patches/gcc5-fix.patch"]
         },
         {
             "name" : "json_cpp",
             "repository" : {
                 "type" : "git",
-                "location" : "https://github.com/open-source-parsers/jsoncpp"
+                "location" : "https://github.com/open-source-parsers/jsoncpp",
+		"branch": "tags/1.7.3"
             },
             "buildSystem" : "cmake",
-	    "patches": ["Patches/jsoncpp-remove-locale.patch"],
             "configOptions" : [{
                 "name": "JSONCPP_WITH_TESTS",
                 "value": "OFF"

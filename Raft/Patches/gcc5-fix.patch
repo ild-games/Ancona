@@ -23,7 +23,7 @@ index 6f02fb6..bdc84e7 100644
 +endif()
 +
 +# see https://bugs.launchpad.net/ubuntu/+source/gcc-5/+bug/1568899
-+if(SFML_COMPILER_GCC AND BUILD_SHARED_LIBS)
++if(SFML_COMPILER_GCC AND BUILD_SHARED_LIBS AND NOT SFML_OS_ANDROID)
 +    message(WARNING "Applying workaround for https://bugs.launchpad.net/ubuntu/+source/gcc-5/+bug/1568899")
 +    list(APPEND GRAPHICS_EXT_LIBS "-lgcc_s -lgcc")
  endif()
