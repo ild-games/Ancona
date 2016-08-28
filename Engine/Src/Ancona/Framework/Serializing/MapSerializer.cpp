@@ -4,11 +4,11 @@
 using namespace ild;
 
 MapSerializer::MapSerializer(
-        std::string key, 
+        std::string key,
         ScreenSystemsContainer & systems,
         bool loading,
         bool snapshotSave) :
-    _key(key), 
+    _key(key),
     _request(new RequestList()),
     _loadingContext(new SerializingContext(systems)),
     _profile(systems.profile()),
@@ -50,7 +50,7 @@ void MapSerializer::LoadMapFile()
     _saveProfileRoot = _saveRoot["profiles"][_profile];
     _mapName = _saveProfileRoot["screen-maps"][_key].asString();
     Assert(_mapName != "", "Cannot have a null map");
-    std::string mapFileName = "Maps/" + _mapName + ".map";
+    std::string mapFileName = "maps/" + _mapName + ".map";
 
     auto mapStream = FileOperations::GetInputFileStream(mapFileName);
     reader.parse(*mapStream, _mapRoot);
@@ -76,7 +76,7 @@ void MapSerializer::LoadAssets()
         _state = SerializerState::LoadingEntities;
         return;
     }
-    if(ResourceLibrary::DoneLoading(*_request)) 
+    if(ResourceLibrary::DoneLoading(*_request))
     {
         _state = SerializerState::LoadingEntities;
     }
@@ -144,6 +144,6 @@ void MapSerializer::SaveMapFiles()
     _saveRoot["profiles"][_profile] = _saveProfileRoot;
     (*saveStream) << _saveRoot;
 
-    auto mapStream = FileOperations::GetOutputFileStream("Maps/" + _mapName + ".map");
+    auto mapStream = FileOperations::GetOutputFileStream("maps/" + _mapName + ".map");
     (*mapStream) << _mapRoot;
 }
