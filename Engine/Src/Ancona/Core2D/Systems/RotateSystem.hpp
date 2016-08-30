@@ -37,6 +37,9 @@ class RotateComponent
          */
         void Update(float delta);
 
+        /* getters and setters */
+        float speed() { return _speed; }
+        void speed(float speed) { _speed = speed; }
     private:
         DrawableSystem * _drawableSystem;
         DrawableComponent * _drawableComponent;
