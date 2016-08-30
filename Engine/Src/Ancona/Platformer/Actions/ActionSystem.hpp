@@ -22,9 +22,8 @@ class ActionComponent
 {
     public:
         /**
-         * @brief Initialize the platform position component with the given location.
+         * @brief Initialize a new action copmonent
          *
-         * @param location Location to initialize the component at.
          * @param actionSystem Action system that the component belongs to.
          */
         ActionComponent(ActionSystem * actionSystem);
@@ -67,7 +66,7 @@ class ActionSystem : public UnorderedSystem<ActionComponent>
     public:
 
         /**
-         * @brief Construct and initialize the PositionSystem.
+         * @brief Construct and initialize the ActionSystem.
          *
          * @param systemName Name of the system.
          * @param manager System manager the position system belongs to.
@@ -79,12 +78,7 @@ class ActionSystem : public UnorderedSystem<ActionComponent>
                 PositionSystem * positionSystem);
 
         /**
-         * @brief Update all of the components in the position system.
-         *
-         * Update Process:
-         * 1. Apply Actions
-         * 2. Fix solid body collisions.
-         * 3. Call collision handling code.
+         * @brief Update all of the components in the action system
          *
          * @param delta Time passed in seconds since the last update.
          */
