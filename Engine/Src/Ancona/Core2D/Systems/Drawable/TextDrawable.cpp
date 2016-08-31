@@ -24,7 +24,7 @@ TextDrawable::TextDrawable(
             positionOffset)
 {
      _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
-     _text->setColor(color);
+     _text->setFillColor(color);
      _text->setCharacterSize(characterSize);
      if(!smooth)
      {
@@ -71,15 +71,15 @@ sf::Vector2f TextDrawable::size()
 
 int TextDrawable::alpha()
 {
-    return _text->getColor().a;
+    return _text->getFillColor().a;
 }
 
 void TextDrawable::alpha(int alpha)
 {
     sf::Color * col = 
-        new sf::Color(_text->getColor());
+        new sf::Color(_text->getFillColor());
     col->a = alpha;
-    _text->setColor(*col);
+    _text->setFillColor(*col);
     delete col;
 }
 

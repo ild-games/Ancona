@@ -17,9 +17,9 @@ namespace ild
 
 GENERATE_METHOD_TESTER(FetchDependencies);
 
-/** 
+/**
  * @brief Implements most of the logic needed by a system for tracking components.
- * Any system that does not need its components stored in a specific order should 
+ * Any system that does not need its components stored in a specific order should
  * inherit from this class.
  *
  * Note: All components in the system will be destroyed when the system is destroyed.
@@ -53,7 +53,7 @@ class UnorderedSystem : public AbstractSystem
          */
         UnorderedSystem(
                 std::string systemName,
-                SystemManager & manager, 
+                SystemManager & manager,
                 UpdateStepEnum updateStep) :
             AbstractSystem(systemName, manager, updateStep)
         { }
@@ -92,11 +92,18 @@ class UnorderedSystem : public AbstractSystem
          */
         void RemoveComponent(const Entity & entity) override
         {
-            Assert(_components.find(entity) != _components.end(),
-                    "Can not remove a component that does not exist");
+            Assert(EntityHasComponent(entity), "Can not remove a component that does not exist");
 
-            EntityIsDeleted(entity); 
+            EntityIsDeleted(entity);
             _systemManager.UnregisterComponent(entity, this);
+        }
+
+        /**
+         * @brief Implementation for AbstractSystem method
+         */
+        bool EntityHasComponent(const Entity & entity) override
+        {
+            return _components.find(entity) != _components.end();
         }
 
         /**
@@ -114,7 +121,7 @@ class UnorderedSystem : public AbstractSystem
         {
             for(Entity & entity : _deleteComponentQueue)
             {
-                RemoveComponent(entity); 
+                RemoveComponent(entity);
             }
             _deleteComponentQueue.clear();
         }
@@ -126,7 +133,7 @@ class UnorderedSystem : public AbstractSystem
          */
         void EntityIsDeleted(const Entity & entity) override
         {
-            Assert(_components.find(entity) != _components.end(),
+            Assert(EntityHasComponent(entity),
                     "A system should not be notified of an entities deletion if the \
                     system does not contain a component for the entity");
 
@@ -166,7 +173,7 @@ class UnorderedSystem : public AbstractSystem
                 arc.EnterProperty("components");
                 for(auto entityKey : arc.CurrentBranch().getMemberNames())
                 {
-                    ComponentType * value; 
+                    ComponentType * value;
                     arc(value, entityKey);
                     auto entity = arc.entity(entityKey);
                     AttachComponent(entity, value);
@@ -176,9 +183,9 @@ class UnorderedSystem : public AbstractSystem
             else
             {
                 arc.EnterProperty("components");
-                const std::vector<std::string> & entityKeysToSave = 
-                    arc.snapshotSave() ? 
-                        arc.CurrentBranch().getMemberNames() : 
+                const std::vector<std::string> & entityKeysToSave =
+                    arc.snapshotSave() ?
+                        arc.CurrentBranch().getMemberNames() :
                         _systemManager.entitySaveableSystems()[_systemName];
                 for(auto entityKey : entityKeysToSave)
                 {
@@ -195,7 +202,7 @@ class UnorderedSystem : public AbstractSystem
             Assert(false, "Cannot serialize system if its components lack a serialize method.");
         }
 
-        bool FetchDependencies(const Entity & entity, std::true_type) 
+        bool FetchDependencies(const Entity & entity, std::true_type)
         {
             (*this)[entity]->FetchDependencies(entity);
             return true;
@@ -220,7 +227,7 @@ class UnorderedSystem : public AbstractSystem
          * components.
          */
         typedef typename std::unordered_map<Entity, ComponentType *>::iterator EntityComponentIter;
-        
+
         /**
          * @brief EntityComponentPair should be used as the types in for each loops iterating over the component
          */
@@ -237,7 +244,7 @@ class UnorderedSystem : public AbstractSystem
         virtual void OnComponentRemove(Entity entity, ComponentType * component) {};
 
         /**
-         * @brief Get at iterator to the first component in the system.  No order of 
+         * @brief Get at iterator to the first component in the system.  No order of
          * components is guaranteed
          *
          * @return An iterator that can be used to iterate over the components
@@ -267,8 +274,7 @@ class UnorderedSystem : public AbstractSystem
         virtual void AttachComponent(const Entity & entity, ComponentType * component)
         {
             Assert(component != NULL, "Can not attach a null component");
-            Assert(_components.find(entity) == _components.end(),
-                    "Can not attach two of the same component to an entity");
+            Assert(!EntityHasComponent(entity), "Can not attach two of the same component to an entity");
 
             _components[entity] = component;
             _systemManager.RegisterComponent(entity, this);
