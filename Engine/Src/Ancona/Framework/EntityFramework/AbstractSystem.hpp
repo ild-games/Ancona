@@ -8,21 +8,21 @@
 #include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Util/Assert.hpp>
 
-namespace ild 
+namespace ild
 {
 
 class Archive;
 class SystemManager;
 
 /**
- * @brief Class that all systems must indirectly inherit from. It is used to hide the 
+ * @brief Class that all systems must indirectly inherit from. It is used to hide the
  *  component type of the system from the system manager.
  *
  * Note: Systems cannot be allocated on the stack.
  *
  * @author Jeff Swenson
  */
-class AbstractSystem 
+class AbstractSystem
 {
     public:
         /**
@@ -59,6 +59,15 @@ class AbstractSystem
         virtual void RemoveComponent(const Entity & entity) = 0;
 
         /**
+         * @brief Checks if the given entity has the component managed by this system.
+         *
+         * @param  entity Entity to check if it has the component
+         *
+         * @return True if the entity has the component, otherwise false.
+         */
+        virtual bool EntityHasComponent(const Entity & entity) = 0;
+
+        /**
          * @brief Queues the component on the passed in entity for deletion. The deletion will happen
          *        at the end of the update step.
          *
@@ -72,25 +81,25 @@ class AbstractSystem
         virtual void DeleteQueuedComponents() = 0;
 
         /**
-         * @brief Remove any component managed by the system that is attached to the entity.  
-         *  The system will NOT notify the systemManager that the component was removed.  This 
+         * @brief Remove any component managed by the system that is attached to the entity.
+         *  The system will NOT notify the systemManager that the component was removed.  This
          *  should only be used when the entity is being deleted by SystemManager.
          *
          * @param entity Entity that is being deleted
          */
         virtual void EntityIsDeleted(const Entity & entity) = 0;
-        
+
         /**
          * @brief Default serialize for a system, should never be reached.
          */
-        virtual void Serialize(Archive & arc) 
+        virtual void Serialize(Archive & arc)
         {
             Assert(false, "No serializer implemented for this system.");
         }
 
         /**
          * @brief Used to collect the dependent components for the component made by this system.
-         *        This is called after the component is initialized, but can also be used whenever 
+         *        This is called after the component is initialized, but can also be used whenever
          *        the location of its dependencies in memory may have changed.
          *
          * @param entity Entity the component is associated with.
@@ -106,4 +115,3 @@ class AbstractSystem
 
 
 #endif
-

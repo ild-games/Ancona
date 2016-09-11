@@ -3,7 +3,8 @@
 using namespace ild;
 
 /* Component */
-RotateComponent::RotateComponent()
+RotateComponent::RotateComponent(RotateSystem * rotateSystem) :
+    _drawableSystem(rotateSystem->drawableSystem())
 {
 }
 
@@ -36,8 +37,10 @@ void RotateComponent::FetchDependencies(const Entity &entity)
 /* System */
 RotateSystem::RotateSystem(
         std::string name,
-        SystemManager &manager) :
-    UnorderedSystem(name, manager, UpdateStep::Update)
+        SystemManager &manager,
+        DrawableSystem * drawableSystem) :
+    UnorderedSystem(name, manager, UpdateStep::Update),
+    _drawableSystem(drawableSystem)
 {
 }
 
@@ -51,7 +54,7 @@ void RotateSystem::Update(float delta)
 
 RotateComponent * RotateSystem::CreateComponent(const Entity &entity)
 {
-    RotateComponent * comp = new RotateComponent();
+    RotateComponent * comp = new RotateComponent(this);
     AttachComponent(entity, comp);
     return comp;
 }

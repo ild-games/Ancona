@@ -7,7 +7,7 @@ namespace ild
 class InputControlComponent;
 
 /**
- * @brief Abstract input handler used to collect input for 
+ * @brief Abstract input handler used to collect input for
  *        specific actions
  *
  * @author Tucker Lein
@@ -19,10 +19,9 @@ class InputHandler
          * @brief Gathers the input for this specific control
          *        device
          */
-        virtual void HandleInput() = 0;
+        virtual void HandleInput(float delta) = 0;
 };
 
 }
 
 #endif
-

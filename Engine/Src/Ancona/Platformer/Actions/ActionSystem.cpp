@@ -4,6 +4,7 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::ActionComponent);
 
 using namespace ild;
 
+/* Component */
 ActionComponent::ActionComponent(ActionSystem * actionSystem) :
     _actions(actionSystem->positionSystem()),
     _positionSystem(actionSystem->positionSystem())
@@ -27,12 +28,13 @@ void ActionComponent::FetchDependencies(const Entity & entity)
     _position = _positionSystem->at(entity);
 }
 
+/* System */
 ActionSystem::ActionSystem(
         std::string systemName,
         SystemManager & manager,
         PositionSystem * positionSystem) :
-            UnorderedSystem<ActionComponent>(systemName, manager, UpdateStep::Update),
-            _positionSystem(positionSystem)
+    UnorderedSystem<ActionComponent>(systemName, manager, UpdateStep::Update),
+    _positionSystem(positionSystem)
 {
 }
 

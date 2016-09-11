@@ -3,12 +3,12 @@
 using namespace ild;
 
 InputControlComponent::InputControlComponent(
-        InputHandler & handler) 
+        InputHandler & handler)
     : _handler(handler)
 {
 }
 
 void InputControlComponent::Update(float delta)
 {
-    _handler.HandleInput();    
+    _handler.HandleInput(delta);    
 }
