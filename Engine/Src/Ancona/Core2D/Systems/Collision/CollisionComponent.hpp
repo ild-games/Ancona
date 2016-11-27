@@ -50,11 +50,16 @@ class CollisionComponent
          * @brief Construct a collision component.
          *
          * @param collisionSystem The system describing the entities position.
-         * @param dim A vector describing the entities dimmension.
+         * @param dim A box describing the entities dimmension.
          * @param type Type of entity for collisions.
          * @param bodyType BodyType of the collision component.  Determines how collision fixing is performed.
          */
-        CollisionComponent(CollisionSystem * collisionSystem, const sf::Vector3f & dim, CollisionType type, BodyTypeEnum bodyType);
+        CollisionComponent(
+            CollisionSystem * collisionSystem,
+            const Box2 & dim,
+            const sf::Vector2f & scale,
+            CollisionType type,
+            BodyTypeEnum bodyType);
 
         /*
          * Constructor that should only be used by the loading system.
@@ -94,11 +99,14 @@ class CollisionComponent
         void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
         PositionComponent & positionComponent() { return *_position; }
         const Box2 & box() const { return _dim; }
+        const sf::Vector2f & scale() const { return _scale; }
+        void scale(const sf::Vector2f & scale) { _scale = scale; }
 
     private:
         PositionComponent * _position;
         CollisionSystem * _system;
         Box2 _dim;
+        sf::Vector2f _scale;
         CollisionType _type;
         BodyTypeEnum _bodyType;
 };

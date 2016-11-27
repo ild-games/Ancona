@@ -9,11 +9,17 @@ static DualMap<std::string, BodyTypeEnum> BodyTypeEnumStringMap {
         { "environment", BodyType::Environment }
 };
 
-CollisionComponent::CollisionComponent(CollisionSystem * collisionSystem,
-        const sf::Vector3f & dim,
+CollisionComponent::CollisionComponent(
+        CollisionSystem * collisionSystem,
+        const Box2 & dim,
+        const sf::Vector2f & scale,
         CollisionType type,
-        BodyTypeEnum bodyType)
-    : _system(collisionSystem), _dim(dim.x,dim.y), _type(type), _bodyType(bodyType)
+        BodyTypeEnum bodyType) :
+    _system(collisionSystem),
+    _dim(dim),
+    _scale(scale),
+    _type(type),
+    _bodyType(bodyType)
 {
 
 }
@@ -69,6 +75,7 @@ struct Serializer<BodyTypeEnum> {
 
 void CollisionComponent::Serialize(Archive &arc) {
     arc(_dim, "dimension");
+    arc(_scale, "scale");
     arc(_bodyType, "bodyType");
     arc.system(_system, "collision");
 

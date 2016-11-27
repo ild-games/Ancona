@@ -46,16 +46,19 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          *
          * @param entity Entity that the component is attached to.
          * @param dim Dimension for the entity to be used for collision.
+         * @param scale Scale of the collision component.
          * @param type The collision type of the entity.
          * @param bodyType The body type of the entity.  Determines how collision fixing
          *  is handled for it. Defaults to BodyType::None.
          *
          * @return A pointer to the component.
          */
-        CollisionComponent * CreateComponent(const Entity & entity,
-                const sf::Vector3f & dim,
-                CollisionType type,
-                BodyTypeEnum bodyType = BodyType::None);
+        CollisionComponent * CreateComponent(
+            const Entity & entity,
+            const Box2 & dim,
+            const sf::Vector2f & scale,
+            CollisionType type,
+            BodyTypeEnum bodyType = BodyType::None);
 
         /**
          * @brief Create a Type that can be assigned to a component.

@@ -37,7 +37,7 @@ void Drawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, flo
 sf::Transform Drawable::CalculateTransforms()
 {
     sf::Transform transform;
-    transform.translate(_positionOffset).rotate(_rotation).scale(_scale);
+    transform.translate(_positionOffset).scale(_scale).rotate(_rotation);
     return transform;
 }
 
@@ -53,4 +53,3 @@ Drawable * Drawable::FindDrawable(const std::string &key)
     }
     return nullptr;
 }
-

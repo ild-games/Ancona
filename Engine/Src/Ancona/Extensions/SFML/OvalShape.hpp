@@ -17,12 +17,12 @@ class OvalShape : public sf::Shape
             update();
         }
 
-        virtual unsigned int getPointCount() const
+        virtual std::size_t getPointCount() const
         {
             return 30;
         }
 
-        virtual sf::Vector2f getPoint(unsigned int index) const
+        virtual sf::Vector2f getPoint(std::size_t index) const
         {
             static const float pi = 3.141592654f;
 

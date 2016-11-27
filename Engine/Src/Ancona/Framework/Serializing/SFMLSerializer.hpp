@@ -61,10 +61,12 @@ struct Serializer<sf::Text>
         {
             arc(fontKey, "fontKey");
             property.setString(text);
-            property.setFont(*ResourceLibrary::Get<sf::Font>(fontKey));
+            if (fontKey != "") {
+                property.setFont(*ResourceLibrary::Get<sf::Font>(fontKey));
+            }
             property.setFillColor(color);
             property.setCharacterSize(characterSize);
-            if (!smooth)
+            if (!smooth && fontKey != "")
             {
                 const_cast<sf::Texture&>(property.getFont()->getTexture(characterSize)).setSmooth(false);
             }
