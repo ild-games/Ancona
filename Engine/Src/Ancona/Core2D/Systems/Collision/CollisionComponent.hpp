@@ -98,7 +98,7 @@ class CollisionComponent
         BodyTypeEnum bodyType() { return _bodyType; }
         void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
         PositionComponent & positionComponent() { return *_position; }
-        const Box2 & box() const { return _dim; }
+        const Box2 box() const;
         const sf::Vector2f & scale() const { return _scale; }
         void scale(const sf::Vector2f & scale) { _scale = scale; }
 

@@ -26,7 +26,7 @@ CollisionComponent::CollisionComponent(
 
 bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude)
 {
-    return _dim.Intersects(otherComponent._dim, fixNormal, fixMagnitude);
+    return box().Intersects(otherComponent.box(), fixNormal, fixMagnitude);
 }
 
 void CollisionComponent::Update()
@@ -95,4 +95,13 @@ void CollisionComponent::Serialize(Archive &arc) {
 
 void CollisionComponent::FetchDependencies(const Entity &entity) {
     _position = _system->position()[entity];
+}
+
+
+const Box2 CollisionComponent::box() const
+{
+    auto box = Box2(_dim.Position, _dim.Dimension, _dim.Rotation);
+    box.Dimension.x * _scale.x;
+    box.Dimension.y * _scale.y;
+    return box;
 }
