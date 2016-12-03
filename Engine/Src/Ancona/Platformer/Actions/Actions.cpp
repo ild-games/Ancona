@@ -26,23 +26,38 @@ VectorActionProxy Actions::CreateVelocityAction()
     return action;
 }
 
+JumpActionProxy Actions::CreateJumpAction()
+{
+    auto jumpVelocityAction = CreateVelocityAction();
+    jumpVelocityAction->duration(ActionDuration::PERSISTENT);
+
+    JumpActionProxy action(new JumpAction());
+    action->velocityAction(jumpVelocityAction);
+    _jumpActions.push_back(action);
+
+    return action;
+}
+
+RunActionProxy Actions::CreateRunAction(PositionComponent * positionComponent)
+{
+    auto runVelocityAction = CreateVelocityAction();
+    runVelocityAction->duration(ActionDuration::PERSISTENT);
+
+    RunActionProxy action(new RunAction(positionComponent));
+    action->velocityAction(runVelocityAction);
+    _runActions.push_back(action);
+
+    return action;
+}
+
 void Actions::Serialize(Archive & arc)
 {
     arc(_velocityActions, "platformVelocityActions");
     arc(_positionActions, "platformPositionActions");
+    arc(_jumpActions, "platformJumpActions");
+    arc(_runActions, "platformRunActions");
     arc(_affectedByGravity, "affectedByGravity");
     arc.system(_positionSystem, "position");
-}
-
-void RemoveDoneActions(std::vector<VectorActionProxy> & actions)
-{
-    actions.erase(
-            alg::remove_if(
-                actions,
-                [](VectorActionProxy & action) { return action->Done(); }
-                ),
-            actions.end()
-            );
 }
 
 static Point TweenPosition(VectorAction & action, float beforeRatio,
@@ -108,16 +123,35 @@ Point Actions::ApplyVelocityActions(const PositionComponent & position, float de
     return velocity;
 }
 
+void Actions::ApplyJumpActions()
+{
+    for (auto & jumpAction : _jumpActions)
+    {
+        jumpAction->ApplyJumpEvents(_totalGravity);
+    }
+}
+
+void Actions::ApplyRunActions()
+{
+    for (auto & runAction : _runActions)
+    {
+        runAction->ApplyRunEvents();
+    }
+}
+
 void Actions::Apply(PositionComponent & position, float delta)
 {
+    ApplyJumpActions();
+    ApplyRunActions();
+
     //Velocity actions apply additively
     Point velocity = ApplyVelocityActions(position,delta);
 
-    if(position.onGround())
+    if (position.onGround())
     {
         StopFall();
     }
-    else if(_affectedByGravity)
+    else if (_affectedByGravity)
     {
         ApplyGravity(velocity, delta);
     }
@@ -136,6 +170,8 @@ void Actions::Apply(PositionComponent & position, float delta)
     }
 
 
-    RemoveDoneActions(_velocityActions);
-    RemoveDoneActions(_positionActions);
+    RemoveDoneActions<VectorActionProxy>(_velocityActions);
+    RemoveDoneActions<VectorActionProxy>(_positionActions);
+    RemoveDoneActions<JumpActionProxy>(_jumpActions);
+    RemoveDoneActions<RunActionProxy>(_runActions);
 }
