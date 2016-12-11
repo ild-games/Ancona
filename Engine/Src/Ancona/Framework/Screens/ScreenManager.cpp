@@ -16,7 +16,7 @@ void ScreenManager::Push(AbstractScreen * screen, bool load)
 {
     _screens.push(screen);
     screen->__Entering = true;
-    if(load)
+    if (load)
     {
         Push(new LoadingScreen(screen, *this), false);
     }

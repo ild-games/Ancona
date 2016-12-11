@@ -20,8 +20,11 @@ MapSerializer::MapSerializer(
 
 bool MapSerializer::ContinueLoading()
 {
-    switch(_state)
+    switch (_state)
     {
+        case LoadingMetaData:
+            LoadMetaData();
+            break;
         case LoadingMapFile:
             LoadMapFile();
             break;
@@ -41,6 +44,16 @@ bool MapSerializer::ContinueLoading()
     return true;
 }
 
+void MapSerializer::LoadMetaData()
+{
+    for (auto system : _loadingContext->systems().GetAllSystems())
+    {
+        system->LoadMetaData();
+    }
+
+    _state = SerializerState::LoadingMapFile;
+}
+
 void MapSerializer::LoadMapFile()
 {
     auto saveStream = FileOperations::GetInputFileStream(Config::GetOption("SaveData"));
@@ -55,9 +68,9 @@ void MapSerializer::LoadMapFile()
     auto mapStream = FileOperations::GetInputFileStream(mapFileName);
     reader.parse(*mapStream, _mapRoot);
 
-    if(_loading)
+    if (_loading)
     {
-        for(Json::Value & assetJson : _mapRoot["assets"])
+        for (Json::Value & assetJson : _mapRoot["assets"])
         {
             _request->Add(
                     assetJson["type"].asString(),
@@ -71,12 +84,12 @@ void MapSerializer::LoadMapFile()
 
 void MapSerializer::LoadAssets()
 {
-    if(!_loading)
+    if (!_loading)
     {
         _state = SerializerState::LoadingEntities;
         return;
     }
-    if(ResourceLibrary::DoneLoading(*_request))
+    if (ResourceLibrary::DoneLoading(*_request))
     {
         _state = SerializerState::LoadingEntities;
     }
@@ -84,12 +97,12 @@ void MapSerializer::LoadAssets()
 
 void MapSerializer::LoadEntities()
 {
-    if(!_loading)
+    if (!_loading)
     {
         _state = SerializerState::SerializingComponents;
         return;
     }
-    for(Json::Value & curEntity : _mapRoot["entities"])
+    for (Json::Value & curEntity : _mapRoot["entities"])
     {
         _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
     }
@@ -107,12 +120,12 @@ void MapSerializer::SerializeComponents()
 {
     Archive mapArc(_mapRoot["systems"], *_loadingContext.get(), _loading, _snapshotSave);
     Archive saveArc(_saveProfileRoot["systems"], *_loadingContext.get(), _loading, true);
-    for(auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
+    for (auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
     {
         SerializeSpecifiedSystem(systemNamePair, mapArc);
         SerializeSpecifiedSystem(systemNamePair, saveArc);
     }
-    if(_loading)
+    if (_loading)
     {
         _loadingContext->systems().systemManager().FetchWaitingDependencies();
     }
@@ -135,7 +148,7 @@ void MapSerializer::SerializeSpecifiedSystem(
 
 void MapSerializer::SaveMapFiles()
 {
-    if(_loading)
+    if (_loading)
     {
         return;
     }

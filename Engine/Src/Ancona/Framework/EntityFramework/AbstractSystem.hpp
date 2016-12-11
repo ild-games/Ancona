@@ -42,6 +42,16 @@ class AbstractSystem
          * @brief Overridable destructor for systems.
          */
         virtual ~AbstractSystem() {}
+        
+        /**
+         * @brief Can be overridden to load in meta data files and configure settings
+         *        during the loading screen. 
+         *        
+         *        One example would be the collision system loading in collision types
+         *        from the project/collision-types.json file
+         */
+        virtual void LoadMetaData() { }
+
 
         /**
          * @brief Called to update all components controlled by the system.
