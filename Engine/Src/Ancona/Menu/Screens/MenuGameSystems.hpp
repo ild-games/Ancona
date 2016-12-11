@@ -1,5 +1,5 @@
-#ifndef SB_Systems_MenuGameSystems_H_
-#define SB_Systems_MenuGameSystems_H_
+#ifndef Anona_Menu_Systems_MenuGameSystems_H_
+#define Anona_Menu_Systems_MenuGameSystems_H_
 
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/RotateSystem.hpp>

@@ -1,5 +1,5 @@
-#ifndef SB_Screens_Menu_MenuScreen_H_
-#define SB_Screens_Menu_MenuScreen_H_
+#ifndef Anona_Menu_Screens_Menu_MenuScreen_H_
+#define Anona_Menu_Screens_Menu_MenuScreen_H_
 
 #include <Ancona/Framework/Screens/AbstractScreen.hpp>
 

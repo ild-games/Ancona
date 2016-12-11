@@ -1,5 +1,5 @@
-#ifndef SB_Input_MenuInputHandler_H_
-#define SB_Input_MenuInputHandler_H_
+#ifndef Anona_Menu_Input_MenuInputHandler_H_
+#define Anona_Menu_Input_MenuInputHandler_H_
 
 #include <Ancona/Core2D/InputDevices/InputHandler.hpp>
 #include <Ancona/Core2D/Systems/InputControlComponent.hpp>
