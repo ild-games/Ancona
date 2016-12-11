@@ -69,6 +69,13 @@ class ScreenSystemsContainer
             return static_cast<T *>(_systemMap[systemName]);
         }
 
+        /**
+         * @brief Get all the systems on the screen
+         *
+         * @return vector with all the systems
+         */
+        std::vector<AbstractSystem *> GetAllSystems();
+
         /* getters and setters */
         SystemManager & systemManager() { return *_systemManager; }
         ScreenManager & screenManager() { return _screenManager; }

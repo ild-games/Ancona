@@ -20,7 +20,7 @@ LoadingScreen::LoadingScreen(
 
 void LoadingScreen::Update(float delta)
 {
-    if(!_mapLoader->ContinueLoading())
+    if (!_mapLoader->ContinueLoading())
     {
         _screenLoading->requestList(_mapLoader->requestList());
         _screenManager.Pop();
