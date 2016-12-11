@@ -1,5 +1,6 @@
 #include <sstream>
 
+#include <Ancona/Util/Assert.hpp>
 #include "ButtonSystem.hpp"
 
 using namespace ildmenu;
@@ -25,8 +26,6 @@ void ButtonComponent::Update(float delta, const ild::Box2 & position, PointerSta
 
     if (initalState != _buttonState)
     {
-        //TODO Gaurd against null with asserts
-
         if (auto rootDrawable = _drawableComponent->topDrawable())
         {
             if (auto previous = rootDrawable->FindDrawable(GetButtonStateTitle(initalState)))
@@ -64,6 +63,7 @@ std::string GetButtonStateTitle(ButtonStateEnum buttonState)
             return "pressed";
             break;
     }
+    Assert(false, "Unknown button state in GetButtonStateTitle");
     return "unknown";
 }
 
@@ -180,7 +180,8 @@ PointerStateEnum GetNextPointerState(bool isDown, PointerStateEnum previousState
                 return PointerState::Up;
             }
     }
-    return PointerState::Up; //TODO This should be an assert
+    Assert(false, "Unknown state reached in GetNextPointerState");
+    return PointerState::Up;
 }
 
 ButtonStateEnum GetNextButtonState(ButtonStateEnum currentState, PointerStateEnum pointerState, bool mouseIsOver)
@@ -225,6 +226,6 @@ ButtonStateEnum GetNextButtonState(ButtonStateEnum currentState, PointerStateEnu
             return currentState;
             break;
     }
-    //TODO add assert
+    Assert(false, "Unknown state reached in GetNextButtonState");
     return currentState;
 }

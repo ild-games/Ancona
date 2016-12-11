@@ -12,10 +12,4 @@ MenuGameSystems::MenuGameSystems(ild::ScreenManager & screenManager) :
     _collision = ConstructSystem<ild::CollisionSystem>("collision", *_systemManager, *_position);
     _action = ConstructSystem<ild::ActionSystem>("action", *_systemManager, _position);
     _button = ConstructSystem<ButtonSystem>("button", *_systemManager);
-
-    _collision->CreateType("none");
-    _collision->CreateType("player");
-    _collision->CreateType("ground");
-
-    _position->gravity(ild::Point(0, 1050));
 }

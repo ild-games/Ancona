@@ -1,5 +1,5 @@
-#ifndef Squatbot_SBLib_Systems_ButtonSystem_H_
-#define Squatbot_SBLib_Systems_ButtonSystem_H_
+#ifndef Ancona_Menu_Systems_ButtonSystem_H_
+#define Ancona_Menu_Systems_ButtonSystem_H_
 
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
@@ -121,7 +121,7 @@ class ButtonSystem : public ild::UnorderedSystem<ButtonComponent>
         std::string GetPressedKey();
 
         /**
-         * Called by the MenuScreen. If you are integrating this system into your own custom screen you
+         * Called by the MenuScreen's input handler. If you are integrating this system into your own custom screen you
          * should call this every input cycle to update the systems knowledge of the pointer.
          * @param location Current location of the pointer.
          * @param isDown   True if the pointer is down/clicked. False otherwise.
