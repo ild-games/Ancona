@@ -18,7 +18,7 @@ class AssertControls
 {
     public:
         /**
-         * @brief If set to true Assert will throw an exception on failure.  If set to false it will 
+         * @brief If set to true Assert will throw an exception on failure.  If set to false it will
          * not.  This value defaults to true.
          *
          * @param value Bool that determines the setting.
@@ -43,8 +43,15 @@ class AssertControls
 
 }
 
+#ifdef NDEBUG // CMake defines the NDEBUG macro for release builds.
+#define Assert(condition, message) {}
+#endif
+
+#ifndef NDEBUG
 #define Assert(condition,message) {\
+    using namespace ild; \
     AssertControls::_assert(condition, message, __FILE__, __LINE__);\
 }
+#endif
 
 #endif
