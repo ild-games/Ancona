@@ -16,6 +16,7 @@ void Game::Run()
 {
     sf::Clock clock;
     _window.setFramerateLimit(60);
+    _window.setVerticalSyncEnabled(true);
     _window.setKeyRepeatEnabled(false);
     while (_window.isOpen() && !_screenManager->Empty())
     {
@@ -29,7 +30,7 @@ void Game::Run()
         }
 
         sf::Time elapsed = clock.restart();
-        float delta = elapsed.asSeconds();
+        float delta = std::min(elapsed.asSeconds(), 0.1f);
         _screenManager->Update(delta);
 
         _window.clear(sf::Color::Black);
