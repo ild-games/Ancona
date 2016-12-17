@@ -16,7 +16,7 @@ namespace ild
 /**
  * @brief Function signature used by the collision system.
  */
-typedef std::function<void(const Entity&,const Entity&)> CollisionCallback;
+typedef std::function<void(const Entity &, const Entity &, const Point &, float)> CollisionCallback;
 
 /**
  * @brief System used to provide collision interactions and callbacks for entities.
@@ -99,6 +99,15 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          */
         bool IsCollisionTypeDefined(const std::string & key);
 
+        /**
+         * Check if the body type can be the source of collisions. Example: We don't
+         * check the collision of environment body types. We only check if solid bodys
+         * are colliding with the environment.
+         * @param  type Type of collision we are testing.
+         * @return      True if the type will be checked for collision.
+         */
+        bool DoesTypeDetectCollisions(BodyTypeEnum type);
+
         /* Getters and Setters */
         PositionSystem & position() { return _positions; }
         void maxSlope(float value) { _maxSlope = value; }
@@ -113,12 +122,12 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         float _maxSlope = 45;
         const std::string NONE_COLLISION_TYPE = "none";
 
-        bool UniqueCollision(const Entity & entityA, const Entity & entityB);
+        bool UniqueCollision(const EntityComponentPair & entityA, const EntityComponentPair & entityB);
         void HandleCollision(
-                EntityComponentPair &pairA,
-                EntityComponentPair &pairB,
-                const Point &fixNormal,
-                float fixMagnitude);
+            EntityComponentPair & pairA,
+            EntityComponentPair & pairB,
+            const Point &fixNormal,
+            float fixMagnitude);
         bool EntitiesOverlapping(float fixMagnitude);
 
         void UpdateGravityBounds();

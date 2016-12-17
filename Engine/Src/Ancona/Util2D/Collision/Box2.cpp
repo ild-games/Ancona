@@ -6,6 +6,42 @@
 
 using namespace ild;
 
+namespace DoesIntersect {
+    enum Enum {
+        Yes,
+        No,
+        Maybe
+    };
+}
+
+DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
+{
+    if (left.Rotation != 0.0f || right.Rotation != 0.0f)
+    {
+        return DoesIntersect::Maybe;
+    }
+
+    auto leftXMin = left.Position.x - left.Dimension.x / 2;
+    auto leftXMax = leftXMin + left.Dimension.x;
+    auto rightXMin = right.Position.x - right.Dimension.x / 2;
+    auto rightXMax = rightXMin + right.Dimension.x;
+    if (leftXMax < rightXMin || rightXMax < leftXMin)
+    {
+        return DoesIntersect::No;
+    }
+
+    auto leftYMin = left.Position.y - left.Dimension.y / 2;
+    auto leftYMax = leftYMin + left.Dimension.y;
+    auto rightYMin = right.Position.y - right.Dimension.y / 2;
+    auto rightYMax = rightYMin + right.Dimension.y;
+    if (leftYMax < rightYMin || rightYMax < leftYMin)
+    {
+        return DoesIntersect::No;
+    }
+
+    return DoesIntersect::Yes;
+}
+
 Box2::Box2(const sf::Vector2f & position,
         const sf::Vector2f & dimension,
         const float & rotation)
@@ -18,7 +54,7 @@ Box2::Box2(const sf::Vector2f & position,
 Box2::Box2(float dimX, float dimY)
     : Box2(sf::Vector2f(),sf::Vector2f(dimX,dimY))
 {
-    
+
 }
 
 void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
@@ -42,12 +78,31 @@ void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
 
 bool Box2::Intersects(const Box2 & box) const
 {
-    sf::Vector2f fixVector;
-    float mag;
-    return Intersects(box, fixVector, mag);
+    auto intersects = OptimizedIntersect(*this, box);
+    if (intersects == DoesIntersect::Maybe)
+    {
+        sf::Vector2f fixVector;
+        float mag;
+        return SATCollision(box, fixVector, mag);
+    }
+    return intersects == DoesIntersect::Yes;
 }
 
+
 bool Box2::Intersects(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const
+{
+    if (OptimizedIntersect(*this, box) == DoesIntersect::No)
+    {
+        fixNormal.x = 0;
+        fixNormal.y = 0;
+        fixMagnitude = 0;
+        return false;
+    }
+
+    return SATCollision(box, fixNormal, fixMagnitude);
+}
+
+bool Box2::SATCollision(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const
 {
     Math::Vertices2 verticesA;
     Math::Vertices2 verticesB;

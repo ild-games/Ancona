@@ -25,9 +25,14 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Poi
 
 void CollisionComponent::Update()
 {
+    UpdateDimensionPosition();
+    _position->groundDirection(Point());
+}
+
+void CollisionComponent::UpdateDimensionPosition()
+{
     auto & pos = _position->position();
     _dim.position(pos.x, pos.y);
-    _position->groundDirection(Point());
 }
 
 CollisionType CollisionComponent::type()
