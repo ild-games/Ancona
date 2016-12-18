@@ -20,7 +20,7 @@ CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manag
 
 void CollisionSystem::OnLoad()
 {
-    CreateType("none");
+    CreateType(NONE_COLLISION_TYPE);
     if (FileOperations::IsFile("project/collision-types.json"))
     {
         auto fileStream = FileOperations::GetInputFileStream("project/collision-types.json");
@@ -29,7 +29,7 @@ void CollisionSystem::OnLoad()
         reader.parse(*fileStream, collisionTypesRoot);
         for (Json::Value & collisionType : collisionTypesRoot["collisionTypes"])
         {
-            if (collisionType.asString() != "none") 
+            if (collisionType.asString() != NONE_COLLISION_TYPE) 
             {
                 CreateType(collisionType.asString());
             }

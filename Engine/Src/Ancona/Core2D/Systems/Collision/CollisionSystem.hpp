@@ -111,6 +111,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         Point _leftGravityBound;
         Point _rightGravityBound;
         float _maxSlope = 45;
+        const std::string NONE_COLLISION_TYPE = "none";
 
         bool UniqueCollision(const Entity & entityA, const Entity & entityB);
         void HandleCollision(
