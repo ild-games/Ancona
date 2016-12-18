@@ -46,11 +46,10 @@ bool MapSerializer::ContinueLoading()
 
 void MapSerializer::LoadMetaData()
 {
-    for (auto system : _loadingContext->systems().GetAllSystems())
+    for (std::map<std::string, AbstractSystem *>::const_iterator it = _loadingContext->systems().begin(); it != _loadingContext->systems().end(); it++) 
     {
-        system->OnLoad();
+        it->second->OnLoad();    
     }
-
     _state = SerializerState::LoadingMapFile;
 }
 

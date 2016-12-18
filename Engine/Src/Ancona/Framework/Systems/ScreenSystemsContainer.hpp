@@ -69,17 +69,12 @@ class ScreenSystemsContainer
             return static_cast<T *>(_systemMap[systemName]);
         }
 
-        /**
-         * @brief Get all the systems on the screen
-         *
-         * @return vector with all the systems
-         */
-        std::vector<AbstractSystem *> GetAllSystems();
-
         /* getters and setters */
         SystemManager & systemManager() { return *_systemManager; }
         ScreenManager & screenManager() { return _screenManager; }
         int profile() { return _profile; }
+        std::map<std::string, AbstractSystem *>::const_iterator begin() { return _systemMap.begin(); }
+        std::map<std::string, AbstractSystem *>::const_iterator end() { return _systemMap.end(); }
     protected:
         /**
          * @brief Map used to store the system references. It is not recommended you use this to get the systems during gameplay, only for loading.
