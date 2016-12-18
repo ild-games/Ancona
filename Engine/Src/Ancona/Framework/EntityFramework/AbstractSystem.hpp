@@ -44,13 +44,12 @@ class AbstractSystem
         virtual ~AbstractSystem() {}
         
         /**
-         * @brief Can be overridden to load in meta data files and configure settings
-         *        during the loading screen. 
+         * @brief Can be overridden to do operations necessary for a system before it's used
          *        
          *        One example would be the collision system loading in collision types
          *        from the project/collision-types.json file
          */
-        virtual void LoadMetaData() { }
+        virtual void OnLoad() { }
 
 
         /**

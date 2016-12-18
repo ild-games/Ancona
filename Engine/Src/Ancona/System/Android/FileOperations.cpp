@@ -31,11 +31,6 @@ std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::st
     return returnStream;
 }
 
-bool FileOperations::FileExists(const std::string & desiredFile)
-{
-    return AndroidFileOperations::GetAndroidFileInputStream(desiredFile)->good();
-}
-
 std::string FileOperations::GetDirName(const std::string & filePath) 
 {
     return filePath.substr(0,filePath.find_last_of("/"));

@@ -34,7 +34,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          */
         CollisionSystem(const std::string & name, SystemManager & manager, PositionSystem & positions);
 
-        void LoadMetaData() override;
+        void OnLoad() override;
 
         /**
          * @brief Update the position for all components based off of their velocity

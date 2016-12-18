@@ -65,7 +65,6 @@ class MapSerializer
     private:
 
         void LoadMetaData();
-        void LoadCollisionTypesMetaData();
         void LoadMapFile();
         void LoadAssets();
         void LoadEntities();

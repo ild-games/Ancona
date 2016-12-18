@@ -36,15 +36,6 @@ class FileOperations
         static std::unique_ptr<std::ofstream> GetOutputFileStream(const std::string & desiredFile);          
 
         /**
-         * @brief Determines if a desired file exists.
-         * 
-         * @param desiredFile Path to the file we want to determine exists.
-         *
-         * @return True if the file exists, otherwise false.
-         */
-        static bool FileExists(const std::string & desiredFile);
-
-        /**
          * @brief Gets the full directory (minus the actual file) for a given filepath.
          *
          * @param filePath Filepath to get the directory from.

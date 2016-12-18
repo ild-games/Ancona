@@ -48,7 +48,7 @@ void MapSerializer::LoadMetaData()
 {
     for (auto system : _loadingContext->systems().GetAllSystems())
     {
-        system->LoadMetaData();
+        system->OnLoad();
     }
 
     _state = SerializerState::LoadingAssets;

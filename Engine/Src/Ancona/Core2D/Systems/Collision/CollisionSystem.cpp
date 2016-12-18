@@ -18,7 +18,7 @@ CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manag
 
 }
 
-void CollisionSystem::LoadMetaData()
+void CollisionSystem::OnLoad()
 {
     if (FileOperations::FileExists("project/collision-types.json"))
     {
