@@ -51,7 +51,7 @@ void MapSerializer::LoadMetaData()
         system->OnLoad();
     }
 
-    _state = SerializerState::LoadingAssets;
+    _state = SerializerState::LoadingMapFile;
 }
 
 void MapSerializer::LoadMapFile()
