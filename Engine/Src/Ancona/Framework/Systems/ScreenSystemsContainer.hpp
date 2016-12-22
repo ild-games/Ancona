@@ -73,6 +73,8 @@ class ScreenSystemsContainer
         SystemManager & systemManager() { return *_systemManager; }
         ScreenManager & screenManager() { return _screenManager; }
         int profile() { return _profile; }
+        std::map<std::string, AbstractSystem *>::const_iterator begin() { return _systemMap.begin(); }
+        std::map<std::string, AbstractSystem *>::const_iterator end() { return _systemMap.end(); }
     protected:
         /**
          * @brief Map used to store the system references. It is not recommended you use this to get the systems during gameplay, only for loading.

@@ -23,7 +23,7 @@ AbstractScreen::AbstractScreen(
 
 AbstractScreen::~AbstractScreen()
 {
-    if(_requestList != nullptr)
+    if (_requestList != nullptr)
     {
         ResourceLibrary::Return(*_requestList.get());
     }
@@ -33,7 +33,7 @@ void AbstractScreen::Entering(float delta)
 {
     int alpha = _transitionColor.a;
     alpha -= (TRANSITION_SPEED * delta);
-    if(alpha < 0) 
+    if (alpha < 0) 
     {
         alpha = 0;
         __Entering = false; 
@@ -48,7 +48,7 @@ void AbstractScreen::Exiting(float delta)
 {
     int alpha = _transitionColor.a;
     alpha += (TRANSITION_SPEED * delta);
-    if(alpha > 255) 
+    if (alpha > 255) 
     {
         alpha = 255;
         __Exiting = false; 

@@ -14,3 +14,9 @@ std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::st
 {
     return std::unique_ptr<std::ofstream> { new std::ofstream(desiredFile, std::ofstream::out) };
 }
+
+bool FileOperations::IsFile(const std::string & filePath)
+{
+    std::ifstream fileStream(filePath.c_str());
+    return fileStream.good();
+}

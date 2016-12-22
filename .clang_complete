@@ -1,4 +1,3 @@
 -IEngine/Src
--Iextlibs/include
+-IRaft/libs/install/Host/Host/include
 -ITest/ExtLibs/gtest-1.7.0/include
--ITest/Prototype/EditorMap/Src

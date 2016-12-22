@@ -29,6 +29,7 @@ class MapSerializer
      */
     enum SerializerState
     {
+        LoadingMetaData,
         LoadingMapFile,
         LoadingAssets,
         LoadingEntities,
@@ -63,6 +64,7 @@ class MapSerializer
 
     private:
 
+        void LoadMetaData();
         void LoadMapFile();
         void LoadAssets();
         void LoadEntities();
@@ -82,7 +84,7 @@ class MapSerializer
         /**
          * @brief State in the loading process that the object is in.
          */
-        SerializerState _state = LoadingMapFile;
+        SerializerState _state = LoadingMetaData;
         /**
          * @brief Root of the map json being loaded.
          */
