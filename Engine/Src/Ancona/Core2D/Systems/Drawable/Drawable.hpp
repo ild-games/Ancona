@@ -84,6 +84,28 @@ class Drawable
          * @copydoc ild::CameraComponent::Serialize
          */
         virtual void Serialize(Archive & arc);
+        
+        /**
+         * Flips the image in the x direction.
+         */
+        void FlipX();
+
+        /**
+         * Flips the image in the y direction.
+         */
+        void FlipY();
+
+        /**
+         * Sets the direction of the drawable in the x axis.
+         * @param leftOrRightSignum -1 if the drawable should be facing left, 1 if right.
+         */
+        void SetXDirection(int leftOrRightSignum);
+
+        /**
+         * Sets the direction of the drawable in the y axis.
+         * @param leftOrRightSignum -1 if the drawable should be facing down, 1 if up.
+         */
+        void SetYDirection(int leftOrRightSignum); 
 
         /**
          * @brief Finds a drawable contained within this drawable. The default

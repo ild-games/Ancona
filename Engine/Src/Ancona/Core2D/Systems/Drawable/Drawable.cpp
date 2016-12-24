@@ -31,7 +31,10 @@ void Drawable::Serialize(Archive &arc)
 
 void Drawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
 {
-    OnDraw(window, parentTransform.combine(CalculateTransforms()), delta);
+    if (!_inactive) 
+    {
+        OnDraw(window, parentTransform.combine(CalculateTransforms()), delta);
+    }
 }
 
 sf::Transform Drawable::CalculateTransforms()
@@ -54,3 +57,32 @@ Drawable * Drawable::FindDrawable(const std::string &key)
     return nullptr;
 }
 
+void Drawable::FlipX()
+{
+    _scale.x *= -1;
+}
+
+void Drawable::FlipY()
+{
+    _scale.y *= -1;
+}
+
+void Drawable::SetXDirection(int leftOrRightSignum)
+{
+    if (_scale.x < 0)
+    {
+        _scale.x *= -1;
+    }
+
+    _scale.x *= leftOrRightSignum;
+}
+
+void Drawable::SetYDirection(int leftOrRightSignum)
+{
+    if (_scale.y < 0)
+    {
+        _scale.y *= -1;
+    }
+
+    _scale.y *= leftOrRightSignum;
+}
