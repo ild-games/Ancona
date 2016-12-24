@@ -155,6 +155,19 @@ class Archive
         }
 
         /**
+         * @brief Loads the SystemManager context during serialization.
+         * 
+         * @param systemManager SystemManager reference that will be set to the SystemManager for the game.
+         */
+        void systemManager(SystemManager *& systemManager) 
+        {
+            if (_loading) 
+            {
+                systemManager = &_context.systems().systemManager();    
+            }
+        }
+
+        /**
          * @brief Loads the entity from the KEY of the entity in json.
          *
          * @param entity Entity reference that will be set to the desired entity.
