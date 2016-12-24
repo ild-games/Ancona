@@ -55,5 +55,10 @@ void PositionComponent::Serialize(Archive & arc)
 }
 
 void PositionComponent::Update(float delta) {
-    _position += delta * _velocity;
+    if (_velocity.x != 0.0f || _velocity.y != 0.0f) 
+    {
+        _position += delta * _velocity;
+        _position.x = roundf(_position.x * 100) / 100;
+        _position.y = roundf(_position.y * 100) / 100;
+    }
 }
