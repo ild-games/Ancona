@@ -1,0 +1,28 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "files.exclude": {
+        // include the defaults from VS Code
+        "**/.git": true,
+        "**/.DS_Store": true,
+        
+
+        // exclude .cpp.o files
+        "**/*.cpp.o": true
+    },
+    "search.exclude": {
+        // include the defaults from VS Code
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true,
+        "**/build": true,
+        
+        // exclude .cpp.o files
+        "**/*.cpp.o": true,
+        
+        // exclude Raft libs
+        "Raft/libs/install/**/*": true
+    },
+    "clang.cxxflags": [
+        "-I${workspaceRoot}/Raft/libs/install/Host/Host/include"
+    ]
+}
