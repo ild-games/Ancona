@@ -152,13 +152,15 @@ void CollisionSystem::Update(float delta)
 
 }
 
-CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
-        const sf::Vector3f & dim,
-        CollisionType type,
-        BodyTypeEnum bodyType)
+CollisionComponent * CollisionSystem::CreateComponent(
+    const Entity & entity,
+    const Box2 & dim,
+    const sf::Vector2f & scale,
+    CollisionType type,
+    BodyTypeEnum bodyType)
 {
     Assert(type < _nextType, "Cannot use a collision type that is undefined");
-    auto component = new CollisionComponent(this, dim, type, bodyType);
+    auto component = new CollisionComponent(this, dim, scale, type, bodyType);
 
     AttachComponent(entity, component);
 

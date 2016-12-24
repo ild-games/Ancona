@@ -3,6 +3,7 @@
 
 #include <SFML/System.hpp>
 
+#include <Ancona/Extensions/SFML/OvalShape.hpp>
 #include <Ancona/Framework/Serializing/Archive.hpp>
 #include <Ancona/Framework/Serializing/Serializer.hpp>
 #include <Ancona/Framework/Serializing/StdSerializer.hpp>
@@ -60,10 +61,12 @@ struct Serializer<sf::Text>
         {
             arc(fontKey, "fontKey");
             property.setString(text);
-            property.setFont(*ResourceLibrary::Get<sf::Font>(fontKey));
+            if (fontKey != "") {
+                property.setFont(*ResourceLibrary::Get<sf::Font>(fontKey));
+            }
             property.setFillColor(color);
             property.setCharacterSize(characterSize);
-            if (!smooth)
+            if (!smooth && fontKey != "")
             {
                 const_cast<sf::Texture&>(property.getFont()->getTexture(characterSize)).setSmooth(false);
             }
@@ -99,9 +102,9 @@ struct Serializer<sf::RectangleShape>
 };
 
 template <>
-struct Serializer<sf::CircleShape>
+struct Serializer<sf::OvalShape>
 {
-    static void Serialize(sf::CircleShape & shape, Archive & arc);
+    static void Serialize(sf::OvalShape & shape, Archive & arc);
 };
 
 template <>

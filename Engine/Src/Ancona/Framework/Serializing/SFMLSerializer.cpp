@@ -24,19 +24,23 @@ void Serializer<sf::RectangleShape>::Serialize(sf::RectangleShape & shape, Archi
     }
 }
 
-void Serializer<sf::CircleShape>::Serialize(sf::CircleShape & shape, Archive & arc){
-    float radius;
+void Serializer<sf::OvalShape>::Serialize(sf::OvalShape & shape, Archive & arc){
+    float radiusWidth;
+    float radiusHeight;
     sf::Color color;
     if (!arc.loading()) {
-        radius = shape.getRadius();
+        radiusWidth = shape.getRadiusWidth();
+        radiusHeight = shape.getRadiusHeight();
         color = shape.getFillColor();
     }
-    arc(radius, "radius");
+    arc(radiusWidth, "radiusWidth");
+    arc(radiusHeight, "radiusHeight");
     arc(color, "fillColor");
 
     if (arc.loading())
     {
-        shape.setRadius(radius);
+        shape.setRadiusWidth(radiusWidth);
+        shape.setRadiusHeight(radiusHeight);
         shape.setFillColor(color);
     }
 }
