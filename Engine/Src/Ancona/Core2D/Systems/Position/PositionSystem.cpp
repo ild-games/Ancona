@@ -51,14 +51,25 @@ bool PositionComponent::onGround() const
 void PositionComponent::Serialize(Archive & arc)
 {
     arc(_position, "position");
+    arc(_actualPosition, "position");
     arc(_velocity, "velocity");
+}
+
+void PositionComponent::FetchDependencies(const Entity & entity)
+{
+    RoundPosition();
 }
 
 void PositionComponent::Update(float delta) {
     if (_velocity.x != 0.0f || _velocity.y != 0.0f) 
     {
-        _position += delta * _velocity;
-        _position.x = roundf(_position.x * 100) / 100;
-        _position.y = roundf(_position.y * 100) / 100;
+        _actualPosition += delta * _velocity;
+        RoundPosition();
     }
+}
+
+void PositionComponent::RoundPosition() 
+{
+    _position.x = roundf(_actualPosition.x * 100) / 100;
+    _position.y = roundf(_actualPosition.y * 100) / 100;
 }

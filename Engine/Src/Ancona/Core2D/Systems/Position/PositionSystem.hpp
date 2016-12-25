@@ -26,6 +26,11 @@ class PositionComponent
          */
         void Serialize(Archive & arc);
 
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
+
         void Update(float delta);
 
         /* getters and setters */
@@ -40,9 +45,12 @@ class PositionComponent
         const Point & groundDirection() const { return _groundDirection; }
 
     protected:
+        Point _actualPosition;
         Point _position;
         Point _velocity;
         Point _groundDirection;
+
+        void RoundPosition();
 };
 
 /**
