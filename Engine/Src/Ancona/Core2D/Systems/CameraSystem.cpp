@@ -48,6 +48,8 @@ sf::Vector2f CameraComponent::GetEffectiveCenter()
     effectivePosition.x = std::max(std::min(effectivePosition.x, _upperBounds.x), _lowerBounds.x);
     effectivePosition.y = std::max(std::min(effectivePosition.y, _upperBounds.y), _lowerBounds.y);
 
+    effectPosition += offset;
+
     return effectivePosition;
 }
 
