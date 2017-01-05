@@ -59,20 +59,10 @@ Drawable * Drawable::FindDrawable(const std::string &key)
 
 void Drawable::SetXDirection(int leftOrRightSignum)
 {
-    if (_scale.x < 0)
-    {
-        _scale.x *= -1;
-    }
-
-    _scale.x *= leftOrRightSignum;
+    _scale.x = std::abs(_scale.x) * leftOrRightSignum;
 }
 
-void Drawable::SetYDirection(int leftOrRightSignum)
+void Drawable::SetYDirection(int upOrDownSignum)
 {
-    if (_scale.y < 0)
-    {
-        _scale.y *= -1;
-    }
-
-    _scale.y *= leftOrRightSignum;
+    _scale.y = std::abs(_scale.y) * upOrDownSignum;
 }

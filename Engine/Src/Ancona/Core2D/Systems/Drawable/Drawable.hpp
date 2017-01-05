@@ -93,9 +93,9 @@ class Drawable
 
         /**
          * Sets the direction of the drawable in the y axis.
-         * @param leftOrRightSignum -1 if the drawable should be facing down, 1 if up.
+         * @param upOrDownSignum -1 if the drawable should be facing up, 1 if down.
          */
-        void SetYDirection(int leftOrRightSignum); 
+        void SetYDirection(int upOrDownSignum); 
 
         /**
          * @brief Finds a drawable contained within this drawable. The default
