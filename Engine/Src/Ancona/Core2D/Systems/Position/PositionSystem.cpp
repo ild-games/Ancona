@@ -30,14 +30,16 @@ PositionSystem::PositionSystem(
 
 }
 
-void PositionSystem::Update(float delta) {
+void PositionSystem::Update(float delta) 
+{
     for(EntityComponentPair pair : *this)
     {
         pair.second->Update(delta);
     }
 }
 
-PositionComponent * PositionSystem::CreateComponent(const Entity & entity) {
+PositionComponent * PositionSystem::CreateComponent(const Entity & entity) 
+{
     auto comp = new PositionComponent();
     AttachComponent(entity, comp);
     return comp;
@@ -51,16 +53,16 @@ bool PositionComponent::onGround() const
 void PositionComponent::Serialize(Archive & arc)
 {
     arc(_position, "position");
-    arc(_actualPosition, "position");
     arc(_velocity, "velocity");
 }
 
 void PositionComponent::FetchDependencies(const Entity & entity)
 {
-    RoundPosition();
+    _actualPosition = _position;
 }
 
-void PositionComponent::Update(float delta) {
+void PositionComponent::Update(float delta) 
+{
     if (_velocity.x != 0.0f || _velocity.y != 0.0f) 
     {
         _actualPosition += delta * _velocity;
