@@ -78,5 +78,6 @@ void PositionComponent::RoundPosition()
 void PositionComponent::position(const Point & position) 
 {
     _position = position;
+    _actualPosition = position;
     RoundPosition(); 
 }
