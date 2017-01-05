@@ -86,6 +86,18 @@ class Drawable
         virtual void Serialize(Archive & arc);
 
         /**
+         * Sets the direction of the drawable in the x axis.
+         * @param leftOrRightSignum -1 if the drawable should be facing left, 1 if right.
+         */
+        void SetXDirection(int leftOrRightSignum);
+
+        /**
+         * Sets the direction of the drawable in the y axis.
+         * @param upOrDownSignum -1 if the drawable should be facing up, 1 if down.
+         */
+        void SetYDirection(int upOrDownSignum); 
+
+        /**
          * @brief Finds a drawable contained within this drawable. The default
          *        implementation simply returns itself if the keys match. Container
          *        and Animation drawables will walk their children to try and find
