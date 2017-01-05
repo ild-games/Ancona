@@ -34,11 +34,10 @@ class PositionComponent
         void Update(float delta);
 
         /* getters and setters */
-        //Access the current physical state of the entity.
         inline const Point & position() const { return _position; }
         inline const Point & velocity() const { return _velocity; }
-        inline void position(const Point & position) { _position = position; }
         inline void velocity(const Point & velocity) { _velocity = velocity; }
+        void position(const Point & position);
 
         bool onGround() const;
         void groundDirection(Point groundDirection) { _groundDirection = groundDirection; }

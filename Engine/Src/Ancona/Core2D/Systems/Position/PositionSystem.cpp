@@ -73,3 +73,10 @@ void PositionComponent::RoundPosition()
     _position.x = roundf(_actualPosition.x * 100) / 100;
     _position.y = roundf(_actualPosition.y * 100) / 100;
 }
+
+/* getters and setters */
+void PositionComponent::position(const Point & position) 
+{
+    _position = position;
+    RoundPosition(); 
+}
