@@ -12,12 +12,14 @@ CameraComponent::CameraComponent(
         DrawableSystem * drawableSystem,
         float scale,
         sf::Vector2f offset,
-        sf::Vector2f xBounds,
-        sf::Vector2f yBounds) :
+        sf::Vector2f upperBounds,
+        sf::Vector2f lowerBounds) :
     _view(sf::View(originalView)),
     _renderPriority(renderPriority),
     _scale(scale),
     _offset(offset),
+    _lowerBounds(lowerBounds),
+    _upperBounds(upperBounds),
     _drawableSystem(drawableSystem)
 {
 }
@@ -48,7 +50,7 @@ sf::Vector2f CameraComponent::GetEffectiveCenter()
     effectivePosition.x = std::max(std::min(effectivePosition.x, _upperBounds.x), _lowerBounds.x);
     effectivePosition.y = std::max(std::min(effectivePosition.y, _upperBounds.y), _lowerBounds.y);
 
-    effectPosition += offset;
+    effectivePosition += _offset;
 
     return effectivePosition;
 }
