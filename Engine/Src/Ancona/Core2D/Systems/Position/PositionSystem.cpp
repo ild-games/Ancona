@@ -70,8 +70,8 @@ void PositionComponent::Update(float delta) {
 
 void PositionComponent::RoundPosition() 
 {
-    _position.x = roundf(_actualPosition.x * 100) / 100;
-    _position.y = roundf(_actualPosition.y * 100) / 100;
+    _position.x = roundf(_actualPosition.x * 128) / 128;
+    _position.y = roundf(_actualPosition.y * 128) / 128;
 }
 
 /* getters and setters */
