@@ -28,8 +28,16 @@ Drawable * DrawableComponent::GetDrawable(const std::string & key)
 void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
 {
     sf::Transform transform;
-    transform.translate(_positionComponent->position());
+    transform.translate(round(_positionComponent->position().x), round(_positionComponent->position().y));
     _topDrawable->Draw(window, transform, delta);
+}
+
+Box2 DrawableComponent::BoundingBox()
+{
+    return Box2(
+        _positionComponent->position(),
+        _topDrawable->size(),
+        _topDrawable->rotation());
 }
 
 void DrawableComponent::FetchDependencies(const Entity & entity)

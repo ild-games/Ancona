@@ -63,14 +63,15 @@ class ImageDrawable : public Drawable
         void alpha(int newAlpha) override;
         int alpha() override;
     private:
-        std::string _textureKey = "";
+        std::string _textureKey;
         Box2 _textureRect;
-        sf::Texture * _texture = nullptr;
-        bool _isWholeImage;
         std::unique_ptr<sf::Sprite> _sprite;
+        sf::Vector2f _tiledArea;
+        bool _isTiled = false;
+        bool _isWholeImage = false;
 
         void OnDraw(sf::RenderWindow &window, sf::Transform transform, float delta) override;
-        void SetupSprite();
+        void SetupSprite(sf::Texture * texture);
 };
 
 }
