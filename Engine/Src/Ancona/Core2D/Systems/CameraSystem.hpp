@@ -36,13 +36,16 @@ class CameraComponent
          * @param renderPriority priority to render the camera by.
          * @param scale The scale the camera will zoom to, defaults to 1.0f.
          * @param offset The offset the camera will center on, defaults to {0, 0}
+         * @param xBounds The position the camera will not go beyond in the x direction
          */
         CameraComponent(
                 const sf::View & originalView,
                 int renderPriority,
                 DrawableSystem * drawableSystem,
                 float scale = 1.0f,
-                sf::Vector2f offset = sf::Vector2f(0, 0));
+                sf::Vector2f offset = sf::Vector2f(0, 0),
+                sf::Vector2f xBounds = sf::Vector2f(std::numeric_limits<float>::min(), std::numeric_limits<float>::max()),
+                sf::Vector2f yBounds = sf::Vector2f(std::numeric_limits<float>::min(), std::numeric_limits<float>::max()));
 
         /**
          * @brief Overridable destructor.
@@ -124,9 +127,13 @@ class CameraComponent
         sf::Vector2f _offset;
         Entity _follows = nullentity;
         sf::Vector2f _size;
+        sf::Vector2f _xBounds;
+        sf::Vector2f _yBounds;
         PositionSystem * _positionSystem;
         DrawableSystem * _drawableSystem;
         bool _default = false;
+
+        void BoundCamera();
 
 };
 

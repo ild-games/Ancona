@@ -11,7 +11,9 @@ CameraComponent::CameraComponent(
         int renderPriority,
         DrawableSystem * drawableSystem,
         float scale,
-        sf::Vector2f offset) :
+        sf::Vector2f offset,
+        sf::Vector2f xBounds,
+        sf::Vector2f yBounds) :
     _view(sf::View(originalView)),
     _renderPriority(renderPriority),
     _scale(scale),
@@ -42,7 +44,29 @@ void CameraComponent::MoveCamera()
                 _followPosition->position().x,
                 _followPosition->position().y);
     }
-    _view.setCenter(_view.getCenter() + _offset);
+    BoundCamera();
+    _view.setCenter(round(_view.getCenter().x), round(_view.getCenter().y));
+}
+
+void CameraComponent::BoundCamera()
+{
+    if (_view.getCenter().x > _xBounds.y)
+    {
+        _view.setCenter(_xBounds.y, _view.getCenter().y);
+    }
+    if (_view.getCenter().x < _xBounds.x)
+    {
+        _view.setCenter(_xBounds.x, _view.getCenter().y);
+    }
+    
+    if (_view.getCenter().y > _yBounds.y)
+    {
+        _view.setCenter(_view.getCenter().x, _yBounds.y);
+    }
+    if (_view.getCenter().y < _yBounds.x)
+    {
+        _view.setCenter(_view.getCenter().x, _yBounds.x);
+    }
 }
 
 void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
@@ -87,6 +111,8 @@ void CameraComponent::Serialize(Archive & arc)
     arc(_default, "default");
     arc(_size, "size");
     arc(_offset, "offset");
+    arc(_xBounds, "xBounds");
+    arc(_yBounds, "yBounds");
     arc.entityUsingJsonKey(_follows, "follows");
     arc.system(_positionSystem, "position");
     arc.system(_drawableSystem, "drawable");
