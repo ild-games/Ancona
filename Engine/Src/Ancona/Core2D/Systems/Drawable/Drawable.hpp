@@ -84,16 +84,6 @@ class Drawable
          * @copydoc ild::CameraComponent::Serialize
          */
         virtual void Serialize(Archive & arc);
-        
-        /**
-         * Flips the image in the x direction.
-         */
-        void FlipX();
-
-        /**
-         * Flips the image in the y direction.
-         */
-        void FlipY();
 
         /**
          * Sets the direction of the drawable in the x axis.

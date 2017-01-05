@@ -57,16 +57,6 @@ Drawable * Drawable::FindDrawable(const std::string &key)
     return nullptr;
 }
 
-void Drawable::FlipX()
-{
-    _scale.x *= -1;
-}
-
-void Drawable::FlipY()
-{
-    _scale.y *= -1;
-}
-
 void Drawable::SetXDirection(int leftOrRightSignum)
 {
     if (_scale.x < 0)
