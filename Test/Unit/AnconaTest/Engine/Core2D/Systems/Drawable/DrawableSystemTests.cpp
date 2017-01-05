@@ -86,7 +86,7 @@ TEST(DrawableSystem, ContainerDrawable)
 TEST(DrawableSystem, AnimatedDrawable)
 {
     AnimatedDrawable animatedDrawable(0, "animatedDrawable", 1);
-    ShapeDrawable shape1 {new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)), 0, "shape1"};
+    auto * shape1 = new ShapeDrawable {new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)), 0, "shape1"};
     animatedDrawable.AddFrame(shape1);
 
     ASSERT_EQ(animatedDrawable.size(), sf::Vector2f(50.0f, 50.0f));

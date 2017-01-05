@@ -65,8 +65,15 @@ class AnimatedDrawable : public Drawable
          */
         Drawable * FindDrawable(const std::string & key) override;
 
+        /**
+         * Reset the Animation to the first frame.
+         */
         void ResetAnimation();
 
+        /**
+         * Check if the animation should only run once and the last frame has played.
+         * @return True if the animation is no longer playing, false otherwise.
+         */
         bool IsFinished();
 
         /* getters and setters */
@@ -76,7 +83,7 @@ class AnimatedDrawable : public Drawable
         void duration(float duration) { _duration = duration; }
         float duration() { return _duration; }
         void loopOnce(bool loopOnce) { _loopOnce = loopOnce; }
-        
+
     private:
         std::vector<std::unique_ptr<Drawable>> _frames;
         float _duration;
