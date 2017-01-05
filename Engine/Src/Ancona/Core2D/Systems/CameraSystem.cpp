@@ -24,7 +24,8 @@ CameraComponent::CameraComponent(
 
 void CameraComponent::Update(float delta)
 {
-    MoveCamera();
+    auto effectivePosition = GetEffectiveCenter();
+    _view.setCenter(round(effectivePosition.x), round(effectivePosition.y));
 }
 
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
@@ -36,37 +37,18 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
     }
 }
 
-void CameraComponent::MoveCamera()
+sf::Vector2f CameraComponent::GetEffectiveCenter() 
 {
-    if(_followPosition != nullptr)
+    sf::Vector2f effectivePosition = _view.getCenter();
+    if (_followPosition != nullptr)
     {
-        _view.setCenter(
-                _followPosition->position().x,
-                _followPosition->position().y);
+        effectivePosition = _followPosition->position();
     }
-    BoundCamera();
-    _view.setCenter(round(_view.getCenter().x), round(_view.getCenter().y));
-}
 
-void CameraComponent::BoundCamera()
-{
-    if (_view.getCenter().x > _xBounds.y)
-    {
-        _view.setCenter(_xBounds.y, _view.getCenter().y);
-    }
-    if (_view.getCenter().x < _xBounds.x)
-    {
-        _view.setCenter(_xBounds.x, _view.getCenter().y);
-    }
-    
-    if (_view.getCenter().y > _yBounds.y)
-    {
-        _view.setCenter(_view.getCenter().x, _yBounds.y);
-    }
-    if (_view.getCenter().y < _yBounds.x)
-    {
-        _view.setCenter(_view.getCenter().x, _yBounds.x);
-    }
+    effectivePosition.x = std::max(std::min(effectivePosition.x, _upperBounds.x), _lowerBounds.x);
+    effectivePosition.y = std::max(std::min(effectivePosition.y, _upperBounds.y), _lowerBounds.y);
+
+    return effectivePosition;
 }
 
 void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
@@ -111,8 +93,8 @@ void CameraComponent::Serialize(Archive & arc)
     arc(_default, "default");
     arc(_size, "size");
     arc(_offset, "offset");
-    arc(_xBounds, "xBounds");
-    arc(_yBounds, "yBounds");
+    arc(_lowerBounds, "lowerBounds");
+    arc(_upperBounds, "upperBounds");
     arc.entityUsingJsonKey(_follows, "follows");
     arc.system(_positionSystem, "position");
     arc.system(_drawableSystem, "drawable");
