@@ -16,6 +16,12 @@ namespace DoesIntersect {
 
 DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
 {
+    /**
+     * Normally we compute intersection using the SAT algorithm. That allows us to handle all convex shapes. The SAT
+     * algorithm allows for complex collision detection, but it is a little slow. This implementation is an optimization
+     * for non-rotated boxes. Useing this optimization was measured to improve the overall collision performance by an order
+     * of magnitude.
+     */
     if (left.Rotation != 0.0f || right.Rotation != 0.0f)
     {
         return DoesIntersect::Maybe;
