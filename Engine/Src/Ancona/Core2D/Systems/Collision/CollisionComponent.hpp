@@ -88,6 +88,11 @@ class CollisionComponent
          */
         void Serialize(Archive & arc);
 
+        /**
+         * Update the collision box based on the entity's current position.
+         */
+        void UpdateDimensionPosition();
+
         /* getters and setters */
         CollisionType type();
         BodyTypeEnum bodyType() { return _bodyType; }
