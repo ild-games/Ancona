@@ -8,6 +8,8 @@
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 
 #include "VectorAction.hpp"
+#include "JumpAction.hpp"
+#include "RunAction.hpp"
 
 namespace ild
 {
@@ -21,6 +23,8 @@ const float INSTANT = 0.0f;
 }
 
 typedef std::shared_ptr<VectorAction> VectorActionProxy;
+typedef std::shared_ptr<JumpAction> JumpActionProxy;
+typedef std::shared_ptr<RunAction> RunActionProxy;
 
 /**
  * @brief Actions is used to contain all of the Actions that are effecting
@@ -65,6 +69,20 @@ class Actions
         VectorActionProxy CreateVelocityAction();
 
         /**
+         * @brief Create a jump action for entities that can jump.
+         *
+         * @return A proxy to the jump action
+         */
+        JumpActionProxy CreateJumpAction();
+
+        /**
+         * @brief Create a run action for entities that can run.
+         *
+         * @return A proxy to the run action
+         */
+        RunActionProxy CreateRunAction(PositionComponent * positionComponent);
+
+        /**
          * @copydoc ild::CameraComponent::Serialize
          */
         void Serialize(Archive & arc);
@@ -83,14 +101,29 @@ class Actions
 
         /* Getters and Setters */
         void position(PositionSystem * positionSystem) { _positionSystem = positionSystem; }
+        const Point & totalGravity() { return _totalGravity; }
 
     private:
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
+        std::vector<JumpActionProxy> _jumpActions;
+        std::vector<RunActionProxy> _runActions;
         Point _actionVelocity;
         Point _totalGravity;
         PositionSystem * _positionSystem;
         bool _affectedByGravity = false;
+
+        template<typename T>
+        void RemoveDoneActions(std::vector<T> & actions)
+        {
+            actions.erase(
+                alg::remove_if(
+                    actions,
+                    [](T & action) { return action->Done(); }
+                    ),
+                actions.end()
+                );
+        }
 
         /**
          * @brief Update the velocity based on Gravity.
@@ -101,6 +134,8 @@ class Actions
 
         Point ApplyPositionActions(const PositionComponent & position, float delta);
         Point ApplyVelocityActions(const PositionComponent & position, float delta);
+        void ApplyJumpActions();
+        void ApplyRunActions();
 
 };
 
