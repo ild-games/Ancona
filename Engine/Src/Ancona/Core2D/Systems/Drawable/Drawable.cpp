@@ -31,7 +31,7 @@ void Drawable::Serialize(Archive &arc)
 
 void Drawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, float delta)
 {
-    if (!_inactive) 
+    if (!_inactive)
     {
         OnDraw(window, parentTransform.combine(CalculateTransforms()), delta);
     }

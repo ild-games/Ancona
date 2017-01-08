@@ -65,32 +65,33 @@ class AnimatedDrawable : public Drawable
          */
         Drawable * FindDrawable(const std::string & key) override;
 
+        /**
+         * Reset the Animation to the first frame.
+         */
+        void ResetAnimation();
+
+        /**
+         * Check if the animation should only run once and the last frame has played.
+         * @return True if the animation is no longer playing, false otherwise.
+         */
+        bool IsFinished();
+
         /* getters and setters */
         sf::Vector2f size() override;
         int alpha() override;
         void alpha(int alpha) override;
+        void duration(float duration) { _duration = duration; }
+        float duration() { return _duration; }
+        void loopOnce(bool loopOnce) { _loopOnce = loopOnce; }
 
     private:
-        /**
-         * Contains the drawables that will be displayed, the order in this list is the order they are displayed in.
-         */
         std::vector<std::unique_ptr<Drawable>> _frames;
-        /**
-         * @brief Seconds per frame.
-         */
         float _duration;
-        /**
-         * @brief time until the frame changes.
-         */
         float _timeUntilChange;
-        /**
-         * @brief The current frame being shown.
-         */
         int _curFrame = 0;
+        bool _loopOnce = false;
 
-        /**
-         * @brief Ticks the animation, will switch the frame when it is time to do so.
-         */
+
         void Tick(float delta);
         void AdvanceFrame();
         void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;

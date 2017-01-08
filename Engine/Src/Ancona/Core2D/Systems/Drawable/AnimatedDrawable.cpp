@@ -30,20 +30,28 @@ void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTr
 
 void AnimatedDrawable::Tick(float delta)
 {
-    _timeUntilChange -= delta;
-    if(_timeUntilChange <= 0)
+    if (_duration != 0)
     {
-        _timeUntilChange += _duration;
-        AdvanceFrame();
+        _timeUntilChange -= delta;
+        if (_timeUntilChange <= 0)
+        {
+            _timeUntilChange += _duration;
+            AdvanceFrame();
+        }
     }
 }
 
 void AnimatedDrawable::AdvanceFrame()
 {
-    _curFrame++;
-    if(_curFrame == _frames.size())
+    if (_loopOnce && IsFinished())
     {
-        _curFrame = 0;
+        return;
+    }
+
+    _curFrame++;
+    if (_curFrame == _frames.size())
+    {
+        ResetAnimation();
     }
 }
 
@@ -61,6 +69,7 @@ void AnimatedDrawable::Serialize(Archive &archive) {
     Drawable::Serialize(archive);
     archive(_duration, "duration");
     archive(_frames, "frames");
+    archive(_loopOnce, "loopOnce");
 }
 
 Drawable * AnimatedDrawable::FindDrawable(const std::string & key)
@@ -90,6 +99,14 @@ void AnimatedDrawable::RemoveFrame(const std::string & key)
     _frames.erase(alg::remove_if(_frames, [key](const std::unique_ptr<Drawable> & drawable) {
         return key == drawable->key();
     }));
+}
+
+void AnimatedDrawable::ResetAnimation() {
+    _curFrame = 0;
+}
+
+bool AnimatedDrawable::IsFinished() {
+    return _curFrame == _frames.size() - 1;
 }
 
 /* getters and setters */
