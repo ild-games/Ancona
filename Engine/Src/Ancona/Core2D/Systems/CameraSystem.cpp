@@ -27,10 +27,16 @@ void CameraComponent::Update(float delta)
 
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 {
+    Box2 cameraPosition(_view.getCenter(), _view.getSize(), _view.getRotation());
+
     window.setView(_view);
     for(DrawableComponent * drawable : _renderQueue)
     {
-        drawable->Draw(window, delta);
+        auto drawableBox = drawable->BoundingBox();
+        if (cameraPosition.Intersects(drawableBox))
+        {
+            drawable->Draw(window, delta);
+        }
     }
 }
 
