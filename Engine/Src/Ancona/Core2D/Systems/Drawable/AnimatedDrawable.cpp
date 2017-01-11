@@ -23,14 +23,7 @@ AnimatedDrawable::AnimatedDrawable(
 
 void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    if (IsFinished()) 
-    {
-        _frames[_frames.size() - 1]->Draw(window, drawableTransform, delta);
-    } 
-    else
-    {
-        _frames[_curFrame]->Draw(window, drawableTransform, delta);
-    }
+    _frames[_curFrame]->Draw(window, drawableTransform, delta);
     Tick(delta);
 }
 
@@ -108,12 +101,14 @@ void AnimatedDrawable::RemoveFrame(const std::string & key)
     }));
 }
 
-void AnimatedDrawable::ResetAnimation() {
+void AnimatedDrawable::ResetAnimation() 
+{
     _curFrame = 0;
 }
 
-bool AnimatedDrawable::IsFinished() {
-    return _curFrame == _frames.size();
+bool AnimatedDrawable::IsFinished() 
+{
+    return _curFrame == _frames.size() - 1;
 }
 
 /* getters and setters */
