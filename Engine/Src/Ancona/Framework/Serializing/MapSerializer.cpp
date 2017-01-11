@@ -50,7 +50,7 @@ void MapSerializer::LoadMetaData()
     {
         if (_loading) 
         {
-            it.second->OnLoad();    
+            it.second->OnLoad(); 
         }
     }
     _state = SerializerState::LoadingMapFile;
