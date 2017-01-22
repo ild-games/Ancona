@@ -36,13 +36,17 @@ class CameraComponent
          * @param renderPriority priority to render the camera by.
          * @param scale The scale the camera will zoom to, defaults to 1.0f.
          * @param offset The offset the camera will center on, defaults to {0, 0}
+         * @param lowerBounds The min position the camera can be in for the x and y axis
+         * @param upperBounds The max position the camera can be in for the x and y axis
          */
         CameraComponent(
                 const sf::View & originalView,
                 int renderPriority,
                 DrawableSystem * drawableSystem,
                 float scale = 1.0f,
-                sf::Vector2f offset = sf::Vector2f(0, 0));
+                sf::Vector2f offset = sf::Vector2f(0, 0),
+                sf::Vector2f lowerBounds = sf::Vector2f(std::numeric_limits<float>::min(), std::numeric_limits<float>::min()),
+                sf::Vector2f upperBounds = sf::Vector2f(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()));
 
         /**
          * @brief Overridable destructor.
@@ -60,11 +64,6 @@ class CameraComponent
          * @param window RenderWindow for the game.
          */
         void Draw(sf::RenderWindow & window, float delta);
-
-        /**
-         * @brief Moves the camera, the default behavior is to lock onto the _followPosition.
-         */
-        virtual void MoveCamera();
 
         /**
          * @brief Adds a DrawableComponent to the camera's render queue.
@@ -99,12 +98,26 @@ class CameraComponent
         void follows(Entity follows);
         void scale(float scale);
         float scale() { return _scale; }
+        void lowerBounds(const sf::Vector2f & lowerBounds) { _lowerBounds = lowerBounds; }
+        const sf::Vector2f & lowerBounds() { return _lowerBounds; }
+        void upperBounds(const sf::Vector2f & upperBounds) { _upperBounds = upperBounds; }
+        const sf::Vector2f & upperBounds() { return _upperBounds; }
 
     protected:
         /**
          * @brief Position component for what the camera is following.
          */
         PositionComponent * _followPosition = nullptr;
+
+        /**
+         * @brief Gets the true center position for the camera that will determine the location of the camera
+         *        each frame. By default this will handle such things as:
+         *          * following the follows entity
+         *          * applying offset
+         *          * applying bounds
+         * @returns Vector for the true position of the camera
+         */
+        virtual sf::Vector2f GetEffectiveCenter();
 
     private:
         /**
@@ -124,6 +137,8 @@ class CameraComponent
         sf::Vector2f _offset;
         Entity _follows = nullentity;
         sf::Vector2f _size;
+        sf::Vector2f _lowerBounds;
+        sf::Vector2f _upperBounds;
         PositionSystem * _positionSystem;
         DrawableSystem * _drawableSystem;
         bool _default = false;

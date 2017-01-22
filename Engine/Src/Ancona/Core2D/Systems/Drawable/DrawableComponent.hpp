@@ -59,6 +59,12 @@ class DrawableComponent
         void FetchDependencies(const Entity & entity);
 
         /**
+         * Get the bounding box for the drawable. Used to determine if the drawable should be rendered.
+         * @return Bounding box describing the edge of the drawable.
+         */
+        Box2 BoundingBox();
+
+        /**
          * @copydoc ild::CameraComponent::Serialize
          */
         void Serialize(Archive & arc);

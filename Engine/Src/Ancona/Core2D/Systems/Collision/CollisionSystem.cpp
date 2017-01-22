@@ -9,13 +9,12 @@
 
 using namespace ild;
 
-void nop(const Entity & e1,const Entity & e2) {}
+void nop(const Entity & e1,const Entity & e2, const Point & fixNormal, float fixMagnitude) {}
 
 CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manager, PositionSystem & positions)
     : UnorderedSystem<CollisionComponent>(name, manager,UpdateStep::Physics), _positions(positions)
 {
     _nextType = 0;
-
 }
 
 void CollisionSystem::OnLoad()
@@ -58,21 +57,21 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
 {
     auto typeA = a->bodyType();
     auto typeB = b->bodyType();
-    Point correctFix = fixMagnitude * fixNormal;
+    auto correctFix = fixMagnitude * fixNormal;
 
     //If either has a body type of None then the collision should not effect the position.
-    if(typeA == BodyType::None || typeB == BodyType::None)
+    if (typeA == BodyType::None || typeB == BodyType::None)
     {
         return;
     }
 
     //Environment entities do not effect each other's positions.
-    if(typeA == BodyType::Environment && typeB == BodyType::Environment)
+    if (typeA == BodyType::Environment && typeB == BodyType::Environment)
     {
         return;
     }
 
-    if(typeA == BodyType::Solid && typeB == BodyType::Environment)
+    if (typeA == BodyType::Solid && typeB == BodyType::Environment)
     {
         PushFirstOutOfSecond(a, b, correctFix);
     }
@@ -80,7 +79,7 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
     {
         PushFirstOutOfSecond(b, a, -correctFix);
     }
-    else if(typeA == BodyType::Solid && typeB == BodyType::Solid)
+    else if (typeA == BodyType::Solid && typeB == BodyType::Solid)
     {
         PushApart(a, b, correctFix);
     }
@@ -132,24 +131,34 @@ void CollisionSystem::Update(float delta)
         pair.second->Update();
     }
 
-    for(EntityComponentPair entityComponentPairA : * this)
+    for (EntityComponentPair entityComponentPairA : * this)
     {
-        for(EntityComponentPair entityComponentPairB : * this)
+        if (!DoesTypeDetectCollisions(entityComponentPairA.second->bodyType()))
         {
-            if(!UniqueCollision(entityComponentPairA.first, entityComponentPairB.first))
+            break;
+        }
+
+        for (EntityComponentPair entityComponentPairB : * this)
+        {
+            if (!UniqueCollision(entityComponentPairA, entityComponentPairB))
             {
                 continue;
             }
 
             Point fixNormal;
             float fixMagnitude;
-            if(entityComponentPairA.second->Collides(*entityComponentPairB.second, fixNormal, fixMagnitude))
+            if (entityComponentPairA.second->Collides(*entityComponentPairB.second, fixNormal, fixMagnitude))
             {
-                HandleCollision(entityComponentPairA,entityComponentPairB,fixNormal,fixMagnitude);
+                HandleCollision(
+                    entityComponentPairA,
+                    entityComponentPairB,
+                    fixNormal,
+                    fixMagnitude);
             }
+            entityComponentPairA.second->UpdateDimensionPosition();
+            entityComponentPairB.second->UpdateDimensionPosition();
         }
     }
-
 }
 
 CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
@@ -203,24 +212,35 @@ bool CollisionSystem::IsCollisionTypeDefined(const std::string & key)
     return _collisionTypes.find(key) != _collisionTypes.end();
 }
 
-bool CollisionSystem::UniqueCollision(const Entity &entityA, const Entity &entityB)
+bool CollisionSystem::DoesTypeDetectCollisions(BodyTypeEnum type)
 {
-    return entityA < entityB;
+    return type == BodyType::Solid;
+}
+
+bool CollisionSystem::UniqueCollision(const EntityComponentPair &entityA, const EntityComponentPair &entityB)
+{
+    if (DoesTypeDetectCollisions(entityA.second->bodyType()) && DoesTypeDetectCollisions(entityB.second->bodyType()))
+    {
+        return entityA < entityB;
+    }
+    return true;
 }
 
 void CollisionSystem::HandleCollision(
-        EntityComponentPair &pairA, EntityComponentPair &pairB,
-        const Point &fixNormal, float fixMagnitude)
+    EntityComponentPair & pairA,
+    EntityComponentPair & pairB,
+    const Point &fixNormal,
+    float fixMagnitude)
 {
-    auto typeA = pairA.second->type();
-    auto typeB = pairB.second->type();
+    auto type1 = pairA.second->type();
+    auto type2 = pairB.second->type();
 
     FixCollision(pairA.second, pairB.second, fixNormal, fixMagnitude);
 
-    if(EntitiesOverlapping(fixMagnitude))
+    if (EntitiesOverlapping(fixMagnitude))
     {
-        _callbackTable.Get(typeA, typeB)(pairA.first, pairB.first);
-        _callbackTable.Get(typeB, typeA)(pairB.first, pairA.first);
+        _callbackTable.Get(type1, type2)(pairA.first, pairB.first, fixNormal, fixMagnitude);
+        _callbackTable.Get(type2, type1)(pairB.first, pairA.first, fixNormal, -fixMagnitude);
     }
 }
 

@@ -39,37 +39,45 @@ ImageDrawable::ImageDrawable(
             positionOffset),
     _textureKey(""),
     _textureRect(textureRect),
-    _texture(texture),
     _isWholeImage(isWholeImage)
 {
+    SetupSprite(texture);
 }
 
 void ImageDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    sf::RenderStates states(drawableTransform);
-    window.draw(*_sprite, states);
+    if (_sprite.get() != NULL)
+    {
+        sf::RenderStates states(drawableTransform);
+        window.draw(*_sprite, states);
+    }
 }
 
-void ImageDrawable::SetupSprite()
+void ImageDrawable::SetupSprite(sf::Texture * texture)
 {
-    if (_textureKey != "")
+    if (_isTiled)
     {
-        _texture = ResourceLibrary::Get<sf::Texture>(_textureKey);
+        texture->setRepeated(true);
+        _textureRect.Dimension.x = _tiledArea.x;
+        _textureRect.Dimension.y = _tiledArea.y;
     }
-    _sprite.reset(new sf::Sprite(*_texture));
-
-    if (_isWholeImage)
+    else
     {
-        _textureRect.Dimension.x = _texture->getSize().x;
-        _textureRect.Dimension.y = _texture->getSize().y;
+        if (_isWholeImage)
+        {
+            _textureRect.Dimension.x = texture->getSize().x;
+            _textureRect.Dimension.y = texture->getSize().y;
+        }
     }
 
-    _sprite->setTextureRect(sf::IntRect(
+    auto spriteRect = sf::Rect<int>(
         _textureRect.Position.x,
         _textureRect.Position.y,
         _textureRect.Dimension.x,
-        _textureRect.Dimension.y));
-    _sprite->setOrigin(_textureRect.Dimension.x / 2.0f, _textureRect.Dimension.y / 2.0f);
+        _textureRect.Dimension.y);
+
+    _sprite.reset(new sf::Sprite(*texture, spriteRect));
+    _sprite->setOrigin(spriteRect.width / 2.0f, spriteRect.height / 2.0f);
 }
 
 
@@ -79,12 +87,17 @@ void ImageDrawable::Serialize(Archive & arc)
     arc(_textureKey, "textureKey");
     arc(_isWholeImage, "isWholeImage");
     arc(_textureRect, "textureRect");
+    arc(_tiledArea, "tiledArea");
+    arc(_isTiled, "isTiled");
 }
 
 void ImageDrawable::FetchDependencies(const Entity &entity)
 {
     Drawable::FetchDependencies(entity);
-    SetupSprite();
+    if (_textureKey != "")
+    {
+        SetupSprite(ResourceLibrary::Get<sf::Texture>(_textureKey));
+    }
 }
 
 /* getters and setters */

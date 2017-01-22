@@ -36,9 +36,9 @@ TEST(DrawableSystem, ImageDrawableSize)
     sf::View view;
     drawable.defaultCamera(camera.CreateComponent(manager.CreateEntity(), view, 0, &drawable, 1.0f));
 
-    sf::Texture * texture = new sf::Texture();
-    texture->create(50, 50);
-    ImageDrawable * image = new ImageDrawable(texture, 0, "image");
+    sf::Texture texture;
+    texture.create(50, 50);
+    ImageDrawable * image = new ImageDrawable(&texture, 0, "image");
     position.CreateComponent(entity);
     drawable.CreateComponent(entity, image, &position);
 
@@ -86,7 +86,7 @@ TEST(DrawableSystem, ContainerDrawable)
 TEST(DrawableSystem, AnimatedDrawable)
 {
     AnimatedDrawable animatedDrawable(0, "animatedDrawable", 1);
-    ShapeDrawable * shape1 = new ShapeDrawable(new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)), 0, "shape1");
+    auto * shape1 = new ShapeDrawable {new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)), 0, "shape1"};
     animatedDrawable.AddFrame(shape1);
 
     ASSERT_EQ(animatedDrawable.size(), sf::Vector2f(50.0f, 50.0f));

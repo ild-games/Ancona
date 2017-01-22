@@ -26,23 +26,30 @@ class PositionComponent
          */
         void Serialize(Archive & arc);
 
+        /**
+         * @copydoc ild::CameraComponent::FetchDependencies
+         */
+        void FetchDependencies(const Entity & entity);
+
         void Update(float delta);
 
         /* getters and setters */
-        //Access the current physical state of the entity.
         inline const Point & position() const { return _position; }
         inline const Point & velocity() const { return _velocity; }
-        inline void position(const Point & position) { _position = position; }
         inline void velocity(const Point & velocity) { _velocity = velocity; }
+        void position(const Point & position);
 
         bool onGround() const;
         void groundDirection(Point groundDirection) { _groundDirection = groundDirection; }
         const Point & groundDirection() const { return _groundDirection; }
 
     protected:
+        Point _actualPosition;
         Point _position;
         Point _velocity;
         Point _groundDirection;
+
+        void RoundPosition();
 };
 
 /**

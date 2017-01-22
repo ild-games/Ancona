@@ -79,14 +79,21 @@ class Box2
         bool Intersects(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const;
 
         /**
-         * @brief Get the normal to the edge that is colliding with or 
-         * adjacent to the argument box.         
+         * @brief Get the normal to the edge that is colliding with or
+         * adjacent to the argument box.
          *
          * @param box Box to find the nearest edge to.
          *
          * @return Normal from the nearest edge.
          */
         sf::Vector2f GetNormalOfCollisionEdge(const Box2 & box) const;
+
+        /**
+         * Determine if the box contains the point.
+         * @param  point check for contains.
+         * @return True if the point is in in the box.
+         */
+        bool ContainsPoint(const sf::Vector2f & point);
 
         /**
          * @brief Clear the vertices vector and fill it with vertices for the box.
@@ -97,6 +104,8 @@ class Box2
 
         /* getters and setters */
         void position(float x, float y);
+    private:
+        bool SATCollision(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const;
 };
 
 }

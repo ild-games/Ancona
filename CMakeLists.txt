@@ -24,7 +24,11 @@ set(ANCONA_LIBS Ancona_Platformer Ancona_Core2D
     Ancona_Framework Ancona_Util2D Ancona_Util Ancona_System)
 
 
-set(ANCONA_EXT_LIBS sfml-graphics sfml-window sfml-system jsoncpp)
+set(ANCONA_EXT_LIBS
+    optimized sfml-graphics debug sfml-graphics-d
+    optimized sfml-window debug sfml-window-d
+    optimized sfml-system debug sfml-system-d
+    jsoncpp)
 
 if(ANDROID)
     set(ANCONA_EXT_LIBS ${ANCONA_EXT_LIBS} android EGL log)
@@ -38,4 +42,3 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(Engine)
 add_subdirectory(Test)
-

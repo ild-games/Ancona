@@ -11,38 +11,54 @@ CameraComponent::CameraComponent(
         int renderPriority,
         DrawableSystem * drawableSystem,
         float scale,
-        sf::Vector2f offset) :
+        sf::Vector2f offset,
+        sf::Vector2f upperBounds,
+        sf::Vector2f lowerBounds) :
     _view(sf::View(originalView)),
     _renderPriority(renderPriority),
     _scale(scale),
     _offset(offset),
+    _lowerBounds(lowerBounds),
+    _upperBounds(upperBounds),
     _drawableSystem(drawableSystem)
 {
 }
 
 void CameraComponent::Update(float delta)
 {
-    MoveCamera();
+    auto effectivePosition = GetEffectiveCenter();
+    _view.setCenter(round(effectivePosition.x), round(effectivePosition.y));
 }
 
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 {
+    Box2 cameraPosition(_view.getCenter(), _view.getSize(), _view.getRotation());
+
     window.setView(_view);
     for(DrawableComponent * drawable : _renderQueue)
     {
-        drawable->Draw(window, delta);
+        auto drawableBox = drawable->BoundingBox();
+        if (cameraPosition.Intersects(drawableBox))
+        {
+            drawable->Draw(window, delta);
+        }
     }
 }
 
-void CameraComponent::MoveCamera()
+sf::Vector2f CameraComponent::GetEffectiveCenter() 
 {
-    if(_followPosition != nullptr)
+    sf::Vector2f effectivePosition = _view.getCenter();
+    if (_followPosition != nullptr)
     {
-        _view.setCenter(
-                _followPosition->position().x,
-                _followPosition->position().y);
+        effectivePosition = _followPosition->position();
     }
-    _view.setCenter(_view.getCenter() + _offset);
+
+    effectivePosition.x = std::max(std::min(effectivePosition.x, _upperBounds.x), _lowerBounds.x);
+    effectivePosition.y = std::max(std::min(effectivePosition.y, _upperBounds.y), _lowerBounds.y);
+
+    effectivePosition += _offset;
+
+    return effectivePosition;
 }
 
 void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
@@ -87,6 +103,8 @@ void CameraComponent::Serialize(Archive & arc)
     arc(_default, "default");
     arc(_size, "size");
     arc(_offset, "offset");
+    arc(_lowerBounds, "lowerBounds");
+    arc(_upperBounds, "upperBounds");
     arc.entityUsingJsonKey(_follows, "follows");
     arc.system(_positionSystem, "position");
     arc.system(_drawableSystem, "drawable");

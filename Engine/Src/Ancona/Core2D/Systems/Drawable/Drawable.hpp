@@ -86,6 +86,18 @@ class Drawable
         virtual void Serialize(Archive & arc);
 
         /**
+         * Sets the direction of the drawable in the x axis.
+         * @param leftOrRightSignum -1 if the drawable should be facing left, 1 if right.
+         */
+        void SetXDirection(int leftOrRightSignum);
+
+        /**
+         * Sets the direction of the drawable in the y axis.
+         * @param upOrDownSignum -1 if the drawable should be facing up, 1 if down.
+         */
+        void SetYDirection(int upOrDownSignum);
+
+        /**
          * @brief Finds a drawable contained within this drawable. The default
          *        implementation simply returns itself if the keys match. Container
          *        and Animation drawables will walk their children to try and find
@@ -115,9 +127,17 @@ class Drawable
 
     protected:
         /**
+         * @brief Key that describes the Drawable.
+         */
+        std::string _key;
+        /**
          * @brief Offset coordinate for this drawable element.
          */
         sf::Vector2f _positionOffset;
+        /**
+         * @brief Amount to scale the drawable element.
+         */
+        sf::Vector2f _scale = sf::Vector2f(1.0f, 1.0f);
         /**
          * @brief priority of rendering this obj.
          */
@@ -127,21 +147,13 @@ class Drawable
          */
         int _priorityOffset;
         /**
-         * @brief Amount to rotate the drawable element. 
+         * @brief Amount to rotate the drawable element.
          */
         float _rotation = 0;
-        /**
-         * @brief Amount to scale the drawable element.
-         */
-        sf::Vector2f _scale = sf::Vector2f(1.0f, 1.0f);
         /**
          * @brief True if the drawable is actively drawn/updated. Otherwise false.
          */
         bool _inactive = false;
-        /**
-         * @brief Key that describes the Drawable.
-         */
-        std::string _key;
 
     private:
 
