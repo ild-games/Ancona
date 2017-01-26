@@ -117,8 +117,6 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         PositionSystem & _positions;
         std::unordered_map<std::string,CollisionType> _collisionTypes;
         std::unordered_map<CollisionType,std::string> _collisionTypeToKey;
-        Point _leftGravityBound;
-        Point _rightGravityBound;
         float _maxSlope = 45;
         const std::string NONE_COLLISION_TYPE = "none";
 
@@ -130,9 +128,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
             float fixMagnitude);
         bool EntitiesOverlapping(float fixMagnitude);
 
-        void UpdateGravityBounds();
         void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
-        bool IsOnGround(const Point & groundNormal);
 
         void PushApart(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);
         void PushFirstOutOfSecond(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);

@@ -96,10 +96,6 @@ class ActionSystem : public UnorderedSystem<ActionComponent>
         /** Getters and Setters */
         PositionSystem * positionSystem() { return _positionSystem; }
     private:
-        /**
-         * @brief A vector describing the direction and magnitude of gravity.
-         */
-        Point _gravity;
         PositionSystem * _positionSystem;
 };
 

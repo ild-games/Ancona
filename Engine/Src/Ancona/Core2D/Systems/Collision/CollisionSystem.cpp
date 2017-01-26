@@ -28,29 +28,12 @@ void CollisionSystem::OnLoad()
         reader.parse(*fileStream, collisionTypesRoot);
         for (Json::Value & collisionType : collisionTypesRoot["collisionTypes"])
         {
-            if (collisionType.asString() != NONE_COLLISION_TYPE) 
+            if (collisionType.asString() != NONE_COLLISION_TYPE)
             {
                 CreateType(collisionType.asString());
             }
         }
     }
-}
-
-void CollisionSystem::UpdateGravityBounds()
-{
-    auto invGravity =  -_positions.gravity();
-
-    _leftGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(90 - _maxSlope));
-    _rightGravityBound = VectorMath::Rotate(invGravity, VectorMath::DegreesToRadians(-(90 - _maxSlope)));
-}
-
-bool CollisionSystem::IsOnGround(const Point &groundNormal)
-{
-    if(groundNormal != Point())
-    {
-        return VectorMath::Between(_leftGravityBound, _rightGravityBound, groundNormal);
-    }
-    return false;
 }
 
 void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude)
@@ -89,15 +72,7 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
 void CollisionSystem::PushFirstOutOfSecond(CollisionComponent *a, CollisionComponent *b, const Point &correctFix)
 {
     auto & posA = a->positionComponent();
-
-    auto groundDirection = VectorMath::Normalize(b->box().GetNormalOfCollisionEdge(a->box()));
-    if(IsOnGround(groundDirection))
-    {
-        posA.groundDirection(groundDirection);
-    }
-
     posA.position(posA.position() + correctFix);
-    return;
 }
 
 void CollisionSystem::PushApart(CollisionComponent *a, CollisionComponent *b, const Point &correctFix)
@@ -123,8 +98,6 @@ void CollisionSystem::PushApart(CollisionComponent *a, CollisionComponent *b, co
 
 void CollisionSystem::Update(float delta)
 {
-    UpdateGravityBounds();
-
     //Update all of the entities.  This is required for the position to be up to date.
     for(EntityComponentPair pair : * this)
     {

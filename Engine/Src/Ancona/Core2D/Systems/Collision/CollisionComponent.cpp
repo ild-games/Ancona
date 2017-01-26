@@ -26,7 +26,6 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Poi
 void CollisionComponent::Update()
 {
     UpdateDimensionPosition();
-    _position->groundDirection(Point());
 }
 
 void CollisionComponent::UpdateDimensionPosition()
