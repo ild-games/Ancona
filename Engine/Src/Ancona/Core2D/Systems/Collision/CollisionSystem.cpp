@@ -134,6 +134,17 @@ void CollisionSystem::Update(float delta)
     }
 }
 
+
+std::vector<EntityComponentPair> CollisionSystem::GetEntitiesInBox(const Box2 & box) {
+    std::vector<EntityComponentPair> result;
+    for (EntityComponentPair pair : * this) {
+        if (box.Intersects(pair.second->box())) {
+            result.push_back(pair);
+        }
+    }
+    return result;
+}
+
 CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
         const sf::Vector3f & dim,
         CollisionType type,
