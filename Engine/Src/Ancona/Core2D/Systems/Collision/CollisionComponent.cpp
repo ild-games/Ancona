@@ -1,3 +1,5 @@
+#include <Ancona/Util/Algorithm.hpp>
+#include <Ancona/Util/Math.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionComponent.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
 
@@ -18,7 +20,7 @@ CollisionComponent::CollisionComponent(CollisionSystem * collisionSystem,
 
 }
 
-bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude)
+bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude) const
 {
     return _dim.Intersects(otherComponent._dim, fixNormal, fixMagnitude);
 }
@@ -37,6 +39,41 @@ void CollisionComponent::UpdateDimensionPosition()
 CollisionType CollisionComponent::type()
 {
     return _type;
+}
+
+std::vector<Collision> CollisionComponent::GetProjectionCollisions(ild::Point direction) const {
+    std::vector<std::pair<Entity, CollisionComponent *>> collisions;
+
+    if (direction.x != 0) {
+
+        Box2 box = this->box();
+        box.position(
+            Math::signum(direction.x) * box.Dimension.x / 2 + box.Position.x + direction.x,
+            direction.y + box.Position.y);
+        box.dimension(direction.x, box.Dimension.y);
+        for (auto collision : _system->GetEntitiesInBox(box)) {
+            collisions.push_back(collision);
+        }
+    }
+
+    if (direction.y != 0) {
+        Box2 box = this->box();
+        box.position(
+            direction.x + box.Position.x,
+            Math::signum(direction.y) * box.Dimension.y / 2 + box.Position.y + direction.y);
+        box.dimension(box.Dimension.x, direction.y);
+        for (auto collision : _system->GetEntitiesInBox(box)) {
+            if (!alg::contains(collisions, collision)) {
+                collisions.push_back(collision);
+            }
+        }
+    }
+
+    std::vector<Collision> result;
+    for (auto collision : collisions) {
+        result.emplace_back(collision.first, collision.second);
+    }
+    return result;
 }
 
 namespace ild {

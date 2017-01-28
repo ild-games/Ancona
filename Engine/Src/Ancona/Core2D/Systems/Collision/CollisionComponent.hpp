@@ -1,9 +1,13 @@
 #ifndef Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 #define Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 
+#include <vector>
+
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Util2D/Collision/Box2.hpp>
 #include <Ancona/Util/Data.hpp>
+
+#include "Collision.hpp"
 
 namespace ild
 {
@@ -71,7 +75,7 @@ class CollisionComponent
          *
          * @return True if the components collide.  False otherwise.
          */
-        bool Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude);
+        bool Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude) const;
 
         /**
          * @brief Update the internal state for purpose of collision.
@@ -92,6 +96,13 @@ class CollisionComponent
          * Update the collision box based on the entity's current position.
          */
         void UpdateDimensionPosition();
+
+        /**
+         * Projects an entity in the direction specified. Designed to be used to test if an entity is on a surface or can move in a direction.
+         * @param  direction Direction and magnitude to project the entity. Defaults to a value used for checking ground collisions.
+         * @return A vector of collisions.
+         */
+        std::vector<Collision> GetProjectionCollisions(ild::Point direction = ild::Point(0, 1)) const;
 
         /* getters and setters */
         CollisionType type();

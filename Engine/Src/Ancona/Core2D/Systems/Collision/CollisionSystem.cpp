@@ -135,8 +135,8 @@ void CollisionSystem::Update(float delta)
 }
 
 
-std::vector<EntityComponentPair> CollisionSystem::GetEntitiesInBox(const Box2 & box) {
-    std::vector<EntityComponentPair> result;
+std::vector<std::pair<Entity, CollisionComponent *>> CollisionSystem::GetEntitiesInBox(const Box2 & box) {
+    std::vector<std::pair<Entity, CollisionComponent *>> result;
     for (EntityComponentPair pair : * this) {
         if (box.Intersects(pair.second->box())) {
             result.push_back(pair);
