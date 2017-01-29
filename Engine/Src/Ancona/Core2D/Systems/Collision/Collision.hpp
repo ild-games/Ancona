@@ -1,6 +1,7 @@
 #ifndef Ancona_Engine_Core_Systems_Collision_Collision_H_
 #define Ancona_Engine_Core_Systems_Collision_Collision_H_
 
+#include <SFML/System.hpp>
 #include <Ancona/Framework/EntityFramework/Entity.hpp>
 
 namespace ild {
