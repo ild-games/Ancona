@@ -42,7 +42,7 @@ CollisionType CollisionComponent::type()
 }
 
 std::vector<Collision> CollisionComponent::GetProjectionCollisions(ild::Point direction) const {
-    std::vector<std::pair<Entity, CollisionComponent *>> collisions;
+    std::vector<Collision> collisions;
 
     if (direction.x != 0) {
 
@@ -69,11 +69,7 @@ std::vector<Collision> CollisionComponent::GetProjectionCollisions(ild::Point di
         }
     }
 
-    std::vector<Collision> result;
-    for (auto collision : collisions) {
-        result.emplace_back(collision.first, collision.second);
-    }
-    return result;
+    return collisions;
 }
 
 namespace ild {

@@ -66,7 +66,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         *
         * @return An array of entity collision component pairs.
         */
-        std::vector<std::pair<Entity, CollisionComponent *>> GetEntitiesInBox(const Box2 & box);
+        std::vector<Collision> GetEntitiesInBox(const Box2 & box);
 
         /**
          * @brief Create a Type that can be assigned to a component.
