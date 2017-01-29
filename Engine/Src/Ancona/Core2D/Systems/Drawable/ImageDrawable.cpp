@@ -77,7 +77,7 @@ void ImageDrawable::SetupSprite(sf::Texture * texture)
         _textureRect.Dimension.y);
 
     _sprite.reset(new sf::Sprite(*texture, spriteRect));
-    _sprite->setOrigin(spriteRect.width / 2.0f, spriteRect.height / 2.0f);
+    _sprite->setOrigin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
 }
 
 
