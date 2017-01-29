@@ -26,14 +26,14 @@ class AnimatedDrawable : public Drawable
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param duration Seconds per frame.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from its parent drawable.
+         * @param anchor Vector that defines the offset from its parent drawable.
          */
         AnimatedDrawable(
                 const int priority,
                 const std::string & key,
                 float duration,
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
+                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
 
         /**

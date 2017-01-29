@@ -11,12 +11,12 @@ AnimatedDrawable::AnimatedDrawable(
         const std::string & key,
         float duration,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
+        sf::Vector2f anchor) :
     Drawable(
             priority,
             key,
             priorityOffset,
-            positionOffset),
+            anchor),
     _duration(duration)
 {
 }

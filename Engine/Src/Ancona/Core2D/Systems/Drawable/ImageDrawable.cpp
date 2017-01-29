@@ -12,12 +12,12 @@ ImageDrawable::ImageDrawable(
         bool isWholeImage,
         Box2 textureRect,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
+        sf::Vector2f anchor) :
     Drawable(
             priority,
             key,
             priorityOffset,
-            positionOffset),
+            anchor),
     _textureKey(textureKey),
     _textureRect(textureRect),
     _isWholeImage(isWholeImage)
@@ -31,12 +31,12 @@ ImageDrawable::ImageDrawable(
         bool isWholeImage,
         Box2 textureRect,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
+        sf::Vector2f anchor) :
     Drawable(
             priority,
             key,
             priorityOffset,
-            positionOffset),
+            anchor),
     _textureKey(""),
     _textureRect(textureRect),
     _isWholeImage(isWholeImage)

@@ -56,13 +56,13 @@ class Drawable
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param key Key of the drawable.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from its parent drawable.
+         * @param anchor Vector that defines the offset from its parent drawable.
          */
         Drawable(
                 const int priority,
                 const std::string & key,
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
+                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         /**
          * @brief Draws the object to the window.
@@ -111,8 +111,8 @@ class Drawable
 
         /* getters and setters */
         int renderPriority() const { return _renderPriority + _priorityOffset; }
-        sf::Vector2f positionOffset() { return _positionOffset; }
-        void positionOffset(sf::Vector2f positionOffset) { _positionOffset = positionOffset; }
+        sf::Vector2f anchor() { return _anchor; }
+        void anchor(sf::Vector2f anchor) { _anchor = anchor; }
         float rotation() { return _rotation; }
         sf::Vector2f scale() { return _scale; }
         void rotation(float rotation) { _rotation = rotation; }
@@ -133,7 +133,7 @@ class Drawable
         /**
          * @brief Offset coordinate for this drawable element.
          */
-        sf::Vector2f _positionOffset;
+        sf::Vector2f _anchor;
         /**
          * @brief Amount to scale the drawable element.
          */

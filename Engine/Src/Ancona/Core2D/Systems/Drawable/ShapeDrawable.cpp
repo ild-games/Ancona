@@ -11,12 +11,12 @@ ShapeDrawable::ShapeDrawable(
         const int priorty,
         const std::string & key,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
+        sf::Vector2f anchor) :
     Drawable(
             priorty,
             key,
             priorityOffset,
-            positionOffset),
+            anchor),
     _shape(shape)
 {
 }

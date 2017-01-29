@@ -9,12 +9,12 @@ ContainerDrawable::ContainerDrawable(
         const int priority,
         const std::string & key,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
+        sf::Vector2f anchor) :
     Drawable(
             priority,
             key,
             priorityOffset,
-            positionOffset)
+            anchor)
 {
 }
 
@@ -88,7 +88,7 @@ sf::Vector2f ContainerDrawable::size()
     {
         sf::Vector2f drawableSize = drawable->size();
 
-        float curX = drawable->positionOffset().x;
+        float curX = drawable->anchor().x;
         if (curX - (drawableSize.x / 2.0f) < minX)
         {
             minX = curX - (drawableSize.x / 2.0f);
@@ -98,7 +98,7 @@ sf::Vector2f ContainerDrawable::size()
             maxX = curX + (drawableSize.x / 2.0f);
         }
 
-        float curY = drawable->positionOffset().y;
+        float curY = drawable->anchor().y;
         if (curY - (drawableSize.y / 2.0f) < minY)
         {
             minY = curY - (drawableSize.y / 2.0f);

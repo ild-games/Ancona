@@ -9,8 +9,8 @@ Drawable::Drawable(
         const int priority,
         const std::string & key,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
-    _positionOffset(positionOffset),
+        sf::Vector2f anchor) :
+    _anchor(anchor),
     _renderPriority(priority),
     _priorityOffset(priorityOffset),
     _key(key)
@@ -24,7 +24,7 @@ void Drawable::Serialize(Archive &arc)
     arc(_priorityOffset,"priorityOffset");
     arc(_rotation,"rotation");
     arc(_scale,"scale");
-    arc(_positionOffset,"positionOffset");
+    arc(_anchor,"anchor");
     arc(_inactive, "inactive");
     arc(_key, "key");
 }
@@ -40,7 +40,7 @@ void Drawable::Draw(sf::RenderWindow &window, sf::Transform parentTransform, flo
 sf::Transform Drawable::CalculateTransforms()
 {
     sf::Transform transform;
-    transform.translate(_positionOffset).rotate(_rotation).scale(_scale);
+    transform.rotate(_rotation).scale(_scale);
     return transform;
 }
 

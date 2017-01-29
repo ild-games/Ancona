@@ -15,13 +15,13 @@ TextDrawable::TextDrawable(
         const int priority,
         const std::string & key,
         int priorityOffset,
-        sf::Vector2f positionOffset,
+        sf::Vector2f anchor,
         bool smooth) :
     Drawable(
             priority,
             key,
             priorityOffset,
-            positionOffset)
+            anchor)
 {
      _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
      _text->setFillColor(color);
