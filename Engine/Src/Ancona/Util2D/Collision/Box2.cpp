@@ -27,18 +27,18 @@ DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
         return DoesIntersect::Maybe;
     }
 
-    auto leftXMin = left.Position.x - left.Dimension.x / 2;
+    auto leftXMin = left.Position.x;
     auto leftXMax = leftXMin + left.Dimension.x;
-    auto rightXMin = right.Position.x - right.Dimension.x / 2;
+    auto rightXMin = right.Position.x;
     auto rightXMax = rightXMin + right.Dimension.x;
     if (leftXMax < rightXMin || rightXMax < leftXMin)
     {
         return DoesIntersect::No;
     }
 
-    auto leftYMin = left.Position.y - left.Dimension.y / 2;
+    auto leftYMin = left.Position.y;
     auto leftYMax = leftYMin + left.Dimension.y;
-    auto rightYMin = right.Position.y - right.Dimension.y / 2;
+    auto rightYMin = right.Position.y;
     auto rightYMax = rightYMin + right.Dimension.y;
     if (leftYMax < rightYMin || rightYMax < leftYMin)
     {
