@@ -87,7 +87,7 @@ void CameraComponent::FetchDependencies(const Entity & entity)
         _followPosition = (*_positionSystem)[_follows];
     }
     _view.setSize(_size);
-    _view.setCenter(0, 0);
+    _view.setCenter(_size.x / 2, _size.y / 2);
     scale(_originalScale);
     _drawableSystem->AddCamera(this);
     if(_default)
