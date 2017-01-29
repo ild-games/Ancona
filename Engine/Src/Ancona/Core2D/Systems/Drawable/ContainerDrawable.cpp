@@ -88,24 +88,24 @@ sf::Vector2f ContainerDrawable::size()
     {
         sf::Vector2f drawableSize = drawable->size();
 
-        float curX = drawable->anchor().x;
-        if (curX - (drawableSize.x / 2.0f) < minX)
+        float curX = -(drawableSize.x * drawable->anchor().x);
+        if (curX < minX)
         {
-            minX = curX - (drawableSize.x / 2.0f);
+            minX = curX;
         }
-        if (curX + (drawableSize.x / 2.0f) > maxX)
+        if (curX + drawableSize.x > maxX)
         {
-            maxX = curX + (drawableSize.x / 2.0f);
+            maxX = curX + drawableSize.x;
         }
 
-        float curY = drawable->anchor().y;
-        if (curY - (drawableSize.y / 2.0f) < minY)
+        float curY = -(drawableSize.y * drawable->anchor().y);
+        if (curY < minY)
         {
-            minY = curY - (drawableSize.y / 2.0f);
+            minY = curY;
         }
-        if (curY + (drawableSize.y / 2.0f) > maxY)
+        if (curY + drawableSize.y > maxY)
         {
-            maxY = curY + (drawableSize.y / 2.0f);
+            maxY = curY + drawableSize.y;
         }
     }
     sf::Vector2f size(maxX - minX, maxY - minY);
