@@ -33,7 +33,7 @@ void CollisionComponent::Update()
 void CollisionComponent::UpdateDimensionPosition()
 {
     auto & pos = _position->position();
-    _dim.position(pos.x, pos.y);
+    _dim.position(pos.x - (_dim.Dimension.x * _anchor.x), pos.y - (_dim.Dimension.y * _anchor.y));
 }
 
 CollisionType CollisionComponent::type()
@@ -92,6 +92,7 @@ struct Serializer<BodyTypeEnum> {
 void CollisionComponent::Serialize(Archive &arc) {
     arc(_dim, "dimension");
     arc(_bodyType, "bodyType");
+    arc(_anchor, "anchor");
     arc.system(_system, "collision");
 
     std::string key;

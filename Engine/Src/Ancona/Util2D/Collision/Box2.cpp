@@ -1,8 +1,8 @@
-#include<Ancona/Util2D/Collision/Box2.hpp>
-#include<Ancona/Util2D/Collision/Math.hpp>
-#include<Ancona/Util2D/VectorMath.hpp>
+#include <Ancona/Util2D/Collision/Box2.hpp>
+#include <Ancona/Util2D/Collision/Math.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
-#include<cmath>
+#include <cmath>
 
 using namespace ild;
 
@@ -67,19 +67,10 @@ void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
 {
     vertices.clear();
 
-    float sinV = sin(Rotation);
-    float cosV = cos(Rotation);
-
-    float xSize = Dimension.x / 2;
-    float ySize = Dimension.y / 2;
-
-    float xOffset = Position.x;
-    float yOffset = Position.y;
-
-    vertices.push_back(Math::CreatePoint(sinV,cosV, xSize, ySize, xOffset, yOffset));
-    vertices.push_back(Math::CreatePoint(sinV,cosV, -xSize, ySize, xOffset, yOffset));
-    vertices.push_back(Math::CreatePoint(sinV,cosV, -xSize, -ySize, xOffset, yOffset));
-    vertices.push_back(Math::CreatePoint(sinV,cosV, xSize, -ySize, xOffset, yOffset));
+    vertices.push_back(Math::RotatePoint(std::pair<float, float>(Position.x, Position.y), Rotation));
+    vertices.push_back(Math::RotatePoint(std::pair<float, float>(Position.x + Dimension.x, Position.y), Rotation));
+    vertices.push_back(Math::RotatePoint(std::pair<float, float>(Position.x, Position.y + Dimension.y), Rotation));
+    vertices.push_back(Math::RotatePoint(std::pair<float, float>(Position.x + Dimension.x, Position.y + Dimension.y), Rotation));
 }
 
 bool Box2::Intersects(const Box2 & box) const

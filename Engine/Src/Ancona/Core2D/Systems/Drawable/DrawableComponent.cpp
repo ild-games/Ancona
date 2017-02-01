@@ -35,7 +35,7 @@ void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
 Box2 DrawableComponent::BoundingBox()
 {
     return Box2(
-        _positionComponent->position(),
+        _positionComponent->position() - sf::Vector2f(_topDrawable->size().x * _topDrawable->anchor().x, _topDrawable->size().y * _topDrawable->anchor().y),
         _topDrawable->size(),
         _topDrawable->rotation());
 }

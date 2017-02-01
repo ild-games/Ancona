@@ -3,13 +3,10 @@
 
 using namespace ild;
 
-std::pair<float,float> Math::CreatePoint(
-        float sinValue, float cosValue,
-        float xSize, float ySize,
-        float xOffset, float yOffset)
+std::pair<float, float> Math::RotatePoint(const std::pair<float ,float> & point, float theta)
 {
-    float xPos = xSize * cosValue - ySize * sinValue + xOffset;
-    float yPos = xSize * sinValue + ySize * cosValue + yOffset;
+    float xPos = (point.first * std::cos(theta)) - (point.second * std::sin(theta));
+    float yPos = (point.first * std::sin(theta)) + (point.second * std::cos(theta));
 
     return std::pair<float,float>(xPos,yPos);
 }

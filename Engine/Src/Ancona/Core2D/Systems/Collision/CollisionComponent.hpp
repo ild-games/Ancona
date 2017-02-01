@@ -115,6 +115,8 @@ class CollisionComponent
         void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
         PositionComponent & positionComponent() { return *_position; }
         const Box2 & box() const { return _dim; }
+        void anchor(const sf::Vector2f & anchor) { _anchor = anchor; }
+        const sf::Vector2f & anchor() { return _anchor; }
 
     private:
         PositionComponent * _position;
@@ -122,6 +124,7 @@ class CollisionComponent
         Box2 _dim;
         CollisionType _type;
         BodyTypeEnum _bodyType;
+        sf::Vector2f _anchor;
 };
 
 }
