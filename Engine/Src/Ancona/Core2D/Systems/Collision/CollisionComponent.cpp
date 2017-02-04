@@ -41,34 +41,19 @@ CollisionType CollisionComponent::type()
     return _type;
 }
 
-std::vector<Collision> CollisionComponent::GetProjectionCollisions(ild::Point direction) const {
+std::vector<Collision> CollisionComponent::GetCollisions() const
+{
+    return GetCollisions(box());
+}
+
+std::vector<Collision> CollisionComponent::GetCollisions(const Box2 & box) const
+{
     std::vector<Collision> collisions;
-
-    if (direction.x != 0) {
-
-        Box2 box = this->box();
-        box.position(
-            Math::signum(direction.x) * box.Dimension.x / 2 + box.Position.x + direction.x,
-            direction.y + box.Position.y);
-        box.dimension(direction.x, box.Dimension.y);
-        for (auto collision : _system->GetEntitiesInBox(box)) {
+    for (auto collision : _system->GetEntitiesInBox(box)) {
+        if (collision.collisionComponent() != this) {
             collisions.push_back(collision);
         }
     }
-
-    if (direction.y != 0) {
-        Box2 box = this->box();
-        box.position(
-            direction.x + box.Position.x,
-            Math::signum(direction.y) * box.Dimension.y / 2 + box.Position.y + direction.y);
-        box.dimension(box.Dimension.x, direction.y);
-        for (auto collision : _system->GetEntitiesInBox(box)) {
-            if (!alg::contains(collisions, collision)) {
-                collisions.push_back(collision);
-            }
-        }
-    }
-
     return collisions;
 }
 

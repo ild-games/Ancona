@@ -98,11 +98,16 @@ class CollisionComponent
         void UpdateDimensionPosition();
 
         /**
-         * Projects an entity in the direction specified. Designed to be used to test if an entity is on a surface or can move in a direction.
-         * @param  direction Direction and magnitude to project the entity. Defaults to a value used for checking ground collisions.
+         * Get all of the collisions involving the component.
          * @return A vector of collisions.
          */
-        std::vector<Collision> GetProjectionCollisions(ild::Point direction = ild::Point(0, 1)) const;
+        std::vector<Collision> GetCollisions() const;
+
+        /**
+         * Get all of the collisions involving the component and override the component's collision box.
+         * @return a Vector of collisions;
+         */
+        std::vector<Collision> GetCollisions(const Box2 & boxToTest) const;
 
         /* getters and setters */
         CollisionType type();
