@@ -39,15 +39,10 @@ class PositionComponent
         inline void velocity(const Point & velocity) { _velocity = velocity; }
         void position(const Point & position);
 
-        bool onGround() const;
-        void groundDirection(Point groundDirection) { _groundDirection = groundDirection; }
-        const Point & groundDirection() const { return _groundDirection; }
-
     protected:
         Point _actualPosition;
         Point _position;
         Point _velocity;
-        Point _groundDirection;
 
         void RoundPosition();
 };
@@ -60,11 +55,6 @@ class PositionComponent
 class PositionSystem : public UnorderedSystem<PositionComponent>
 {
     public:
-
-        /* getters and setters */
-        inline void gravity(Point gravity) { _gravity = gravity; }
-        inline const Point & gravity() { return _gravity; }
-
         /**
          * @brief Constructor of a PositionSystem and register it with the manager.
          *
@@ -89,9 +79,6 @@ class PositionSystem : public UnorderedSystem<PositionComponent>
          * @param delta Fraction of a second since the last update.
          */
         void Update(float delta);
-
-    private:
-        Point _gravity;
 };
 
 }

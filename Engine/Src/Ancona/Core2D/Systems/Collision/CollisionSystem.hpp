@@ -41,7 +41,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          *
          * @param delta Number of ms since last update
          */
-        void Update(float delta);
+        void Update(float delta) override;
 
         /**
          * @brief Create and attach a collision component for the entity.
@@ -58,6 +58,15 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
                 const sf::Vector3f & dim,
                 CollisionType type,
                 BodyTypeEnum bodyType = BodyType::None);
+
+        /**
+        * Find the entities that collide with the box.
+        *
+        * @param box Collision box used to find entities.
+        *
+        * @return An array of entity collision component pairs.
+        */
+        std::vector<Collision> GetEntitiesInBox(const Box2 & box);
 
         /**
          * @brief Create a Type that can be assigned to a component.
@@ -117,8 +126,6 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         PositionSystem & _positions;
         std::unordered_map<std::string,CollisionType> _collisionTypes;
         std::unordered_map<CollisionType,std::string> _collisionTypeToKey;
-        Point _leftGravityBound;
-        Point _rightGravityBound;
         float _maxSlope = 45;
         const std::string NONE_COLLISION_TYPE = "none";
 
@@ -130,9 +137,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
             float fixMagnitude);
         bool EntitiesOverlapping(float fixMagnitude);
 
-        void UpdateGravityBounds();
         void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
-        bool IsOnGround(const Point & groundNormal);
 
         void PushApart(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);
         void PushFirstOutOfSecond(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);

@@ -201,24 +201,3 @@ TEST_F(ActionComponentTest, PositionOverridesVelocity)
     ASSERT_LT(Point(100,0).y, posComp->position().y) << "The velocity should be able to effect"
         << " the y position once the position action expires.";
 }
-
-TEST_F(ActionComponentTest, RelativeToGroundMovement)
-{
-    Point ground1(1,0);
-    Point velocity1(-3, 1);
-
-    posComp->groundDirection(ground1);
-
-    update(manager, 1);
-
-    ASSERT_EQ(posComp->groundDirection(), ground1) << "Ground direction should not change during the update";
-
-    actComp->actions().CreateVelocityAction()
-        ->isRelativeToGround(true)
-        ->value(velocity1)
-        ->duration(ActionDuration::PERSISTENT);
-
-    update(manager, 1);
-
-    ASSERT_EQ(Point(0,-3), posComp->position()) << "The position was not updated based on the ground vector";
-}

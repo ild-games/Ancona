@@ -1,9 +1,13 @@
 #ifndef Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 #define Ancona_Engine_Core_Systems_Collision_CollisionComponent_H_
 
+#include <vector>
+
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Util2D/Collision/Box2.hpp>
 #include <Ancona/Util/Data.hpp>
+
+#include "Collision.hpp"
 
 namespace ild
 {
@@ -71,7 +75,7 @@ class CollisionComponent
          *
          * @return True if the components collide.  False otherwise.
          */
-        bool Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude);
+        bool Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude) const;
 
         /**
          * @brief Update the internal state for purpose of collision.
@@ -93,9 +97,21 @@ class CollisionComponent
          */
         void UpdateDimensionPosition();
 
+        /**
+         * Get all of the collisions involving the component.
+         * @return A vector of collisions.
+         */
+        std::vector<Collision> GetCollisions() const;
+
+        /**
+         * Get all of the collisions involving the component and override the component's collision box.
+         * @return a Vector of collisions;
+         */
+        std::vector<Collision> GetCollisions(const Box2 & boxToTest) const;
+
         /* getters and setters */
         CollisionType type();
-        BodyTypeEnum bodyType() { return _bodyType; }
+        BodyTypeEnum bodyType() const { return _bodyType; }
         void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
         PositionComponent & positionComponent() { return *_position; }
         const Box2 & box() const { return _dim; }

@@ -1,3 +1,5 @@
+#include <Ancona/Util/Algorithm.hpp>
+#include <Ancona/Util/Math.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionComponent.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
 
@@ -18,7 +20,7 @@ CollisionComponent::CollisionComponent(CollisionSystem * collisionSystem,
 
 }
 
-bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude)
+bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude) const
 {
     return _dim.Intersects(otherComponent._dim, fixNormal, fixMagnitude);
 }
@@ -26,7 +28,6 @@ bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Poi
 void CollisionComponent::Update()
 {
     UpdateDimensionPosition();
-    _position->groundDirection(Point());
 }
 
 void CollisionComponent::UpdateDimensionPosition()
@@ -38,6 +39,22 @@ void CollisionComponent::UpdateDimensionPosition()
 CollisionType CollisionComponent::type()
 {
     return _type;
+}
+
+std::vector<Collision> CollisionComponent::GetCollisions() const
+{
+    return GetCollisions(box());
+}
+
+std::vector<Collision> CollisionComponent::GetCollisions(const Box2 & box) const
+{
+    std::vector<Collision> collisions;
+    for (auto collision : _system->GetEntitiesInBox(box)) {
+        if (collision.collisionComponent() != this) {
+            collisions.push_back(collision);
+        }
+    }
+    return collisions;
 }
 
 namespace ild {

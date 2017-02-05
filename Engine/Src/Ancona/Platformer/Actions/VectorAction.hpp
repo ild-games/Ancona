@@ -42,8 +42,6 @@ class VectorAction : public Action<VectorAction>
         /* getters and setters */
         float tweenRatio();
         const sf::Vector2f & value() { return _value; }
-        bool isRelativeToGround() { return _relativeToGround; }
-        VectorAction * isRelativeToGround(bool value) { _relativeToGround = value; return this; }
     private:
         /**
          * @brief value of the action.  For a velocity action this would be the velocity.
@@ -53,10 +51,6 @@ class VectorAction : public Action<VectorAction>
          * @brief Amount of time the action should be tweened for.
          */
         float _tweenTime = 0;
-        /**
-         * @brief Flag to determine if the action should be taken relative to the ground.
-         */
-        bool _relativeToGround = false;
 };
 
 }

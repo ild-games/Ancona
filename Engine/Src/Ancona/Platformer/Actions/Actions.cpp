@@ -26,37 +26,10 @@ VectorActionProxy Actions::CreateVelocityAction()
     return action;
 }
 
-JumpActionProxy Actions::CreateJumpAction()
-{
-    auto jumpVelocityAction = CreateVelocityAction();
-    jumpVelocityAction->duration(ActionDuration::PERSISTENT);
-
-    JumpActionProxy action(new JumpAction());
-    action->velocityAction(jumpVelocityAction);
-    _jumpActions.push_back(action);
-
-    return action;
-}
-
-RunActionProxy Actions::CreateRunAction(PositionComponent * positionComponent)
-{
-    auto runVelocityAction = CreateVelocityAction();
-    runVelocityAction->duration(ActionDuration::PERSISTENT);
-
-    RunActionProxy action(new RunAction(positionComponent));
-    action->velocityAction(runVelocityAction);
-    _runActions.push_back(action);
-
-    return action;
-}
-
 void Actions::Serialize(Archive & arc)
 {
     arc(_velocityActions, "platformVelocityActions");
     arc(_positionActions, "platformPositionActions");
-    arc(_jumpActions, "platformJumpActions");
-    arc(_runActions, "platformRunActions");
-    arc(_affectedByGravity, "affectedByGravity");
     arc.system(_positionSystem, "position");
 }
 
@@ -72,17 +45,6 @@ static Point TweenPosition(VectorAction & action, float beforeRatio,
 
     return position + (afterRatio - beforeRatio) / (1 - beforeRatio) *
         (action.value() - position);
-}
-
-void Actions::StopFall()
-{
-    _totalGravity = Point();
-}
-
-void Actions::ApplyGravity(Point &velocity, float delta)
-{
-    _totalGravity += delta * _positionSystem->gravity();
-    velocity += _totalGravity;
 }
 
 Point Actions::ApplyPositionActions(const PositionComponent & position, float delta)
@@ -105,12 +67,6 @@ Point Actions::ApplyVelocityActions(const PositionComponent & position, float de
         float overflow = action->Update(delta);
         auto value = action->value();
 
-        if(action->isRelativeToGround())
-        {
-            auto groundDirection = position.groundDirection();
-            value = value.x * Point(-groundDirection.y,groundDirection.x);
-        }
-
         if(overflow > 0)
         {
             velocity += value * (1 - overflow / delta);
@@ -123,38 +79,10 @@ Point Actions::ApplyVelocityActions(const PositionComponent & position, float de
     return velocity;
 }
 
-void Actions::ApplyJumpActions()
-{
-    for (auto & jumpAction : _jumpActions)
-    {
-        jumpAction->ApplyJumpEvents(_totalGravity);
-    }
-}
-
-void Actions::ApplyRunActions()
-{
-    for (auto & runAction : _runActions)
-    {
-        runAction->ApplyRunEvents();
-    }
-}
-
 void Actions::Apply(PositionComponent & position, float delta)
 {
-    ApplyJumpActions();
-    ApplyRunActions();
-
     //Velocity actions apply additively
     Point velocity = ApplyVelocityActions(position,delta);
-
-    if (position.onGround())
-    {
-        StopFall();
-    }
-    else if (_affectedByGravity)
-    {
-        ApplyGravity(velocity, delta);
-    }
 
     if (_positionActions.size())
     {
@@ -169,9 +97,6 @@ void Actions::Apply(PositionComponent & position, float delta)
         _actionVelocity = velocity;
     }
 
-
     RemoveDoneActions<VectorActionProxy>(_velocityActions);
     RemoveDoneActions<VectorActionProxy>(_positionActions);
-    RemoveDoneActions<JumpActionProxy>(_jumpActions);
-    RemoveDoneActions<RunActionProxy>(_runActions);
 }

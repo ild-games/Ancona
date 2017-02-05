@@ -104,6 +104,7 @@ class Box2
 
         /* getters and setters */
         void position(float x, float y);
+        void dimension(float x, float y) {Dimension.x = x; Dimension.y = y;};
     private:
         bool SATCollision(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const;
 };
