@@ -9,7 +9,7 @@ std::pair<float,float> Math::CreatePoint(
         float xOffset, float yOffset)
 {
     float xPos = xSize * cosValue - ySize * sinValue + xOffset;
-    float yPos = xSize * sinValue + ySize * cosValue + yOffset; 
+    float yPos = xSize * sinValue + ySize * cosValue + yOffset;
 
     return std::pair<float,float>(xPos,yPos);
 }
@@ -27,7 +27,7 @@ Math::Vector2 Math::GetNormal(const Vector2 & edge)
 
 float Math::Dot(const Math::Vector2 & a, const Math::Vector2 & b)
 {
-    return a.first * b.first + a.second * b.second;        
+    return a.first * b.first + a.second * b.second;
 }
 
 Math::Projection2 Math::GetProjection(const Vertices2 & shapeA, const Vector2 & normal)
@@ -41,13 +41,13 @@ Math::Projection2 Math::GetProjection(const Vertices2 & shapeA, const Vector2 & 
         max = fmax(max, dot);
         min = fmin(min, dot);
     }
-    
+
     return Projection2(min,max);
 }
 
 bool Math::Intersect(const Projection2 & a, const Projection2 & b)
 {
-    return !(a.first > b.second || b.first > a.second);   
+    return !(a.first > b.second || b.first > a.second);
 }
 
 float Math::FixMagnitude(const Math::Projection2 & a, const Math::Projection2 & b)
@@ -59,7 +59,7 @@ float Math::FixMagnitude(const Math::Projection2 & a, const Math::Projection2 & 
 
     float left = b.first - a.second;  // negative
     float right = b.second - a.first; //positive
-     
+
     return fabs(left) > fabs(right) ? right : left;
 }
 
@@ -84,7 +84,7 @@ static bool TestShapeAxis(const Math::Vertices2 & shapeA, const Math::Vertices2 
 
         if(!Intersect(projectionA, projectionB))
         {
-            return false; 
+            return false;
         }
     }
     return true;
@@ -108,7 +108,7 @@ Math::CollisionFix Math::GetFixVector(const Math::Vertices2 & shapeA, const Math
 
         if(fabs(fix) < fabs(min))
         {
-            min = fix;  
+            min = fix;
             normalOfMin = normal;
         }
     }
@@ -132,6 +132,13 @@ bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB, Collision
         fixB.magnitude *= -1;
 
         collisionFix = fabs(fixA.magnitude) <= fabs(fixB.magnitude) ? fixA : fixB;
+
+        if (collisionFix.magnitude < 0)
+        {
+            collisionFix.magnitude *= -1;
+            collisionFix.normal.first *= -1;
+            collisionFix.normal.second *= -1;
+        }
 
         return true;
     }
