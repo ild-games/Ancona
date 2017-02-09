@@ -103,7 +103,14 @@ void ImageDrawable::FetchDependencies(const Entity &entity)
 /* getters and setters */
 sf::Vector2f ImageDrawable::size()
 {
-    return VectorMath::ComponentMultiplication(_textureRect.Dimension, _scale);
+    if (_isTiled) 
+    {
+        return VectorMath::ComponentMultiplication(_tiledArea, _scale);
+    }
+    else 
+    {
+        return VectorMath::ComponentMultiplication(_textureRect.Dimension, _scale);
+    }
 }
 
 void ImageDrawable::alpha(int newAlpha)
