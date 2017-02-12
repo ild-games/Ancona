@@ -22,6 +22,8 @@ void ContainerDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableT
 {
     for (auto & drawable : _drawables)
     {
+        auto size = this->size();
+        drawableTransform.translate(-(size.x * _anchor.x), -(size.y * _anchor.y)); 
         drawable->Draw(window, drawableTransform, delta);
     }
 }

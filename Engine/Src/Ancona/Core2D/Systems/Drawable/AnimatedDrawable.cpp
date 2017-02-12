@@ -23,6 +23,8 @@ AnimatedDrawable::AnimatedDrawable(
 
 void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
+    auto size = this->size();
+    drawableTransform.translate(-(size.x * _anchor.x), -(size.y * _anchor.y)); 
     _frames[_curFrame]->Draw(window, drawableTransform, delta);
     Tick(delta);
 }
