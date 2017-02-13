@@ -20,17 +20,17 @@ TEST(CollisionBox2, GetVertices)
     auto vertex3 = vertices[2];
     auto vertex4 = vertices[3];
 
-    ASSERT_FLOAT_EQ(vertex1.first,0) << "Point 1 X incorrect";
-    ASSERT_FLOAT_EQ(vertex1.second,0) << "Point 1 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex1.first,2) << "Point 1 X incorrect";
+    ASSERT_FLOAT_EQ(vertex1.second,2) << "Point 1 Y incorrect";
 
-    ASSERT_FLOAT_EQ(vertex2.first,2) << "Point 2 X incorrect";
-    ASSERT_FLOAT_EQ(vertex2.second,0) << "Point 2 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex2.first,0) << "Point 2 X incorrect";
+    ASSERT_FLOAT_EQ(vertex2.second,2) << "Point 2 Y incorrect";
 
     ASSERT_FLOAT_EQ(vertex3.first,0) << "Point 3 incorrect";
-    ASSERT_FLOAT_EQ(vertex3.second,2) << "Point 3 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex3.second,0) << "Point 3 Y incorrect";
 
     ASSERT_FLOAT_EQ(vertex4.first,2) << "Point 4 X incorrect";
-    ASSERT_FLOAT_EQ(vertex4.second,2) << "Point 4 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex4.second,0) << "Point 4 Y incorrect";
 }
 
 TEST(CollisionBox2, GetVerticesWOffset)
@@ -44,17 +44,17 @@ TEST(CollisionBox2, GetVerticesWOffset)
     auto vertex3 = vertices[2];
     auto vertex4 = vertices[3];
 
-    ASSERT_FLOAT_EQ(vertex1.first,10) << "Point 1 X incorrect";
-    ASSERT_FLOAT_EQ(vertex1.second,14) << "Point 1 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex1.first,12) << "Point 1 X incorrect";
+    ASSERT_FLOAT_EQ(vertex1.second,21) << "Point 1 Y incorrect";
 
-    ASSERT_FLOAT_EQ(vertex2.first,12) << "Point 2 X incorrect";
-    ASSERT_FLOAT_EQ(vertex2.second,14) << "Point 2 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex2.first,10) << "Point 2 X incorrect";
+    ASSERT_FLOAT_EQ(vertex2.second,21) << "Point 2 Y incorrect";
 
     ASSERT_FLOAT_EQ(vertex3.first,10) << "Point 3 incorrect";
-    ASSERT_FLOAT_EQ(vertex3.second,21) << "Point 3 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex3.second,14) << "Point 3 Y incorrect";
 
     ASSERT_FLOAT_EQ(vertex4.first,12) << "Point 4 X incorrect";
-    ASSERT_FLOAT_EQ(vertex4.second,21) << "Point 4 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex4.second,14) << "Point 4 Y incorrect";
 }
 
 TEST(CollisionBox2, IntersectsNoOverlap)
