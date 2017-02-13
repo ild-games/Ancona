@@ -1,6 +1,7 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Util/Math.hpp>
 
 using namespace ild;
 
@@ -35,9 +36,10 @@ void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
 Box2 DrawableComponent::BoundingBox()
 {
     return Box2(
-        _positionComponent->position() - sf::Vector2f(_topDrawable->size().x * _topDrawable->anchor().x, _topDrawable->size().y * _topDrawable->anchor().y),
+        _topDrawable->actualPosition(_positionComponent->position()),
         _topDrawable->size(),
-        _topDrawable->rotation());
+        _topDrawable->anchor(),
+        Math::DegreesToRadians(_topDrawable->rotation()));
 }
 
 void DrawableComponent::FetchDependencies(const Entity & entity)

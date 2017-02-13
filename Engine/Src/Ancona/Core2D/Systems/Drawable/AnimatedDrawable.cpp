@@ -23,8 +23,10 @@ AnimatedDrawable::AnimatedDrawable(
 
 void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
-    auto size = this->size();
-    drawableTransform.translate(-(size.x * _anchor.x), -(size.y * _anchor.y)); 
+    if (_anchor.x != 0.0f || _anchor.y != 0.0f) {
+        auto size = this->size();
+        drawableTransform.translate(-(size.x * _anchor.x), -(size.y * _anchor.y)); 
+    }
     _frames[_curFrame]->Draw(window, drawableTransform, delta);
     Tick(delta);
 }
@@ -132,3 +134,21 @@ void AnimatedDrawable::alpha(int newAlpha)
     }
 }
 
+sf::Vector2f AnimatedDrawable::actualPosition(sf::Vector2f entityPosition)
+{
+    float minX = INFINITY, minY = INFINITY;
+    for (auto & frame : _frames) {
+        sf::Vector2f drawablePosition = frame->actualPosition(entityPosition);
+        
+        if (drawablePosition.x < minX) {
+            minX = drawablePosition.x;     
+        }
+        
+        if (drawablePosition.y < minY) {
+            minY = drawablePosition.y;     
+        }
+    }
+    
+    auto size = this->size();
+    return sf::Vector2f(minX, minY) - sf::Vector2f(size.x * _anchor.x, size.y * _anchor.y);
+}

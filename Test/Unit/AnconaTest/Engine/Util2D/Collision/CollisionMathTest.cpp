@@ -15,7 +15,7 @@ TEST(CollisionMath, GetNormal)
 
 TEST(CollisionMath, RotatePointNoRotation)
 {
-   auto point1 = RotatePoint(std::pair<float, float>(5, 10), 0);
+   auto point1 = RotatePoint(std::pair<float, float>(5, 10),std::pair<float, float>(0, 0), 0);
 
    ASSERT_EQ(point1.first, 5) <<  "X with no rotation set incorrectly";
    ASSERT_EQ(point1.second, 10) << "Y with no rotation set incorrectly";
@@ -25,8 +25,8 @@ TEST(CollisionMath, RotatePointWithRotation)
 {
     auto angle1 = 30 * M_PI / 180;
     auto angle2 = 45 * M_PI / 180;
-    auto point1 = RotatePoint(std::pair<float, float>(10, 10), angle1);
-    auto point2 = RotatePoint(std::pair<float, float>(10, 10), angle2);
+    auto point1 = RotatePoint(std::pair<float, float>(10, 10), std::pair<float, float>(0, 0), angle1);
+    auto point2 = RotatePoint(std::pair<float, float>(10, 10), std::pair<float, float>(0, 0), angle2);
 
     ASSERT_FLOAT_EQ(point1.first, 3.660254) << "X rotated 30 degrees calculated incorrectly";
     ASSERT_FLOAT_EQ(point1.second, 13.660254) << "Y rotated 30 degrees calculated incorrectly";
@@ -38,7 +38,7 @@ TEST(CollisionMath, RotatePointWithRotation)
 TEST(CollisionMath, RotatePointWithUnusualRotation)
 {
     auto angle = 33 * M_PI / 180;
-    auto point = RotatePoint(std::pair<float, float>(13, 27), angle);
+    auto point = RotatePoint(std::pair<float, float>(13, 27), std::pair<float, float>(0, 0), angle);
 
     ASSERT_FLOAT_EQ(point.first, -3.802537) << "X rotated incorrectly";
     ASSERT_FLOAT_EQ(point.second, 29.724413) << "Y rotated incorrectly";

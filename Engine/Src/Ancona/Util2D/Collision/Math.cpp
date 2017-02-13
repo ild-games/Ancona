@@ -3,10 +3,10 @@
 
 using namespace ild;
 
-std::pair<float, float> Math::RotatePoint(const std::pair<float ,float> & point, float theta)
+std::pair<float, float> Math::RotatePoint(const std::pair<float, float> & point, const std::pair<float, float> & origin, float theta)
 {
-    float xPos = (point.first * std::cos(theta)) - (point.second * std::sin(theta));
-    float yPos = (point.first * std::sin(theta)) + (point.second * std::cos(theta));
+    float xPos = std::cos(theta) * (point.first - origin.first) - std::sin(theta) * (point.second - origin.second) + origin.first;
+    float yPos = std::sin(theta) * (point.first - origin.first) + std::cos(theta) * (point.second - origin.second) + origin.second;
 
     return std::pair<float,float>(xPos,yPos);
 }
@@ -20,7 +20,6 @@ Math::Vector2 Math::GetNormal(const Vector2 & edge)
 {
     return Vector2(-edge.second, edge.first);
 }
-
 
 float Math::Dot(const Math::Vector2 & a, const Math::Vector2 & b)
 {

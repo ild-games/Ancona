@@ -78,6 +78,7 @@ class AnimatedDrawable : public Drawable
 
         /* getters and setters */
         sf::Vector2f size() override;
+        sf::Vector2f actualPosition(sf::Vector2f entityPosition) override;
         int alpha() override;
         void alpha(int alpha) override;
         void duration(float duration) { _duration = duration; }

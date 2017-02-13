@@ -66,3 +66,10 @@ void Drawable::SetYDirection(int upOrDownSignum)
 {
     _scale.y = std::abs(_scale.y) * upOrDownSignum;
 }
+
+/* getters and setters */
+sf::Vector2f Drawable::actualPosition(sf::Vector2f entityPosition)
+{
+    auto size = this->size();
+    return entityPosition - sf::Vector2f(size.x * _anchor.x, size.y * _anchor.y);
+}

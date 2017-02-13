@@ -61,11 +61,12 @@ namespace Math
      * @brief Rotate a given point around the origin by theta (radians)
      *  
      * @param point The point to rotate
+     * @param origin The point to rotate around
      * @param theta The rotation amount in radians
      *
      * @return The rotated point.
      */
-    Point2 RotatePoint(const Point2 & point, float theta);
+    Point2 RotatePoint(const Point2 & point, const Point2 & origin, float theta);
 
     /**
      * @brief Calculate the edge vector for two points

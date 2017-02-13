@@ -48,12 +48,15 @@ DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
     return DoesIntersect::Yes;
 }
 
-Box2::Box2(const sf::Vector2f & position,
-        const sf::Vector2f & dimension,
-        const float & rotation)
+Box2::Box2(
+    const sf::Vector2f & position,
+    const sf::Vector2f & dimension,
+    const sf::Vector2f & anchor,
+    const float & rotation)
 {
     Position = position;
     Dimension = dimension;
+    Anchor = anchor;
     Rotation = rotation;
 }
 
@@ -67,10 +70,22 @@ void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
 {
     vertices.clear();
 
-    vertices.push_back(Math::RotatePoint(std::pair<float, float>(Position.x, Position.y), Rotation));
-    vertices.push_back(Math::RotatePoint(std::pair<float, float>(Position.x + Dimension.x, Position.y), Rotation));
-    vertices.push_back(Math::RotatePoint(std::pair<float, float>(Position.x, Position.y + Dimension.y), Rotation));
-    vertices.push_back(Math::RotatePoint(std::pair<float, float>(Position.x + Dimension.x, Position.y + Dimension.y), Rotation));
+    vertices.push_back(Math::RotatePoint(
+        std::pair<float, float>(Position.x + Dimension.x, Position.y + Dimension.y), 
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        Rotation));
+    vertices.push_back(Math::RotatePoint(
+        std::pair<float, float>(Position.x, Position.y + Dimension.y), 
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        Rotation));
+    vertices.push_back(Math::RotatePoint(
+        std::pair<float, float>(Position.x, Position.y), 
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        Rotation));
+    vertices.push_back(Math::RotatePoint(
+        std::pair<float, float>(Position.x + Dimension.x, Position.y), 
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        Rotation));
 }
 
 bool Box2::Intersects(const Box2 & box) const
