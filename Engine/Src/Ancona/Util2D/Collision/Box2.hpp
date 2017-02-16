@@ -27,6 +27,10 @@ class Box2
          */
         sf::Vector2f Dimension;
         /**
+         * @brief Anchor point to rotate the box around
+         */
+        sf::Vector2f Anchor;
+        /**
          * @brief The rotation of the box.
          */
         float Rotation;
@@ -40,6 +44,7 @@ class Box2
          */
         Box2(const sf::Vector2f & position = sf::Vector2f(),
              const sf::Vector2f & dimension = sf::Vector2f(),
+             const sf::Vector2f & anchor = sf::Vector2f(),
              const float & rotation=0.0f);
 
         /**

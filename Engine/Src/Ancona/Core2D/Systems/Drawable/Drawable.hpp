@@ -56,13 +56,13 @@ class Drawable
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param key Key of the drawable.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from its parent drawable.
+         * @param anchor Vector that defines the offset from its parent drawable.
          */
         Drawable(
                 const int priority,
                 const std::string & key,
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
+                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         /**
          * @brief Draws the object to the window.
@@ -111,12 +111,22 @@ class Drawable
 
         /* getters and setters */
         int renderPriority() const { return _renderPriority + _priorityOffset; }
-        sf::Vector2f positionOffset() { return _positionOffset; }
-        void positionOffset(sf::Vector2f positionOffset) { _positionOffset = positionOffset; }
+        sf::Vector2f anchor() { return _anchor; }
+        void anchor(sf::Vector2f anchor) { _anchor = anchor; }
         float rotation() { return _rotation; }
         sf::Vector2f scale() { return _scale; }
         void rotation(float rotation) { _rotation = rotation; }
         void scale(sf::Vector2f scale) { _scale = scale; };
+        /**
+         * @brief The actual position of a drawable takes in the position from the position component
+         *        and also takes into account the anchor of the drawable which might change it's true
+         *        position.
+         *  
+         * @param entityPosition The position from the entity's position component
+         * 
+         * @returns The actual position the drawable is drawn at
+         */ 
+        virtual sf::Vector2f actualPosition(sf::Vector2f entityPosition);
         virtual sf::Vector2f size() = 0;
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;
@@ -133,7 +143,7 @@ class Drawable
         /**
          * @brief Offset coordinate for this drawable element.
          */
-        sf::Vector2f _positionOffset;
+        sf::Vector2f _anchor;
         /**
          * @brief Amount to scale the drawable element.
          */

@@ -32,7 +32,11 @@ void CameraComponent::Update(float delta)
 
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 {
-    Box2 cameraPosition(_view.getCenter(), _view.getSize(), _view.getRotation());
+    Box2 cameraPosition(
+        sf::Vector2f(_view.getCenter().x - (_view.getSize().x / 2), _view.getCenter().y - (_view.getSize().y / 2)), 
+        _view.getSize(), 
+        sf::Vector2f(),
+        _view.getRotation());
 
     window.setView(_view);
     for(DrawableComponent * drawable : _renderQueue)
@@ -87,7 +91,7 @@ void CameraComponent::FetchDependencies(const Entity & entity)
         _followPosition = (*_positionSystem)[_follows];
     }
     _view.setSize(_size);
-    _view.setCenter(0, 0);
+    _view.setCenter(_size.x / 2, _size.y / 2);
     scale(_originalScale);
     _drawableSystem->AddCamera(this);
     if(_default)

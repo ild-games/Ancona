@@ -25,7 +25,7 @@ class ContainerDrawable : public Drawable
          *
          * @param priority RenderPriority that determines when the drawable obj is rendered.
          * @param priorityOffset Optional offset to the render priority.
-         * @param positionOffset Vector that defines the offset from its parent drawable or from the PositionComponent
+         * @param anchor Vector that defines the offset from its parent drawable or from the PositionComponent
          *                       position if it is the top drawable.
          *
          */
@@ -33,7 +33,7 @@ class ContainerDrawable : public Drawable
                 const int priority,
                 const std::string & key,
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
+                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
 
         /**
@@ -67,6 +67,7 @@ class ContainerDrawable : public Drawable
 
         /* getters and setters */
         sf::Vector2f size() override;
+        sf::Vector2f actualPosition(sf::Vector2f entityPosition) override;
         int alpha() override;
         void alpha(int alpha) override;
 

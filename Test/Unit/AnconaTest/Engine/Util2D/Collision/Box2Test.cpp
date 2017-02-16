@@ -20,17 +20,17 @@ TEST(CollisionBox2, GetVertices)
     auto vertex3 = vertices[2];
     auto vertex4 = vertices[3];
 
-    ASSERT_FLOAT_EQ(vertex1.first,1) << "Point 1 X incorrect";
-    ASSERT_FLOAT_EQ(vertex1.second,1) << "Point 1 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex1.first,2) << "Point 1 X incorrect";
+    ASSERT_FLOAT_EQ(vertex1.second,2) << "Point 1 Y incorrect";
 
-    ASSERT_FLOAT_EQ(vertex2.first,-1) << "Point 2 X incorrect";
-    ASSERT_FLOAT_EQ(vertex2.second,1) << "Point 2 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex2.first,0) << "Point 2 X incorrect";
+    ASSERT_FLOAT_EQ(vertex2.second,2) << "Point 2 Y incorrect";
 
-    ASSERT_FLOAT_EQ(vertex3.first,-1) << "Point 3 incorrect";
-    ASSERT_FLOAT_EQ(vertex3.second,-1) << "Point 3 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex3.first,0) << "Point 3 incorrect";
+    ASSERT_FLOAT_EQ(vertex3.second,0) << "Point 3 Y incorrect";
 
-    ASSERT_FLOAT_EQ(vertex4.first,1) << "Point 4 X incorrect";
-    ASSERT_FLOAT_EQ(vertex4.second,-1) << "Point 4 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex4.first,2) << "Point 4 X incorrect";
+    ASSERT_FLOAT_EQ(vertex4.second,0) << "Point 4 Y incorrect";
 }
 
 TEST(CollisionBox2, GetVerticesWOffset)
@@ -44,17 +44,17 @@ TEST(CollisionBox2, GetVerticesWOffset)
     auto vertex3 = vertices[2];
     auto vertex4 = vertices[3];
 
-    ASSERT_FLOAT_EQ(vertex1.first,11) << "Point 1 X incorrect";
-    ASSERT_FLOAT_EQ(vertex1.second,17.5) << "Point 1 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex1.first,12) << "Point 1 X incorrect";
+    ASSERT_FLOAT_EQ(vertex1.second,21) << "Point 1 Y incorrect";
 
-    ASSERT_FLOAT_EQ(vertex2.first,9) << "Point 2 X incorrect";
-    ASSERT_FLOAT_EQ(vertex2.second,17.5) << "Point 2 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex2.first,10) << "Point 2 X incorrect";
+    ASSERT_FLOAT_EQ(vertex2.second,21) << "Point 2 Y incorrect";
 
-    ASSERT_FLOAT_EQ(vertex3.first,9) << "Point 3 incorrect";
-    ASSERT_FLOAT_EQ(vertex3.second,10.5) << "Point 3 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex3.first,10) << "Point 3 incorrect";
+    ASSERT_FLOAT_EQ(vertex3.second,14) << "Point 3 Y incorrect";
 
-    ASSERT_FLOAT_EQ(vertex4.first,11) << "Point 4 X incorrect";
-    ASSERT_FLOAT_EQ(vertex4.second,10.5) << "Point 4 Y incorrect";
+    ASSERT_FLOAT_EQ(vertex4.first,12) << "Point 4 X incorrect";
+    ASSERT_FLOAT_EQ(vertex4.second,14) << "Point 4 Y incorrect";
 }
 
 TEST(CollisionBox2, IntersectsNoOverlap)
@@ -111,9 +111,8 @@ TEST(CollisionBox2, IntersectsOverlapDifferentFix)
     Box2 box3(sf::Vector2f(0, -5),sf::Vector2f(4,4));
 
     ASSERT_TRUE(box1.Intersects(box2, fix,normal)) << "The two boxes should intersect";
-    ASSERT_EQ(sf::Vector2f(0,1),normal * fix) << "The boxes were not correctly pushed apart";
-    ASSERT_TRUE(box2.Intersects(box3, fix, normal)) << "The two boxes should intersect";
-    ASSERT_EQ(sf::Vector2f(0,2),normal * fix) << "The boxes were not correctly pushed apart";
+    ASSERT_EQ(sf::Vector2f(0,5),normal * fix) << "The boxes were not correctly pushed apart";
+    ASSERT_FALSE(box2.Intersects(box3, fix, normal)) << "The two boxes should not intersect";
 }
 
 TEST(CollisionBox2, IntersectsContainingFix)
@@ -123,7 +122,7 @@ TEST(CollisionBox2, IntersectsContainingFix)
     Box2 box1(sf::Vector2f(4, 0),sf::Vector2f(2,2));
     Box2 box2(sf::Vector2f(0, 0),sf::Vector2f(10,10));
     ASSERT_TRUE(box2.Intersects(box1, fix, normal)) << "The two boxes should intersect";
-    ASSERT_EQ(sf::Vector2f(-2,0),normal * fix) << "The boxes were not correctly pushed apart";
+    ASSERT_EQ(sf::Vector2f(0, 2),normal * fix) << "The boxes were not correctly pushed apart";
 }
 
 TEST(CollisionBox2, GetNearestNormalSharedEdge)

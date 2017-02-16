@@ -11,12 +11,12 @@ ShapeDrawable::ShapeDrawable(
         const int priorty,
         const std::string & key,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
+        sf::Vector2f anchor) :
     Drawable(
             priorty,
             key,
             priorityOffset,
-            positionOffset),
+            anchor),
     _shape(shape)
 {
 }
@@ -30,8 +30,8 @@ void ShapeDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTrans
 void ShapeDrawable::FetchDependencies(const Entity &entity) {
     Drawable::FetchDependencies(entity);
     _shape->setOrigin(
-        _shape->getLocalBounds().width / 2,
-        _shape->getLocalBounds().height / 2);
+        _shape->getLocalBounds().width * _anchor.x,
+        _shape->getLocalBounds().height * _anchor.y);
 }
 
 void ShapeDrawable::Serialize(Archive &archive) {

@@ -1,8 +1,8 @@
-#include<Ancona/Util2D/Collision/Box2.hpp>
-#include<Ancona/Util2D/Collision/Math.hpp>
-#include<Ancona/Util2D/VectorMath.hpp>
+#include <Ancona/Util2D/Collision/Box2.hpp>
+#include <Ancona/Util2D/Collision/Math.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
-#include<cmath>
+#include <cmath>
 
 using namespace ild;
 
@@ -27,18 +27,18 @@ DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
         return DoesIntersect::Maybe;
     }
 
-    auto leftXMin = left.Position.x - left.Dimension.x / 2;
+    auto leftXMin = left.Position.x;
     auto leftXMax = leftXMin + left.Dimension.x;
-    auto rightXMin = right.Position.x - right.Dimension.x / 2;
+    auto rightXMin = right.Position.x;
     auto rightXMax = rightXMin + right.Dimension.x;
     if (leftXMax < rightXMin || rightXMax < leftXMin)
     {
         return DoesIntersect::No;
     }
 
-    auto leftYMin = left.Position.y - left.Dimension.y / 2;
+    auto leftYMin = left.Position.y;
     auto leftYMax = leftYMin + left.Dimension.y;
-    auto rightYMin = right.Position.y - right.Dimension.y / 2;
+    auto rightYMin = right.Position.y;
     auto rightYMax = rightYMin + right.Dimension.y;
     if (leftYMax < rightYMin || rightYMax < leftYMin)
     {
@@ -48,12 +48,15 @@ DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
     return DoesIntersect::Yes;
 }
 
-Box2::Box2(const sf::Vector2f & position,
-        const sf::Vector2f & dimension,
-        const float & rotation)
+Box2::Box2(
+    const sf::Vector2f & position,
+    const sf::Vector2f & dimension,
+    const sf::Vector2f & anchor,
+    const float & rotation)
 {
     Position = position;
     Dimension = dimension;
+    Anchor = anchor;
     Rotation = rotation;
 }
 
@@ -67,19 +70,22 @@ void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
 {
     vertices.clear();
 
-    float sinV = sin(Rotation);
-    float cosV = cos(Rotation);
-
-    float xSize = Dimension.x / 2;
-    float ySize = Dimension.y / 2;
-
-    float xOffset = Position.x;
-    float yOffset = Position.y;
-
-    vertices.push_back(Math::CreatePoint(sinV,cosV, xSize, ySize, xOffset, yOffset));
-    vertices.push_back(Math::CreatePoint(sinV,cosV, -xSize, ySize, xOffset, yOffset));
-    vertices.push_back(Math::CreatePoint(sinV,cosV, -xSize, -ySize, xOffset, yOffset));
-    vertices.push_back(Math::CreatePoint(sinV,cosV, xSize, -ySize, xOffset, yOffset));
+    vertices.push_back(Math::RotatePoint(
+        std::pair<float, float>(Position.x + Dimension.x, Position.y + Dimension.y), 
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        Rotation));
+    vertices.push_back(Math::RotatePoint(
+        std::pair<float, float>(Position.x, Position.y + Dimension.y), 
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        Rotation));
+    vertices.push_back(Math::RotatePoint(
+        std::pair<float, float>(Position.x, Position.y), 
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        Rotation));
+    vertices.push_back(Math::RotatePoint(
+        std::pair<float, float>(Position.x + Dimension.x, Position.y), 
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        Rotation));
 }
 
 bool Box2::Intersects(const Box2 & box) const

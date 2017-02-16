@@ -15,13 +15,13 @@ TextDrawable::TextDrawable(
         const int priority,
         const std::string & key,
         int priorityOffset,
-        sf::Vector2f positionOffset,
+        sf::Vector2f anchor,
         bool smooth) :
     Drawable(
             priority,
             key,
             priorityOffset,
-            positionOffset)
+            anchor)
 {
      _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
      _text->setFillColor(color);
@@ -42,8 +42,8 @@ void TextDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransf
 void TextDrawable::CenterOrigin()
 {
     sf::FloatRect textRect = _text->getLocalBounds();
-    _text->setOrigin(textRect.left + (textRect.width / 2.0f),
-                     textRect.top  + (textRect.height / 2.0f));
+    _text->setOrigin(textRect.left + (textRect.width * _anchor.x),
+                     textRect.top  + (textRect.height * _anchor.y));
 }
 
 void TextDrawable::Serialize(Archive &archive) {

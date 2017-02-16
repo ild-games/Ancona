@@ -30,7 +30,7 @@ class TextDrawable : public Drawable
          * @param characterSize Font size in pixels.
          * @param priority RenderPriority that determines when the sprite is rendered.
          * @param priorityOffset Optional offset to the render priority, defaults to 0.
-         * @param positionOffset Offset coordinates from the PositionComponent
+         * @param anchor Offset coordinates from the PositionComponent
          * @param smooth Optional bool to determine if the text should be smoothed, defaults to true.
          */
         TextDrawable(
@@ -41,7 +41,7 @@ class TextDrawable : public Drawable
                 const int priority,
                 const std::string & key,
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f),
+                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f),
                 bool smooth = true);
 
         /**

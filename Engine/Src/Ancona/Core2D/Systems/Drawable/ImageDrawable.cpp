@@ -12,12 +12,12 @@ ImageDrawable::ImageDrawable(
         bool isWholeImage,
         Box2 textureRect,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
+        sf::Vector2f anchor) :
     Drawable(
             priority,
             key,
             priorityOffset,
-            positionOffset),
+            anchor),
     _textureKey(textureKey),
     _textureRect(textureRect),
     _isWholeImage(isWholeImage)
@@ -31,12 +31,12 @@ ImageDrawable::ImageDrawable(
         bool isWholeImage,
         Box2 textureRect,
         int priorityOffset,
-        sf::Vector2f positionOffset) :
+        sf::Vector2f anchor) :
     Drawable(
             priority,
             key,
             priorityOffset,
-            positionOffset),
+            anchor),
     _textureKey(""),
     _textureRect(textureRect),
     _isWholeImage(isWholeImage)
@@ -77,7 +77,7 @@ void ImageDrawable::SetupSprite(sf::Texture * texture)
         _textureRect.Dimension.y);
 
     _sprite.reset(new sf::Sprite(*texture, spriteRect));
-    _sprite->setOrigin(spriteRect.width / 2.0f, spriteRect.height / 2.0f);
+    _sprite->setOrigin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
 }
 
 
@@ -103,7 +103,14 @@ void ImageDrawable::FetchDependencies(const Entity &entity)
 /* getters and setters */
 sf::Vector2f ImageDrawable::size()
 {
-    return VectorMath::ComponentMultiplication(_textureRect.Dimension, _scale);
+    if (_isTiled) 
+    {
+        return VectorMath::ComponentMultiplication(_tiledArea, _scale);
+    }
+    else 
+    {
+        return VectorMath::ComponentMultiplication(_textureRect.Dimension, _scale);
+    }
 }
 
 void ImageDrawable::alpha(int newAlpha)

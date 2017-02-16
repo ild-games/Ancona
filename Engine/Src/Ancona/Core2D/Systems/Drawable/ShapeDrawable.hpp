@@ -30,14 +30,14 @@ class ShapeDrawable : public Drawable
          * @param shape SFML Shape that is going to be drawn.
          * @param priority RenderPriority that determines when the sprite is rendered
          * @param priorityOffset Optional offset to the render priority
-         * @param positionOffset Offset coordinates from the PositionComponent
+         * @param anchor Offset coordinates from the PositionComponent
          */
         ShapeDrawable(
                 sf::Shape * shape,
                 const int priority,
                 const std::string & key,
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0.0f, 0.0f));
+                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         /**
          * @copydoc ild::CameraComponent::Serialize

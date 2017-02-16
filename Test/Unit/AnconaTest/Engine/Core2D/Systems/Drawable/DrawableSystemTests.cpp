@@ -61,11 +61,11 @@ TEST(DrawableSystem, ContainerDrawable)
 
     ASSERT_EQ(containerDrawable.size(), sf::Vector2f(50.0f, 50.0f));
 
-    shape1->positionOffset(sf::Vector2f(-50.0f, 0.0f));
+    shape1->anchor(sf::Vector2f(0.5f, 0.0f));
     ShapeDrawable * shape2 = new ShapeDrawable(new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f)), 0, "shape2");
     containerDrawable.AddDrawable(shape2);
 
-    ASSERT_EQ(containerDrawable.size(), sf::Vector2f(100.0f, 50.0f));
+    ASSERT_EQ(containerDrawable.size(), sf::Vector2f(75.0f, 50.0f));
 
     shape2->scale(sf::Vector2f(2.0f, 2.0f));
 

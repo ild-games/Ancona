@@ -58,21 +58,15 @@ namespace Math
     float Dot(const Math::Vector2 & a, const Math::Vector2 & b);
 
     /**
-     * @brief Create a two dimensional point using the given values.
+     * @brief Rotate a given point around the origin by theta (radians)
+     *  
+     * @param point The point to rotate
+     * @param origin The point to rotate around
+     * @param theta The rotation amount in radians
      *
-     * @param sinValue Sin value for the rotation (sin(theta))
-     * @param cosValue Cos value for the rotation (cos(theta))
-     * @param xSize X distance from the center of the shape.
-     * @param ySize y distance from the center of the shape.
-     * @param xOffset Difference between the shape center and the origin.
-     * @param yOffset Difference between the shape center and the origin.
-     *
-     * @return A point created using the given information.
+     * @return The rotated point.
      */
-    Point2 CreatePoint(
-            float sinValue, float cosValue,
-            float xSize, float ySize,
-            float xOffset, float yOffset);
+    Point2 RotatePoint(const Point2 & point, const Point2 & origin, float theta);
 
     /**
      * @brief Calculate the edge vector for two points

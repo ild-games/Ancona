@@ -31,7 +31,7 @@ class ImageDrawable : public Drawable
                 bool isWholeImage = true,
                 Box2 textureRect = Box2(sf::Vector2f(0, 0), sf::Vector2f(0, 0)),
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0, 0));
+                sf::Vector2f anchor = sf::Vector2f(0, 0));
 
         /**
          * @brief Constructs an ImageDrawable
@@ -46,7 +46,7 @@ class ImageDrawable : public Drawable
                 bool isWholeImage = true,
                 Box2 textureRect = Box2(sf::Vector2f(0, 0), sf::Vector2f(0, 0)),
                 int priorityOffset = 0,
-                sf::Vector2f positionOffset = sf::Vector2f(0, 0));
+                sf::Vector2f anchor = sf::Vector2f(0, 0));
 
         /**
          * @copydoc ild::CameraComponent::Serialize
