@@ -33,9 +33,19 @@ class PathComponent
          */
         void Update(float delta);
 
+        float TimeForSegment(int segment);
+
+        /* getters and setters */
+        std::vector<sf::Vector2f> vertices() { return _vertices; }
+        bool isLoop() { return _isLoop; }
+
     private:
-        sf::Vector2f _startVertex;
-        sf::Vector2f _endVertex;
+        std::vector<sf::Vector2f> _vertices;
+        bool _isLoop;
+        float _time;
+
+        float DistanceForSegment(int segment);
+        float TotalDistance();
 };
 
 class PathSystem : public UnorderedSystem<PathComponent>

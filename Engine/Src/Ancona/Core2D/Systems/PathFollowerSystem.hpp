@@ -5,6 +5,7 @@
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
+#include <Ancona/Platformer/Actions/ActionSystem.hpp>
 
 namespace ild
 {
@@ -40,14 +41,21 @@ class PathFollowerComponent
         PathSystem * _pathSystem;
         PathComponent * _pathComponent;
         PositionSystem * _positionSystem;
-        PositionComponent * _positionComponent;
+        PositionComponent * _pathPositionComponent;
+        ActionSystem * _actionSystem;
+        ActionComponent * _actionComponent;
         
         /* serialized properties */
         Entity _pathEntity = nullentity;
 
         /* other properties */
-        sf::Vector2f _pointToMoveTowards;
-        
+        int _nextVertexIndex = 0;
+        VectorActionProxy _action;
+        Entity _entity = nullentity;
+        int _followDirection = 1;
+
+        void StartNextPathSegment();
+        bool IsNextVertexValid();
 };
 
 class PathFollowerSystem : public UnorderedSystem<PathFollowerComponent>
