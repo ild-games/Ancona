@@ -36,6 +36,9 @@ class PathFollowerComponent
          */
         void Update(float delta);
 
+        /* getters and setters */
+        int followDirection() { return _followDirection; }
+
     private:
         /* cached off systems and components */
         PathSystem * _pathSystem;
