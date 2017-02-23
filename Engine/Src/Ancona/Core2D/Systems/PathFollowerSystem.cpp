@@ -74,7 +74,8 @@ void PathFollowerComponent::FetchDependencies(const Entity &entity)
     _pathPositionComponent = _positionSystem->at(_pathEntity);
     _actionComponent = _actionSystem->at(entity);
     _action = _actionComponent->actions().CreatePositionAction();
-    _action->value(_pathPositionComponent->position())->duration(0);
+    auto firstVertex = (_pathComponent->vertices().size() > 0) ? _pathComponent->vertices()[0] : sf::Vector2f(0.0f, 0.0f);
+    _action->value(_pathPositionComponent->position() + firstVertex)->duration(0);
     _entity = entity;
 }
 
