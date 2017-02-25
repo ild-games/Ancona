@@ -36,7 +36,7 @@ void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
 Box2 DrawableComponent::BoundingBox()
 {
     return Box2(
-        _topDrawable->actualPosition(_positionComponent->position()),
+        _topDrawable->position(_positionComponent->position()),
         _topDrawable->size(),
         _topDrawable->anchor(),
         Math::DegreesToRadians(_topDrawable->rotation()));
