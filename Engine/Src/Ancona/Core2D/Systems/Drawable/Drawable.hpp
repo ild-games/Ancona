@@ -126,7 +126,7 @@ class Drawable
          * 
          * @returns The actual position the drawable is drawn at
          */ 
-        virtual sf::Vector2f actualPosition(sf::Vector2f entityPosition);
+        virtual sf::Vector2f position(sf::Vector2f entityPosition);
         virtual sf::Vector2f size() = 0;
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;

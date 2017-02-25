@@ -20,12 +20,14 @@ ContainerDrawable::ContainerDrawable(
 
 void ContainerDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
+    if (_anchor.x != 0.0f || _anchor.y != 0.0f) {
+        auto size = this->size();
+        drawableTransform.translate(
+            -(size.x * _anchor.x / std::abs(_scale.x)), 
+            -(size.y * _anchor.y / std::abs(_scale.y)));
+    }
     for (auto & drawable : _drawables)
     {
-        if (_anchor.x != 0.0f || _anchor.y != 0.0f) {
-            auto size = this->size();
-            drawableTransform.translate(-(size.x * _anchor.x), -(size.y * _anchor.y)); 
-        }
         drawable->Draw(window, drawableTransform, delta);
     }
 }
@@ -113,7 +115,9 @@ sf::Vector2f ContainerDrawable::size()
         }
     }
     sf::Vector2f size(maxX - minX, maxY - minY);
-    return VectorMath::ComponentMultiplication(size, _scale);
+    return VectorMath::ComponentMultiplication(
+        size,
+        sf::Vector2f(std::abs(_scale.x), std::abs(_scale.y)));
 }
 
 int ContainerDrawable::alpha()
@@ -133,11 +137,11 @@ void ContainerDrawable::alpha(int alpha)
     }
 }
 
-sf::Vector2f ContainerDrawable::actualPosition(sf::Vector2f entityPosition)
+sf::Vector2f ContainerDrawable::position(sf::Vector2f entityPosition)
 {
     float minX = INFINITY, minY = INFINITY;
     for (auto & drawable : _drawables) {
-        sf::Vector2f drawablePosition = drawable->actualPosition(entityPosition);
+        sf::Vector2f drawablePosition = drawable->position(entityPosition);
         
         if (drawablePosition.x < minX) {
             minX = drawablePosition.x;     
