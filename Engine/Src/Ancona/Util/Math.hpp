@@ -3,21 +3,19 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace ild
-{
+namespace ild {
 
-namespace Math
-{
+namespace Math {
     
 template <typename T>
-int signum(T val)
-{
+int signum(T val) {
     return (T(0) < val) - (val < T(0));
 }
 
 float DegreesToRadians(float degrees);
 float RadiansToDegrees(float rads);
-float DistanceBetween(sf::Vector2f startPoint, sf::Vector2f endPoint);
+float Distance(sf::Vector2f startPoint, sf::Vector2f endPoint);
+
 }
 
 }

@@ -42,7 +42,7 @@ class PathComponent
     private:
         std::vector<sf::Vector2f> _vertices;
         bool _isLoop;
-        float _time;
+        float _cycleTime;
 
         float DistanceForSegment(int segment);
         float TotalDistance();
