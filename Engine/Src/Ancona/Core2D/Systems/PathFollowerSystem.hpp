@@ -7,14 +7,12 @@
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Platformer/Actions/ActionSystem.hpp>
 
-namespace ild
-{
+namespace ild {
 
 /**
  * @brief Used to follow an associated PathComponent
  */
-class PathFollowerComponent
-{
+class PathFollowerComponent {
     public:
         /**
          * Construct a blank PathFollowerComponent for serialization.
@@ -58,11 +56,13 @@ class PathFollowerComponent
         int _followDirection = 1;
 
         void StartNextPathSegment();
-        bool IsNextVertexValid();
+        int NextVertexIndex();
+        float NextSegmentTime(int lastVertexIndex, int nextVertexIndex);
+        sf::Vector2f NextSegmentDistance();
+        bool IsVertexIndexValid(int vertexIndex);
 };
 
-class PathFollowerSystem : public UnorderedSystem<PathFollowerComponent>
-{
+class PathFollowerSystem : public UnorderedSystem<PathFollowerComponent> {
     public:
         PathFollowerSystem(
                 std::string name,
