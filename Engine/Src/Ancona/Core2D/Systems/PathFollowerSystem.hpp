@@ -56,10 +56,11 @@ class PathFollowerComponent {
         int _followDirection = 1;
 
         void StartNextPathSegment();
-        int NextVertexIndex();
+        int NewVertexIndexAfterPathEnd();
         float NextSegmentTime(int lastVertexIndex, int nextVertexIndex);
         sf::Vector2f NextSegmentDistance();
-        bool IsVertexIndexValid(int vertexIndex);
+        bool IsPathDone();
+        void ChangeDirection();
 };
 
 class PathFollowerSystem : public UnorderedSystem<PathFollowerComponent> {

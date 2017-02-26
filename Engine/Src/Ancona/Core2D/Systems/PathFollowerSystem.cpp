@@ -18,9 +18,16 @@ void PathFollowerComponent::Update(float delta) {
 
 void PathFollowerComponent::StartNextPathSegment() {
     auto lastVertexIndex = _nextVertexIndex;
-    _nextVertexIndex = NextVertexIndex();
-    auto time = NextSegmentTime(lastVertexIndex, _nextVertexIndex); 
     
+    _nextVertexIndex += _followDirection;
+    if (IsPathDone()) {
+        _nextVertexIndex = NewVertexIndexAfterPathEnd();
+        if (!_pathComponent->isLoop()) {
+            ChangeDirection();
+        }
+    }
+    
+    auto time = NextSegmentTime(lastVertexIndex, _nextVertexIndex); 
     _action->
         ResetAge()->
         value(NextSegmentDistance())->
@@ -28,20 +35,12 @@ void PathFollowerComponent::StartNextPathSegment() {
         duration(time);
 }
 
-int PathFollowerComponent::NextVertexIndex() {
-    auto nextVertexIndex = _nextVertexIndex;
-    nextVertexIndex += _followDirection;
-    
-    if (!IsVertexIndexValid(nextVertexIndex)) {
-        if (_pathComponent->isLoop()) {
-            nextVertexIndex = 0;
-        } else {
-            nextVertexIndex -= _followDirection;
-            _followDirection *= -1;
-            nextVertexIndex += _followDirection;
-        }
+int PathFollowerComponent::NewVertexIndexAfterPathEnd() {
+    if (_pathComponent->isLoop()) {
+        return 0;
+    } else {
+        return _nextVertexIndex - _followDirection + (_followDirection * -1);
     }
-    return nextVertexIndex;
 }
 
 float PathFollowerComponent::NextSegmentTime(int lastVertexIndex, int nextVertexIndex) {
@@ -61,10 +60,14 @@ sf::Vector2f PathFollowerComponent::NextSegmentDistance() {
         _pathPositionComponent->position().y + nextVertex.y);
 }
 
-bool PathFollowerComponent::IsVertexIndexValid(int vertexIndex) {
+void PathFollowerComponent::ChangeDirection() {
+    _followDirection *= -1;
+}
+
+bool PathFollowerComponent::IsPathDone() {
     return (
-        vertexIndex < _pathComponent->vertices().size() &&
-        vertexIndex > -1
+        _nextVertexIndex >= _pathComponent->vertices().size() ||
+        _nextVertexIndex < 0
     );
 }
 
