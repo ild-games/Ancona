@@ -81,6 +81,10 @@ Point Actions::ApplyVelocityActions(const PositionComponent & position, float de
 
 void Actions::Apply(PositionComponent & position, float delta)
 {
+
+    RemoveDoneActions<VectorActionProxy>(_velocityActions);
+    RemoveDoneActions<VectorActionProxy>(_positionActions);
+    
     //Velocity actions apply additively
     Point velocity = ApplyVelocityActions(position,delta);
 
@@ -96,7 +100,4 @@ void Actions::Apply(PositionComponent & position, float delta)
         position.velocity(position.velocity() + diff);
         _actionVelocity = velocity;
     }
-
-    RemoveDoneActions<VectorActionProxy>(_velocityActions);
-    RemoveDoneActions<VectorActionProxy>(_positionActions);
 }

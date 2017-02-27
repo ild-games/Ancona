@@ -108,7 +108,7 @@ void CollisionSystem::Update(float delta)
     {
         if (!DoesTypeDetectCollisions(entityComponentPairA.second->bodyType()))
         {
-            break;
+            continue;
         }
 
         for (EntityComponentPair entityComponentPairB : * this)
