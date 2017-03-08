@@ -2,6 +2,12 @@
 
 using namespace ild;
 
+InputControlSystem::InputControlSystem(std::string name, SystemManager & manager)
+    : UnorderedSystem<InputControlComponent>(name, manager, UpdateStepEnum::Input)
+{
+
+}
+
 InputControlSystem::InputControlSystem(SystemManager & manager)
     : UnorderedSystem<InputControlComponent>(manager, UpdateStepEnum::Input)
 {
