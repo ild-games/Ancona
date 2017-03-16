@@ -43,6 +43,12 @@ class AbstractScreen
         virtual void Init() { }
 
         /**
+         * @brief Called right before the screen is removed as the active screen
+         * can be overridden
+         */
+        virtual void Unload() { }
+
+        /**
          * @brief Handles the update logic on the screen
          *
          * @param delta Seconds since last update.

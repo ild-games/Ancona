@@ -79,6 +79,7 @@ bool ScreenManager::Empty()
 
 void ScreenManager::RemoveScreen()
 {
+    _screens.top()->Unload();
     if(_screens.top()->systemsContainer()->profile() >= 0)
     {
         SaveScreen();
