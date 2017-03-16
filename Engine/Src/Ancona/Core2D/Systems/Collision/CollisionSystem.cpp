@@ -6,6 +6,7 @@
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 #include <Ancona/System/FileOperations.hpp>
+#include <Ancona/System/Log.hpp>
 
 using namespace ild;
 
@@ -20,18 +21,15 @@ CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manag
 void CollisionSystem::OnLoad()
 {
     CreateType(NONE_COLLISION_TYPE);
-    if (FileOperations::IsFile("project/collision-types.json"))
+    auto fileStream = FileOperations::GetInputFileStream("project/collision-types.json");
+    Json::Reader reader;
+    Json::Value collisionTypesRoot;
+    reader.parse(*fileStream, collisionTypesRoot);
+    for (Json::Value & collisionType : collisionTypesRoot["collisionTypes"])
     {
-        auto fileStream = FileOperations::GetInputFileStream("project/collision-types.json");
-        Json::Reader reader;
-        Json::Value collisionTypesRoot;
-        reader.parse(*fileStream, collisionTypesRoot);
-        for (Json::Value & collisionType : collisionTypesRoot["collisionTypes"])
+        if (collisionType.asString() != NONE_COLLISION_TYPE)
         {
-            if (collisionType.asString() != NONE_COLLISION_TYPE)
-            {
-                CreateType(collisionType.asString());
-            }
+            CreateType(collisionType.asString());
         }
     }
 }
@@ -118,6 +116,7 @@ void CollisionSystem::Update(float delta)
                 continue;
             }
 
+
             Point fixNormal;
             float fixMagnitude;
             if (entityComponentPairA.second->Collides(*entityComponentPairB.second, fixNormal, fixMagnitude))
@@ -170,6 +169,10 @@ CollisionType CollisionSystem::CreateType(const std::string &key)
     _collisionTypes.emplace(key, newType);
     _collisionTypeToKey.emplace(newType, key);
 
+
+    std::ostringstream buffer;
+    buffer << "Collision name: " << key << "\tNewType: " << newType;
+    ILD_Log(buffer.str());
     return newType;
 }
 
@@ -225,6 +228,18 @@ void CollisionSystem::HandleCollision(
 
     if (EntitiesOverlapping(fixMagnitude))
     {
+        std::ostringstream buffer;
+        buffer 
+            << _systemManager.GetEntityKey(pairA.first) 
+            << " collides with " 
+            << _systemManager.GetEntityKey(pairB.first);
+        ILD_Log(buffer.str());
+        buffer.str("");
+        buffer 
+            << GetKeyFromType(type1)
+            << " type collides with type " 
+            << GetKeyFromType(type2);
+        ILD_Log(buffer.str());
         _callbackTable.Get(type1, type2)(pairA.first, pairB.first, fixNormal, fixMagnitude);
         _callbackTable.Get(type2, type1)(pairB.first, pairA.first, fixNormal, -fixMagnitude);
     }
