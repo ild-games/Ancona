@@ -41,6 +41,14 @@ class AbstractScreen
          * first time.
          */
         virtual void Init() { }
+        
+        /**
+         * @brief Can be overridden to reinitialize the screen.  
+         * Reinitialization occurs when the screen is on the stack
+         * and another screen popped off the stack to come back to
+         * this screen.
+         */
+        virtual void ReInit() { }
 
         /**
          * @brief Called right before the screen is removed as the active screen

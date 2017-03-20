@@ -49,22 +49,22 @@ void ScreenManager::Update(float delta)
 
 void ScreenManager::Draw(float delta)
 {
-    if(!Empty())
+    if (!Empty())
     {
         _screens.top()->Draw(delta);
 
         // Entering and exiting code is run after the screen is draw,
         // this is so drawing done at these steps (such as transitions)
         // can be drawn over all other elements.
-        if(_screens.top()->__Entering)
+        if (_screens.top()->__Entering)
         {
             _screens.top()->Entering(delta);
         }
-        else if(_screens.top()->__Exiting)
+        else if (_screens.top()->__Exiting)
         {
             _screens.top()->Exiting(delta);
             // if done exiting, remove the screen
-            if(!_screens.top()->__Exiting)
+            if (!_screens.top()->__Exiting)
             {
                 RemoveScreen();
             }
@@ -80,16 +80,17 @@ bool ScreenManager::Empty()
 void ScreenManager::RemoveScreen()
 {
     _screens.top()->Unload();
-    if(_screens.top()->systemsContainer()->profile() >= 0)
-    {
+    if (_screens.top()->systemsContainer()->profile() >= 0) {
         SaveScreen();
     }
     delete _screens.top();
     _screens.pop();
-    if(_replacementScreen != nullptr)
-    {
+    
+    if (_replacementScreen != nullptr) {
         Push(_replacementScreen);
         _replacementScreen = nullptr;
+    } else {
+        _screens.top()->ReInit();
     }
 }
 
