@@ -89,7 +89,7 @@ void ScreenManager::RemoveScreen()
     if (_replacementScreen != nullptr) {
         Push(_replacementScreen);
         _replacementScreen = nullptr;
-    } else {
+    } else if(!_screens.empty()) {
         _screens.top()->ReInit();
     }
 }
