@@ -29,6 +29,8 @@ class InputControlComponent
          */
         void Update(float delta);
 
+        /* getters and setters */
+        InputHandler & handler() { return _handler; }
     private:
         /**
          * @brief Input handler that handles the input gathering

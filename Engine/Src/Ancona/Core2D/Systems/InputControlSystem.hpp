@@ -16,8 +16,8 @@ namespace ild
 class InputControlSystem : public UnorderedSystem<InputControlComponent>
 {
     public:
+        InputControlSystem(std::string name, SystemManager & manager);
         InputControlSystem(SystemManager & manager);
-
         /**
          * @brief Attach an InputControlComponent to the the 
          * entity.  The system will delete the component when
