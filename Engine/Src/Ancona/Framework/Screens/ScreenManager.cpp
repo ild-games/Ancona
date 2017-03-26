@@ -53,7 +53,7 @@ void ScreenManager::Draw(float delta)
     {
         _screens.top()->Draw(delta);
 
-        // Entering and exiting code is run after the screen is draw,
+        // Entering and exiting code is run after the screen is drawn,
         // this is so drawing done at these steps (such as transitions)
         // can be drawn over all other elements.
         if (_screens.top()->__Entering)
