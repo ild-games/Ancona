@@ -41,6 +41,20 @@ class AbstractScreen
          * first time.
          */
         virtual void Init() { }
+        
+        /**
+         * @brief Can be overridden to resume the screen.  
+         * Resume occurs when the screen is on the stack and
+         * another screen popped off the stack to come back to
+         * this screen.
+         */
+        virtual void Resume() { }
+
+        /**
+         * @brief Called right before the screen is removed as the active screen
+         * can be overridden
+         */
+        virtual void Unload() { }
 
         /**
          * @brief Handles the update logic on the screen

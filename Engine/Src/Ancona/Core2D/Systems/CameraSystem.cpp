@@ -81,7 +81,9 @@ void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
 
 void CameraComponent::RemoveDrawableComponent(DrawableComponent * drawable)
 {
-    _renderQueue.erase(alg::remove(_renderQueue, drawable));
+    if (std::find(_renderQueue.begin(), _renderQueue.end(), drawable) != _renderQueue.end()) {
+        _renderQueue.erase(alg::remove(_renderQueue, drawable));
+    }
 }
 
 void CameraComponent::FetchDependencies(const Entity & entity)
@@ -139,7 +141,7 @@ CameraSystem::CameraSystem(
 
 void CameraSystem::Update(float delta)
 {
-    for(EntityComponentPair comp : *this)
+    for (EntityComponentPair comp : *this)
     {
         comp.second->Update(delta);
     }
