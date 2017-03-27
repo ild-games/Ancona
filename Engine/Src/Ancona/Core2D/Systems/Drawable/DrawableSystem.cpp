@@ -15,10 +15,11 @@ DrawableSystem::DrawableSystem(
 
 void DrawableSystem::Update(float delta)
 {
-    for(CameraComponent * camera : _cameras)
+    for (CameraComponent * camera : _cameras)
     {
         camera->Draw(_window, delta);
     }
+    _window.setView(_defaultCamera->view());
 }
 
 void DrawableSystem::AddCamera(CameraComponent * camera)

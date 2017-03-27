@@ -56,11 +56,12 @@ bool FileOperations::IsDir(const std::string & dirPath)
 
 bool FileOperations::IsFile(const std::string & filePath)
 {
-    if (AndroidFileOperations::IsFileInNonApkStorage(filePath)) {
+    std::string fullInternalPath = AndroidFileOperations::internalPath() + "/" + filePath;
+    if (AndroidFileOperations::IsFileInNonApkStorage(fullInternalPath)) {
         return true;
     }
     
-    return AndroidFileOperations::OpenFile(filePath) != nullptr;
+    return AndroidFileOperations::OpenFile(fullInternalPath) != nullptr;
 }
 
 bool AndroidFileOperations::IsFileInNonApkStorage(const std::string & filePath) 
@@ -72,7 +73,7 @@ bool AndroidFileOperations::IsFileInNonApkStorage(const std::string & filePath)
 
 std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::string & desiredFile)
 {
-    std::string fullInternalPath =_internalPath + "/" + desiredFile;
+    std::string fullInternalPath = _internalPath + "/" + desiredFile;
     if (IsFileInNonApkStorage(fullInternalPath))
     {
         return new std::ifstream(fullInternalPath, std::ifstream::binary);
