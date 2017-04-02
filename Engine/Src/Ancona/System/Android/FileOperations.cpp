@@ -11,6 +11,13 @@ using namespace ild;
 AAssetManager * AndroidFileOperations::_assetManager = nullptr;
 std::string AndroidFileOperations::_internalPath = "";
 
+bool IsFileInNonApkStorage(const std::string & filePath) 
+{
+    struct stat sb;
+    int32_t res = stat(filePath.c_str(), &sb);
+    return res == 0 && sb.st_mode & S_IFREG;
+}
+
 std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::string & desiredFile)
 {
     std::unique_ptr<std::istream> returnStream;
@@ -57,18 +64,11 @@ bool FileOperations::IsDir(const std::string & dirPath)
 bool FileOperations::IsFile(const std::string & filePath)
 {
     std::string fullInternalPath = AndroidFileOperations::internalPath() + "/" + filePath;
-    if (AndroidFileOperations::IsFileInNonApkStorage(fullInternalPath)) {
+    if (IsFileInNonApkStorage(fullInternalPath)) {
         return true;
     }
     
     return !!AndroidFileOperations::OpenFile(fullInternalPath);
-}
-
-bool AndroidFileOperations::IsFileInNonApkStorage(const std::string & filePath) 
-{
-    struct stat sb;
-    int32_t res = stat(filePath.c_str(), &sb);
-    return res == 0 && sb.st_mode & S_IFREG;
 }
 
 std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::string & desiredFile)
