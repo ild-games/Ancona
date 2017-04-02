@@ -102,6 +102,7 @@ class CameraComponent
         const sf::Vector2f & lowerBounds() { return _lowerBounds; }
         void upperBounds(const sf::Vector2f & upperBounds) { _upperBounds = upperBounds; }
         const sf::Vector2f & upperBounds() { return _upperBounds; }
+        const sf::View & view() { return _view; }
 
     protected:
         /**

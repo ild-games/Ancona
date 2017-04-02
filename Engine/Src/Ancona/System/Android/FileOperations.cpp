@@ -11,6 +11,13 @@ using namespace ild;
 AAssetManager * AndroidFileOperations::_assetManager = nullptr;
 std::string AndroidFileOperations::_internalPath = "";
 
+bool IsFileInNonApkStorage(const std::string & filePath) 
+{
+    struct stat sb;
+    int32_t res = stat(filePath.c_str(), &sb);
+    return res == 0 && sb.st_mode & S_IFREG;
+}
+
 std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::string & desiredFile)
 {
     std::unique_ptr<std::istream> returnStream;
@@ -56,21 +63,24 @@ bool FileOperations::IsDir(const std::string & dirPath)
 
 bool FileOperations::IsFile(const std::string & filePath)
 {
-    struct stat sb;
-    int32_t res = stat(filePath.c_str(), &sb);
-    return res == 0 && sb.st_mode & S_IFREG;
+    std::string fullInternalPath = AndroidFileOperations::internalPath() + "/" + filePath;
+    if (IsFileInNonApkStorage(fullInternalPath)) {
+        return true;
+    }
+    
+    return !!AndroidFileOperations::OpenFile(fullInternalPath);
 }
 
 std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::string & desiredFile)
 {
-    std::string fullInternalPath =_internalPath + "/" + desiredFile;
-    if (FileOperations::IsFile(fullInternalPath))
+    std::string fullInternalPath = _internalPath + "/" + desiredFile;
+    if (IsFileInNonApkStorage(fullInternalPath))
     {
         return new std::ifstream(fullInternalPath, std::ifstream::binary);
     }
     else 
     {
-        std::ostringstream * apkFileStream = OpenFile(desiredFile);
+        auto apkFileStream = OpenFile(desiredFile);
         Assert(apkFileStream != nullptr, "Could not find the " + desiredFile + " file in app storage or within apk.");
 
         std::string output;
@@ -82,13 +92,13 @@ std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::strin
     }
 }
 
-std::ostringstream * AndroidFileOperations::OpenFile(const std::string & desiredFile)
+std::unique_ptr<std::ostringstream> AndroidFileOperations::OpenFile(const std::string & desiredFile)
 {
     MakeFilesDir();
 
     const int BUFFER_SIZE=255;
     char buf[BUFFER_SIZE + 1];
-    std::ostringstream * fileStream = new std::ostringstream();
+    std::unique_ptr<std::ostringstream> fileStream { new std::ostringstream() };
 
     AAsset * assetFile = AAssetManager_open(_assetManager, desiredFile.c_str(), AASSET_MODE_BUFFER);
     if(!assetFile)

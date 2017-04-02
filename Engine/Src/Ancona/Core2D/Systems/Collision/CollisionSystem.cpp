@@ -6,7 +6,6 @@
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 #include <Ancona/System/FileOperations.hpp>
-
 using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2, const Point & fixNormal, float fixMagnitude) {}
@@ -20,18 +19,17 @@ CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manag
 void CollisionSystem::OnLoad()
 {
     CreateType(NONE_COLLISION_TYPE);
-    if (FileOperations::IsFile("project/collision-types.json"))
-    {
-        auto fileStream = FileOperations::GetInputFileStream("project/collision-types.json");
-        Json::Reader reader;
-        Json::Value collisionTypesRoot;
-        reader.parse(*fileStream, collisionTypesRoot);
-        for (Json::Value & collisionType : collisionTypesRoot["collisionTypes"])
-        {
-            if (collisionType.asString() != NONE_COLLISION_TYPE)
-            {
-                CreateType(collisionType.asString());
-            }
+    auto fileStream = FileOperations::GetInputFileStream("project/collision-types.json");
+    if (!fileStream) {
+        return;
+    }
+    
+    Json::Reader reader;
+    Json::Value collisionTypesRoot;
+    reader.parse(*fileStream, collisionTypesRoot);
+    for (Json::Value & collisionType : collisionTypesRoot["collisionTypes"]) {
+        if (collisionType.asString() != NONE_COLLISION_TYPE) {
+            CreateType(collisionType.asString());
         }
     }
 }
@@ -117,6 +115,7 @@ void CollisionSystem::Update(float delta)
             {
                 continue;
             }
+
 
             Point fixNormal;
             float fixMagnitude;

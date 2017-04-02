@@ -6,6 +6,8 @@
 #include <android/window.h>
 #include <string>
 
+#include <Ancona/System/FileOperations.hpp>
+
 namespace ild
 {
 
@@ -17,6 +19,8 @@ namespace ild
  */
 class AndroidFileOperations
 {
+    friend class FileOperations;
+    
     public:
         /**
          * @brief Gets a file input stream from the android file system from the file specified. The file 
@@ -38,8 +42,8 @@ class AndroidFileOperations
     private:
         static AAssetManager * _assetManager;
         static std::string _internalPath;
-
-        static std::ostringstream * OpenFile(const std::string & desiredFile);
+        
+        static std::unique_ptr<std::ostringstream> OpenFile(const std::string & desiredFile);
         static void WriteApkFileToNonApkStorage(const std::string & filename, std::istream * streamToWrite);
         static bool FilesDirPresent();
         static void MakeFilesDir();
