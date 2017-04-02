@@ -44,7 +44,7 @@ class AndroidFileOperations
         static std::string _internalPath;
         
         static bool IsFileInNonApkStorage(const std::string & filePath);
-        static std::ostringstream * OpenFile(const std::string & desiredFile);
+        static std::unique_ptr<std::ostringstream> OpenFile(const std::string & desiredFile);
         static void WriteApkFileToNonApkStorage(const std::string & filename, std::istream * streamToWrite);
         static bool FilesDirPresent();
         static void MakeFilesDir();

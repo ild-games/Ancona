@@ -60,7 +60,7 @@ bool FileOperations::IsFile(const std::string & filePath)
         return true;
     }
     
-    return AndroidFileOperations::OpenFile(filePath) != nullptr;
+    return !!AndroidFileOperations::OpenFile(filePath);
 }
 
 bool AndroidFileOperations::IsFileInNonApkStorage(const std::string & filePath) 
@@ -79,7 +79,7 @@ std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::strin
     }
     else 
     {
-        std::ostringstream * apkFileStream = OpenFile(desiredFile);
+        auto apkFileStream = OpenFile(desiredFile);
         Assert(apkFileStream != nullptr, "Could not find the " + desiredFile + " file in app storage or within apk.");
 
         std::string output;
@@ -91,13 +91,13 @@ std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::strin
     }
 }
 
-std::ostringstream * AndroidFileOperations::OpenFile(const std::string & desiredFile)
+std::unique_ptr<std::ostringstream> AndroidFileOperations::OpenFile(const std::string & desiredFile)
 {
     MakeFilesDir();
 
     const int BUFFER_SIZE=255;
     char buf[BUFFER_SIZE + 1];
-    std::ostringstream * fileStream = new std::ostringstream();
+    std::unique_ptr<std::ostringstream> fileStream { new std::ostringstream() };
 
     AAsset * assetFile = AAssetManager_open(_assetManager, desiredFile.c_str(), AASSET_MODE_BUFFER);
     if(!assetFile)
