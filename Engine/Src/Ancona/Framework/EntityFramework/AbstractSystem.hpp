@@ -42,11 +42,11 @@ class AbstractSystem
          * @brief Overridable destructor for systems.
          */
         virtual ~AbstractSystem() {}
-        
+
         /**
          * @brief Can be overridden to load in meta data files and configure settings
-         *        during the loading screen. 
-         *        
+         *        during the loading screen.
+         *
          *        One example would be the collision system loading in collision types
          *        from the project/collision-types.json file
          */
@@ -98,6 +98,13 @@ class AbstractSystem
          * @param entity Entity that is being deleted
          */
         virtual void EntityIsDeleted(const Entity & entity) = 0;
+
+        /**
+         * Merge the system into this system. The two systems must have the same
+         * concrete type.
+         * @param system System to merge into this system.
+         */
+        virtual void Merge(AbstractSystem * system) = 0;
 
         /**
          * @brief Default serialize for a system, should never be reached.

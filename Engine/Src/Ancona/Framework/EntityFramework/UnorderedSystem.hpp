@@ -149,6 +149,22 @@ class UnorderedSystem : public AbstractSystem
         }
 
         /**
+         * @breif See AbstractSystem.Merge
+         */
+        void Merge(AbstractSystem * systemToMerge, const std::unordered_map<Entity,Entity> & keyMapping) {
+            Assert(typeid(systemToMerge) == typeid(systemToMerge), "It is only possible to merge systems that are the same type");
+            auto toMerge = dynamic_cast<UnorderedSystem<ComponentType> *>(systemToMerge);
+
+            for (auto pairToAdd: toMerge)
+            {
+                AttachComponent(offset + pairToAdd.first, pairToAdd.second);
+            }
+
+            toMerge->_components.clear();
+            toMerge->_deleteComponentQueue.clear();
+        }
+
+        /**
          * @brief Implements a default system serializer. It will serialzie polymorphic and non-polymorphic components.
          */
         virtual void Serialize(Archive & arc) override

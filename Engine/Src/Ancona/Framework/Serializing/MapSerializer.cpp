@@ -48,9 +48,9 @@ void MapSerializer::LoadMetaData()
 {
     for (auto it : _loadingContext->systems())
     {
-        if (_loading) 
+        if (_loading)
         {
-            it.second->OnLoad(); 
+            it.second->OnLoad();
         }
     }
     _state = SerializerState::LoadingMapFile;
@@ -86,12 +86,7 @@ void MapSerializer::LoadMapFile()
 
 void MapSerializer::LoadAssets()
 {
-    if (!_loading)
-    {
-        _state = SerializerState::LoadingEntities;
-        return;
-    }
-    if (ResourceLibrary::DoneLoading(*_request))
+    if (!_loading || ResourceLibrary::DoneLoading(*_request))
     {
         _state = SerializerState::LoadingEntities;
     }
@@ -99,16 +94,14 @@ void MapSerializer::LoadAssets()
 
 void MapSerializer::LoadEntities()
 {
-    if (!_loading)
+    if (_loading)
     {
-        _state = SerializerState::SerializingComponents;
-        return;
+        for (Json::Value & curEntity : _mapRoot["entities"])
+        {
+            _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
+        }
+        SerializeEntitySystemSaveables();
     }
-    for (Json::Value & curEntity : _mapRoot["entities"])
-    {
-        _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
-    }
-    SerializeEntitySystemSaveables();
     _state = SerializerState::SerializingComponents;
 }
 

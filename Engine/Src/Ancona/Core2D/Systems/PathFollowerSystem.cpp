@@ -10,7 +10,7 @@ void PathFollowerComponent::Update(float delta) {
     if (_pathComponent->vertices().size() == 0) {
         return;
     }
-        
+
     if (_action->Done()) {
         StartNextPathSegment();
     }
@@ -18,7 +18,7 @@ void PathFollowerComponent::Update(float delta) {
 
 void PathFollowerComponent::StartNextPathSegment() {
     auto lastVertexIndex = _nextVertexIndex;
-    
+
     _nextVertexIndex += _followDirection;
     if (IsPathDone()) {
         _nextVertexIndex = NewVertexIndexAfterPathEnd();
@@ -26,8 +26,8 @@ void PathFollowerComponent::StartNextPathSegment() {
             ChangeDirection();
         }
     }
-    
-    auto time = NextSegmentTime(lastVertexIndex, _nextVertexIndex); 
+
+    auto time = NextSegmentTime(lastVertexIndex, _nextVertexIndex);
     _action->
         ResetAge()->
         value(NextSegmentDistance())->
@@ -56,7 +56,7 @@ float PathFollowerComponent::NextSegmentTime(int lastVertexIndex, int nextVertex
 sf::Vector2f PathFollowerComponent::NextSegmentDistance() {
     auto nextVertex = _pathComponent->vertices()[_nextVertexIndex];
     return sf::Vector2f(
-        _pathPositionComponent->position().x + nextVertex.x, 
+        _pathPositionComponent->position().x + nextVertex.x,
         _pathPositionComponent->position().y + nextVertex.y);
 }
 
@@ -72,8 +72,6 @@ bool PathFollowerComponent::IsPathDone() {
 }
 
 void PathFollowerComponent::Serialize(Archive & arc) {
-    std::string pathEntity;
-    arc(pathEntity, "pathEntity");
     arc.entityUsingJsonKey(_pathEntity, "pathEntity");
     arc.system(_pathSystem, "path");
     arc.system(_positionSystem, "position");

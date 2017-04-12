@@ -152,6 +152,18 @@ class SystemManager
          */
         void Serialize(Archive & arc);
 
+        /**
+         * Merge the system manager into this manager. All of the entities will be
+         * moved into this system and removed from the argument system.
+         *
+         * Requriments:
+         * - This manager must have all of the systems contained in the argument manager.
+         *   There must be no overlap between entity keys in the two sets of systems.
+         *
+         * @param SystemManager Collection of systems to merge into this.
+         */
+        void Merge(manager * SystemManager);
+
         /* getters and setters */
         std::vector<std::pair<std::string, AbstractSystem *>> & keyedSystems() { return _keyedSystems; }
         std::map<std::string, std::vector<std::string>> & entitySaveableSystems() { return _entitySaveableSystems; }
