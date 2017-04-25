@@ -7,14 +7,20 @@
 
 using namespace ild;
 
-ScreenManager::ScreenManager(sf::RenderWindow & window)
-    : Window(window) 
+ScreenManager::ScreenManager(
+        sf::RenderWindow & window,
+        int windowWidth,
+        int windowHeight) :
+    Window(window),
+    _windowWidth(windowWidth),
+    _windowHeight(windowHeight)
 {
 }
 
 void ScreenManager::Push(AbstractScreen * screen, bool load)
 {
     _screens.push(screen);
+    screen->SetTransitionRect(_windowWidth, _windowHeight);
     screen->__Entering = true;
     if (load)
     {

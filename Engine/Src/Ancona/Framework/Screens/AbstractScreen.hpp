@@ -100,6 +100,11 @@ class AbstractScreen
          */
         bool __Exiting;
 
+        /**
+         * @brief Set the width/height of the transition rectangle for the screen
+         */
+        void SetTransitionRect(int width, int height);
+
         /* getters and setters */
         std::string key() { return KEY; }
         void requestList(std::shared_ptr<RequestList> requestList) { _requestList = requestList; }

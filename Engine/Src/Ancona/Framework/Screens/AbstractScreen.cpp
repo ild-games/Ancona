@@ -58,3 +58,8 @@ void AbstractScreen::Exiting(float delta)
     _screenManager.Window.setView(_defaultCam);
     _screenManager.Window.draw(_transitionRect);
 }
+
+void AbstractScreen::SetTransitionRect(int width, int height)
+{
+    _transitionRect.setSize(sf::Vector2f(width, height));
+}

@@ -25,8 +25,10 @@ class ScreenManager
          * @brief Construct the ScreenManager
          *
          * @param window the RenderWindow for the game
+         * @param windowWidth the intended render width of the window
+         * @param windowHeight the intended render height of the window
          */
-        ScreenManager(sf::RenderWindow & window);
+        ScreenManager(sf::RenderWindow & window, int windowWidth, int windowHeight);
 
         /**
          * @brief Pushes a new screen either with a loading screen or without one.
@@ -86,6 +88,14 @@ class ScreenManager
          * @brief Screen that will be replacing the current screen after the exiting function has finished.
          */
         AbstractScreen * _replacementScreen = nullptr;
+        /**
+         * @brief windowWidth the intended render width of the window
+         */
+        int _windowWidth;
+        /**
+         * @brief windowHeight the intended render height of the window
+         */
+        int _windowHeight;
 
         /**
          * @brief called when the screen has been popped and the exit code has finished.
