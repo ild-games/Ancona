@@ -23,7 +23,7 @@ AbstractScreen::AbstractScreen(
 
 AbstractScreen::~AbstractScreen()
 {
-    if (_requestList != nullptr)
+    if (_requestList != nullptr && _clearResourcesOnExit)
     {
         ResourceLibrary::Return(*_requestList.get());
     }

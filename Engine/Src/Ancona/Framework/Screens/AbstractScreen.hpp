@@ -133,6 +133,11 @@ class AbstractScreen
          * @brief Request list used by this screen.
          */
         std::shared_ptr<RequestList> _requestList;
+        /**
+         * @brief Clears out the resources used for this screen on exit if true
+         */
+        bool _clearResourcesOnExit = true;
+        
         
 };
 
