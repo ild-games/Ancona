@@ -110,9 +110,10 @@ class CollisionComponent
         std::vector<Collision> GetCollisions(const Box2 & boxToTest) const;
 
         /* getters and setters */
-        CollisionType type();
-        BodyTypeEnum bodyType() const { return _bodyType; }
-        void bodyType(BodyTypeEnum bodyType) { _bodyType = bodyType; }
+        const CollisionType type() { return _type; }
+        void type(const CollisionType & type) { _type = type; }
+        const BodyTypeEnum bodyType() { return _bodyType; }
+        void bodyType(const BodyTypeEnum & bodyType) { _bodyType = bodyType; }
         PositionComponent & positionComponent() { return *_position; }
         const Box2 & box() const { return _dim; }
         void anchor(const sf::Vector2f & anchor) { _anchor = anchor; }

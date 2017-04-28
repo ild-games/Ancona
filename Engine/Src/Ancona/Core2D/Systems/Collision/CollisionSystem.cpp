@@ -233,3 +233,8 @@ bool CollisionSystem::EntitiesOverlapping(float fixMagnitude)
 {
     return fixMagnitude != 0;
 }
+
+
+const CollisionType CollisionSystem::noneType() { 
+    return GetType(NONE_COLLISION_TYPE); 
+}

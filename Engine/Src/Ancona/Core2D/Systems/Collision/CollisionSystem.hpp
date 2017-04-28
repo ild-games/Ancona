@@ -120,6 +120,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         /* Getters and Setters */
         PositionSystem & position() { return _positions; }
         void maxSlope(float value) { _maxSlope = value; }
+        const CollisionType noneType();
     private:
         int _nextType;
         Table<CollisionCallback> _callbackTable;
