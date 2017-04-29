@@ -36,11 +36,6 @@ void CollisionComponent::UpdateDimensionPosition()
     _dim.position(pos.x - (_dim.Dimension.x * _anchor.x), pos.y - (_dim.Dimension.y * _anchor.y));
 }
 
-CollisionType CollisionComponent::type()
-{
-    return _type;
-}
-
 std::vector<Collision> CollisionComponent::GetCollisions() const
 {
     return GetCollisions(box());

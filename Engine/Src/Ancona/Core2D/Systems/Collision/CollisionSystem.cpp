@@ -180,11 +180,11 @@ void CollisionSystem::DefineCollisionCallback(CollisionType typeA, CollisionType
     _callbackTable.Get(typeA, typeB) = callback;
 }
 
-CollisionType CollisionSystem::GetType(const std::string &key)
+CollisionType CollisionSystem::GetType(const std::string &key) const
 {
     Assert(IsCollisionTypeDefined(key), "The collision type must exist");
 
-    return _collisionTypes[key];
+    return _collisionTypes.at(key);
 }
 
 std::string CollisionSystem::GetKeyFromType(const CollisionType & type)
@@ -192,7 +192,7 @@ std::string CollisionSystem::GetKeyFromType(const CollisionType & type)
     return _collisionTypeToKey[type];
 }
 
-bool CollisionSystem::IsCollisionTypeDefined(const std::string & key)
+bool CollisionSystem::IsCollisionTypeDefined(const std::string & key) const
 {
     return _collisionTypes.find(key) != _collisionTypes.end();
 }
@@ -232,4 +232,9 @@ void CollisionSystem::HandleCollision(
 bool CollisionSystem::EntitiesOverlapping(float fixMagnitude)
 {
     return fixMagnitude != 0;
+}
+
+
+CollisionType CollisionSystem::noneType() const { 
+    return GetType(NONE_COLLISION_TYPE); 
 }
