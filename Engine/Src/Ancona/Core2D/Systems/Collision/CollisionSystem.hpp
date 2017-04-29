@@ -80,7 +80,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         /**
          * @brief Get the collision type associated with the key.
          */
-        CollisionType GetType(const std::string & key);
+        CollisionType GetType(const std::string & key) const;
 
         /**
          * @brief Get the key associated with the collision type.
@@ -106,7 +106,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
          *
          * @return True if the collision type is defined.  False otherwise.
          */
-        bool IsCollisionTypeDefined(const std::string & key);
+        bool IsCollisionTypeDefined(const std::string & key) const;
 
         /**
          * Check if the body type can be the source of collisions. Example: We don't
@@ -120,7 +120,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         /* Getters and Setters */
         PositionSystem & position() { return _positions; }
         void maxSlope(float value) { _maxSlope = value; }
-        const CollisionType noneType();
+        CollisionType noneType() const;
     private:
         int _nextType;
         Table<CollisionCallback> _callbackTable;
