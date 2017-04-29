@@ -134,6 +134,7 @@ class AbstractScreen
          */
         std::shared_ptr<RequestList> _requestList;
         
+        
 };
 
 }

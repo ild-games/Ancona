@@ -11,6 +11,21 @@ namespace ild
 
 class RequestList;
 class AbstractLoader;
+    
+class ResourceHolder 
+{
+    public:
+        ResourceHolder(void * rawResource, int referenceCount, AbstractLoader * loader) :
+            rawResource(rawResource),
+            referenceCount(referenceCount),
+            loader(loader)
+        {
+        }
+        
+        void * rawResource;
+        int referenceCount = 0;  
+        AbstractLoader * loader;
+};
 
 class ResourceLibrary
 {
@@ -27,7 +42,7 @@ class ResourceLibrary
         static T * Get(const std::string & key)
         {
             return static_cast<T *>(
-                    _resources.at(typeid(T)).at(key).first);
+                    _resources.at(typeid(T)).at(key).rawResource);
         }
 
         /**
@@ -74,12 +89,13 @@ class ResourceLibrary
          * @return Path to the resource root.
          */
         static const std::string & ResourceRoot();
+        
 
     private:
         /**
          * @brief Typedefine to clean up _resources definition
          */
-        typedef std::unordered_map<std::string, std::pair<void *,int> > resource_map;
+        typedef std::unordered_map<std::string, ResourceHolder> resource_map;
         /**
          * @brief Dictionary used to map the type of resource 
          *        to the map that contains the resource.
@@ -90,6 +106,12 @@ class ResourceLibrary
          *        type to the loader that can load it.
          */
         static std::unordered_map<std::string, AbstractLoader *> _loaders;
+
+        /**
+         * @brief Looks through the resources and deletes any that have a
+         *        reference counter of 0.
+         */
+        static void GarbageCollect();
 };
 
 }
