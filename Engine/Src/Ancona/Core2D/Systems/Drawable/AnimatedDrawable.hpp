@@ -76,6 +76,13 @@ class AnimatedDrawable : public Drawable
          */
         bool IsFinished();
 
+        /**
+         * @brief Returns the number of frames in this animation
+         *
+         * @return number of frames in the animation
+         */
+        int NumberOfFrames();
+
         /* getters and setters */
         sf::Vector2f size() override;
         sf::Vector2f position(sf::Vector2f entityPosition) override;

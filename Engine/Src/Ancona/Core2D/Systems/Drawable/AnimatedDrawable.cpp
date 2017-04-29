@@ -117,6 +117,11 @@ bool AnimatedDrawable::IsFinished()
     return _curFrame == _frames.size() - 1;
 }
 
+int AnimatedDrawable::NumberOfFrames()
+{
+   return _frames.size(); 
+}
+
 /* getters and setters */
 sf::Vector2f AnimatedDrawable::size()
 {
