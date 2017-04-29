@@ -16,7 +16,7 @@ AbstractScreen::AbstractScreen(
     _screenManager(screenManager),
     KEY(key),
     _transitionColor(0, 0, 0, 255),
-    _transitionRect(sf::Vector2f(_screenManager.Window.getSize().x, _screenManager.Window.getSize().y)),
+    _transitionRect(sf::Vector2f(_screenManager.windowWidth(), _screenManager.windowHeight())),
     _defaultCam(sf::View(_screenManager.Window.getDefaultView())) 
 {
 }
@@ -57,9 +57,4 @@ void AbstractScreen::Exiting(float delta)
     _transitionRect.setFillColor(_transitionColor);
     _screenManager.Window.setView(_defaultCam);
     _screenManager.Window.draw(_transitionRect);
-}
-
-void AbstractScreen::SetTransitionRect(int width, int height)
-{
-    _transitionRect.setSize(sf::Vector2f(width, height));
 }

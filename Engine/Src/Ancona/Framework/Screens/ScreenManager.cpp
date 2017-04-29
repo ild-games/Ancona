@@ -20,7 +20,6 @@ ScreenManager::ScreenManager(
 void ScreenManager::Push(AbstractScreen * screen, bool load)
 {
     _screens.push(screen);
-    screen->SetTransitionRect(_windowWidth, _windowHeight);
     screen->__Entering = true;
     if (load)
     {

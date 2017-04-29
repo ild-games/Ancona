@@ -79,6 +79,10 @@ class ScreenManager
          */
         sf::RenderWindow & Window;
 
+        /* getters and setters */
+        int windowWidth() const { return _windowWidth; }
+        int windowHeight() const { return _windowHeight; }
+
     private:
         /**
          * @brief The current screens being managed, in the order they were added
