@@ -38,7 +38,8 @@ TEST(DrawableSystem, ImageDrawableSize)
 
     sf::Texture texture;
     texture.create(50, 50);
-    ImageDrawable * image = new ImageDrawable(&texture, 0, "image");
+    ImageDrawable * image = new ImageDrawable(0, "image");
+    image->SetupSprite(&texture);
     position.CreateComponent(entity);
     drawable.CreateComponent(entity, image, &position);
 

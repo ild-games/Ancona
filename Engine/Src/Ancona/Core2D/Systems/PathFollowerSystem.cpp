@@ -66,7 +66,7 @@ void PathFollowerComponent::ChangeDirection() {
 
 bool PathFollowerComponent::IsPathDone() {
     return (
-        _nextVertexIndex >= _pathComponent->vertices().size() ||
+        _nextVertexIndex >= (int) _pathComponent->vertices().size() ||
         _nextVertexIndex < 0
     );
 }

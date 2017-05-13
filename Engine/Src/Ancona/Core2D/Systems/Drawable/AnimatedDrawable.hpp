@@ -96,7 +96,7 @@ class AnimatedDrawable : public Drawable
         std::vector<std::unique_ptr<Drawable>> _frames;
         float _duration;
         float _timeUntilChange;
-        int _curFrame = 0;
+        uint _curFrame = 0;
         bool _loopOnce = false;
 
 

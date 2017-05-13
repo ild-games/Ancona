@@ -8,40 +8,18 @@ using namespace ild;
 ImageDrawable::ImageDrawable(
         std::string textureKey,
         const int priority,
-        const std::string & key,
-        bool isWholeImage,
-        Box2 textureRect,
-        int priorityOffset,
-        sf::Vector2f anchor) :
-    Drawable(
-            priority,
-            key,
-            priorityOffset,
-            anchor),
-    _textureKey(textureKey),
-    _textureRect(textureRect),
-    _isWholeImage(isWholeImage)
+        const std::string & key) :
+    Drawable(priority, key),
+    _textureKey(textureKey)
 {
 }
 
 ImageDrawable::ImageDrawable(
-        sf::Texture * texture,
         const int priority,
-        const std::string & key,
-        bool isWholeImage,
-        Box2 textureRect,
-        int priorityOffset,
-        sf::Vector2f anchor) :
-    Drawable(
-            priority,
-            key,
-            priorityOffset,
-            anchor),
-    _textureKey(""),
-    _textureRect(textureRect),
-    _isWholeImage(isWholeImage)
+        const std::string & key) :
+    Drawable(priority, key),
+    _textureKey("")
 {
-    SetupSprite(texture);
 }
 
 void ImageDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
