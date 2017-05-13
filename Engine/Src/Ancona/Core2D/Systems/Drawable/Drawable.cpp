@@ -10,10 +10,10 @@ Drawable::Drawable(
         const std::string & key,
         int priorityOffset,
         sf::Vector2f anchor) :
+    _key(key),
     _anchor(anchor),
     _renderPriority(priority),
-    _priorityOffset(priorityOffset),
-    _key(key)
+    _priorityOffset(priorityOffset)
 {
 
 }

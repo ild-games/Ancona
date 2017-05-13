@@ -25,13 +25,13 @@ float PathComponent::TimeForSegment(int segment) {
 }
 
 float PathComponent::DistanceForSegment(int segment) {
-    if (segment == _vertices.size() - 1) {
+    if (segment == (int) _vertices.size() - 1) {
         Assert(_isLoop, "Only loops should care about the last segment length because it connects the end points.")
     }
 
     sf::Vector2f startVertex = _vertices[segment];
     sf::Vector2f endVertex;
-    if (segment == _vertices.size() - 1) {
+    if (segment == (int) _vertices.size() - 1) {
         endVertex = _vertices[0];
     } else {
         endVertex = _vertices[segment + 1];
@@ -42,13 +42,13 @@ float PathComponent::DistanceForSegment(int segment) {
 float PathComponent::TotalDistance() {
     if (_isLoop) {
         float loopDistance = 0;
-        for (int i = 0; i < _vertices.size(); i++) {
+        for (int i = 0; i < (int) _vertices.size(); i++) {
             loopDistance += DistanceForSegment(i);
         }
         return loopDistance;
     } else {
         float backAndForthDistance = 0;
-        for (int i = 0; i < _vertices.size() - 1; i++) {
+        for (int i = 0; i < (int) _vertices.size() - 1; i++) {
             backAndForthDistance += DistanceForSegment(i);
         }
         return backAndForthDistance * 2;

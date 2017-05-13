@@ -8,70 +8,42 @@
 namespace ild
 {
 
-/**
- * @brief A drawable which can display either a whole image or a portion of an image.
- *
- * @author Tucker Lein
- */
 class ImageDrawable : public Drawable
 {
     public:
-        /**
-         * @brief Blank constructor needed for serializing.
-         */
         ImageDrawable() { }
 
-        /**
-         * @brief Constructs an ImageDrawable
-         */
         ImageDrawable(
                 std::string textureKey,
                 const int priority,
-                const std::string & key,
-                bool isWholeImage = true,
-                Box2 textureRect = Box2(sf::Vector2f(0, 0), sf::Vector2f(0, 0)),
-                int priorityOffset = 0,
-                sf::Vector2f anchor = sf::Vector2f(0, 0));
+                const std::string & key);
 
-        /**
-         * @brief Constructs an ImageDrawable
-         *
-         * @param texture Texture to use for the image.
-         * @param textureRect IntRect that describes the rectangle of the texture to display.
-         */
         ImageDrawable(
-                sf::Texture * texture,
                 const int priority,
-                const std::string & key,
-                bool isWholeImage = true,
-                Box2 textureRect = Box2(sf::Vector2f(0, 0), sf::Vector2f(0, 0)),
-                int priorityOffset = 0,
-                sf::Vector2f anchor = sf::Vector2f(0, 0));
+                const std::string & key);
 
-        /**
-         * @copydoc ild::CameraComponent::Serialize
-         */
         void Serialize(Archive & arc) override;
 
-        /**
-         * @copydoc ild::CameraComponent::FetchDependencies
-         */
         void FetchDependencies(const Entity & entity) override;
+
+        void SetupSprite(sf::Texture * texture);
 
         /* getters and setters */
         sf::Vector2f size() override;
         void alpha(int newAlpha) override;
         int alpha() override;
+        void isWholeImage(bool isWholeImage) { _isWholeImage = isWholeImage; }
+        void isTiled(bool isTiled) { _isTiled = isTiled; }
+        void tiledArea(const sf::Vector2f & tiledArea) { _tiledArea = tiledArea; }
     private:
         std::string _textureKey;
         Box2 _textureRect;
         std::unique_ptr<sf::Sprite> _sprite;
         sf::Vector2f _tiledArea;
         bool _isTiled = false;
-        bool _isWholeImage = false;
+        bool _isWholeImage = true;
 
         void OnDraw(sf::RenderWindow &window, sf::Transform transform, float delta) override;
-        void SetupSprite(sf::Texture * texture);
 };
 
 }
