@@ -106,4 +106,5 @@ void CollisionComponent::Serialize(Archive &arc) {
 
 void CollisionComponent::FetchDependencies(const Entity &entity) {
     _position = _system->position()[entity];
+    UpdateDimensionPosition();
 }
