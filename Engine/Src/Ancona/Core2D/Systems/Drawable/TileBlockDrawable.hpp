@@ -41,6 +41,13 @@ class TileBlockDrawable : public Drawable
         ImageDrawable * leftDrawable(sf::Image image);
         ImageDrawable * rightDrawable(sf::Image image);
         ImageDrawable * centerDrawable(sf::Image image);
+        ImageDrawable * topCapDrawable(sf::Image image);
+        ImageDrawable * bottomCapDrawable(sf::Image image);
+        ImageDrawable * leftCapDrawable(sf::Image image);
+        ImageDrawable * rightCapDrawable(sf::Image image);
+        ImageDrawable * verticalCenterDrawable(sf::Image image);
+        ImageDrawable * horizontalCenterDrawable(sf::Image image);
+        ImageDrawable * singleDrawable(sf::Image image);
 };
 
 }
