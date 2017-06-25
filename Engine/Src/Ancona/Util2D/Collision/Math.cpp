@@ -1,4 +1,5 @@
 #include <Ancona/Util2D/Collision/Math.hpp>
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 using namespace ild;

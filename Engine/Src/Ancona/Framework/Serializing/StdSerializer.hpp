@@ -83,7 +83,7 @@ GENERATE_STDSERIALIZER(Json::Value::UInt, asUInt)
 
 GENERATE_STDSERIALIZER(Json::Value::Int64, asInt64)
 
-GENERATE_STDSERIALIZER(u_char, asUInt)
+GENERATE_STDSERIALIZER(unsigned char, asUInt)
 
 template<class T>
 struct Serializer<std::vector<T>> {
