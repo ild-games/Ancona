@@ -9,9 +9,15 @@
 using namespace ild;
 
 SystemManager::SystemManager()
+    : SystemManager(std::shared_ptr<EntityGenerator> {new EntityGenerator()})
 {
-    _maxEntityId = 0;
 }
+
+SystemManager::SystemManager(std::shared_ptr<EntityGenerator> generator)
+    : _generator(generator)
+{
+}
+
 
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
@@ -26,7 +32,7 @@ void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 
 void SystemManager::DeleteEntity(Entity entity)
 {
-    Assert(_components.find(entity) != _components.end(), 
+    Assert(_components.find(entity) != _components.end(),
             "Cannot delete an entity that is not managed by the system manager");
 
     for(AbstractSystem * system : _components.at(entity))
@@ -49,9 +55,7 @@ void SystemManager::QueueDeleteEntity(Entity entity)
 
 Entity SystemManager::CreateEntity()
 {
-    Assert(_maxEntityId != ~0u, "Entity key has overflown");
-
-    Entity entity = _maxEntityId++;
+    auto entity = _generator->NextEntity();
 
     //Create a structure for the entity
     _components[entity];
@@ -59,7 +63,7 @@ Entity SystemManager::CreateEntity()
     return entity;
 }
 
-Entity SystemManager::CreateEntity(const std::string & key)
+Entity SystemManager::CreateEntity(const EntityKey & key)
 {
     Assert(!_entities.ContainsKey(key), "Cannot use the same key for two entities.");
 
@@ -69,7 +73,7 @@ Entity SystemManager::CreateEntity(const std::string & key)
     return entity;
 }
 
-Entity SystemManager::GetEntity(const std::string & key)
+Entity SystemManager::GetEntity(const EntityKey & key)
 {
     if (!_entities.ContainsKey(key))
     {
@@ -78,7 +82,7 @@ Entity SystemManager::GetEntity(const std::string & key)
     return _entities.GetValue(key);
 }
 
-std::string SystemManager::GetEntityKey(const Entity & entity)
+const EntityKey & SystemManager::GetEntityKey(const Entity & entity)
 {
     return _entities.GetKey(entity);
 }
@@ -94,10 +98,10 @@ bool SystemManager::ContainsName(std::string & systemName)
 
 void SystemManager::RegisterSystem(
         std::string systemName,
-        AbstractSystem * system, 
+        AbstractSystem * system,
         UpdateStepEnum updateStep)
 {
-    auto & systems = _systems[updateStep]; 
+    auto & systems = _systems[updateStep];
     Assert(!alg::count_if(systems,[system](std::unique_ptr<AbstractSystem> & ptr)
         {
             return ptr.get() == system;
@@ -117,7 +121,7 @@ void SystemManager::RegisterComponent(Entity entity, AbstractSystem * owningSyst
 {
     Assert(_components.find(entity) != _components.end(),
             "Cannot add a component to an entity that does not exist");
-   _components[entity].insert(owningSystem); 
+   _components[entity].insert(owningSystem);
    _needDependencyFetch.emplace_back(entity, owningSystem);
 }
 
@@ -131,26 +135,11 @@ void SystemManager::UnregisterComponent(Entity entity, AbstractSystem * owningSy
     _components[entity].erase(owningSystem);
 }
 
-void SystemManager::AddEntitySaveableSystemPair(std::string entity, std::string system)
-{
-    Assert(_entities.ContainsKey(entity), "Cannot add entity-system saveable pair: Entity " + entity + " does not exist.");
-    Assert(alg::count_if(_keyedSystems, [system](std::pair<std::string, AbstractSystem *> sysNamePair)
-        {
-            return sysNamePair.first == system; 
-        }
-    ), "Cannot add entity-system saveable pair: System " + system + " does not exist or is not keyed.");
-
-    if(!alg::count(_entitySaveableSystems[system], entity))
-    {
-        _entitySaveableSystems[system].push_back(entity);
-    }
-}
-
 void SystemManager::DeleteQueuedEntities()
 {
     for(Entity & entity : _deleteQueue)
     {
-        DeleteEntity(entity); 
+        DeleteEntity(entity);
     }
     _deleteQueue.clear();
 }
@@ -166,5 +155,5 @@ void SystemManager::FetchWaitingDependencies()
 
 void SystemManager::Serialize(Archive & arc)
 {
-    arc(_entitySaveableSystems, "entitySystemSaveables");
+    Assert(false, "This should not be called");
 }

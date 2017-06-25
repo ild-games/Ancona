@@ -151,13 +151,13 @@ class UnorderedSystem : public AbstractSystem
         /**
          * @breif See AbstractSystem.Merge
          */
-        void Merge(AbstractSystem * systemToMerge, const std::unordered_map<Entity,Entity> & keyMapping) {
+        void Merge(std::unique_ptr<AbstractSystem> systemToMerge) {
             Assert(typeid(systemToMerge) == typeid(systemToMerge), "It is only possible to merge systems that are the same type");
-            auto toMerge = dynamic_cast<UnorderedSystem<ComponentType> *>(systemToMerge);
+            auto toMerge = dynamic_cast<UnorderedSystem<ComponentType> *>(systemToMerge.get());
 
-            for (auto pairToAdd: toMerge)
+            for (auto pairToAdd: *toMerge)
             {
-                AttachComponent(offset + pairToAdd.first, pairToAdd.second);
+                AttachComponent(pairToAdd.first, pairToAdd.second);
             }
 
             toMerge->_components.clear();
@@ -199,18 +199,26 @@ class UnorderedSystem : public AbstractSystem
             else
             {
                 arc.EnterProperty("components");
-                const std::vector<std::string> & entityKeysToSave =
+                const std::vector<std::string> entityKeysToSave =
                     arc.snapshotSave() ?
                         arc.CurrentBranch().getMemberNames() :
-                        _systemManager.entitySaveableSystems()[_systemName];
+                        entityKeys();
                 for(auto entityKey : entityKeysToSave)
                 {
-                    Entity en = _systemManager.GetEntity(entityKey);
+                    Entity en = arc.entity(entityKey);
                     ComponentType * value = _components[en];
                     arc(value, entityKey);
                 }
                 arc.ExitProperty();
             }
+        }
+
+        std::vector<std::string> entityKeys() {
+            std::vector<std::string> result;
+            for (auto entity : *this) {
+                result.push_back(_systemManager.GetEntityKey(entity.first).entityKey());
+            }
+            return result;
         }
 
         void Serialize(Archive & arc, std::false_type)

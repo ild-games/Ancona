@@ -68,7 +68,7 @@ TEST(EntitySystem, DeleteEntity)
         ASSERT_FALSE(comp->WasUpdated());
     }
 
-    manager.Update(10,UpdateStep::Update); 
+    manager.Update(10,UpdateStep::Update);
 
     for(MockComponent * comp : component)
     {
@@ -111,7 +111,7 @@ TEST(EntitySystem, RemoveComponent)
         ASSERT_FALSE(comp->WasUpdated());
     }
 
-    manager.Update(10,UpdateStep::Update); 
+    manager.Update(10,UpdateStep::Update);
 
     for(MockComponent * comp : component)
     {
@@ -223,35 +223,35 @@ TEST(EntitySystem, KeyedEntityRetrival)
 {
     SystemManager manager;
     new MockSystem(manager);
-    Entity entity1 = manager.CreateEntity("EntityA");
-    Entity entity2 = manager.CreateEntity("EntityB");
+    Entity entity1 = manager.CreateEntity(EntityKey("EntityA", "MAP"));
+    Entity entity2 = manager.CreateEntity(EntityKey("EntityB", "MAP"));
 
-    ASSERT_EQ(entity1,manager.GetEntity("EntityA")) << "Incorrect entity fetched by key";
-    ASSERT_EQ(entity2,manager.GetEntity("EntityB")) <<"Incorrect entity fetched by key";
-    ASSERT_EQ(nullentity,manager.GetEntity("EntityC")) <<"nullentity should be returned if the key does not map to an entity";
+    ASSERT_EQ(entity1,manager.GetEntity(EntityKey("EntityA", "MAP"))) << "Incorrect entity fetched by key";
+    ASSERT_EQ(entity2,manager.GetEntity(EntityKey("EntityB", "MAP"))) <<"Incorrect entity fetched by key";
+    ASSERT_EQ(nullentity,manager.GetEntity(EntityKey("EntityC", "MAP"))) <<"nullentity should be returned if the key does not map to an entity";
 }
 
 TEST(EntitySystem, KeyedEntityRetrivalAfterDelete)
 {
     SystemManager manager;
     new MockSystem(manager);
-    Entity entity1 = manager.CreateEntity("EntityA");
-    Entity entity2 = manager.CreateEntity("EntityB");
+    Entity entity1 = manager.CreateEntity(EntityKey("EntityA", "MAP"));
+    Entity entity2 = manager.CreateEntity(EntityKey("EntityB", "MAP"));
 
-    ASSERT_EQ(entity1,manager.GetEntity("EntityA")) << "Incorrect entity fetched by key";
-    ASSERT_EQ(entity2,manager.GetEntity("EntityB")) <<"Incorrect entity fetched by key";
-    ASSERT_EQ(nullentity,manager.GetEntity("EntityC")) <<"nullentity should be returned if the key does not map to an entity";
+    ASSERT_EQ(entity1,manager.GetEntity(EntityKey("EntityA", "MAP"))) << "Incorrect entity fetched by key";
+    ASSERT_EQ(entity2,manager.GetEntity(EntityKey("EntityB", "MAP"))) <<"Incorrect entity fetched by key";
+    ASSERT_EQ(nullentity,manager.GetEntity(EntityKey("EntityC", "MAP"))) <<"nullentity should be returned if the key does not map to an entity";
 
     manager.DeleteEntity(entity1);
 
-    ASSERT_EQ(nullentity,manager.GetEntity("EntityA")) << "Key for deleted entity should return nullentity";
-    ASSERT_EQ(entity2,manager.GetEntity("EntityB")) <<"Incorrect entity fetched by key";
-    ASSERT_EQ(nullentity,manager.GetEntity("EntityC")) <<"nullentity should be returned if the key does not map to an entity";
+    ASSERT_EQ(nullentity,manager.GetEntity(EntityKey("EntityA", "MAP"))) << "Key for deleted entity should return nullentity";
+    ASSERT_EQ(entity2,manager.GetEntity(EntityKey("EntityB", "MAP"))) <<"Incorrect entity fetched by key";
+    ASSERT_EQ(nullentity,manager.GetEntity(EntityKey("EntityC", "MAP"))) <<"nullentity should be returned if the key does not map to an entity";
 
 
-    entity1 = manager.CreateEntity("EntityA");
+    entity1 = manager.CreateEntity(EntityKey("EntityA", "MAP"));
 
-    ASSERT_EQ(entity1,manager.GetEntity("EntityA")) << "Entity key should be able to be reused after deleting the original entity";
-    ASSERT_EQ(entity2,manager.GetEntity("EntityB")) <<"Incorrect entity fetched by key";
-    ASSERT_EQ(nullentity,manager.GetEntity("EntityC")) <<"nullentity should be returned if the key does not map to an entity";
+    ASSERT_EQ(entity1,manager.GetEntity(EntityKey("EntityA", "MAP"))) << "Entity key should be able to be reused after deleting the original entity";
+    ASSERT_EQ(entity2,manager.GetEntity(EntityKey("EntityB", "MAP"))) <<"Incorrect entity fetched by key";
+    ASSERT_EQ(nullentity,manager.GetEntity(EntityKey("EntityC", "MAP"))) <<"nullentity should be returned if the key does not map to an entity";
 }

@@ -25,7 +25,7 @@ namespace BodyType
      */
     enum Type
     {
-        /**
+        /*
          * @brief The entity does not take part in solid body collision.
          */
         None,
@@ -127,5 +127,15 @@ class CollisionComponent
         sf::Vector2f _anchor;
 };
 
+
 }
+
+namespace std {
+    template <> struct hash<ild::BodyTypeEnum> {
+            std::size_t operator()(ild::BodyTypeEnum const& key) const
+            {
+                return key;
+            }
+    };
+} /* std */
 #endif

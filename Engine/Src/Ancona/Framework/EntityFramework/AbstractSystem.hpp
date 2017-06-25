@@ -104,7 +104,7 @@ class AbstractSystem
          * concrete type.
          * @param system System to merge into this system.
          */
-        virtual void Merge(AbstractSystem * system) = 0;
+        virtual void Merge(std::unique_ptr<AbstractSystem> system) = 0;
 
         /**
          * @brief Default serialize for a system, should never be reached.

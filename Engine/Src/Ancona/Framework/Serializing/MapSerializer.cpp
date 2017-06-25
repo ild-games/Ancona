@@ -98,7 +98,7 @@ void MapSerializer::LoadEntities()
     {
         for (Json::Value & curEntity : _mapRoot["entities"])
         {
-            _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
+            _loadingContext->systems().systemManager().CreateEntity(EntityKey(curEntity.asString(), _key));
         }
         SerializeEntitySystemSaveables();
     }
@@ -107,14 +107,14 @@ void MapSerializer::LoadEntities()
 
 void MapSerializer::SerializeEntitySystemSaveables()
 {
-    Archive entitySaveablesArc(_mapRoot, *_loadingContext.get(), _loading);
+    Archive entitySaveablesArc(_mapRoot, *_loadingContext.get(), _loading, _mapName);
     _loadingContext->systems().systemManager().Serialize(entitySaveablesArc);
 }
 
 void MapSerializer::SerializeComponents()
 {
-    Archive mapArc(_mapRoot["systems"], *_loadingContext.get(), _loading, _snapshotSave);
-    Archive saveArc(_saveProfileRoot["systems"], *_loadingContext.get(), _loading, true);
+    Archive mapArc(_mapRoot["systems"], *_loadingContext.get(), _loading, _mapName, _snapshotSave);
+    Archive saveArc(_saveProfileRoot["systems"], *_loadingContext.get(), _loading, _mapName, true);
     for (auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
     {
         SerializeSpecifiedSystem(systemNamePair, mapArc);

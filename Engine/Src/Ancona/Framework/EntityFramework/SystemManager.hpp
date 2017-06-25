@@ -7,11 +7,12 @@
 #include <unordered_map>
 #include <vector>
 
-#include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
-#include <Ancona/Framework/EntityFramework/Entity.hpp>
-#include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/Data/DualMap.hpp>
+#include "./AbstractSystem.hpp"
+#include "./Entity.hpp"
+#include "./EntityGenerator.hpp"
+#include "./UpdateStep.hpp"
 
 namespace ild
 {
@@ -33,6 +34,12 @@ class SystemManager
          * @brief Create and Initialize the SystemManager.
          */
         SystemManager();
+
+        /**
+         * @brief Create a system manager and pass it an EntityGenerator shared
+         * with other SystemManagers.
+         */
+        SystemManager(std::shared_ptr<EntityGenerator> generator);
 
         /**
          * @brief Will update all managers that were registered with the given updateStep.
@@ -74,17 +81,17 @@ class SystemManager
          *
          * @return A new keyed entity.
          */
-        Entity CreateEntity(const std::string & key);
+        Entity CreateEntity(const EntityKey & key);
 
         /**
          * @brief Get the keyed entity.
          *
-         * @param key Key of the Entity to be retrieved.
+         * @param entityKey Key of the Entity to be retrieved.
          *
          * @return The entity keyed by the string.  If no such entity entity
          * exists then nullentity is returned.
          */
-        Entity GetEntity(const std::string & key);
+        Entity GetEntity(const EntityKey & key);
 
         /**
          * @brief Get the key used to store a keyed entity.
@@ -93,7 +100,14 @@ class SystemManager
          *
          * @return The key used to store the given entity.
          */
-        std::string GetEntityKey(const Entity & entity);
+         const EntityKey & GetEntityKey(const Entity & entity);
+
+        /**
+         * [GetEntityMapKey description]
+         * @param  entity [description]
+         * @return        [description]
+         */
+        const std::string & GetEntityMapKey(const Entity & entity);
 
         /**
          * @brief Register the System with the system manager.  This is needed in order for the
@@ -134,15 +148,6 @@ class SystemManager
         void UnregisterComponent(Entity entity, AbstractSystem * owningSystem);
 
         /**
-         * @brief Adds the rule that the given entity can have its component from the given system saved
-         * by non-snapshot saves.
-         *
-         * @param entity Name of the entity
-         * @param system Name of the system
-         */
-        void AddEntitySaveableSystemPair(std::string entity, std::string system);
-
-        /**
          * @brief Called when all components should fetch their dependencies.
          */
         void FetchWaitingDependencies();
@@ -162,11 +167,10 @@ class SystemManager
          *
          * @param SystemManager Collection of systems to merge into this.
          */
-        void Merge(manager * SystemManager);
+        void Merge(SystemManager * manager);
 
         /* getters and setters */
         std::vector<std::pair<std::string, AbstractSystem *>> & keyedSystems() { return _keyedSystems; }
-        std::map<std::string, std::vector<std::string>> & entitySaveableSystems() { return _entitySaveableSystems; }
     private:
         /**
          * @brief Used to track which systems are controlled by the manager and
@@ -177,11 +181,12 @@ class SystemManager
          * @brief Used to track which systems manage a component for each entity
          */
         std::unordered_map< Entity, std::set<AbstractSystem * > > _components;
+
         /**
-         * @brief Highest id that has been assigned to an entity.  Used to assign
-         * unique ids
+         * Used to allocate unique entity IDs.
          */
-        unsigned int _maxEntityId;
+        std::shared_ptr<EntityGenerator> _generator;
+
         /**
          * @brief Holds the entities queued for deletion
          */
@@ -193,15 +198,11 @@ class SystemManager
         /**
          * @brief A map used to key entities using strings.
          */
-        DualMap<std::string, Entity> _entities;
+        DualMap<EntityKey, Entity> _entities;
         /**
          * @brief The systems stored with their keys in the order they were added to the manager.
          */
         std::vector<std::pair<std::string, AbstractSystem *> > _keyedSystems;
-        /**
-         * @brief Stores a map of systems and their corresponding entities that are allowed to be saved during non snapshot saves.
-         */
-        std::map<std::string, std::vector<std::string>> _entitySaveableSystems;
 
         /**
          * @brief Deletes all the entities queued for deletion.

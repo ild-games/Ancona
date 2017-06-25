@@ -6,7 +6,9 @@ Archive::Archive(
         Json::Value root,
         SerializingContext & context,
         bool loading,
+        const std::string & mapKey,
         bool snapshotSave) :
+    _mapKey(mapKey),
     _loading(loading),
     _snapshotSave(snapshotSave),
     _root(root),

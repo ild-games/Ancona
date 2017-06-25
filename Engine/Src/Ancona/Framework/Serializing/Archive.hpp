@@ -20,7 +20,7 @@ namespace ild
  * @author Tucker Lein
  * @author Jeff Swenson
  */
-class Archive 
+class Archive
 {
     public:
         /**
@@ -29,18 +29,20 @@ class Archive
          * @param root Root of the json for the archive.
          * @param context Current loading context.
          * @param loading True if the archive is loading data, false if saving.
+         * @param mapKey Map the engine is loading.
          * @param snapshotSave True if the archive is saving via a snapshot (EVERYTHING gets saved), otherwise false. Defaults to false.
          */
         Archive(
                 Json::Value root,
                 SerializingContext & context,
                 bool loading,
+                const std::string & mapKey,
                 bool snapshotSave = false);
 
         /**
          * @brief Serialize or deserialize the property based on if the game is being loaded or saved.
-         *        The method used to serialize is determined by template specialization of the Serializer<> 
-         *        struct. If there is no specialization of the struct it will call serialize (archive) on 
+         *        The method used to serialize is determined by template specialization of the Serializer<>
+         *        struct. If there is no specialization of the struct it will call serialize (archive) on
          *        the property.
          *
          * @tparam T Type of the property being archived.
@@ -84,8 +86,8 @@ class Archive
                     property = ClassConstructor<T>::Construct();
                     Serializer<T>::Serialize(*property, *this);
                 }
-            } 
-            else 
+            }
+            else
             {
                 if(CurrentBranch().isMember("__cpp_type"))
                 {
@@ -111,10 +113,10 @@ class Archive
                 T * obj;
                 (*this)(obj, key);
                 property.reset(obj);
-            } 
-            else 
+            }
+            else
             {
-                T * obj = property.get();                    
+                T * obj = property.get();
                 (*this)(obj, key);
             }
         }
@@ -130,10 +132,10 @@ class Archive
                 T * obj;
                 (*this)(obj, key);
                 property.reset(obj);
-            } 
-            else 
+            }
+            else
             {
-                T * obj = property.get();                    
+                T * obj = property.get();
                 (*this)(obj, key);
             }
         }
@@ -148,7 +150,7 @@ class Archive
         template <class SystemType>
         void system(SystemType *& systemProperty, const std::string & systemKey)
         {
-            if (_loading) 
+            if (_loading)
             {
                 systemProperty = _context.systems().GetSystem<SystemType>(systemKey);
             }
@@ -156,14 +158,14 @@ class Archive
 
         /**
          * @brief Loads the SystemManager context during serialization.
-         * 
+         *
          * @param systemManager SystemManager reference that will be set to the SystemManager for the game.
          */
-        void systemManager(SystemManager *& systemManager) 
+        void systemManager(SystemManager *& systemManager)
         {
-            if (_loading) 
+            if (_loading)
             {
-                systemManager = &_context.systems().systemManager();    
+                systemManager = &_context.systems().systemManager();
             }
         }
 
@@ -181,7 +183,7 @@ class Archive
             }
             else
             {
-                CurrentBranch()[entityJsonKey] = _context.systems().systemManager().GetEntityKey(entity);
+                CurrentBranch()[entityJsonKey] = _context.systems().systemManager().GetEntityKey(entity).entityKey();
             }
         }
 
@@ -225,12 +227,13 @@ class Archive
         void loading(bool loading) { _loading = loading; }
         SerializingContext & context() { return _context; }
         Entity entity(const std::string &key)
-        { 
-            return _context.systems().systemManager().GetEntity(key);
+        {
+            return _context.systems().systemManager().GetEntity(EntityKey(key, _mapKey));
         }
 
 
     private:
+        std::string _mapKey;
         bool _loading;
         bool _snapshotSave;
         Json::Value _root;

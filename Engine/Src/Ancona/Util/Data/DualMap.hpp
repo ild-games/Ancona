@@ -2,7 +2,7 @@
 #define ANCONA_UTIL_DATA_DUALMAP_H
 
 #include <initializer_list>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <utility>
 
@@ -29,11 +29,7 @@ class DualMap
         /**
          * @brief Default constructor with blank maps.
          */
-        DualMap()
-        {
-            _normal.reset(new std::map<T, V>());
-            _reverse.reset(new std::map<V, T>());
-        }
+        DualMap() : DualMap({}) {}
 
         /**
          * @brief Constructs the DualMap with an initializer list
@@ -44,11 +40,11 @@ class DualMap
          */
         DualMap(const std::initializer_list<std::pair<const T, V>> & normal)
         {
-            _normal.reset(new std::map<T, V>(normal));
-            _reverse.reset(new std::map<V, T>());
+            _normal.reset(new std::unordered_map<T, V>(normal));
+            _reverse.reset(new std::unordered_map<V, T>());
             for(auto & normalPair : *_normal)
             {
-                _reverse->insert({normalPair.second, normalPair.first});
+                _reverse->insert(std::make_pair(normalPair.second, normalPair.first));
             }
         }
 
@@ -62,8 +58,8 @@ class DualMap
         {
             Assert(!ContainsKey(key), "Key already exists in map");
             Assert(!ContainsValue(val), "Value already exists in map");
-            (*_normal)[key] = val;
-            (*_reverse)[val] = key;
+            _normal->insert(std::make_pair(key, val));
+            _reverse->insert(std::make_pair(val, key));
         }
 
         /**
@@ -143,8 +139,8 @@ class DualMap
         }
 
     private:
-        std::unique_ptr<std::map<T, V>> _normal;
-        std::unique_ptr<std::map<V, T>> _reverse;
+        std::unique_ptr<std::unordered_map<T, V>> _normal;
+        std::unique_ptr<std::unordered_map<V, T>> _reverse;
 
 };
 
