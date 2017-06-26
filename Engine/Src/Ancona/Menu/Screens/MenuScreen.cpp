@@ -8,7 +8,7 @@ MenuScreen::MenuScreen(
         ButtonPressedCallback buttonPressed,
         std::string mapKey,
         ild::ScreenManager & manager,
-        MenuInputHandler * inputHandler) :
+        std::shared_ptr<MenuInputHandler> inputHandler) :
     ild::AbstractScreen(mapKey, manager),
     _buttonPressed(buttonPressed),
     _inputHandler(inputHandler)
@@ -22,7 +22,7 @@ void MenuScreen::Init()
     _inputHandler->systems(_systems.get());
 
     auto inputEntity = _systems->systemManager().CreateEntity();
-    auto menuInputComponent = new MenuInputComponent(*_systems, *_inputHandler);
+    auto menuInputComponent = new MenuInputComponent(*_systems, _inputHandler);
 
     _inputHandler->RegisterInputComponent(menuInputComponent);
 

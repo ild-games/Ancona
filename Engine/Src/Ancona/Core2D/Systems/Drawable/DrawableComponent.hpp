@@ -79,6 +79,7 @@ class DrawableComponent
         PositionComponent * _positionComponent;
         DrawableSystem * _drawableSystem;
         Entity _camEntity = nullentity;
+
 };
 
 }

@@ -52,7 +52,7 @@ class MenuInputComponent : public ild::InputControlComponent
          */
         MenuInputComponent(
                 MenuGameSystems & systems,
-                MenuInputHandler & inputHandler);
+                std::shared_ptr<MenuInputHandler> inputHandler);
 
         /**
          * Called by the input handlers to update the button system state.

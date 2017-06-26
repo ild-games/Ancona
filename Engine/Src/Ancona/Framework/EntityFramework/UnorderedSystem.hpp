@@ -98,6 +98,17 @@ class UnorderedSystem : public AbstractSystem
             _systemManager.UnregisterComponent(entity, this);
         }
 
+        void CopyComponentToEntity(const Entity & fromEntity, const Entity & toEntity) override {
+            if (!EntityHasComponent(toEntity)) {
+                return; 
+            }
+
+            auto newComponent = new ComponentType();
+            auto oldComponent = at(fromEntity);
+            *newComponent = *oldComponent;
+            AttachComponent(toEntity, newComponent);
+        }
+
         /**
          * @brief Implementation for AbstractSystem method
          */

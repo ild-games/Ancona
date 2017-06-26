@@ -77,6 +77,8 @@ class AbstractSystem
          */
         virtual bool EntityHasComponent(const Entity & entity) = 0;
 
+        virtual void CopyComponentToEntity(const Entity & fromEntity, const Entity & toEntity) = 0;
+
         /**
          * @brief Queues the component on the passed in entity for deletion. The deletion will happen
          *        at the end of the update step.

@@ -20,7 +20,7 @@ void MenuInputHandler::RegisterInputComponent(MenuInputComponent * component)
 // MenuInputComponent
 MenuInputComponent::MenuInputComponent(
         MenuGameSystems & systems,
-        MenuInputHandler & inputHandler) :
+        std::shared_ptr<MenuInputHandler> inputHandler) :
     InputControlComponent(inputHandler),
     _systems(systems)
 {

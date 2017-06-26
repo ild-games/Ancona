@@ -3,12 +3,12 @@
 using namespace ild;
 
 InputControlComponent::InputControlComponent(
-        InputHandler & handler)
-    : _handler(handler)
+        std::shared_ptr<InputHandler> handler) :
+    _handler(handler)
 {
 }
 
 void InputControlComponent::Update(float delta)
 {
-    _handler.HandleInput(delta);    
+    _handler->HandleInput(delta);    
 }
