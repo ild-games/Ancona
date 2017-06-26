@@ -99,7 +99,7 @@ class UnorderedSystem : public AbstractSystem
         }
 
         void CopyComponentToEntity(const Entity & fromEntity, const Entity & toEntity) override {
-            if (!EntityHasComponent(toEntity)) {
+            if (!EntityHasComponent(fromEntity)) {
                 return; 
             }
 

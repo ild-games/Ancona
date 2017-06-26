@@ -15,7 +15,16 @@ Drawable::Drawable(
     _renderPriority(priority),
     _priorityOffset(priorityOffset)
 {
+}
 
+void Drawable::CopyProperties(Drawable * drawable) {
+    drawable->key(_key);
+    drawable->anchor(_anchor);
+    drawable->renderPriority(_renderPriority);
+    drawable->priorityOffset(_priorityOffset);
+    drawable->scale(_scale);
+    drawable->rotation(_rotation);
+    drawable->inactive(_inactive);
 }
 
 void Drawable::Serialize(Archive &arc)

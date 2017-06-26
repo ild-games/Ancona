@@ -22,6 +22,21 @@ ImageDrawable::ImageDrawable(
 {
 }
 
+Drawable * ImageDrawable::Copy() {
+    auto drawable = new ImageDrawable();
+    Drawable::CopyProperties(drawable);
+    drawable->textureKey(_textureKey);
+    drawable->textureRect(_textureRect);
+    drawable->tiledArea(_tiledArea);
+    drawable->isTiled(_isTiled);
+    drawable->isWholeImage(_isWholeImage);
+    if (_textureKey != "")
+    {
+        drawable->SetupSprite(ResourceLibrary::Get<sf::Texture>(_textureKey));
+    }
+    return drawable;
+}
+
 void ImageDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
     if (_sprite.get() != NULL)

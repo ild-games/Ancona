@@ -38,6 +38,22 @@ class DrawableComponent
                 DrawableSystem * drawableSystem,
                 PositionSystem * positionSystem,
                 CameraComponent * cameraComponent);
+        
+        DrawableComponent & operator=(DrawableComponent & rhs)
+        {
+            if (this == &rhs) {
+                return *this;
+            }
+
+            _topDrawable = rhs.topDrawable()->Copy();
+            _camera = rhs.cameraComponent();
+            _cameraSystem = rhs.cameraSystem();
+            _positionSystem = rhs.positionSystem();
+            _positionComponent = rhs.positionComponent();
+            _drawableSystem = rhs.drawableSystem();
+            _camEntity = rhs.camEntity();
+            return *this;
+        }
 
         /**
          * @brief Gets the specified drawable that is on the component.
@@ -71,6 +87,12 @@ class DrawableComponent
 
         /* getters and setters */
         Drawable * topDrawable() { return _topDrawable; }
+        CameraComponent * cameraComponent() { return _camera; }
+        CameraSystem * cameraSystem() { return _cameraSystem; }
+        PositionSystem * positionSystem() { return _positionSystem; }
+        PositionComponent * positionComponent() { return _positionComponent; }
+        DrawableSystem * drawableSystem() { return _drawableSystem; }
+        const Entity & camEntity() { return _camEntity; }
     private:
         Drawable * _topDrawable;
         CameraComponent * _camera;

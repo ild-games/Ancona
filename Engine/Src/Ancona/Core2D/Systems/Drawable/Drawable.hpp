@@ -75,6 +75,9 @@ class Drawable
                 sf::Transform parentTransform,
                 float delta);
 
+        virtual Drawable * Copy() = 0;
+        void CopyProperties(Drawable * drawable);
+
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
          */
@@ -111,6 +114,8 @@ class Drawable
 
         /* getters and setters */
         int renderPriority() const { return _renderPriority + _priorityOffset; }
+        void renderPriority(const int renderPriority) { _renderPriority = renderPriority; }
+        void priorityOffset(const int priorityOffset) { _priorityOffset = priorityOffset; }
         sf::Vector2f anchor() { return _anchor; }
         void anchor(sf::Vector2f anchor) { _anchor = anchor; }
         float rotation() { return _rotation; }
@@ -131,6 +136,7 @@ class Drawable
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;
         std::string key() { return _key; }
+        void key(const std::string & key) { _key = key; }
         bool inactive() { return _inactive; }
         void inactive(bool inactive) { _inactive = inactive; }
 
