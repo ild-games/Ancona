@@ -9,15 +9,18 @@ typedef float modulationFunction();
 
 class Sound
 {
-
-  private:
-    bool _loopSound;
-    float _volume;
-
-  public:
+public:
     void Play();
     void Stop();
 
+    std::string key() { return _soundKey; }
+
     void Serialize(Archive &arc);
+private:
+
+    bool _loopSound;
+    float _volume;
+    std::string _soundKey;
+
 };
 }

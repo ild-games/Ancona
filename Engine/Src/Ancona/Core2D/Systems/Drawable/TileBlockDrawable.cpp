@@ -217,7 +217,6 @@ ImageDrawable * TileBlockDrawable::verticalCenterDrawable(sf::Image image) {
     sf::Texture * texture = new sf::Texture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, _tileSize.y, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
-    auto width = _tileSize.x * (_numTiles.x - 2);
     auto height = _tileSize.y * (_numTiles.y - 2);
     drawable->anchor(sf::Vector2f(0, -(_tileSize.y / height)));
     drawable->isTiled(true);
@@ -231,7 +230,6 @@ ImageDrawable * TileBlockDrawable::horizontalCenterDrawable(sf::Image image) {
     texture->loadFromImage(image, sf::IntRect(_tileSize.x, _tileSize.y * 3, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
     auto width = _tileSize.x * (_numTiles.x - 2);
-    auto height = _tileSize.y * (_numTiles.y - 2);
     drawable->anchor(sf::Vector2f(-(_tileSize.x / width), 0));
     drawable->isTiled(true);
     drawable->tiledArea(sf::Vector2f(width, _tileSize.y));

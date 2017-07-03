@@ -25,7 +25,7 @@ class AudioComponent
 
         void Serialize(Archive & arc);
 
-        std::weak_ptr<Sound> GetSound(std::string key) { return _hashedSounds[key]; }
+        std::shared_ptr<Sound> GetSound(std::string key) { return _hashedSounds[key]; }
 
     private:
         std::vector<std::shared_ptr<Sound>> _sounds;
