@@ -1,4 +1,9 @@
+#ifndef Ancona_Core2D_Systems_Audio_Sound_H_
+#define Ancona_Core2D_Systems_Audio_Sound_H_
+
 #include <string>
+
+#include <SFML/Audio.hpp>
 
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
@@ -9,18 +14,25 @@ typedef float modulationFunction();
 
 class Sound
 {
-public:
-    void Play();
-    void Stop();
+    public:
+        Sound() {}
 
-    std::string key() { return _soundKey; }
+        void Play();
+        void Stop();
 
-    void Serialize(Archive &arc);
-private:
+        std::string key() { return _soundKey; }
 
-    bool _loopSound;
-    float _volume;
-    std::string _soundKey;
+        void Serialize(Archive &arc);
+        void FetchDependencies(const Entity & entity);
+    private:
+
+        bool _loopSound;
+        float _volume;
+        std::string _soundKey;
+        std::unique_ptr<sf::Sound> _sound;
 
 };
+
 }
+
+#endif

@@ -21,12 +21,10 @@ class TextureLoader : public SFMLResourceLoader<sf::Texture>
          *
          * @param resourceName Resource Type to be used (EX "TextureJPEG")
          * @param fileExtension File extension to be used (EX "jpeg")
-         * @param directory Directory that resources are stored in (Defaults to "texture")
          */
         TextureLoader(
                 const std::string & resourceName,
-                const std::string & fileExtension,
-                const std::string & directory = std::string("texture"));
+                const std::string & fileExtension);
 };
 
 }

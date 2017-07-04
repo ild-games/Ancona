@@ -1,15 +1,6 @@
 #include <Ancona/Core2D/Systems/Audio/Sound.hpp>
 
-#include <sstream>
-
-#include <Ancona/System/Log.hpp>
-
 using namespace ild;
-
-
-void LogSound(std::string sound) {
-    ILD_Log(sound);
-}
 
 void Sound::Serialize(Archive & arc) 
 {
@@ -18,8 +9,12 @@ void Sound::Serialize(Archive & arc)
     arc(_soundKey, "soundKey");
 }
 
+void Sound::FetchDependencies(const Entity & entity) 
+{
+    auto buffer = ResourceLibrary::Get<sf::SoundBuffer>(_soundKey);
+    _sound = std::unique_ptr<sf::Sound>(new sf::Sound(*buffer));
+}
+
 void Sound::Play() {
-    std::ostringstream os;
-    os << "Sound key: " << _soundKey << " volume: " << _volume << " looping? " << _loopSound;
-    LogSound(os.str());
+    _sound->play();
 }

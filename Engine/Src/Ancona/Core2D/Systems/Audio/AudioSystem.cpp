@@ -13,7 +13,9 @@ void AudioComponent::Serialize(Archive &arc)
 
 void AudioComponent::FetchDependencies(const Entity & entity) 
 {
-
+    for (auto sound : _sounds) {
+        sound->FetchDependencies(entity);
+    }
 }
 
 AudioSystem::AudioSystem(

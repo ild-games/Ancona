@@ -21,12 +21,10 @@ class FontLoader: public SFMLResourceLoader<sf::Font>
          *
          * @param resourceName Resource Type to be used (EX "FontTTF")
          * @param fileExtension File extension to be used (EX "ttf")
-         * @param directory Directory that resources are stored in (Defaults to "font")
          */
         FontLoader(
                 const std::string & resourceName,
-                const std::string & fileExtension,
-                const std::string & directory = std::string("font"));
+                const std::string & fileExtension);
 };
 
 }
