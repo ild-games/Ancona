@@ -6,6 +6,7 @@
 #include <SFML/System.hpp>
 
 #include <Ancona/Util2D/Collision/Box3.hpp>
+#include <Ancona/Util2D/Collision/Math.hpp>
 
 namespace ild
 {
@@ -106,6 +107,34 @@ class Box2
          * @param vertices A vector used as an output parameter for the vertices.
          */
         void GetVertices(std::vector< std::pair<float,float> > & vertices) const;
+
+        std::pair<float, float> BotRight() const {
+            return Math::RotatePoint(
+                std::pair<float, float>(Position.x + Dimension.x, Position.y + Dimension.y),
+                std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
+                Rotation);
+        }
+
+        std::pair<float, float> BotLeft() const {
+            return Math::RotatePoint(
+                std::pair<float, float>(Position.x, Position.y + Dimension.y),
+                std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
+                Rotation);
+        }
+
+        std::pair<float, float> TopLeft() const {
+            return Math::RotatePoint(
+                std::pair<float, float>(Position.x, Position.y),
+                std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
+                Rotation);
+        }
+
+        std::pair<float, float> TopRight() const {
+            return Math::RotatePoint(
+                std::pair<float, float>(Position.x + Dimension.x, Position.y),
+                std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
+                Rotation);
+        }
 
         /* getters and setters */
         void position(float x, float y);

@@ -38,7 +38,7 @@ void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTr
     if (_anchor.x != 0.0f || _anchor.y != 0.0f) {
         auto size = this->size();
         drawableTransform.translate(
-            -(size.x * _anchor.x / std::abs(_scale.x)), 
+            -(size.x * _anchor.x / std::abs(_scale.x)),
             -(size.y * _anchor.y / std::abs(_scale.y)));
     }
     _frames[_curFrame]->Draw(window, drawableTransform, delta);
@@ -119,26 +119,26 @@ void AnimatedDrawable::RemoveFrame(const std::string & key)
     }));
 }
 
-void AnimatedDrawable::ResetAnimation() 
+void AnimatedDrawable::ResetAnimation()
 {
     _curFrame = 0;
 }
 
-bool AnimatedDrawable::IsFinished() 
+bool AnimatedDrawable::IsFinished()
 {
     return _curFrame == _frames.size() - 1;
 }
 
 int AnimatedDrawable::NumberOfFrames()
 {
-   return _frames.size(); 
+   return _frames.size();
 }
 
 /* getters and setters */
 sf::Vector2f AnimatedDrawable::size()
 {
     return VectorMath::ComponentMultiplication(
-        _frames[_curFrame]->size(), 
+        _frames[_curFrame]->size(),
         sf::Vector2f(std::abs(_scale.x), std::abs(_scale.y)));
 }
 
@@ -157,19 +157,7 @@ void AnimatedDrawable::alpha(int newAlpha)
 
 sf::Vector2f AnimatedDrawable::position(sf::Vector2f entityPosition)
 {
-    float minX = INFINITY, minY = INFINITY;
-    for (auto & frame : _frames) {
-        sf::Vector2f drawablePosition = frame->position(entityPosition);
-        
-        if (drawablePosition.x < minX) {
-            minX = drawablePosition.x;     
-        }
-        
-        if (drawablePosition.y < minY) {
-            minY = drawablePosition.y;     
-        }
-    }
-    
+    auto position = _frames[_curFrame]->position(entityPosition);
     auto size = this->size();
-    return sf::Vector2f(minX, minY) - sf::Vector2f(size.x * _anchor.x, size.y * _anchor.y);
+    return entityPosition - sf::Vector2f(size.x * _anchor.x, size.y * _anchor.y);
 }

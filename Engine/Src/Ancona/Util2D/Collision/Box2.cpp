@@ -1,6 +1,6 @@
 #include <Ancona/Util2D/Collision/Box2.hpp>
-#include <Ancona/Util2D/Collision/Math.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -15,19 +15,35 @@ namespace DoesIntersect {
     };
 }
 
-DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
-{
+#include <iostream>
+DoesIntersect::Enum OptimizedIntersectRotated(const Box2 & left, const Box2 & right) {
     /**
-     * Normally we compute intersection using the SAT algorithm. That allows us to handle all convex shapes. The SAT
-     * algorithm allows for complex collision detection, but it is a little slow. This implementation is an optimization
-     * for non-rotated boxes. Useing this optimization was measured to improve the overall collision performance by an order
-     * of magnitude.
-     */
-    if (left.Rotation != 0.0f || right.Rotation != 0.0f)
-    {
-        return DoesIntersect::Maybe;
-    }
+    * If the boxes are rotated, we know that the radius of the box is less than the two dimensions added together. If
+    * the circules formed by the radius don't overlap, then we know the boxes don't overlap.
+    */
+    auto leftPosition = sf::Vector2f(left.TopLeft().first, left.TopLeft().second);
+    auto rightPosition = sf::Vector2f(right.TopLeft().first, right.TopLeft().second);
 
+    auto radiusLeft = left.Dimension.x + left.Dimension.y;
+    auto radiusRight = right.Dimension.x + right.Dimension.y;
+    auto positionDiff = leftPosition - rightPosition;
+
+    auto totalRadius = radiusLeft * radiusLeft + radiusRight * radiusRight;
+    auto distance = positionDiff.x * positionDiff.x + positionDiff.y * positionDiff.y;
+
+    if (totalRadius < distance) {
+        return DoesIntersect::No;
+    }
+    return DoesIntersect::Maybe;
+}
+
+DoesIntersect::Enum OptimizedIntersectAligned(const Box2 & left, const Box2 & right) {
+    /**
+    * Normally we compute intersection using the SAT algorithm. That allows us to handle all convex shapes. The SAT
+    * algorithm allows for complex collision detection, but it is a little slow. This implementation is an optimization
+    * for non-rotated boxes. Useing this optimization was measured to improve the overall collision performance by an order
+    * of magnitude.
+    */
     auto leftXMin = left.Position.x;
     auto leftXMax = leftXMin + left.Dimension.x;
     auto rightXMin = right.Position.x;
@@ -49,6 +65,15 @@ DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
     return DoesIntersect::Yes;
 }
 
+DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
+{
+    if (left.Rotation != 0.0f || right.Rotation != 0.0f) {
+        return OptimizedIntersectRotated(left, right);
+    } else {
+        return OptimizedIntersectAligned(left, right);
+    }
+}
+
 Box2::Box2(
     const sf::Vector2f & position,
     const sf::Vector2f & dimension,
@@ -67,26 +92,13 @@ Box2::Box2(float dimX, float dimY)
 
 }
 
-void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
+void Box2::GetVertices(std::vector< std::pair<float, float> > & vertices) const
 {
     vertices.clear();
-
-    vertices.push_back(Math::RotatePoint(
-        std::pair<float, float>(Position.x + Dimension.x, Position.y + Dimension.y),
-        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
-        Rotation));
-    vertices.push_back(Math::RotatePoint(
-        std::pair<float, float>(Position.x, Position.y + Dimension.y),
-        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
-        Rotation));
-    vertices.push_back(Math::RotatePoint(
-        std::pair<float, float>(Position.x, Position.y),
-        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
-        Rotation));
-    vertices.push_back(Math::RotatePoint(
-        std::pair<float, float>(Position.x + Dimension.x, Position.y),
-        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
-        Rotation));
+    vertices.push_back(BotRight());
+    vertices.push_back(BotLeft());
+    vertices.push_back(TopLeft());
+    vertices.push_back(TopRight());
 }
 
 bool Box2::Intersects(const Box2 & box) const
@@ -117,8 +129,8 @@ bool Box2::Intersects(const Box2 & box, sf::Vector2f & fixNormal, float & fixMag
 
 bool Box2::SATCollision(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const
 {
-    Math::Vertices2 verticesA;
-    Math::Vertices2 verticesB;
+    static Math::Vertices2 verticesA;
+    static Math::Vertices2 verticesB;
 
     GetVertices(verticesA);
     box.GetVertices(verticesB);
