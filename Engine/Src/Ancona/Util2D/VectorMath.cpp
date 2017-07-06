@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include <Ancona/Util2D/VectorMath.hpp>
@@ -14,7 +15,7 @@ float Magnitude(const sf::Vector2f & vector)
 
 sf::Vector2f Normalize(const sf::Vector2f & vector)
 {
-    auto magnitude = Magnitude(vector);  
+    auto magnitude = Magnitude(vector);
     return sf::Vector2f(vector.x / magnitude, vector.y / magnitude);
 }
 
@@ -66,7 +67,7 @@ bool PointsTo(const sf::Vector2f & vector,const sf::Vector2f & positionA,const s
     auto diff = positionB - positionA;
     decltype(diff) norm1(-diff.y, diff.x);
     decltype(diff) norm2(diff.y, -diff.x);
-    
+
     return Cross(vector,norm1) >=0 && Cross(vector,norm2) <= 0;
 }
 

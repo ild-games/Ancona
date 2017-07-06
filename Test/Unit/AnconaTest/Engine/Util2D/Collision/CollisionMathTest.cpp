@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include <gtest/gtest.h>
@@ -46,8 +47,8 @@ TEST(CollisionMath, RotatePointWithUnusualRotation)
 
 TEST(CollisionMath, GetEdge)
 {
-    Point2 pointA(15, 3); 
-    Point2 pointB(7, 10); 
+    Point2 pointA(15, 3);
+    Point2 pointB(7, 10);
     auto edge = GetEdge(pointA,pointB);
 
     ASSERT_FLOAT_EQ(edge.first, 8) << "X calculated incorrectly";
@@ -56,9 +57,9 @@ TEST(CollisionMath, GetEdge)
 
 TEST(CollisionMath, GetProjectionTriangle)
 {
-    Point2 pointA(2,4); 
-    Point2 pointB(10,5); 
-    Point2 pointC(5,10); 
+    Point2 pointA(2,4);
+    Point2 pointB(10,5);
+    Point2 pointC(5,10);
 
     Vertices2 triangle;
     triangle.push_back(pointA);
@@ -68,8 +69,8 @@ TEST(CollisionMath, GetProjectionTriangle)
     Vector2 dimmx(1,0);
     Vector2 dimmy(0,1);
 
-    auto projectionX = GetProjection(triangle, dimmx); 
-    auto projectionY = GetProjection(triangle, dimmy); 
+    auto projectionX = GetProjection(triangle, dimmx);
+    auto projectionY = GetProjection(triangle, dimmy);
 
     ASSERT_FLOAT_EQ(projectionX.first, 2) << "X Projection: min incorrect";
     ASSERT_FLOAT_EQ(projectionX.second, 10) << "X Projection: max incorrect";
@@ -80,10 +81,10 @@ TEST(CollisionMath, GetProjectionTriangle)
 
 TEST(CollisionMath, GetProjectionTraingle)
 {
-    Point2 pointA(2,4); 
-    Point2 pointB(2,3); 
-    Point2 pointC(10,5); 
-    Point2 pointD(6,11); 
+    Point2 pointA(2,4);
+    Point2 pointB(2,3);
+    Point2 pointC(10,5);
+    Point2 pointD(6,11);
 
     Vertices2 square;
     square.push_back(pointA);
@@ -94,8 +95,8 @@ TEST(CollisionMath, GetProjectionTraingle)
     Vector2 dimmx(1,0);
     Vector2 dimmy(0,1);
 
-    auto projectionX = GetProjection(square, dimmx); 
-    auto projectionY = GetProjection(square, dimmy); 
+    auto projectionX = GetProjection(square, dimmx);
+    auto projectionY = GetProjection(square, dimmy);
 
     ASSERT_FLOAT_EQ(projectionX.first, 2) << "X Projection: min incorrect";
     ASSERT_FLOAT_EQ(projectionX.second, 10) << "X Projection: max incorrect";

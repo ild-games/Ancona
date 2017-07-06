@@ -2,6 +2,7 @@
 #include <Ancona/Util2D/Collision/Math.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 using namespace ild;
@@ -71,20 +72,20 @@ void Box2::GetVertices(std::vector< std::pair<float,float> > & vertices) const
     vertices.clear();
 
     vertices.push_back(Math::RotatePoint(
-        std::pair<float, float>(Position.x + Dimension.x, Position.y + Dimension.y), 
-        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        std::pair<float, float>(Position.x + Dimension.x, Position.y + Dimension.y),
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
         Rotation));
     vertices.push_back(Math::RotatePoint(
-        std::pair<float, float>(Position.x, Position.y + Dimension.y), 
-        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        std::pair<float, float>(Position.x, Position.y + Dimension.y),
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
         Rotation));
     vertices.push_back(Math::RotatePoint(
-        std::pair<float, float>(Position.x, Position.y), 
-        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        std::pair<float, float>(Position.x, Position.y),
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
         Rotation));
     vertices.push_back(Math::RotatePoint(
-        std::pair<float, float>(Position.x + Dimension.x, Position.y), 
-        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)), 
+        std::pair<float, float>(Position.x + Dimension.x, Position.y),
+        std::pair<float, float>(Position.x + (Dimension.x * Anchor.x), Position.y + (Dimension.y * Anchor.y)),
         Rotation));
 }
 
