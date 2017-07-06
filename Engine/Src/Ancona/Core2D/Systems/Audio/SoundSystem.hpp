@@ -1,5 +1,5 @@
-#ifndef Ancona_Core2D_Systems_AudioSystem_H_
-#define Ancona_Core2D_Systems_AudioSystem_H_
+#ifndef Ancona_Core2D_Systems_SoundSystem_H_
+#define Ancona_Core2D_Systems_SoundSystem_H_
 
 #include <unordered_map>
 #include <string>
@@ -15,11 +15,11 @@ namespace ild
 /**
  * @brief Describes a path for other entities to follow
  */
-class AudioComponent
+class SoundComponent
 {
     public:
         /* Ancona */
-        AudioComponent() {}
+        SoundComponent() {}
 
         void FetchDependencies(const Entity & entity);
 
@@ -32,16 +32,16 @@ class AudioComponent
         std::unordered_map<std::string, std::shared_ptr<Sound>> _hashedSounds;
 };
 
-class AudioSystem : public UnorderedSystem<AudioComponent>
+class SoundSystem : public UnorderedSystem<SoundComponent>
 {
     public:
-        AudioSystem(
+        SoundSystem(
                 std::string name,
                 SystemManager & manager);
 
         void Update(float delta) override;
 
-        AudioComponent * CreateComponent(
+        SoundComponent * CreateComponent(
                 const Entity & entity);
 
 };

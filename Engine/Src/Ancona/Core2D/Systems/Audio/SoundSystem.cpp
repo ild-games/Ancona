@@ -1,9 +1,9 @@
-#include <Ancona/Core2D/Systems/Audio/AudioSystem.hpp>
+#include <Ancona/Core2D/Systems/Audio/SoundSystem.hpp>
 #include <SFML/Audio.hpp>
 
 using namespace ild;
 
-void AudioComponent::Serialize(Archive &arc)
+void SoundComponent::Serialize(Archive &arc)
 {
     arc(_sounds, "sounds");
     for (auto sound: _sounds) {
@@ -11,26 +11,26 @@ void AudioComponent::Serialize(Archive &arc)
     }
 }
 
-void AudioComponent::FetchDependencies(const Entity & entity) 
+void SoundComponent::FetchDependencies(const Entity & entity) 
 {
     for (auto sound : _sounds) {
         sound->FetchDependencies(entity);
     }
 }
 
-AudioSystem::AudioSystem(
+SoundSystem::SoundSystem(
         std::string name,
         SystemManager &manager) :
     UnorderedSystem(name, manager, UpdateStep::Update) {
 }
 
-void AudioSystem::Update(float delta)
+void SoundSystem::Update(float delta)
 {
 
 }
 
-AudioComponent * AudioSystem::CreateComponent(const Entity &entity) {
-    AudioComponent * comp = new AudioComponent();
+SoundComponent * SoundSystem::CreateComponent(const Entity &entity) {
+    SoundComponent * comp = new SoundComponent();
     AttachComponent(entity, comp);
     return comp;
 }
