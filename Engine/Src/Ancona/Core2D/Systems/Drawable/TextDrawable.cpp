@@ -33,6 +33,7 @@ TextDrawable::TextDrawable(
 }
 
 Drawable * TextDrawable::Copy() {
+    Assert(false, "TextDrawable copy not implemented.");
     auto drawable = new TextDrawable();
     Drawable::CopyProperties(drawable);
     return drawable;
