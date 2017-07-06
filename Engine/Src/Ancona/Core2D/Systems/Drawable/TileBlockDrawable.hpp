@@ -13,12 +13,16 @@ class TileBlockDrawable : public Drawable
 {
     public:
         TileBlockDrawable() { }
+        Drawable * Copy() override;
 
         void Serialize(Archive & arc) override;
         void FetchDependencies(const Entity & entity) override;
+        void InitializeImages();
 
         /* getters and setters */
         sf::Vector2f size() override { return _size; }
+        void size(const sf::Vector2f & size) { _size = size; }
+        void textureKey(const std::string & textureKey) { _textureKey = textureKey; }
         void alpha(int newAlpha) override;
         int alpha() override;
     private:

@@ -35,6 +35,7 @@ class AnimatedDrawable : public Drawable
                 int priorityOffset = 0,
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
+        Drawable * Copy() override;
 
         /**
          * @copydoc ild::CameraComponent::Serialize

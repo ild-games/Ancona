@@ -21,6 +21,13 @@ ShapeDrawable::ShapeDrawable(
 {
 }
 
+Drawable * ShapeDrawable::Copy() {
+    Assert(false, "ShapeDrawable copy not implemented.");
+    auto drawable = new ShapeDrawable();
+    Drawable::CopyProperties(drawable);
+    return drawable;
+}
+
 void ShapeDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
     sf::RenderStates states(drawableTransform);

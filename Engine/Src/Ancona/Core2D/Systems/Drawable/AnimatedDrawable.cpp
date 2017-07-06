@@ -21,6 +21,18 @@ AnimatedDrawable::AnimatedDrawable(
 {
 }
 
+Drawable * AnimatedDrawable::Copy() {
+    auto drawable = new AnimatedDrawable();
+    Drawable::CopyProperties(drawable);
+
+    drawable->duration(_duration);
+    drawable->loopOnce(_loopOnce);
+    for (auto & frame : _frames) {
+        drawable->AddFrame(frame->Copy());
+    }
+    return drawable;
+}
+
 void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
     if (_anchor.x != 0.0f || _anchor.y != 0.0f) {

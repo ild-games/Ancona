@@ -39,6 +39,8 @@ class ShapeDrawable : public Drawable
                 int priorityOffset = 0,
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
+        Drawable * Copy() override;
+
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
@@ -53,7 +55,6 @@ class ShapeDrawable : public Drawable
         sf::Vector2f size() override;
         int alpha() override;
         void alpha(int alpha) override;
-
 
     private:
         /**

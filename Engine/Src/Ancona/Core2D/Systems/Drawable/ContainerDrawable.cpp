@@ -18,6 +18,16 @@ ContainerDrawable::ContainerDrawable(
 {
 }
 
+Drawable * ContainerDrawable::Copy() {
+    auto drawable = new ContainerDrawable();
+    Drawable::CopyProperties(drawable);
+
+    for (auto & childDrawable : _drawables) {
+        drawable->AddDrawable(childDrawable->Copy());
+    }
+    return drawable;
+}
+
 void ContainerDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
     if (_anchor.x != 0.0f || _anchor.y != 0.0f) {

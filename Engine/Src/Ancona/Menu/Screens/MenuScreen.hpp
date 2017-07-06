@@ -31,7 +31,7 @@ class MenuScreen : public ild::AbstractScreen
                 ButtonPressedCallback buttonPressed,
                 std::string mapKey,
                 ild::ScreenManager & manager,
-                MenuInputHandler * inputHandler);
+                std::shared_ptr<MenuInputHandler> inputHandler);
 
         /**
          * @brief Will be called just before Update is called for the
@@ -57,7 +57,7 @@ class MenuScreen : public ild::AbstractScreen
         ild::ScreenSystemsContainer * systemsContainer() override { return _systems.get(); }
     private:
         ButtonPressedCallback _buttonPressed;
-        std::unique_ptr<MenuInputHandler> _inputHandler;
+        std::shared_ptr<MenuInputHandler> _inputHandler;
         std::unique_ptr<MenuGameSystems> _systems;
 };
 

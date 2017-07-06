@@ -86,6 +86,8 @@ class SystemManager
          */
         Entity GetEntity(const std::string & key);
 
+        Entity CopyEntity(const std::string & fromKey);
+
         /**
          * @brief Get the key used to store a keyed entity.
          *

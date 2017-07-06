@@ -42,6 +42,17 @@ void SystemManager::DeleteEntity(Entity entity)
     _components.erase(entity);
 }
 
+Entity SystemManager::CopyEntity(const std::string & fromKey) {
+    auto fromEntity = GetEntity(fromKey);
+    Assert(fromEntity != nullentity, "Cannot copy an entity that does not exist");
+
+    auto toEntity = CreateEntity();
+    for(AbstractSystem * system : _components.at(fromEntity)) {
+        system->CopyComponentToEntity(fromEntity, toEntity);
+    }
+    return toEntity;
+}
+
 void SystemManager::QueueDeleteEntity(Entity entity)
 {
     _deleteQueue.push_back(entity);

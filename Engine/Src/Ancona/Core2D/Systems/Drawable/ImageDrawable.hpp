@@ -22,6 +22,8 @@ class ImageDrawable : public Drawable
                 const int priority,
                 const std::string & key);
 
+        Drawable * Copy() override;
+
         void Serialize(Archive & arc) override;
 
         void FetchDependencies(const Entity & entity) override;
@@ -35,6 +37,8 @@ class ImageDrawable : public Drawable
         void isWholeImage(bool isWholeImage) { _isWholeImage = isWholeImage; }
         void isTiled(bool isTiled) { _isTiled = isTiled; }
         void tiledArea(const sf::Vector2f & tiledArea) { _tiledArea = tiledArea; }
+        void textureKey(const std::string & textureKey) { _textureKey = textureKey; }
+        void textureRect(const Box2 & textureRect) { _textureRect = textureRect; }
     private:
         std::string _textureKey;
         Box2 _textureRect;

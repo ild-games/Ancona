@@ -44,6 +44,8 @@ class TextDrawable : public Drawable
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f),
                 bool smooth = true);
 
+        Drawable * Copy() override;
+
         /**
          * @copydoc ild::CameraComponent::Serialize
          */

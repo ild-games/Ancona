@@ -5,7 +5,7 @@ using namespace ild;
 
 /* Component */
 FadeDrawableComponent::FadeDrawableComponent(
-        DrawableComponent & drawableComponent,
+        DrawableComponent * drawableComponent,
         FadeDrawableSystem * system,
         const Entity & owner,
         float fadeIn,
@@ -22,7 +22,7 @@ FadeDrawableComponent::FadeDrawableComponent(
 
 void FadeDrawableComponent::Update(float delta)
 {
-    _drawableComponent.topDrawable()->alpha(FadeStep(_drawableComponent.topDrawable()->alpha(), delta));
+    _drawableComponent->topDrawable()->alpha(FadeStep(_drawableComponent->topDrawable()->alpha(), delta));
 }
 
 int FadeDrawableComponent::FadeStep(int alpha, float delta)
@@ -72,7 +72,7 @@ void FadeDrawableSystem::Update(float delta)
 
 FadeDrawableComponent * FadeDrawableSystem::CreateComponent(
         const Entity & entity,
-        DrawableComponent & drawableComponent,
+        DrawableComponent * drawableComponent,
         bool fadeIn,
         float fadeSpeed)
 {

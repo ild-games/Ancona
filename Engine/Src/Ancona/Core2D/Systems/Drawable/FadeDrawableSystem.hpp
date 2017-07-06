@@ -19,6 +19,8 @@ class FadeDrawableSystem;
 class FadeDrawableComponent 
 {
     public:
+        FadeDrawableComponent() {}
+
         /**
          * @brief Constructs a new FadeDrawableComponent
          *
@@ -30,7 +32,7 @@ class FadeDrawableComponent
          * @param fadeSpeed Speed at which the fade occurs, defaults to 650.0f
          */
         FadeDrawableComponent(
-                DrawableComponent & drawableComponent,
+                DrawableComponent * drawableComponent,
                 FadeDrawableSystem * system,
                 const Entity & owner,
                 float fadeIn,
@@ -52,7 +54,7 @@ class FadeDrawableComponent
         /**
          * @brief The drawable component being faded.
          */
-        DrawableComponent & _drawableComponent;
+        DrawableComponent * _drawableComponent;
         /**
          * @brief The FadeDrawableSystem instance for the current screen.
          */
@@ -64,7 +66,7 @@ class FadeDrawableComponent
         /**
          * @brief Speed the fade occurs at.
          */
-        float const FADE_SPEED;
+        float FADE_SPEED = 100.0f;
         /**
          * @brief True if the drawable is fading in, false if it is fading out.
          */
@@ -118,7 +120,7 @@ class FadeDrawableSystem : public UnorderedSystem<FadeDrawableComponent>
          */
         FadeDrawableComponent * CreateComponent(
                 const Entity & entity,
-                DrawableComponent & drawableComponent,
+                DrawableComponent * drawableComponent,
                 bool fadeIn,
                 float fadeSpeed = 650.0f);
 };

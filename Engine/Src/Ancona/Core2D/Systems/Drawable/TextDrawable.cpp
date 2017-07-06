@@ -32,6 +32,13 @@ TextDrawable::TextDrawable(
      }
 }
 
+Drawable * TextDrawable::Copy() {
+    Assert(false, "TextDrawable copy not implemented.");
+    auto drawable = new TextDrawable();
+    Drawable::CopyProperties(drawable);
+    return drawable;
+}
+
 void TextDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
 {
     sf::RenderStates states(drawableTransform);

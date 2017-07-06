@@ -4,6 +4,15 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::TileBlockDrawable);
 
 using namespace ild;
 
+Drawable * TileBlockDrawable::Copy() {
+    auto drawable = new TileBlockDrawable();
+    Drawable::CopyProperties(drawable);
+    drawable->textureKey(_textureKey);
+    drawable->size(_size);
+    drawable->InitializeImages();
+    return drawable;
+}
+
 void TileBlockDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) {
     for (auto const & imageDrawable : _imageDrawables) {
         imageDrawable->Draw(window, drawableTransform, delta);
@@ -18,6 +27,10 @@ void TileBlockDrawable::Serialize(Archive & arc) {
 
 void TileBlockDrawable::FetchDependencies(const Entity &entity) {
     Drawable::FetchDependencies(entity);
+    InitializeImages();
+}
+
+void TileBlockDrawable::InitializeImages() {
     if (_textureKey != "") {
         auto texture = ResourceLibrary::Get<sf::Texture>(_textureKey);
         _tileSize = sf::Vector2f(texture->getSize().x / 4, texture->getSize().y / 4);

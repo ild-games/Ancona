@@ -1,6 +1,8 @@
 #ifndef Ancona_Engine_Config_Systems_InputControlComponent_H_
 #define Ancona_Engine_Config_Systems_InputControlComponent_H_
 
+#include <memory>
+
 #include <Ancona/Core2D/InputDevices/InputHandler.hpp>
 
 namespace ild
@@ -15,12 +17,13 @@ namespace ild
 class InputControlComponent 
 {
     public:
+        InputControlComponent() {}
         /**
          * @brief Constructs the component with an input handler
          *
          * @param handler InputHandler for the component
          */
-        InputControlComponent(InputHandler & handler);
+        InputControlComponent(std::shared_ptr<InputHandler> handler);
 
         /**
          * @brief Updates the component's input handler
@@ -30,13 +33,14 @@ class InputControlComponent
         void Update(float delta);
 
         /* getters and setters */
-        InputHandler & handler() { return _handler; }
+        InputHandler & handler() { return *_handler; }
+        void handler(std::shared_ptr<InputHandler> handler) { _handler = handler; }
     private:
         /**
          * @brief Input handler that handles the input gathering
          *        for this component
          */
-        InputHandler & _handler;
+        std::shared_ptr<InputHandler> _handler;
 };
 
 }
