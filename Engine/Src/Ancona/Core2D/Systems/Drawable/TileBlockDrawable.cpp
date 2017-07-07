@@ -83,8 +83,14 @@ void TileBlockDrawable::SetupImages(sf::Image image) {
     }
 }
 
+sf::Texture * TileBlockDrawable::createTexture() {
+    auto texture = new sf::Texture();
+    _generatedTextures.emplace_back(texture);
+    return texture;
+}
+
 ImageDrawable * TileBlockDrawable::topLeftDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(0, 0, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_topLeft");
     drawable->SetupSprite(texture);
@@ -92,7 +98,7 @@ ImageDrawable * TileBlockDrawable::topLeftDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::topRightDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 2, 0, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_topRight");
     drawable->anchor(sf::Vector2f(-(_numTiles.x - 1), 0));
@@ -101,7 +107,7 @@ ImageDrawable * TileBlockDrawable::topRightDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::bottomLeftDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(0, _tileSize.y * 2, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_bottomLeft");
     drawable->anchor(sf::Vector2f(0, -(_numTiles.y - 1)));
@@ -110,7 +116,7 @@ ImageDrawable * TileBlockDrawable::bottomLeftDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::bottomRightDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 2, _tileSize.y * 2, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_bottomRight");
     drawable->anchor(sf::Vector2f(-(_numTiles.x - 1), -(_numTiles.y - 1)));
@@ -119,7 +125,7 @@ ImageDrawable * TileBlockDrawable::bottomRightDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::topDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x, 0, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_top");
     auto width = _tileSize.x * (_numTiles.x - 2);
@@ -131,7 +137,7 @@ ImageDrawable * TileBlockDrawable::topDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::bottomDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x, _tileSize.y * 2, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_bottom");
     auto width = _tileSize.x * (_numTiles.x - 2);
@@ -143,7 +149,7 @@ ImageDrawable * TileBlockDrawable::bottomDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::leftDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(0, _tileSize.y, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_left");
     auto height = _tileSize.y * (_numTiles.y - 2);
@@ -155,7 +161,7 @@ ImageDrawable * TileBlockDrawable::leftDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::rightDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 2, _tileSize.y, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_right");
     auto height = _tileSize.y * (_numTiles.y - 2);
@@ -167,7 +173,7 @@ ImageDrawable * TileBlockDrawable::rightDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::centerDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x, _tileSize.y, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
     auto width = _tileSize.x * (_numTiles.x - 2);
@@ -180,7 +186,7 @@ ImageDrawable * TileBlockDrawable::centerDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::topCapDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, 0, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_topCap");
     drawable->SetupSprite(texture);
@@ -188,7 +194,7 @@ ImageDrawable * TileBlockDrawable::topCapDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::bottomCapDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, _tileSize.y * 2, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_bottomCap");
     drawable->anchor(sf::Vector2f(0, -(_numTiles.y - 1)));
@@ -197,7 +203,7 @@ ImageDrawable * TileBlockDrawable::bottomCapDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::leftCapDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(0, _tileSize.y * 3, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_leftCap");
     drawable->SetupSprite(texture);
@@ -205,7 +211,7 @@ ImageDrawable * TileBlockDrawable::leftCapDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::rightCapDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 2, _tileSize.y * 3, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_right");
     drawable->anchor(sf::Vector2f(-(_numTiles.x - 1), 0));
@@ -214,7 +220,7 @@ ImageDrawable * TileBlockDrawable::rightCapDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::verticalCenterDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, _tileSize.y, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
     auto width = _tileSize.x * (_numTiles.x - 2);
@@ -227,7 +233,7 @@ ImageDrawable * TileBlockDrawable::verticalCenterDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::horizontalCenterDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x, _tileSize.y * 3, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
     auto width = _tileSize.x * (_numTiles.x - 2);
@@ -240,7 +246,7 @@ ImageDrawable * TileBlockDrawable::horizontalCenterDrawable(sf::Image image) {
 }
 
 ImageDrawable * TileBlockDrawable::singleDrawable(sf::Image image) {
-    sf::Texture * texture = new sf::Texture();
+    auto texture = createTexture();
     texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, _tileSize.y * 3, _tileSize.x, _tileSize.y));
     auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
     drawable->SetupSprite(texture);

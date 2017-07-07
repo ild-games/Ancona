@@ -38,10 +38,10 @@ TEST(DrawableSystem, ImageDrawableSize)
 
     sf::Texture texture;
     texture.create(50, 50);
-    ImageDrawable * image = new ImageDrawable(0, "image");
+    std::unique_ptr<ImageDrawable> image {new ImageDrawable(0, "image")};
     image->SetupSprite(&texture);
     position.CreateComponent(entity);
-    drawable.CreateComponent(entity, image, &position);
+    drawable.CreateComponent(entity, std::move(image), &position);
 
     manager.Update(1, UpdateStep::Draw);
 

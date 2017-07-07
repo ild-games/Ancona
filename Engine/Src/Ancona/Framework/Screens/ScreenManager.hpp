@@ -18,7 +18,7 @@ class AbstractScreen;
  *
  * @author Tucker Lein
  */
-class ScreenManager 
+class ScreenManager
 {
     public:
         /**
@@ -69,7 +69,7 @@ class ScreenManager
          * @brief  Checks if the screen manager has any screens
          *         to run.
          *
-         * @return True if there aren't any screens on the 
+         * @return True if there aren't any screens on the
          *         stack, otherwise false.
          */
         bool Empty();

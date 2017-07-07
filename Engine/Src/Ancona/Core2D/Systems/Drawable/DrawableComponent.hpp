@@ -26,7 +26,7 @@ class DrawableComponent
          * @brief Default constructor, should only be used by the serializer.
          */
         DrawableComponent();
-    
+
         /**
          * @brief Construct a DrawableComponent.
          *
@@ -34,18 +34,18 @@ class DrawableComponent
          * @param cameraComponent CameraComponent used to render these renderables.
          */
         DrawableComponent(
-                Drawable * topDrawable,
+                std::unique_ptr<Drawable> topDrawable,
                 DrawableSystem * drawableSystem,
                 PositionSystem * positionSystem,
                 CameraComponent * cameraComponent);
-        
+
         DrawableComponent & operator=(DrawableComponent & rhs)
         {
             if (this == &rhs) {
                 return *this;
             }
 
-            _topDrawable = rhs.topDrawable()->Copy();
+            _topDrawable.reset(rhs.topDrawable()->Copy());
             _camera = rhs.cameraComponent();
             _cameraSystem = rhs.cameraSystem();
             _positionSystem = rhs.positionSystem();
@@ -86,7 +86,7 @@ class DrawableComponent
         void Serialize(Archive & arc);
 
         /* getters and setters */
-        Drawable * topDrawable() { return _topDrawable; }
+        Drawable * topDrawable() { return _topDrawable.get(); }
         CameraComponent * cameraComponent() { return _camera; }
         CameraSystem * cameraSystem() { return _cameraSystem; }
         PositionSystem * positionSystem() { return _positionSystem; }
@@ -94,7 +94,7 @@ class DrawableComponent
         DrawableSystem * drawableSystem() { return _drawableSystem; }
         const Entity & camEntity() { return _camEntity; }
     private:
-        Drawable * _topDrawable;
+        std::unique_ptr<Drawable> _topDrawable;
         CameraComponent * _camera;
         CameraSystem * _cameraSystem;
         PositionSystem * _positionSystem;

@@ -1,6 +1,7 @@
 #ifndef Ancona_Engine_Core_Systems_DrawableSystem_H_
 #define Ancona_Engine_Core_Systems_DrawableSystem_H_
 
+#include <memory>
 #include <vector>
 
 #include <SFML/Window.hpp>
@@ -66,7 +67,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          */
         DrawableComponent * CreateComponent(
                 const Entity & entity,
-                Drawable * topDrawable,
+                std::unique_ptr<Drawable> topDrawable,
                 PositionSystem * position);
 
         /**
@@ -79,7 +80,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          */
         DrawableComponent * CreateComponent(
                 const Entity & entity,
-                Drawable * topDrawable,
+                std::unique_ptr<Drawable> topDrawable,
                 PositionSystem * position,
                 CameraComponent * camera);
 

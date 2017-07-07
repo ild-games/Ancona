@@ -39,20 +39,20 @@ void DrawableSystem::RemoveCamera(CameraComponent * camera)
 
 DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
-        Drawable * topDrawable,
+        std::unique_ptr<Drawable> topDrawable,
         PositionSystem * position)
 {
     Assert(_defaultCamera != nullptr, "Default camera not set");
-    return CreateComponent(entity, topDrawable, position, _defaultCamera);
+    return CreateComponent(entity, std::move(topDrawable), position, _defaultCamera);
 }
 
 DrawableComponent * DrawableSystem::CreateComponent(
         const Entity & entity,
-        Drawable * topDrawable,
+        std::unique_ptr<Drawable> topDrawable,
         PositionSystem * position,
         CameraComponent * camera)
 {
-    auto comp = new DrawableComponent(topDrawable, this, position, camera);
+    auto comp = new DrawableComponent(std::move(topDrawable), this, position, camera);
 
     if(alg::find(_cameras, camera) == _cameras.end())
     {

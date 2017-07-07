@@ -50,6 +50,8 @@ class Drawable
          */
         Drawable () {}
 
+        virtual ~Drawable() {};
+
         /**
          * @brief Constructs a Drawable.
          *
@@ -126,11 +128,11 @@ class Drawable
          * @brief The actual position of a drawable takes in the position from the position component
          *        and also takes into account the anchor of the drawable which might change it's true
          *        position.
-         *  
+         *
          * @param entityPosition The position from the entity's position component
-         * 
+         *
          * @returns The actual position the drawable is drawn at
-         */ 
+         */
         virtual sf::Vector2f position(sf::Vector2f entityPosition);
         virtual sf::Vector2f size() = 0;
         virtual int alpha() = 0;
