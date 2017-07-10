@@ -25,8 +25,7 @@ class Sound
         void Serialize(Archive &arc);
         void FetchDependencies(const Entity & entity);
     private:
-
-        bool _loopSound;
+    
         float _volume;
         std::string _soundKey;
         std::unique_ptr<sf::Sound> _sound;

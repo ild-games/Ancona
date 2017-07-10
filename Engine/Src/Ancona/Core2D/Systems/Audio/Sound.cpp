@@ -4,7 +4,6 @@ using namespace ild;
 
 void Sound::Serialize(Archive & arc) 
 {
-    arc(_loopSound, "loopSound");
     arc(_volume, "volume");
     arc(_soundKey, "soundKey");
 }
