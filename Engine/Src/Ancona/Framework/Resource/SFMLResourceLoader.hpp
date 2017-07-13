@@ -24,14 +24,12 @@ class SFMLResourceLoader : public AbstractLoader
          *
          * @param resourceName Name that describes resource type
          * @param fileExtension File extension used for the resource
-         * @param directory Describes the directory the resource is stored in
          */
         SFMLResourceLoader(
                 const std::string & resourceName,
-                const std::string & fileExtension,
-                const std::string & directory) :
+                const std::string & fileExtension) :
             AbstractLoader(resourceName,typeid(SFMLType)),
-            _fileExtension(fileExtension), _directory(directory)
+            _fileExtension(fileExtension)
         {
         }
 
@@ -66,7 +64,6 @@ class SFMLResourceLoader : public AbstractLoader
 
     private:
         std::string _fileExtension;
-        std::string _directory;
 };
 
 }
