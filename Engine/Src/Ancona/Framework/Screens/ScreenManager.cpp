@@ -90,7 +90,7 @@ void ScreenManager::RemoveScreen()
     }
     delete _screens.top();
     _screens.pop();
-    
+
     if (_replacementScreen != nullptr) {
         Push(_replacementScreen);
         _replacementScreen = nullptr;
@@ -101,11 +101,11 @@ void ScreenManager::RemoveScreen()
 
 void ScreenManager::SaveScreen()
 {
-    MapSerializer * mapSerializer = new MapSerializer(
+    MapSerializer mapSerializer = MapSerializer(
             _screens.top()->key(),
             *_screens.top()->systemsContainer(),
             false);
-    while(mapSerializer->ContinueLoading())
+    while(mapSerializer.ContinueLoading())
     {
     }
 }

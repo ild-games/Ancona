@@ -8,11 +8,11 @@ using namespace ild;
 DrawableComponent::DrawableComponent() { }
 
 DrawableComponent::DrawableComponent(
-        Drawable * topDrawable,
+        std::unique_ptr<Drawable> topDrawable,
         DrawableSystem * drawableSystem,
         PositionSystem * positionSystem,
         CameraComponent * cameraComponent) :
-    _topDrawable(topDrawable),
+    _topDrawable(std::move(topDrawable)),
     _camera(cameraComponent),
     _positionSystem(positionSystem),
     _drawableSystem(drawableSystem)
