@@ -172,7 +172,6 @@ class Drawable
          * @brief True if the drawable is actively drawn/updated. Otherwise false.
          */
         bool _inactive = false;
-
     private:
 
         sf::Transform CalculateTransforms();

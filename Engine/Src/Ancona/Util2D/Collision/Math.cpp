@@ -39,7 +39,7 @@ Math::Projection2 Math::GetProjection(const Vertices2 & shapeA, const Vector2 & 
         min = fmin(min, dot);
     }
 
-    return Projection2(min,max);
+    return Projection2(min, max);
 }
 
 bool Math::Intersect(const Projection2 & a, const Projection2 & b)
@@ -108,6 +108,10 @@ Math::CollisionFix Math::GetFixVector(const Math::Vertices2 & shapeA, const Math
             min = fix;
             normalOfMin = normal;
         }
+
+        if (min == 0) {
+            break;
+        }
     }
     return Math::CollisionFix {normalOfMin, min};
 }
@@ -120,28 +124,19 @@ bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB)
 
 bool Math::Collide(const Vertices2 & shapeA, const Vertices2 & shapeB, CollisionFix & collisionFix)
 {
-    if(TestShapeAxis(shapeA,shapeB) &&
-        TestShapeAxis(shapeB,shapeA))
+    CollisionFix fixA = GetFixVector(shapeA, shapeB);
+    CollisionFix fixB = GetFixVector(shapeB, shapeA);
+
+    fixB.magnitude *= -1;
+
+    collisionFix = fabs(fixA.magnitude) <= fabs(fixB.magnitude) ? fixA : fixB;
+
+    if (collisionFix.magnitude < 0)
     {
-        CollisionFix fixA = GetFixVector(shapeA, shapeB);
-        CollisionFix fixB = GetFixVector(shapeB, shapeA);
-
-        fixB.magnitude *= -1;
-
-        collisionFix = fabs(fixA.magnitude) <= fabs(fixB.magnitude) ? fixA : fixB;
-
-        if (collisionFix.magnitude < 0)
-        {
-            collisionFix.magnitude *= -1;
-            collisionFix.normal.first *= -1;
-            collisionFix.normal.second *= -1;
-        }
-
-        return true;
+        collisionFix.magnitude *= -1;
+        collisionFix.normal.first *= -1;
+        collisionFix.normal.second *= -1;
     }
-    else
-    {
-        collisionFix = CollisionFix { Math::Point2(0,0), 0};
-        return false;
-    }
+
+    return collisionFix.magnitude != 0;
 }

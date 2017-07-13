@@ -1,5 +1,7 @@
+#include <Ancona/Util/Assert.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+
 
 using namespace ild;
 
@@ -33,12 +35,20 @@ void CameraComponent::Update(float delta)
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 {
     Box2 cameraPosition(
-        sf::Vector2f(_view.getCenter().x - (_view.getSize().x / 2), _view.getCenter().y - (_view.getSize().y / 2)), 
-        _view.getSize(), 
+        sf::Vector2f(_view.getCenter().x - (_view.getSize().x / 2), _view.getCenter().y - (_view.getSize().y / 2)),
+        _view.getSize(),
         sf::Vector2f(),
         _view.getRotation());
 
     window.setView(_view);
+
+    alg::sort(
+        _renderQueue,
+        [](DrawableComponent * lhs, DrawableComponent * rhs)
+    {
+        return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
+    });
+
     for(DrawableComponent * drawable : _renderQueue)
     {
         auto drawableBox = drawable->BoundingBox();
@@ -49,7 +59,7 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
     }
 }
 
-sf::Vector2f CameraComponent::GetEffectiveCenter() 
+sf::Vector2f CameraComponent::GetEffectiveCenter()
 {
     sf::Vector2f effectivePosition = _view.getCenter();
     if (_followPosition != nullptr)
@@ -67,16 +77,8 @@ sf::Vector2f CameraComponent::GetEffectiveCenter()
 
 void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
 {
-    if(!alg::contains(_renderQueue, drawable))
-    {
-        _renderQueue.push_back(drawable);
-        alg::sort(
-                _renderQueue,
-                [](DrawableComponent * lhs, DrawableComponent * rhs)
-                {
-                    return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
-                });
-    }
+	Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
+    _renderQueue.push_back(drawable);
 }
 
 void CameraComponent::RemoveDrawableComponent(DrawableComponent * drawable)
