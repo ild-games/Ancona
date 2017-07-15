@@ -35,6 +35,8 @@ class InputControlComponent
         /* getters and setters */
         InputHandler & handler() { return *_handler; }
         void handler(std::shared_ptr<InputHandler> handler) { _handler = handler; }
+
+        virtual ~InputControlComponent() {};
     private:
         /**
          * @brief Input handler that handles the input gathering
