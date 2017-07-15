@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 

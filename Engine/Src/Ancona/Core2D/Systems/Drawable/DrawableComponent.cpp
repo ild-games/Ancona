@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
@@ -29,7 +31,7 @@ Drawable * DrawableComponent::GetDrawable(const std::string & key)
 void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
 {
     sf::Transform transform;
-    transform.translate(round(_positionComponent->position().x), round(_positionComponent->position().y));
+    transform.translate(std::round(_positionComponent->position().x), std::round(_positionComponent->position().y));
     _topDrawable->Draw(window, transform, delta);
 }
 

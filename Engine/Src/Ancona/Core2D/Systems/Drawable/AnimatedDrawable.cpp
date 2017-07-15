@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <Ancona/Core2D/Systems/Drawable/AnimatedDrawable.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
