@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
@@ -29,7 +31,7 @@ CameraComponent::CameraComponent(
 void CameraComponent::Update(float delta)
 {
     auto effectivePosition = GetEffectiveCenter();
-    _view.setCenter(round(effectivePosition.x), round(effectivePosition.y));
+    _view.setCenter(std::round(effectivePosition.x), std::round(effectivePosition.y));
 }
 
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)

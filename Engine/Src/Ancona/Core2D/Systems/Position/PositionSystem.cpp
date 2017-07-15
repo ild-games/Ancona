@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::PositionComponent);
@@ -67,8 +69,8 @@ void PositionComponent::Update(float delta)
 
 void PositionComponent::RoundPosition()
 {
-    _position.x = roundf(_actualPosition.x * 128) / 128;
-    _position.y = roundf(_actualPosition.y * 128) / 128;
+    _position.x = std::round(_actualPosition.x * 128) / 128;
+    _position.y = std::round(_actualPosition.y * 128) / 128;
 }
 
 /* getters and setters */

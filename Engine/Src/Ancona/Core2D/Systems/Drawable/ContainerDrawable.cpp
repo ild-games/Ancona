@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <Ancona/Core2D/Systems/Drawable/ContainerDrawable.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 
