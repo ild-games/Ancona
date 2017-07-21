@@ -58,6 +58,7 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
         {
             drawable->Draw(window, delta);
         }
+        drawable->PostDrawUpdate(delta);
     }
 }
 

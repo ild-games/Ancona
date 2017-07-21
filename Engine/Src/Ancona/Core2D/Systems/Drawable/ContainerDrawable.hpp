@@ -36,6 +36,7 @@ class ContainerDrawable : public Drawable
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         Drawable * Copy() override;
+        void PostDrawUpdate(float delta) override;
 
         /**
          * @copydoc ild::CameraComponent::Serialize

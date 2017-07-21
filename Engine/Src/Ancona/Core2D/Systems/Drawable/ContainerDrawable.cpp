@@ -44,6 +44,13 @@ void ContainerDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableT
     }
 }
 
+void ContainerDrawable::PostDrawUpdate(float delta) 
+{
+    for (auto & childDrawable : _drawables) {
+        childDrawable->PostDrawUpdate(delta);
+    }
+}
+
 void ContainerDrawable::FetchDependencies(const Entity &entity)
 {
     Drawable::FetchDependencies(entity);

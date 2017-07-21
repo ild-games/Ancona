@@ -68,6 +68,7 @@ class DrawableComponent
          * @param window RenderWindow to draw it on
          */
         void Draw(sf::RenderWindow & window, float delta);
+        void PostDrawUpdate(float delta);
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies

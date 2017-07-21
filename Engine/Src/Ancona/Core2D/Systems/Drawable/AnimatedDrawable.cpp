@@ -46,9 +46,15 @@ void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTr
             -(size.y * _anchor.y / std::abs(_scale.y)));
     }
     _frames[_curFrame]->Draw(window, drawableTransform, delta);
-    Tick(delta);
 }
 
+void AnimatedDrawable::PostDrawUpdate(float delta) 
+{
+    Tick(delta);
+    for (auto & frame : _frames) {
+        frame->PostDrawUpdate(delta);
+    }
+}
 
 void AnimatedDrawable::Tick(float delta)
 {
