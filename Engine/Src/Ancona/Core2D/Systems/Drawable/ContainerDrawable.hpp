@@ -61,10 +61,19 @@ class ContainerDrawable : public Drawable
          */
         void RemoveDrawable(const std::string & key);
 
-        /**
+        /**j
          * @copydoc ild::Drawable::FindDrawable
          */
         Drawable * FindDrawable(const std::string & key) override;
+
+        typedef std::vector<std::shared_ptr<Drawable>>::iterator iterator;
+
+        iterator begin() {
+            return _drawables.begin();
+        }
+        iterator end() {
+            return _drawables.end();
+        }
 
         /* getters and setters */
         sf::Vector2f size() override;
@@ -72,8 +81,11 @@ class ContainerDrawable : public Drawable
         int alpha() override;
         void alpha(int alpha) override;
 
+
     private:
-        std::vector<std::unique_ptr<Drawable>> _drawables;
+        
+
+        std::vector<std::shared_ptr<Drawable>> _drawables;
 
         void SortDrawables();
         void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
