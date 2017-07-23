@@ -62,7 +62,7 @@ class ContainerDrawable : public Drawable
          */
         void RemoveDrawable(const std::string & key);
 
-        /**j
+        /**
          * @copydoc ild::Drawable::FindDrawable
          */
         Drawable * FindDrawable(const std::string & key) override;
