@@ -44,6 +44,13 @@ void ContainerDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableT
     }
 }
 
+void ContainerDrawable::PostDrawUpdate(float delta) 
+{
+    for (auto & childDrawable : _drawables) {
+        childDrawable->PostDrawUpdate(delta);
+    }
+}
+
 void ContainerDrawable::FetchDependencies(const Entity &entity)
 {
     Drawable::FetchDependencies(entity);
@@ -75,7 +82,7 @@ void ContainerDrawable::SortDrawables()
 {
     alg::sort(
             _drawables,
-            [](const std::unique_ptr<Drawable> & lhs, const std::unique_ptr<Drawable> & rhs)
+            [](const std::shared_ptr<Drawable> & lhs, const std::shared_ptr<Drawable> & rhs)
             {
                 return lhs->renderPriority() < rhs->renderPriority();
             });
@@ -94,7 +101,7 @@ void ContainerDrawable::AddDrawable(Drawable * drawable)
 
 void ContainerDrawable::RemoveDrawable(const std::string & key)
 {
-    _drawables.erase(alg::remove_if(_drawables, [key](const std::unique_ptr<Drawable> & drawable) {
+    _drawables.erase(alg::remove_if(_drawables, [key](const std::shared_ptr<Drawable> & drawable) {
         return key == drawable->key();
     }));
 }

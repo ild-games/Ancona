@@ -77,6 +77,8 @@ class Drawable
                 sf::Transform parentTransform,
                 float delta);
 
+        virtual void PostDrawUpdate(float delta) { }
+
         virtual Drawable * Copy() = 0;
         void CopyProperties(Drawable * drawable);
 

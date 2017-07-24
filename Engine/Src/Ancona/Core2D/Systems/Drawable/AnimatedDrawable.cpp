@@ -27,8 +27,10 @@ Drawable * AnimatedDrawable::Copy() {
     auto drawable = new AnimatedDrawable();
     Drawable::CopyProperties(drawable);
 
-    drawable->duration(_duration);
-    drawable->loopOnce(_loopOnce);
+    drawable->_duration = _duration;
+    drawable->_loopOnce = _loopOnce;
+    drawable->_timeUntilChange = _timeUntilChange;
+    drawable->_curFrame = _curFrame;
     for (auto & frame : _frames) {
         drawable->AddFrame(frame->Copy());
     }
@@ -44,9 +46,15 @@ void AnimatedDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTr
             -(size.y * _anchor.y / std::abs(_scale.y)));
     }
     _frames[_curFrame]->Draw(window, drawableTransform, delta);
-    Tick(delta);
 }
 
+void AnimatedDrawable::PostDrawUpdate(float delta) 
+{
+    Tick(delta);
+    for (auto & frame : _frames) {
+        frame->PostDrawUpdate(delta);
+    }
+}
 
 void AnimatedDrawable::Tick(float delta)
 {
@@ -68,8 +76,12 @@ void AnimatedDrawable::AdvanceFrame()
         return;
     }
 
-    _curFrame++;
-    if (_curFrame == _frames.size())
+    SetCurrentFrame(_curFrame + 1);
+}
+
+void AnimatedDrawable::SetCurrentFrame(unsigned int frame) {
+    _curFrame = frame;
+    if (_curFrame >= _frames.size())
     {
         ResetAnimation();
     }

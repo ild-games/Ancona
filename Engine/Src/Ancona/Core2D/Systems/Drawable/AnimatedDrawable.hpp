@@ -36,6 +36,7 @@ class AnimatedDrawable : public Drawable
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         Drawable * Copy() override;
+        void PostDrawUpdate(float delta) override;
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -84,6 +85,8 @@ class AnimatedDrawable : public Drawable
          */
         int NumberOfFrames();
 
+        void SetCurrentFrame(unsigned int frame);
+
         /* getters and setters */
         sf::Vector2f size() override;
         sf::Vector2f position(sf::Vector2f entityPosition) override;
@@ -92,11 +95,12 @@ class AnimatedDrawable : public Drawable
         void duration(float duration) { _duration = duration; }
         float duration() { return _duration; }
         void loopOnce(bool loopOnce) { _loopOnce = loopOnce; }
+        unsigned int curFrame() { return _curFrame; }
 
     private:
         std::vector<std::unique_ptr<Drawable>> _frames;
         float _duration;
-        float _timeUntilChange;
+        float _timeUntilChange = 0;
         unsigned int _curFrame = 0;
         bool _loopOnce = false;
 

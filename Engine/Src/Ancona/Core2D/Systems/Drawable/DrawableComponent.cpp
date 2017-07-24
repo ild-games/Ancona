@@ -35,6 +35,12 @@ void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
     _topDrawable->Draw(window, transform, delta);
 }
 
+
+void DrawableComponent::PostDrawUpdate(float delta)
+{
+    _topDrawable->PostDrawUpdate(delta);
+}
+
 Box2 DrawableComponent::BoundingBox()
 {
     return Box2(

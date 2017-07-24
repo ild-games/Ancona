@@ -36,6 +36,7 @@ class ContainerDrawable : public Drawable
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         Drawable * Copy() override;
+        void PostDrawUpdate(float delta) override;
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -66,14 +67,26 @@ class ContainerDrawable : public Drawable
          */
         Drawable * FindDrawable(const std::string & key) override;
 
+        typedef std::vector<std::shared_ptr<Drawable>>::iterator iterator;
+
+        iterator begin() {
+            return _drawables.begin();
+        }
+        iterator end() {
+            return _drawables.end();
+        }
+
         /* getters and setters */
         sf::Vector2f size() override;
         sf::Vector2f position(sf::Vector2f entityPosition) override;
         int alpha() override;
         void alpha(int alpha) override;
 
+
     private:
-        std::vector<std::unique_ptr<Drawable>> _drawables;
+        
+
+        std::vector<std::shared_ptr<Drawable>> _drawables;
 
         void SortDrawables();
         void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
