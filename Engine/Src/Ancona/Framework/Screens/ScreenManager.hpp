@@ -43,6 +43,7 @@ class ScreenManager
          * to the screen and deletes the pointer.
          */
         void Pop();
+        AbstractScreen * Peek();
 
         /**
          * @brief Pops the current screen off the manager and pushes a new one on
