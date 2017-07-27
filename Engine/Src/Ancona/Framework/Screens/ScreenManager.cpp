@@ -32,6 +32,11 @@ void ScreenManager::Pop()
     _screens.top()->__Exiting = true;
 }
 
+AbstractScreen * ScreenManager::Peek()
+{
+    return _screens.top();
+}
+
 void ScreenManager::Replace(AbstractScreen * screen)
 {
     Pop();
