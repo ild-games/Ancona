@@ -114,6 +114,7 @@ class FadeDrawableSystem : public UnorderedSystem<FadeDrawableComponent>
          * @param entity Entity to associate the component with.
          * @param drawableComponent DrawableComponent for the entity.
          * @param fadeIn True if the graphics are fading in, false if they are fading out.
+         * @param destroySelf True if the entity should be destroyed after the fade
          * @param fadeSpeed Speed at which the fade occurs, defaults to 650.0f
          *
          * @return Pointer to the FadeDrawableComponent being created.
@@ -122,6 +123,7 @@ class FadeDrawableSystem : public UnorderedSystem<FadeDrawableComponent>
                 const Entity & entity,
                 DrawableComponent * drawableComponent,
                 bool fadeIn,
+                bool destroySelf,
                 float fadeSpeed = 650.0f);
 };
 
