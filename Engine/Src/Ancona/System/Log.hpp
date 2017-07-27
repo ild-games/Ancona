@@ -25,7 +25,7 @@ class LogControls
 }
 
 #define ILD_Log(message) {\
-    LogControls::_log(message);\
+    ild::LogControls::_log(message);\
 }
 
 #endif
