@@ -74,6 +74,7 @@ FadeDrawableComponent * FadeDrawableSystem::CreateComponent(
         const Entity & entity,
         DrawableComponent * drawableComponent,
         bool fadeIn,
+        bool destroySelf,
         float fadeSpeed)
 {
     FadeDrawableComponent *comp = new FadeDrawableComponent(
@@ -81,6 +82,7 @@ FadeDrawableComponent * FadeDrawableSystem::CreateComponent(
             this,
             entity,
             fadeIn,
+            destroySelf,
             fadeSpeed);
     AttachComponent(entity, comp);
 
