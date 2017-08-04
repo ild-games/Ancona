@@ -12,6 +12,8 @@ std::unordered_map<std::type_index, resource_map> ResourceLibrary::_resources;
 
 std::unordered_map<std::string, AbstractLoader *> ResourceLibrary::_loaders;
 
+std::unordered_map<std::string, std::unordered_map<std::string, std::string>> ResourceLibrary::_alternateSources;
+
 void ResourceLibrary::RegisterLoader(AbstractLoader * loader)
 {
     _loaders[loader->resourceName()] = loader;
@@ -30,7 +32,10 @@ void ResourceLibrary::Return(const RequestList & request)
 
         //Decrement the reference count of the resource by one
         auto resourceIterator = _resources[type].find(resource.second);
-        resourceIterator->second.referenceCount -= 1;
+        if (resourceIterator != _resources[type].end()) 
+        {
+            resourceIterator->second.referenceCount -= 1;
+        }
     }
 }
 
@@ -51,6 +56,19 @@ void ResourceLibrary::GarbageCollect()
                 resourceIterator++;
             }
         }
+    }
+}
+
+void ResourceLibrary::DeleteResource(const std::string & type, const std::string & key) 
+{
+    auto loader = _loaders[type];
+    resource_map & resources = _resources[loader->resourceType()];
+    auto resourceIter = resources.find(key);
+
+    if (resourceIter != resources.end()) 
+    {
+        resourceIter->second.loader->DeleteResource(resourceIter->second.rawResource);
+        resources.erase(resourceIter);
     }
 }
 
@@ -79,7 +97,8 @@ bool ResourceLibrary::DoneLoading(RequestList & request)
         {
             //The resource does not exist in the dictionary and needs to be loaded
             onDisk = true;
-            resources.emplace(requestIter->second, ResourceHolder(loader->Load(requestIter->second), 0, loader));
+            auto rawResource = loader->Load(FileToLoad(requestIter->first, requestIter->second));
+            resources.emplace(requestIter->second, ResourceHolder(rawResource, 0, loader));
 
             resourceIter = resources.find(requestIter->second);
         }
@@ -87,6 +106,28 @@ bool ResourceLibrary::DoneLoading(RequestList & request)
         resourceIter->second.referenceCount++;
     }
     return false;
+}
+
+const std::string & ResourceLibrary::FileToLoad(const std::string & type, const std::string & key) 
+{
+    if (_alternateSources[type].find(key) == _alternateSources[type].end()) 
+    {
+        return key;
+    }
+
+    return _alternateSources[type][key];
+}
+
+bool ResourceLibrary::ProvideAlternateSource(const std::string & type, const std::string & key, const std::string & alternateSource) 
+{
+    _alternateSources[type][key] = alternateSource;
+    DeleteResource(type, key);
+}
+
+void ResourceLibrary::ClearAlternateSource(const std::string & type, const std::string & key)
+{
+    _alternateSources[type].erase(key);
+    DeleteResource(type, key);
 }
 
 const std::string & ResourceLibrary::ResourceRoot()

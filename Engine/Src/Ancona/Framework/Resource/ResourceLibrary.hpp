@@ -82,6 +82,13 @@ class ResourceLibrary
          */
         static bool DoneLoading(RequestList & request);
 
+        static bool ProvideAlternateSource(
+            const std::string & type, 
+            const std::string & key, 
+            const std::string & alternateSource);
+
+        static void ClearAlternateSource(const std::string & type, const std::string & key);
+
         /**
          * @brief  Return a string that contains the path to the 
          *         resource root.
@@ -107,11 +114,15 @@ class ResourceLibrary
          */
         static std::unordered_map<std::string, AbstractLoader *> _loaders;
 
+        static std::unordered_map<std::string, std::unordered_map<std::string, std::string>> _alternateSources;
+
         /**
          * @brief Looks through the resources and deletes any that have a
          *        reference counter of 0.
          */
         static void GarbageCollect();
+        static void DeleteResource(const std::string & type, const std::string & key);
+        static const std::string & FileToLoad(const std::string & type, const std::string & key);
 };
 
 }
