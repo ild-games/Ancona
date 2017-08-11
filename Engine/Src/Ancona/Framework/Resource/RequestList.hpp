@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 namespace ild
 {
@@ -36,6 +37,8 @@ class RequestList
          * @param resourcetKey A key that describes a unique resource of the given type
          */
         void Add(const std::string & resourceType, const std::string & resourceKey);
+
+        bool Contains(const std::string & resourceType, const std::string & resourceKey);
 
         typedef std::vector< std::pair<std::string,std::string> >::const_iterator iterator;
 

@@ -66,7 +66,8 @@ class ButtonComponent
          */
         bool WasClicked();
 
-        std::string key() { return _key; }
+        const std::string & key() { return _key; }
+        void key(const std::string & key) { _key = key; }
 
     private:
         std::string _key;

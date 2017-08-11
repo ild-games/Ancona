@@ -49,6 +49,7 @@ class MapSerializer
         MapSerializer(
                 std::string key,
                 ScreenSystemsContainer & systems,
+                std::shared_ptr<RequestList> request,
                 bool loading,
                 bool snapshotSave = false);
 

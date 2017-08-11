@@ -9,7 +9,8 @@ using namespace ild;
 
 AbstractScreen::AbstractScreen(
         std::string key,
-        ScreenManager & screenManager) :
+        ScreenManager & screenManager,
+        std::shared_ptr<RequestList> requestList) :
     __Initialized(false),
     __Entering(false),
     __Exiting(false),
@@ -17,7 +18,8 @@ AbstractScreen::AbstractScreen(
     KEY(key),
     _transitionColor(0, 0, 0, 255),
     _transitionRect(sf::Vector2f(_screenManager.windowWidth(), _screenManager.windowHeight())),
-    _defaultCam(sf::View(_screenManager.Window.getDefaultView())) 
+    _defaultCam(sf::View(_screenManager.Window.getDefaultView())),
+    _requestList(requestList)
 {
 }
 

@@ -3,6 +3,7 @@
 
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Util/StrUtil.hpp>
+#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 
 using namespace ild;
 
@@ -50,6 +51,13 @@ RequestList::iterator RequestList::Next()
         return end();
     }
     return _next++;
+}
+
+bool RequestList::Contains(const std::string & resourceType, const std::string & resourceKey)
+{
+    return alg::find_if(_requestList, [resourceType, resourceKey](const std::pair<std::string, std::string> & entry) {
+        return entry.first == resourceType && entry.second == resourceKey;
+    }) != _requestList.end();
 }
 
 float RequestList::PercentLoaded()

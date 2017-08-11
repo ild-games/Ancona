@@ -8,6 +8,7 @@
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/Framework/Resource/RequestList.hpp>
 
 namespace ild
 {
@@ -28,7 +29,8 @@ class AbstractScreen
          */
         AbstractScreen(
                 std::string key,
-                ScreenManager & screenManager);
+                ScreenManager & screenManager,
+                std::shared_ptr<RequestList> requestList = std::shared_ptr<RequestList>(new RequestList()));
 
         /**
          * @brief Destructor for AbstractScreen.
@@ -103,6 +105,7 @@ class AbstractScreen
         /* getters and setters */
         std::string key() { return KEY; }
         void requestList(std::shared_ptr<RequestList> requestList) { _requestList = requestList; }
+        std::shared_ptr<RequestList> requestList() { return _requestList; }
         virtual ScreenSystemsContainer * systemsContainer() = 0;
     protected:
         /**
@@ -133,7 +136,6 @@ class AbstractScreen
          * @brief Request list used by this screen.
          */
         std::shared_ptr<RequestList> _requestList;
-        
         
 };
 
