@@ -6,9 +6,7 @@
 
 using namespace ild;
 
-typedef std::unordered_map<std::string, ResourceHolder> resource_map;
-
-std::unordered_map<std::type_index, resource_map> ResourceLibrary::_resources;
+std::unordered_map<std::type_index, ResourceLibrary::resource_map> ResourceLibrary::_resources;
 
 std::unordered_map<std::string, AbstractLoader *> ResourceLibrary::_loaders;
 
@@ -62,7 +60,7 @@ void ResourceLibrary::GarbageCollect()
 void ResourceLibrary::DeleteResource(const std::string & type, const std::string & key) 
 {
     auto loader = _loaders[type];
-    resource_map & resources = _resources[loader->resourceType()];
+    ResourceLibrary::resource_map & resources = _resources[loader->resourceType()];
     auto resourceIter = resources.find(key);
 
     if (resourceIter != resources.end()) 
@@ -90,7 +88,7 @@ bool ResourceLibrary::DoneLoading(RequestList & request)
 
         auto loader = _loaders[requestIter->first];
         auto type = loader->resourceType();
-        resource_map & resources = _resources[type];
+        ResourceLibrary::resource_map & resources = _resources[type];
 
         auto resourceIter = resources.find(requestIter->second);
         if (resourceIter == resources.end())

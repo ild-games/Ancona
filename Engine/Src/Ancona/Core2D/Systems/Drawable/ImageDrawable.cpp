@@ -30,10 +30,7 @@ Drawable * ImageDrawable::Copy() {
     drawable->tiledArea(_tiledArea);
     drawable->isTiled(_isTiled);
     drawable->isWholeImage(_isWholeImage);
-    if (_textureKey != "")
-    {
-        drawable->SetupSprite(ResourceLibrary::Get<sf::Texture>(_textureKey));
-    }
+    drawable->SetupSprite();
     return drawable;
 }
 
@@ -44,6 +41,16 @@ void ImageDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTrans
         sf::RenderStates states(drawableTransform);
         window.draw(*_sprite, states);
     }
+}
+
+void ImageDrawable::SetupSprite()
+{
+    if (_textureKey == "") 
+    {
+        return;
+    }
+
+    SetupSprite(ResourceLibrary::Get<sf::Texture>(_textureKey));
 }
 
 void ImageDrawable::SetupSprite(sf::Texture * texture)

@@ -29,6 +29,7 @@ class ImageDrawable : public Drawable
         void FetchDependencies(const Entity & entity) override;
 
         void SetupSprite(sf::Texture * texture);
+        void SetupSprite();
 
         /* getters and setters */
         sf::Vector2f size() override;

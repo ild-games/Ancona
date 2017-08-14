@@ -6,10 +6,11 @@ using namespace ild;
 MapSerializer::MapSerializer(
         std::string key,
         ScreenSystemsContainer & systems,
+        std::shared_ptr<RequestList> request,
         bool loading,
         bool snapshotSave) :
     _key(key),
-    _request(new RequestList()),
+    _request(request),
     _loadingContext(new SerializingContext(systems)),
     _profile(systems.profile()),
     _loading(loading),
@@ -74,9 +75,12 @@ void MapSerializer::LoadMapFile()
     {
         for (Json::Value & assetJson : _mapRoot["assets"])
         {
-            _request->Add(
-                    assetJson["type"].asString(),
-                    assetJson["key"].asString());
+            auto type = assetJson["type"].asString();
+            auto key = assetJson["key"].asString();
+            if (!_request->Contains(type, key)) 
+            {
+                _request->Add(type, key);
+            }
         }
         _request->Start();
     }
