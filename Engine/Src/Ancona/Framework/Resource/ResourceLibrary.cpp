@@ -116,7 +116,7 @@ const std::string & ResourceLibrary::FileToLoad(const std::string & type, const 
     return _alternateSources[type][key];
 }
 
-bool ResourceLibrary::ProvideAlternateSource(const std::string & type, const std::string & key, const std::string & alternateSource) 
+void ResourceLibrary::ProvideAlternateSource(const std::string & type, const std::string & key, const std::string & alternateSource) 
 {
     _alternateSources[type][key] = alternateSource;
     DeleteResource(type, key);

@@ -82,7 +82,7 @@ class ResourceLibrary
          */
         static bool DoneLoading(RequestList & request);
 
-        static bool ProvideAlternateSource(
+        static void ProvideAlternateSource(
             const std::string & type, 
             const std::string & key, 
             const std::string & alternateSource);
