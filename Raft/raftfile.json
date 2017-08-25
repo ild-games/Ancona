@@ -17,11 +17,11 @@
             "name" : "sfml",
             "repository" : {
                 "type" : "git",
-                "location" : "https://github.com/SFML/SFML",
-                "branch": "tags/2.4.0"
+                "location" : "https://github.com/tlein/SFML",
+                "branch": "ios-toolchain-file"
             },
             "buildSystem" : "cmake",
-            "patches" : ["Patches/sfml-fix-android-build.patch", "Patches/gcc5-fix.patch"]
+            "patches" : ["Patches/gcc5-fix.patch"]
         }
     ],
     "architectures" : [
@@ -47,7 +47,23 @@
         },
         {
             "platform" : "iOS",
-            "architecture" : "armeabi"
+            "architecture" : "i386"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "x86_64"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "armv7"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "armv7s"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "arm64"
         }
     ]
 }
