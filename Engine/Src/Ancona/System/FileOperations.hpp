@@ -71,6 +71,7 @@ class FileOperations
          * @return True if the directory didn't exist and was made, false if the directory already exists.
          */
         static bool CreateDirectory(const std::string & dirPath);
+        static std::string ResourceRoot();
 };
 
 }

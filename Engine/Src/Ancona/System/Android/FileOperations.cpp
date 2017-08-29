@@ -136,3 +136,7 @@ void AndroidFileOperations::WriteApkFileToNonApkStorage(const std::string & file
     (*outFile) << streamToWrite->rdbuf();
 }
 
+std::string FileOperations::ResourceRoot() 
+{
+    return "";
+}

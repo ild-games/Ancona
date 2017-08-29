@@ -3,6 +3,7 @@
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
+#include <Ancona/System/FileOperations.hpp>
 
 using namespace ild;
 
@@ -130,5 +131,5 @@ void ResourceLibrary::ClearAlternateSource(const std::string & type, const std::
 
 const std::string & ResourceLibrary::ResourceRoot()
 {
-    return Config::GetOption("ResourceRoot"); 
+    return FileOperations::ResourceRoot() + Config::GetOption("ResourceRoot"); 
 }
