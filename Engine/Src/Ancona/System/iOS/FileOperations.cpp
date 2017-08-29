@@ -7,7 +7,8 @@ using namespace ild;
 
 std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::string & desiredFile)
 {
-    auto fullFile = std::string(getenv("HOME")) + "/" + desiredFile;
+    auto fullFile = iOSFileOperations::ResourceDir + "/" + desiredFile;
+    ILD_Log(fullFile);
     return std::unique_ptr<std::istream>(new std::ifstream(fullFile, std::ifstream::binary));
 }
 

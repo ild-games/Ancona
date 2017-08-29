@@ -1,0 +1,14 @@
+#import <Foundation/Foundation.h>
+
+#include <Ancona/System/iOS/iOSFileOperations.hpp>
+
+using namespace ild;
+
+const std::string & iOSFileOperations::ResourceDir() 
+{
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *objcResourceDir = [bundle resourcePath];
+    const char *cStrResourceDir = [objcResourceDir fileSystemRepresentation];
+    std::string resourceDir(cStrResourceDir);
+    return resourceDir;
+}
