@@ -31,6 +31,8 @@ class Config
          */
         static void Load(std::istream & configStream);
 
+        static void Add(const std::string & optionName, const std::string & value);
+
         /**
          * @brief Get option from the configuration settings.
          *

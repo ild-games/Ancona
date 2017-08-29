@@ -131,5 +131,5 @@ void ResourceLibrary::ClearAlternateSource(const std::string & type, const std::
 
 const std::string & ResourceLibrary::ResourceRoot()
 {
-    return FileOperations::ResourceRoot() + Config::GetOption("ResourceRoot"); 
+    return FileOperations::ResourceRoot() + Config::GetOption("ResourcePrefix") + Config::GetOption("ResourceRoot"); 
 }

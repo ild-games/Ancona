@@ -61,6 +61,11 @@ void Config::Load(std::istream & file)
 
 }
 
+static void Add(const std::string & optionName, const std::string & value)
+{
+    (*options)[optionName] = value;
+}
+
 const std::string & Config::GetOption(const std::string & optionName)
 {
     //Test if the option is in the map
