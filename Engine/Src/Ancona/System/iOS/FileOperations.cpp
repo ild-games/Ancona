@@ -7,7 +7,8 @@ using namespace ild;
 
 std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::string & desiredFile)
 {
-    return std::unique_ptr<std::istream>(new std::ifstream(desiredFile, std::ifstream::binary));
+    auto fullFile = std::string(getenv("HOME")) + "/" + desiredFile;
+    return std::unique_ptr<std::istream>(new std::ifstream(fullFile, std::ifstream::binary));
 }
 
 std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::string & desiredFile)
