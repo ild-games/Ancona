@@ -43,7 +43,7 @@ class Config
         static const std::string & GetOption(const std::string & optionName);
     private:
         Config() {};
-        static std::unordered_map<std::string,std::string> * options;
+        static std::unordered_map<std::string,std::string> * _options;
         static void _initAssert();
 };
 
