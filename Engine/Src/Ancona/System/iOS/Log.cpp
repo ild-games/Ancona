@@ -7,5 +7,5 @@ using namespace ild;
 
 void LogControls::_log(const std::string & msg)
 {
-    asl_log(NULL, NULL, ASL_LEVEL_ERR, "[Ancona] " + msg);
+    asl_log(NULL, NULL, ASL_LEVEL_ERR, ("[Ancona] " + msg).c_str());
 }
