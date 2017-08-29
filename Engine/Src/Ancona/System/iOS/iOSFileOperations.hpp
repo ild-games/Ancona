@@ -14,7 +14,7 @@ class iOSFileOperations
     friend class FileOperations;
 
     private:
-        static const std::string & iOSFileOperations::ResourceDir();
+        static const std::string & ResourceDir();
 };
 
 }

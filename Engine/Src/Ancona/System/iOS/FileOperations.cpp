@@ -1,13 +1,14 @@
 #include <fstream>
 
 #include <Ancona/System/FileOperations.hpp>
+#include <Ancona/System/iOS/iOSFileOperations.hpp>
 #include <Ancona/System/Log.hpp>
 
 using namespace ild;
 
 std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::string & desiredFile)
 {
-    auto fullFile = iOSFileOperations::ResourceDir + "/" + desiredFile;
+    auto fullFile = iOSFileOperations::ResourceDir() + "/" + desiredFile;
     ILD_Log(fullFile);
     return std::unique_ptr<std::istream>(new std::ifstream(fullFile, std::ifstream::binary));
 }
