@@ -27,10 +27,17 @@ bool FileOperations::IsFile(const std::string & filePath)
     return fileStream.good();
 }
 
+std::string _resourceRoot = "";
 std::string FileOperations::ResourceRoot() 
 {
+    if (_resourceRoot != "") 
+    {
+        return _resourceRoot;
+    }
+
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *objcResourceDir = [bundle resourcePath];
     const char *cStrResourceDir = [objcResourceDir fileSystemRepresentation];
-    return std::string(cStrResourceDir) + "/";
+    _resourceRoot = std::string(cStrResourceDir) + "/";
+    return _resourceRoot;
 }

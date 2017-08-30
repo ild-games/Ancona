@@ -1,5 +1,7 @@
+#include <sstream>
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/System/Log.hpp>
 
 using namespace ild;
 
@@ -16,6 +18,9 @@ std::string AbstractLoader::GetResourceFileName(
         const std::string & resourceKey,
         const std::string & fileExtension)
 {
-    return ResourceLibrary::ResourceRoot() + "/" +
-           resourceKey + "." + fileExtension;
+    auto resourceRoot = ResourceLibrary::ResourceRoot();
+    std::stringstream stream;
+    stream << resourceRoot << "/" << resourceKey << "." << fileExtension;
+    ILD_Log(stream.str());
+    return stream.str();
 }

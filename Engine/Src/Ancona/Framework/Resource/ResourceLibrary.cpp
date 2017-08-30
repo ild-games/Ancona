@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <sstream>
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
@@ -129,7 +130,12 @@ void ResourceLibrary::ClearAlternateSource(const std::string & type, const std::
     DeleteResource(type, key);
 }
 
-const std::string & ResourceLibrary::ResourceRoot()
+std::string ResourceLibrary::ResourceRoot()
 {
-    return FileOperations::ResourceRoot() + Config::GetOption("ResourcePrefix") + Config::GetOption("ResourceRoot"); 
+    auto projectRoot = FileOperations::ResourceRoot();
+    auto resourcePrefix = Config::GetOption("ResourcePrefix");
+    auto resourceRoot = Config::GetOption("ResourceRoot");
+    std::stringstream stream;
+    stream << projectRoot << resourcePrefix << resourceRoot;
+    return stream.str();
 }

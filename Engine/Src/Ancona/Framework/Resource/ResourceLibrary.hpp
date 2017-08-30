@@ -95,7 +95,7 @@ class ResourceLibrary
          *
          * @return Path to the resource root.
          */
-        static const std::string & ResourceRoot();
+        static std::string ResourceRoot();
         
 
     private:
