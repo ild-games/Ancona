@@ -25,7 +25,8 @@
                 "Patches/sfml-fix-android-build.patch",
                 "Patches/gcc5-fix.patch",
                 "Patches/sfml-fix-ios-clipboard-compile-error.patch",
-                "Patches/sfml-ios-use-toolchain.patch"
+                "Patches/sfml-ios-use-toolchain.patch",
+                "Patches/sfml-monkey-patch-ios-openal.patch"
             ]
         }
     ],
