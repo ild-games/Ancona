@@ -2,6 +2,7 @@
 #define Ancona_System_Android_Log_H_
 
 #include <string>
+#include <sstream>
 
 namespace ild
 {
@@ -20,6 +21,9 @@ class LogControls
          * @param msg Message to print out
          */
         static void _log(const std::string & msg);
+        static void _log(const std::ostringstream & stream) {
+            _log(stream.str());
+        }
 };
 
 }
