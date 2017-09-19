@@ -6,8 +6,9 @@
 #include <vector>
 
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 
-#include "VectorAction.hpp"
+#include "ValueAction.hpp"
 
 namespace ild
 {
@@ -20,7 +21,7 @@ const float INSTANT = 0.0f;
 
 }
 
-typedef std::shared_ptr<VectorAction> VectorActionProxy;
+typedef std::shared_ptr<ValueAction<sf::Vector2f>> VectorActionProxy;
 
 /**
  * @brief Actions is used to contain all of the Actions that are effecting
@@ -40,15 +41,18 @@ class Actions
          *
          * @param positionSystem Action system that the actions belong to.
          */
-        Actions(PositionSystem * positionSystem);
+        Actions(
+            PositionSystem * positionSystem,
+            DrawableSystem * drawableSystem);
 
         /**
          * @brief Update the position based on inactive Actions in
          * the object.
-         *
-         * @param position Position object to be updated.
          */
-        void Apply(PositionComponent & position, float delta);
+        void Apply(
+            PositionComponent & position, 
+            DrawableComponent & drawable,
+            float delta);
 
         /**
          * @brief Create an action for setting the position.
@@ -63,6 +67,7 @@ class Actions
          * @return A proxy to the velocity Action.
          */
         VectorActionProxy CreateVelocityAction();
+        VectorActionProxy CreateScaleAction();
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -70,12 +75,15 @@ class Actions
         void Serialize(Archive & arc);
 
         void position(PositionSystem * positionSystem) { _positionSystem = positionSystem; }
+        void drawable(DrawableSystem * drawableSystem) { _drawableSystem = drawableSystem; }
 
     private:
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
+        std::vector<VectorActionProxy> _scaleActions;
         Point _actionVelocity;
         PositionSystem * _positionSystem;
+        DrawableSystem * _drawableSystem;
 
         template<typename T>
         void RemoveDoneActions(std::vector<T> & actions)
@@ -91,6 +99,7 @@ class Actions
 
         Point ApplyPositionActions(const PositionComponent & position, float delta);
         Point ApplyVelocityActions(const PositionComponent & position, float delta);
+        Point ApplyScaleActions(DrawableComponent & drawable, float delta);
 };
 
 }

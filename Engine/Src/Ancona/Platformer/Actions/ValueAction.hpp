@@ -1,5 +1,5 @@
-#ifndef Ancona_Platformer_Action_VectorAction_hpp
-#define Ancona_Platformer_Action_VectorAction_hpp
+#ifndef Ancona_Platformer_Action_ValueAction_hpp
+#define Ancona_Platformer_Action_ValueAction_hpp
 
 #include <SFML/System.hpp>
 
@@ -12,7 +12,8 @@ namespace ild
  * @brief A baseclass for actions that have a vector value.
  * @author Jeff Swenson
  */
-class VectorAction : public Action<VectorAction>
+template<typename T>
+class ValueAction : public Action<ValueAction<T>>
 {
     public:
         /**
@@ -22,7 +23,7 @@ class VectorAction : public Action<VectorAction>
          *
          * @return A reference to the action.
          */
-        VectorAction * value(sf::Vector2f value) { _value = value; return this; }
+        ValueAction<T> * value(T value) { _value = value; return this; }
 
         /**
          * @brief tween the action for the given amount of time.
@@ -31,22 +32,38 @@ class VectorAction : public Action<VectorAction>
          *
          * @return A pointer to the action.
          */
-        VectorAction * tween(float time);
+        ValueAction<T> * tween(float time) {
+            _tweenTime = time;
+            return this;
+        }
 
         /**
          * @copydoc ild::CameraComponent::Serialize
          */
-        void Serialize(Archive & arc);
+        void Serialize(Archive & arc) {
+            Action<ValueAction<T>>::Serialize(arc);
+            arc(_tweenTime, "tween");
+            arc(_value, "value");
+        }
 
 
         /* getters and setters */
-        float tweenRatio();
-        const sf::Vector2f & value() { return _value; }
+        float tweenRatio() {
+            if(_tweenTime > 0)
+            {
+                return std::min(Action<ValueAction<T>>::age() / _tweenTime, 1.0f);
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        const T & value() { return _value; }
     private:
         /**
          * @brief value of the action.  For a velocity action this would be the velocity.
          */
-        sf::Vector2f _value;
+        T _value;
         /**
          * @brief Amount of time the action should be tweened for.
          */
