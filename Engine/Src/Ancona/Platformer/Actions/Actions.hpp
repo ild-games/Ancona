@@ -9,6 +9,7 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 
 #include "ValueAction.hpp"
+#include "ScaleAction.hpp"
 
 namespace ild
 {
@@ -22,6 +23,7 @@ const float INSTANT = 0.0f;
 }
 
 typedef std::shared_ptr<ValueAction<sf::Vector2f>> VectorActionProxy;
+typedef std::shared_ptr<ScaleAction<sf::Vector2f>> ScaleActionProxy;
 
 /**
  * @brief Actions is used to contain all of the Actions that are effecting
@@ -67,7 +69,7 @@ class Actions
          * @return A proxy to the velocity Action.
          */
         VectorActionProxy CreateVelocityAction();
-        VectorActionProxy CreateScaleAction();
+        VectorActionProxy CreateScaleAction(std::string drawableKey = "");
 
         /**
          * @copydoc ild::CameraComponent::Serialize
@@ -80,7 +82,7 @@ class Actions
     private:
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
-        std::vector<VectorActionProxy> _scaleActions;
+        std::vector<ScaleActionProxy> _scaleActions;
         Point _actionVelocity;
         PositionSystem * _positionSystem;
         DrawableSystem * _drawableSystem;
@@ -99,7 +101,7 @@ class Actions
 
         Point ApplyPositionActions(const PositionComponent & position, float delta);
         Point ApplyVelocityActions(const PositionComponent & position, float delta);
-        Point ApplyScaleActions(DrawableComponent & drawable, float delta);
+        void ApplyScaleActions(DrawableComponent & drawable, float delta);
 };
 
 }

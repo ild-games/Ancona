@@ -1,5 +1,6 @@
 #include <Ancona/Platformer/Actions/Actions.hpp>
 #include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
+#include <Ancona/System/Log.hpp>
 
 using namespace ild;
 
@@ -25,9 +26,9 @@ VectorActionProxy Actions::CreateVelocityAction()
     return action;
 }
 
-VectorActionProxy Actions::CreateScaleAction()
+VectorActionProxy Actions::CreateScaleAction(std::string drawableKey)
 {
-    VectorActionProxy action(new ValueAction<sf::Vector2f>());
+    ScaleActionProxy action(new ScaleAction<sf::Vector2f>(drawableKey));
     _scaleActions.push_back(action);
     return action;
 }
@@ -41,8 +42,10 @@ void Actions::Serialize(Archive & arc)
     arc.system(_drawableSystem, "drawable");
 }
 
-static Point TweenPosition(ValueAction<sf::Vector2f> & action, float beforeRatio,
-        const Point & position)
+static Point TweenPosition(
+    ValueAction<sf::Vector2f> & action, 
+    float beforeRatio,
+    const Point & position)
 {
     float afterRatio = action.tweenRatio();
 
@@ -55,16 +58,25 @@ static Point TweenPosition(ValueAction<sf::Vector2f> & action, float beforeRatio
         (action.value() - position);
 }
 
-Point Actions::ApplyScaleActions(DrawableComponent & drawable, float delta)
+void Actions::ApplyScaleActions(DrawableComponent & drawableComponent, float delta)
 {
-    Point scale = drawable.topDrawable()->scale();
     for(auto& action : _scaleActions)
     {
+        Drawable * drawable = nullptr;
+        if (action->drawableKey() == "") 
+        {
+            drawable = drawableComponent.topDrawable();
+        }
+        else 
+        {
+            drawable = drawableComponent.GetDrawable(action->drawableKey());
+        }
+
         float beforeRatio = action->tweenRatio();
         action->Update(delta);
-        scale = TweenPosition(*action, beforeRatio, drawable.topDrawable()->scale());
+        auto scale = TweenPosition(*action, beforeRatio, drawable->scale());
+        drawable->scale(scale);
     }
-    return scale;
 }
 
 Point Actions::ApplyPositionActions(const PositionComponent & position, float delta)
@@ -104,7 +116,7 @@ void Actions::Apply(PositionComponent & position, DrawableComponent & drawable, 
 
     RemoveDoneActions<VectorActionProxy>(_velocityActions);
     RemoveDoneActions<VectorActionProxy>(_positionActions);
-    RemoveDoneActions<VectorActionProxy>(_scaleActions);
+    RemoveDoneActions<ScaleActionProxy>(_scaleActions);
     
     //Velocity actions apply additively
     Point velocity = ApplyVelocityActions(position, delta);
@@ -122,6 +134,5 @@ void Actions::Apply(PositionComponent & position, DrawableComponent & drawable, 
         _actionVelocity = velocity;
     }
 
-    auto newScale = ApplyScaleActions(drawable, delta);
-    drawable.topDrawable()->scale(newScale);
+    ApplyScaleActions(drawable, delta);
 }
