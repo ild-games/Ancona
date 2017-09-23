@@ -33,8 +33,10 @@ class ImageDrawable : public Drawable
 
         /* getters and setters */
         sf::Vector2f size() override;
-        void alpha(int newAlpha) override;
-        int alpha() override;
+        void alpha(int newAlpha) { _alpha = newAlpha; }
+        int alpha() { return _alpha; }
+        sf::Color color() { return _color; }
+        void color(sf::Color newColor) { _color = newColor; }
         void isWholeImage(bool isWholeImage) { _isWholeImage = isWholeImage; }
         void isTiled(bool isTiled) { _isTiled = isTiled; }
         void tiledArea(const sf::Vector2f & tiledArea) { _tiledArea = tiledArea; }
@@ -45,6 +47,8 @@ class ImageDrawable : public Drawable
         Box2 _textureRect;
         std::unique_ptr<sf::Sprite> _sprite;
         sf::Vector2f _tiledArea;
+        sf::Color _color = sf::Color::White;
+        int _alpha = 255;
         bool _isTiled = false;
         bool _isWholeImage = true;
 
