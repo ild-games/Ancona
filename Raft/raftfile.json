@@ -26,7 +26,8 @@
                 "Patches/gcc5-fix.patch",
                 "Patches/sfml-fix-ios-clipboard-compile-error.patch",
                 "Patches/sfml-ios-use-toolchain.patch",
-                "Patches/sfml-monkey-patch-ios-openal.patch"
+                "Patches/sfml-monkey-patch-ios-openal.patch",
+                "Patches/sfml-fix-macos-linker-errors.patch"
             ]
         }
     ],
