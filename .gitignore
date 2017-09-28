@@ -63,3 +63,6 @@ TODO
 
 # Jetbrains files
 .idea
+
+# VSCode files
+.vscode
