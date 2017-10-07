@@ -37,8 +37,8 @@ void CameraComponent::Update(float delta)
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 {
     Box2 cameraPosition(
-        sf::Vector2f(_view.getCenter().x - (_view.getSize().x / 2), _view.getCenter().y - (_view.getSize().y / 2)),
-        _view.getSize(),
+        sf::Vector2f(_view.getCenter().x - (_view.getSize().x), _view.getCenter().y - (_view.getSize().y)),
+        sf::Vector2f(_view.getSize().x * 2, _view.getSize().y * 2),
         sf::Vector2f(),
         _view.getRotation());
 

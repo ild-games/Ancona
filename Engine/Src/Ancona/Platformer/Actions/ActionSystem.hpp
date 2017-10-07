@@ -5,6 +5,7 @@
 #include <string>
 
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
 
 #include "Actions.hpp"
@@ -55,6 +56,8 @@ class ActionComponent
         Actions _actions;
         PositionSystem * _positionSystem;
         PositionComponent * _position;
+        DrawableSystem * _drawableSystem;
+        DrawableComponent * _drawable;
 };
 
 /**
@@ -75,7 +78,8 @@ class ActionSystem : public UnorderedSystem<ActionComponent>
         ActionSystem(
                 std::string systemName,
                 SystemManager & manager,
-                PositionSystem * positionSystem);
+                PositionSystem * positionSystem,
+                DrawableSystem * drawableSystem);
 
         /**
          * @brief Update all of the components in the action system
@@ -95,8 +99,10 @@ class ActionSystem : public UnorderedSystem<ActionComponent>
 
         /** Getters and Setters */
         PositionSystem * positionSystem() { return _positionSystem; }
+        DrawableSystem * drawableSystem() { return _drawableSystem; }
     private:
         PositionSystem * _positionSystem;
+        DrawableSystem * _drawableSystem;
 };
 
 }
