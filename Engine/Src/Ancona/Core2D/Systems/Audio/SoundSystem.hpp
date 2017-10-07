@@ -29,6 +29,24 @@ class SoundComponent
         std::shared_ptr<Sound> GetSound(const std::string & key);
         void SetVolume(float volumePercent);
 
+        SoundComponent & operator=(SoundComponent & rhs) 
+        {
+            if (this == &rhs) {
+                return *this;
+            }
+
+            for (auto & sound : rhs._sounds) 
+            {
+                auto newSound = new Sound(sound->key(), sound->pitch());
+                _sounds.push_back(std::shared_ptr<Sound>(newSound));
+            }
+
+            for (auto & sound : _sounds) 
+            {
+                _hashedSounds.insert({sound->key(), sound});
+            }
+        }
+
     private:
         std::vector<std::shared_ptr<Sound>> _sounds;
         std::unordered_map<std::string, std::shared_ptr<Sound>> _hashedSounds;
