@@ -26,6 +26,8 @@ class Game
          */
         void Run();
 
+        virtual ~Game();
+
     protected:
         /**
          * @brief Instance of the game manager

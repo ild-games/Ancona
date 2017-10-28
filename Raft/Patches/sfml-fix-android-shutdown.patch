@@ -1,0 +1,51 @@
+diff --git a/src/SFML/Main/MainAndroid.cpp b/src/SFML/Main/MainAndroid.cpp
+index 595a3a2..7b4f57b 100644
+--- a/src/SFML/Main/MainAndroid.cpp
++++ b/src/SFML/Main/MainAndroid.cpp
+@@ -337,7 +337,7 @@ static void onNativeWindowCreated(ANativeActivity* activity, ANativeWindow* wind
+ 
+     // Wait for the event to be taken into account by SFML
+     states->updated = false;
+-    while(!states->updated)
++    while(!(states->updated | states->terminated))
+     {
+         states->mutex.unlock();
+         sf::sleep(sf::milliseconds(10));
+@@ -362,7 +362,7 @@ static void onNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* wi
+ 
+     // Wait for the event to be taken into account by SFML
+     states->updated = false;
+-    while(!states->updated)
++    while(!(states->updated | states->terminated))
+     {
+         states->mutex.unlock();
+         sf::sleep(sf::milliseconds(10));
+@@ -393,6 +393,7 @@ static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue)
+     {
+         sf::Lock lock(states->mutex);
+ 
++        ALooper_acquire(states->looper);
+         AInputQueue_attachLooper(queue, states->looper, 1, states->processEvent, NULL);
+         states->inputQueue = queue;
+     }
+@@ -409,8 +410,10 @@ static void onInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue)
+     {
+         sf::Lock lock(states->mutex);
+ 
+-        states->inputQueue = NULL;
+         AInputQueue_detachLooper(queue);
++        states->inputQueue = NULL;
++
++        ALooper_release(states->looper);
+     }
+ }
+ 
+@@ -541,7 +544,7 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* savedState, size_
+     // Wait for the main thread to be initialized
+     states->mutex.lock();
+ 
+-    while (!states->initialized)
++    while (!(states->initialized | states->terminated))
+     {
+         states->mutex.unlock();
+         sf::sleep(sf::milliseconds(20));

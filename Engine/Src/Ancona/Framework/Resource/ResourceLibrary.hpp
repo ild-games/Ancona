@@ -96,6 +96,12 @@ class ResourceLibrary
          * @return Path to the resource root.
          */
         static std::string ResourceRoot();
+
+        /**
+         * @brief Looks through the resources and deletes any that have a
+         *        reference counter of 0.
+         */
+        static void GarbageCollect();
         
 
     private:
@@ -116,11 +122,6 @@ class ResourceLibrary
 
         static std::unordered_map<std::string, std::unordered_map<std::string, std::string>> _alternateSources;
 
-        /**
-         * @brief Looks through the resources and deletes any that have a
-         *        reference counter of 0.
-         */
-        static void GarbageCollect();
         static void DeleteResource(const std::string & type, const std::string & key);
         static const std::string & FileToLoad(const std::string & type, const std::string & key);
 };

@@ -1,5 +1,6 @@
 #include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
+#include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Core2D/InputDevices/Keyboard.hpp>
 #include <Ancona/Core2D/InputDevices/Mouse.hpp>
 #include <Ancona/Core2D/InputDevices/Touch.hpp>
@@ -13,6 +14,10 @@ Game::Game(
     _window(sf::VideoMode(windowWidth, windowHeight), title)
 {
     _screenManager = new ScreenManager(_window, windowWidth, windowHeight);
+}
+
+Game::~Game() {
+    ResourceLibrary::GarbageCollect();
 }
 
 void Game::Run()
