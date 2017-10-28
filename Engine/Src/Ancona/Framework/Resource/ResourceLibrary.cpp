@@ -1,8 +1,10 @@
 #include <algorithm>
+#include <sstream>
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
+#include <Ancona/System/FileOperations.hpp>
 
 using namespace ild;
 
@@ -128,7 +130,12 @@ void ResourceLibrary::ClearAlternateSource(const std::string & type, const std::
     DeleteResource(type, key);
 }
 
-const std::string & ResourceLibrary::ResourceRoot()
+std::string ResourceLibrary::ResourceRoot()
 {
-    return Config::GetOption("ResourceRoot"); 
+    auto projectRoot = FileOperations::ResourceRoot();
+    auto resourcePrefix = Config::GetOption("ResourcePrefix");
+    auto resourceRoot = Config::GetOption("ResourceRoot");
+    std::stringstream stream;
+    stream << projectRoot << resourcePrefix << resourceRoot;
+    return stream.str();
 }

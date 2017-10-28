@@ -14,8 +14,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Module
 #Set C++ Version to 11
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID)
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID AND NOT IOS)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
+endif()
+if(IOS)
+    set(CMAKE_XX_FLAG "-x objective-c++")
+    set(CMAKE_OSX_SYSROOT iphoneos)
+    if (RAFT_ARCH) 
+        set(CMAKE_OSX_ARCHITECTURES RAFT_ARCH)
+    else()
+        set(CMAKE_OSX_ARCHITECTURES $(ARCHS_STANDARD_32_BIT))
+    endif()
+    set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
 endif()
 
 include_directories(Engine/Src)

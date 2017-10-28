@@ -1,0 +1,59 @@
+diff --git a/cmake/Config.cmake b/cmake/Config.cmake
+index c447113a..594d5e67 100644
+--- a/cmake/Config.cmake
++++ b/cmake/Config.cmake
+@@ -35,14 +35,6 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+     if(IOS)
+         set(SFML_OS_IOS 1)
+ 
+-        # set the target framework and platforms
+-        set(CMAKE_OSX_SYSROOT "iphoneos")
+-        set(CMAKE_OSX_ARCHITECTURES "armv6;armv7;i386")
+-        set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
+-
+-        # help the compiler detection script below
+-        set(CMAKE_COMPILER_IS_GNUCXX 1)
+-
+         # use the OpenGL ES implementation on iOS
+         set(OPENGL_ES 1)
+     else()
+diff --git a/src/SFML/Audio/CMakeLists.txt b/src/SFML/Audio/CMakeLists.txt
+index e375057e..eac6b8c8 100644
+--- a/src/SFML/Audio/CMakeLists.txt
++++ b/src/SFML/Audio/CMakeLists.txt
+@@ -66,16 +66,16 @@ elseif(SFML_OS_ANDROID)
+ endif()
+ 
+ # find external libraries
+-if(NOT SFML_OS_ANDROID)
++if(SFML_OS_ANDROID OR SFML_OS_IOS)
+     if(NOT SFML_OS_IOS)
+-        find_package(OpenAL REQUIRED)
++        find_host_package(OpenAL REQUIRED)
+     endif()
+-    find_package(Vorbis REQUIRED)
+-    find_package(FLAC REQUIRED)
+-else()
+-    find_host_package(OpenAL REQUIRED)
+     find_host_package(Vorbis REQUIRED)
+     find_host_package(FLAC REQUIRED)
++else()
++    find_package(OpenAL REQUIRED)
++    find_package(Vorbis REQUIRED)
++    find_package(FLAC REQUIRED)
+ endif()
+ 
+ if(NOT SFML_OS_IOS)
+diff --git a/src/SFML/Graphics/CMakeLists.txt b/src/SFML/Graphics/CMakeLists.txt
+index 57dfa80d..d460a028 100644
+--- a/src/SFML/Graphics/CMakeLists.txt
++++ b/src/SFML/Graphics/CMakeLists.txt
+@@ -118,7 +118,7 @@ if(SFML_OPENGL_ES AND SFML_OS_LINUX)
+     find_package(GLES REQUIRED)
+     include_directories(${EGL_INCLUDE_DIR} ${GLES_INCLUDE_DIR})
+ endif()
+-if(SFML_OS_ANDROID)
++if(SFML_OS_ANDROID OR SFML_OS_IOS)
+     find_host_package(JPEG REQUIRED)
+     find_host_package(Freetype REQUIRED)
+ else()

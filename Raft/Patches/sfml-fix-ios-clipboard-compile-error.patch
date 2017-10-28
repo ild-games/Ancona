@@ -1,0 +1,34 @@
+From 565ff53ff355c6f5a0ffb764a93ab92baecd8c2a Mon Sep 17 00:00:00 2001
+From: tlein <tlein@radford.edu>
+Date: Tue, 29 Aug 2017 22:32:21 -0500
+Subject: [PATCH] fix iOS build error when using @import
+
+---
+ src/SFML/Window/iOS/ClipboardImpl.mm | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/SFML/Window/iOS/ClipboardImpl.mm b/src/SFML/Window/iOS/ClipboardImpl.mm
+index 74ace07c..473e17af 100644
+--- a/src/SFML/Window/iOS/ClipboardImpl.mm
++++ b/src/SFML/Window/iOS/ClipboardImpl.mm
+@@ -27,7 +27,7 @@
+ ////////////////////////////////////////////////////////////
+ #include <SFML/Window/iOS/ClipboardImpl.hpp>
+ 
+-@import UIKit
++#import <UIKit/UIKit.h>
+ 
+ namespace sf
+ {
+@@ -40,7 +40,7 @@
+     UIPasteboard* pboard = [UIPasteboard generalPasteboard];
+     if (pboard.hasStrings)
+     {
+-        NSString* data = pboard.string
++        NSString* data = pboard.string;
+ 
+         char const* utf8 = [data cStringUsingEncoding:NSUTF8StringEncoding];
+         NSUInteger length = [data lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+-- 
+2.11.0 (Apple Git-81)
+

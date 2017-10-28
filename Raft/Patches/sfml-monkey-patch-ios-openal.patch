@@ -1,0 +1,31 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 35af7188..f2edde64 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -93,9 +93,9 @@ endif()
+ # add options to select which modules to build
+ sfml_set_option(SFML_BUILD_WINDOW TRUE BOOL "TRUE to build SFML's Window module. This setting is ignored, if the graphics module is built.")
+ sfml_set_option(SFML_BUILD_GRAPHICS TRUE BOOL "TRUE to build SFML's Graphics module.")
+-if(NOT SFML_OS_IOS)
++#if(NOT SFML_OS_IOS)
+     sfml_set_option(SFML_BUILD_AUDIO TRUE BOOL "TRUE to build SFML's Audio module.")
+-endif()
++#endif()
+ sfml_set_option(SFML_BUILD_NETWORK TRUE BOOL "TRUE to build SFML's Network module.")
+ 
+ # add an option for building the API documentation
+diff --git a/src/SFML/Audio/ALCheck.hpp b/src/SFML/Audio/ALCheck.hpp
+index 85f4e72d..4834d64d 100644
+--- a/src/SFML/Audio/ALCheck.hpp
++++ b/src/SFML/Audio/ALCheck.hpp
+@@ -30,8 +30,8 @@
+ ////////////////////////////////////////////////////////////
+ #include <SFML/Config.hpp>
+ #ifdef SFML_SYSTEM_IOS
+-    #include <OpenAl/al.h>
+-    #include <OpenAl/alc.h>
++    #include <Al/al.h>
++    #include <Al/alc.h>
+ #else
+     #include <al.h>
+     #include <alc.h>

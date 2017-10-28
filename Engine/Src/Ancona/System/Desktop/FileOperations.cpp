@@ -20,3 +20,8 @@ bool FileOperations::IsFile(const std::string & filePath)
     std::ifstream fileStream(filePath.c_str());
     return fileStream.good();
 }
+
+std::string FileOperations::ResourceRoot() 
+{
+    return "";
+}

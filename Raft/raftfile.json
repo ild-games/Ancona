@@ -1,16 +1,6 @@
 {
     "dependencies" : [
         {
-            "name" : "sfml",
-            "repository" : {
-                "type" : "git",
-                "location" : "https://github.com/SFML/SFML",
-                "branch": "tags/2.4.0"
-            },
-            "buildSystem" : "cmake",
-            "patches" : ["Patches/sfml-fix-android-build.patch", "Patches/gcc5-fix.patch"]
-        },
-        {
             "name" : "json_cpp",
             "repository" : {
                 "type" : "git",
@@ -22,6 +12,65 @@
                 "name": "JSONCPP_WITH_TESTS",
                 "value": "OFF"
             }]
+        },
+        {
+            "name" : "sfml",
+            "repository" : {
+                "type" : "git",
+                "location" : "https://github.com/SFML/SFML",
+                "branch": "ffd9c94381a"
+            },
+            "buildSystem" : "cmake",
+            "patches" : [
+                "Patches/sfml-fix-android-build.patch",
+                "Patches/gcc5-fix.patch",
+                "Patches/sfml-fix-ios-clipboard-compile-error.patch",
+                "Patches/sfml-ios-use-toolchain.patch",
+                "Patches/sfml-monkey-patch-ios-openal.patch",
+                "Patches/sfml-fix-macos-linker-errors.patch"
+            ]
+        }
+    ],
+    "architectures" : [
+        {
+            "platform" : "Host",
+            "architecture" : "Host"
+        },
+        {
+            "platform" : "Android",
+            "architecture" : "armeabi"
+        },
+        {
+            "platform" : "Android",
+            "architecture" : "armeabi-v7a"
+        },
+        {
+            "platform" : "Android",
+            "architecture" : "x86"
+        },
+        {
+            "platform" : "Android",
+            "architecture" : "mips"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "i386"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "x86_64"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "armv7"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "armv7s"
+        },
+        {
+            "platform" : "iOS",
+            "architecture" : "arm64"
         }
     ]
 }

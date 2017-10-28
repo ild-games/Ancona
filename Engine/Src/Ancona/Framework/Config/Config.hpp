@@ -31,6 +31,8 @@ class Config
          */
         static void Load(std::istream & configStream);
 
+        static void Add(const std::string & optionName, const std::string & value);
+
         /**
          * @brief Get option from the configuration settings.
          *
@@ -41,7 +43,7 @@ class Config
         static const std::string & GetOption(const std::string & optionName);
     private:
         Config() {};
-        static std::unordered_map<std::string,std::string> * options;
+        static std::unordered_map<std::string,std::string> * _options;
         static void _initAssert();
 };
 

@@ -7,7 +7,7 @@
 
 using namespace ild;
 
-std::unordered_map<std::string,std::string> * Config::options = NULL;
+std::unordered_map<std::string,std::string> * Config::_options = NULL;
 static const std::string EMPTY_OPTION = "";
 
 void Config::Load(const std::string & configFile)
@@ -18,12 +18,12 @@ void Config::Load(const std::string & configFile)
 
 void Config::Load(std::istream & file)
 {
-    if(options != NULL)
+    if(_options != NULL)
     {
         return;
     }
 
-    options = new std::unordered_map<std::string,std::string>();
+    _options = new std::unordered_map<std::string,std::string>();
 
     std::vector<std::string> pieces;
     std::string line;
@@ -55,18 +55,23 @@ void Config::Load(std::istream & file)
             StrUtil::Trim(pieces[0]);
             StrUtil::Trim(pieces[1]);
 
-            (*options)[pieces[0]] = pieces[1];
+            (*_options)[pieces[0]] = pieces[1];
         }
     }
 
 }
 
+void Config::Add(const std::string & optionName, const std::string & value)
+{
+    (*_options)[optionName] = value;
+}
+
 const std::string & Config::GetOption(const std::string & optionName)
 {
     //Test if the option is in the map
-    if(options->find(optionName) != options->end())
+    if(_options->find(optionName) != _options->end())
     {
-        return options->at(optionName);
+        return _options->at(optionName);
     }
     else
     {
