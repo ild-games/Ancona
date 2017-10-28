@@ -31,6 +31,11 @@ std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::st
 
 bool FileOperations::IsFile(const std::string & filePath)
 {
+    if (iOSFileOperations::IsFileInDocumentsFolder(filePath)) 
+    {
+        return true;
+    }
+
     auto fullFile = FileOperations::ResourceRoot() + filePath;
     std::ifstream fileStream(fullFile.c_str());
     return fileStream.good();
