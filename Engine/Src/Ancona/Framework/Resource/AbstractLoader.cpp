@@ -21,6 +21,5 @@ std::string AbstractLoader::GetResourceFileName(
     auto resourceRoot = ResourceLibrary::ResourceRoot();
     std::stringstream stream;
     stream << resourceRoot << "/" << resourceKey << "." << fileExtension;
-    ILD_Log(stream.str());
     return stream.str();
 }

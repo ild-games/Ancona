@@ -13,19 +13,16 @@ std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::stri
     if (iOSFileOperations::IsFileInDocumentsFolder(desiredFile))
     {
         auto fileInDocuments = iOSFileOperations::DocumentsRoot() + desiredFile;
-        ILD_Log("In documents: " + fileInDocuments);
         return std::unique_ptr<std::istream>(new std::ifstream(fileInDocuments, std::ifstream::binary));
     }
 
     auto fileInAppBundle = FileOperations::ResourceRoot() + desiredFile;
-    ILD_Log("In app bundle: " + fileInAppBundle);
     return std::unique_ptr<std::istream>(new std::ifstream(fileInAppBundle, std::ifstream::binary));
 }
 
 std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::string & desiredFile)
 {
     auto fullFile = iOSFileOperations::DocumentsRoot() + desiredFile;
-    ILD_Log("Writing to file: " + fullFile);
     return std::unique_ptr<std::ofstream> { new std::ofstream(fullFile, std::ofstream::out) };
 }
 
