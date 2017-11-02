@@ -33,7 +33,7 @@ class ImageDrawable : public Drawable
 
         /* getters and setters */
         sf::Vector2f size() override;
-        void alpha(int newAlpha) { _alpha = newAlpha; }
+        void alpha(int newAlpha) { _alpha = newAlpha; ApplyAlpha(); }
         int alpha() { return _alpha; }
         sf::Color color() { return _color; }
         void color(sf::Color newColor) { _color = newColor; }
@@ -53,6 +53,7 @@ class ImageDrawable : public Drawable
         bool _isWholeImage = true;
 
         void OnDraw(sf::RenderWindow &window, sf::Transform transform, float delta) override;
+        void ApplyAlpha();
 };
 
 }

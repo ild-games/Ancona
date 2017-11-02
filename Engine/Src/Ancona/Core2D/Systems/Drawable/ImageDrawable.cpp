@@ -79,6 +79,11 @@ void ImageDrawable::SetupSprite(sf::Texture * texture)
     _sprite.reset(new sf::Sprite(*texture, spriteRect));
     _sprite->setOrigin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
     _sprite->setColor(_color);
+    ApplyAlpha();
+}
+
+void ImageDrawable::ApplyAlpha() 
+{
     sf::Color col(_sprite->getColor());
     col.a = _alpha;
     _sprite->setColor(col);
