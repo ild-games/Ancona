@@ -82,12 +82,6 @@ std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::strin
     {
         auto apkFileStream = OpenFile(desiredFile);
         Assert(apkFileStream != nullptr, "Could not find the " + desiredFile + " file in app storage or within apk.");
-
-        std::string output;
-        output = apkFileStream->str();
-
-
-        WriteApkFileToNonApkStorage(desiredFile, new std::istringstream(apkFileStream->str()));
         return new std::istringstream(apkFileStream->str());
     }
 }
@@ -128,12 +122,6 @@ bool AndroidFileOperations::FilesDirPresent()
 void AndroidFileOperations::MakeFilesDir()
 {
     FileOperations::CreateDirectory(_internalPath);
-}
-
-void AndroidFileOperations::WriteApkFileToNonApkStorage(const std::string & filename, std::istream * streamToWrite)
-{
-    auto outFile = FileOperations::GetOutputFileStream(filename);
-    (*outFile) << streamToWrite->rdbuf();
 }
 
 std::string FileOperations::ResourceRoot() 
