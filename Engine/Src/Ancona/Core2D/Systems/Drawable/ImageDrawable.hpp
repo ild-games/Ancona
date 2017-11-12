@@ -33,10 +33,10 @@ class ImageDrawable : public Drawable
 
         /* getters and setters */
         sf::Vector2f size() override;
-        void alpha(int newAlpha) { _alpha = newAlpha; }
-        int alpha() { return _alpha; }
+        void alpha(int newAlpha) override;
+        int alpha() override { return _alpha; }
         sf::Color color() { return _color; }
-        void color(sf::Color newColor) { _color = newColor; }
+        void color(sf::Color newColor);
         void isWholeImage(bool isWholeImage) { _isWholeImage = isWholeImage; }
         void isTiled(bool isTiled) { _isTiled = isTiled; }
         void tiledArea(const sf::Vector2f & tiledArea) { _tiledArea = tiledArea; }
@@ -53,6 +53,8 @@ class ImageDrawable : public Drawable
         bool _isWholeImage = true;
 
         void OnDraw(sf::RenderWindow &window, sf::Transform transform, float delta) override;
+        void ApplyAlpha();
+        void ApplyColor();
 };
 
 }

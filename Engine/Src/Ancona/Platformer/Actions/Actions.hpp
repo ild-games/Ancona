@@ -69,7 +69,7 @@ class Actions
          * @return A proxy to the velocity Action.
          */
         VectorActionProxy CreateVelocityAction();
-        VectorActionProxy CreateScaleAction(std::string drawableKey = "");
+        ScaleActionProxy CreateScaleAction(std::string drawableKey = "");
 
         /**
          * @copydoc ild::CameraComponent::Serialize

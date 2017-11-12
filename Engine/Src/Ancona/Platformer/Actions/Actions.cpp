@@ -26,7 +26,7 @@ VectorActionProxy Actions::CreateVelocityAction()
     return action;
 }
 
-VectorActionProxy Actions::CreateScaleAction(std::string drawableKey)
+ScaleActionProxy Actions::CreateScaleAction(std::string drawableKey)
 {
     ScaleActionProxy action(new ScaleAction<sf::Vector2f>(drawableKey));
     _scaleActions.push_back(action);

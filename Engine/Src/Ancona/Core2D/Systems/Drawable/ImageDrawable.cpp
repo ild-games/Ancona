@@ -78,12 +78,21 @@ void ImageDrawable::SetupSprite(sf::Texture * texture)
 
     _sprite.reset(new sf::Sprite(*texture, spriteRect));
     _sprite->setOrigin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
-    _sprite->setColor(_color);
+    ApplyColor();
+    ApplyAlpha();
+}
+
+void ImageDrawable::ApplyAlpha() 
+{
     sf::Color col(_sprite->getColor());
     col.a = _alpha;
     _sprite->setColor(col);
 }
 
+void ImageDrawable::ApplyColor() 
+{
+    _sprite->setColor(_color);
+}
 
 void ImageDrawable::Serialize(Archive & arc)
 {
@@ -115,4 +124,16 @@ sf::Vector2f ImageDrawable::size()
     {
         return VectorMath::ComponentMultiplication(_textureRect.Dimension, _scale);
     }
+}
+
+void ImageDrawable::alpha(int newAlpha) 
+{
+    _alpha = newAlpha; 
+    ApplyAlpha(); 
+}
+
+void ImageDrawable::color(sf::Color newColor) 
+{ 
+    _color = newColor; 
+    ApplyColor();
 }
