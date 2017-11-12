@@ -1,7 +1,8 @@
-
 #include <gtest/gtest.h>
+#include <SFML/Graphics.hpp>
 
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Platformer/Actions/ActionSystem.hpp>
 
@@ -19,8 +20,12 @@ void update(SystemManager & manager, float delta)
 TEST(ActionSystem, CreateMultipleComponents)
 {
     SystemManager manager;
-    PositionSystem * position = new PositionSystem("position",manager);
-    ActionSystem * action = new ActionSystem("action", manager, position);
+    PositionSystem * position = new PositionSystem("position", manager);
+    DrawableSystem * drawable = new DrawableSystem(
+        "drawable", 
+        *(new sf::RenderWindow(sf::VideoMode(100, 100), "test")), 
+        manager);
+    ActionSystem * action = new ActionSystem("action", manager, position, drawable);
 
     for (int i = 0; i < 5; i++)
     {
@@ -35,7 +40,11 @@ TEST(ActionSystem, CreateMultipleComponentsWithGetPostion)
 {
     SystemManager manager;
     PositionSystem * position = new PositionSystem("position", manager);
-    ActionSystem * action = new ActionSystem("action", manager, position);
+    DrawableSystem * drawable = new DrawableSystem(
+        "drawable", 
+        *(new sf::RenderWindow(sf::VideoMode(100, 100), "test")), 
+        manager);
+    ActionSystem * action = new ActionSystem("action", manager, position, drawable);
 
     for (int i = 0; i < 5; i++)
     {
@@ -51,7 +60,11 @@ TEST(ActionSystem, CreateMultipleComponentsWithActions)
 {
     SystemManager manager;
     PositionSystem * position = new PositionSystem("position", manager);
-    ActionSystem * action = new ActionSystem("action", manager, position);
+    DrawableSystem * drawable = new DrawableSystem(
+        "drawable", 
+        *(new sf::RenderWindow(sf::VideoMode(100, 100), "test")), 
+        manager);
+    ActionSystem * action = new ActionSystem("action", manager, position, drawable);
 
     for (int i = 0; i < 5; i++)
     {
@@ -67,7 +80,11 @@ class ActionComponentTest : public ::testing::Test {
 protected:
     virtual void SetUp() override {
         positionSys = new PositionSystem("position", manager);
-        actionSys = new ActionSystem("action", manager, positionSys);
+        drawableSys = new DrawableSystem(
+            "drawable", 
+            *(new sf::RenderWindow(sf::VideoMode(100, 100), "test")), 
+            manager);
+        actionSys = new ActionSystem("action", manager, positionSys, drawableSys);
         entity = manager.CreateEntity();
         posComp = positionSys->CreateComponent(entity);
         actComp = actionSys->CreateComponent(entity);
@@ -76,6 +93,7 @@ protected:
 
     SystemManager manager;
     PositionSystem * positionSys;
+    DrawableSystem * drawableSys;
     ActionSystem * actionSys;
     Entity entity;
     PositionComponent * posComp;

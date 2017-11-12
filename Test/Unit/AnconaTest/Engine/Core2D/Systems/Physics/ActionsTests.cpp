@@ -1,13 +1,14 @@
 #include <iostream>
 
 #include <gtest/gtest.h>
+#include <SFML/Graphics.hpp>
 
 #include <Ancona/Platformer/Actions/Actions.hpp>
 
 using namespace ild;
 
 TEST(Actions, Builder_Priority_Duration_Value) {
-    VectorAction action;
+    ValueAction<sf::Vector2f> action;
     action.priority(1)
             ->duration(10)
             ->value(Point(5, 7));
@@ -19,7 +20,7 @@ TEST(Actions, Builder_Priority_Duration_Value) {
 
 TEST(Actions, Age_Done)
 {
-    VectorAction action;
+    ValueAction<sf::Vector2f> action;
     action.duration(10);
 
     action.Update(5);
@@ -35,7 +36,7 @@ TEST(Actions, Age_Done)
 
 TEST(Actions, ZeroTween)
 {
-    VectorAction action;
+    ValueAction<sf::Vector2f> action;
     action.value(Point(10, 100))
             ->duration(1);
 
@@ -48,7 +49,7 @@ TEST(Actions, ZeroTween)
 
 TEST(Actions, Tween) 
 {
-    VectorAction action;
+    ValueAction<sf::Vector2f> action;
     action.value(Point(10, 100))
             ->duration(4)
             ->tween(2);
@@ -70,7 +71,7 @@ TEST(Actions, Tween)
 
 TEST(Actions, ResetAge)
 {
-    VectorAction action;
+    ValueAction<sf::Vector2f> action;
     action.value(Point(10, 100))
             ->duration(4)
             ->tween(2);

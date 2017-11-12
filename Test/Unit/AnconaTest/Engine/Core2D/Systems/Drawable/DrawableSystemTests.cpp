@@ -41,17 +41,17 @@ TEST(DrawableSystem, ImageDrawableSize)
     std::unique_ptr<ImageDrawable> image {new ImageDrawable(0, "image")};
     image->SetupSprite(&texture);
     position.CreateComponent(entity);
-    drawable.CreateComponent(entity, std::move(image), &position);
+    auto drawableComponent = drawable.CreateComponent(entity, std::move(image), &position);
 
     manager.Update(1, UpdateStep::Draw);
 
-    ASSERT_EQ(image->size(), sf::Vector2f(50.0f, 50.0f));
+    ASSERT_EQ(drawableComponent->topDrawable()->size(), sf::Vector2f(50.0f, 50.0f));
 
-    image->scale(sf::Vector2f(2.0f, 2.0f));
-    ASSERT_EQ(image->size(), sf::Vector2f(100.0f, 100.0f));
+    drawableComponent->topDrawable()->scale(sf::Vector2f(2.0f, 2.0f));
+    ASSERT_EQ(drawableComponent->topDrawable()->size(), sf::Vector2f(100.0f, 100.0f));
 
-    image->scale(sf::Vector2f(1.3f, 1.0f));
-    ASSERT_EQ(image->size(), sf::Vector2f(65.0f, 50.0f));
+    drawableComponent->topDrawable()->scale(sf::Vector2f(1.3f, 1.0f));
+    ASSERT_EQ(drawableComponent->topDrawable()->size(), sf::Vector2f(65.0f, 50.0f));
 }
 
 TEST(DrawableSystem, ContainerDrawable)
