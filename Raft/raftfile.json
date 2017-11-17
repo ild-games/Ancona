@@ -22,12 +22,13 @@
             },
             "buildSystem" : "cmake",
             "patches" : [
-                "Patches/sfml-fix-android-build.patch",
                 "Patches/gcc5-fix.patch",
+                "Patches/sfml-fix-android-build.patch",
+                "Patches/sfml-fix-android-shutdown.patch",
                 "Patches/sfml-fix-ios-clipboard-compile-error.patch",
+                "Patches/sfml-fix-macos-linker-errors.patch",
                 "Patches/sfml-ios-use-toolchain.patch",
-                "Patches/sfml-monkey-patch-ios-openal.patch",
-                "Patches/sfml-fix-macos-linker-errors.patch"
+                "Patches/sfml-monkey-patch-ios-openal.patch"
             ]
         }
     ],
