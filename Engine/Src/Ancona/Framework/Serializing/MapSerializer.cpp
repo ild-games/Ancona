@@ -154,15 +154,5 @@ void MapSerializer::SerializeSpecifiedSystem(
 
 void MapSerializer::SaveMapFiles()
 {
-    if (_loading)
-    {
-        return;
-    }
-
-    auto saveStream = FileOperations::GetOutputFileStream(Config::GetOption("SaveData"));
-    _saveRoot["profiles"][_profile] = _saveProfileRoot;
-    (*saveStream) << _saveRoot;
-
-    auto mapStream = FileOperations::GetOutputFileStream("maps/" + _mapName + ".map");
-    (*mapStream) << _mapRoot;
+    // TODO Implement Snapshot Save
 }
