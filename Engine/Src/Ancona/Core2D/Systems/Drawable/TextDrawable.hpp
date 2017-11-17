@@ -19,6 +19,7 @@ class TextDrawable : public Drawable
          * @brief Default constructor, should only be used by the serializer.
          */
         TextDrawable() {}
+        TextDrawable(const std::string & text, const sf::Font * font);
 
         /**
          * @brief An element to draw text to an entity.
@@ -64,7 +65,13 @@ class TextDrawable : public Drawable
         void alpha(int alpha) override;
     private:
         std::unique_ptr<sf::Text> _text;
+        std::string _fontKey = "";
+        sf::Color _color = sf::Color::White;
+        int _characterSize = 10;
+        bool _smooth = true;
 
+
+        void SetupText();
         void CenterOrigin();
         void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
 };
