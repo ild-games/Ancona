@@ -63,6 +63,8 @@ class TextDrawable : public Drawable
         sf::Vector2f size() override;
         int alpha() override;
         void alpha(int alpha) override;
+        sf::Color color() { return _color; }
+        void color(sf::Color newColor) { _color = newColor; SetupText(); }
     private:
         std::unique_ptr<sf::Text> _text;
         std::string _fontKey = "";
