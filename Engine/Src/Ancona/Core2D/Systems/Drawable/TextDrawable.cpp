@@ -21,21 +21,26 @@ TextDrawable::TextDrawable(
             priority,
             key,
             priorityOffset,
-            anchor)
-{
-     _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
-     _text->setFillColor(color);
-     _text->setCharacterSize(characterSize);
-     if(!smooth)
-     {
-         const_cast<sf::Texture&>(_text->getFont()->getTexture(characterSize)).setSmooth(false);
-     }
+            anchor),
+    _fontKey(fontKey),
+    _color(color),
+    _characterSize(characterSize),
+    _smooth(smooth) {
+    _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
+    SetupText();
+}
+
+TextDrawable::TextDrawable(const std::string & text, const sf::Font * font) : Drawable() {
+    _text = std::unique_ptr<sf::Text>(new sf::Text(text, *font));
 }
 
 Drawable * TextDrawable::Copy() {
-    Assert(false, "TextDrawable copy not implemented.");
-    auto drawable = new TextDrawable();
+    auto drawable = new TextDrawable(_text->getString(), _text->getFont());
     Drawable::CopyProperties(drawable);
+    drawable->_color = _color;
+    drawable->_characterSize = _characterSize;
+    drawable->_smooth = _smooth;
+    drawable->SetupText();
     return drawable;
 }
 
@@ -49,18 +54,30 @@ void TextDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransf
 void TextDrawable::CenterOrigin()
 {
     sf::FloatRect textRect = _text->getLocalBounds();
-    _text->setOrigin(textRect.left + (textRect.width * _anchor.x),
-                     textRect.top  + (textRect.height * _anchor.y));
+    _text->setOrigin(
+        textRect.left + (textRect.width * _anchor.x),
+        textRect.top  + (textRect.height * _anchor.y));
 }
 
 void TextDrawable::Serialize(Archive &archive) {
     Drawable::Serialize(archive);
     archive(_text, "text");
+    _color = _text->getFillColor();
+    _characterSize = _text->getCharacterSize();
+    _smooth = const_cast<sf::Texture&>(_text->getFont()->getTexture(_characterSize)).isSmooth();
 }
 
 void TextDrawable::FetchDependencies(const Entity &entity) {
     Drawable::FetchDependencies(entity);
     CenterOrigin();
+}
+
+void TextDrawable::SetupText() {
+    _text->setFillColor(_color);
+    _text->setCharacterSize(_characterSize);
+    if (!_smooth) {
+        const_cast<sf::Texture&>(_text->getFont()->getTexture(_characterSize)).setSmooth(false);
+    }
 }
 
 /* getters and setters */

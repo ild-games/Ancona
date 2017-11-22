@@ -41,6 +41,7 @@ class ImageDrawable : public Drawable
         void isTiled(bool isTiled) { _isTiled = isTiled; }
         void tiledArea(const sf::Vector2f & tiledArea) { _tiledArea = tiledArea; }
         void textureKey(const std::string & textureKey) { _textureKey = textureKey; }
+        const std::string & textureKey() { return _textureKey; }
         void textureRect(const Box2 & textureRect) { _textureRect = textureRect; }
     private:
         std::string _textureKey;
