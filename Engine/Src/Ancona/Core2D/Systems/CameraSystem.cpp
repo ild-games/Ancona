@@ -3,6 +3,7 @@
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/System/Log.hpp>
 
 
 using namespace ild;
@@ -31,7 +32,15 @@ CameraComponent::CameraComponent(
 void CameraComponent::Update(float delta)
 {
     auto effectivePosition = GetEffectiveCenter();
-    _view.setCenter(std::round(effectivePosition.x), std::round(effectivePosition.y));
+    std::ostringstream viewStream;
+    viewStream << "view: " << _view.getSize().x << ", " << _view.getSize().y;
+    std::ostringstream windowStream;
+    windowStream << "window: " << _screenManager->windowWidth() << ", " << _screenManager->windowHeight();
+    ILD_Log(viewStream.str());
+    ILD_Log(windowStream.str());
+    _view.setCenter(
+        std::round(effectivePosition.x) + ((_screenManager->windowWidth() / _view.getSize().x) - 1.0f),
+        std::round(effectivePosition.y) + ((_screenManager->windowHeight() / _view.getSize().y) - 1.0f));
 }
 
 void CameraComponent::Draw(sf::RenderWindow & window, float delta)
@@ -42,6 +51,9 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
         sf::Vector2f(),
         _view.getRotation());
 
+    std::ostringstream stream;
+    stream << "x: " << _view.getCenter().x << "y: " << _view.getCenter().y;
+    ILD_Log(stream.str());
     window.setView(_view);
 
     alg::sort(
@@ -64,7 +76,9 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 
 sf::Vector2f CameraComponent::GetEffectiveCenter()
 {
-    sf::Vector2f effectivePosition = _view.getCenter();
+    sf::Vector2f effectivePosition = sf::Vector2f(
+        _view.getCenter().x - ((_screenManager->windowWidth() / _view.getSize().x) - 1.0f),
+        _view.getCenter().y - ((_screenManager->windowHeight() / _view.getSize().y) - 1.0f));
     if (_followPosition != nullptr)
     {
         effectivePosition = _followPosition->position();
@@ -75,7 +89,7 @@ sf::Vector2f CameraComponent::GetEffectiveCenter()
 
     effectivePosition += _offset;
 
-    return effectivePosition;
+    return sf::Vector2f(effectivePosition.x, effectivePosition.y);
 }
 
 void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
@@ -98,7 +112,7 @@ void CameraComponent::FetchDependencies(const Entity & entity)
         _followPosition = (*_positionSystem)[_follows];
     }
     _view.setSize(_size);
-    _view.setCenter(_size.x / 2, _size.y / 2);
+    _view.setCenter((int) (_size.x / 2), (int) (_size.y / 2));
     scale(_originalScale);
     _drawableSystem->AddCamera(this);
     if(_default)
@@ -119,6 +133,7 @@ void CameraComponent::Serialize(Archive & arc)
     arc.entityUsingJsonKey(_follows, "follows");
     arc.system(_positionSystem, "position");
     arc.system(_drawableSystem, "drawable");
+    arc.screenManager(_screenManager);
 }
 
 void CameraComponent::follows(Entity follows)

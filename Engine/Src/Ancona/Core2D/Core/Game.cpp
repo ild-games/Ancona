@@ -4,6 +4,7 @@
 #include <Ancona/Core2D/InputDevices/Keyboard.hpp>
 #include <Ancona/Core2D/InputDevices/Mouse.hpp>
 #include <Ancona/Core2D/InputDevices/Touch.hpp>
+#include <Ancona/System/Log.hpp>
 
 using namespace ild;
 
@@ -39,11 +40,15 @@ void Game::Run()
 
         sf::Time elapsed = clock.restart();
         float delta = std::min(elapsed.asSeconds(), 0.1f);
-        _screenManager->Update(delta);
 
-        _window.clear(sf::Color::Black);
-        _screenManager->Draw(delta);
-        _window.display();
+        if (_windowIsActive)
+        {
+            _screenManager->Update(delta);
+
+            _window.clear(sf::Color::Black);
+            _screenManager->Draw(delta);
+            _window.display();
+        }
     }
 }
 
@@ -76,5 +81,15 @@ void Game::ProcessWindowEvent(sf::Event event)
     if (event.type == sf::Event::TouchEnded)
     {
         Touch::_AddFingerRelease(event.touch.finger);
+    }
+    if (event.type == sf::Event::LostFocus) 
+    {
+        _window.setActive(false);
+        _windowIsActive = false;
+    }
+    if (event.type == sf::Event::GainedFocus) 
+    {
+        _window.setActive(true);
+        _windowIsActive = true;
     }
 }
