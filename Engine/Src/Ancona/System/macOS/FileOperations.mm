@@ -10,7 +10,6 @@ using namespace ild;
 std::unique_ptr<std::istream> FileOperations::GetInputFileStream(const std::string & desiredFile)
 {
     auto fullFile = FileOperations::ResourceRoot() + desiredFile;
-    ILD_Log(fullFile);
     return std::unique_ptr<std::istream>(new std::ifstream(fullFile, std::ifstream::binary));
 }
 

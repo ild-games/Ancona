@@ -36,8 +36,6 @@ void CameraComponent::Update(float delta)
     viewStream << "view: " << _view.getSize().x << ", " << _view.getSize().y;
     std::ostringstream windowStream;
     windowStream << "window: " << _screenManager->windowWidth() << ", " << _screenManager->windowHeight();
-    ILD_Log(viewStream.str());
-    ILD_Log(windowStream.str());
     _view.setCenter(
         std::round(effectivePosition.x) + ((_screenManager->windowWidth() / _view.getSize().x) - 1.0f),
         std::round(effectivePosition.y) + ((_screenManager->windowHeight() / _view.getSize().y) - 1.0f));
@@ -53,7 +51,6 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
 
     std::ostringstream stream;
     stream << "x: " << _view.getCenter().x << "y: " << _view.getCenter().y;
-    ILD_Log(stream.str());
     window.setView(_view);
 
     alg::sort(
