@@ -159,11 +159,19 @@ class Archive
          * 
          * @param systemManager SystemManager reference that will be set to the SystemManager for the game.
          */
-        void systemManager(SystemManager *& systemManager) 
+        void systemManager(SystemManager *& systemManager)
         {
             if (_loading) 
             {
-                systemManager = &_context.systems().systemManager();    
+                systemManager = &_context.systems().systemManager();
+            }
+        }
+
+        void screenManager(ScreenManager *& screenManager)
+        {
+            if (_loading)
+            {
+                screenManager = &_context.systems().screenManager();
             }
         }
 

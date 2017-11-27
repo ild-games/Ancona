@@ -41,6 +41,8 @@ class Game
 
     private:
         void ProcessWindowEvent(sf::Event event);
+
+        bool _windowIsActive = true;
 };
 
 }
