@@ -32,10 +32,6 @@ CameraComponent::CameraComponent(
 void CameraComponent::Update(float delta)
 {
     auto effectivePosition = GetEffectiveCenter();
-    std::ostringstream viewStream;
-    viewStream << "view: " << _view.getSize().x << ", " << _view.getSize().y;
-    std::ostringstream windowStream;
-    windowStream << "window: " << _screenManager->windowWidth() << ", " << _screenManager->windowHeight();
     _view.setCenter(
         std::round(effectivePosition.x) + ((_screenManager->windowWidth() / _view.getSize().x) - 1.0f),
         std::round(effectivePosition.y) + ((_screenManager->windowHeight() / _view.getSize().y) - 1.0f));
@@ -49,8 +45,6 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
         sf::Vector2f(),
         _view.getRotation());
 
-    std::ostringstream stream;
-    stream << "x: " << _view.getCenter().x << "y: " << _view.getCenter().y;
     window.setView(_view);
 
     alg::sort(
