@@ -109,7 +109,6 @@ class CameraComponent
          * @brief Position component for what the camera is following.
          */
         PositionComponent * _followPosition = nullptr;
-        ScreenManager * _screenManager = nullptr;
 
         /**
          * @brief Gets the true center position for the camera that will determine the location of the camera
