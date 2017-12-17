@@ -1,9 +1,10 @@
 #include <Ancona/Framework/Serializing/Archive.hpp>
+#include <Ancona/System/Log.hpp>
 
 using namespace ild;
 
 Archive::Archive(
-        Json::Value root,
+        rapidjson::Value * root,
         SerializingContext & context,
         bool loading,
         bool snapshotSave) :
@@ -12,22 +13,27 @@ Archive::Archive(
     _root(root),
     _context(context)
 {
-    _jsonBranch.push(&_root);
+    _jsonBranch.push(_root);
 }
 
-Json::Value & Archive::CurrentBranch()
+rapidjson::Value & Archive::CurrentBranch()
 {
     return *_jsonBranch.top();
 }
 
-void Archive::EnterProperty(const std::string & name)
+bool Archive::EnterProperty(const std::string & name)
 {
+    if (!CurrentBranch().HasMember(name)) {
+        return false;
+    }
     _jsonBranch.push(&(CurrentBranch())[name]);
+    return true;
 }
 
-void Archive::EnterProperty(const int & name)
+bool Archive::EnterProperty(const int & name)
 {
     _jsonBranch.push(&(CurrentBranch())[name]);
+    return true;
 }
 
 void Archive::ExitProperty()
@@ -37,5 +43,5 @@ void Archive::ExitProperty()
 
 bool Archive::HasProperty(const std::string & name)
 {
-    return CurrentBranch().isMember(name);
+    return CurrentBranch().HasMember(name);
 }

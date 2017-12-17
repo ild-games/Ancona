@@ -59,7 +59,7 @@ struct Serializer<BodyTypeEnum> {
     {
         if (arc.loading())
         {
-            const std::string & bodyTypeKey = arc.CurrentBranch().asString();
+            const std::string & bodyTypeKey = arc.CurrentBranch().GetString();
             if(BodyTypeEnumStringMap.ContainsKey(bodyTypeKey))
             {
                 property = BodyTypeEnumStringMap.GetValue(bodyTypeKey);
@@ -73,7 +73,8 @@ struct Serializer<BodyTypeEnum> {
         {
             if(BodyTypeEnumStringMap.ContainsValue(property))
             {
-                arc.CurrentBranch() = BodyTypeEnumStringMap.GetKey(property);
+                auto key = BodyTypeEnumStringMap.GetKey(property);
+                arc.CurrentBranch().SetString(key.c_str(), key.length());
             }
             else
             {

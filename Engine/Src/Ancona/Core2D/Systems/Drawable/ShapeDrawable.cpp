@@ -8,9 +8,9 @@ using namespace ild;
 
 ShapeDrawable::ShapeDrawable(
         sf::Shape * shape,
-        const int priorty,
+        const float priorty,
         const std::string & key,
-        int priorityOffset,
+        float priorityOffset,
         sf::Vector2f anchor) :
     Drawable(
             priorty,

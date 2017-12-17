@@ -41,7 +41,7 @@ class CameraComponent
          */
         CameraComponent(
                 const sf::View & originalView,
-                int renderPriority,
+                float renderPriority,
                 DrawableSystem * drawableSystem,
                 float scale = 1.0f,
                 sf::Vector2f offset = sf::Vector2f(0, 0),
@@ -94,7 +94,7 @@ class CameraComponent
         void Serialize(Archive & arc);
 
         /* getters and setters */
-        int renderPriority() { return _renderPriority; }
+        float renderPriority() { return _renderPriority; }
         void follows(Entity follows);
         void scale(float scale);
         float scale() { return _scale; }
@@ -128,7 +128,7 @@ class CameraComponent
         /**
          * @brief priority in which the camera is rendered, lower priority means  it will be rendered sooner.
          */
-        int _renderPriority;
+        float _renderPriority;
         /**
          * @brief Queue for the drawables on the camera, sorted by the drawable's render priority + render offset.
          */
@@ -182,7 +182,7 @@ class CameraSystem : public UnorderedSystem<CameraComponent>
         CameraComponent * CreateComponent(
                 const Entity & entity,
                 const sf::View & originalView,
-                int renderPriority,
+                float renderPriority,
                 DrawableSystem * drawableSystem,
                 float scale = 1.0f);
 

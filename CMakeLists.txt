@@ -6,8 +6,8 @@ project(ANCONA)
 
 include (${RAFT})
 
-option(BuildPrototypes "BuildPrototypes" ON)
-option(BuildTests "BuildTests" ON)
+option(BuildPrototypes "BuildPrototypes" OFF)
+option(BuildTests "BuildTests" OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 

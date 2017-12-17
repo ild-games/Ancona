@@ -8,9 +8,9 @@ REGISTER_POLYMORPHIC_SERIALIZER_ABSTRACT_BASE(ild::Drawable);
 using namespace ild;
 
 Drawable::Drawable(
-        const int priority,
+        const float priority,
         const std::string & key,
-        int priorityOffset,
+        float priorityOffset,
         sf::Vector2f anchor) :
     _key(key),
     _anchor(anchor),

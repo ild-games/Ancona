@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include <json/json.h>
+#include <rapidjson/document.h>
 
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
@@ -89,15 +89,15 @@ class MapSerializer
         /**
          * @brief Root of the map json being loaded.
          */
-        Json::Value _mapRoot;
+        rapidjson::Document _mapRoot;
         /**
          * @brief Root of the save json for the file.
          */
-        Json::Value _saveRoot;
+        rapidjson::Document _saveRoot;
         /**
          * @brief Root of the save json for the specified profile being serialized.
          */
-        Json::Value _saveProfileRoot;
+        rapidjson::Value _saveProfileRoot;
         /**
          * @brief Name of the map being serialized.
          */

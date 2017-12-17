@@ -15,7 +15,7 @@ struct Serializer<Box2>
     static void Serialize(Box2 & property, Archive & arc) {
         arc(property.Dimension, "dimension");
         arc(property.Position, "position");
-        arc(property.Rotation, "rotation");
+        //arc(property.Rotation, "rotation");
     }
 };
 

@@ -29,10 +29,10 @@ class AnimatedDrawable : public Drawable
          * @param anchor Vector that defines the offset from its parent drawable.
          */
         AnimatedDrawable(
-                const int priority,
+                const float priority,
                 const std::string & key,
                 float duration,
-                int priorityOffset = 0,
+                float priorityOffset = 0,
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         Drawable * Copy() override;

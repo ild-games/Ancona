@@ -1,3 +1,5 @@
+#include <rapidjson/istreamwrapper.h>
+
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
@@ -60,23 +62,25 @@ void MapSerializer::LoadMetaData()
 void MapSerializer::LoadMapFile()
 {
     auto saveStream = FileOperations::GetInputFileStream(Config::GetOption("SaveData"));
-    Json::Reader reader;
-    reader.parse(*saveStream, _saveRoot);
+    rapidjson::IStreamWrapper saveStreamWrapper(*saveStream);
+    _saveRoot.ParseStream(saveStreamWrapper);
 
     _saveProfileRoot = _saveRoot["profiles"][_profile];
-    _mapName = _saveProfileRoot["screen-maps"][_key].asString();
+    _mapName = _saveProfileRoot["screen-maps"][_key].GetString();
     Assert(_mapName != "", "Cannot have a null map");
     std::string mapFileName = "maps/" + _mapName + ".map";
 
     auto mapStream = FileOperations::GetInputFileStream(mapFileName);
-    reader.parse(*mapStream, _mapRoot);
+    rapidjson::IStreamWrapper mapStreamWrapper(*mapStream);
+    _mapRoot.ParseStream(mapStreamWrapper);
 
     if (_loading)
     {
-        for (Json::Value & assetJson : _mapRoot["assets"])
+        for (auto iter = _mapRoot["assets"].Begin(); iter < _mapRoot["assets"].End(); iter++)
         {
-            auto type = assetJson["type"].asString();
-            auto key = assetJson["key"].asString();
+            rapidjson::Value & assetJson = *iter;
+            auto type = assetJson["type"].GetString();
+            auto key = assetJson["key"].GetString();
             if (!_request->Contains(type, key)) 
             {
                 _request->Add(type, key);
@@ -108,9 +112,10 @@ void MapSerializer::LoadEntities()
         _state = SerializerState::SerializingComponents;
         return;
     }
-    for (Json::Value & curEntity : _mapRoot["entities"])
+    for (auto iter = _mapRoot["entities"].Begin(); iter < _mapRoot["entities"].End(); iter++)
     {
-        _loadingContext->systems().systemManager().CreateEntity(curEntity.asString());
+        rapidjson::Value & curEntity = *iter;
+        _loadingContext->systems().systemManager().CreateEntity(curEntity.GetString());
     }
     SerializeEntitySystemSaveables();
     _state = SerializerState::SerializingComponents;
@@ -118,14 +123,14 @@ void MapSerializer::LoadEntities()
 
 void MapSerializer::SerializeEntitySystemSaveables()
 {
-    Archive entitySaveablesArc(_mapRoot, *_loadingContext.get(), _loading);
-    _loadingContext->systems().systemManager().Serialize(entitySaveablesArc);
+    //Archive entitySaveablesArc(&_mapRoot, *_loadingContext.get(), _loading);
+    //_loadingContext->systems().systemManager().Serialize(entitySaveablesArc);
 }
 
 void MapSerializer::SerializeComponents()
 {
-    Archive mapArc(_mapRoot["systems"], *_loadingContext.get(), _loading, _snapshotSave);
-    Archive saveArc(_saveProfileRoot["systems"], *_loadingContext.get(), _loading, true);
+    Archive mapArc(&_mapRoot["systems"], *_loadingContext.get(), _loading, _snapshotSave);
+    Archive saveArc(&_saveProfileRoot["systems"], *_loadingContext.get(), _loading, true);
     for (auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
     {
         SerializeSpecifiedSystem(systemNamePair, mapArc);
@@ -135,8 +140,8 @@ void MapSerializer::SerializeComponents()
     {
         _loadingContext->systems().systemManager().FetchWaitingDependencies();
     }
-    _mapRoot["systems"] = mapArc.CurrentBranch();
-    _saveRoot["systems"] = saveArc.CurrentBranch();
+    //_mapRoot["systems"] = mapArc.CurrentBranch();
+    //_saveRoot["systems"] = saveArc.CurrentBranch();
     _state = SerializerState::DoneSerializing;
 }
 

@@ -6,7 +6,7 @@ std::unordered_map<std::type_index, std::string> * PolymorphicMap::_typeToName;
 std::unordered_map<std::string, std::unique_ptr<PolymorphicSerializer>> * PolymorphicMap::_serializers;
 
 PolymorphicSerializer * PolymorphicMap::serializer(const std::string &name)
-{ 
+{
     if (_serializers->find(name) != _serializers->end())
     {
         return (*_serializers)[name].get(); 

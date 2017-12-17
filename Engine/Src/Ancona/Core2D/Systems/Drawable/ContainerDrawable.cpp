@@ -8,9 +8,9 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::ContainerDrawable);
 using namespace ild;
 
 ContainerDrawable::ContainerDrawable(
-        const int priority,
+        const float priority,
         const std::string & key,
-        int priorityOffset,
+        float priorityOffset,
         sf::Vector2f anchor) :
     Drawable(
             priority,

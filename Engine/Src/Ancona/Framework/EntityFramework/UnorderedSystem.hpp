@@ -182,8 +182,9 @@ class UnorderedSystem : public AbstractSystem
             if (arc.loading())
             {
                 arc.EnterProperty("components");
-                for(auto entityKey : arc.CurrentBranch().getMemberNames())
+                for (auto iter = arc.CurrentBranch().MemberBegin(); iter != arc.CurrentBranch().MemberEnd(); iter++) 
                 {
+                    auto entityKey = iter->name.GetString();
                     ComponentType * value;
                     arc(value, entityKey);
                     auto entity = arc.entity(entityKey);
@@ -194,17 +195,27 @@ class UnorderedSystem : public AbstractSystem
             else
             {
                 arc.EnterProperty("components");
-                const std::vector<std::string> & entityKeysToSave =
-                    arc.snapshotSave() ?
-                        arc.CurrentBranch().getMemberNames() :
-                        _systemManager.entitySaveableSystems()[_systemName];
-                for(auto entityKey : entityKeysToSave)
+
+                for(auto entityKey : EntityKeysToSave(arc))
                 {
                     Entity en = _systemManager.GetEntity(entityKey);
                     ComponentType * value = _components[en];
                     arc(value, entityKey);
                 }
                 arc.ExitProperty();
+            }
+        }
+
+        const std::vector<std::string> EntityKeysToSave(Archive & arc) {
+            if (arc.snapshotSave()) {
+                std::vector<std::string> toReturn;
+                for (auto iter = arc.CurrentBranch().MemberBegin(); iter != arc.CurrentBranch().MemberEnd(); iter++) 
+                {
+                    toReturn.push_back(iter->name.GetString());
+                }
+                return toReturn;
+            } else {
+                return _systemManager.entitySaveableSystems()[_systemName];
             }
         }
 

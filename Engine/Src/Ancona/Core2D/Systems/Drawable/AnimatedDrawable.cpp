@@ -9,10 +9,10 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::AnimatedDrawable)
 using namespace ild;
 
 AnimatedDrawable::AnimatedDrawable(
-        const int priority,
+        const float priority,
         const std::string & key,
         float duration,
-        int priorityOffset,
+        float priorityOffset,
         sf::Vector2f anchor) :
     Drawable(
             priority,
@@ -101,7 +101,7 @@ void AnimatedDrawable::Serialize(Archive &archive) {
     Drawable::Serialize(archive);
     archive(_duration, "duration");
     archive(_frames, "frames");
-    archive(_loopOnce, "loopOnce");
+    //archive(_loopOnce, "loopOnce");
 }
 
 Drawable * AnimatedDrawable::FindDrawable(const std::string & key)

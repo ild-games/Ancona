@@ -14,6 +14,25 @@
             }]
         },
         {
+            "name" : "rapidjson",
+            "repository" : {
+                "type" : "git",
+                "location" : "https://github.com/Tencent/rapidjson",
+                "branch": "tags/v1.1.0"
+            },
+            "buildSystem" : "cmake",
+            "configOptions" : [
+                {
+                    "name": "RAPIDJSON_BUILD_TESTS",
+                    "value": "OFF"
+                },
+                {
+                    "name": "RAPIDJSON_HAS_STDSTRING",
+                    "value": "ON"
+                }
+            ]
+        },
+        {
             "name" : "sfml",
             "repository" : {
                 "type" : "git",

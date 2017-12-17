@@ -23,16 +23,26 @@ const double DOUBLE_INF = std::numeric_limits<double>::infinity();
         } \
     };
 
+template <> struct Serializer<std::string> {
+    static void Serialize(std::string & property, Archive & arc) {
+        if (arc.loading()) {
+            property = arc.CurrentBranch().GetString();
+        } else {
+            arc.CurrentBranch().SetString(property.c_str(), property.length());
+        }
+    }
+};
+
 template <> struct Serializer<float> {
     static void Serialize(float & property, Archive & arc) {
         if(arc.loading()) {
-            if(arc.CurrentBranch().isString() && arc.CurrentBranch().asString() == "inf")
+            if(arc.CurrentBranch().IsString() && arc.CurrentBranch().GetString() == "inf")
             {
                 property = FLOAT_INF;
             }
             else
             {
-                property = arc.CurrentBranch().asFloat();
+                property = arc.CurrentBranch().GetFloat();
             }
         } else {
             if(property == FLOAT_INF)
@@ -50,13 +60,13 @@ template <> struct Serializer<float> {
 template <> struct Serializer<double> {
     static void Serialize(double & property, Archive & arc) {
         if(arc.loading()) {
-            if(arc.CurrentBranch().isString() && arc.CurrentBranch().asString() == "inf")
+            if(arc.CurrentBranch().IsString() && arc.CurrentBranch().GetString() == "inf")
             {
                 property = DOUBLE_INF;
             }
             else
             {
-                property = arc.CurrentBranch().asDouble();
+                property = arc.CurrentBranch().GetDouble();
             }
         } else {
             if(property == DOUBLE_INF)
@@ -71,25 +81,21 @@ template <> struct Serializer<double> {
     }
 };
 
-GENERATE_STDSERIALIZER(Json::Value::Int, asInt)
+GENERATE_STDSERIALIZER(int, GetInt)
 
-GENERATE_STDSERIALIZER(bool, asBool)
+GENERATE_STDSERIALIZER(bool, GetBool)
 
-GENERATE_STDSERIALIZER(std::string, asString)
+GENERATE_STDSERIALIZER(unsigned int, GetUint)
 
-GENERATE_STDSERIALIZER(const char*, asCString)
+GENERATE_STDSERIALIZER(int64_t, GetInt64)
 
-GENERATE_STDSERIALIZER(Json::Value::UInt, asUInt)
-
-GENERATE_STDSERIALIZER(Json::Value::Int64, asInt64)
-
-GENERATE_STDSERIALIZER(unsigned char, asUInt)
+GENERATE_STDSERIALIZER(unsigned char, GetUint)
 
 template<class T>
 struct Serializer<std::vector<T>> {
     static void Serialize(std::vector<T> &property, Archive &arc) {
         if (arc.loading()) {
-            for (size_t i = 0; i < arc.CurrentBranch().size(); i++) {
+            for (size_t i = 0; i < arc.CurrentBranch().Size(); i++) {
                 property.emplace_back();
                 arc(property.back(), i);
             }
@@ -114,7 +120,8 @@ template<class T>
 struct Serializer<std::map<std::string, T>> {
     static void Serialize(std::map<std::string, T> &property, Archive &arc) {
         if (arc.loading()) {
-            for (auto &entityKey : arc.CurrentBranch().getMemberNames()) {
+            for (auto iter = arc.CurrentBranch().MemberBegin(); iter != arc.CurrentBranch().MemberEnd(); iter++) {
+                auto entityKey = iter->name.GetString();
                 arc(property[entityKey], entityKey);
             }
         }

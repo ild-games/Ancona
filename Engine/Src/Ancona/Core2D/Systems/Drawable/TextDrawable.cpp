@@ -2,6 +2,7 @@
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
+#include <Ancona/System/Log.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::TextDrawable)
 
@@ -12,9 +13,9 @@ TextDrawable::TextDrawable(
         const std::string fontKey,
         const sf::Color color,
         const int characterSize,
-        const int priority,
+        const float priority,
         const std::string & key,
-        int priorityOffset,
+        float priorityOffset,
         sf::Vector2f anchor,
         bool smooth) :
     Drawable(

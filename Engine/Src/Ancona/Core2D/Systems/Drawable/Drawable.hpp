@@ -61,9 +61,9 @@ class Drawable
          * @param anchor Vector that defines the offset from its parent drawable.
          */
         Drawable(
-                const int priority,
+                const float priority,
                 const std::string & key,
-                int priorityOffset = 0,
+                float priorityOffset = 0,
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         /**
@@ -117,9 +117,9 @@ class Drawable
         virtual Drawable * FindDrawable(const std::string & key);
 
         /* getters and setters */
-        int renderPriority() const { return _renderPriority + _priorityOffset; }
-        void renderPriority(const int renderPriority) { _renderPriority = renderPriority; }
-        void priorityOffset(const int priorityOffset) { _priorityOffset = priorityOffset; }
+        float renderPriority() const { return _renderPriority + _priorityOffset; }
+        void renderPriority(const float renderPriority) { _renderPriority = renderPriority; }
+        void priorityOffset(const float priorityOffset) { _priorityOffset = priorityOffset; }
         sf::Vector2f anchor() { return _anchor; }
         void anchor(sf::Vector2f anchor) { _anchor = anchor; }
         float rotation() { return _rotation; }
@@ -161,11 +161,11 @@ class Drawable
         /**
          * @brief priority of rendering this obj.
          */
-        int _renderPriority;
+        float _renderPriority;
         /**
          * @brief Offsets the render priority.
          */
-        int _priorityOffset;
+        float _priorityOffset;
         /**
          * @brief Amount to rotate the drawable element.
          */

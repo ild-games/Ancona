@@ -7,6 +7,7 @@
 #include <Ancona/Framework/Serializing/Serializer.hpp>
 #include <Ancona/Framework/Serializing/StdSerializer.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/System/Log.hpp>
 
 namespace ild
 {
@@ -41,7 +42,7 @@ struct Serializer<sf::Text>
         std::string fontKey;
         sf::Color color;
         int characterSize;
-        bool smooth;
+        bool smooth = false;
 
         if (!arc.loading())
         {
@@ -54,7 +55,7 @@ struct Serializer<sf::Text>
         arc(text, "text");
         arc(color, "color");
         arc(characterSize,"characterSize");
-        arc(smooth, "smooth");
+        //arc(smooth, "smooth");
 
         if (arc.loading())
         {

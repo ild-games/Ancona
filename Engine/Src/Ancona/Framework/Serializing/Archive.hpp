@@ -4,12 +4,14 @@
 #include <stack>
 #include <string>
 
-#include <json/json.h>
+#define RAPIDJSON_HAS_STDSTRING 1
+#include <rapidjson/document.h>
 
 #include <Ancona/Framework/Serializing/ClassConstructor.hpp>
 #include "SerializingContext.hpp"
 #include <Ancona/Framework/Serializing/PolymorphicMap.hpp>
 #include <Ancona/Framework/Serializing/Serializer.hpp>
+#include <Ancona/System/Log.hpp>
 
 namespace ild
 {
@@ -32,7 +34,7 @@ class Archive
          * @param snapshotSave True if the archive is saving via a snapshot (EVERYTHING gets saved), otherwise false. Defaults to false.
          */
         Archive(
-                Json::Value root,
+                rapidjson::Value * root,
                 SerializingContext & context,
                 bool loading,
                 bool snapshotSave = false);
@@ -50,7 +52,11 @@ class Archive
         template <class T, class Key>
         void operator ()(T & property,const Key & key)
         {
-            EnterProperty(key);
+            bool exists = EnterProperty(key);
+            if (!exists) {
+                return;
+            }
+
             Serializer<T>::Serialize(property, *this);
             ExitProperty();
         }
@@ -71,13 +77,17 @@ class Archive
         template <class T, class Key>
         void operator ()(T *& property,const Key & key)
         {
-            EnterProperty(key);
+            bool exists = EnterProperty(key);
+            if (!exists) {
+                return;
+            }
             if(_loading)
             {
-                if(CurrentBranch().isMember("__cpp_type"))
+                if(CurrentBranch().HasMember("__cpp_type"))
                 {
-                    const auto & cppType = CurrentBranch()["__cpp_type"].asString();
-                    PolymorphicMap::serializer(cppType)->Serialize((void *&)(property), *this);
+                    const std::string & cppType = CurrentBranch()["__cpp_type"].GetString();
+                    auto polymorphicSerializer = PolymorphicMap::serializer(cppType);
+                    polymorphicSerializer->Serialize((void *&)(property), *this);
                 }
                 else
                 {
@@ -87,9 +97,9 @@ class Archive
             } 
             else 
             {
-                if(CurrentBranch().isMember("__cpp_type"))
+                if(CurrentBranch().HasMember("__cpp_type"))
                 {
-                    const auto & cppType = CurrentBranch()["__cpp_type"].asString();
+                    const auto & cppType = CurrentBranch()["__cpp_type"].GetString();
                     PolymorphicMap::serializer(cppType)->Serialize((void *&)(property), *this);
                 }
                 else
@@ -114,7 +124,7 @@ class Archive
             } 
             else 
             {
-                T * obj = property.get();                    
+                T * obj = property.get();
                 (*this)(obj, key);
             }
         }
@@ -133,7 +143,7 @@ class Archive
             } 
             else 
             {
-                T * obj = property.get();                    
+                T * obj = property.get();
                 (*this)(obj, key);
             }
         }
@@ -185,11 +195,18 @@ class Archive
         {
             if(_loading)
             {
-                entity = Archive::entity(CurrentBranch()[entityJsonKey].asString());
+                if (!CurrentBranch().HasMember(entityJsonKey)) {
+                    return;
+                }
+                auto json = CurrentBranch()[entityJsonKey].GetString();
+                if (json != "") {
+                    entity = Archive::entity(json);
+                }
             }
             else
             {
-                CurrentBranch()[entityJsonKey] = _context.systems().systemManager().GetEntityKey(entity);
+                auto entityKey = _context.systems().systemManager().GetEntityKey(entity);
+                CurrentBranch()[entityJsonKey].SetString(entityKey.c_str(), entityKey.length());
             }
         }
 
@@ -198,14 +215,14 @@ class Archive
          *
          * @param name Property that will be serialized.
          */
-        void EnterProperty(const std::string & name);
+        bool EnterProperty(const std::string & name);
 
         /**
          * @brief Enter the context of the given property.
          *
          * @param name Property that will be serialized.
          */
-        void EnterProperty(const int & name);
+        bool EnterProperty(const int & name);
 
         /**
          * @brief Test if the current json branch has the property.
@@ -221,11 +238,11 @@ class Archive
         void ExitProperty();
 
         /**
-         * @brief Get a reference to the Json::value that is currently being
+         * @brief Get a reference to the rapidjson::value that is currently being
          * serialized to/from.
          * @return Reference to the top of the property stack.
          */
-        Json::Value & CurrentBranch();
+        rapidjson::Value & CurrentBranch();
 
         /* getters and setters */
         bool loading() { return _loading; }
@@ -241,12 +258,12 @@ class Archive
     private:
         bool _loading;
         bool _snapshotSave;
-        Json::Value _root;
+        rapidjson::Value * _root;
         /**
          * @brief Contains the visited levels of the JSON file, the top of the stack is the current json
          *        being archived.
          */
-        std::stack<Json::Value *> _jsonBranch;
+        std::stack<rapidjson::Value *> _jsonBranch;
         SerializingContext & _context;
 
 
