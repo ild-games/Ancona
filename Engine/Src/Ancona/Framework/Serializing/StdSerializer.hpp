@@ -6,6 +6,7 @@
 
 #include <Ancona/Framework/Serializing/Archive.hpp>
 #include <Ancona/Framework/Serializing/Serializer.hpp>
+#include <Ancona/Util/StrUtil.hpp>
 
 namespace ild {
 
@@ -36,7 +37,7 @@ template <> struct Serializer<std::string> {
 template <> struct Serializer<float> {
     static void Serialize(float & property, Archive & arc) {
         if(arc.loading()) {
-            if(arc.CurrentBranch().IsString() && arc.CurrentBranch().GetString() == "inf")
+            if (arc.CurrentBranch().IsString() && std::string(arc.CurrentBranch().GetString()) == "inf")
             {
                 property = FLOAT_INF;
             }
@@ -60,7 +61,7 @@ template <> struct Serializer<float> {
 template <> struct Serializer<double> {
     static void Serialize(double & property, Archive & arc) {
         if(arc.loading()) {
-            if(arc.CurrentBranch().IsString() && arc.CurrentBranch().GetString() == "inf")
+            if (arc.CurrentBranch().IsString() && std::string(arc.CurrentBranch().GetString()) == "inf")
             {
                 property = DOUBLE_INF;
             }

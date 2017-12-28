@@ -4,14 +4,12 @@
 #include <stack>
 #include <string>
 
-#define RAPIDJSON_HAS_STDSTRING 1
-#include <rapidjson/document.h>
-
 #include <Ancona/Framework/Serializing/ClassConstructor.hpp>
 #include "SerializingContext.hpp"
 #include <Ancona/Framework/Serializing/PolymorphicMap.hpp>
 #include <Ancona/Framework/Serializing/Serializer.hpp>
 #include <Ancona/System/Log.hpp>
+#include <Ancona/Util/Json.hpp>
 
 namespace ild
 {

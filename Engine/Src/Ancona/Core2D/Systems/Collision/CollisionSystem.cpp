@@ -1,11 +1,12 @@
 #include <algorithm>
-#include <json/json.h>
 
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Util/Algorithm.hpp>
+#include <Ancona/Util/Json.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 #include <Ancona/System/FileOperations.hpp>
+
 using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2, const Point & fixNormal, float fixMagnitude) {}
@@ -24,12 +25,13 @@ void CollisionSystem::OnLoad()
         return;
     }
     
-    Json::Reader reader;
-    Json::Value collisionTypesRoot;
-    reader.parse(*fileStream, collisionTypesRoot);
-    for (Json::Value & collisionType : collisionTypesRoot["collisionTypes"]) {
-        if (collisionType.asString() != NONE_COLLISION_TYPE) {
-            CreateType(collisionType.asString());
+    rapidjson::IStreamWrapper fileStreamWrapper(*fileStream);
+    rapidjson::Document collisionTypesRoot;
+    collisionTypesRoot.ParseStream(fileStreamWrapper);
+    for (auto iter = collisionTypesRoot["collisionTypes"].Begin(); iter < collisionTypesRoot["collisionTypes"].End(); iter++) {
+        rapidjson::Value & collisionType = *iter;
+        if (collisionType.GetString() != NONE_COLLISION_TYPE) {
+            CreateType(collisionType.GetString());
         }
     }
 }

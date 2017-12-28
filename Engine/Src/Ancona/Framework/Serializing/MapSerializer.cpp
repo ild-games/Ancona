@@ -1,5 +1,4 @@
-#include <rapidjson/istreamwrapper.h>
-
+#include <Ancona/Util/Json.hpp>
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 

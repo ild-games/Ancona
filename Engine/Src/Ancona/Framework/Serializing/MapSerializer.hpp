@@ -4,13 +4,12 @@
 #include <memory>
 #include <string>
 
-#include <rapidjson/document.h>
-
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
 #include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/System/FileOperations.hpp>
+#include <Ancona/Util/Json.hpp>
 
 namespace ild
 {
