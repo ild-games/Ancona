@@ -181,7 +181,11 @@ class UnorderedSystem : public AbstractSystem
         {
             if (arc.loading())
             {
-                arc.EnterProperty("components");
+                auto shouldContinue = arc.EnterProperty("components", false);
+                if (!shouldContinue) {
+                    return;
+                }
+
                 for (auto iter = arc.CurrentBranch().MemberBegin(); iter != arc.CurrentBranch().MemberEnd(); iter++) 
                 {
                     auto entityKey = iter->name.GetString();
@@ -194,7 +198,10 @@ class UnorderedSystem : public AbstractSystem
             }
             else
             {
-                arc.EnterProperty("components");
+                auto shouldContinue = arc.EnterProperty("components", true, rapidjson::Type::kObjectType);
+                if (!shouldContinue) {
+                    return;
+                }
 
                 for(auto entityKey : EntityKeysToSave(arc))
                 {

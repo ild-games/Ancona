@@ -68,10 +68,8 @@ class MapSerializer
         void LoadMapFile();
         void LoadAssets();
         void LoadEntities();
-        void SerializeEntitySystemSaveables();
         void SerializeComponents();
         void SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive &currentArc);
-        void SaveMapFiles();
 
         /**
          * @brief Key that describes the map the screen is currently on.
@@ -104,7 +102,7 @@ class MapSerializer
         /**
          * @brief Serializing context for the current load.
          */
-        std::unique_ptr<SerializingContext> _loadingContext;
+        std::shared_ptr<SerializingContext> _loadingContext;
         /**
          * @brief Profile of the game session.
          */

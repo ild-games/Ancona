@@ -204,7 +204,7 @@ bool CollisionSystem::DoesTypeDetectCollisions(BodyTypeEnum type)
     return type == BodyType::Solid;
 }
 
-bool CollisionSystem::UniqueCollision(const EntityComponentPair &entityA, const EntityComponentPair &entityB)
+bool CollisionSystem::UniqueCollision(EntityComponentPair &entityA, EntityComponentPair &entityB)
 {
     if (DoesTypeDetectCollisions(entityA.second->bodyType()) && DoesTypeDetectCollisions(entityB.second->bodyType()))
     {

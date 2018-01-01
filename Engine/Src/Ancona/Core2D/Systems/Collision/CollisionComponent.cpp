@@ -82,6 +82,11 @@ struct Serializer<BodyTypeEnum> {
             }
         }
     }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kStringType;
+    }
 };
 }
 

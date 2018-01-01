@@ -40,7 +40,6 @@ bool MapSerializer::ContinueLoading()
             SerializeComponents();
             break;
         case DoneSerializing:
-            SaveMapFiles();
             return false;
     }
     return true;
@@ -116,20 +115,13 @@ void MapSerializer::LoadEntities()
         rapidjson::Value & curEntity = *iter;
         _loadingContext->systems().systemManager().CreateEntity(curEntity.GetString());
     }
-    SerializeEntitySystemSaveables();
     _state = SerializerState::SerializingComponents;
-}
-
-void MapSerializer::SerializeEntitySystemSaveables()
-{
-    //Archive entitySaveablesArc(&_mapRoot, *_loadingContext.get(), _loading);
-    //_loadingContext->systems().systemManager().Serialize(entitySaveablesArc);
 }
 
 void MapSerializer::SerializeComponents()
 {
-    Archive mapArc(&_mapRoot["systems"], *_loadingContext.get(), _loading, _snapshotSave);
-    Archive saveArc(&_saveProfileRoot["systems"], *_loadingContext.get(), _loading, true);
+    Archive mapArc(&_mapRoot["systems"], _loadingContext, _loading, _mapRoot.GetAllocator(), _snapshotSave);
+    Archive saveArc(&_saveProfileRoot["systems"], _loadingContext, _loading, _saveRoot.GetAllocator(), true);
     for (auto systemNamePair : _loadingContext->systems().systemManager().keyedSystems())
     {
         SerializeSpecifiedSystem(systemNamePair, mapArc);
@@ -139,8 +131,6 @@ void MapSerializer::SerializeComponents()
     {
         _loadingContext->systems().systemManager().FetchWaitingDependencies();
     }
-    //_mapRoot["systems"] = mapArc.CurrentBranch();
-    //_saveRoot["systems"] = saveArc.CurrentBranch();
     _state = SerializerState::DoneSerializing;
 }
 
@@ -150,13 +140,11 @@ void MapSerializer::SerializeSpecifiedSystem(
 {
     if (currentArc.HasProperty(systemNamePair.first))
     {
-        currentArc.EnterProperty(systemNamePair.first);
-        _loadingContext->systems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(currentArc);
-        currentArc.ExitProperty();
+        auto shouldContinue = currentArc.EnterProperty(systemNamePair.first, !currentArc.loading(), rapidjson::Type::kObjectType);
+        if (shouldContinue) 
+        {
+            _loadingContext->systems().GetSystem<AbstractSystem>(systemNamePair.first)->Serialize(currentArc);
+            currentArc.ExitProperty();
+        }
     }
-}
-
-void MapSerializer::SaveMapFiles()
-{
-    // TODO Implement Snapshot Save
 }

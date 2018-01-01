@@ -13,7 +13,7 @@ namespace ild {
 const float FLOAT_INF = std::numeric_limits<float>::infinity();
 const double DOUBLE_INF = std::numeric_limits<double>::infinity();
 
-#define GENERATE_STDSERIALIZER(type, method) \
+#define GENERATE_STDSERIALIZER(type, method, jsonType) \
     template <> struct Serializer<type> { \
         static void Serialize(type & property, Archive & arc) { \
             if(arc.loading()) { \
@@ -21,6 +21,9 @@ const double DOUBLE_INF = std::numeric_limits<double>::infinity();
             } else { \
                 arc.CurrentBranch() = property; \
             } \
+        } \
+        static const rapidjson::Type SerializingType() { \
+            return jsonType; \
         } \
     };
 
@@ -31,6 +34,11 @@ template <> struct Serializer<std::string> {
         } else {
             arc.CurrentBranch().SetString(property.c_str(), property.length());
         }
+    }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kStringType;
     }
 };
 
@@ -56,6 +64,11 @@ template <> struct Serializer<float> {
             }
         }
     }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kNumberType;
+    }
 };
 
 template <> struct Serializer<double> {
@@ -80,17 +93,22 @@ template <> struct Serializer<double> {
             }
         }
     }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kNumberType;
+    }
 };
 
-GENERATE_STDSERIALIZER(int, GetInt)
+GENERATE_STDSERIALIZER(int, GetInt, rapidjson::Type::kNumberType)
 
-GENERATE_STDSERIALIZER(bool, GetBool)
+GENERATE_STDSERIALIZER(bool, GetBool, rapidjson::Type::kFalseType)
 
-GENERATE_STDSERIALIZER(unsigned int, GetUint)
+GENERATE_STDSERIALIZER(unsigned int, GetUint, rapidjson::Type::kNumberType)
 
-GENERATE_STDSERIALIZER(int64_t, GetInt64)
+GENERATE_STDSERIALIZER(int64_t, GetInt64, rapidjson::Type::kNumberType)
 
-GENERATE_STDSERIALIZER(unsigned char, GetUint)
+GENERATE_STDSERIALIZER(unsigned char, GetUint, rapidjson::Type::kStringType)
 
 template<class T>
 struct Serializer<std::vector<T>> {
@@ -107,6 +125,11 @@ struct Serializer<std::vector<T>> {
             }
         }
     }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kArrayType;
+    }
 };
 
 template<class T, class V>
@@ -114,6 +137,11 @@ struct Serializer<std::pair<T, V>> {
     static void Serialize(std::pair<T, V> & property, Archive & arc) {
         arc(property.first, "first");
         arc(property.second, "second");
+    }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
     }
 };
 
@@ -131,7 +159,11 @@ struct Serializer<std::map<std::string, T>> {
                 arc(property[keyValPair.first], keyValPair.first);
             }
         }
+    }
 
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
     }
 };
 
