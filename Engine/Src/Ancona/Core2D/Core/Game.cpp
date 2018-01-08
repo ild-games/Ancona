@@ -33,9 +33,19 @@ void Game::Run()
         Keyboard::_ClearKeys();
         Mouse::_ClearButtons();
         Touch::_ClearFingers();
-        while (_window.pollEvent(event))
+        if (_windowIsActive) 
         {
-            ProcessWindowEvent(event);
+            while (_window.pollEvent(event))
+            {
+                ProcessWindowEvent(event);
+            }
+        }
+        else
+        {
+            if (_window.pollEvent(event))
+            {
+                ProcessWindowEvent(event);
+            }
         }
 
         sf::Time elapsed = clock.restart();
