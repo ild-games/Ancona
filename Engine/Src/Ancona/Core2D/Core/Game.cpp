@@ -4,6 +4,7 @@
 #include <Ancona/Core2D/InputDevices/Keyboard.hpp>
 #include <Ancona/Core2D/InputDevices/Mouse.hpp>
 #include <Ancona/Core2D/InputDevices/Touch.hpp>
+#include <Ancona/Core2D/InputDevices/Joystick.hpp>
 #include <Ancona/System/Log.hpp>
 
 using namespace ild;
@@ -33,6 +34,7 @@ void Game::Run()
         Keyboard::_ClearKeys();
         Mouse::_ClearButtons();
         Touch::_ClearFingers();
+        Joystick::_ClearButtons();
         while (_window.pollEvent(event))
         {
             ProcessWindowEvent(event);
@@ -81,6 +83,14 @@ void Game::ProcessWindowEvent(sf::Event event)
     if (event.type == sf::Event::TouchEnded)
     {
         Touch::_AddFingerRelease(event.touch.finger);
+    }
+    if (event.type == sf::Event::JoystickButtonPressed)
+    {
+        Joystick::_AddButtonPress(event.joystickButton.joystickId, event.joystickButton.button);
+    }
+    if (event.type == sf::Event::JoystickButtonReleased)
+    {
+        Joystick::_AddButtonRelease(event.joystickButton.joystickId, event.joystickButton.button);
     }
     if (event.type == sf::Event::LostFocus) 
     {

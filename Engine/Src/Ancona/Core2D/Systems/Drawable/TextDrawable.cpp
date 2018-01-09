@@ -31,12 +31,12 @@ TextDrawable::TextDrawable(
     SetupText();
 }
 
-TextDrawable::TextDrawable(const std::string & text, const sf::Font * font) : Drawable() {
+TextDrawable::TextDrawable(const std::string text, const sf::Font * font) : Drawable() {
     _text = std::unique_ptr<sf::Text>(new sf::Text(text, *font));
 }
 
 Drawable * TextDrawable::Copy() {
-    auto drawable = new TextDrawable(_text->getString(), _text->getFont());
+    auto drawable = new TextDrawable(_text->getString().toAnsiString(), _text->getFont());
     Drawable::CopyProperties(drawable);
     drawable->_color = _color;
     drawable->_characterSize = _characterSize;

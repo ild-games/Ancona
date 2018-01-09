@@ -19,7 +19,7 @@ class TextDrawable : public Drawable
          * @brief Default constructor, should only be used by the serializer.
          */
         TextDrawable() {}
-        TextDrawable(const std::string & text, const sf::Font * font);
+        TextDrawable(const std::string text, const sf::Font * font);
 
         /**
          * @brief An element to draw text to an entity.
