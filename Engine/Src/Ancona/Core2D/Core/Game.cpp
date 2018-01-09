@@ -35,23 +35,13 @@ void Game::Run()
         Mouse::_ClearButtons();
         Touch::_ClearFingers();
         Joystick::_ClearButtons();
-        if (_windowIsActive) 
+        while (_window.pollEvent(event))
         {
-            while (_window.pollEvent(event))
-            {
-                ProcessWindowEvent(event);
-            }
-        }
-        else
-        {
-            if (_window.pollEvent(event))
-            {
-                ProcessWindowEvent(event);
-            }
+            ProcessWindowEvent(event);
         }
 
         sf::Time elapsed = clock.restart();
-        float delta = std::min(elapsed.asSeconds(), 0.1f);
+        float delta = std::min(elapsed.asSeconds(), 0.025f);
 
         if (_windowIsActive)
         {

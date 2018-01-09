@@ -188,5 +188,4 @@ void SystemManager::FetchWaitingDependencies()
 
 void SystemManager::Serialize(Archive & arc)
 {
-    //arc(_entitySaveableSystems, "entitySystemSaveables");
 }

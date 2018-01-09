@@ -65,7 +65,7 @@ struct Serializer<sf::Text>
         arc(text, "text");
         arc(color, "color");
         arc(characterSize,"characterSize");
-        //arc(smooth, "smooth");
+        arc(smooth, "smooth");
 
         if (arc.loading())
         {
