@@ -16,10 +16,21 @@ SystemManager::SystemManager()
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
     FetchWaitingDependencies();
-    for(auto & system : _systems[updateStep])
+    for (auto & system : _systems[updateStep])
     {
         system->Update(delta);
-        system->DeleteQueuedComponents();
+    }
+}
+
+void SystemManager::PostUpdate() 
+{
+    for (int updateStepInt = 0; updateStepInt != UpdateStep::UpdateStep::LAST_FOR_ITERATION; updateStepInt++) 
+    {
+        UpdateStep::UpdateStep updateStep = static_cast<UpdateStep::UpdateStep>(updateStepInt);
+        for (auto & system : _systems[updateStep])
+        {
+            system->DeleteQueuedComponents();
+        }
     }
     DeleteQueuedEntities();
 }

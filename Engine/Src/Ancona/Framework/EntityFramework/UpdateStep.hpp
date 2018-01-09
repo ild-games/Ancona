@@ -21,7 +21,8 @@ namespace UpdateStep
         Input,
         Update,
         Physics,
-        Draw
+        Draw,
+        LAST_FOR_ITERATION
     };
 }
 

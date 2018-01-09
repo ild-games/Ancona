@@ -45,7 +45,7 @@ void ScreenManager::Replace(AbstractScreen * screen)
 
 void ScreenManager::Update(float delta)
 {
-    if(!Empty())
+    if (!Empty())
     {
         auto screen = _screens.top();
         if(!screen->__Initialized)
@@ -54,6 +54,7 @@ void ScreenManager::Update(float delta)
             screen->__Initialized = true;
         }
         screen->Update(delta);
+        screen->systemsContainer()->systemManager().PostUpdate();
     }
 }
 
