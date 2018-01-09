@@ -7,6 +7,7 @@
 #include <Ancona/Framework/Serializing/Serializer.hpp>
 #include <Ancona/Framework/Serializing/StdSerializer.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/System/Log.hpp>
 
 namespace ild
 {
@@ -19,6 +20,11 @@ struct Serializer<sf::Vector2f>
         arc(property.x, "x");
         arc(property.y, "y");
     }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
+    }
 };
 
 template <>
@@ -29,6 +35,11 @@ struct Serializer<sf::Vector3f>
         arc(property.x, "x");
         arc(property.y, "y");
         arc(property.z, "z");
+    }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
     }
 };
 
@@ -41,7 +52,7 @@ struct Serializer<sf::Text>
         std::string fontKey;
         sf::Color color;
         int characterSize;
-        bool smooth;
+        bool smooth = false;
 
         if (!arc.loading())
         {
@@ -69,6 +80,11 @@ struct Serializer<sf::Text>
             }
         }
     }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
+    }
 };
 
 template <>
@@ -81,6 +97,11 @@ struct Serializer<sf::Color>
         arc(property.b,"b");
         arc(property.a,"a");
     }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
+    }
 };
 
 template <>
@@ -88,7 +109,12 @@ struct Serializer<sf::Shape>
 {
     static void Serialize(sf::Shape & shape, Archive & arc)
     {
-        Assert(false, "Cannot serialize sf::Shape");
+        ILD_Assert(false, "Cannot serialize sf::Shape");
+    }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
     }
 };
 
@@ -96,12 +122,22 @@ template <>
 struct Serializer<sf::RectangleShape>
 {
     static void Serialize(sf::RectangleShape & shape, Archive & arc);
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
+    }
 };
 
 template <>
 struct Serializer<sf::CircleShape>
 {
     static void Serialize(sf::CircleShape & shape, Archive & arc);
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
+    }
 };
 
 template <>
@@ -113,6 +149,11 @@ struct Serializer<sf::IntRect>
         arc(rect.top, "top");
         arc(rect.width, "width");
         arc(rect.height, "height");
+    }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
     }
 };
 

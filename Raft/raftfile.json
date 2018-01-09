@@ -1,17 +1,30 @@
 {
     "dependencies" : [
         {
-            "name" : "json_cpp",
+            "name" : "rapidjson",
             "repository" : {
                 "type" : "git",
-                "location" : "https://github.com/open-source-parsers/jsoncpp",
-                "branch": "tags/1.7.3"
+                "location" : "https://github.com/Tencent/rapidjson",
+                "branch": "tags/v1.1.0"
             },
             "buildSystem" : "cmake",
-            "configOptions" : [{
-                "name": "JSONCPP_WITH_TESTS",
-                "value": "OFF"
-            }]
+            "configOptions" : [
+                {
+                    "name": "RAPIDJSON_BUILD_TESTS",
+                    "value": "OFF"
+                },
+                {
+                    "name": "RAPIDJSON_BUILD_DOC",
+                    "value": "OFF"
+                },
+                {
+                    "name": "RAPIDJSON_BUILD_EXAMPLES",
+                    "value": "OFF"
+                }
+            ],
+            "patches" : [
+                "Patches/rapidjson-remove-bad-cxx-flag.patch"
+            ]
         },
         {
             "name" : "sfml",

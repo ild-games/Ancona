@@ -22,7 +22,7 @@ void AssertControls::SetErrorStream(std::ostream * errorStream)
     _errorStream = errorStream;
 }
 
-void AssertControls::_assert(bool condition, const std::string & message, const char * fileName, int lineNumber)
+void AssertControls::_ild_assert(bool condition, const std::string & message, const char * fileName, int lineNumber)
 {
     if(!condition)
     {

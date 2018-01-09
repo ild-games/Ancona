@@ -48,7 +48,7 @@ class ScreenSystemsContainer
         template <typename T, typename... Args>
         T * ConstructSystem(std::string systemName, Args&&... sysArgs)
         {
-            Assert(_systemMap.find(systemName) == _systemMap.end(), systemName + " already exists for this screen.");
+            ILD_Assert(_systemMap.find(systemName) == _systemMap.end(), systemName + " already exists for this screen.");
             T * system = new T(systemName, std::forward<Args>(sysArgs)...);
             _systemMap[systemName] = system;
             return system;
@@ -65,7 +65,7 @@ class ScreenSystemsContainer
         template <typename T>
         T * GetSystem(const std::string & systemName)
         {
-            Assert(_systemMap.find(systemName) != _systemMap.end(), systemName + " does not exist, please construct it first.");
+            ILD_Assert(_systemMap.find(systemName) != _systemMap.end(), systemName + " does not exist, please construct it first.");
             return static_cast<T *>(_systemMap[systemName]);
         }
 

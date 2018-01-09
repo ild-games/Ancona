@@ -59,27 +59,33 @@ struct Serializer<BodyTypeEnum> {
     {
         if (arc.loading())
         {
-            const std::string & bodyTypeKey = arc.CurrentBranch().asString();
+            const std::string & bodyTypeKey = arc.CurrentBranch().GetString();
             if(BodyTypeEnumStringMap.ContainsKey(bodyTypeKey))
             {
                 property = BodyTypeEnumStringMap.GetValue(bodyTypeKey);
             }
             else
             {
-                Assert(false, "Unknown body type");
+                ILD_Assert(false, "Unknown body type");
             }
         }
         else
         {
             if(BodyTypeEnumStringMap.ContainsValue(property))
             {
-                arc.CurrentBranch() = BodyTypeEnumStringMap.GetKey(property);
+                auto key = BodyTypeEnumStringMap.GetKey(property);
+                arc.CurrentBranch().SetString(key.c_str(), key.length());
             }
             else
             {
-                Assert(false, "Unknown body type");
+                ILD_Assert(false, "Unknown body type");
             }
         }
+    }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kStringType;
     }
 };
 }

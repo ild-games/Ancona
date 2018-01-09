@@ -87,10 +87,9 @@ namespace PolymorphicRegistration
     std::string static RegisterType(const std::string & name)
     {
         PolymorphicMap::RegisterType(
-                name,
-                std::type_index(typeid(T)),
-                new PolymorphicSerializerImpl<T>()
-                );
+            name,
+            std::type_index(typeid(T)),
+            new PolymorphicSerializerImpl<T>());
         return name;
     }
 
@@ -106,10 +105,9 @@ namespace PolymorphicRegistration
     std::string static RegisterAbstractType(const std::string & name)
     {
         PolymorphicMap::RegisterType(
-                name,
-                std::type_index(typeid(T)),
-                new PolymorphicSerializerAbstractBase(name)
-        );
+            name,
+            std::type_index(typeid(T)),
+            new PolymorphicSerializerAbstractBase(name));
         return name;
     }
 }

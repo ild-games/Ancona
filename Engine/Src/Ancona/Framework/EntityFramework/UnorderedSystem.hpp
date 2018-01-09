@@ -92,7 +92,7 @@ class UnorderedSystem : public AbstractSystem
          */
         void RemoveComponent(const Entity & entity) override
         {
-            Assert(EntityHasComponent(entity), "Can not remove a component that does not exist");
+            ILD_Assert(EntityHasComponent(entity), "Can not remove a component that does not exist");
 
             EntityIsDeleted(entity);
             _systemManager.UnregisterComponent(entity, this);
@@ -144,7 +144,7 @@ class UnorderedSystem : public AbstractSystem
          */
         void EntityIsDeleted(const Entity & entity) override
         {
-            Assert(EntityHasComponent(entity),
+            ILD_Assert(EntityHasComponent(entity),
                     "A system should not be notified of an entities deletion if the \
                     system does not contain a component for the entity");
 
@@ -181,9 +181,14 @@ class UnorderedSystem : public AbstractSystem
         {
             if (arc.loading())
             {
-                arc.EnterProperty("components");
-                for(auto entityKey : arc.CurrentBranch().getMemberNames())
+                auto shouldContinue = arc.EnterProperty("components", false);
+                if (!shouldContinue) {
+                    return;
+                }
+
+                for (auto iter = arc.CurrentBranch().MemberBegin(); iter != arc.CurrentBranch().MemberEnd(); iter++) 
                 {
+                    auto entityKey = iter->name.GetString();
                     ComponentType * value;
                     arc(value, entityKey);
                     auto entity = arc.entity(entityKey);
@@ -193,12 +198,12 @@ class UnorderedSystem : public AbstractSystem
             }
             else
             {
-                arc.EnterProperty("components");
-                const std::vector<std::string> & entityKeysToSave =
-                    arc.snapshotSave() ?
-                        arc.CurrentBranch().getMemberNames() :
-                        _systemManager.entitySaveableSystems()[_systemName];
-                for(auto entityKey : entityKeysToSave)
+                auto shouldContinue = arc.EnterProperty("components", true, rapidjson::Type::kObjectType);
+                if (!shouldContinue) {
+                    return;
+                }
+
+                for(auto entityKey : EntityKeysToSave(arc))
                 {
                     Entity en = _systemManager.GetEntity(entityKey);
                     ComponentType * value = _components[en];
@@ -208,9 +213,22 @@ class UnorderedSystem : public AbstractSystem
             }
         }
 
+        const std::vector<std::string> EntityKeysToSave(Archive & arc) {
+            if (arc.snapshotSave()) {
+                std::vector<std::string> toReturn;
+                for (auto iter = arc.CurrentBranch().MemberBegin(); iter != arc.CurrentBranch().MemberEnd(); iter++) 
+                {
+                    toReturn.push_back(iter->name.GetString());
+                }
+                return toReturn;
+            } else {
+                return _systemManager.entitySaveableSystems()[_systemName];
+            }
+        }
+
         void Serialize(Archive & arc, std::false_type)
         {
-            Assert(false, "Cannot serialize system if its components lack a serialize method.");
+            ILD_Assert(false, "Cannot serialize system if its components lack a serialize method.");
         }
 
         bool FetchDependencies(const Entity & entity, std::true_type)
@@ -284,8 +302,8 @@ class UnorderedSystem : public AbstractSystem
          */
         virtual void AttachComponent(const Entity & entity, ComponentType * component)
         {
-            Assert(component != NULL, "Can not attach a null component");
-            Assert(!EntityHasComponent(entity), "Can not attach two of the same component to an entity");
+            ILD_Assert(component != NULL, "Can not attach a null component");
+            ILD_Assert(!EntityHasComponent(entity), "Can not attach two of the same component to an entity");
 
             _components[entity] = component;
             _systemManager.RegisterComponent(entity, this);

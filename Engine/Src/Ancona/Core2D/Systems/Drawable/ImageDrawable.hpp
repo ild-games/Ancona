@@ -15,11 +15,11 @@ class ImageDrawable : public Drawable
 
         ImageDrawable(
                 std::string textureKey,
-                const int priority,
+                const float priority,
                 const std::string & key);
 
         ImageDrawable(
-                const int priority,
+                const float priority,
                 const std::string & key);
 
         Drawable * Copy() override;

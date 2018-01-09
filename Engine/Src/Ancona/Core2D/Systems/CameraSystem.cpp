@@ -13,7 +13,7 @@ CameraComponent::CameraComponent() : _offset(sf::Vector2f(0, 0)) { }
 
 CameraComponent::CameraComponent(
         const sf::View & originalView,
-        int renderPriority,
+        float renderPriority,
         DrawableSystem * drawableSystem,
         float scale,
         sf::Vector2f offset,
@@ -81,7 +81,7 @@ sf::Vector2f CameraComponent::GetEffectiveCenter()
 
 void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
 {
-	Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
+	ILD_Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
     _renderQueue.push_back(drawable);
 }
 
@@ -131,7 +131,7 @@ void CameraComponent::follows(Entity follows)
 /* getters and setters */
 void CameraComponent::scale(float scale)
 {
-    Assert(scale != float(0), "Scale cannot be 0");
+    ILD_Assert(scale != float(0), "Scale cannot be 0");
     _view.zoom(1 / _scale);
     _scale = scale;
     _view.zoom(_scale);
@@ -156,7 +156,7 @@ void CameraSystem::Update(float delta)
 CameraComponent * CameraSystem::CreateComponent(
         const Entity & entity,
         const sf::View & originalView,
-        int renderPriority,
+        float renderPriority,
         DrawableSystem * drawableSystem,
         float scale)
 {

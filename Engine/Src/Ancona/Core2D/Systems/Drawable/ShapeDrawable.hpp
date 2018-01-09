@@ -34,9 +34,9 @@ class ShapeDrawable : public Drawable
          */
         ShapeDrawable(
                 sf::Shape * shape,
-                const int priority,
+                const float priority,
                 const std::string & key,
-                int priorityOffset = 0,
+                float priorityOffset = 0,
                 sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
 
         Drawable * Copy() override;

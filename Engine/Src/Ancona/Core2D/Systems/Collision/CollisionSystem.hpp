@@ -130,7 +130,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         float _maxSlope = 45;
         const std::string NONE_COLLISION_TYPE = "none";
 
-        bool UniqueCollision(const EntityComponentPair & entityA, const EntityComponentPair & entityB);
+        bool UniqueCollision(EntityComponentPair & entityA, EntityComponentPair & entityB);
         void HandleCollision(
             EntityComponentPair & pairA,
             EntityComponentPair & pairB,

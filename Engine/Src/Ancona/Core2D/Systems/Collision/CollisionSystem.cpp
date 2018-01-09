@@ -1,11 +1,12 @@
 #include <algorithm>
-#include <json/json.h>
 
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Util/Algorithm.hpp>
+#include <Ancona/Util/Json.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 #include <Ancona/System/FileOperations.hpp>
+
 using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2, const Point & fixNormal, float fixMagnitude) {}
@@ -24,12 +25,13 @@ void CollisionSystem::OnLoad()
         return;
     }
     
-    Json::Reader reader;
-    Json::Value collisionTypesRoot;
-    reader.parse(*fileStream, collisionTypesRoot);
-    for (Json::Value & collisionType : collisionTypesRoot["collisionTypes"]) {
-        if (collisionType.asString() != NONE_COLLISION_TYPE) {
-            CreateType(collisionType.asString());
+    rapidjson::IStreamWrapper fileStreamWrapper(*fileStream);
+    rapidjson::Document collisionTypesRoot;
+    collisionTypesRoot.ParseStream(fileStreamWrapper);
+    for (auto iter = collisionTypesRoot["collisionTypes"].Begin(); iter < collisionTypesRoot["collisionTypes"].End(); iter++) {
+        rapidjson::Value & collisionType = *iter;
+        if (collisionType.GetString() != NONE_COLLISION_TYPE) {
+            CreateType(collisionType.GetString());
         }
     }
 }
@@ -151,7 +153,7 @@ CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
         CollisionType type,
         BodyTypeEnum bodyType)
 {
-    Assert(type < _nextType, "Cannot use a collision type that is undefined");
+    ILD_Assert(type < _nextType, "Cannot use a collision type that is undefined");
     auto component = new CollisionComponent(this, dim, type, bodyType);
 
     AttachComponent(entity, component);
@@ -161,7 +163,7 @@ CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
 
 CollisionType CollisionSystem::CreateType(const std::string &key)
 {
-    Assert(!IsCollisionTypeDefined(key), "The same key cannot be used to define two collision types");
+    ILD_Assert(!IsCollisionTypeDefined(key), "The same key cannot be used to define two collision types");
 
     CollisionType newType = _nextType++;
     _callbackTable.AddColumn(nop);
@@ -174,15 +176,15 @@ CollisionType CollisionSystem::CreateType(const std::string &key)
 
 void CollisionSystem::DefineCollisionCallback(CollisionType typeA, CollisionType typeB, CollisionCallback callback)
 {
-    Assert(typeA < _nextType, "The given typeA does not exist");
-    Assert(typeB < _nextType, "The given typeB does not exist");
+    ILD_Assert(typeA < _nextType, "The given typeA does not exist");
+    ILD_Assert(typeB < _nextType, "The given typeB does not exist");
 
     _callbackTable.Get(typeA, typeB) = callback;
 }
 
 CollisionType CollisionSystem::GetType(const std::string &key) const
 {
-    Assert(IsCollisionTypeDefined(key), "The collision type must exist");
+    ILD_Assert(IsCollisionTypeDefined(key), "The collision type must exist");
 
     return _collisionTypes.at(key);
 }
@@ -202,7 +204,7 @@ bool CollisionSystem::DoesTypeDetectCollisions(BodyTypeEnum type)
     return type == BodyType::Solid;
 }
 
-bool CollisionSystem::UniqueCollision(const EntityComponentPair &entityA, const EntityComponentPair &entityB)
+bool CollisionSystem::UniqueCollision(EntityComponentPair &entityA, EntityComponentPair &entityB)
 {
     if (DoesTypeDetectCollisions(entityA.second->bodyType()) && DoesTypeDetectCollisions(entityB.second->bodyType()))
     {

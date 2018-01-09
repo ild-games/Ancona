@@ -7,7 +7,7 @@ using namespace ild;
 
 ImageDrawable::ImageDrawable(
         std::string textureKey,
-        const int priority,
+        const float priority,
         const std::string & key) :
     Drawable(priority, key),
     _textureKey(textureKey)
@@ -15,7 +15,7 @@ ImageDrawable::ImageDrawable(
 }
 
 ImageDrawable::ImageDrawable(
-        const int priority,
+        const float priority,
         const std::string & key) :
     Drawable(priority, key),
     _textureKey("")

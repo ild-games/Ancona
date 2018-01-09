@@ -17,6 +17,11 @@ struct Serializer<Box2>
         arc(property.Position, "position");
         arc(property.Rotation, "rotation");
     }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
+    }
 };
 
 }

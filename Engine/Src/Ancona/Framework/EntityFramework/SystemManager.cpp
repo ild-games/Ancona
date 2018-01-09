@@ -16,17 +16,28 @@ SystemManager::SystemManager()
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
     FetchWaitingDependencies();
-    for(auto & system : _systems[updateStep])
+    for (auto & system : _systems[updateStep])
     {
         system->Update(delta);
-        system->DeleteQueuedComponents();
+    }
+}
+
+void SystemManager::PostUpdate() 
+{
+    for (int updateStepInt = 0; updateStepInt != UpdateStep::UpdateStep::LAST_FOR_ITERATION; updateStepInt++) 
+    {
+        UpdateStep::UpdateStep updateStep = static_cast<UpdateStep::UpdateStep>(updateStepInt);
+        for (auto & system : _systems[updateStep])
+        {
+            system->DeleteQueuedComponents();
+        }
     }
     DeleteQueuedEntities();
 }
 
 void SystemManager::DeleteEntity(Entity entity)
 {
-    Assert(_components.find(entity) != _components.end(), 
+    ILD_Assert(_components.find(entity) != _components.end(), 
             "Cannot delete an entity that is not managed by the system manager");
 
     for(AbstractSystem * system : _components.at(entity))
@@ -44,7 +55,7 @@ void SystemManager::DeleteEntity(Entity entity)
 
 Entity SystemManager::CopyEntity(const std::string & fromKey) {
     auto fromEntity = GetEntity(fromKey);
-    Assert(fromEntity != nullentity, "Cannot copy an entity that does not exist");
+    ILD_Assert(fromEntity != nullentity, "Cannot copy an entity that does not exist");
 
     auto toEntity = CreateEntity();
     for(AbstractSystem * system : _components.at(fromEntity)) {
@@ -60,7 +71,7 @@ void SystemManager::QueueDeleteEntity(Entity entity)
 
 Entity SystemManager::CreateEntity()
 {
-    Assert(_maxEntityId != ~0u, "Entity key has overflown");
+    ILD_Assert(_maxEntityId != ~0u, "Entity key has overflown");
 
     Entity entity = _maxEntityId++;
 
@@ -72,7 +83,7 @@ Entity SystemManager::CreateEntity()
 
 Entity SystemManager::CreateEntity(const std::string & key)
 {
-    Assert(!_entities.ContainsKey(key), "Cannot use the same key for two entities.");
+    ILD_Assert(!_entities.ContainsKey(key), "Cannot use the same key for two entities.");
 
     Entity entity = CreateEntity();
     _entities.Add(key, entity);
@@ -109,7 +120,7 @@ void SystemManager::RegisterSystem(
         UpdateStepEnum updateStep)
 {
     auto & systems = _systems[updateStep]; 
-    Assert(!alg::count_if(systems,[system](std::unique_ptr<AbstractSystem> & ptr)
+    ILD_Assert(!alg::count_if(systems,[system](std::unique_ptr<AbstractSystem> & ptr)
         {
             return ptr.get() == system;
         }
@@ -119,14 +130,14 @@ void SystemManager::RegisterSystem(
 
     if(systemName != "")
     {
-        Assert(!ContainsName(systemName), "System name must be unique.");
+        ILD_Assert(!ContainsName(systemName), "System name must be unique.");
         _keyedSystems.emplace_back(systemName, system);
     }
 }
 
 void SystemManager::RegisterComponent(Entity entity, AbstractSystem * owningSystem)
 {
-    Assert(_components.find(entity) != _components.end(),
+    ILD_Assert(_components.find(entity) != _components.end(),
             "Cannot add a component to an entity that does not exist");
    _components[entity].insert(owningSystem); 
    _needDependencyFetch.emplace_back(entity, owningSystem);
@@ -134,9 +145,9 @@ void SystemManager::RegisterComponent(Entity entity, AbstractSystem * owningSyst
 
 void SystemManager::UnregisterComponent(Entity entity, AbstractSystem * owningSystem)
 {
-    Assert(_components.find(entity) != _components.end(),
+    ILD_Assert(_components.find(entity) != _components.end(),
             "Can not remove a component from an entity that does not exist");
-    Assert(_components[entity].find(owningSystem) != _components[entity].end(),
+    ILD_Assert(_components[entity].find(owningSystem) != _components[entity].end(),
             "Can not remove a component that does not exist");
 
     _components[entity].erase(owningSystem);
@@ -144,8 +155,8 @@ void SystemManager::UnregisterComponent(Entity entity, AbstractSystem * owningSy
 
 void SystemManager::AddEntitySaveableSystemPair(std::string entity, std::string system)
 {
-    Assert(_entities.ContainsKey(entity), "Cannot add entity-system saveable pair: Entity " + entity + " does not exist.");
-    Assert(alg::count_if(_keyedSystems, [system](std::pair<std::string, AbstractSystem *> sysNamePair)
+    ILD_Assert(_entities.ContainsKey(entity), "Cannot add entity-system saveable pair: Entity " + entity + " does not exist.");
+    ILD_Assert(alg::count_if(_keyedSystems, [system](std::pair<std::string, AbstractSystem *> sysNamePair)
         {
             return sysNamePair.first == system; 
         }
@@ -177,5 +188,4 @@ void SystemManager::FetchWaitingDependencies()
 
 void SystemManager::Serialize(Archive & arc)
 {
-    arc(_entitySaveableSystems, "entitySystemSaveables");
 }

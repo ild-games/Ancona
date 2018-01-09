@@ -2,7 +2,7 @@
 #define Ancona_Engine_Serializing_Serializer_H_
 
 #include <Ancona/Util/Algorithm/Types.hpp>
-
+#include <Ancona/Util/Json.hpp>
 
 namespace ild
 {
@@ -31,6 +31,11 @@ struct Serializer
     static void Serialize(T & property, Archive & arc)
     {
         property.Serialize(arc);
+    }
+
+    static const rapidjson::Type SerializingType() 
+    {
+        return rapidjson::Type::kObjectType;
     }
 };
 

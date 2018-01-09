@@ -7,6 +7,7 @@
 #include <unordered_map>
 
 #include <Ancona/Framework/Serializing/PolymorphicSerializer.hpp>
+#include <Ancona/System/Log.hpp>
 
 namespace ild
 {

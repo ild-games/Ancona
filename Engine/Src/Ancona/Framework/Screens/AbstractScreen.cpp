@@ -1,8 +1,6 @@
 #include <fstream>
 #include <iostream>
 
-#include <json/json.h>
-
 #include <Ancona/Framework/Screens/AbstractScreen.hpp>
 
 using namespace ild;

@@ -4,13 +4,12 @@
 #include <memory>
 #include <string>
 
-#include <json/json.h>
-
 #include <Ancona/Framework/EntityFramework/AbstractSystem.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
 #include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
 #include <Ancona/System/FileOperations.hpp>
+#include <Ancona/Util/Json.hpp>
 
 namespace ild
 {
@@ -69,10 +68,8 @@ class MapSerializer
         void LoadMapFile();
         void LoadAssets();
         void LoadEntities();
-        void SerializeEntitySystemSaveables();
         void SerializeComponents();
         void SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive &currentArc);
-        void SaveMapFiles();
 
         /**
          * @brief Key that describes the map the screen is currently on.
@@ -89,15 +86,15 @@ class MapSerializer
         /**
          * @brief Root of the map json being loaded.
          */
-        Json::Value _mapRoot;
+        rapidjson::Document _mapRoot;
         /**
          * @brief Root of the save json for the file.
          */
-        Json::Value _saveRoot;
+        rapidjson::Document _saveRoot;
         /**
          * @brief Root of the save json for the specified profile being serialized.
          */
-        Json::Value _saveProfileRoot;
+        rapidjson::Value _saveProfileRoot;
         /**
          * @brief Name of the map being serialized.
          */
@@ -105,7 +102,7 @@ class MapSerializer
         /**
          * @brief Serializing context for the current load.
          */
-        std::unique_ptr<SerializingContext> _loadingContext;
+        std::shared_ptr<SerializingContext> _loadingContext;
         /**
          * @brief Profile of the game session.
          */

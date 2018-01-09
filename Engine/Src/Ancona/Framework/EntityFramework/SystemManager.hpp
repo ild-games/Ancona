@@ -41,6 +41,7 @@ class SystemManager
          * @param updateStep Determines which managers should be updated
          */
         void Update(float delta, UpdateStepEnum updateStep);
+        void PostUpdate();
 
         /**
          * @brief Delete the entity and free any components used by it.  An entity can only

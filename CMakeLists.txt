@@ -37,8 +37,7 @@ set(ANCONA_LIBS Ancona_Platformer Ancona_Core2D
 set(ANCONA_EXT_LIBS
     optimized sfml-graphics debug sfml-graphics-d
     optimized sfml-window debug sfml-window-d
-    optimized sfml-system debug sfml-system-d
-    jsoncpp)
+    optimized sfml-system debug sfml-system-d)
 
 if(ANDROID)
     set(ANCONA_EXT_LIBS ${ANCONA_EXT_LIBS} android EGL log)
