@@ -41,7 +41,7 @@ bool Archive::EnterProperty(const int & index, bool createIfMissing, const rapid
 {
     if (index >= CurrentBranch().Size()) {
         if (createIfMissing) {
-            Assert(index == CurrentBranch().Size(), "Cannot add a new value to a json array beyond the size");
+            ILD_Assert(index == CurrentBranch().Size(), "Cannot add a new value to a json array beyond the size");
             CurrentBranch().PushBack(rapidjson::Value(typeToCreate), _allocator);
         } else {
             return false;

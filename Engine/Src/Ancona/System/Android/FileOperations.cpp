@@ -33,7 +33,7 @@ std::unique_ptr<std::ofstream> FileOperations::GetOutputFileStream(const std::st
 
     std::unique_ptr<std::ofstream> returnStream { new std::ofstream(fullFileName, std::ofstream::out) };
 
-    Assert(returnStream->is_open(), "Failed to open " + desiredFile);
+    ILD_Assert(returnStream->is_open(), "Failed to open " + desiredFile);
 
     return returnStream;
 }
@@ -81,7 +81,7 @@ std::istream * AndroidFileOperations::GetAndroidFileInputStream(const std::strin
     else 
     {
         auto apkFileStream = OpenFile(desiredFile);
-        Assert(apkFileStream != nullptr, "Could not find the " + desiredFile + " file in app storage or within apk.");
+        ILD_Assert(apkFileStream != nullptr, "Could not find the " + desiredFile + " file in app storage or within apk.");
         return new std::istringstream(apkFileStream->str());
     }
 }

@@ -63,7 +63,7 @@ std::string GetButtonStateTitle(ButtonStateEnum buttonState)
             return "pressed";
             break;
     }
-    Assert(false, "Unknown button state in GetButtonStateTitle");
+    ILD_Assert(false, "Unknown button state in GetButtonStateTitle");
     return "unknown";
 }
 
@@ -180,7 +180,7 @@ PointerStateEnum GetNextPointerState(bool isDown, PointerStateEnum previousState
                 return PointerState::Up;
             }
     }
-    Assert(false, "Unknown state reached in GetNextPointerState");
+    ILD_Assert(false, "Unknown state reached in GetNextPointerState");
     return PointerState::Up;
 }
 
@@ -226,6 +226,6 @@ ButtonStateEnum GetNextButtonState(ButtonStateEnum currentState, PointerStateEnu
             return currentState;
             break;
     }
-    Assert(false, "Unknown state reached in GetNextButtonState");
+    ILD_Assert(false, "Unknown state reached in GetNextButtonState");
     return currentState;
 }

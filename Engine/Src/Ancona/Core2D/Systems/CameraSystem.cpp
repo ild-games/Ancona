@@ -81,7 +81,7 @@ sf::Vector2f CameraComponent::GetEffectiveCenter()
 
 void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
 {
-	Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
+	ILD_Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
     _renderQueue.push_back(drawable);
 }
 
@@ -131,7 +131,7 @@ void CameraComponent::follows(Entity follows)
 /* getters and setters */
 void CameraComponent::scale(float scale)
 {
-    Assert(scale != float(0), "Scale cannot be 0");
+    ILD_Assert(scale != float(0), "Scale cannot be 0");
     _view.zoom(1 / _scale);
     _scale = scale;
     _view.zoom(_scale);

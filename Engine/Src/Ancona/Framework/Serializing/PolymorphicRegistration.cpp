@@ -10,5 +10,5 @@ PolymorphicSerializerAbstractBase::PolymorphicSerializerAbstractBase(
 
 void PolymorphicSerializerAbstractBase::Serialize(void *&property, Archive &arc)
 {
-    Assert(false, "Unable to serialize abstract base class " + _className);
+    ILD_Assert(false, "Unable to serialize abstract base class " + _className);
 }

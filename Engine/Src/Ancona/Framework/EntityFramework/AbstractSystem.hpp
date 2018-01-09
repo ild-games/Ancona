@@ -106,7 +106,7 @@ class AbstractSystem
          */
         virtual void Serialize(Archive & arc)
         {
-            Assert(false, "No serializer implemented for this system.");
+            ILD_Assert(false, "No serializer implemented for this system.");
         }
 
         /**

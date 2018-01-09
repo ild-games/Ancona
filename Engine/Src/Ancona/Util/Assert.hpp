@@ -35,7 +35,7 @@ class AssertControls
         /**
          * @brief Used to implement assert.  Should not be used outside of this file.
          */
-        static void _assert(bool condition, const std::string & message, const char * fileName, int lineNumber);
+        static void _ild_assert(bool condition, const std::string & message, const char * fileName, int lineNumber);
     private:
         static bool _throwException;
         static std::ostream * _errorStream;
@@ -44,13 +44,12 @@ class AssertControls
 }
 
 #ifdef NDEBUG // CMake defines the NDEBUG macro for release builds.
-#define Assert(condition, message) {}
+#define ILD_Assert(condition, message) {}
 #endif
 
 #ifndef NDEBUG
-#define Assert(condition,message) {\
-    using namespace ild; \
-    AssertControls::_assert(condition, message, __FILE__, __LINE__);\
+#define ILD_Assert(condition,message) {\
+    ild::AssertControls::_ild_assert(condition, message, __FILE__, __LINE__);\
 }
 #endif
 

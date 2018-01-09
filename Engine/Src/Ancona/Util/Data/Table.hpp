@@ -56,8 +56,8 @@ class Table
          */
         T & Get(int row, int column)
         {
-            Assert(row >= 0 && row < _numberOfRows, "Row is out of bounds");
-            Assert(column >= 0 && column < _numberOfColumns, "Column is out of bounds");
+            ILD_Assert(row >= 0 && row < _numberOfRows, "Row is out of bounds");
+            ILD_Assert(column >= 0 && column < _numberOfColumns, "Column is out of bounds");
             return _data[row][column];
         }
 

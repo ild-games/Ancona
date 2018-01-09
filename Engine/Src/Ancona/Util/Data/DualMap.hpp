@@ -60,8 +60,8 @@ class DualMap
          */
         void Add(const T & key, const V & val)
         {
-            Assert(!ContainsKey(key), "Key already exists in map");
-            Assert(!ContainsValue(val), "Value already exists in map");
+            ILD_Assert(!ContainsKey(key), "Key already exists in map");
+            ILD_Assert(!ContainsValue(val), "Value already exists in map");
             (*_normal)[key] = val;
             (*_reverse)[val] = key;
         }
@@ -73,7 +73,7 @@ class DualMap
          */
         void RemoveByKey(const T & key)
         {
-            Assert(ContainsKey(key), "Key does not exist in map");
+            ILD_Assert(ContainsKey(key), "Key does not exist in map");
             auto valOfNormal = _normal->find(key);
             _reverse->erase(valOfNormal->second);
             _normal->erase(valOfNormal);
@@ -86,7 +86,7 @@ class DualMap
          */
         void RemoveByValue(const V & val)
         {
-            Assert(ContainsValue(val), "Value does not exist in map");
+            ILD_Assert(ContainsValue(val), "Value does not exist in map");
             auto keyOfReverse = _reverse->find(val);
             _normal->erase(keyOfReverse->second);
             _reverse->erase(keyOfReverse);
@@ -101,7 +101,7 @@ class DualMap
          */
         const T & GetKey(V value)
         {
-            Assert(ContainsValue(value), "Value does not exist in map");
+            ILD_Assert(ContainsValue(value), "Value does not exist in map");
             return _reverse->at(value);
         }
 
@@ -114,7 +114,7 @@ class DualMap
          */
         const V & GetValue(T key)
         {
-            Assert(ContainsKey(key), "Key does not exist in map")
+            ILD_Assert(ContainsKey(key), "Key does not exist in map")
             return _normal->at(key);
         }
 

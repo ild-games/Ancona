@@ -66,7 +66,7 @@ struct Serializer<BodyTypeEnum> {
             }
             else
             {
-                Assert(false, "Unknown body type");
+                ILD_Assert(false, "Unknown body type");
             }
         }
         else
@@ -78,7 +78,7 @@ struct Serializer<BodyTypeEnum> {
             }
             else
             {
-                Assert(false, "Unknown body type");
+                ILD_Assert(false, "Unknown body type");
             }
         }
     }

@@ -37,7 +37,7 @@ class ClassConstructor {
     namespace ild {                                                      \
     template <> class ClassConstructor<CLASS> {                          \
         public: static CLASS * Construct() {                             \
-            Assert(false, "Unable to construct abstract class #CLASS");  \
+            ILD_Assert(false, "Unable to construct abstract class #CLASS");  \
             return nullptr;                                              \
     }};}
 

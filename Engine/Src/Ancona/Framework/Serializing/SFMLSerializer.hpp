@@ -109,7 +109,7 @@ struct Serializer<sf::Shape>
 {
     static void Serialize(sf::Shape & shape, Archive & arc)
     {
-        Assert(false, "Cannot serialize sf::Shape");
+        ILD_Assert(false, "Cannot serialize sf::Shape");
     }
 
     static const rapidjson::Type SerializingType() 

@@ -17,7 +17,7 @@ MapSerializer::MapSerializer(
     _loading(loading),
     _snapshotSave(snapshotSave)
 {
-    Assert(_profile != -1, "A profile must be specified for the map");
+    ILD_Assert(_profile != -1, "A profile must be specified for the map");
 }
 
 bool MapSerializer::ContinueLoading()
@@ -65,7 +65,7 @@ void MapSerializer::LoadMapFile()
 
     _saveProfileRoot = _saveRoot["profiles"][_profile];
     _mapName = _saveProfileRoot["screen-maps"][_key].GetString();
-    Assert(_mapName != "", "Cannot have a null map");
+    ILD_Assert(_mapName != "", "Cannot have a null map");
     std::string mapFileName = "maps/" + _mapName + ".map";
 
     auto mapStream = FileOperations::GetInputFileStream(mapFileName);

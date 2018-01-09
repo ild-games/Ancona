@@ -42,7 +42,7 @@ DrawableComponent * DrawableSystem::CreateComponent(
         std::unique_ptr<Drawable> topDrawable,
         PositionSystem * position)
 {
-    Assert(_defaultCamera != nullptr, "Default camera not set");
+    ILD_Assert(_defaultCamera != nullptr, "Default camera not set");
     return CreateComponent(entity, std::move(topDrawable), position, _defaultCamera);
 }
 

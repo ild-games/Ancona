@@ -92,7 +92,7 @@ class UnorderedSystem : public AbstractSystem
          */
         void RemoveComponent(const Entity & entity) override
         {
-            Assert(EntityHasComponent(entity), "Can not remove a component that does not exist");
+            ILD_Assert(EntityHasComponent(entity), "Can not remove a component that does not exist");
 
             EntityIsDeleted(entity);
             _systemManager.UnregisterComponent(entity, this);
@@ -144,7 +144,7 @@ class UnorderedSystem : public AbstractSystem
          */
         void EntityIsDeleted(const Entity & entity) override
         {
-            Assert(EntityHasComponent(entity),
+            ILD_Assert(EntityHasComponent(entity),
                     "A system should not be notified of an entities deletion if the \
                     system does not contain a component for the entity");
 
@@ -228,7 +228,7 @@ class UnorderedSystem : public AbstractSystem
 
         void Serialize(Archive & arc, std::false_type)
         {
-            Assert(false, "Cannot serialize system if its components lack a serialize method.");
+            ILD_Assert(false, "Cannot serialize system if its components lack a serialize method.");
         }
 
         bool FetchDependencies(const Entity & entity, std::true_type)
@@ -302,8 +302,8 @@ class UnorderedSystem : public AbstractSystem
          */
         virtual void AttachComponent(const Entity & entity, ComponentType * component)
         {
-            Assert(component != NULL, "Can not attach a null component");
-            Assert(!EntityHasComponent(entity), "Can not attach two of the same component to an entity");
+            ILD_Assert(component != NULL, "Can not attach a null component");
+            ILD_Assert(!EntityHasComponent(entity), "Can not attach two of the same component to an entity");
 
             _components[entity] = component;
             _systemManager.RegisterComponent(entity, this);

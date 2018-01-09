@@ -29,7 +29,8 @@
                 "Patches/sfml-fix-android-shutdown.patch",
                 "Patches/sfml-fix-macos-linker-errors.patch",
                 "Patches/sfml-ios-use-toolchain.patch",
-                "Patches/sfml-monkey-patch-ios-openal.patch"
+                "Patches/sfml-monkey-patch-ios-openal.patch",
+                "Patches/rapidjson-remove-bad-cxx-flag.patch"
             ]
         }
     ],
