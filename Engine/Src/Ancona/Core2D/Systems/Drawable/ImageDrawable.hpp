@@ -53,7 +53,7 @@ class ImageDrawable : public Drawable
         bool _isTiled = false;
         bool _isWholeImage = true;
 
-        void OnDraw(sf::RenderWindow &window, sf::Transform transform, float delta) override;
+        void OnDraw(sf::RenderTexture &texture, sf::Transform transform, float delta) override;
         void ApplyAlpha();
         void ApplyColor();
 };

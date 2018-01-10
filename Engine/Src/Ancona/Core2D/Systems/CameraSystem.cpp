@@ -35,7 +35,7 @@ void CameraComponent::Update(float delta)
      _view.setCenter(std::round(effectivePosition.x), std::round(effectivePosition.y));
 }
 
-void CameraComponent::Draw(sf::RenderWindow & window, float delta)
+void CameraComponent::Draw(sf::RenderTexture & texture, float delta)
 {
     Box2 cameraPosition(
         sf::Vector2f(_view.getCenter().x - (_view.getSize().x), _view.getCenter().y - (_view.getSize().y)),
@@ -43,7 +43,7 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
         sf::Vector2f(),
         _view.getRotation());
 
-    window.setView(_view);
+    texture.setView(_view);
 
     alg::sort(
         _renderQueue,
@@ -57,7 +57,7 @@ void CameraComponent::Draw(sf::RenderWindow & window, float delta)
         auto drawableBox = drawable->BoundingBox();
         if (cameraPosition.Intersects(drawableBox))
         {
-            drawable->Draw(window, delta);
+            drawable->Draw(texture, delta);
         }
         drawable->PostDrawUpdate(delta);
     }

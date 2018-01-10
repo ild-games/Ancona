@@ -89,7 +89,7 @@ class ContainerDrawable : public Drawable
         std::vector<std::shared_ptr<Drawable>> _drawables;
 
         void SortDrawables();
-        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
+        void OnDraw(sf::RenderTexture &texture, sf::Transform drawableTransform, float delta) override;
 };
 
 }

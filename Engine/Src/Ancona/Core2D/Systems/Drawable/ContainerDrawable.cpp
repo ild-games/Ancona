@@ -30,7 +30,7 @@ Drawable * ContainerDrawable::Copy() {
     return drawable;
 }
 
-void ContainerDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
+void ContainerDrawable::OnDraw(sf::RenderTexture &texture, sf::Transform drawableTransform, float delta)
 {
     if (_anchor.x != 0.0f || _anchor.y != 0.0f) {
         auto size = this->size();
@@ -40,7 +40,7 @@ void ContainerDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableT
     }
     for (auto & drawable : _drawables)
     {
-        drawable->Draw(window, drawableTransform, delta);
+        drawable->Draw(texture, drawableTransform, delta);
     }
 }
 

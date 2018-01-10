@@ -9,17 +9,25 @@ DrawableSystem::DrawableSystem(
         sf::RenderWindow & window,
         SystemManager & systemManager) :
     UnorderedSystem(systemName, systemManager, UpdateStep::Draw),
-    _window(window)
+    _window(window),
+    _renderTexture(new sf::RenderTexture())
 {
+    _renderTexture->create(1280, 720);
 }
 
 void DrawableSystem::Update(float delta)
 {
+    _renderTexture->clear();
+
     for (CameraComponent * camera : _cameras)
     {
-        camera->Draw(_window, delta);
+        camera->Draw(*_renderTexture, delta);
     }
-    _window.setView(_defaultCamera->view());
+
+    _renderTexture->display();
+    sf::Sprite sprite(_renderTexture->getTexture());
+    _window.draw(sprite);
+    //_window.setView(_defaultCamera->view());
 }
 
 void DrawableSystem::AddCamera(CameraComponent * camera)

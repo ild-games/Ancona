@@ -63,7 +63,7 @@ class CameraComponent
          *
          * @param window RenderWindow for the game.
          */
-        void Draw(sf::RenderWindow & window, float delta);
+        void Draw(sf::RenderTexture & texture, float delta);
 
         /**
          * @brief Adds a DrawableComponent to the camera's render queue.

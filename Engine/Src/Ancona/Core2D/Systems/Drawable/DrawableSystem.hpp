@@ -98,6 +98,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          * @brief The window the sprite system will draw to.
          */
         sf::RenderWindow & _window;
+        std::unique_ptr<sf::RenderTexture> _renderTexture;
         /**
          * @brief Holds pointers to the camera components sorted by priority
          */

@@ -73,7 +73,7 @@ class Drawable
          * @param parentTransform Transform of the parent drawable.
          */
         void Draw(
-                sf::RenderWindow &window,
+                sf::RenderTexture &texture,
                 sf::Transform parentTransform,
                 float delta);
 
@@ -178,7 +178,7 @@ class Drawable
 
         sf::Transform CalculateTransforms();
         virtual void OnDraw(
-                sf::RenderWindow &window,
+                sf::RenderTexture &texture,
                 sf::Transform drawableTransform,
                 float delta) = 0;
 };

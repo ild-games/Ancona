@@ -34,12 +34,12 @@ Drawable * ImageDrawable::Copy() {
     return drawable;
 }
 
-void ImageDrawable::OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta)
+void ImageDrawable::OnDraw(sf::RenderTexture &texture, sf::Transform drawableTransform, float delta)
 {
     if (_sprite.get() != NULL)
     {
         sf::RenderStates states(drawableTransform);
-        window.draw(*_sprite, states);
+        texture.draw(*_sprite, states);
     }
 }
 

@@ -75,7 +75,7 @@ class TextDrawable : public Drawable
 
         void SetupText();
         void CenterOrigin();
-        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
+        void OnDraw(sf::RenderTexture & texture, sf::Transform drawableTransform, float delta) override;
 };
 
 }
