@@ -67,7 +67,7 @@ class DrawableComponent
          *
          * @param window RenderWindow to draw it on
          */
-        void Draw(sf::RenderWindow & window, float delta);
+        void Draw(sf::RenderTexture & texture, float delta);
         void PostDrawUpdate(float delta);
 
         /**

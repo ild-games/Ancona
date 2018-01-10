@@ -10,5 +10,5 @@ InputControlComponent::InputControlComponent(
 
 void InputControlComponent::Update(float delta)
 {
-    _handler->HandleInput(delta);    
+    _handler->HandleInput(delta);
 }

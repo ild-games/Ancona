@@ -107,7 +107,7 @@ class AnimatedDrawable : public Drawable
 
         void Tick(float delta);
         void AdvanceFrame();
-        void OnDraw(sf::RenderWindow &window, sf::Transform drawableTransform, float delta) override;
+        void OnDraw(sf::RenderTexture &texture, sf::Transform drawableTransform, float delta) override;
 };
 
 }

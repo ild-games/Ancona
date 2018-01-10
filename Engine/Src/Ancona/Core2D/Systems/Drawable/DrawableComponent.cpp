@@ -28,11 +28,11 @@ Drawable * DrawableComponent::GetDrawable(const std::string & key)
 }
 
 
-void DrawableComponent::Draw(sf::RenderWindow &window, float delta)
+void DrawableComponent::Draw(sf::RenderTexture & texture, float delta)
 {
     sf::Transform transform;
     transform.translate(std::round(_positionComponent->position().x), std::round(_positionComponent->position().y));
-    _topDrawable->Draw(window, transform, delta);
+    _topDrawable->Draw(texture, transform, delta);
 }
 
 

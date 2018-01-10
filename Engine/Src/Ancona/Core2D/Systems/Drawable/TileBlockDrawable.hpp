@@ -34,7 +34,7 @@ class TileBlockDrawable : public Drawable
         std::vector<sf::Texture *> _baseTextures;
         std::vector<std::unique_ptr<sf::Texture>> _generatedTextures;
 
-        void OnDraw(sf::RenderWindow &window, sf::Transform transform, float delta) override;
+        void OnDraw(sf::RenderTexture & texture, sf::Transform transform, float delta) override;
         void SetupImages(sf::Image image);
 
         sf::Texture * createTexture();
