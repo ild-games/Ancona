@@ -10,13 +10,16 @@ DrawableSystem::DrawableSystem(
         SystemManager & systemManager) :
     UnorderedSystem(systemName, systemManager, UpdateStep::Draw),
     _window(window),
-    _renderTexture(new sf::RenderTexture())
+    _renderTexture(new sf::RenderTexture()),
+    _windowSprite(new sf::Sprite()),
+    _renderView(new sf::View())
 {
-    _renderTexture->create(1280, 720);
 }
 
 void DrawableSystem::Update(float delta)
 {
+    ILD_Assert(_defaultCamera != nullptr, "Default camera not set");
+
     _renderTexture->clear();
 
     for (CameraComponent * camera : _cameras)
@@ -25,9 +28,18 @@ void DrawableSystem::Update(float delta)
     }
 
     _renderTexture->display();
-    sf::Sprite sprite(_renderTexture->getTexture());
-    _window.draw(sprite);
-    //_window.setView(_defaultCamera->view());
+    _windowSprite->setTexture(_renderTexture->getTexture());
+    _window.setView(*_renderView);
+    _window.draw(*_windowSprite);
+}
+
+
+void DrawableSystem::SetupWindowRenderElements() 
+{
+    auto defaultSize = _defaultCamera->view().getSize();
+    _renderTexture->create(defaultSize.x, defaultSize.y);
+    _renderView->setSize(defaultSize);
+    _renderView->setCenter(defaultSize.x / 2, defaultSize.y / 2);
 }
 
 void DrawableSystem::AddCamera(CameraComponent * camera)
@@ -87,4 +99,5 @@ void DrawableSystem::defaultCamera(CameraComponent *defaultCamera)
         RemoveCamera(_defaultCamera);
     }
     _defaultCamera = defaultCamera;
+    SetupWindowRenderElements();
 }

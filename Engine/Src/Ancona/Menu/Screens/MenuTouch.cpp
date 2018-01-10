@@ -19,7 +19,9 @@ void MenuTouch::HandleFingerPress(const int finger, float delta)
     {
         using namespace ild;
 
-        auto fingerPosition = _systems->screenManager().Window.mapPixelToCoords(sf::Touch::getPosition(finger));
+        auto fingerPosition = _systems->screenManager().Window.mapPixelToCoords(
+            sf::Touch::getPosition(finger),
+            _systems->drawable().defaultCamera()->view());
         _lastPosition = sf::Vector2f(fingerPosition);
         _playerComponent->UpdatePointer(_lastPosition, true);
     }

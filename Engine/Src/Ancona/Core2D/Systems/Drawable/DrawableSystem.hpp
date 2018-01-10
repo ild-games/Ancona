@@ -87,6 +87,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /* gettes and setters */
         void defaultCamera(CameraComponent *defaultCamera);
         CameraComponent * defaultCamera() { return _defaultCamera; }
+        sf::RenderTexture &  renderTexture() { return *_renderTexture; }
     protected:
         /**
          * @see copydoc::SystemManager::OnComponentRemove
@@ -99,6 +100,9 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          */
         sf::RenderWindow & _window;
         std::unique_ptr<sf::RenderTexture> _renderTexture;
+        std::unique_ptr<sf::Sprite> _windowSprite;
+        std::unique_ptr<sf::View> _renderView;
+
         /**
          * @brief Holds pointers to the camera components sorted by priority
          */
@@ -107,6 +111,8 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          * @brief Default camera to use for drawable components.
          */
         CameraComponent * _defaultCamera = nullptr;
+
+        void SetupWindowRenderElements();
 };
 
 

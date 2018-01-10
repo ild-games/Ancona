@@ -5,8 +5,8 @@ add_subdirectory(Src/Ancona/Framework)
 add_subdirectory(Src/Ancona/Platformer)
 add_subdirectory(Src/Ancona/Util)
 add_subdirectory(Src/Ancona/Util2D)
-add_subdirectory(Src/Ancona/System)
 add_subdirectory(Src/Ancona/Menu)
+add_subdirectory(Src/Ancona/System)
 
 install(DIRECTORY Src/ DESTINATION include
     FILES_MATCHING PATTERN *.hpp)
