@@ -55,6 +55,7 @@ void ImageDrawable::SetupSprite()
 
 void ImageDrawable::SetupSprite(sf::Texture * texture)
 {
+    texture->setSmooth(true);
     if (_isTiled)
     {
         texture->setRepeated(true);
