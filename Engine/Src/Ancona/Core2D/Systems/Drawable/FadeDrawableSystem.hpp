@@ -50,6 +50,7 @@ class FadeDrawableComponent
         /* getters and setters */
         bool fadeIn() { return _fadeIn; }
         void fadeIn(bool fadeIn) { _fadeIn = fadeIn; }
+        void destroySelf(bool newDestroySelf) { _destroySelf = newDestroySelf; }
     private:
         /**
          * @brief The drawable component being faded.
