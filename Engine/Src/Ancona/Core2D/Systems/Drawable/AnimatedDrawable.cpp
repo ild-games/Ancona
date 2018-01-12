@@ -37,7 +37,7 @@ Drawable * AnimatedDrawable::Copy() {
     return drawable;
 }
 
-void AnimatedDrawable::OnDraw(sf::RenderTexture &texture, sf::Transform drawableTransform, float delta)
+void AnimatedDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta)
 {
     if (_anchor.x != 0.0f || _anchor.y != 0.0f) {
         auto size = this->size();
@@ -45,7 +45,7 @@ void AnimatedDrawable::OnDraw(sf::RenderTexture &texture, sf::Transform drawable
             -(size.x * _anchor.x / std::abs(_scale.x)),
             -(size.y * _anchor.y / std::abs(_scale.y)));
     }
-    _frames[_curFrame]->Draw(texture, drawableTransform, delta);
+    _frames[_curFrame]->Draw(target, drawableTransform, delta);
 }
 
 void AnimatedDrawable::PostDrawUpdate(float delta) 

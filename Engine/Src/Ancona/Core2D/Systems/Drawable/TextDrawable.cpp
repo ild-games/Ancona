@@ -45,10 +45,10 @@ Drawable * TextDrawable::Copy() {
     return drawable;
 }
 
-void TextDrawable::OnDraw(sf::RenderTexture & texture, sf::Transform drawableTransform, float delta)
+void TextDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta)
 {
     sf::RenderStates states(drawableTransform);
-    texture.draw(*_text, states);
+    target.draw(*_text, states);
 }
 
 

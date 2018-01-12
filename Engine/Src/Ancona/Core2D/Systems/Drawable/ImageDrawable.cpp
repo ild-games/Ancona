@@ -34,12 +34,12 @@ Drawable * ImageDrawable::Copy() {
     return drawable;
 }
 
-void ImageDrawable::OnDraw(sf::RenderTexture &texture, sf::Transform drawableTransform, float delta)
+void ImageDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta)
 {
     if (_sprite.get() != NULL)
     {
         sf::RenderStates states(drawableTransform);
-        texture.draw(*_sprite, states);
+        target.draw(*_sprite, states);
     }
 }
 
@@ -55,15 +55,16 @@ void ImageDrawable::SetupSprite()
 
 void ImageDrawable::SetupSprite(sf::Texture * texture)
 {
-    texture->setSmooth(true);
     if (_isTiled)
     {
+        texture->setSmooth(false);
         texture->setRepeated(true);
         _textureRect.Dimension.x = _tiledArea.x;
         _textureRect.Dimension.y = _tiledArea.y;
     }
     else
     {
+        texture->setSmooth(true);
         if (_isWholeImage)
         {
             _textureRect.Dimension.x = texture->getSize().x;

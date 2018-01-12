@@ -43,6 +43,8 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          * @param delta Ignored by the drawable system.
          */
         void Update(float delta);
+        void RenderUsingTexture(float delta);
+        void RenderUsingWindow(float delta);
 
         /**
          * @brief Adds a CameraComponent to the system's cameras.

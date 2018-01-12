@@ -20,6 +20,12 @@ void DrawableSystem::Update(float delta)
 {
     ILD_Assert(_defaultCamera != nullptr, "Default camera not set");
 
+    //RenderUsingTexture(delta);
+    RenderUsingWindow(delta);
+}
+
+void DrawableSystem::RenderUsingTexture(float delta)
+{
     _renderTexture->clear();
 
     for (CameraComponent * camera : _cameras)
@@ -34,6 +40,14 @@ void DrawableSystem::Update(float delta)
     _window.draw(*_windowSprite, states);
 }
 
+void DrawableSystem::RenderUsingWindow(float delta) 
+{
+    for (CameraComponent * camera : _cameras)
+    {
+        camera->Draw(_window, delta);
+    }
+    _window.setView(_defaultCamera->view());
+}
 
 void DrawableSystem::SetupWindowRenderElements() 
 {

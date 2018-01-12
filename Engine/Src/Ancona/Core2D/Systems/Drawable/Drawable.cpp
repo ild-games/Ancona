@@ -40,11 +40,11 @@ void Drawable::Serialize(Archive &arc)
     arc(_key, "key");
 }
 
-void Drawable::Draw(sf::RenderTexture &texture, sf::Transform parentTransform, float delta)
+void Drawable::Draw(sf::RenderTarget & target, sf::Transform parentTransform, float delta)
 {
     if (!_inactive)
     {
-        OnDraw(texture, parentTransform.combine(CalculateTransforms()), delta);
+        OnDraw(target, parentTransform.combine(CalculateTransforms()), delta);
     }
 }
 

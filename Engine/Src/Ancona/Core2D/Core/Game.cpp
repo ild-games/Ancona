@@ -41,7 +41,7 @@ void Game::Run()
         }
 
         sf::Time elapsed = clock.restart();
-        float delta = std::min(elapsed.asSeconds(), 0.025f);
+        float delta = std::min(elapsed.asSeconds(), 0.0245f);
 
         if (_windowIsActive)
         {

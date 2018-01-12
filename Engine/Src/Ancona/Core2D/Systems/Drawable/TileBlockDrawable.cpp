@@ -13,9 +13,9 @@ Drawable * TileBlockDrawable::Copy() {
     return drawable;
 }
 
-void TileBlockDrawable::OnDraw(sf::RenderTexture & texture, sf::Transform drawableTransform, float delta) {
+void TileBlockDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta) {
     for (auto const & imageDrawable : _imageDrawables) {
-        imageDrawable->Draw(texture, drawableTransform, delta);
+        imageDrawable->Draw(target, drawableTransform, delta);
     }
 }
 

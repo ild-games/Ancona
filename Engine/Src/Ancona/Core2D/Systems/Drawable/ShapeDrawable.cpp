@@ -28,10 +28,10 @@ Drawable * ShapeDrawable::Copy() {
     return drawable;
 }
 
-void ShapeDrawable::OnDraw(sf::RenderTexture &texture, sf::Transform drawableTransform, float delta)
+void ShapeDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta)
 {
     sf::RenderStates states(drawableTransform);
-    texture.draw(*_shape, states);
+    target.draw(*_shape, states);
 }
 
 void ShapeDrawable::FetchDependencies(const Entity &entity) {
