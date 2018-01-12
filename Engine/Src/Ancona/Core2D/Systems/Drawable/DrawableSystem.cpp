@@ -30,7 +30,8 @@ void DrawableSystem::Update(float delta)
     _renderTexture->display();
     _windowSprite->setTexture(_renderTexture->getTexture());
     _window.setView(*_renderView);
-    _window.draw(*_windowSprite);
+    sf::RenderStates states(sf::BlendNone);
+    _window.draw(*_windowSprite, states);
 }
 
 
@@ -45,11 +46,12 @@ void DrawableSystem::SetupWindowRenderElements()
 void DrawableSystem::AddCamera(CameraComponent * camera)
 {
     _cameras.push_back(camera);
-    alg::sort(_cameras,
-            [](CameraComponent * lhs, CameraComponent * rhs)
-            {
-                return lhs->renderPriority() < rhs->renderPriority();
-            });
+    alg::sort(
+        _cameras,
+        [](CameraComponent * lhs, CameraComponent * rhs)
+        {
+            return lhs->renderPriority() < rhs->renderPriority();
+        });
 }
 
 void DrawableSystem::RemoveCamera(CameraComponent * camera)
