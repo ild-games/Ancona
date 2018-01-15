@@ -1,5 +1,5 @@
-#ifndef Ancona_Core2D_Systems_Audio_Sound_H_
-#define Ancona_Core2D_Systems_Audio_Sound_H_
+#ifndef Ancona_Core2D_Systems_Audio_Music_H_
+#define Ancona_Core2D_Systems_Audio_Music_H_
 
 #include <string>
 
@@ -10,25 +10,25 @@
 namespace ild
 {
 
-typedef float modulationFunction();
-
-class Sound
+class Music
 {
     public:
-        Sound() {}
+        Music() {}
 
         void Play();
         void Stop();
 
-        const std::string & key() { return _soundKey; }
 
         void Serialize(Archive &arc);
         void FetchDependencies(const Entity & entity);
 
+        /* getters and setters */
+        const std::string & key() { return _musicKey; }
+
     private:
         float _volume;
-        std::string _soundKey;
-        std::unique_ptr<sf::Sound> _sound;
+        std::string _musicKey;
+        std::unique_ptr<sf::Music> _music;
 
 };
 

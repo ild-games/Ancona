@@ -6,14 +6,14 @@ using namespace ild;
 void SoundComponent::Serialize(Archive &arc)
 {
     arc(_sounds, "sounds");
-    for (auto sound: _sounds) {
+    for (auto & sound: _sounds) {
         _hashedSounds.insert({sound->key(), sound});
     }
 }
 
 void SoundComponent::FetchDependencies(const Entity & entity) 
 {
-    for (auto sound : _sounds) {
+    for (auto & sound : _sounds) {
         sound->FetchDependencies(entity);
     }
 }
