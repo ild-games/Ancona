@@ -26,9 +26,9 @@ void DrawableSystem::Update(float delta)
 
 void DrawableSystem::RenderUsingTexture(float delta)
 {
-    _renderTexture->clear();
+    _renderTexture->clear(sf::Color(255, 255, 255, 0));
 
-    for (CameraComponent * camera : _cameras)
+    for (auto & camera : _cameras)
     {
         camera->Draw(*_renderTexture, delta);
     }
@@ -42,7 +42,7 @@ void DrawableSystem::RenderUsingTexture(float delta)
 
 void DrawableSystem::RenderUsingWindow(float delta) 
 {
-    for (CameraComponent * camera : _cameras)
+    for (auto & camera : _cameras)
     {
         camera->Draw(_window, delta);
     }

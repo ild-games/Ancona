@@ -89,7 +89,6 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /* gettes and setters */
         void defaultCamera(CameraComponent *defaultCamera);
         CameraComponent * defaultCamera() { return _defaultCamera; }
-        sf::RenderTexture &  renderTexture() { return *_renderTexture; }
     protected:
         /**
          * @see copydoc::SystemManager::OnComponentRemove
