@@ -23,9 +23,10 @@ class SoundComponent
 
         void FetchDependencies(const Entity & entity);
 
+        void Update(float delta);
         void Serialize(Archive & arc);
 
-        std::shared_ptr<Sound> GetSound(std::string key) { return _hashedSounds[key]; }
+        std::shared_ptr<Sound> GetSound(const std::string & key);
 
     private:
         std::vector<std::shared_ptr<Sound>> _sounds;

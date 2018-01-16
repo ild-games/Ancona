@@ -20,7 +20,8 @@ class MusicComponent
         void Serialize(Archive & arc);
         void Update(float delta);
 
-        std::shared_ptr<Music> GetMusic(std::string key) { return _hashedMusics[key]; }
+        std::shared_ptr<Music> GetMusic(const std::string & key);
+        bool HasMusic(const std::string & key);
 
     private:
         std::vector<std::shared_ptr<Music>> _musics;
@@ -37,6 +38,7 @@ class MusicSystem : public UnorderedSystem<MusicComponent>
         void Update(float delta) override;
 
         MusicComponent * CreateComponent(const Entity & entity);
+        void PlayMusic(const std::string & musicToPlay);
 
 };
 

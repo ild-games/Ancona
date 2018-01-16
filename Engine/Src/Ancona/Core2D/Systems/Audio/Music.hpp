@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <SFML/Audio.hpp>
-
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
 namespace ild
@@ -28,7 +26,6 @@ class Music
     private:
         float _volume;
         std::string _musicKey;
-        std::unique_ptr<sf::Music> _music;
 
 };
 
