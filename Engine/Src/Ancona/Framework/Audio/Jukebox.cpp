@@ -21,7 +21,15 @@ void Jukebox::Play(const std::string & musicKey) {
     _music->play();
 }
 
+void Jukebox::Play() {
+    _music->play();
+}
+
 void Jukebox::Stop() {
     _musicKeyPlaying = "";
     _music->stop();
+}
+
+void Jukebox::Pause() {
+    _music->pause();
 }
