@@ -35,7 +35,7 @@ void TileBlockDrawable::InitializeImages() {
         auto texture = ResourceLibrary::Get<sf::Texture>(_textureKey);
         _tileSize = sf::Vector2f(texture->getSize().x / 4, texture->getSize().y / 4);
         _numTiles = sf::Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
-        SetupImages(texture->copyToImage());
+        //SetupImages(texture->copyToImage());
     }
 }
 

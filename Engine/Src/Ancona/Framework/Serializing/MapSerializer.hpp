@@ -115,6 +115,9 @@ class MapSerializer
          * @brief True if the saving will save everything, false if not.
          */
         bool _snapshotSave;
+
+        static std::unique_ptr<rapidjson::Document> _lastMapRoot;
+        static std::string _lastMapLoaded;
 };
 
 }

@@ -143,6 +143,7 @@ class CameraComponent
         PositionSystem * _positionSystem;
         DrawableSystem * _drawableSystem;
         bool _default = false;
+        bool _sorted = false;
 
 };
 
