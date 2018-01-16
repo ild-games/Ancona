@@ -17,7 +17,7 @@ class TileBlockDrawable : public Drawable
 
         void Serialize(Archive & arc) override;
         void FetchDependencies(const Entity & entity) override;
-        void InitializeImages();
+        void InitializeVertexArray();
 
         /* getters and setters */
         sf::Vector2f size() override { return _size; }
@@ -29,12 +29,24 @@ class TileBlockDrawable : public Drawable
         std::string _textureKey;
         sf::Vector2f _numTiles;
         sf::Vector2f _tileSize;
+        int _numVertices = 0;
         sf::Vector2f _size;
         sf::VertexArray _vertexArray;
         sf::Texture * _texture;
         int _alpha = 255;
 
         void OnDraw(sf::RenderTarget & target, sf::Transform transform, float delta) override;
+
+        /* vertex block init */
+        int NUM_VERTICES_PER_TILE = 4;
+        sf::Vector2i SINGLE_BLOCK_TILE_POS = sf::Vector2i(3, 3);
+        sf::Vector2i HORIZONTAL_BLOCK_TILE_POS = sf::Vector2i(0, 3);
+        sf::Vector2i VERTICAL_BLOCK_TILE_POS = sf::Vector2i(3, 0);
+        sf::Vector2i FULL_BLOCK_TILE_POS = sf::Vector2i(0, 0);
+        void SetupVertexBlock();
+        sf::Vector2i & BlockTileStartingPosition();
+        int XTileToUse(int whichXBlock);
+        int YTileToUse(int whichYBlock);
 };
 
 }
