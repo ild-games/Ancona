@@ -38,38 +38,48 @@ void TileBlockDrawable::InitializeVertexArray() {
         _texture = ResourceLibrary::Get<sf::Texture>(_textureKey);
         _tileSize = sf::Vector2f(_texture->getSize().x / 4, _texture->getSize().y / 4);
         _numTiles = sf::Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
-        _numVertices = _numTiles.x * _numTiles.y * NUM_VERTICES_PER_TILE;
-        //ILD_Log(std::ostringstream().flush() << "Tile size: " << _tileSize << ", Num tiles: " << _numTiles << ", Num vertices: " << _numVertices);
-
+        _numVertices = std::ceil(_numTiles.x) * std::ceil(_numTiles.y) * NUM_VERTICES_PER_TILE;
         SetupVertexBlock();
     }
 }
 
 void TileBlockDrawable::SetupVertexBlock() {
     _vertexArray = sf::VertexArray(sf::TrianglesStrip, _numVertices);
-    sf::Vector2i & blockTileStartingPos = BlockTileStartingPosition();
 
     int vertexIndex = 0;
-    for (int whichYBlock = 0; whichYBlock < (int)_numTiles.y; whichYBlock++) {
-        for (int whichXBlock = 0; whichXBlock < (int)_numTiles.x; whichXBlock++) {
-            for (int k = 0; k < NUM_VERTICES_PER_TILE; k++) {
-                int xVertexOffset = k < 2 ? 0 : 1;
-                int yVertexOffset = (k+1) % 2;
-                int xTileToUse = XTileToUse(whichXBlock);
-                int yTileToUse = YTileToUse(whichYBlock);
-
-                float positionX = (whichXBlock * _tileSize.x) + (_tileSize.x * xVertexOffset);
-                float positionY = (whichYBlock * _tileSize.y) + (_tileSize.y * yVertexOffset);
-                //ILD_Log(std::ostringstream().flush() << "Vertex Index: " << vertexIndex);
-                _vertexArray[vertexIndex].position = sf::Vector2f(positionX, positionY);
-
-                float texCoordsX = (xTileToUse * _tileSize.x) + ((blockTileStartingPos.x + xVertexOffset) * _tileSize.x);
-                float texCoordsY = (yTileToUse * _tileSize.y) + ((blockTileStartingPos.y + yVertexOffset) * _tileSize.y);
-                _vertexArray[vertexIndex].texCoords = sf::Vector2f(texCoordsX, texCoordsY);
-
-                vertexIndex++;
+    for (int whichYBlock = 0; whichYBlock < std::ceil(_numTiles.y); whichYBlock++) {
+        // For every row in the 9 slice, go the opposite direction as the last row. This lets the next
+        // vertex process always be right next to the last vertex process which prevents tearing.
+        if (whichYBlock % 2 == 0) {
+            for (int whichXBlock = 0; whichXBlock < std::ceil(_numTiles.x); whichXBlock++) {
+                AddVertexTile(whichXBlock, whichYBlock, vertexIndex, true);
+            }
+        } else {
+            for (int whichXBlock = std::ceil(_numTiles.x) - 1; whichXBlock >= 0; whichXBlock--) {
+                AddVertexTile(whichXBlock, whichYBlock, vertexIndex, false);
             }
         }
+    }
+}
+
+void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight) {
+    for (int whichVertex = 0; whichVertex < NUM_VERTICES_PER_TILE; whichVertex++) {
+        float fractionPartX = whichXBlock < std::ceil(_numTiles.x) - 1 ? 0 : _numTiles.x - (int)_numTiles.x;
+        float fractionPartY = whichYBlock < std::ceil(_numTiles.y) - 1 ? 0 : _numTiles.y - (int)_numTiles.y;
+        int xVertexOffset = XVertexOffset(isLeftToRight, whichVertex);
+        int yVertexOffset = (whichVertex+1) % 2;
+        int xTileToUse = XTileToUse(whichXBlock);
+        int yTileToUse = YTileToUse(whichYBlock);
+
+        float positionX = (whichXBlock * _tileSize.x) + (_tileSize.x * xVertexOffset) - (_tileSize.x * fractionPartX);
+        float positionY = (whichYBlock * _tileSize.y) + (_tileSize.y * yVertexOffset) - (_tileSize.y * fractionPartY);
+        _vertexArray[vertexIndex].position = sf::Vector2f(positionX, positionY);
+
+        float texCoordsX = (xTileToUse * _tileSize.x) + ((BlockTileStartingPosition().x + xVertexOffset) * _tileSize.x);
+        float texCoordsY = (yTileToUse * _tileSize.y) + ((BlockTileStartingPosition().y + yVertexOffset) * _tileSize.y);
+        _vertexArray[vertexIndex].texCoords = sf::Vector2f(texCoordsX, texCoordsY);
+
+        vertexIndex++;
     }
 }
 
@@ -82,6 +92,22 @@ sf::Vector2i & TileBlockDrawable::BlockTileStartingPosition() {
         return VERTICAL_BLOCK_TILE_POS;
     } else {
         return FULL_BLOCK_TILE_POS;
+    }
+}
+
+int TileBlockDrawable::XVertexOffset(bool isLeftToRight, int whichVertex) {
+    if (isLeftToRight) {
+        if (whichVertex < 2) {
+            return 0;
+        } else {
+            return 1;
+        }
+    } else {
+        if (whichVertex < 2) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
 

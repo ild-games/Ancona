@@ -44,7 +44,9 @@ class TileBlockDrawable : public Drawable
         sf::Vector2i VERTICAL_BLOCK_TILE_POS = sf::Vector2i(3, 0);
         sf::Vector2i FULL_BLOCK_TILE_POS = sf::Vector2i(0, 0);
         void SetupVertexBlock();
+        void AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight);
         sf::Vector2i & BlockTileStartingPosition();
+        int XVertexOffset(bool isLeftToRight, int whichVertex);
         int XTileToUse(int whichXBlock);
         int YTileToUse(int whichYBlock);
 };
