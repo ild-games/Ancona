@@ -23,6 +23,12 @@ std::shared_ptr<Sound> SoundComponent::GetSound(const std::string & key) {
     return _hashedSounds[key]; 
 }
 
+void SoundComponent::SetVolume(float volumePercent) {
+    for (auto & sound : _sounds) {
+        sound->SetVolume(volumePercent);
+    }
+}
+
 SoundSystem::SoundSystem(
         std::string name,
         SystemManager &manager) :
@@ -39,4 +45,11 @@ SoundComponent * SoundSystem::CreateComponent(const Entity &entity) {
     SoundComponent * comp = new SoundComponent();
     AttachComponent(entity, comp);
     return comp;
+}
+
+
+void SoundSystem::SetVolume(float volumePercent) {
+    for (EntityComponentPair comp : *this) {
+        comp.second->SetVolume(volumePercent);
+    }
 }

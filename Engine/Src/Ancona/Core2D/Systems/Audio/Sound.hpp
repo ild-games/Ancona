@@ -19,6 +19,7 @@ class Sound
 
         void Play();
         void Stop();
+        void SetVolume(float volumePercent);
 
         const std::string & key() { return _soundKey; }
 

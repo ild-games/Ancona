@@ -65,6 +65,7 @@ class ButtonComponent
          * Returns true if the entity was clicked this update step.
          */
         bool WasClicked();
+        bool IsPressed();
 
         const std::string & key() { return _key; }
         void key(const std::string & key) { _key = key; }
@@ -106,19 +107,22 @@ class ButtonSystem : public ild::UnorderedSystem<ButtonComponent>
          * Check if an entity was pressed.
          * @return True if an entity was pressed, false otherwise.
          */
-        bool WasEntityPressed();
+        bool WasEntityClicked();
+        bool IsEntityPressed();
 
         /**
          * Determine which entity was pressed. Returns ild::nullentity when WasEntityPressed
          * returns false.
          * @return The entity that was pressed.
          */
+        ild::Entity GetClickedEntity();
         ild::Entity GetPressedEntity();
 
         /**
          * Get the MenuKey of the pressed button.
          * @return If WasEntityPressed() returns true, this is the button key. Returns "" if no button was pressed.
          */
+        std::string GetClickedKey();
         std::string GetPressedKey();
 
         /**
@@ -137,7 +141,11 @@ class ButtonSystem : public ild::UnorderedSystem<ButtonComponent>
         ButtonComponent * CreateComponent(
                 const ild::Entity & entity);
 
+        /* getters and setters */
+        const ild::Point & location() { return _location; }
+
     private:
+        ild::Entity _clickedEntity = ild::nullentity;
         ild::Entity _pressedEntity = ild::nullentity;
         ild::Point _location;
         PointerStateEnum _pointerState = PointerState::Up;

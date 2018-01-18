@@ -46,6 +46,11 @@ bool ButtonComponent::WasClicked()
     return _buttonState == ButtonState::Clicked;
 }
 
+bool ButtonComponent::IsPressed()
+{
+    return _buttonState == ButtonState::Pressed;
+}
+
 std::string GetButtonStateTitle(ButtonStateEnum buttonState)
 {
     switch (buttonState)
@@ -96,13 +101,14 @@ void ButtonSystem::Update(float delta)
     _pointerState = GetNextPointerState(_isDown, _pointerState);
     ild::Box2 box(_location, sf::Vector2f(1.0, 1.0));
 
+    _clickedEntity = ild::nullentity;
     _pressedEntity = ild::nullentity;
-    for (EntityComponentPair comp : *this)
-    {
+    for (EntityComponentPair comp : *this) {
         comp.second->Update(delta, box, _pointerState);
 
-        if (comp.second->WasClicked())
-        {
+        if (comp.second->WasClicked()) {
+            _clickedEntity = comp.first;
+        } else if (comp.second->IsPressed()) {
             _pressedEntity = comp.first;
         }
     }
@@ -121,7 +127,25 @@ ButtonComponent * ButtonSystem::CreateComponent(const ild::Entity &entity)
     return comp;
 }
 
-bool ButtonSystem::WasEntityPressed()
+bool ButtonSystem::WasEntityClicked()
+{
+    return _clickedEntity != ild::nullentity;
+}
+
+ild::Entity ButtonSystem::GetClickedEntity()
+{
+    return _clickedEntity;
+}
+
+std::string ButtonSystem::GetClickedKey()
+{
+    if (WasEntityClicked()) {
+        return this->at(_clickedEntity)->key();
+    }
+    return "";
+}
+
+bool ButtonSystem::IsEntityPressed()
 {
     return _pressedEntity != ild::nullentity;
 }
@@ -133,7 +157,7 @@ ild::Entity ButtonSystem::GetPressedEntity()
 
 std::string ButtonSystem::GetPressedKey()
 {
-    if (WasEntityPressed()) {
+    if (IsEntityPressed()) {
         return this->at(_pressedEntity)->key();
     }
     return "";

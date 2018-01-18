@@ -35,9 +35,9 @@ void MenuScreen::Update(float delta)
     _systems->systemManager().Update(delta, ild::UpdateStep::Update);
     _systems->systemManager().Update(delta, ild::UpdateStep::Physics);
 
-    if (_systems->button().WasEntityPressed())
+    if (_systems->button().WasEntityClicked())
     {
-        _buttonPressed(_systems->button().GetPressedKey());
+        _buttonPressed(_systems->button().GetClickedKey());
     }
 }
 
