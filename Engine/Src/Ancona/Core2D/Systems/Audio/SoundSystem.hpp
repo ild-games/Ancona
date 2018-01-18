@@ -27,6 +27,7 @@ class SoundComponent
         void Serialize(Archive & arc);
 
         std::shared_ptr<Sound> GetSound(const std::string & key);
+        void SetVolume(float volumePercent);
 
     private:
         std::vector<std::shared_ptr<Sound>> _sounds;
@@ -42,8 +43,8 @@ class SoundSystem : public UnorderedSystem<SoundComponent>
 
         void Update(float delta) override;
 
-        SoundComponent * CreateComponent(
-                const Entity & entity);
+        SoundComponent * CreateComponent(const Entity & entity);
+        void SetVolume(float volumePercent);
 
 };
 

@@ -16,9 +16,17 @@ class Jukebox
         static void Stop();
         static void Pause();
 
+        /* getters and setters */
+        static void musicVolumePercent(float volume);
+        static float musicVolumePercent();
+        static void soundVolumePercent(float volume);
+        static float soundVolumePercent();
+
     private:
         static std::unique_ptr<sf::Music> _music;
         static std::string _musicKeyPlaying;
+        static float _musicVolumePercent;
+        static float _soundVolumePercent;
 };
 
 }
