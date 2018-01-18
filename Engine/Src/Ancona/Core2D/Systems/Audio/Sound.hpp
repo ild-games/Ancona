@@ -17,18 +17,29 @@ class Sound
     public:
         Sound() {}
 
+        Sound(std::string key, float pitch = 1.0f) : 
+            _soundKey(key), 
+            _pitch(pitch) 
+        {
+        }
+
         void Play();
         void Stop();
         void SetVolume(float volumePercent);
 
-        const std::string & key() { return _soundKey; }
-
         void Serialize(Archive &arc);
         void FetchDependencies(const Entity & entity);
+        void SetupSound();
+
+        /* getters and setters */
+        const std::string & key() { return _soundKey; }
+        float pitch() { return _pitch; }
+        void pitch(float newPitch);
 
     private:
-        float _volume;
+
         std::string _soundKey;
+        float _pitch = 1.0f;
         std::unique_ptr<sf::Sound> _sound;
 
 };

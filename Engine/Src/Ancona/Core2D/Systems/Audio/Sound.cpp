@@ -5,15 +5,20 @@ using namespace ild;
 
 void Sound::Serialize(Archive & arc) 
 {
-    arc(_volume, "volume");
     arc(_soundKey, "soundKey");
+    arc(_pitch, "pitch");
 }
 
 void Sound::FetchDependencies(const Entity & entity) 
 {
+    SetupSound();
+}
+
+void Sound::SetupSound() 
+{
     auto buffer = ResourceLibrary::Get<sf::SoundBuffer>(_soundKey);
     _sound = std::unique_ptr<sf::Sound>(new sf::Sound(*buffer));
-
+    _sound->setPitch(_pitch);
     SetVolume(Jukebox::soundVolumePercent());
 }
 
@@ -32,4 +37,11 @@ void Sound::Play() {
 
 void Sound::Stop() {
     _sound->stop();
+}
+
+/* getters and setters */
+void Sound::pitch(float newPitch) 
+{
+    _pitch = newPitch;
+    _sound->setPitch(newPitch);
 }
