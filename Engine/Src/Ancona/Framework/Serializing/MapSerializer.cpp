@@ -4,6 +4,9 @@
 
 using namespace ild;
 
+std::unique_ptr<rapidjson::Document> MapSerializer::_lastMapRoot = std::unique_ptr<rapidjson::Document>(new rapidjson::Document());
+std::string MapSerializer::_lastMapLoaded = "";
+
 MapSerializer::MapSerializer(
         std::string key,
         ScreenSystemsContainer & systems,
@@ -66,11 +69,17 @@ void MapSerializer::LoadMapFile()
     _saveProfileRoot = _saveRoot["profiles"][_profile];
     _mapName = _saveProfileRoot["screen-maps"][_key].GetString();
     ILD_Assert(_mapName != "", "Cannot have a null map");
-    std::string mapFileName = "maps/" + _mapName + ".map";
-
-    auto mapStream = FileOperations::GetInputFileStream(mapFileName);
-    rapidjson::IStreamWrapper mapStreamWrapper(*mapStream);
-    _mapRoot.ParseStream(mapStreamWrapper);
+    if (_mapName == _lastMapLoaded) {
+        _mapRoot.CopyFrom(*_lastMapRoot, _mapRoot.GetAllocator());
+    } else {
+        std::string mapFileName = "maps/" + _mapName + ".map";
+        auto mapStream = FileOperations::GetInputFileStream(mapFileName);
+        rapidjson::IStreamWrapper mapStreamWrapper(*mapStream);
+        _mapRoot.ParseStream(mapStreamWrapper);
+        _lastMapRoot = std::unique_ptr<rapidjson::Document>(new rapidjson::Document());
+        _lastMapRoot->CopyFrom(_mapRoot, _lastMapRoot->GetAllocator());
+        _lastMapLoaded = _mapName;
+    }
 
     if (_loading)
     {

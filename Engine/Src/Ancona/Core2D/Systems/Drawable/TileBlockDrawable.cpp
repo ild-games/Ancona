@@ -1,4 +1,5 @@
 #include <Ancona/Core2D/Systems/Drawable/TileBlockDrawable.hpp>
+#include <Ancona/System/Log.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::TileBlockDrawable);
 
@@ -9,14 +10,16 @@ Drawable * TileBlockDrawable::Copy() {
     Drawable::CopyProperties(drawable);
     drawable->textureKey(_textureKey);
     drawable->size(_size);
-    drawable->InitializeImages();
+    drawable->InitializeVertexArray();
     return drawable;
 }
 
 void TileBlockDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta) {
-    for (auto const & imageDrawable : _imageDrawables) {
-        imageDrawable->Draw(target, drawableTransform, delta);
-    }
+    sf::RenderStates states;
+    drawableTransform.translate(-(_tileSize.x * _numTiles.x * _anchor.x), -(_tileSize.y * _numTiles.y * _anchor.y));
+    states.transform = drawableTransform;
+    states.texture = _texture;
+    target.draw(_vertexArray, states);
 }
 
 void TileBlockDrawable::Serialize(Archive & arc) {
@@ -27,241 +30,103 @@ void TileBlockDrawable::Serialize(Archive & arc) {
 
 void TileBlockDrawable::FetchDependencies(const Entity &entity) {
     Drawable::FetchDependencies(entity);
-    InitializeImages();
+    InitializeVertexArray();
 }
 
-void TileBlockDrawable::InitializeImages() {
+void TileBlockDrawable::InitializeVertexArray() {
     if (_textureKey != "") {
-        auto texture = ResourceLibrary::Get<sf::Texture>(_textureKey);
-        _tileSize = sf::Vector2f(texture->getSize().x / 4, texture->getSize().y / 4);
+        _texture = ResourceLibrary::Get<sf::Texture>(_textureKey);
+        _tileSize = sf::Vector2f(_texture->getSize().x / 4, _texture->getSize().y / 4);
         _numTiles = sf::Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
-        SetupImages(texture->copyToImage());
+        _numVertices = std::ceil(_numTiles.x) * std::ceil(_numTiles.y) * NUM_VERTICES_PER_TILE;
+        SetupVertexBlock();
     }
 }
 
-void TileBlockDrawable::SetupImages(sf::Image image) {
-    if (_numTiles.x > 1 && _numTiles.y > 1) {
-        _imageDrawables.emplace_back(topLeftDrawable(image));
-        _imageDrawables.emplace_back(topRightDrawable(image));
-        _imageDrawables.emplace_back(bottomLeftDrawable(image));
-        _imageDrawables.emplace_back(bottomRightDrawable(image));
-    }
+void TileBlockDrawable::SetupVertexBlock() {
+    _vertexArray = sf::VertexArray(sf::TrianglesStrip, _numVertices);
 
-    if (_numTiles.x > 2 && _numTiles.y > 1) {
-        _imageDrawables.emplace_back(topDrawable(image));
-        _imageDrawables.emplace_back(bottomDrawable(image));
-    }
-    if (_numTiles.y > 2 && _numTiles.x > 1) {
-        _imageDrawables.emplace_back(leftDrawable(image));
-        _imageDrawables.emplace_back(rightDrawable(image));
-    }
-
-    if (_numTiles.x > 2 && _numTiles.y > 2) {
-        _imageDrawables.emplace_back(centerDrawable(image));
-    }
-
-    if (_numTiles.y > 1 && _numTiles.x == 1) {
-        _imageDrawables.emplace_back(topCapDrawable(image));
-        _imageDrawables.emplace_back(bottomCapDrawable(image));
-    }
-
-    if (_numTiles.x > 1 && _numTiles.y == 1) {
-        _imageDrawables.emplace_back(leftCapDrawable(image));
-        _imageDrawables.emplace_back(rightCapDrawable(image));
-    }
-
-    if (_numTiles.y > 2 && _numTiles.x == 1) {
-        _imageDrawables.emplace_back(verticalCenterDrawable(image));
-    }
-
-    if (_numTiles.x > 2 && _numTiles.y == 1) {
-        _imageDrawables.emplace_back(horizontalCenterDrawable(image));
-    }
-
-    if (_numTiles.y == 1 && _numTiles.x == 1) {
-        _imageDrawables.emplace_back(singleDrawable(image));
+    int vertexIndex = 0;
+    for (int whichYBlock = 0; whichYBlock < std::ceil(_numTiles.y); whichYBlock++) {
+        // For every row in the 9 slice, go the opposite direction as the last row. This lets the next
+        // vertex process always be right next to the last vertex process which prevents tearing.
+        if (whichYBlock % 2 == 0) {
+            for (int whichXBlock = 0; whichXBlock < std::ceil(_numTiles.x); whichXBlock++) {
+                AddVertexTile(whichXBlock, whichYBlock, vertexIndex, true);
+            }
+        } else {
+            for (int whichXBlock = std::ceil(_numTiles.x) - 1; whichXBlock >= 0; whichXBlock--) {
+                AddVertexTile(whichXBlock, whichYBlock, vertexIndex, false);
+            }
+        }
     }
 }
 
-sf::Texture * TileBlockDrawable::createTexture() {
-    auto texture = new sf::Texture();
-    _generatedTextures.emplace_back(texture);
-    return texture;
+void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight) {
+    for (int whichVertex = 0; whichVertex < NUM_VERTICES_PER_TILE; whichVertex++) {
+        float fractionPartX = whichXBlock < std::ceil(_numTiles.x) - 1 ? 0 : _numTiles.x - (int)_numTiles.x;
+        float fractionPartY = whichYBlock < std::ceil(_numTiles.y) - 1 ? 0 : _numTiles.y - (int)_numTiles.y;
+        int xVertexOffset = XVertexOffset(isLeftToRight, whichVertex);
+        int yVertexOffset = (whichVertex+1) % 2;
+        int xTileToUse = XTileToUse(whichXBlock);
+        int yTileToUse = YTileToUse(whichYBlock);
+
+        float positionX = (whichXBlock * _tileSize.x) + (_tileSize.x * xVertexOffset) - (_tileSize.x * fractionPartX);
+        float positionY = (whichYBlock * _tileSize.y) + (_tileSize.y * yVertexOffset) - (_tileSize.y * fractionPartY);
+        _vertexArray[vertexIndex].position = sf::Vector2f(positionX, positionY);
+
+        float texCoordsX = (xTileToUse * _tileSize.x) + ((BlockTileStartingPosition().x + xVertexOffset) * _tileSize.x);
+        float texCoordsY = (yTileToUse * _tileSize.y) + ((BlockTileStartingPosition().y + yVertexOffset) * _tileSize.y);
+        _vertexArray[vertexIndex].texCoords = sf::Vector2f(texCoordsX, texCoordsY);
+
+        vertexIndex++;
+    }
 }
 
-ImageDrawable * TileBlockDrawable::topLeftDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(0, 0, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_topLeft");
-    drawable->SetupSprite(texture);
-    return drawable;
+sf::Vector2i & TileBlockDrawable::BlockTileStartingPosition() {
+    if (_numTiles.x == 1.0f && _numTiles.y == 1.0f) {
+        return SINGLE_BLOCK_TILE_POS;
+    } else if (_numTiles.x > 1.0f && _numTiles.y == 1.0f) {
+        return HORIZONTAL_BLOCK_TILE_POS;
+    } else if (_numTiles.x == 1.0f && _numTiles.y > 1.0f) {
+        return VERTICAL_BLOCK_TILE_POS;
+    } else {
+        return FULL_BLOCK_TILE_POS;
+    }
 }
 
-ImageDrawable * TileBlockDrawable::topRightDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x * 2, 0, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_topRight");
-    drawable->anchor(sf::Vector2f(-(_numTiles.x - 1), 0));
-    drawable->SetupSprite(texture);
-    return drawable;
+int TileBlockDrawable::XVertexOffset(bool isLeftToRight, int whichVertex) {
+    if (isLeftToRight) {
+        if (whichVertex < 2) {
+            return 0;
+        } else {
+            return 1;
+        }
+    } else {
+        if (whichVertex < 2) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }
 
-ImageDrawable * TileBlockDrawable::bottomLeftDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(0, _tileSize.y * 2, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_bottomLeft");
-    drawable->anchor(sf::Vector2f(0, -(_numTiles.y - 1)));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::bottomRightDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x * 2, _tileSize.y * 2, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_bottomRight");
-    drawable->anchor(sf::Vector2f(-(_numTiles.x - 1), -(_numTiles.y - 1)));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::topDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x, 0, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_top");
-    auto width = _tileSize.x * (_numTiles.x - 2);
-    drawable->anchor(sf::Vector2f(-(_tileSize.x / width), 0));
-    drawable->isTiled(true);
-    drawable->tiledArea(sf::Vector2f(width, _tileSize.y));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::bottomDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x, _tileSize.y * 2, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_bottom");
-    auto width = _tileSize.x * (_numTiles.x - 2);
-    drawable->anchor(sf::Vector2f(-(_tileSize.x / width), -(_numTiles.y - 1)));
-    drawable->isTiled(true);
-    drawable->tiledArea(sf::Vector2f(width, _tileSize.y));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::leftDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(0, _tileSize.y, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_left");
-    auto height = _tileSize.y * (_numTiles.y - 2);
-    drawable->anchor(sf::Vector2f(0, -(_tileSize.y / height)));
-    drawable->isTiled(true);
-    drawable->tiledArea(sf::Vector2f(_tileSize.x, height));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::rightDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x * 2, _tileSize.y, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_right");
-    auto height = _tileSize.y * (_numTiles.y - 2);
-    drawable->anchor(sf::Vector2f(-(_numTiles.x - 1), -(_tileSize.y / height)));
-    drawable->isTiled(true);
-    drawable->tiledArea(sf::Vector2f(_tileSize.x, height));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::centerDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x, _tileSize.y, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
-    auto width = _tileSize.x * (_numTiles.x - 2);
-    auto height = _tileSize.y * (_numTiles.y - 2);
-    drawable->anchor(sf::Vector2f(-(_tileSize.x / width), -(_tileSize.y / height)));
-    drawable->isTiled(true);
-    drawable->tiledArea(sf::Vector2f(width, height));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::topCapDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, 0, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_topCap");
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::bottomCapDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, _tileSize.y * 2, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_bottomCap");
-    drawable->anchor(sf::Vector2f(0, -(_numTiles.y - 1)));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::leftCapDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(0, _tileSize.y * 3, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_leftCap");
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::rightCapDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x * 2, _tileSize.y * 3, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_right");
-    drawable->anchor(sf::Vector2f(-(_numTiles.x - 1), 0));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::verticalCenterDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, _tileSize.y, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
-    auto height = _tileSize.y * (_numTiles.y - 2);
-    drawable->anchor(sf::Vector2f(0, -(_tileSize.y / height)));
-    drawable->isTiled(true);
-    drawable->tiledArea(sf::Vector2f(_tileSize.x, height));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::horizontalCenterDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x, _tileSize.y * 3, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
-    auto width = _tileSize.x * (_numTiles.x - 2);
-    drawable->anchor(sf::Vector2f(-(_tileSize.x / width), 0));
-    drawable->isTiled(true);
-    drawable->tiledArea(sf::Vector2f(width, _tileSize.y));
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-ImageDrawable * TileBlockDrawable::singleDrawable(sf::Image image) {
-    auto texture = createTexture();
-    texture->loadFromImage(image, sf::IntRect(_tileSize.x * 3, _tileSize.y * 3, _tileSize.x, _tileSize.y));
-    auto drawable = new ImageDrawable(_renderPriority, _key + "_center");
-    drawable->SetupSprite(texture);
-    return drawable;
-}
-
-/* getters and setters */
-int TileBlockDrawable::alpha() {
-    if (_imageDrawables.size() == 0) {
+int TileBlockDrawable::XTileToUse(int whichXBlock) {
+    if (whichXBlock == 0) {
         return 0;
+    } else if (whichXBlock > 0 && whichXBlock < _numTiles.x - 1) {
+        return 1;
+    } else {
+        return 2;
     }
-
-    return _imageDrawables[0]->alpha();
 }
 
-void TileBlockDrawable::alpha(int newAlpha) {
-    for (auto const & imageDrawable : _imageDrawables) {
-        imageDrawable->alpha(newAlpha);
+int TileBlockDrawable::YTileToUse(int whichYBlock) {
+    if (whichYBlock == 0) {
+        return 0;
+    } else if (whichYBlock > 0 && whichYBlock < _numTiles.y - 1) {
+        return 1;
+    } else {
+        return 2;
     }
 }

@@ -107,12 +107,5 @@ void ScreenManager::RemoveScreen()
 
 void ScreenManager::SaveScreen()
 {
-    MapSerializer mapSerializer = MapSerializer(
-            _screens.top()->key(),
-            *_screens.top()->systemsContainer(),
-            _screens.top()->requestList(),
-            false);
-    while(mapSerializer.ContinueLoading())
-    {
-    }
+    // todo implement
 }

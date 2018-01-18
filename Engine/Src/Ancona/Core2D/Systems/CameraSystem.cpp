@@ -45,12 +45,14 @@ void CameraComponent::Draw(sf::RenderTarget & target, float delta)
 
     target.setView(_view);
 
-    alg::sort(
-        _renderQueue,
-        [](DrawableComponent * lhs, DrawableComponent * rhs)
-    {
-        return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
-    });
+    if (!_sorted) {
+        alg::sort(
+            _renderQueue,
+            [](DrawableComponent * lhs, DrawableComponent * rhs)
+        {
+            return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
+        });
+    }
 
     for(DrawableComponent * drawable : _renderQueue)
     {
@@ -82,6 +84,7 @@ sf::Vector2f CameraComponent::GetEffectiveCenter()
 void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
 {
 	ILD_Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
+    _sorted = false;
     _renderQueue.push_back(drawable);
 }
 
