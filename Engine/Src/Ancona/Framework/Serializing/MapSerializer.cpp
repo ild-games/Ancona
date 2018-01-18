@@ -71,7 +71,6 @@ void MapSerializer::LoadMapFile()
     ILD_Assert(_mapName != "", "Cannot have a null map");
     if (_mapName == _lastMapLoaded) {
         _mapRoot.CopyFrom(*_lastMapRoot, _mapRoot.GetAllocator());
-        ILD_Log("loading from last map root: " + _lastMapLoaded);
     } else {
         std::string mapFileName = "maps/" + _mapName + ".map";
         auto mapStream = FileOperations::GetInputFileStream(mapFileName);
