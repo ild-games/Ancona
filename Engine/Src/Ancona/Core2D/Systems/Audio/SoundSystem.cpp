@@ -3,19 +3,24 @@
 
 using namespace ild;
 
-void SoundComponent::Serialize(Archive &arc)
-{
+void SoundComponent::Update(float delta) {
+}
+
+void SoundComponent::Serialize(Archive &arc) {
     arc(_sounds, "sounds");
-    for (auto sound: _sounds) {
+    for (auto & sound: _sounds) {
         _hashedSounds.insert({sound->key(), sound});
     }
 }
 
-void SoundComponent::FetchDependencies(const Entity & entity) 
-{
-    for (auto sound : _sounds) {
+void SoundComponent::FetchDependencies(const Entity & entity) {
+    for (auto & sound : _sounds) {
         sound->FetchDependencies(entity);
     }
+}
+
+std::shared_ptr<Sound> SoundComponent::GetSound(const std::string & key) { 
+    return _hashedSounds[key]; 
 }
 
 SoundSystem::SoundSystem(
@@ -24,9 +29,10 @@ SoundSystem::SoundSystem(
     UnorderedSystem(name, manager, UpdateStep::Update) {
 }
 
-void SoundSystem::Update(float delta)
-{
-
+void SoundSystem::Update(float delta) {
+    for (EntityComponentPair comp : *this) {
+        comp.second->Update(delta);
+    }
 }
 
 SoundComponent * SoundSystem::CreateComponent(const Entity &entity) {

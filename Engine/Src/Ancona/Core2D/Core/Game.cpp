@@ -1,6 +1,7 @@
 #include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Core2D/InputDevices/Keyboard.hpp>
 #include <Ancona/Core2D/InputDevices/Mouse.hpp>
 #include <Ancona/Core2D/InputDevices/Touch.hpp>
@@ -94,11 +95,13 @@ void Game::ProcessWindowEvent(sf::Event event)
     }
     if (event.type == sf::Event::LostFocus) 
     {
+        Jukebox::Pause();
         _window.setActive(false);
         _windowIsActive = false;
     }
     if (event.type == sf::Event::GainedFocus) 
     {
+        Jukebox::Play();
         _window.setActive(true);
         _windowIsActive = true;
     }

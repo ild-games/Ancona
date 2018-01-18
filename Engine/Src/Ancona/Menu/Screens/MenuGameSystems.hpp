@@ -6,6 +6,9 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/InputControlSystem.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
+#include <Ancona/Core2D/Systems/Audio/SoundSystem.hpp>
+#include <Ancona/Core2D/Systems/Audio/MusicSystem.hpp>
+#include <Ancona/Core2D/Systems/Audio/AutoStartMusicSystem.hpp>
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
@@ -35,6 +38,9 @@ class MenuGameSystems : public ild::ScreenSystemsContainer
         ild::ActionSystem & action() { return *_action; }
         ild::CameraSystem & camera() { return *_camera; }
         ild::CollisionSystem & collision() { return *_collision; }
+        ild::SoundSystem & sound() { return *_sound; }
+        ild::MusicSystem & music() { return *_music; }
+        ild::AutoStartMusicSystem & autoStartMusic() { return *_autoStartMusic; }
         ButtonSystem & button() { return *_button; }
         ild::CollisionType nullCollision() { return 0; }
     private:
@@ -44,6 +50,9 @@ class MenuGameSystems : public ild::ScreenSystemsContainer
         ild::CameraSystem * _camera;
         ild::CollisionSystem * _collision;
         ild::ActionSystem * _action;
+        ild::SoundSystem * _sound;
+        ild::MusicSystem * _music;
+        ild::AutoStartMusicSystem * _autoStartMusic;
         ButtonSystem * _button;
 };
 

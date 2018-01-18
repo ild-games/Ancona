@@ -17,3 +17,7 @@ void Sound::FetchDependencies(const Entity & entity)
 void Sound::Play() {
     _sound->play();
 }
+
+void Sound::Stop() {
+    _sound->stop();
+}

@@ -20,12 +20,12 @@ class Sound
         void Play();
         void Stop();
 
-        std::string key() { return _soundKey; }
+        const std::string & key() { return _soundKey; }
 
         void Serialize(Archive &arc);
         void FetchDependencies(const Entity & entity);
+
     private:
-    
         float _volume;
         std::string _soundKey;
         std::unique_ptr<sf::Sound> _sound;
