@@ -2,6 +2,7 @@
 #define Ancona_Engine_Audio_Jukebox_H_
 
 #include <string>
+#include <memory>
 
 #include <SFML/Audio.hpp>
 
