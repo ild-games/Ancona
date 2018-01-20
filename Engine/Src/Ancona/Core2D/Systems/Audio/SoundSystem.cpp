@@ -4,6 +4,9 @@
 using namespace ild;
 
 void SoundComponent::Update(float delta) {
+    for (auto & sound: _sounds) {
+        sound->Update(delta);
+    }
 }
 
 void SoundComponent::Serialize(Archive &arc) {

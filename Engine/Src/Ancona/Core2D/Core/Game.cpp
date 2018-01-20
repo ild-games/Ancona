@@ -53,6 +53,7 @@ void Game::Run()
             _window.display();
         }
     }
+    Jukebox::Stop();
 }
 
 void Game::ProcessWindowEvent(sf::Event event)

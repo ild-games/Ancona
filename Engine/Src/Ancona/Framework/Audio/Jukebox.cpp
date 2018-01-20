@@ -32,6 +32,7 @@ void Jukebox::Play() {
 void Jukebox::Stop() {
     _musicKeyPlaying = "";
     _music->stop();
+    _music.reset();
 }
 
 void Jukebox::Pause() {
