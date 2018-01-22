@@ -34,9 +34,11 @@ void Sound::Play() {
 }
 
 void Sound::Stop() {
+    // todo implement
 }
 
 void Sound::Pause() {
+    // todo implement
 }
 
 /* getters and setters */
