@@ -2,16 +2,50 @@
 
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/Util/Assert.hpp>
 #include <Ancona/System/Log.hpp>
 
 using namespace ild;
 
+std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> Jukebox::_jukeboxSounds = std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>>();
 std::string Jukebox::_musicKeyPlaying = "";
 std::unique_ptr<sf::Music> Jukebox::_music = std::unique_ptr<sf::Music>(new sf::Music());
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
+unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
 
-void Jukebox::Play(const std::string & musicKey) {
+void Jukebox::RegisterSound(const std::string & soundKey) {
+    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
+        _jukeboxSounds.emplace(soundKey, std::unique_ptr<JukeboxSounds>(new JukeboxSounds()));
+    }
+
+    _jukeboxSounds[soundKey]->Add(soundKey);
+}
+
+void Jukebox::ClearSounds() {
+    _jukeboxSounds.clear();
+    _nextSoundLifecycleJobID = 0;
+}
+
+unsigned long Jukebox::ReserveSoundLifecycleID(const std::string & soundKey) {
+    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
+        ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before reserving a sound allocation.");
+    }
+
+    _nextSoundLifecycleJobID++;
+    _jukeboxSounds[soundKey]->CreateJob(_nextSoundLifecycleJobID);
+    return _nextSoundLifecycleJobID;
+}
+
+void Jukebox::PlaySound(const std::string & soundKey, const unsigned long & jobID, const float & volume) {
+    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
+        ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before playing a sound");
+    }
+
+    _jukeboxSounds[soundKey]->Play(jobID, volume);
+}
+
+void Jukebox::PlayMusic(const std::string & musicKey) {
     if (musicKey == _musicKeyPlaying) {
         return;
     }
@@ -24,22 +58,39 @@ void Jukebox::Play(const std::string & musicKey) {
     _music->play();
 }
 
-void Jukebox::Play() {
+void Jukebox::PlayMusic() {
+    if (!_music) {
+        return;
+    }
+
     _music->setLoop(true);
     _music->play();
 }
 
-void Jukebox::Stop() {
+void Jukebox::StopMusic() {
+    if (!_music) {
+        return;
+    }
+
     _musicKeyPlaying = "";
     _music->stop();
+    _music.reset();
 }
 
-void Jukebox::Pause() {
+void Jukebox::PauseMusic() {
+    if (!_music) {
+        return;
+    }
+
     _music->pause();
 }
 
 /* getters and setters */
 void Jukebox::musicVolumePercent(float volume) {
+    if (!_music) {
+        return;
+    }
+
     _musicVolumePercent = volume;
     if (volume == 0.0f) {
         _music->setVolume(0.0f);

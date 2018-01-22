@@ -25,6 +25,7 @@ class Sound
 
         void Play();
         void Stop();
+        void Pause();
         void SetVolume(float volumePercent);
 
         void Serialize(Archive &arc);
@@ -40,7 +41,8 @@ class Sound
 
         std::string _soundKey;
         float _pitch = 1.0f;
-        std::unique_ptr<sf::Sound> _sound;
+        float _volume = 1.0f;
+        unsigned long _jukeboxJobID = 0;
 
 };
 

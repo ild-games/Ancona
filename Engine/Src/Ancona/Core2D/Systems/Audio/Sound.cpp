@@ -16,32 +16,33 @@ void Sound::FetchDependencies(const Entity & entity)
 
 void Sound::SetupSound() 
 {
-    auto buffer = ResourceLibrary::Get<sf::SoundBuffer>(_soundKey);
-    _sound = std::unique_ptr<sf::Sound>(new sf::Sound(*buffer));
-    _sound->setPitch(_pitch);
     SetVolume(Jukebox::soundVolumePercent());
+    Jukebox::RegisterSound(_soundKey);
 }
 
 void Sound::SetVolume(float volumePercent) {
     if (volumePercent == 0.0f) {
-        _sound->setVolume(0.0f);
+        _volume = 0.0f;
     } else {
-        auto realVolume = std::pow(100.0f, volumePercent - 1);
-        _sound->setVolume(realVolume * 100.0f);
+        _volume = std::pow(100.0f, volumePercent - 1);
     }
 }
 
 void Sound::Play() {
-    _sound->play();
+    _jukeboxJobID = Jukebox::ReserveSoundLifecycleID(_soundKey);
+    Jukebox::PlaySound(_soundKey, _jukeboxJobID, _volume);
 }
 
 void Sound::Stop() {
-    _sound->stop();
+    // todo implement
+}
+
+void Sound::Pause() {
+    // todo implement
 }
 
 /* getters and setters */
 void Sound::pitch(float newPitch) 
 {
     _pitch = newPitch;
-    _sound->setPitch(newPitch);
 }

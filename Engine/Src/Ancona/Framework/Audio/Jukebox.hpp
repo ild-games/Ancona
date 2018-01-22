@@ -3,8 +3,11 @@
 
 #include <string>
 #include <memory>
+#include <unordered_map>
 
 #include <SFML/Audio.hpp>
+
+#include "JukeboxSounds.hpp"
 
 namespace ild
 {
@@ -12,10 +15,17 @@ namespace ild
 class Jukebox
 {
     public:
-        static void Play(const std::string & musicKey);
-        static void Play();
-        static void Stop();
-        static void Pause();
+        /* music */
+        static void PlayMusic(const std::string & musicKey);
+        static void PlayMusic();
+        static void StopMusic();
+        static void PauseMusic();
+
+        /* sound */
+        static void RegisterSound(const std::string & soundKey);
+        static void ClearSounds();
+        static unsigned long ReserveSoundLifecycleID(const std::string & soundKey);
+        static void PlaySound(const std::string & soundKey, const unsigned long & jobID, const float & volume);
 
         /* getters and setters */
         static void musicVolumePercent(float volume);
@@ -24,10 +34,12 @@ class Jukebox
         static float soundVolumePercent();
 
     private:
+        static std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> _jukeboxSounds;
         static std::unique_ptr<sf::Music> _music;
         static std::string _musicKeyPlaying;
         static float _musicVolumePercent;
         static float _soundVolumePercent;
+        static unsigned long _nextSoundLifecycleJobID;
 };
 
 }
