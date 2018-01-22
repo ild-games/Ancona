@@ -53,7 +53,7 @@ void Game::Run()
             _window.display();
         }
     }
-    Jukebox::Stop();
+    Jukebox::StopMusic();
 }
 
 void Game::ProcessWindowEvent(sf::Event event)
@@ -96,13 +96,13 @@ void Game::ProcessWindowEvent(sf::Event event)
     }
     if (event.type == sf::Event::LostFocus) 
     {
-        Jukebox::Pause();
+        Jukebox::PauseMusic();
         _window.setActive(false);
         _windowIsActive = false;
     }
     if (event.type == sf::Event::GainedFocus) 
     {
-        Jukebox::Play();
+        Jukebox::PlayMusic();
         _window.setActive(true);
         _windowIsActive = true;
     }

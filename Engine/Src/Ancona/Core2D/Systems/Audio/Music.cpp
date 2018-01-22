@@ -14,9 +14,9 @@ void Music::FetchDependencies(const Entity & entity) {
 }
 
 void Music::Play() {
-    Jukebox::Play(_musicKey);
+    Jukebox::PlayMusic(_musicKey);
 }
 
 void Music::Stop() {
-    Jukebox::Stop();
+    Jukebox::StopMusic();
 }

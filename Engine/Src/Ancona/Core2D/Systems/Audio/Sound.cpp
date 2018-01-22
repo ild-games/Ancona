@@ -9,14 +9,6 @@ void Sound::Serialize(Archive & arc)
     arc(_pitch, "pitch");
 }
 
-void Sound::Update(float delta) 
-{
-    if (_sound != nullptr && _sound->getStatus() == sf::SoundSource::Status::Stopped) {
-        delete _sound;
-        _sound = nullptr;
-    }
-}
-
 void Sound::FetchDependencies(const Entity & entity) 
 {
     SetupSound();
@@ -25,6 +17,7 @@ void Sound::FetchDependencies(const Entity & entity)
 void Sound::SetupSound() 
 {
     SetVolume(Jukebox::soundVolumePercent());
+    Jukebox::RegisterSound(_soundKey);
 }
 
 void Sound::SetVolume(float volumePercent) {
@@ -36,19 +29,14 @@ void Sound::SetVolume(float volumePercent) {
 }
 
 void Sound::Play() {
-    auto buffer = ResourceLibrary::Get<sf::SoundBuffer>(_soundKey);
-    _sound = new sf::Sound(*buffer);
-    _sound->setVolume(_volume * 100.0f);
-    _sound->setPitch(_pitch);
-    _sound->play();
+    _jukeboxJobID = Jukebox::ReserveSoundLifecycleID(_soundKey);
+    Jukebox::PlaySound(_soundKey, _jukeboxJobID, _volume);
 }
 
 void Sound::Stop() {
-    _sound->stop();
 }
 
 void Sound::Pause() {
-    _sound->pause();
 }
 
 /* getters and setters */

@@ -23,7 +23,6 @@ class Sound
         {
         }
 
-        void Update(float delta);
         void Play();
         void Stop();
         void Pause();
@@ -43,7 +42,7 @@ class Sound
         std::string _soundKey;
         float _pitch = 1.0f;
         float _volume = 1.0f;
-        sf::Sound * _sound = nullptr;
+        unsigned long _jukeboxJobID = 0;
 
 };
 

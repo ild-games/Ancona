@@ -60,6 +60,7 @@ class SoundSystem : public UnorderedSystem<SoundComponent>
                 SystemManager & manager);
 
         void Update(float delta) override;
+        void OnLoad() override;
 
         SoundComponent * CreateComponent(const Entity & entity);
         void SetVolume(float volumePercent);
