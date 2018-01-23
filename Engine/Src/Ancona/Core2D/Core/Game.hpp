@@ -28,6 +28,9 @@ class Game
 
         virtual ~Game();
 
+        /* getters and setters */
+        const bool & windowIsActive() const { return _windowIsActive; }
+
     protected:
         /**
          * @brief Instance of the game manager

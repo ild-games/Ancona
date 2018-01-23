@@ -67,10 +67,14 @@ class ButtonComponent
         bool WasClicked();
         bool IsPressed();
 
+        /* getters and setters */
         const std::string & key() { return _key; }
         void key(const std::string & key) { _key = key; }
+        bool disabled() { return _disabled; }
+        void disabled(const bool & newDisabled);
 
     private:
+        bool _disabled = false;
         std::string _key;
         ButtonStateEnum _buttonState = ButtonState::Normal;
 
@@ -78,6 +82,8 @@ class ButtonComponent
         ild::CollisionSystem * _collisionSystem;
         ild::DrawableSystem * _drawableSystem;
         ild::DrawableComponent * _drawableComponent;
+
+        bool ChangeDrawable(ButtonStateEnum oldState, ButtonStateEnum newState);
 };
 
 /**
@@ -132,6 +138,9 @@ class ButtonSystem : public ild::UnorderedSystem<ButtonComponent>
          * @param isDown   True if the pointer is down/clicked. False otherwise.
          */
         void Pointer(ild::Point location, bool isDown);
+
+        void DisableAll();
+        void EnableAll();
 
         /**
          * Factory method for the ButtonComponent.

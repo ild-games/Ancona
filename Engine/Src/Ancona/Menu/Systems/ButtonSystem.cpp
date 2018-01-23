@@ -17,23 +17,30 @@ ButtonComponent::ButtonComponent()
 
 void ButtonComponent::Update(float delta, const ild::Box2 & position, PointerStateEnum pointerState)
 {
+    if (_disabled) 
+    {
+        return;
+    }
 
     // Implement component logic here
     auto mouseIsOver = position.Intersects(_collisionComponent->box());
-    auto initalState = _buttonState;
+    auto initialState = _buttonState;
     _buttonState = GetNextButtonState(_buttonState, pointerState, mouseIsOver);
+    ChangeDrawable(initialState, _buttonState);
+}
 
-
-    if (initalState != _buttonState)
+bool ButtonComponent::ChangeDrawable(ButtonStateEnum oldState, ButtonStateEnum newState)
+{
+    if (oldState != newState)
     {
         if (auto rootDrawable = _drawableComponent->topDrawable())
         {
-            if (auto previous = rootDrawable->FindDrawable(GetButtonStateTitle(initalState)))
+            if (auto previous = rootDrawable->FindDrawable(GetButtonStateTitle(oldState)))
             {
                 previous->inactive(true);
             }
 
-            if (auto next = rootDrawable->FindDrawable(GetButtonStateTitle(_buttonState)))
+            if (auto next = rootDrawable->FindDrawable(GetButtonStateTitle(newState)))
             {
                 next->inactive(false);
             }
@@ -88,6 +95,15 @@ void ButtonComponent::FetchDependencies(const ild::Entity &entity)
     _drawableComponent = _drawableSystem->at(entity);
 }
 
+/* getters and setters */
+void ButtonComponent::disabled(const bool & newDisabled)
+{
+    _disabled = newDisabled; 
+    auto initialState = _buttonState;
+    _buttonState = ButtonStateEnum::Normal;
+    ChangeDrawable(initialState, _buttonState);
+}
+
 /* System */
 ButtonSystem::ButtonSystem(
         std::string name,
@@ -111,6 +127,20 @@ void ButtonSystem::Update(float delta)
         } else if (comp.second->IsPressed()) {
             _pressedEntity = comp.first;
         }
+    }
+}
+
+void ButtonSystem::DisableAll()
+{
+    for (EntityComponentPair comp : *this) {
+        comp.second->disabled(true);
+    }
+}
+
+void ButtonSystem::EnableAll()
+{
+    for (EntityComponentPair comp : *this) {
+        comp.second->disabled(false);
     }
 }
 
