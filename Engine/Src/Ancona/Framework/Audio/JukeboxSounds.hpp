@@ -1,6 +1,8 @@
 #ifndef Ancona_Engine_Audio_JukeboxSounds_H_
 #define Ancona_Engine_Audio_JukeboxSounds_H_
 
+#include <memory>
+
 #include <SFML/Audio.hpp>
 
 namespace ild

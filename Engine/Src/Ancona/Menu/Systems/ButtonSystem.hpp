@@ -83,7 +83,7 @@ class ButtonComponent
         ild::DrawableSystem * _drawableSystem;
         ild::DrawableComponent * _drawableComponent;
 
-        bool ChangeDrawable(ButtonStateEnum oldState, ButtonStateEnum newState);
+        void ChangeDrawable(ButtonStateEnum oldState, ButtonStateEnum newState);
 };
 
 /**

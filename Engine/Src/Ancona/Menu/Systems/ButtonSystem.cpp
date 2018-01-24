@@ -29,7 +29,7 @@ void ButtonComponent::Update(float delta, const ild::Box2 & position, PointerSta
     ChangeDrawable(initialState, _buttonState);
 }
 
-bool ButtonComponent::ChangeDrawable(ButtonStateEnum oldState, ButtonStateEnum newState)
+void ButtonComponent::ChangeDrawable(ButtonStateEnum oldState, ButtonStateEnum newState)
 {
     if (oldState != newState)
     {
