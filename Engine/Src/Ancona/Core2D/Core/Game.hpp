@@ -30,6 +30,7 @@ class Game
 
         /* getters and setters */
         const bool & windowIsActive() const { return _windowIsActive; }
+        ScreenManager & screenManager() { return *_screenManager; } 
 
     protected:
         /**
