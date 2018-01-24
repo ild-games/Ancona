@@ -54,6 +54,8 @@ class StrUtil
          * @return A vector of the results.
          */
         static std::vector<std::string> Split(const std::string  & str, char splitVal, size_t max=(size_t)-1);
+
+        static bool BeginsWith(const std::string & str, const std::string & stringItBeginsWith);
 };
 
 

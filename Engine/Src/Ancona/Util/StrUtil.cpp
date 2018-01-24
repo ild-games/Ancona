@@ -61,4 +61,7 @@ std::vector<std::string> StrUtil::Split(const std::string & str, char splitVal, 
     return result;
 }
 
-
+bool StrUtil::BeginsWith(const std::string & str, const std::string & stringItBeginsWith)
+{
+    return str.compare(0, stringItBeginsWith.length(), stringItBeginsWith) == 0;
+}
