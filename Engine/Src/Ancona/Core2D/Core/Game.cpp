@@ -1,3 +1,5 @@
+#include <SFML/System.hpp>
+
 #include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
@@ -32,6 +34,15 @@ void Game::Run()
     while (_window.isOpen() && !_screenManager->Empty())
     {
         sf::Event event;
+        if (!_windowIsActive) {
+            sf::sleep(sf::seconds(0.5f));
+            while (_window.pollEvent(event))
+            {
+                ProcessWindowEvent(event);
+            }
+            continue;
+        }
+
         Keyboard::_ClearKeys();
         Mouse::_ClearButtons();
         Touch::_ClearFingers();

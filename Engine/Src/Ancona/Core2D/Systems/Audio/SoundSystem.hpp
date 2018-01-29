@@ -45,6 +45,7 @@ class SoundComponent
             {
                 _hashedSounds.insert({sound->key(), sound});
             }
+            return *this;
         }
 
     private:
