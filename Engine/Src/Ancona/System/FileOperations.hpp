@@ -24,7 +24,7 @@ class FileOperations
          *
          * @return Input Stream for the file, null if file is not found.
          */
-        static std::unique_ptr<std::istream> GetInputFileStream(const std::string & desiredFile);          
+        static std::unique_ptr<std::istream> GetInputFileStream(const std::string & desiredFile);
 
         /**
          * @brief Gets an output stream from a desired file on the system.
@@ -33,7 +33,7 @@ class FileOperations
          *
          * @return Output Stream for the file, null if file is not found.
          */
-        static std::unique_ptr<std::ofstream> GetOutputFileStream(const std::string & desiredFile);          
+        static std::unique_ptr<std::ofstream> GetOutputFileStream(const std::string & desiredFile);
 
         /**
          * @brief Gets the full directory (minus the actual file) for a given filepath.

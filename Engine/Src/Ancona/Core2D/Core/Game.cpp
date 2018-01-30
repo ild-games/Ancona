@@ -1,3 +1,5 @@
+#include <SFML/System.hpp>
+
 #include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
@@ -7,6 +9,7 @@
 #include <Ancona/Core2D/InputDevices/Touch.hpp>
 #include <Ancona/Core2D/InputDevices/Joystick.hpp>
 #include <Ancona/System/Log.hpp>
+#include <Ancona/System/EventHandling.hpp>
 
 using namespace ild;
 
@@ -32,6 +35,15 @@ void Game::Run()
     while (_window.isOpen() && !_screenManager->Empty())
     {
         sf::Event event;
+        if (!_windowIsActive) {
+            sf::sleep(sf::seconds(0.5f));
+            while (_window.pollEvent(event))
+            {
+                ProcessWindowEvent(event);
+            }
+            continue;
+        }
+
         Keyboard::_ClearKeys();
         Mouse::_ClearButtons();
         Touch::_ClearFingers();
@@ -43,21 +55,18 @@ void Game::Run()
 
         sf::Time elapsed = clock.restart();
         float delta = std::min(elapsed.asSeconds(), 0.0235f);
-
-        if (_windowIsActive)
-        {
-            _screenManager->Update(delta);
-
-            _window.clear(sf::Color::Black);
-            _screenManager->Draw(delta);
-            _window.display();
-        }
+        _screenManager->Update(delta);
+        _window.clear(sf::Color::Black);
+        _screenManager->Draw(delta);
+        _window.display();
     }
     Jukebox::StopMusic();
 }
 
 void Game::ProcessWindowEvent(sf::Event event)
 {
+    EventHandling::HandleEvent(event);
+
     if (event.type == sf::Event::Closed)
     {
         _window.close();
@@ -96,13 +105,11 @@ void Game::ProcessWindowEvent(sf::Event event)
     }
     if (event.type == sf::Event::LostFocus) 
     {
-        Jukebox::PauseMusic();
         _window.setActive(false);
         _windowIsActive = false;
     }
     if (event.type == sf::Event::GainedFocus) 
     {
-        Jukebox::PlayMusic();
         _window.setActive(true);
         _windowIsActive = true;
     }
