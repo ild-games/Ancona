@@ -105,13 +105,11 @@ void Game::ProcessWindowEvent(sf::Event event)
     }
     if (event.type == sf::Event::LostFocus) 
     {
-        //Jukebox::PauseMusic();
         _window.setActive(false);
         _windowIsActive = false;
     }
     if (event.type == sf::Event::GainedFocus) 
     {
-        //Jukebox::PlayMusic();
         _window.setActive(true);
         _windowIsActive = true;
     }
