@@ -31,6 +31,8 @@ Game::~Game() {
 void Game::Run()
 {
     sf::Clock clock;
+    sf::Music * music = new sf::Music();
+    Jukebox::InitMusic(music);
     _window.setFramerateLimit(60);
     _window.setVerticalSyncEnabled(true);
     _window.setKeyRepeatEnabled(false);
@@ -64,6 +66,7 @@ void Game::Run()
         _window.display();
     }
     Jukebox::StopMusic();
+    delete music;
 }
 
 void Game::ProcessWindowEvent(sf::Event event)

@@ -16,6 +16,7 @@ class Jukebox
 {
     public:
         /* music */
+        static void InitMusic(sf::Music * music);
         static void PlayMusic(const std::string & musicKey);
         static void PlayMusic();
         static void StopMusic();
@@ -35,7 +36,7 @@ class Jukebox
 
     private:
         static std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> _jukeboxSounds;
-        static std::unique_ptr<sf::Music> _music;
+        static sf::Music * _music;
         static std::string _musicKeyPlaying;
         static float _musicVolumePercent;
         static float _soundVolumePercent;

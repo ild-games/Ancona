@@ -9,10 +9,14 @@ using namespace ild;
 
 std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> Jukebox::_jukeboxSounds = std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>>();
 std::string Jukebox::_musicKeyPlaying = "";
-std::unique_ptr<sf::Music> Jukebox::_music = std::unique_ptr<sf::Music>(new sf::Music());
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
+sf::Music * Jukebox::_music = nullptr;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
+
+void Jukebox::InitMusic(sf::Music * music) {
+    _music = music;
+}
 
 void Jukebox::RegisterSound(const std::string & soundKey) {
     if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
@@ -46,6 +50,10 @@ void Jukebox::PlaySound(const std::string & soundKey, const unsigned long & jobI
 }
 
 void Jukebox::PlayMusic(const std::string & musicKey) {
+    if (!_music) {
+        return;
+    }
+
     if (musicKey == _musicKeyPlaying) {
         return;
     }
@@ -74,7 +82,6 @@ void Jukebox::StopMusic() {
 
     _musicKeyPlaying = "";
     _music->stop();
-    _music.reset();
 }
 
 void Jukebox::PauseMusic() {
