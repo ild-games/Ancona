@@ -10,6 +10,7 @@
 #include <Ancona/Core2D/InputDevices/Joystick.hpp>
 #include <Ancona/System/Log.hpp>
 #include <Ancona/System/EventHandling.hpp>
+#include <Ancona/Util/Timer.hpp>
 
 using namespace ild;
 
@@ -55,6 +56,7 @@ void Game::Run()
 
         sf::Time elapsed = clock.restart();
         float delta = std::min(elapsed.asSeconds(), 0.0235f);
+        Timer::Update(delta);
         _screenManager->Update(delta);
         _window.clear(sf::Color::Black);
         _screenManager->Draw(delta);
