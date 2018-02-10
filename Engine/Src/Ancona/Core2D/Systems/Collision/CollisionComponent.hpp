@@ -118,6 +118,8 @@ class CollisionComponent
         const Box2 & box() const { return _dim; }
         void anchor(const sf::Vector2f & anchor) { _anchor = anchor; }
         const sf::Vector2f & anchor() const { return _anchor; }
+        bool enabled() const { return _enabled; } 
+        void enabled(const bool & newEnabled) { _enabled = newEnabled; } 
 
     private:
         PositionComponent * _position;
@@ -126,6 +128,7 @@ class CollisionComponent
         CollisionType _type;
         BodyTypeEnum _bodyType;
         sf::Vector2f _anchor;
+        bool _enabled = true;
 };
 
 }

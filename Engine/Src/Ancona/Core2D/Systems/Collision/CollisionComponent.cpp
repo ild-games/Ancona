@@ -6,23 +6,25 @@
 using namespace ild;
 
 static DualMap<std::string, BodyTypeEnum> BodyTypeEnumStringMap {
-        { "none", BodyType::None },
-        { "solid", BodyType::Solid },
-        { "environment", BodyType::Environment }
+    { "none", BodyType::None },
+    { "solid", BodyType::Solid },
+    { "environment", BodyType::Environment }
 };
 
 CollisionComponent::CollisionComponent(CollisionSystem * collisionSystem,
         const sf::Vector3f & dim,
         CollisionType type,
-        BodyTypeEnum bodyType)
-    : _system(collisionSystem), _dim(dim.x,dim.y), _type(type), _bodyType(bodyType)
+        BodyTypeEnum bodyType) :
+    _system(collisionSystem), 
+    _dim(dim.x,dim.y), 
+    _type(type), 
+    _bodyType(bodyType)
 {
-
 }
 
 bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude) const
 {
-    return _dim.Intersects(otherComponent._dim, fixNormal, fixMagnitude);
+    return _enabled && otherComponent.enabled() && _dim.Intersects(otherComponent._dim, fixNormal, fixMagnitude);
 }
 
 void CollisionComponent::Update()
@@ -44,6 +46,10 @@ std::vector<Collision> CollisionComponent::GetCollisions() const
 std::vector<Collision> CollisionComponent::GetCollisions(const Box2 & box) const
 {
     std::vector<Collision> collisions;
+    if (!_enabled) {
+        return collisions;
+    }
+
     for (auto collision : _system->GetEntitiesInBox(box)) {
         if (collision.collisionComponent() != this) {
             collisions.push_back(collision);
