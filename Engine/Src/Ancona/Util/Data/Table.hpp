@@ -56,15 +56,18 @@ class Table
          */
         T & Get(int row, int column)
         {
-            ILD_Assert(row >= 0 && row < _numberOfRows, "Row is out of bounds");
-            ILD_Assert(column >= 0 && column < _numberOfColumns, "Column is out of bounds");
+            ILD_Assert(row >= 0 && row < _numberOfRows, ROW_OUT_OF_BOUNDS_MSG);
+            ILD_Assert(column >= 0 && column < _numberOfColumns, COL_OUT_OF_BOUNDS_MSG);
             return _data[row][column];
         }
 
         /* Getters and Setters */
         int numberOfRows() const { return _numberOfRows; }
         int numberOfColumns() const { return _numberOfColumns; }
+
     private:
+        const std::string ROW_OUT_OF_BOUNDS_MSG = "Row is out of bounds";
+        const std::string COL_OUT_OF_BOUNDS_MSG = "Column is out of bounds";
         int _numberOfRows = 0;
         int _numberOfColumns = 0;
         std::vector<std::vector<T>> _data;

@@ -136,16 +136,15 @@ void CollisionSystem::Update(float delta)
 }
 
 
-std::vector<Collision> CollisionSystem::GetEntitiesInBox(const Box2 & box) {
-    std::vector<Collision> result;
+void CollisionSystem::GetEntitiesInBox(std::vector<Collision> & collisions, const Box2 & box, const CollisionComponent * ignore) {
+    collisions.clear();
     sf::Vector2f fixVector;
     float fixMagnitude;
     for (EntityComponentPair pair : * this) {
-        if (box.Intersects(pair.second->box(), fixVector, fixMagnitude)) {
-            result.emplace_back(pair.first, pair.second, fixVector, fixMagnitude);
+        if (pair.second != ignore && box.Intersects(pair.second->box(), fixVector, fixMagnitude)) {
+            collisions.emplace_back(pair.first, pair.second, fixVector, fixMagnitude);
         }
     }
-    return result;
 }
 
 CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
@@ -182,14 +181,14 @@ void CollisionSystem::DefineCollisionCallback(CollisionType typeA, CollisionType
     _callbackTable.Get(typeA, typeB) = callback;
 }
 
-CollisionType CollisionSystem::GetType(const std::string &key) const
+const CollisionType & CollisionSystem::GetType(const std::string &key) const
 {
-    ILD_Assert(IsCollisionTypeDefined(key), "The collision type must exist");
+    ILD_Assert(IsCollisionTypeDefined(key), COLLISION_TYPE_MUST_EXIST_MSG);
 
     return _collisionTypes.at(key);
 }
 
-std::string CollisionSystem::GetKeyFromType(const CollisionType & type)
+const std::string & CollisionSystem::GetKeyFromType(const CollisionType & type)
 {
     return _collisionTypeToKey[type];
 }
