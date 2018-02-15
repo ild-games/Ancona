@@ -121,6 +121,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         PositionSystem & position() { return _positions; }
         void maxSlope(float value) { _maxSlope = value; }
         CollisionType noneType() const;
+
     private:
         int _nextType;
         Table<CollisionCallback> _callbackTable;

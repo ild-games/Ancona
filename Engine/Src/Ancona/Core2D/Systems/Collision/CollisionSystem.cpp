@@ -4,6 +4,7 @@
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/Json.hpp>
+#include <Ancona/Util/Math.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 #include <Ancona/System/FileOperations.hpp>
 
@@ -11,8 +12,12 @@ using namespace ild;
 
 void nop(const Entity & e1,const Entity & e2, const Point & fixNormal, float fixMagnitude) {}
 
-CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manager, PositionSystem & positions)
-    : UnorderedSystem<CollisionComponent>(name, manager,UpdateStep::Physics), _positions(positions)
+CollisionSystem::CollisionSystem(
+        const std::string & name,
+        SystemManager & manager,
+        PositionSystem & positions) :
+    UnorderedSystem<CollisionComponent>(name, manager, UpdateStep::Physics),
+    _positions(positions)
 {
     _nextType = 0;
 }
@@ -56,6 +61,17 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
 
     if (typeA == BodyType::Solid && typeB == BodyType::Environment)
     {
+        if (b->type() == _collisionTypes["movingPlatform"])
+        {
+            auto changeInPosition = b->positionComponent().changeInPosition();
+            ILD_Log(std::ostringstream().flush() << correctFix << changeInPosition);
+            a->positionComponent().position(a->positionComponent().position() + changeInPosition);
+            auto signum = Math::signum(correctFix.y);
+            auto newCorrectFixY = (std::abs(correctFix.y) - 2.0f) * signum;
+            ILD_Log(std::ostringstream().flush() << sf::Vector2f(correctFix.x, newCorrectFixY));
+            correctFix = sf::Vector2f(correctFix.x, newCorrectFixY);
+        }
+
         PushFirstOutOfSecond(a, b, correctFix);
     }
     else if (typeA == BodyType::Environment && typeB == BodyType::Solid)
