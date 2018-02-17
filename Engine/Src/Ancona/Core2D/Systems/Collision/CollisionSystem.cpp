@@ -66,7 +66,6 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
     {
         PushApart(a, b, correctFix);
     }
-
 }
 
 void CollisionSystem::PushFirstOutOfSecond(CollisionComponent *a, CollisionComponent *b, const Point &correctFix)
@@ -101,7 +100,7 @@ void CollisionSystem::Update(float delta)
     //Update all of the entities.  This is required for the position to be up to date.
     for(EntityComponentPair pair : * this)
     {
-        pair.second->Update();
+        pair.second->UpdateDimensionPosition();
     }
 
     for (EntityComponentPair entityComponentPairA : * this)
@@ -118,10 +117,11 @@ void CollisionSystem::Update(float delta)
                 continue;
             }
 
-
             Point fixNormal;
             float fixMagnitude;
-            if (entityComponentPairA.second->Collides(*entityComponentPairB.second, fixNormal, fixMagnitude))
+            if (entityComponentPairA.second->Collides(*entityComponentPairB.second,
+                                                      fixNormal,
+                                                      fixMagnitude))
             {
                 HandleCollision(
                     entityComponentPairA,
@@ -132,6 +132,11 @@ void CollisionSystem::Update(float delta)
             entityComponentPairA.second->UpdateDimensionPosition();
             entityComponentPairB.second->UpdateDimensionPosition();
         }
+    }
+
+    for(EntityComponentPair pair : * this)
+    {
+        pair.second->UpdateSnapshot();
     }
 }
 
