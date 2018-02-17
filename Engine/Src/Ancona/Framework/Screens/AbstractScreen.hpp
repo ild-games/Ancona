@@ -103,7 +103,7 @@ class AbstractScreen
         bool __Exiting;
 
         /* getters and setters */
-        std::string key() { return KEY; }
+        const std::string & key() { return KEY; }
         void requestList(std::shared_ptr<RequestList> requestList) { _requestList = requestList; }
         std::shared_ptr<RequestList> requestList() { return _requestList; }
         virtual ScreenSystemsContainer * systemsContainer() = 0;
