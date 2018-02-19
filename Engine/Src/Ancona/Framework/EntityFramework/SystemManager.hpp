@@ -35,6 +35,19 @@ class SystemManager
         SystemManager();
 
         /**
+        * Retrieve a system with the given type. This call is not cheap, so 
+        * cache the result.
+        */
+        template<SystemType> RetrieveSystem(SystemType *& system) {
+            system = nullptr;
+            for (auto & keySystemPair : keyedSystems()) {
+                if (typeid(*keySystemPair.second) == typeid(SystemType)) {
+                    system = dynamic_cast<SystemType>(keySystemPair.second);
+                }
+            }
+        }
+
+        /**
          * @brief Will update all managers that were registered with the given updateStep.
          *
          * @param delta The amount of time in ms that has passed since the last update
@@ -118,7 +131,7 @@ class SystemManager
          * @brief Called when a system is creating a new component for an entity.  This
          * method must be called in order for the system to be notified when the entity is
          * deleted.
-         *
+
          * This method should only be called by the system that is being registered.
          *
          * @param entity Entity that the component is added to

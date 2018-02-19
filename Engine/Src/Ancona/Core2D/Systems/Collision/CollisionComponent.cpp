@@ -1,5 +1,6 @@
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/Math.hpp>
+#include <Ancona/Util2D/Collision/Math.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionComponent.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
 
@@ -22,14 +23,87 @@ CollisionComponent::CollisionComponent(CollisionSystem * collisionSystem,
 {
 }
 
-bool CollisionComponent::Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude) const
+std::pair<float, float> Projection(float size, float movement, float position)
 {
-    return _enabled && otherComponent.enabled() && _dim.Intersects(otherComponent._dim, fixNormal, fixMagnitude);
+    if (movement < 0) {
+        return std::pair<float, float>(position, position + size - movement); 
+    } else {
+        return std::pair<float, float>(position - movement, position + size);
+    }
 }
 
-void CollisionComponent::Update()
+#include <iostream>
+
+float FixAmount(const Math::Projection2 a, const Math::Projection2 b, const float movement)
 {
-    UpdateDimensionPosition();
+    if(b.second <= a.first || a.second <= b.first)
+    {
+        return 0;
+    }
+
+    float left = b.first - a.second;  // negative
+    float right = b.second - a.first; // positive
+
+    if (movement == 0.0) {
+        return fabs(left) <= fabs(right) ? left : right;
+    } else if (0 < movement) {
+        return left;
+    } else {
+        return right;
+    }
+}
+
+void CollisionComponent::UpdateSnapshot()
+{
+    _positionSnapshot = _dim.Position;
+}
+
+bool CollisionComponent::Collides(const CollisionComponent & otherComponent,
+                                  Point & fixNormal,
+                                  float & fixMagnitude) const
+{
+
+    /**
+     * The fixNormal and fixMagnitude are orientated such that 
+     * this will push itself out of otherComponent.
+     */
+    sf::Vector2f movement = this->movement();
+    auto thisX = Projection(_dim.Dimension.x, movement.x, _dim.Position.x);
+    auto thisY = Projection(_dim.Dimension.y, movement.y, _dim.Position.y);
+    
+    auto otherMovement = otherComponent.movement();
+    auto otherX = Projection(otherComponent._dim.Dimension.x,
+                             otherMovement.x,
+                             otherComponent._dim.Position.x);
+    auto otherY = Projection(otherComponent._dim.Dimension.y,
+                             otherMovement.y,
+                             otherComponent._dim.Position.y);
+
+    auto relativeMovement = movement - otherMovement;
+    auto fixX = FixAmount(thisX, otherX, relativeMovement.x);
+    auto fixY = FixAmount(thisY, otherY, relativeMovement.y);
+
+    if (!_enabled || !otherComponent.enabled() || fixX == 0.0 || fixY == 0.0) {
+        fixNormal = Point();
+        fixMagnitude = 0;
+        return false;
+    }
+
+    /*
+     * When determining which fix is smaller, we compare relative to the 
+     * absolute movement of the two components. That avoids the problem where
+     * a component that falls onto another component gets pushed out the side
+     * because it was pushed so far into the component.
+     */
+    if (fabs(fixX / relativeMovement.x) < fabs(fixY / relativeMovement.y)) {
+        fixNormal = Point(Math::signum(fixX), 0);
+        fixMagnitude = fabs(fixX);
+        return true;
+    } else {
+        fixNormal = Point(0, Math::signum(fixY));
+        fixMagnitude = fabs(fixY);
+        return true;
+    }
 }
 
 void CollisionComponent::UpdateDimensionPosition()
@@ -119,4 +193,5 @@ void CollisionComponent::Serialize(Archive &arc) {
 void CollisionComponent::FetchDependencies(const Entity &entity) {
     _position = _system->position()[entity];
     UpdateDimensionPosition();
+    UpdateSnapshot();
 }

@@ -72,15 +72,19 @@ class CollisionComponent
          * @param fixNormal Output variable used to return the normal used
          *  to fix the collision.
          * @param fixMagnitude Magnitude of the vector used to push the objects apart.
+         * @param delta Delta used for calculating the projection.
          *
          * @return True if the components collide.  False otherwise.
          */
-        bool Collides(const CollisionComponent & otherComponent, Point & fixNormal, float & fixMagnitude) const;
+        bool Collides(const CollisionComponent & otherComponent,
+                      Point & fixNormal,
+                      float & fixMagnitude) const;
 
         /**
-         * @brief Update the internal state for purpose of collision.
+         * @brief Update the snapshot used for calculating diffs. Snapshot should be taken after all
+         *        collision fixes are applied.
          */
-        void Update();
+        void UpdateSnapshot();
 
         /**
          * @copydoc ild::CameraComponent::FetchDependencies
@@ -121,6 +125,8 @@ class CollisionComponent
         bool enabled() const { return _enabled; } 
         void enabled(const bool & newEnabled) { _enabled = newEnabled; } 
 
+        sf::Vector2f movement() const { return _dim.Position - _positionSnapshot; }
+
     private:
         PositionComponent * _position;
         CollisionSystem * _system;
@@ -129,6 +135,11 @@ class CollisionComponent
         BodyTypeEnum _bodyType;
         sf::Vector2f _anchor;
         bool _enabled = true;
+
+        /* 
+        * Not serialized
+        */ 
+        sf::Vector2f _positionSnapshot;
 };
 
 }
