@@ -17,8 +17,9 @@ using namespace ild;
 Game::Game(
         int windowWidth, 
         int windowHeight, 
-        const std::string & title) :
-    _window(sf::VideoMode(windowWidth, windowHeight), title)
+        const std::string & title,
+        const sf::Uint32 & style) :
+    _window(sf::VideoMode(windowWidth, windowHeight), title, style)
 {
     _screenManager = new ScreenManager(_window, windowWidth, windowHeight);
 }

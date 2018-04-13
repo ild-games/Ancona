@@ -19,7 +19,7 @@ class Game
         /**
          * @brief Construct the Game
          */
-        Game(int windowWidth, int windowHeight, const std::string & title);
+        Game(int windowWidth, int windowHeight, const std::string & title, const sf::Uint32 & style = sf::Style::Default);
 
         /**
          * @brief Begin the game loop, run the game
