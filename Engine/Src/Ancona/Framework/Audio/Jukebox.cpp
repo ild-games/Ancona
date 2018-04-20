@@ -63,6 +63,7 @@ void Jukebox::PlayMusic(const std::string & musicKey) {
     std::stringstream stream;
     stream << resourceRoot << "/" << musicKey << ".ogg";
     _music->openFromFile(stream.str());
+    _music->setLoop(true);
     _music->play();
 }
 
