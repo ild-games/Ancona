@@ -67,10 +67,6 @@ void CameraComponent::Draw(sf::RenderTarget& target, float delta)
 
 void CameraComponent::ApplyLetterboxView(int windowWidth, int windowHeight)
 {
-    // Compares the aspect ratio of the window to the aspect ratio of the view,
-    // and sets the view's viewport accordingly in order to archieve a letterbox effect.
-    // A new view (with a new viewport set) is returned.
-
     float windowRatio = (float)windowWidth / (float)windowHeight;
     float viewRatio = (float)_view.getSize().x / (float)_view.getSize().y;
     float sizeX = 1;
@@ -78,15 +74,7 @@ void CameraComponent::ApplyLetterboxView(int windowWidth, int windowHeight)
     float posX = 0;
     float posY = 0;
 
-    bool horizontalSpacing = true;
-    if (windowRatio < viewRatio) {
-        horizontalSpacing = false;
-    }
-
-    // If horizontalSpacing is true, the black bars will appear on the left and right side.
-    // Otherwise, the black bars will appear on the top and bottom.
-
-    if (horizontalSpacing) {
+    if (windowRatio >= viewRatio) {
         sizeX = viewRatio / windowRatio;
         posX = (1 - sizeX) / 2.f;
     } else {
