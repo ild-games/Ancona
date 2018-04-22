@@ -112,7 +112,7 @@ class UnorderedSystem : public AbstractSystem
         /**
          * @brief Implementation for AbstractSystem method
          */
-        bool EntityHasComponent(const Entity & entity) override
+        bool EntityHasComponent(const Entity & entity) const override
         {
             return _components.find(entity) != _components.end();
         }

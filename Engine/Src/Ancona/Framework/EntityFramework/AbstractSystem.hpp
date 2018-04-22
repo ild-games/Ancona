@@ -75,7 +75,7 @@ class AbstractSystem
          *
          * @return True if the entity has the component, otherwise false.
          */
-        virtual bool EntityHasComponent(const Entity & entity) = 0;
+        virtual bool EntityHasComponent(const Entity & entity) const = 0;
 
         virtual void CopyComponentToEntity(const Entity & fromEntity, const Entity & toEntity) = 0;
 
