@@ -31,7 +31,7 @@
             "repository" : {
                 "type" : "git",
                 "location" : "https://github.com/SFML/SFML",
-                "branch": "013d053"
+                "branch": "30ec3edd8bda55d0239b856c10b5706ce3f7eb33"
             },
             "buildSystem" : "cmake",
             "patches" : [
@@ -40,7 +40,8 @@
                 "Patches/sfml-fix-android-shutdown.patch",
                 "Patches/sfml-fix-macos-linker-errors.patch",
                 "Patches/sfml-ios-use-toolchain.patch",
-                "Patches/sfml-monkey-patch-ios-openal.patch"
+                "Patches/sfml-ios-remove-gesture-input-delay.patch",
+                "Patches/sfml-swap-ios-extlibs-for-ones-with-bitcode.patch"
             ]
         }
     ],

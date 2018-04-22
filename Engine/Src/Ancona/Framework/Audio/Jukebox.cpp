@@ -2,19 +2,25 @@
 
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
-#include <Ancona/Util/Assert.hpp>
 #include <Ancona/System/Log.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
 
 std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> Jukebox::_jukeboxSounds = std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>>();
 std::string Jukebox::_musicKeyPlaying = "";
-std::unique_ptr<sf::Music> Jukebox::_music = std::unique_ptr<sf::Music>(new sf::Music());
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
+sf::Music* Jukebox::_music = nullptr;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
 
-void Jukebox::RegisterSound(const std::string & soundKey) {
+void Jukebox::InitMusic(sf::Music* music)
+{
+    _music = music;
+}
+
+void Jukebox::RegisterSound(const std::string& soundKey)
+{
     if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
         _jukeboxSounds.emplace(soundKey, std::unique_ptr<JukeboxSounds>(new JukeboxSounds()));
     }
@@ -22,12 +28,14 @@ void Jukebox::RegisterSound(const std::string & soundKey) {
     _jukeboxSounds[soundKey]->Add(soundKey);
 }
 
-void Jukebox::ClearSounds() {
+void Jukebox::ClearSounds()
+{
     _jukeboxSounds.clear();
     _nextSoundLifecycleJobID = 0;
 }
 
-unsigned long Jukebox::ReserveSoundLifecycleID(const std::string & soundKey) {
+unsigned long Jukebox::ReserveSoundLifecycleID(const std::string& soundKey)
+{
     if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
         ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before reserving a sound allocation.");
     }
@@ -37,7 +45,8 @@ unsigned long Jukebox::ReserveSoundLifecycleID(const std::string & soundKey) {
     return _nextSoundLifecycleJobID;
 }
 
-void Jukebox::PlaySound(const std::string & soundKey, const unsigned long & jobID, const float & volume) {
+void Jukebox::PlaySound(const std::string& soundKey, const unsigned long& jobID, const float& volume)
+{
     if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
         ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before playing a sound");
     }
@@ -45,7 +54,12 @@ void Jukebox::PlaySound(const std::string & soundKey, const unsigned long & jobI
     _jukeboxSounds[soundKey]->Play(jobID, volume);
 }
 
-void Jukebox::PlayMusic(const std::string & musicKey) {
+void Jukebox::PlayMusic(const std::string& musicKey)
+{
+    if (!_music) {
+        return;
+    }
+
     if (musicKey == _musicKeyPlaying) {
         return;
     }
@@ -55,29 +69,32 @@ void Jukebox::PlayMusic(const std::string & musicKey) {
     std::stringstream stream;
     stream << resourceRoot << "/" << musicKey << ".ogg";
     _music->openFromFile(stream.str());
-    _music->play();
+    PlayMusic();
 }
 
-void Jukebox::PlayMusic() {
+void Jukebox::PlayMusic()
+{
     if (!_music) {
         return;
     }
 
+    ApplyMusicVolume();
     _music->setLoop(true);
     _music->play();
 }
 
-void Jukebox::StopMusic() {
+void Jukebox::StopMusic()
+{
     if (!_music) {
         return;
     }
 
     _musicKeyPlaying = "";
     _music->stop();
-    _music.reset();
 }
 
-void Jukebox::PauseMusic() {
+void Jukebox::PauseMusic()
+{
     if (!_music) {
         return;
     }
@@ -85,29 +102,38 @@ void Jukebox::PauseMusic() {
     _music->pause();
 }
 
-/* getters and setters */
-void Jukebox::musicVolumePercent(float volume) {
+void Jukebox::ApplyMusicVolume()
+{
     if (!_music) {
         return;
     }
 
-    _musicVolumePercent = volume;
-    if (volume == 0.0f) {
+    if (_musicVolumePercent == 0.0f) {
         _music->setVolume(0.0f);
     } else {
-        auto realVolume = std::pow(100.0f, volume - 1);
+        auto realVolume = std::pow(100.0f, _musicVolumePercent - 1);
         _music->setVolume(realVolume * 100);
     }
 }
 
-float Jukebox::musicVolumePercent() {
+/* getters and setters */
+void Jukebox::musicVolumePercent(float volume)
+{
+    _musicVolumePercent = volume;
+    ApplyMusicVolume();
+}
+
+float Jukebox::musicVolumePercent()
+{
     return _musicVolumePercent;
 }
 
-void Jukebox::soundVolumePercent(float volume) {
+void Jukebox::soundVolumePercent(float volume)
+{
     _soundVolumePercent = volume;
 }
 
-float Jukebox::soundVolumePercent() {
+float Jukebox::soundVolumePercent()
+{
     return _soundVolumePercent;
 }

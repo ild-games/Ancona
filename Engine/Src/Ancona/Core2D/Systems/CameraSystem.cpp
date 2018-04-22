@@ -1,41 +1,43 @@
 #include <cmath>
 
-#include <Ancona/Util/Assert.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/System/Log.hpp>
-
+#include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
 
 /* Component */
-CameraComponent::CameraComponent() : _offset(sf::Vector2f(0, 0)) { }
+CameraComponent::CameraComponent()
+    : _offset(sf::Vector2f(0, 0))
+{
+}
 
 CameraComponent::CameraComponent(
-        const sf::View & originalView,
-        float renderPriority,
-        DrawableSystem * drawableSystem,
-        float scale,
-        sf::Vector2f offset,
-        sf::Vector2f upperBounds,
-        sf::Vector2f lowerBounds) :
-    _view(sf::View(originalView)),
-    _renderPriority(renderPriority),
-    _scale(scale),
-    _offset(offset),
-    _lowerBounds(lowerBounds),
-    _upperBounds(upperBounds),
-    _drawableSystem(drawableSystem)
+    const sf::View& originalView,
+    float renderPriority,
+    DrawableSystem* drawableSystem,
+    float scale,
+    sf::Vector2f offset,
+    sf::Vector2f upperBounds,
+    sf::Vector2f lowerBounds)
+    : _view(sf::View(originalView))
+    , _renderPriority(renderPriority)
+    , _scale(scale)
+    , _offset(offset)
+    , _lowerBounds(lowerBounds)
+    , _upperBounds(upperBounds)
+    , _drawableSystem(drawableSystem)
 {
 }
 
 void CameraComponent::Update(float delta)
 {
     auto effectivePosition = GetEffectiveCenter();
-     _view.setCenter(std::round(effectivePosition.x), std::round(effectivePosition.y));
+    _view.setCenter(std::round(effectivePosition.x), std::round(effectivePosition.y));
 }
 
-void CameraComponent::Draw(sf::RenderTarget & target, float delta)
+void CameraComponent::Draw(sf::RenderTarget& target, float delta)
 {
     Box2 cameraPosition(
         sf::Vector2f(_view.getCenter().x - (_view.getSize().x), _view.getCenter().y - (_view.getSize().y)),
@@ -43,33 +45,50 @@ void CameraComponent::Draw(sf::RenderTarget & target, float delta)
         sf::Vector2f(),
         _view.getRotation());
 
+    ApplyLetterboxView(target.getSize().x, target.getSize().y);
     target.setView(_view);
 
     if (!_sorted) {
         alg::sort(
             _renderQueue,
-            [](DrawableComponent * lhs, DrawableComponent * rhs)
-        {
-            return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
-        });
+            [](DrawableComponent* lhs, DrawableComponent* rhs) {
+                return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
+            });
     }
 
-    for(DrawableComponent * drawable : _renderQueue)
-    {
+    for (DrawableComponent* drawable : _renderQueue) {
         auto drawableBox = drawable->BoundingBox();
-        if (cameraPosition.Intersects(drawableBox))
-        {
+        if (cameraPosition.Intersects(drawableBox)) {
             drawable->Draw(target, delta);
         }
         drawable->PostDrawUpdate(delta);
     }
 }
 
+void CameraComponent::ApplyLetterboxView(int windowWidth, int windowHeight)
+{
+    float windowRatio = (float)windowWidth / (float)windowHeight;
+    float viewRatio = (float)_view.getSize().x / (float)_view.getSize().y;
+    float sizeX = 1;
+    float sizeY = 1;
+    float posX = 0;
+    float posY = 0;
+
+    if (windowRatio >= viewRatio) {
+        sizeX = viewRatio / windowRatio;
+        posX = (1 - sizeX) / 2.f;
+    } else {
+        sizeY = windowRatio / viewRatio;
+        posY = (1 - sizeY) / 2.f;
+    }
+
+    _view.setViewport(sf::FloatRect(posX, posY, sizeX, sizeY));
+}
+
 sf::Vector2f CameraComponent::GetEffectiveCenter()
 {
     sf::Vector2f effectivePosition = _view.getCenter();
-    if (_followPosition != nullptr)
-    {
+    if (_followPosition != nullptr) {
         effectivePosition = _followPosition->position();
     }
 
@@ -81,37 +100,35 @@ sf::Vector2f CameraComponent::GetEffectiveCenter()
     return effectivePosition;
 }
 
-void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
+void CameraComponent::AddDrawableComponent(DrawableComponent* drawable)
 {
-	ILD_Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
+    ILD_Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
     _sorted = false;
     _renderQueue.push_back(drawable);
 }
 
-void CameraComponent::RemoveDrawableComponent(DrawableComponent * drawable)
+void CameraComponent::RemoveDrawableComponent(DrawableComponent* drawable)
 {
     if (std::find(_renderQueue.begin(), _renderQueue.end(), drawable) != _renderQueue.end()) {
         _renderQueue.erase(alg::remove(_renderQueue, drawable));
     }
 }
 
-void CameraComponent::FetchDependencies(const Entity & entity)
+void CameraComponent::FetchDependencies(const Entity& entity)
 {
-    if(_follows != nullentity)
-    {
+    if (_follows != nullentity) {
         _followPosition = (*_positionSystem)[_follows];
     }
     _view.setSize(_size);
     _view.setCenter(_size.x / 2, _size.y / 2);
     scale(_originalScale);
     _drawableSystem->AddCamera(this);
-    if(_default)
-    {
+    if (_default) {
         _drawableSystem->defaultCamera(this);
     }
 }
 
-void CameraComponent::Serialize(Archive & arc)
+void CameraComponent::Serialize(Archive& arc)
 {
     arc(_renderPriority, "renderPriority");
     arc(_originalScale, "scale");
@@ -142,32 +159,31 @@ void CameraComponent::scale(float scale)
 
 /* System */
 CameraSystem::CameraSystem(
-        std::string name,
-        SystemManager & manager) :
-    UnorderedSystem(name, manager, UpdateStep::Draw)
+    std::string name,
+    SystemManager& manager)
+    : UnorderedSystem(name, manager, UpdateStep::Draw)
 {
 }
 
 void CameraSystem::Update(float delta)
 {
-    for (EntityComponentPair comp : *this)
-    {
+    for (EntityComponentPair comp : *this) {
         comp.second->Update(delta);
     }
 }
 
-CameraComponent * CameraSystem::CreateComponent(
-        const Entity & entity,
-        const sf::View & originalView,
-        float renderPriority,
-        DrawableSystem * drawableSystem,
-        float scale)
+CameraComponent* CameraSystem::CreateComponent(
+    const Entity& entity,
+    const sf::View& originalView,
+    float renderPriority,
+    DrawableSystem* drawableSystem,
+    float scale)
 {
-    CameraComponent * comp = new CameraComponent(
-            originalView,
-            renderPriority,
-            drawableSystem,
-            scale);
+    CameraComponent* comp = new CameraComponent(
+        originalView,
+        renderPriority,
+        drawableSystem,
+        scale);
     AttachComponent(entity, comp);
     return comp;
 }

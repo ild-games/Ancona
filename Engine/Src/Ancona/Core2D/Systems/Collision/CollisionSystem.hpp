@@ -66,7 +66,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         *
         * @return An array of entity collision component pairs.
         */
-        std::vector<Collision> GetEntitiesInBox(const Box2 & box);
+        void GetEntitiesInBox(std::vector<Collision> & collisions, const Box2 & box, const CollisionComponent * ignore);
 
         /**
          * @brief Create a Type that can be assigned to a component.
@@ -80,14 +80,14 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         /**
          * @brief Get the collision type associated with the key.
          */
-        CollisionType GetType(const std::string & key) const;
+        const CollisionType & GetType(const std::string & key) const;
 
         /**
          * @brief Get the key associated with the collision type.
          *
          * @type CollisionType used to get the key from.
          */
-        std::string GetKeyFromType(const CollisionType & type);
+        const std::string & GetKeyFromType(const CollisionType & type);
 
         /**
          * @brief Define the handler that will be used for the collisions between the two types.
@@ -129,6 +129,7 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         std::unordered_map<CollisionType,std::string> _collisionTypeToKey;
         float _maxSlope = 45;
         const std::string NONE_COLLISION_TYPE = "none";
+        const std::string COLLISION_TYPE_MUST_EXIST_MSG = "The collision type must exist";
 
         bool UniqueCollision(EntityComponentPair & entityA, EntityComponentPair & entityB);
         void HandleCollision(

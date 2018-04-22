@@ -36,7 +36,7 @@ class PathComponent
         float TimeForSegment(int segment);
 
         /* getters and setters */
-        std::vector<sf::Vector2f> vertices() { return _vertices; }
+        std::vector<sf::Vector2f> & vertices() { return _vertices; }
         bool isLoop() { return _isLoop; }
 
     private:
