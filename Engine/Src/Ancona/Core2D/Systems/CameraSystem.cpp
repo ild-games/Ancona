@@ -45,7 +45,6 @@ void CameraComponent::Draw(sf::RenderTarget& target, float delta)
         sf::Vector2f(),
         _view.getRotation());
 
-    //_view.setCenter(_view.getSize().x / 2, _view.getSize().y / 2);
     ApplyLetterboxView(target.getSize().x, target.getSize().y);
     target.setView(_view);
 
