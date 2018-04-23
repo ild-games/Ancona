@@ -7,13 +7,13 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::PositionComponent);
 namespace ild {
 std::ostream & operator << (std::ostream& os, const Point&pt)
 {
-    os << "(" << pt.x << "," << pt.y << ")";
+    os << "(" << pt.x << ", " << pt.y << ")";
     return os;
 }
 
 std::ostream & operator << (std::ostream&& os, const Point&pt)
 {
-    os << "(" << pt.x << "," << pt.y << ")";
+    os << "(" << pt.x << ", " << pt.y << ")";
     return os;
 }
 }
@@ -62,7 +62,9 @@ void PositionComponent::Update(float delta)
 {
     if (_velocity.x != 0.0f || _velocity.y != 0.0f)
     {
+        auto oldPosition = _actualPosition;
         _actualPosition += delta * _velocity;
+        _changeInPosition = _actualPosition - oldPosition;
         RoundPosition();
     }
 }
@@ -76,7 +78,9 @@ void PositionComponent::RoundPosition()
 /* getters and setters */
 void PositionComponent::position(const Point & position)
 {
+    auto oldPosition = _actualPosition;
     _position = position;
     _actualPosition = position;
+    _changeInPosition = _actualPosition - oldPosition;
     RoundPosition();
 }

@@ -36,6 +36,7 @@ class PositionComponent
         /* getters and setters */
         inline const Point & position() const { return _position; }
         inline const Point & velocity() const { return _velocity; }
+        inline const Point & changeInPosition() const { return _changeInPosition; }
         inline void velocity(const Point & velocity) { _velocity = velocity; }
         void position(const Point & position);
 
@@ -43,6 +44,7 @@ class PositionComponent
         Point _actualPosition;
         Point _position;
         Point _velocity;
+        Point _changeInPosition;
 
         void RoundPosition();
 };
