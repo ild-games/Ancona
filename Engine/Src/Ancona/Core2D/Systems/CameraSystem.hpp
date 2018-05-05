@@ -58,10 +58,8 @@ public:
 
     /**
      * @brief Draws the camera and all renderables on it.
-     *
-     * @param window RenderWindow for the game.
      */
-    void Draw(sf::RenderTarget& target, float delta);
+    void Draw(sf::RenderTarget& target, sf::RenderWindow& window, float delta);
 
     /**
      * @brief Adds a DrawableComponent to the camera's render queue.

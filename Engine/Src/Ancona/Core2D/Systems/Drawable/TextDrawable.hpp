@@ -59,7 +59,7 @@ class TextDrawable : public Drawable
 
         /* getters and setters */
         std::string text() { return _text->getString(); }
-        void text(std::string text);
+        void text(std::string text, bool resetOrigin = true);
         sf::Vector2f size() override;
         int alpha() override;
         void alpha(int alpha) override;

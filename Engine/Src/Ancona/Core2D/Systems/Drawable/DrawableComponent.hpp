@@ -64,10 +64,8 @@ class DrawableComponent
 
         /**
          * @brief Draws the DrawableComponent
-         *
-         * @param window RenderWindow to draw it on
          */
-        void Draw(sf::RenderTarget & target, float delta);
+        void Draw(sf::RenderTarget& target, float delta);
         void PostDrawUpdate(float delta);
 
         /**

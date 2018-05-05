@@ -52,7 +52,7 @@ struct Serializer<sf::Text>
         std::string fontKey;
         sf::Color color;
         int characterSize;
-        bool smooth = false;
+        bool smooth = true;
 
         if (!arc.loading())
         {

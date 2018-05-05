@@ -82,10 +82,12 @@ void TextDrawable::SetupText() {
 }
 
 /* getters and setters */
-void TextDrawable::text(std::string text)
+void TextDrawable::text(std::string text, bool resetOrigin)
 { 
     _text->setString(text); 
-    CenterOrigin();
+    if (resetOrigin) {
+        CenterOrigin();
+    }
 }
 
 sf::Vector2f TextDrawable::size()

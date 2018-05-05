@@ -26,16 +26,16 @@ void DrawableSystem::Update(float delta)
 
 void DrawableSystem::RenderUsingTexture(float delta)
 {
-    _renderTexture->clear(sf::Color(255, 255, 255, 0));
+    _renderTexture->clear(sf::Color::Black);
 
     for (auto & camera : _cameras)
     {
-        camera->Draw(*_renderTexture, delta);
+        camera->Draw(*_renderTexture, _window, delta);
     }
 
     _renderTexture->display();
+    _renderTexture->setSmooth(true);
     _windowSprite->setTexture(_renderTexture->getTexture());
-    _window.setView(*_renderView);
     sf::RenderStates states(sf::BlendNone);
     _window.draw(*_windowSprite, states);
 }
@@ -44,7 +44,7 @@ void DrawableSystem::RenderUsingWindow(float delta)
 {
     for (auto & camera : _cameras)
     {
-        camera->Draw(_window, delta);
+        camera->Draw(_window, _window, delta);
     }
     _window.setView(_defaultCamera->view());
 }
@@ -55,6 +55,7 @@ void DrawableSystem::SetupWindowRenderElements()
     _renderTexture->create(defaultSize.x, defaultSize.y);
     _renderView->setSize(defaultSize);
     _renderView->setCenter(defaultSize.x / 2, defaultSize.y / 2);
+    _window.setView(*_renderView);
 }
 
 void DrawableSystem::AddCamera(CameraComponent * camera)

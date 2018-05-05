@@ -37,7 +37,7 @@ void CameraComponent::Update(float delta)
     _view.setCenter(std::round(effectivePosition.x), std::round(effectivePosition.y));
 }
 
-void CameraComponent::Draw(sf::RenderTarget& target, float delta)
+void CameraComponent::Draw(sf::RenderTarget& target, sf::RenderWindow& window, float delta)
 {
     Box2 cameraPosition(
         sf::Vector2f(_view.getCenter().x - (_view.getSize().x), _view.getCenter().y - (_view.getSize().y)),
@@ -45,7 +45,7 @@ void CameraComponent::Draw(sf::RenderTarget& target, float delta)
         sf::Vector2f(),
         _view.getRotation());
 
-    ApplyLetterboxView(target.getSize().x, target.getSize().y);
+    ApplyLetterboxView(window.getSize().x, window.getSize().y);
     target.setView(_view);
 
     if (!_sorted) {
