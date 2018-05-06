@@ -17,6 +17,13 @@ ScreenManager::ScreenManager(
 {
 }
 
+ScreenManager::~ScreenManager()
+{
+    if (_replacementScreen != nullptr) {
+        delete _replacementScreen;
+    }
+}
+
 void ScreenManager::Push(AbstractScreen * screen, bool load)
 {
     _screens.push(screen);
@@ -30,6 +37,11 @@ void ScreenManager::Push(AbstractScreen * screen, bool load)
 void ScreenManager::Pop()
 {
     _screens.top()->__Exiting = true;
+}
+
+void ScreenManager::PopImmediate()
+{
+    RemoveScreen();
 }
 
 AbstractScreen * ScreenManager::Peek()
@@ -100,7 +112,7 @@ void ScreenManager::RemoveScreen()
     if (_replacementScreen != nullptr) {
         Push(_replacementScreen);
         _replacementScreen = nullptr;
-    } else if(!_screens.empty()) {
+    } else if (!_screens.empty()) {
         _screens.top()->Resume();
     }
 }

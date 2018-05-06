@@ -11,6 +11,7 @@
 #include <Ancona/System/EventHandling.hpp>
 #include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Timer.hpp>
+#include <Ancona/Framework/Resource/ResourceLoaderInit.hpp>
 
 using namespace ild;
 
@@ -21,12 +22,13 @@ Game::Game(
     const sf::Uint32& style)
     : _window(sf::VideoMode(windowWidth, windowHeight), title, style)
 {
-    _screenManager = new ScreenManager(_window, windowWidth, windowHeight);
+    _screenManager = std::unique_ptr<ScreenManager>(new ScreenManager(_window, windowWidth, windowHeight));
 }
 
 Game::~Game()
 {
     ResourceLibrary::GarbageCollect();
+    ResourceLoaderInit::Destroy();
 }
 
 void Game::Run()
@@ -73,6 +75,9 @@ void Game::ProcessWindowEvent(sf::Event event)
     EventHandling::HandleEvent(event);
 
     if (event.type == sf::Event::Closed) {
+        while (!_screenManager->Empty()) {
+            _screenManager->PopImmediate();
+        }
         _window.close();
     }
     if (event.type == sf::Event::KeyPressed) {

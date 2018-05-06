@@ -29,6 +29,7 @@ class ScreenManager
          * @param windowHeight the intended render height of the window
          */
         ScreenManager(sf::RenderWindow & window, int windowWidth, int windowHeight);
+        ~ScreenManager();
 
         /**
          * @brief Pushes a new screen either with a loading screen or without one.
@@ -43,6 +44,7 @@ class ScreenManager
          * to the screen and deletes the pointer.
          */
         void Pop();
+        void PopImmediate();
         AbstractScreen * Peek();
 
         /**

@@ -34,7 +34,7 @@ protected:
     /**
      * @brief Instance of the game manager
      */
-    ScreenManager* _screenManager;
+    std::unique_ptr<ScreenManager> _screenManager;
 
     /**
      * @brief Window used for rendering the game
