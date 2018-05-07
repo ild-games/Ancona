@@ -4,6 +4,7 @@
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <memory>
 
 namespace ild {
 
