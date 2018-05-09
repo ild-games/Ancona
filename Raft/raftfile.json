@@ -40,7 +40,7 @@
                 "Patches/sfml-fix-android-shutdown.patch",
                 "Patches/sfml-fix-macos-linker-errors.patch",
                 "Patches/sfml-ios-use-toolchain.patch",
-                "Patches/sfml-ios-remove-gesture-input-delay.patch",
+                "Patches/sfml-ios-remove-gesture-input-delay-and-enable-app-store-listing",
                 "Patches/sfml-swap-ios-extlibs-for-ones-with-bitcode.patch"
             ]
         }
