@@ -12,21 +12,6 @@ index 65b6eda0..61f0e025 100644
  ////////////////////////////////////////////////////////////
  /// \brief The view controller handles the view's orientation
  ///
- // Headers
-diff --git a/src/SFML/Window/iOS/SFViewController.hpp b/src/SFML/Window/iOS/SFViewController.hpp
-index 65b6eda0..61f0e025 100644
---- a/src/SFML/Window/iOS/SFViewController.hpp
-+++ b/src/SFML/Window/iOS/SFViewController.hpp
-@@ -29,13 +29,14 @@
- // Headers
- ////////////////////////////////////////////////////////////
- #include <UIKit/UIKit.h>
-+#import <StoreKit/StoreKit.h>
- 
- 
- ////////////////////////////////////////////////////////////
- /// \brief The view controller handles the view's orientation
- ///
  ////////////////////////////////////////////////////////////
 -@interface SFViewController : UIViewController
 +@interface SFViewController : UIViewController <SKStoreProductViewControllerDelegate>
