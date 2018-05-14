@@ -15,10 +15,28 @@ SystemManager::SystemManager()
 
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
+    if (_systemsNeedInit)
+    {
+        InitSystems();
+    }
+
     FetchWaitingDependencies();
     for (auto & system : _systems[updateStep])
     {
         system->Update(delta);
+    }
+}
+
+void SystemManager::InitSystems()
+{
+    _systemsNeedInit = false;
+    for (int updateStepInt = 0; updateStepInt != UpdateStep::UpdateStep::LAST_FOR_ITERATION; updateStepInt++) 
+    {
+        UpdateStep::UpdateStep updateStep = static_cast<UpdateStep::UpdateStep>(updateStepInt);
+        for (auto & system : _systems[updateStep])
+        {
+            system->Init();
+        }
     }
 }
 

@@ -193,6 +193,7 @@ class SystemManager
          * @brief Stores a map of systems and their corresponding entities that are allowed to be saved during non snapshot saves.
          */
         std::map<std::string, std::vector<std::string>> _entitySaveableSystems;
+        bool _systemsNeedInit = true;
 
         /**
          * @brief Deletes all the entities queued for deletion.
@@ -203,6 +204,8 @@ class SystemManager
          * @brief Returns true if the systemName is already associated with a system being managed.
          */
         bool ContainsName(std::string & systemName);
+
+        void InitSystems();
 };
 
 }

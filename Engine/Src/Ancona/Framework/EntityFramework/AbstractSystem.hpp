@@ -53,6 +53,8 @@ class AbstractSystem
         virtual void OnLoad() { }
 
 
+        virtual void Init() { }
+
         /**
          * @brief Called to update all components controlled by the system.
          *
