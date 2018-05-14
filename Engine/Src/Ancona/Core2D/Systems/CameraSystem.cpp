@@ -87,15 +87,15 @@ void CameraComponent::ApplyLetterboxView(int windowWidth, int windowHeight)
 
 sf::Vector2f CameraComponent::GetEffectiveCenter()
 {
-    sf::Vector2f effectivePosition = _view.getCenter();
+    sf::Vector2f effectivePosition;
     if (_followPosition != nullptr) {
-        effectivePosition = _followPosition->position();
+        effectivePosition = _followPosition->position() + _offset;
+    } else {
+        effectivePosition = _startingCenter + _offset;
     }
 
     effectivePosition.x = std::max(std::min(effectivePosition.x, _upperBounds.x), _lowerBounds.x);
     effectivePosition.y = std::max(std::min(effectivePosition.y, _upperBounds.y), _lowerBounds.y);
-
-    effectivePosition += _offset;
 
     return effectivePosition;
 }
@@ -121,6 +121,7 @@ void CameraComponent::FetchDependencies(const Entity& entity)
     }
     _view.setSize(_size);
     _view.setCenter(_size.x / 2, _size.y / 2);
+    _startingCenter = _view.getCenter();
     scale(_originalScale);
     _drawableSystem->AddCamera(this);
     if (_default) {

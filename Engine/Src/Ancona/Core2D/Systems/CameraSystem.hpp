@@ -99,6 +99,8 @@ public:
     void upperBounds(const sf::Vector2f& upperBounds) { _upperBounds = upperBounds; }
     const sf::Vector2f& upperBounds() { return _upperBounds; }
     const sf::View& view() { return _view; }
+    const sf::Vector2f& offset() { return _offset; }
+    void offset(const sf::Vector2f& offset) { _offset = offset; }
 
 protected:
     /**
@@ -140,6 +142,7 @@ private:
     DrawableSystem* _drawableSystem;
     bool _default = false;
     bool _sorted = false;
+    sf::Vector2f _startingCenter;
 
     void ApplyLetterboxView(int windowWidth, int windowHeight);
 };
