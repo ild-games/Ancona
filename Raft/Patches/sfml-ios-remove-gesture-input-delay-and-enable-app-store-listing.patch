@@ -6,12 +6,15 @@ index 65b6eda0..61f0e025 100644
  // Headers
  ////////////////////////////////////////////////////////////
  #include <UIKit/UIKit.h>
++#import <StoreKit/StoreKit.h>
  
  
  ////////////////////////////////////////////////////////////
  /// \brief The view controller handles the view's orientation
  ///
  ////////////////////////////////////////////////////////////
+-@interface SFViewController : UIViewController
++@interface SFViewController : UIViewController <SKStoreProductViewControllerDelegate>
  
  ////////////////////////////////////////////////////////////
  /// \brief Tells if the controller supports auto-rotation (iOS < 6)
@@ -20,6 +23,7 @@ index 65b6eda0..61f0e025 100644
  - (NSUInteger)supportedInterfaceOrientations;
  
 +- (void)viewDidAppear:(bool)animated;
++- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController;
 +
  ////////////////////////////////////////////////////////////
  // Member data
@@ -50,6 +54,13 @@ index 582b3ff1..246a8188 100644
 +    auto gr1 = window.gestureRecognizers[1];
 +    gr0.delaysTouchesBegan = false;
 +    gr1.delaysTouchesBegan = false;
++}
++
++#pragma mark - SFSKStoreProductViewControllerDelegate
++
++- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController
++{
++    [self dismissViewControllerAnimated:YES completion:nil];
 +}
  
  @end
