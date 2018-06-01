@@ -41,7 +41,8 @@
                 "Patches/sfml-fix-macos-linker-errors.patch",
                 "Patches/sfml-ios-use-toolchain.patch",
                 "Patches/sfml-ios-remove-gesture-input-delay-and-enable-app-store-listing.patch",
-                "Patches/sfml-swap-ios-extlibs-for-ones-with-bitcode.patch"
+                "Patches/sfml-swap-ios-extlibs-for-ones-with-bitcode.patch",
+                "Patches/sfml-include-ios-view-controller.patch"
             ]
         }
     ],
