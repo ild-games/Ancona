@@ -12,7 +12,6 @@ void Music::Serialize(Archive & arc) {
 }
 
 void Music::Update(float delta) {
-    Jukebox::SetMusicLoopPoints(_loopStart);
 }
 
 void Music::FetchDependencies(const Entity & entity) {

@@ -1,5 +1,7 @@
 #include "MusicSystem.hpp"
 
+#include <Ancona/Framework/Audio/Jukebox.hpp>
+
 using namespace ild;
 
 /* Component */

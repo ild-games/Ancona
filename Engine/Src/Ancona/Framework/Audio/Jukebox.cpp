@@ -12,7 +12,19 @@ std::string Jukebox::_musicKeyPlaying = "";
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
 sf::Music* Jukebox::_music = nullptr;
+float Jukebox::_loopStart = 0.0f;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
+
+void Jukebox::Update()
+{
+    if (_music != nullptr) {
+        // do our own looping of music since the SFML setLoopPoints API is inconsisent in whether or not it works
+        if (_music->getStatus() == sf::SoundSource::Status::Stopped) {
+            _music->play();
+            _music->setPlayingOffset(sf::seconds(_loopStart));
+        }
+    }
+}
 
 void Jukebox::InitMusic(sf::Music* music)
 {
@@ -79,19 +91,10 @@ void Jukebox::PlayMusic(const float& loopStart)
     }
 
     ApplyMusicVolume();
-    _music->setLoop(true);
-    _music->play();
-}
-
-void Jukebox::SetMusicLoopPoints(const float& loopStart)
-{
-    if (!_music) {
-        return;
+    if (loopStart >= 0.0f) {
+        _loopStart = loopStart;
     }
-
-    auto sfLoopStart = sf::seconds(loopStart);
-    auto sfDuration = sf::seconds(_music->getDuration().asSeconds() - loopStart);
-    _music->setLoopPoints(sf::Music::TimeSpan(sfLoopStart, sfDuration));
+    _music->play();
 }
 
 void Jukebox::StopMusic()
@@ -147,4 +150,9 @@ void Jukebox::soundVolumePercent(float volume)
 float Jukebox::soundVolumePercent()
 {
     return _soundVolumePercent;
+}
+
+float Jukebox::loopStart()
+{
+    return _loopStart;
 }
