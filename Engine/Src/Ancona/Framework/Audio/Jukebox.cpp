@@ -54,7 +54,7 @@ void Jukebox::PlaySound(const std::string& soundKey, const unsigned long& jobID,
     _jukeboxSounds[soundKey]->Play(jobID, volume);
 }
 
-void Jukebox::PlayMusic(const std::string& musicKey)
+void Jukebox::PlayMusic(const std::string& musicKey, const float& loopStart)
 {
     if (!_music) {
         return;
@@ -69,10 +69,10 @@ void Jukebox::PlayMusic(const std::string& musicKey)
     std::stringstream stream;
     stream << resourceRoot << "/" << musicKey << ".ogg";
     _music->openFromFile(stream.str());
-    PlayMusic();
+    PlayMusic(loopStart);
 }
 
-void Jukebox::PlayMusic()
+void Jukebox::PlayMusic(const float& loopStart)
 {
     if (!_music) {
         return;
@@ -81,6 +81,17 @@ void Jukebox::PlayMusic()
     ApplyMusicVolume();
     _music->setLoop(true);
     _music->play();
+}
+
+void Jukebox::SetMusicLoopPoints(const float& loopStart)
+{
+    if (!_music) {
+        return;
+    }
+
+    auto sfLoopStart = sf::seconds(loopStart);
+    auto sfDuration = sf::seconds(_music->getDuration().asSeconds() - loopStart);
+    _music->setLoopPoints(sf::Music::TimeSpan(sfLoopStart, sfDuration));
 }
 
 void Jukebox::StopMusic()

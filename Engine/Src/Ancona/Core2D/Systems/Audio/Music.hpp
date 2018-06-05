@@ -2,6 +2,7 @@
 #define Ancona_Core2D_Systems_Audio_Music_H_
 
 #include <string>
+#include <SFML/Audio.hpp>
 
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
@@ -15,7 +16,7 @@ class Music
 
         void Play();
         void Stop();
-
+        void Update(float delta);
 
         void Serialize(Archive &arc);
         void FetchDependencies(const Entity & entity);
@@ -26,6 +27,7 @@ class Music
     private:
         float _volume;
         std::string _musicKey;
+        float _loopStart = 0.0f;
 
 };
 

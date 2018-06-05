@@ -15,10 +15,11 @@ class Jukebox {
 public:
     /* music */
     static void InitMusic(sf::Music* music);
-    static void PlayMusic(const std::string& musicKey);
-    static void PlayMusic();
+    static void PlayMusic(const std::string& musicKey, const float& loopStart = 0.0f);
+    static void PlayMusic(const float& loopStart = 0.0f);
     static void StopMusic();
     static void PauseMusic();
+    static void SetMusicLoopPoints(const float& loopStart);
 
     /* sound */
     static void RegisterSound(const std::string& soundKey);

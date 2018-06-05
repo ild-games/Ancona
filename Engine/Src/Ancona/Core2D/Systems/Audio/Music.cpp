@@ -8,13 +8,18 @@ using namespace ild;
 void Music::Serialize(Archive & arc) {
     arc(_volume, "volume");
     arc(_musicKey, "musicKey");
+    arc(_loopStart, "loopStart");
+}
+
+void Music::Update(float delta) {
+    Jukebox::SetMusicLoopPoints(_loopStart);
 }
 
 void Music::FetchDependencies(const Entity & entity) {
 }
 
 void Music::Play() {
-    Jukebox::PlayMusic(_musicKey);
+    Jukebox::PlayMusic(_musicKey, _loopStart);
 }
 
 void Music::Stop() {
