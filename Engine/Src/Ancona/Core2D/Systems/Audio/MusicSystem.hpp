@@ -21,6 +21,8 @@ class MusicComponent
         void Update(float delta);
 
         std::shared_ptr<Music> GetMusic(const std::string & key);
+        std::shared_ptr<Music> GetFirstMusic();
+        const std::vector<std::shared_ptr<Music>> & GetAllMusics();
         bool HasMusic(const std::string & key);
 
     private:
@@ -39,6 +41,7 @@ class MusicSystem : public UnorderedSystem<MusicComponent>
 
         MusicComponent * CreateComponent(const Entity & entity);
         void PlayMusic(const std::string & musicToPlay);
+        void PauseAllMusic();
 
 };
 

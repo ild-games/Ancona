@@ -16,6 +16,7 @@ class Music
 
         void Play();
         void Stop();
+        void Pause();
         void Update(float delta);
 
         void Serialize(Archive &arc);

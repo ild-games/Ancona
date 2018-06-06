@@ -28,6 +28,18 @@ std::shared_ptr<Music> MusicComponent::GetMusic(const std::string & key) {
     return _hashedMusics[key];
 }
 
+std::shared_ptr<Music> MusicComponent::GetFirstMusic() {
+    if (_musics.size() > 0) {
+        return _musics[0];
+    }
+    
+    return nullptr;
+}
+
+const std::vector<std::shared_ptr<Music>> & MusicComponent::GetAllMusics() {
+    return _musics;
+}
+
 bool MusicComponent::HasMusic(const std::string & key) {
     return _hashedMusics.find(key) != _hashedMusics.end();
 }
@@ -55,6 +67,14 @@ void MusicSystem::PlayMusic(const std::string & musicToPlay) {
     for (EntityComponentPair comp : *this) {
         if (comp.second->HasMusic(musicToPlay)) {
             comp.second->GetMusic(musicToPlay)->Play();
+        }
+    }
+}
+
+void MusicSystem::PauseAllMusic() {
+    for (EntityComponentPair comp : *this) {
+        for (auto & music : comp.second->GetAllMusics()) {
+            music->Pause();
         }
     }
 }

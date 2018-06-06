@@ -24,3 +24,7 @@ void Music::Play() {
 void Music::Stop() {
     Jukebox::StopMusic();
 }
+
+void Music::Pause() {
+    Jukebox::PauseMusic();
+}
