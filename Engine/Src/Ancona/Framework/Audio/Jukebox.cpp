@@ -19,7 +19,7 @@ void Jukebox::Update()
 {
     if (_music != nullptr) {
         // do our own looping of music since the SFML setLoopPoints API is inconsisent in whether or not it works
-        if (_music->getStatus() == sf::SoundSource::Status::Stopped) {
+        if (_music->getStatus() == sf::SoundSource::Status::Stopped && _loopStart > 0.0f) {
             _music->play();
             _music->setPlayingOffset(sf::seconds(_loopStart));
         }
@@ -94,6 +94,8 @@ void Jukebox::PlayMusic(const float& loopStart)
     if (loopStart >= 0.0f) {
         _loopStart = loopStart;
     }
+
+    _music->setLoop(_loopStart == 0.0f);
     _music->play();
 }
 

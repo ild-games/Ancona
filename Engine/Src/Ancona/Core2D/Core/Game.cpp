@@ -1,6 +1,3 @@
-#include <thread>
-#include <chrono>
-
 #include <SFML/System.hpp>
 
 #include <Ancona/Core2D/Core/Game.hpp>
@@ -17,14 +14,6 @@
 #include <Ancona/Framework/Resource/ResourceLoaderInit.hpp>
 
 using namespace ild;
-
-void UpdateJukebox()
-{
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    while (true) {
-        Jukebox::Update();
-    }
-}
 
 Game::Game(
     int windowWidth,
@@ -51,8 +40,6 @@ void Game::Run()
     _window.setVerticalSyncEnabled(true);
     _window.setKeyRepeatEnabled(false);
 
-    std::thread jukeBoxUpdateThread(UpdateJukebox);
-
     while (_window.isOpen() && !_screenManager->Empty()) {
         sf::Event event;
         if (!_windowIsActive) {
@@ -67,6 +54,7 @@ void Game::Run()
         Mouse::_ClearButtons();
         Touch::_ClearFingers();
         Joystick::_ClearButtons();
+        Jukebox::Update();
         while (_window.pollEvent(event)) {
             ProcessWindowEvent(event);
         }
