@@ -1,29 +1,20 @@
 diff --git a/src/SFML/Window/iOS/SFViewController.hpp b/src/SFML/Window/iOS/SFViewController.hpp
-index 65b6eda0..61f0e025 100644
+index 65b6eda0..b6360ae7 100644
 --- a/src/SFML/Window/iOS/SFViewController.hpp
 +++ b/src/SFML/Window/iOS/SFViewController.hpp
-@@ -29,13 +29,14 @@
- // Headers
+@@ -30,7 +30,6 @@
  ////////////////////////////////////////////////////////////
  #include <UIKit/UIKit.h>
-+#import <StoreKit/StoreKit.h>
  
- 
+-
  ////////////////////////////////////////////////////////////
  /// \brief The view controller handles the view's orientation
  ///
- ////////////////////////////////////////////////////////////
--@interface SFViewController : UIViewController
-+@interface SFViewController : UIViewController <SKStoreProductViewControllerDelegate>
- 
- ////////////////////////////////////////////////////////////
- /// \brief Tells if the controller supports auto-rotation (iOS < 6)
-@@ -63,11 +64,15 @@
+@@ -63,11 +62,14 @@
  ////////////////////////////////////////////////////////////
  - (NSUInteger)supportedInterfaceOrientations;
  
 +- (void)viewDidAppear:(bool)animated;
-+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController;
 +
  ////////////////////////////////////////////////////////////
  // Member data
@@ -35,10 +26,10 @@ index 65b6eda0..61f0e025 100644
  
  #endif // SFML_SFVIEWCONTROLLER_HPP
 diff --git a/src/SFML/Window/iOS/SFViewController.mm b/src/SFML/Window/iOS/SFViewController.mm
-index 582b3ff1..246a8188 100644
+index 582b3ff1..7034e307 100644
 --- a/src/SFML/Window/iOS/SFViewController.mm
 +++ b/src/SFML/Window/iOS/SFViewController.mm
-@@ -50,8 +50,24 @@ - (BOOL)shouldAutorotate
+@@ -50,8 +50,17 @@ - (BOOL)shouldAutorotate
  ////////////////////////////////////////////////////////////
  - (NSUInteger)supportedInterfaceOrientations
  {
@@ -54,13 +45,6 @@ index 582b3ff1..246a8188 100644
 +    auto gr1 = window.gestureRecognizers[1];
 +    gr0.delaysTouchesBegan = false;
 +    gr1.delaysTouchesBegan = false;
-+}
-+
-+#pragma mark - SFSKStoreProductViewControllerDelegate
-+
-+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController
-+{
-+    [self dismissViewControllerAnimated:YES completion:nil];
 +}
  
  @end
