@@ -1,9 +1,14 @@
 #include "MusicSystem.hpp"
 
+#include <Ancona/Framework/Audio/Jukebox.hpp>
+
 using namespace ild;
 
 /* Component */
 void MusicComponent::Update(float delta) {
+    for (auto & music : _musics) {
+        music->Update(delta);
+    }
 }
 
 void MusicComponent::Serialize(Archive & arc) {

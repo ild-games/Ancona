@@ -12,7 +12,19 @@ std::string Jukebox::_musicKeyPlaying = "";
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
 sf::Music* Jukebox::_music = nullptr;
+float Jukebox::_loopStart = 0.0f;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
+
+void Jukebox::Update()
+{
+    if (_music != nullptr) {
+        // do our own looping of music since the SFML setLoopPoints API is inconsisent in whether or not it works
+        if (_music->getStatus() == sf::SoundSource::Status::Stopped && _loopStart > 0.0f) {
+            _music->play();
+            _music->setPlayingOffset(sf::seconds(_loopStart));
+        }
+    }
+}
 
 void Jukebox::InitMusic(sf::Music* music)
 {
@@ -54,7 +66,7 @@ void Jukebox::PlaySound(const std::string& soundKey, const unsigned long& jobID,
     _jukeboxSounds[soundKey]->Play(jobID, volume);
 }
 
-void Jukebox::PlayMusic(const std::string& musicKey)
+void Jukebox::PlayMusic(const std::string& musicKey, const float& loopStart)
 {
     if (!_music) {
         return;
@@ -69,17 +81,21 @@ void Jukebox::PlayMusic(const std::string& musicKey)
     std::stringstream stream;
     stream << resourceRoot << "/" << musicKey << ".ogg";
     _music->openFromFile(stream.str());
-    PlayMusic();
+    PlayMusic(loopStart);
 }
 
-void Jukebox::PlayMusic()
+void Jukebox::PlayMusic(const float& loopStart)
 {
     if (!_music) {
         return;
     }
 
     ApplyMusicVolume();
-    _music->setLoop(true);
+    if (loopStart >= 0.0f) {
+        _loopStart = loopStart;
+    }
+
+    _music->setLoop(_loopStart == 0.0f);
     _music->play();
 }
 
@@ -136,4 +152,9 @@ void Jukebox::soundVolumePercent(float volume)
 float Jukebox::soundVolumePercent()
 {
     return _soundVolumePercent;
+}
+
+float Jukebox::loopStart()
+{
+    return _loopStart;
 }

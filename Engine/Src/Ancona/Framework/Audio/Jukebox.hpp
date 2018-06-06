@@ -13,10 +13,12 @@ namespace ild {
 
 class Jukebox {
 public:
+    static void Update();
+
     /* music */
     static void InitMusic(sf::Music* music);
-    static void PlayMusic(const std::string& musicKey);
-    static void PlayMusic();
+    static void PlayMusic(const std::string& musicKey, const float& loopStart = -1.0f);
+    static void PlayMusic(const float& loopStart = -1.0f);
     static void StopMusic();
     static void PauseMusic();
 
@@ -31,10 +33,12 @@ public:
     static float musicVolumePercent();
     static void soundVolumePercent(float volume);
     static float soundVolumePercent();
+    static float loopStart();
 
 private:
     static std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> _jukeboxSounds;
     static sf::Music* _music;
+    static float _loopStart;
     static std::string _musicKeyPlaying;
     static float _musicVolumePercent;
     static float _soundVolumePercent;

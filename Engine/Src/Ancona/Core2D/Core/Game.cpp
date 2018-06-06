@@ -54,6 +54,7 @@ void Game::Run()
         Mouse::_ClearButtons();
         Touch::_ClearFingers();
         Joystick::_ClearButtons();
+        Jukebox::Update();
         while (_window.pollEvent(event)) {
             ProcessWindowEvent(event);
         }
