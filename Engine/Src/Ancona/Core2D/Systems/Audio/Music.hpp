@@ -29,6 +29,7 @@ class Music
         float _volume;
         std::string _musicKey;
         float _loopStart = 0.0f;
+        bool _loop = true;
 
 };
 

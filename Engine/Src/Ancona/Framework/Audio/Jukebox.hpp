@@ -17,8 +17,8 @@ public:
 
     /* music */
     static void InitMusic(sf::Music* music);
-    static void PlayMusic(const std::string& musicKey, const float& loopStart = -1.0f);
-    static void PlayMusic(const float& loopStart = -1.0f);
+    static void PlayMusic(const std::string& musicKey, const bool& loop = true, const float& loopStart = -1.0f);
+    static void PlayMusic(const bool& loop = true, const float& loopStart = -1.0f);
     static void StopMusic();
     static void PauseMusic();
 
@@ -39,6 +39,7 @@ private:
     static std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> _jukeboxSounds;
     static sf::Music* _music;
     static float _loopStart;
+    static bool _loop;
     static std::string _musicKeyPlaying;
     static float _musicVolumePercent;
     static float _soundVolumePercent;
