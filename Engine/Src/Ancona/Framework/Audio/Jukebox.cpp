@@ -93,10 +93,7 @@ void Jukebox::PlayMusic(const bool& loop, const float& loopStart)
 
     ApplyMusicVolume();
     _loop = loop;
-    if (loopStart >= 0.0f) {
-        _loopStart = loopStart;
-    }
-
+    _loopStart = loopStart;
     _music->setLoop(_loop && _loopStart == 0.0f);
     _music->play();
 }
@@ -159,4 +156,9 @@ float Jukebox::soundVolumePercent()
 float Jukebox::loopStart()
 {
     return _loopStart;
+}
+
+bool Jukebox::loop()
+{
+    return _loop;
 }

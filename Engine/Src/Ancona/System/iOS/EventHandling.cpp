@@ -11,6 +11,6 @@ void EventHandling::HandleEvent(const sf::Event & event)
     }
     if (event.type == sf::Event::MouseEntered)
     {
-        Jukebox::PlayMusic(Jukebox::loopStart());
+        Jukebox::PlayMusic(Jukebox::loop(), Jukebox::loopStart());
     }
 }
