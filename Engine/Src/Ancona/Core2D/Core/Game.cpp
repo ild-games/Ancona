@@ -81,30 +81,6 @@ void Game::ProcessWindowEvent(sf::Event event)
         }
         _window.close();
     }
-    if (event.type == sf::Event::KeyPressed) {
-        Keyboard::_AddKeyPress(event.key.code);
-    }
-    if (event.type == sf::Event::KeyReleased) {
-        Keyboard::_AddKeyRelease(event.key.code);
-    }
-    if (event.type == sf::Event::MouseButtonPressed) {
-        Mouse::_AddButtonPress(event.mouseButton.button);
-    }
-    if (event.type == sf::Event::MouseButtonReleased) {
-        Mouse::_AddButtonRelease(event.mouseButton.button);
-    }
-    if (event.type == sf::Event::TouchBegan) {
-        Touch::_AddFingerPress(event.touch.finger);
-    }
-    if (event.type == sf::Event::TouchEnded) {
-        Touch::_AddFingerRelease(event.touch.finger);
-    }
-    if (event.type == sf::Event::JoystickButtonPressed) {
-        Joystick::_AddButtonPress(event.joystickButton.joystickId, event.joystickButton.button);
-    }
-    if (event.type == sf::Event::JoystickButtonReleased) {
-        Joystick::_AddButtonRelease(event.joystickButton.joystickId, event.joystickButton.button);
-    }
     if (event.type == sf::Event::LostFocus) {
         _window.setActive(false);
         _windowIsActive = false;
@@ -112,5 +88,32 @@ void Game::ProcessWindowEvent(sf::Event event)
     if (event.type == sf::Event::GainedFocus) {
         _window.setActive(true);
         _windowIsActive = true;
+    }
+
+    if (_windowIsActive) {
+        if (event.type == sf::Event::KeyPressed) {
+            Keyboard::_AddKeyPress(event.key.code);
+        }
+        if (event.type == sf::Event::KeyReleased) {
+            Keyboard::_AddKeyRelease(event.key.code);
+        }
+        if (event.type == sf::Event::MouseButtonPressed) {
+            Mouse::_AddButtonPress(event.mouseButton.button);
+        }
+        if (event.type == sf::Event::MouseButtonReleased) {
+            Mouse::_AddButtonRelease(event.mouseButton.button);
+        }
+        if (event.type == sf::Event::TouchBegan) {
+            Touch::_AddFingerPress(event.touch.finger);
+        }
+        if (event.type == sf::Event::TouchEnded) {
+            Touch::_AddFingerRelease(event.touch.finger);
+        }
+        if (event.type == sf::Event::JoystickButtonPressed) {
+            Joystick::_AddButtonPress(event.joystickButton.joystickId, event.joystickButton.button);
+        }
+        if (event.type == sf::Event::JoystickButtonReleased) {
+            Joystick::_AddButtonRelease(event.joystickButton.joystickId, event.joystickButton.button);
+        }
     }
 }
