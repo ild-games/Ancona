@@ -23,7 +23,7 @@ class TileBlockDrawable : public Drawable
         sf::Vector2f size() override { return _size; }
         void size(const sf::Vector2f & size) { _size = size; }
         void textureKey(const std::string & textureKey) { _textureKey = textureKey; }
-        void alpha(int newAlpha) { _alpha = newAlpha; }
+        void alpha(int newAlpha) override { _alpha = newAlpha; }
         int alpha() override { return _alpha; }
     private:
         std::string _textureKey;

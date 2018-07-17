@@ -10,6 +10,7 @@ class Timer
         static void Update(float delta);
         static void Restart();
         static float AsMilliseconds();
+        static void SetMilliseconds(float millis);
 
     private:
         static float _elapsedTime;

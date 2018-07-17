@@ -19,3 +19,9 @@ float Timer::AsMilliseconds()
 {
     return (Timer::_elapsedTime - Timer::_startTime) * 1000.0f;
 }
+
+void Timer::SetMilliseconds(float millis)
+{
+    Timer::_elapsedTime = millis / 1000.0f;
+    Timer::_startTime = 0.0f;
+}
