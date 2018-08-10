@@ -1,0 +1,1295 @@
+diff --git a/include/SFML/Window/CursorImpl.hpp b/include/SFML/Window/CursorImpl.hpp
+new file mode 100644
+index 00000000..210c61de
+--- /dev/null
++++ b/include/SFML/Window/CursorImpl.hpp
+@@ -0,0 +1,56 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2016 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_CURSORIMPL_HPP
++#define SFML_CURSORIMPL_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Config.hpp>
++
++#if defined(SFML_SYSTEM_WINDOWS)
++
++    #include <SFML/Window/Win32/CursorImpl.hpp>
++
++#elif defined(SFML_SYSTEM_LINUX) || defined(SFML_SYSTEM_FREEBSD)
++
++    #include <SFML/Window/Unix/CursorImpl.hpp>
++
++#elif defined(SFML_SYSTEM_MACOS)
++
++    #include <SFML/Window/OSX/CursorImpl.hpp>
++
++#elif defined(SFML_SYSTEM_IOS)
++
++    #include <SFML/Window/iOS/CursorImpl.hpp>
++
++#elif defined(SFML_SYSTEM_ANDROID)
++
++    #include <SFML/Window/Android/CursorImpl.hpp>
++
++#endif
++
++
++#endif // SFML_CURSORIMPL_HPP
+diff --git a/include/SFML/Window/JoystickImpl.hpp b/include/SFML/Window/JoystickImpl.hpp
+new file mode 100644
+index 00000000..18063967
+--- /dev/null
++++ b/include/SFML/Window/JoystickImpl.hpp
+@@ -0,0 +1,108 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2017 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_JOYSTICKIMPL_HPP
++#define SFML_JOYSTICKIMPL_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Config.hpp>
++#include <SFML/Window/Joystick.hpp>
++#include <SFML/System/String.hpp>
++#include <algorithm>
++
++
++namespace sf
++{
++namespace priv
++{
++////////////////////////////////////////////////////////////
++/// \brief Structure holding a joystick's information
++///
++////////////////////////////////////////////////////////////
++struct JoystickCaps
++{
++    JoystickCaps()
++    {
++        buttonCount = 0;
++        std::fill(axes, axes + Joystick::AxisCount, false);
++    }
++
++    unsigned int buttonCount;               ///< Number of buttons supported by the joystick
++    bool         axes[Joystick::AxisCount]; ///< Support for each axis
++};
++
++
++////////////////////////////////////////////////////////////
++/// \brief Structure holding a joystick's state
++///
++////////////////////////////////////////////////////////////
++struct JoystickState
++{
++    JoystickState()
++    {
++        connected = false;
++        std::fill(axes, axes + Joystick::AxisCount, 0.f);
++        std::fill(buttons, buttons + Joystick::ButtonCount, false);
++    }
++
++    bool  connected;                      ///< Is the joystick currently connected?
++    float axes[Joystick::AxisCount];      ///< Position of each axis, in range [-100, 100]
++    bool  buttons[Joystick::ButtonCount]; ///< Status of each button (true = pressed)
++};
++
++} // namespace priv
++
++} // namespace sf
++
++
++#if defined(SFML_SYSTEM_WINDOWS)
++
++    #include <SFML/Window/Win32/JoystickImpl.hpp>
++
++#elif defined(SFML_SYSTEM_LINUX)
++
++    #include <SFML/Window/Unix/JoystickImpl.hpp>
++
++#elif defined(SFML_SYSTEM_FREEBSD)
++
++    #include <SFML/Window/FreeBSD/JoystickImpl.hpp>
++
++#elif defined(SFML_SYSTEM_MACOS)
++
++    #include <SFML/Window/OSX/JoystickImpl.hpp>
++
++#elif defined(SFML_SYSTEM_IOS)
++
++    #include <SFML/Window/iOS/JoystickImpl.hpp>
++
++#elif defined(SFML_SYSTEM_ANDROID)
++
++    #include <SFML/Window/Android/JoystickImpl.hpp>
++
++#endif
++
++
++#endif // SFML_JOYSTICKIMPL_HPP
+diff --git a/include/SFML/Window/SensorImpl.hpp b/include/SFML/Window/SensorImpl.hpp
+new file mode 100644
+index 00000000..aabf2774
+--- /dev/null
++++ b/include/SFML/Window/SensorImpl.hpp
+@@ -0,0 +1,57 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2017 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_SENSORIMPL_HPP
++#define SFML_SENSORIMPL_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Config.hpp>
++#include <SFML/Window/Sensor.hpp>
++
++#if defined(SFML_SYSTEM_WINDOWS)
++
++    #include <SFML/Window/Win32/SensorImpl.hpp>
++
++#elif defined(SFML_SYSTEM_LINUX) || defined(SFML_SYSTEM_FREEBSD)
++
++    #include <SFML/Window/Unix/SensorImpl.hpp>
++
++#elif defined(SFML_SYSTEM_MACOS)
++
++    #include <SFML/Window/OSX/SensorImpl.hpp>
++
++#elif defined(SFML_SYSTEM_IOS)
++
++    #include <SFML/Window/iOS/SensorImpl.hpp>
++
++#elif defined(SFML_SYSTEM_ANDROID)
++
++    #include <SFML/Window/Android/SensorImpl.hpp>
++
++#endif
++
++
++#endif // SFML_SENSORIMPL_HPP
+diff --git a/include/SFML/Window/WindowImpl.hpp b/include/SFML/Window/WindowImpl.hpp
+new file mode 100644
+index 00000000..6a6f75e7
+--- /dev/null
++++ b/include/SFML/Window/WindowImpl.hpp
+@@ -0,0 +1,284 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2017 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_WINDOWIMPL_HPP
++#define SFML_WINDOWIMPL_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Config.hpp>
++#include <SFML/System/NonCopyable.hpp>
++#include <SFML/System/String.hpp>
++#include <SFML/Window/ContextSettings.hpp>
++#include <SFML/Window/CursorImpl.hpp>
++#include <SFML/Window/Event.hpp>
++#include <SFML/Window/Joystick.hpp>
++#include <SFML/Window/JoystickImpl.hpp>
++#include <SFML/Window/Sensor.hpp>
++#include <SFML/Window/SensorImpl.hpp>
++#include <SFML/Window/VideoMode.hpp>
++#include <SFML/Window/WindowHandle.hpp>
++#include <SFML/Window/Window.hpp>
++#include <queue>
++#include <set>
++
++namespace sf
++{
++class WindowListener;
++
++namespace priv
++{
++////////////////////////////////////////////////////////////
++/// \brief Abstract base class for OS-specific window implementation
++///
++////////////////////////////////////////////////////////////
++class WindowImpl : NonCopyable
++{
++public:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Create a new window depending on the current OS
++    ///
++    /// \param mode  Video mode to use
++    /// \param title Title of the window
++    /// \param style Window style
++    /// \param settings Additional settings for the underlying OpenGL context
++    ///
++    /// \return Pointer to the created window (don't forget to delete it)
++    ///
++    ////////////////////////////////////////////////////////////
++    static WindowImpl* create(VideoMode mode, const String& title, Uint32 style, const ContextSettings& settings);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Create a new window depending on to the current OS
++    ///
++    /// \param handle Platform-specific handle of the control
++    ///
++    /// \return Pointer to the created window (don't forget to delete it)
++    ///
++    ////////////////////////////////////////////////////////////
++    static WindowImpl* create(WindowHandle handle);
++
++public:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Destructor
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual ~WindowImpl();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the joystick threshold, i.e. the value below which
++    ///        no move event will be generated
++    ///
++    /// \param threshold New threshold, in range [0, 100]
++    ///
++    ////////////////////////////////////////////////////////////
++    void setJoystickThreshold(float threshold);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Return the next window event available
++    ///
++    /// If there's no event available, this function calls the
++    /// window's internal event processing function.
++    /// The \a block parameter controls the behavior of the function
++    /// if no event is available: if it is true then the function
++    /// doesn't return until a new event is triggered; otherwise it
++    /// returns false to indicate that no event is available.
++    ///
++    /// \param event Event to be returned
++    /// \param block Use true to block the thread until an event arrives
++    ///
++    ////////////////////////////////////////////////////////////
++    bool popEvent(Event& event, bool block);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the OS-specific handle of the window
++    ///
++    /// \return Handle of the window
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual WindowHandle getSystemHandle() const = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the position of the window
++    ///
++    /// \return Position of the window, in pixels
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual Vector2i getPosition() const = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the position of the window on screen
++    ///
++    /// \param position New position of the window, in pixels
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setPosition(const Vector2i& position) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the client size of the window
++    ///
++    /// \return Size of the window, in pixels
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual Vector2u getSize() const = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the size of the rendering region of the window
++    ///
++    /// \param size New size, in pixels
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setSize(const Vector2u& size) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the title of the window
++    ///
++    /// \param title New title
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setTitle(const String& title) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the window's icon
++    ///
++    /// \param width  Icon's width, in pixels
++    /// \param height Icon's height, in pixels
++    /// \param pixels Pointer to the pixels in memory, format must be RGBA 32 bits
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setIcon(unsigned int width, unsigned int height, const Uint8* pixels) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Show or hide the window
++    ///
++    /// \param visible True to show, false to hide
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setVisible(bool visible) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Show or hide the mouse cursor
++    ///
++    /// \param visible True to show, false to hide
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setMouseCursorVisible(bool visible) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Grab or release the mouse cursor and keeps it from leaving
++    ///
++    /// \param grabbed True to enable, false to disable
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setMouseCursorGrabbed(bool grabbed) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Set the displayed cursor to a native system cursor
++    ///
++    /// \param cursor Native system cursor type to display
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setMouseCursor(const CursorImpl& cursor) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Enable or disable automatic key-repeat
++    ///
++    /// \param enabled True to enable, false to disable
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setKeyRepeatEnabled(bool enabled) = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Request the current window to be made the active
++    ///        foreground window
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void requestFocus() = 0;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Check whether the window has the input focus
++    ///
++    /// \return True if window has focus, false otherwise
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual bool hasFocus() const = 0;
++
++protected:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Default constructor
++    ///
++    ////////////////////////////////////////////////////////////
++    WindowImpl();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Push a new event into the event queue
++    ///
++    /// This function is to be used by derived classes, to
++    /// notify the SFML window that a new event was triggered
++    /// by the system.
++    ///
++    /// \param event Event to push
++    ///
++    ////////////////////////////////////////////////////////////
++    void pushEvent(const Event& event);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Process incoming events from the operating system
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void processEvents() = 0;
++
++private:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Read the joysticks state and generate the appropriate events
++    ///
++    ////////////////////////////////////////////////////////////
++    void processJoystickEvents();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Read the sensors state and generate the appropriate events
++    ///
++    ////////////////////////////////////////////////////////////
++    void processSensorEvents();
++
++    ////////////////////////////////////////////////////////////
++    // Member data
++    ////////////////////////////////////////////////////////////
++    std::queue<Event> m_events;                          ///< Queue of available events
++    JoystickState     m_joystickStates[Joystick::Count]; ///< Previous state of the joysticks
++    Vector3f          m_sensorValue[Sensor::Count];      ///< Previous value of the sensors
++    float             m_joystickThreshold;               ///< Joystick threshold (minimum motion for "move" event to be generated)
++};
++
++} // namespace priv
++
++} // namespace sf
++
++
++#endif // SFML_WINDOWIMPL_HPP
+diff --git a/include/SFML/Window/iOS/CursorImpl.hpp b/include/SFML/Window/iOS/CursorImpl.hpp
+new file mode 100644
+index 00000000..6f715b7a
+--- /dev/null
++++ b/include/SFML/Window/iOS/CursorImpl.hpp
+@@ -0,0 +1,88 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2016 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_CURSORIMPLIOS_HPP
++#define SFML_CURSORIMPLIOS_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Window/Cursor.hpp>
++#include <SFML/System/NonCopyable.hpp>
++#include <SFML/System/Vector2.hpp>
++
++
++namespace sf
++{
++
++namespace priv
++{
++////////////////////////////////////////////////////////////
++/// \brief iOS implementation of Cursor
++///
++/// This is a typical "not supported" implementation.
++///
++////////////////////////////////////////////////////////////
++class CursorImpl : NonCopyable
++{
++public:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Default constructor
++    ///
++    /// Refer to sf::Cursor::Cursor().
++    ///
++    ////////////////////////////////////////////////////////////
++    CursorImpl();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Destructor
++    ///
++    /// Refer to sf::Cursor::~Cursor().
++    ///
++    ////////////////////////////////////////////////////////////
++    ~CursorImpl();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Create a cursor with the provided image
++    ///
++    /// Returns false.
++    ///
++    ////////////////////////////////////////////////////////////
++    bool loadFromPixels(const Uint8* pixels, Vector2u size, Vector2u hotspot);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Create a native system cursor
++    ///
++    /// Returns false.
++    ///
++    ////////////////////////////////////////////////////////////
++    bool loadFromSystem(Cursor::Type type);
++};
++
++} // namespace priv
++
++} // namespace sf
++
++#endif // SFML_CURSORIMPLIOS_HPP
+diff --git a/include/SFML/Window/iOS/JoystickImpl.hpp b/include/SFML/Window/iOS/JoystickImpl.hpp
+new file mode 100644
+index 00000000..9e4f52f3
+--- /dev/null
++++ b/include/SFML/Window/iOS/JoystickImpl.hpp
+@@ -0,0 +1,114 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2017 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_JOYSTICKIMPLIOS_HPP
++#define SFML_JOYSTICKIMPLIOS_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Window/JoystickImpl.hpp>
++
++
++namespace sf
++{
++namespace priv
++{
++////////////////////////////////////////////////////////////
++/// \brief iOS implementation of joysticks
++///
++////////////////////////////////////////////////////////////
++class JoystickImpl
++{
++public:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Perform the global initialization of the joystick module
++    ///
++    ////////////////////////////////////////////////////////////
++    static void initialize();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Perform the global cleanup of the joystick module
++    ///
++    ////////////////////////////////////////////////////////////
++    static void cleanup();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Check if a joystick is currently connected
++    ///
++    /// \param index Index of the joystick to check
++    ///
++    /// \return True if the joystick is connected, false otherwise
++    ///
++    ////////////////////////////////////////////////////////////
++    static bool isConnected(unsigned int index);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Open the joystick
++    ///
++    /// \param index Index assigned to the joystick
++    ///
++    /// \return True on success, false on failure
++    ///
++    ////////////////////////////////////////////////////////////
++    bool open(unsigned int index);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Close the joystick
++    ///
++    ////////////////////////////////////////////////////////////
++    void close();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the joystick capabilities
++    ///
++    /// \return Joystick capabilities
++    ///
++    ////////////////////////////////////////////////////////////
++    JoystickCaps getCapabilities() const;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the joystick identification
++    ///
++    /// \return Joystick identification
++    ///
++    ////////////////////////////////////////////////////////////
++    Joystick::Identification getIdentification() const;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Update the joystick and get its new state
++    ///
++    /// \return Joystick state
++    ///
++    ////////////////////////////////////////////////////////////
++    JoystickState update();
++};
++
++} // namespace priv
++
++} // namespace sf
++
++
++#endif // SFML_JOYSTICKIMPLIOS_HPP
+diff --git a/include/SFML/Window/iOS/ObjCType.hpp b/include/SFML/Window/iOS/ObjCType.hpp
+new file mode 100644
+index 00000000..cf93a19f
+--- /dev/null
++++ b/include/SFML/Window/iOS/ObjCType.hpp
+@@ -0,0 +1,37 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2017 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_OBJCTYPE_HPP
++#define SFML_OBJCTYPE_HPP
++
++
++// Forward declare an Objective-C class
++#ifdef __OBJC__
++    #define SFML_DECLARE_OBJC_CLASS(c) @class c
++#else
++    #define SFML_DECLARE_OBJC_CLASS(c) typedef struct objc_object c
++#endif
++
++
++#endif // SFML_OBJCTYPE_HPP
+diff --git a/include/SFML/Window/iOS/SFAppDelegate.hpp b/include/SFML/Window/iOS/SFAppDelegate.hpp
+new file mode 100644
+index 00000000..030038de
+--- /dev/null
++++ b/include/SFML/Window/iOS/SFAppDelegate.hpp
+@@ -0,0 +1,135 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2017 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_SFAPPDELEGATE_HPP
++#define SFML_SFAPPDELEGATE_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Window/iOS/WindowImplUIKit.hpp>
++#include <UIKit/UIKit.h>
++#include <CoreMotion/CoreMotion.h>
++
++
++////////////////////////////////////////////////////////////
++/// \brief Our custom application delegate
++///
++/// This class handles global application events.
++///
++////////////////////////////////////////////////////////////
++@interface SFAppDelegate : NSObject<UIApplicationDelegate>
++
++////////////////////////////////////////////////////////////
++/// \brief Return the instance of the application delegate
++///
++////////////////////////////////////////////////////////////
+++(SFAppDelegate*)getInstance;
++
++////////////////////////////////////////////////////////////
++/// \brief Show or hide the virtual keyboard
++///
++/// \param visible True to show, false to hide
++///
++////////////////////////////////////////////////////////////
++- (void)setVirtualKeyboardVisible:(bool)visible;
++
++////////////////////////////////////////////////////////////
++/// \brief Get the current touch position for a given finger
++///
++/// \param index Finger index
++///
++/// \return Current touch position, or (-1, -1) if no touch
++///
++////////////////////////////////////////////////////////////
++- (sf::Vector2i)getTouchPosition:(unsigned int)index;
++
++////////////////////////////////////////////////////////////
++/// \brief Receive an external touch begin notification
++///
++/// \param index    Finger index
++/// \param position Position of the touch
++///
++////////////////////////////////////////////////////////////
++- (void)notifyTouchBegin:(unsigned int)index atPosition:(sf::Vector2i)position;
++
++////////////////////////////////////////////////////////////
++/// \brief Receive an external touch move notification
++///
++/// \param index    Finger index
++/// \param position Position of the touch
++///
++////////////////////////////////////////////////////////////
++- (void)notifyTouchMove:(unsigned int)index atPosition:(sf::Vector2i)position;
++
++////////////////////////////////////////////////////////////
++/// \brief Receive an external touch end notification
++///
++/// \param index    Finger index
++/// \param position Position of the touch
++///
++////////////////////////////////////////////////////////////
++- (void)notifyTouchEnd:(unsigned int)index atPosition:(sf::Vector2i)position;
++
++////////////////////////////////////////////////////////////
++/// \brief Receive an external character notification
++///
++/// \param character The typed character
++///
++////////////////////////////////////////////////////////////
++- (void)notifyCharacter:(sf::Uint32)character;
++
++////////////////////////////////////////////////////////////
++/// \brief Tells if the dimensions of the current window must be flipped when switching to a given orientation
++///
++/// \param orientation the device has changed to
++///
++////////////////////////////////////////////////////////////
++- (bool)needsToFlipFrameForOrientation:(UIDeviceOrientation)orientation;
++
++////////////////////////////////////////////////////////////
++/// \brief Tells if app and view support a requested device orientation or not
++///
++/// \param orientation the device has changed to
++///
++////////////////////////////////////////////////////////////
++- (bool)supportsOrientation:(UIDeviceOrientation)orientation;
++
++////////////////////////////////////////////////////////////
++/// \brief Initializes the factor which is required to convert from points to pixels and back
++///
++////////////////////////////////////////////////////////////
++- (void)initBackingScale;
++
++////////////////////////////////////////////////////////////
++// Member data
++////////////////////////////////////////////////////////////
++@property (nonatomic) sf::priv::WindowImplUIKit* sfWindow; ///< Main window of the application
++@property (readonly, nonatomic) CMMotionManager* motionManager; ///< Instance of the motion manager
++@property (nonatomic) CGFloat backingScaleFactor;
++@property (nonatomic) NSDictionary* launchOptions;
++
++@end
++
++#endif // SFML_SFAPPDELEGATE_HPP
+diff --git a/include/SFML/Window/iOS/SensorImpl.hpp b/include/SFML/Window/iOS/SensorImpl.hpp
+new file mode 100644
+index 00000000..88d995e3
+--- /dev/null
++++ b/include/SFML/Window/iOS/SensorImpl.hpp
+@@ -0,0 +1,114 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2017 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_SENSORIMPLIOS_HPP
++#define SFML_SENSORIMPLIOS_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Window/Sensor.hpp>
++
++
++namespace sf
++{
++namespace priv
++{
++////////////////////////////////////////////////////////////
++/// \brief iOS implementation of sensors
++///
++////////////////////////////////////////////////////////////
++class SensorImpl
++{
++public:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Perform the global initialization of the sensor module
++    ///
++    ////////////////////////////////////////////////////////////
++    static void initialize();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Perform the global cleanup of the sensor module
++    ///
++    ////////////////////////////////////////////////////////////
++    static void cleanup();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Check if a sensor is available
++    ///
++    /// \param sensor Sensor to check
++    ///
++    /// \return True if the sensor is available, false otherwise
++    ///
++    ////////////////////////////////////////////////////////////
++    static bool isAvailable(Sensor::Type sensor);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Open the sensor
++    ///
++    /// \param sensor Type of the sensor
++    ///
++    /// \return True on success, false on failure
++    ///
++    ////////////////////////////////////////////////////////////
++    bool open(Sensor::Type sensor);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Close the sensor
++    ///
++    ////////////////////////////////////////////////////////////
++    void close();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Update the sensor and get its new value
++    ///
++    /// \return Sensor value
++    ///
++    ////////////////////////////////////////////////////////////
++    Vector3f update();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Enable or disable the sensor
++    ///
++    /// \param enabled True to enable, false to disable
++    ///
++    ////////////////////////////////////////////////////////////
++    void setEnabled(bool enabled);
++
++private:
++
++    ////////////////////////////////////////////////////////////
++    // Member data
++    ////////////////////////////////////////////////////////////
++    Sensor::Type m_sensor; ///< Type of the sensor
++    bool m_enabled;        ///< Enable state of the sensor
++};
++
++} // namespace priv
++
++} // namespace sf
++
++
++#endif // SFML_SENSORIMPLIOS_HPP
+diff --git a/include/SFML/Window/iOS/WindowImplUIKit.hpp b/include/SFML/Window/iOS/WindowImplUIKit.hpp
+new file mode 100644
+index 00000000..a3975fd8
+--- /dev/null
++++ b/include/SFML/Window/iOS/WindowImplUIKit.hpp
+@@ -0,0 +1,242 @@
++////////////////////////////////////////////////////////////
++//
++// SFML - Simple and Fast Multimedia Library
++// Copyright (C) 2007-2017 Laurent Gomila (laurent@sfml-dev.org)
++//
++// This software is provided 'as-is', without any express or implied warranty.
++// In no event will the authors be held liable for any damages arising from the use of this software.
++//
++// Permission is granted to anyone to use this software for any purpose,
++// including commercial applications, and to alter it and redistribute it freely,
++// subject to the following restrictions:
++//
++// 1. The origin of this software must not be misrepresented;
++//    you must not claim that you wrote the original software.
++//    If you use this software in a product, an acknowledgment
++//    in the product documentation would be appreciated but is not required.
++//
++// 2. Altered source versions must be plainly marked as such,
++//    and must not be misrepresented as being the original software.
++//
++// 3. This notice may not be removed or altered from any source distribution.
++//
++////////////////////////////////////////////////////////////
++
++#ifndef SFML_WINDOWIMPLUIKIT_HPP
++#define SFML_WINDOWIMPLUIKIT_HPP
++
++////////////////////////////////////////////////////////////
++// Headers
++////////////////////////////////////////////////////////////
++#include <SFML/Window/Event.hpp>
++#include <SFML/Window/WindowImpl.hpp>
++#include <SFML/Window/iOS/ObjCType.hpp>
++
++
++SFML_DECLARE_OBJC_CLASS(UIWindow);
++SFML_DECLARE_OBJC_CLASS(SFView);
++SFML_DECLARE_OBJC_CLASS(SFViewController);
++
++
++namespace sf
++{
++namespace priv
++{
++////////////////////////////////////////////////////////////
++/// \brief iOS (UIKit) implementation of WindowImpl
++///
++////////////////////////////////////////////////////////////
++class WindowImplUIKit : public WindowImpl
++{
++public:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Construct the window implementation from an existing control
++    ///
++    /// \param handle Platform-specific handle of the control
++    ///
++    ////////////////////////////////////////////////////////////
++    WindowImplUIKit(WindowHandle handle);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Create the window implementation
++    ///
++    /// \param mode     Video mode to use
++    /// \param title    Title of the window
++    /// \param style    Window style (resizable, fixed, or fullscren)
++    /// \param settings Additional settings for the underlying OpenGL context
++    ///
++    ////////////////////////////////////////////////////////////
++    WindowImplUIKit(VideoMode mode, const String& title, unsigned long style, const ContextSettings& settings);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Destructor
++    ///
++    ////////////////////////////////////////////////////////////
++    ~WindowImplUIKit();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the OS-specific handle of the window
++    ///
++    /// \return Handle of the window
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual WindowHandle getSystemHandle() const;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the position of the window
++    ///
++    /// \return Position of the window, in pixels
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual Vector2i getPosition() const;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the position of the window on screen
++    ///
++    /// \param position New position of the window, in pixels
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setPosition(const Vector2i& position);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the client size of the window
++    ///
++    /// \return Size of the window, in pixels
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual Vector2u getSize() const;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the size of the rendering region of the window
++    ///
++    /// \param size New size, in pixels
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setSize(const Vector2u& size);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the title of the window
++    ///
++    /// \param title New title
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setTitle(const String& title);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Change the window's icon
++    ///
++    /// \param width  Icon's width, in pixels
++    /// \param height Icon's height, in pixels
++    /// \param pixels Pointer to the pixels in memory, format must be RGBA 32 bits
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setIcon(unsigned int width, unsigned int height, const Uint8* pixels);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Show or hide the window
++    ///
++    /// \param visible True to show, false to hide
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setVisible(bool visible);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Show or hide the mouse cursor
++    ///
++    /// \param visible True to show, false to hide
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setMouseCursorVisible(bool visible);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Clips or releases the mouse cursor
++    ///
++    /// \param grabbed True to enable, false to disable
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setMouseCursorGrabbed(bool grabbed);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Set the displayed cursor to a native system cursor
++    ///
++    /// \param cursor Native system cursor type to display
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setMouseCursor(const CursorImpl& cursor);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Enable or disable automatic key-repeat
++    ///
++    /// \param enabled True to enable, false to disable
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void setKeyRepeatEnabled(bool enabled);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Request the current window to be made the active
++    ///        foreground window
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void requestFocus();
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Check whether the window has the input focus
++    ///
++    /// \return True if window has focus, false otherwise
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual bool hasFocus() const;
++
++public:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Notify an event
++    ///
++    /// \param event Event to forward
++    ///
++    ////////////////////////////////////////////////////////////
++    void forwardEvent(Event event);
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Get the window's view
++    ///
++    /// \return Pointer to the window's view
++    ///
++    ////////////////////////////////////////////////////////////
++    SFView* getGlView() const;
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Show or hide the virtual keyboard
++    ///
++    /// \param visible True to show, false to hide
++    ///
++    ////////////////////////////////////////////////////////////
++    void setVirtualKeyboardVisible(bool visible);
++
++protected:
++
++    ////////////////////////////////////////////////////////////
++    /// \brief Process incoming events from the operating system
++    ///
++    ////////////////////////////////////////////////////////////
++    virtual void processEvents();
++
++private:
++
++    ////////////////////////////////////////////////////////////
++    // Member data
++    ////////////////////////////////////////////////////////////
++    UIWindow*         m_window;         ///< Pointer to the internal UIKit window
++    SFView*           m_view;           ///< OpenGL view of the window
++    SFViewController* m_viewController; ///< Controller attached to the view
++    bool              m_hasFocus;       ///< Current focus state of the window
++    float             m_backingScale;   ///< Converts from points to pixels and vice versa
++};
++
++} // namespace priv
++
++} // namespace sf
++
++
++#endif // SFML_WINDOWIMPLUIKIT_HPP

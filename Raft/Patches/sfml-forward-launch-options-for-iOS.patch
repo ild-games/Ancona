@@ -1,0 +1,78 @@
+diff --git a/src/SFML/Window/iOS/SFAppDelegate.hpp b/src/SFML/Window/iOS/SFAppDelegate.hpp
+index 984e1e13..030038de 100644
+--- a/src/SFML/Window/iOS/SFAppDelegate.hpp
++++ b/src/SFML/Window/iOS/SFAppDelegate.hpp
+@@ -128,6 +128,7 @@
+ @property (nonatomic) sf::priv::WindowImplUIKit* sfWindow; ///< Main window of the application
+ @property (readonly, nonatomic) CMMotionManager* motionManager; ///< Instance of the motion manager
+ @property (nonatomic) CGFloat backingScaleFactor;
++@property (nonatomic) NSDictionary* launchOptions;
+ 
+ @end
+ 
+diff --git a/src/SFML/Window/iOS/SFAppDelegate.mm b/src/SFML/Window/iOS/SFAppDelegate.mm
+index 5e202d38..c2559768 100644
+--- a/src/SFML/Window/iOS/SFAppDelegate.mm
++++ b/src/SFML/Window/iOS/SFAppDelegate.mm
+@@ -64,7 +64,7 @@ + (SFAppDelegate*)getInstance
+ - (void)runUserMain
+ {
+     // Arguments intentionally dropped, see comments in main in sfml-main
+-    sfmlMain(0, NULL);
++    sfmlMain(0, NULL, self.launchOptions);
+ }
+ 
+ 
+@@ -73,6 +73,8 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+ {
+     // Save the delegate instance
+     delegateInstance = self;
++    self.launchOptions = launchOptions;
++
+ 
+     [self initBackingScale];
+ 
+diff --git a/src/SFML/Window/iOS/SFMain.hpp b/src/SFML/Window/iOS/SFMain.hpp
+index dffd107b..907bbb65 100644
+--- a/src/SFML/Window/iOS/SFMain.hpp
++++ b/src/SFML/Window/iOS/SFMain.hpp
+@@ -22,13 +22,14 @@
+ //
+ ////////////////////////////////////////////////////////////
+ 
++#include <UIKit/UIKit.h>
++
+ #ifndef SFML_SFMAIN_HPP
+ #define SFML_SFMAIN_HPP
+ 
++int sfmlMain(int argc, char** argv, NSDictionary* launchOptions);
+ 
+-int sfmlMain(int argc, char** argv);
+-
+-int sfmlMain();
++int sfmlMain(NSDictionary* launchOptions);
+ 
+ 
+ #endif // SFML_SFMAIN_HPP
+diff --git a/src/SFML/Window/iOS/SFMain.mm b/src/SFML/Window/iOS/SFMain.mm
+index 7a48cdb1..d44fea85 100644
+--- a/src/SFML/Window/iOS/SFMain.mm
++++ b/src/SFML/Window/iOS/SFMain.mm
+@@ -48,14 +48,14 @@
+ 
+ 
+ ////////////////////////////////////////////////////////////
+-__attribute__((weak)) int sfmlMain(int, char**)
++__attribute__((weak)) int sfmlMain(int, char**, NSDictionary* launchOptions)
+ {
+-    return sfmlMain();
++    return sfmlMain(launchOptions);
+ }
+ 
+ 
+ ////////////////////////////////////////////////////////////
+-__attribute__((weak)) int sfmlMain()
++__attribute__((weak)) int sfmlMain(NSDictionary* launchOptions)
+ {
+     return 0;
+ }
