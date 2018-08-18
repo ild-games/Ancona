@@ -29,6 +29,19 @@ std::string to_string(T value)
     return os.str();
 }
 
+template <typename R, typename Container, typename Transform>
+auto map(
+        const Container & c,
+        const Transform & t
+    )
+{
+    std::vector<R> returnContainer(c.size());
+    alg::for_each(c, [](auto element){
+        returnContainer.push(t(element))
+    });
+    return returnContainer;
+}
+
 }
 
 #endif
