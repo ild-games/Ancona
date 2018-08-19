@@ -33,11 +33,11 @@ template <typename R, typename Container, typename Transform>
 auto map(
         const Container & c,
         const Transform & t
-    )
+    ) -> std::vector<R>
 {
     std::vector<R> returnContainer(c.size());
-    alg::for_each(c, [](auto element){
-        returnContainer.push(t(element))
+    std::for_each(c.begin(), c.end(), [t, returnContainer](const R & element){
+        returnContainer.push(t(element));
     });
     return returnContainer;
 }
