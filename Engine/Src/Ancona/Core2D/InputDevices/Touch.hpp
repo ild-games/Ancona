@@ -4,6 +4,7 @@
 #include <SFML/Window.hpp>
 #include <unordered_map>
 #include <set>
+#include <map>
 
 namespace ild
 {
@@ -40,6 +41,7 @@ class Touch
          * @return true if the finger is down, otherwise false
          */
         static bool IsFingerDown(unsigned int finger);
+        static sf::Vector2i FingerPosition(unsigned int finger);
 
         /**
          * @brief INTERNAL ONLY
@@ -47,7 +49,7 @@ class Touch
          *
          * @param finger finger being pressed
          */
-        static void _AddFingerPress(unsigned int finger);
+        static void _AddFingerPress(unsigned int finger, int x, int y);
 
         /**
          * @brief INTERNAL ONLY
@@ -56,6 +58,7 @@ class Touch
          * @param finger finger being released
          */
         static void _AddFingerRelease(unsigned int finger);
+        static void _AddFingerMoved(unsigned int finger, int x, int y);
 
         /**
          * @brief INTERNAL ONLY
@@ -66,6 +69,10 @@ class Touch
     private:
         static std::set<unsigned int> _pressedFingers;
         static std::set<unsigned int> _releasedFingers;
+        static std::set<unsigned int> _heldFingers;
+        static std::map<unsigned int, unsigned int> _heldFingersToFrameCount;
+        static std::set<unsigned int> _heldFingersToClear;
+        static std::map<unsigned int, sf::Vector2i> _fingerPosition;
 };
 
 }

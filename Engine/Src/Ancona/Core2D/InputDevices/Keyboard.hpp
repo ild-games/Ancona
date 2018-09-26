@@ -4,6 +4,7 @@
 #include <SFML/Window.hpp>
 #include <unordered_map>
 #include <set>
+#include <map>
 
 namespace ild
 {
@@ -79,6 +80,9 @@ class Keyboard
          * @brief Contains the keys that are were just released
          */
         static std::set<sf::Keyboard::Key> _releasedKeys;
+        static std::set<sf::Keyboard::Key> _heldKeys;
+        static std::map<sf::Keyboard::Key, unsigned int> _heldKeysToFrameCount;
+        static std::set<sf::Keyboard::Key> _heldKeysToClear;
 };
 
 }

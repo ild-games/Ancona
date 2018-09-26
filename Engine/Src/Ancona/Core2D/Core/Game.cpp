@@ -15,6 +15,8 @@
 
 using namespace ild;
 
+unsigned int Game::FrameCount = 0;
+
 Game::Game(
     int windowWidth,
     int windowHeight,
@@ -66,6 +68,7 @@ void Game::Run()
         _window.clear(sf::Color::Black);
         _screenManager->Draw(delta);
         _window.display();
+        FrameCount++;
     }
     Jukebox::StopMusic();
     delete music;
@@ -104,10 +107,13 @@ void Game::ProcessWindowEvent(sf::Event event)
             Mouse::_AddButtonRelease(event.mouseButton.button);
         }
         if (event.type == sf::Event::TouchBegan) {
-            Touch::_AddFingerPress(event.touch.finger);
+            Touch::_AddFingerPress(event.touch.finger, event.touch.x, event.touch.y);
         }
         if (event.type == sf::Event::TouchEnded) {
             Touch::_AddFingerRelease(event.touch.finger);
+        }
+        if (event.type == sf::Event::TouchMoved) {
+            Touch::_AddFingerMoved(event.touch.finger, event.touch.x, event.touch.y);
         }
         if (event.type == sf::Event::JoystickButtonPressed) {
             Joystick::_AddButtonPress(event.joystickButton.joystickId, event.joystickButton.button);
