@@ -65,6 +65,7 @@ class Touch
          *        Clears all finger events
          */
         static void _ClearFingers();
+        static void _ClearAllFingersState();
 
     private:
         static std::set<unsigned int> _pressedFingers;

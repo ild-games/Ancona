@@ -90,6 +90,7 @@ void Game::ProcessWindowEvent(sf::Event event)
     }
     if (event.type == sf::Event::GainedFocus) {
         _window.setActive(true);
+        Touch::_ClearAllFingersState();
         _windowIsActive = true;
     }
 

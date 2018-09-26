@@ -49,7 +49,10 @@ void Touch::_AddFingerRelease(unsigned int finger)
 {
     _releasedFingers.insert(finger);
     if (_heldFingersToFrameCount[finger] != Game::FrameCount) {
-        _heldFingers.erase(std::find(_heldFingers.begin(), _heldFingers.end(), finger));
+        auto iter = std::find(_heldFingers.begin(), _heldFingers.end(), finger);
+        if (iter != _heldFingers.end()) {
+            _heldFingers.erase(iter);
+        }
         _fingerPosition[finger] = sf::Vector2i(0, 0);
     } else {
         _heldFingersToClear.insert(finger);
@@ -70,5 +73,13 @@ void Touch::_ClearFingers()
         _fingerPosition[heldFingerToClear] = sf::Vector2i(0, 0);
         _heldFingersToFrameCount[heldFingerToClear] = 0;
     }
+    _heldFingersToClear.clear();
+}
+
+void Touch::_ClearAllFingersState()
+{
+    _pressedFingers.clear();
+    _releasedFingers.clear();
+    _heldFingers.clear();
     _heldFingersToClear.clear();
 }
