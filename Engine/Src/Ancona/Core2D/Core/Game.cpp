@@ -76,7 +76,7 @@ void Game::Run()
 
 void Game::ProcessWindowEvent(sf::Event event)
 {
-    EventHandling::HandleEvent(event);
+    EventHandling::HandleEvent(event, _windowIsActive, _window);
 
     if (event.type == sf::Event::Closed) {
         while (!_screenManager->Empty()) {
@@ -85,13 +85,14 @@ void Game::ProcessWindowEvent(sf::Event event)
         _window.close();
     }
     if (event.type == sf::Event::LostFocus) {
-        _window.setActive(false);
         _windowIsActive = false;
+        _window.setActive(false);
     }
     if (event.type == sf::Event::GainedFocus) {
-        _window.setActive(true);
         Touch::_ClearAllFingersState();
         _windowIsActive = true;
+        _window.resetGLStates();
+        _window.setActive(true);
     }
 
     if (_windowIsActive) {
