@@ -1,3 +1,4 @@
+#include <cmath>
 #include <Ancona/Core2D/Systems/Drawable/TileBlockDrawable.hpp>
 #include <Ancona/System/Log.hpp>
 
