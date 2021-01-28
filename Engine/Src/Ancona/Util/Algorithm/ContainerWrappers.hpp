@@ -170,6 +170,12 @@ void sort(Container & container, Compare comp)
     std::sort(container.begin(), container.end(), comp);
 }
 
+template <class Container, class Compare>
+auto max_element(Container & container, Compare comp) -> decltype(container.begin())
+{
+    return std::max_element(container.begin(), container.end(), comp);
+}
+
 template <class Container, class T>
 auto remove(Container & container, const T& value) -> decltype(container.begin())
 {
