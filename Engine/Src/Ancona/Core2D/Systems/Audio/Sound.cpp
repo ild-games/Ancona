@@ -1,3 +1,4 @@
+#include <cmath>
 #include <Ancona/Core2D/Systems/Audio/Sound.hpp>
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 

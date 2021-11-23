@@ -1,4 +1,5 @@
 #include <sstream>
+#include <cmath>
 
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>

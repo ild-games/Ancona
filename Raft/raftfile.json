@@ -45,7 +45,8 @@
                 "Patches/sfml-include-ios-view-controller.patch",
                 "Patches/sfml-add-iOS-includes-for-app-delegate.patch",
                 "Patches/sfml-forward-launch-options-for-iOS.patch",
-                "Patches/sfml-handle-mouse-left-like-focus-lost-on-android.patch"
+                "Patches/sfml-handle-mouse-left-like-focus-lost-on-android.patch",
+                "Patches/sfml-fix-GlxExtensions-__glxext_h_-define.patch"
             ]
         }
     ],
