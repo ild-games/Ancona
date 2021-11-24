@@ -1,0 +1,16 @@
+diff --git a/src/SFML/Window/Android/WindowImplAndroid.cpp b/src/SFML/Window/Android/WindowImplAndroid.cpp
+index 405f7c8a..39ce0451 100644
+--- a/src/SFML/Window/Android/WindowImplAndroid.cpp
++++ b/src/SFML/Window/Android/WindowImplAndroid.cpp
+@@ -230,6 +230,11 @@ void WindowImplAndroid::forwardEvent(const Event& event)
+         WindowImplAndroid::singleInstance->m_windowBeingDestroyed = true;
+         WindowImplAndroid::singleInstance->m_hasFocus = false;
+     }
++    else if (event.type == Event::MouseLeft)
++    {
++        WindowImplAndroid::singleInstance->m_windowBeingDestroyed = true;
++        WindowImplAndroid::singleInstance->m_hasFocus = false;
++    }
+ 
+     WindowImplAndroid::singleInstance->pushEvent(event);
+ }

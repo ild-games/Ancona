@@ -35,3 +35,8 @@ void MenuTouch::HandleFingerPress(const int finger, float delta)
         _playerComponent->UpdatePointer(sf::Vector2f(infinity, infinity), false);
     }
 }
+
+bool MenuTouch::IsAnyFingerDown()
+{
+    return ild::Touch::IsFingerDown(0) || ild::Touch::IsFingerDown(1);
+}

@@ -31,6 +31,8 @@ class MenuInputHandler : public ild::InputHandler
          */
         virtual void HandleInput(float delta) override { };
 
+        virtual bool IsAnyFingerDown() { return false; };
+
         /* getters and setters */
         void systems(MenuGameSystems * systems) { _systems = systems; }
     protected:

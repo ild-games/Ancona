@@ -16,6 +16,7 @@ class MenuTouch: public MenuInputHandler
          * @brief Captures input and calls out to the inputComponent's actions.
          */
         virtual void HandleInput(float delta) override;
+        virtual bool IsAnyFingerDown() override;
 
     private:
         sf::Vector2f _lastPosition;
