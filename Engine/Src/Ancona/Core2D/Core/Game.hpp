@@ -1,10 +1,13 @@
 #ifndef Ancona_Engine_Core_Game_H_
 #define Ancona_Engine_Core_Game_H_
 
-#include <Ancona/Framework/Screens/ScreenManager.hpp>
-#include <SFML/Graphics.hpp>
-#include <string>
 #include <memory>
+#include <string>
+
+#include <SFML/Graphics.hpp>
+
+#include <Ancona/Framework/Screens/ScreenManager.hpp>
+#include <Ancona/HAL/Window.hpp>
 
 namespace ild {
 
@@ -43,6 +46,8 @@ protected:
      * @brief Window used for rendering the game
      */
     sf::RenderWindow _window;
+
+    std::unique_ptr<Window> _ildWindow;
 
 private:
     void ProcessWindowEvent(sf::Event event);

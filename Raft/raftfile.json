@@ -48,6 +48,17 @@
                 "Patches/sfml-handle-mouse-left-like-focus-lost-on-android.patch",
                 "Patches/sfml-fix-GlxExtensions-__glxext_h_-define.patch"
             ]
+        },
+        {
+            "name" : "sdl",
+            "repository" : {
+                "type" : "git",
+                "location" : "https://github.com/libsdl-org/SDL",
+                "branch": "tags/release-2.0.16"
+            },
+            "buildSystem" : "cmake",
+            "patches" : [
+            ]
         }
     ],
     "architectures" : [

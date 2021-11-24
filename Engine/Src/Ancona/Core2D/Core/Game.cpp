@@ -1,3 +1,4 @@
+#include <SDL2/SDL.h>
 #include <SFML/System.hpp>
 
 #include <Ancona/Core2D/Core/Game.hpp>
@@ -21,10 +22,12 @@ Game::Game(
     int windowWidth,
     int windowHeight,
     const std::string& title,
-    const sf::Uint32& style)
-    : _window(sf::VideoMode(windowWidth, windowHeight), title, style)
+    const sf::Uint32& style) :
+        _window(sf::VideoMode(windowWidth, windowHeight), title, style),
+        _ildWindow(new Window(title, windowWidth, windowHeight))
 {
     _screenManager = std::unique_ptr<ScreenManager>(new ScreenManager(_window, windowWidth, windowHeight));
+    _ildWindow->sayHello();
 }
 
 Game::~Game()

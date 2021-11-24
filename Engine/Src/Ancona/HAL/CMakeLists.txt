@@ -1,0 +1,10 @@
+IF("${ANCONA_HAL_ID}" STREQUAL "SDL")
+    file(GLOB_RECURSE Ancona_System_Code SDL/*.cpp)
+    file(GLOB_RECURSE Ancona_System_Headers SDL/*.hpp)
+ELSEIF("${ANCONA_HAL_ID}" STREQUAL "SFML")
+    file(GLOB_RECURSE Ancona_System_Code SFML/*.cpp)
+    file(GLOB_RECURSE Ancona_System_Headers SFML/*.hpp)
+ELSE() # Default HAL layer to SFML
+    file(GLOB_RECURSE Ancona_System_Code SFML/*.cpp)
+    file(GLOB_RECURSE Ancona_System_Headers SFML/*.hpp)
+ENDIF()
