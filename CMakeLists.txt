@@ -6,9 +6,6 @@ project(ANCONA)
 
 include (${RAFT})
 
-option(BuildPrototypes "BuildPrototypes" ON)
-option(BuildTests "BuildTests" ON)
-
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
 #Set C++ Version to 11
@@ -50,4 +47,3 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(Engine)
-#add_subdirectory(Test)

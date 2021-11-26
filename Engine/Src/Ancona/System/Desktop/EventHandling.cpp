@@ -1,16 +1,15 @@
 #include <Ancona/System/EventHandling.hpp>
 #include <Ancona/Framework/Audio/Jukebox.hpp>
-#include <SFML/Graphics.hpp>
 
 using namespace ild;
 
-void EventHandling::HandleEvent(const sf::Event & event, bool & windowIsActive, sf::RenderWindow & window)
+void EventHandling::HandleEvent(const ildhal::Event & event, bool & windowIsActive, ildhal::Window & window)
 {
-    if (event.type == sf::Event::LostFocus) 
+    if (event.type == ildhal::Event::LostFocus) 
     {
         Jukebox::PauseMusic();
     }
-    if (event.type == sf::Event::GainedFocus) 
+    if (event.type == ildhal::Event::GainedFocus) 
     {
         Jukebox::PlayMusic(Jukebox::loop(), Jukebox::loopStart());
     }

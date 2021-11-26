@@ -1,7 +1,8 @@
 #ifndef Ancona_Systems_EventHandling_H_
 #define Ancona_Systems_EventHandling_H_
 
-#include <SFML/Graphics.hpp>
+#include <Ancona/HAL/Window.hpp>
+#include <Ancona/HAL/Event.hpp>
 
 namespace ild
 {
@@ -9,7 +10,7 @@ namespace ild
 class EventHandling
 {
     public:
-        static void HandleEvent(const sf::Event & event, bool & windowIsActive, sf::RenderWindow & window);
+        static void HandleEvent(const ildhal::Event & event, bool & windowIsActive, ildhal::Window & window);
 };
 
 }

@@ -6,7 +6,7 @@ using namespace ild;
 
 DrawableSystem::DrawableSystem(
         std::string systemName,
-        sf::RenderWindow & window,
+        ildhal::Window & window,
         SystemManager & systemManager) :
     UnorderedSystem(systemName, systemManager, UpdateStep::Draw),
     _window(window),
@@ -44,7 +44,7 @@ void DrawableSystem::RenderUsingWindow(float delta)
 {
     for (auto & camera : _cameras)
     {
-        camera->Draw(_window, _window, delta);
+        camera->Draw(_window.getRenderTarget(), _window, delta);
     }
     _window.setView(_defaultCamera->view());
 }

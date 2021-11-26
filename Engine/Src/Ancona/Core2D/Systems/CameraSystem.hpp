@@ -8,6 +8,7 @@
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/HAL/Window.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
@@ -59,7 +60,7 @@ public:
     /**
      * @brief Draws the camera and all renderables on it.
      */
-    void Draw(sf::RenderTarget& target, sf::RenderWindow& window, float delta);
+    void Draw(sf::RenderTarget& target, ildhal::Window & window, float delta);
 
     /**
      * @brief Adds a DrawableComponent to the camera's render queue.

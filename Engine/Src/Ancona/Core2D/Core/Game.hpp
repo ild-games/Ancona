@@ -8,6 +8,7 @@
 
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/HAL/Window.hpp>
+#include <Ancona/HAL/Event.hpp>
 
 namespace ild {
 
@@ -42,15 +43,10 @@ protected:
      */
     std::unique_ptr<ScreenManager> _screenManager;
 
-    /**
-     * @brief Window used for rendering the game
-     */
-    sf::RenderWindow _window;
-
-    std::unique_ptr<Window> _ildWindow;
+    std::unique_ptr<ildhal::Window> _window;
 
 private:
-    void ProcessWindowEvent(sf::Event event);
+    void ProcessWindowEvent(ildhal::Event event);
 
     bool _windowIsActive = true;
 };

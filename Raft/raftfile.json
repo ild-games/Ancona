@@ -31,22 +31,10 @@
             "repository" : {
                 "type" : "git",
                 "location" : "https://github.com/SFML/SFML",
-                "branch": "30ec3edd8bda55d0239b856c10b5706ce3f7eb33"
+                "branch": "tags/2.5.1"
             },
             "buildSystem" : "cmake",
             "patches" : [
-                "Patches/gcc5-fix.patch",
-                "Patches/sfml-fix-android-build.patch",
-                "Patches/sfml-fix-android-shutdown.patch",
-                "Patches/sfml-fix-macos-linker-errors.patch",
-                "Patches/sfml-ios-use-toolchain.patch",
-                "Patches/sfml-ios-delay-bottom-gestures.patch",
-                "Patches/sfml-swap-ios-extlibs-for-ones-with-bitcode.patch",
-                "Patches/sfml-include-ios-view-controller.patch",
-                "Patches/sfml-add-iOS-includes-for-app-delegate.patch",
-                "Patches/sfml-forward-launch-options-for-iOS.patch",
-                "Patches/sfml-handle-mouse-left-like-focus-lost-on-android.patch",
-                "Patches/sfml-fix-GlxExtensions-__glxext_h_-define.patch"
             ]
         },
         {
@@ -56,6 +44,12 @@
                 "location" : "https://github.com/libsdl-org/SDL",
                 "branch": "tags/release-2.0.16"
             },
+            "configOptions" : [
+                {
+                    "name": "DIRECTX",
+                    "value": "NO"
+                }
+            ],
             "buildSystem" : "cmake",
             "patches" : [
             ]
@@ -64,6 +58,10 @@
     "architectures" : [
         {
             "platform" : "Host",
+            "architecture" : "Host"
+        },
+        {
+            "platform" : "MinGW",
             "architecture" : "Host"
         },
         {

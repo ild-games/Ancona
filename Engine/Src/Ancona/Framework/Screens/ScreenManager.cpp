@@ -8,7 +8,7 @@
 using namespace ild;
 
 ScreenManager::ScreenManager(
-        sf::RenderWindow & window,
+        ildhal::Window & window,
         int windowWidth,
         int windowHeight) :
     Window(window),

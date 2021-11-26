@@ -4,21 +4,23 @@
 #include <SFML/Graphics.hpp>
 
 #include <Ancona/HAL/Window.hpp>
+#include <Ancona/HAL/Event.hpp>
 
-namespace ild
+namespace ildhal
 {
 
-class WindowImpl
+class Window::Impl
 {
     public:
-        WindowImpl(
+        Impl(
             const std::string& title,
             int width,
             int height,
             unsigned int style = WindowStyle::Default);
 
-    private:
-        sf::RenderWindow _sfmlWindow;
+        std::unique_ptr<sf::RenderWindow> SFMLWindow;
+
+        void translateEventFromSFML(Event & event, sf::Event & sfmlEvent);
 };
 
 }

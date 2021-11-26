@@ -3,13 +3,13 @@
 
 #include <Ancona/HAL/Window.hpp>
 
-namespace ild
+namespace ildhal
 {
 
-class WindowImpl
+class Window::Impl
 {
     public:
-        WindowImpl(
+        Impl(
             const std::string& title,
             int width,
             int height,

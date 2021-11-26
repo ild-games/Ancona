@@ -9,6 +9,7 @@
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/HAL/Window.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
@@ -29,12 +30,12 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
          * @brief Construct the DrawableSystem.
          *
          * @param systemName Name of the system.
-         * @param window RenderWindow for game.
+         * @param window Window for game.
          * @param systemManager SystemManager for the screen.
          */
         DrawableSystem(
                 std::string systemName,
-                sf::RenderWindow & window,
+                ildhal::Window & window,
                 SystemManager & systemManager);
 
         /**
@@ -99,7 +100,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
         /**
          * @brief The window the sprite system will draw to.
          */
-        sf::RenderWindow & _window;
+        ildhal::Window & _window;
         std::unique_ptr<sf::RenderTexture> _renderTexture;
         std::unique_ptr<sf::Sprite> _windowSprite;
         std::unique_ptr<sf::View> _renderView;

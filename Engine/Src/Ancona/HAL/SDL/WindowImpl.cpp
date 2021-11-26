@@ -1,16 +1,17 @@
-#include "WindowImpl.hpp"
+#include <Ancona/HAL/SFML/WindowImpl.hpp>
+#include <Ancona/System/Log.hpp>
 
+using namespace ildhal;
 
 /* Pimpl Implementation */
 
-WindowImpl::WindowImpl(
+Window::Impl::Impl(
     const std::string& title,
     int width,
     int height,
-    unsigned int style = WindowStyle::Default)
+    unsigned int style)
 {
 }
-
 
 /* Pimpl Interface */
 
@@ -18,15 +19,9 @@ Window::Window(
     const std::string& title,
     int width,
     int height,
-    unsigned int style = WindowStyle::Default)
-    : _pimpl(new WindowImpl(title, width, height, style))
+    unsigned int style)
+    : _pimpl(new Window::Impl(title, width, height, style))
 {
 }
-
 
 Window::~Window() { }
-
-Window::sayHello()
-{
-    ILD_Log("hello from SDL")
-}

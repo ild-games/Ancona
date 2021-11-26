@@ -23,11 +23,9 @@ Game::Game(
     int windowHeight,
     const std::string& title,
     const sf::Uint32& style) :
-        _window(sf::VideoMode(windowWidth, windowHeight), title, style),
-        _ildWindow(new Window(title, windowWidth, windowHeight))
+        _window(new ildhal::Window(title, windowWidth, windowHeight))
 {
-    _screenManager = std::unique_ptr<ScreenManager>(new ScreenManager(_window, windowWidth, windowHeight));
-    _ildWindow->sayHello();
+    _screenManager = std::unique_ptr<ScreenManager>(new ScreenManager(*_window, windowWidth, windowHeight));
 }
 
 Game::~Game()
@@ -41,15 +39,15 @@ void Game::Run()
     sf::Clock clock;
     sf::Music* music = new sf::Music();
     Jukebox::InitMusic(music);
-    _window.setFramerateLimit(60);
-    _window.setVerticalSyncEnabled(true);
-    _window.setKeyRepeatEnabled(false);
+    _window->setFramerateLimit(60);
+    _window->setVerticalSyncEnabled(true);
+    _window->setKeyRepeatEnabled(false);
 
-    while (_window.isOpen() && !_screenManager->Empty()) {
-        sf::Event event;
+    while (_window->isOpen() && !_screenManager->Empty()) {
+        ildhal::Event event;
         if (!_windowIsActive) {
             sf::sleep(sf::seconds(0.5f));
-            while (_window.pollEvent(event)) {
+            while (_window->pollEvent(event)) {
                 ProcessWindowEvent(event);
             }
             continue;
@@ -60,7 +58,7 @@ void Game::Run()
         Touch::_ClearFingers();
         Joystick::_ClearButtons();
         Jukebox::Update();
-        while (_window.pollEvent(event)) {
+        while (_window->pollEvent(event)) {
             ProcessWindowEvent(event);
         }
 
@@ -68,62 +66,62 @@ void Game::Run()
         float delta = std::min(elapsed.asSeconds(), 0.0235f);
         Timer::Update(delta);
         _screenManager->Update(delta);
-        _window.clear(sf::Color::Black);
+        _window->clear(sf::Color::Black);
         _screenManager->Draw(delta);
-        _window.display();
+        _window->display();
         FrameCount++;
     }
     Jukebox::StopMusic();
     delete music;
 }
 
-void Game::ProcessWindowEvent(sf::Event event)
+void Game::ProcessWindowEvent(ildhal::Event event)
 {
-    EventHandling::HandleEvent(event, _windowIsActive, _window);
+    EventHandling::HandleEvent(event, _windowIsActive, *_window);
 
-    if (event.type == sf::Event::Closed) {
+    if (event.type == ildhal::Event::Closed) {
         while (!_screenManager->Empty()) {
             _screenManager->PopImmediate();
         }
-        _window.close();
+        _window->close();
     }
-    if (event.type == sf::Event::LostFocus) {
+    if (event.type == ildhal::Event::LostFocus) {
         _windowIsActive = false;
-        _window.setActive(false);
+        _window->setActive(false);
     }
-    if (event.type == sf::Event::GainedFocus) {
+    if (event.type == ildhal::Event::GainedFocus) {
         Touch::_ClearAllFingersState();
         _windowIsActive = true;
-        _window.resetGLStates();
-        _window.setActive(true);
+        _window->resetGLStates();
+        _window->setActive(true);
     }
 
     if (_windowIsActive) {
-        if (event.type == sf::Event::KeyPressed) {
+        if (event.type == ildhal::Event::KeyPressed) {
             Keyboard::_AddKeyPress(event.key.code);
         }
-        if (event.type == sf::Event::KeyReleased) {
+        if (event.type == ildhal::Event::KeyReleased) {
             Keyboard::_AddKeyRelease(event.key.code);
         }
-        if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.type == ildhal::Event::MouseButtonPressed) {
             Mouse::_AddButtonPress(event.mouseButton.button);
         }
-        if (event.type == sf::Event::MouseButtonReleased) {
+        if (event.type == ildhal::Event::MouseButtonReleased) {
             Mouse::_AddButtonRelease(event.mouseButton.button);
         }
-        if (event.type == sf::Event::TouchBegan) {
+        if (event.type == ildhal::Event::TouchBegan) {
             Touch::_AddFingerPress(event.touch.finger, event.touch.x, event.touch.y);
         }
-        if (event.type == sf::Event::TouchEnded) {
+        if (event.type == ildhal::Event::TouchEnded) {
             Touch::_AddFingerRelease(event.touch.finger);
         }
-        if (event.type == sf::Event::TouchMoved) {
+        if (event.type == ildhal::Event::TouchMoved) {
             Touch::_AddFingerMoved(event.touch.finger, event.touch.x, event.touch.y);
         }
-        if (event.type == sf::Event::JoystickButtonPressed) {
+        if (event.type == ildhal::Event::JoystickButtonPressed) {
             Joystick::_AddButtonPress(event.joystickButton.joystickId, event.joystickButton.button);
         }
-        if (event.type == sf::Event::JoystickButtonReleased) {
+        if (event.type == ildhal::Event::JoystickButtonReleased) {
             Joystick::_AddButtonRelease(event.joystickButton.joystickId, event.joystickButton.button);
         }
     }

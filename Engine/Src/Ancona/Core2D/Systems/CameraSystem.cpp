@@ -37,7 +37,7 @@ void CameraComponent::Update(float delta)
     _view.setCenter(std::round(effectivePosition.x), std::round(effectivePosition.y));
 }
 
-void CameraComponent::Draw(sf::RenderTarget& target, sf::RenderWindow& window, float delta)
+void CameraComponent::Draw(sf::RenderTarget& target, ildhal::Window & window, float delta)
 {
     Box2 cameraPosition(
         sf::Vector2f(_view.getCenter().x - (_view.getSize().x), _view.getCenter().y - (_view.getSize().y)),

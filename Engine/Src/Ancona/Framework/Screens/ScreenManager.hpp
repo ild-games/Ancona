@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <stack>
 
+#include <Ancona/HAL/Window.hpp>
+
 namespace ild
 {
 
@@ -24,11 +26,11 @@ class ScreenManager
         /**
          * @brief Construct the ScreenManager
          *
-         * @param window the RenderWindow for the game
+         * @param window the window for the game
          * @param windowWidth the intended render width of the window
          * @param windowHeight the intended render height of the window
          */
-        ScreenManager(sf::RenderWindow & window, int windowWidth, int windowHeight);
+        ScreenManager(ildhal::Window & window, int windowWidth, int windowHeight);
         ~ScreenManager();
 
         /**
@@ -80,7 +82,7 @@ class ScreenManager
         /**
          * @brief The window instance for the game
          */
-        sf::RenderWindow & Window;
+        ildhal::Window & Window;
 
         /* getters and setters */
         int windowWidth() const { return _windowWidth; }
