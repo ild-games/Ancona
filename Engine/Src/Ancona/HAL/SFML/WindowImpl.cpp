@@ -44,13 +44,13 @@ void Window::Impl::translateEventFromSFML(Event & event, sf::Event & sfmlEvent)
     }
     else if (sfmlEvent.type == sf::Event::MouseButtonPressed || sfmlEvent.type == sf::Event::MouseButtonReleased)
     {
-        event.mouseButton.button = sfmlEvent.mouseButton.button;
+        event.mouseButton.button = (Mouse::Button) sfmlEvent.mouseButton.button;
         event.mouseButton.x = sfmlEvent.mouseButton.x;
         event.mouseButton.y = sfmlEvent.mouseButton.y;
     }
     else if (sfmlEvent.type == sf::Event::MouseWheelScrolled)
     {
-        event.mouseWheelScroll.wheel = sfmlEvent.mouseWheelScroll.wheel;
+        event.mouseWheelScroll.wheel = (Mouse::Wheel) sfmlEvent.mouseWheelScroll.wheel;
         event.mouseWheelScroll.delta = sfmlEvent.mouseWheelScroll.delta;
         event.mouseWheelScroll.x = sfmlEvent.mouseWheelScroll.x;
         event.mouseWheelScroll.y = sfmlEvent.mouseWheelScroll.y;
@@ -85,7 +85,7 @@ void Window::Impl::translateEventFromSFML(Event & event, sf::Event & sfmlEvent)
     }
 }
 
-/* Pimpl Interface */
+/* Interface Implementation */
 
 Window::Window(
     const std::string& title,
@@ -150,11 +150,11 @@ void Window::setView(const sf::View & view)
 {
     _pimpl->SFMLWindow->setView(view);
 }
-const sf::View& Window::getDefaultView() const
+const sf::View & Window::getDefaultView() const
 {
     return _pimpl->SFMLWindow->getDefaultView();
 }
-sf::Vector2f Window::mapPixelToCoords(const sf::Vector2i& point, const sf::View & view) const
+sf::Vector2f Window::mapPixelToCoords(const sf::Vector2i & point, const sf::View & view) const
 {
     return _pimpl->SFMLWindow->mapPixelToCoords(point, view);
 }
@@ -163,10 +163,6 @@ sf::Vector2u Window::getSize() const
     return _pimpl->SFMLWindow->getSize();
 }
 sf::RenderTarget & Window::getRenderTarget()
-{
-    return *_pimpl->SFMLWindow;
-}
-sf::Window & Window::getWindow()
 {
     return *_pimpl->SFMLWindow;
 }

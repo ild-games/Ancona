@@ -1,5 +1,6 @@
+// Altered SFML Window.hpp for Ancona's HAL abstraction layer
+
 ////////////////////////////////////////////////////////////
-// Altered SFML Window.hpp for abstraction layer
 //
 // SFML - Simple and Fast Multimedia Library
 // Copyright (C) 2007-2018 Laurent Gomila (laurent@sfml-dev.org)
@@ -52,6 +53,8 @@ namespace WindowStyle
 class Window
 {
     public:
+        class Impl;
+
         Window(
             const std::string& title,
             int width,
@@ -65,21 +68,22 @@ class Window
         void setKeyRepeatEnabled(bool enabled);
         bool isOpen() const;
         bool pollEvent(Event & event);
-        void clear(const sf::Color& color = sf::Color(0, 0, 0, 255));
+        void clear(const sf::Color & color = sf::Color(0, 0, 0, 255));
         void display();
         void close();
         bool setActive(bool active = true) const;
         void resetGLStates();
         void draw(const sf::Drawable & drawable, const sf::RenderStates & states = sf::RenderStates::Default);
         void setView(const sf::View & view);
-        const sf::View& getDefaultView() const;
+        const sf::View & getDefaultView() const;
         sf::Vector2f mapPixelToCoords(const sf::Vector2i& point, const sf::View & view) const;
         sf::Vector2u getSize() const;
         sf::RenderTarget & getRenderTarget();
-        sf::Window & getWindow();
+
+        /* getters and setters */
+        const Impl & getPimpl() const { return *_pimpl; }
 
     private:
-        class Impl;
 
         std::unique_ptr<Impl> _pimpl;
 };

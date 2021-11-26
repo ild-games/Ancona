@@ -1,8 +1,7 @@
 #include <Ancona/HAL/Keyboard.hpp>
 
-#include <Ancona/Util/Algorithm.hpp>
-#include <Ancona/System/Log.hpp>
 #include <Ancona/Core2D/Core/Game.hpp>
+#include <Ancona/Util/Algorithm.hpp>
 
 using namespace ildhal;
 

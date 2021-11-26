@@ -3,9 +3,9 @@
 
 #include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Core2D/InputDevices/Joystick.hpp>
-#include <Ancona/Core2D/InputDevices/Mouse.hpp>
 #include <Ancona/Core2D/InputDevices/Touch.hpp>
 #include <Ancona/HAL/Keyboard.hpp>
+#include <Ancona/HAL/Mouse.hpp>
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
@@ -54,7 +54,7 @@ void Game::Run()
         }
 
         ildhal::Keyboard::_ClearKeys();
-        Mouse::_ClearButtons();
+        ildhal::Mouse::_ClearButtons();
         Touch::_ClearFingers();
         Joystick::_ClearButtons();
         Jukebox::Update();
@@ -104,10 +104,10 @@ void Game::ProcessWindowEvent(ildhal::Event event)
             ildhal::Keyboard::_AddKeyRelease(event.key.code);
         }
         if (event.type == ildhal::Event::MouseButtonPressed) {
-            Mouse::_AddButtonPress(event.mouseButton.button);
+            ildhal::Mouse::_AddButtonPress(event.mouseButton.button);
         }
         if (event.type == ildhal::Event::MouseButtonReleased) {
-            Mouse::_AddButtonRelease(event.mouseButton.button);
+            ildhal::Mouse::_AddButtonRelease(event.mouseButton.button);
         }
         if (event.type == ildhal::Event::TouchBegan) {
             Touch::_AddFingerPress(event.touch.finger, event.touch.x, event.touch.y);

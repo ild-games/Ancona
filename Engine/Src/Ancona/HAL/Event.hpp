@@ -1,5 +1,6 @@
+// Altered SFML Event.hpp for Ancona's HAL abstraction layer
+
 ////////////////////////////////////////////////////////////
-// Altered SFML Event.hpp for abstraction layer
 //
 // SFML - Simple and Fast Multimedia Library
 // Copyright (C) 2007-2018 Laurent Gomila (laurent@sfml-dev.org)
@@ -29,6 +30,7 @@
 #include <SFML/Window.hpp>
 
 #include <Ancona/HAL/Keyboard.hpp>
+#include <Ancona/HAL/Mouse.hpp>
 
 namespace ildhal
 {
@@ -85,7 +87,7 @@ class Event
         ////////////////////////////////////////////////////////////
         struct MouseButtonEvent
         {
-            sf::Mouse::Button button; ///< Code of the button that has been pressed
+            Mouse::Button button; ///< Code of the button that has been pressed
             int           x;      ///< X position of the mouse pointer, relative to the left of the owner window
             int           y;      ///< Y position of the mouse pointer, relative to the top of the owner window
         };
@@ -96,7 +98,7 @@ class Event
         ////////////////////////////////////////////////////////////
         struct MouseWheelScrollEvent
         {
-            sf::Mouse::Wheel wheel; ///< Which wheel (for mice with multiple ones)
+            Mouse::Wheel wheel; ///< Which wheel (for mice with multiple ones)
             float        delta; ///< Wheel offset (positive is up/left, negative is down/right). High-precision mice may use non-integral offsets.
             int          x;     ///< X position of the mouse pointer, relative to the left of the owner window
             int          y;     ///< Y position of the mouse pointer, relative to the top of the owner window

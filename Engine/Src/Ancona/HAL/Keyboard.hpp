@@ -1,5 +1,6 @@
+// Altered SFML Keyboard.hpp for Ancona's HAL abstraction layer, combined with Ancona keyboard state tracker
+
 ////////////////////////////////////////////////////////////
-// Altered SFML Keyboard.hpp for abstraction layer, combined with Ancona keyboard state tracker
 //
 // SFML - Simple and Fast Multimedia Library
 // Copyright (C) 2007-2018 Laurent Gomila (laurent@sfml-dev.org)
