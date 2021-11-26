@@ -1,42 +1,43 @@
-#include <Ancona/Core2D/InputDevices/Keyboard.hpp>
+#include <Ancona/HAL/Keyboard.hpp>
+
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/System/Log.hpp>
 #include <Ancona/Core2D/Core/Game.hpp>
 
-using namespace ild;
+using namespace ildhal;
 
-std::set<sf::Keyboard::Key> Keyboard::_pressedKeys;
-std::set<sf::Keyboard::Key> Keyboard::_releasedKeys;
-std::set<sf::Keyboard::Key> Keyboard::_heldKeys;
-std::map<sf::Keyboard::Key, unsigned int> Keyboard::_heldKeysToFrameCount;
-std::set<sf::Keyboard::Key> Keyboard::_heldKeysToClear;
+std::set<Keyboard::Key> Keyboard::_pressedKeys;
+std::set<Keyboard::Key> Keyboard::_releasedKeys;
+std::set<Keyboard::Key> Keyboard::_heldKeys;
+std::map<Keyboard::Key, unsigned int> Keyboard::_heldKeysToFrameCount;
+std::set<Keyboard::Key> Keyboard::_heldKeysToClear;
 
-bool Keyboard::IsKeyPressed(const sf::Keyboard::Key & key)
+bool Keyboard::IsKeyPressed(const Keyboard::Key & key)
 {
     return alg::contains(_pressedKeys, key);
 }
 
-bool Keyboard::IsKeyReleased(const sf::Keyboard::Key & key)
+bool Keyboard::IsKeyReleased(const Keyboard::Key & key)
 {
     return alg::contains(_releasedKeys, key);
 }
 
-bool Keyboard::IsKeyDown(const sf::Keyboard::Key & key)
+bool Keyboard::IsKeyDown(const Keyboard::Key & key)
 {
     return alg::contains(_heldKeys, key);
 }
 
-void Keyboard::_AddKeyPress(const sf::Keyboard::Key & key)
+void Keyboard::_AddKeyPress(const Keyboard::Key & key)
 {
     _pressedKeys.insert(key);
     _heldKeys.insert(key);
-    _heldKeysToFrameCount[key] = Game::FrameCount;
+    _heldKeysToFrameCount[key] = ild::Game::FrameCount;
 }
 
-void Keyboard::_AddKeyRelease(const sf::Keyboard::Key & key)
+void Keyboard::_AddKeyRelease(const Keyboard::Key & key)
 {
     _releasedKeys.insert(key);
-    if (_heldKeysToFrameCount[key] != Game::FrameCount) {
+    if (_heldKeysToFrameCount[key] != ild::Game::FrameCount) {
         _heldKeys.erase(std::find(_heldKeys.begin(), _heldKeys.end(), key));
     } else {
         _heldKeysToClear.insert(key);

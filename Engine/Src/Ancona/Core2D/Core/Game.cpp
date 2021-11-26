@@ -3,9 +3,9 @@
 
 #include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Core2D/InputDevices/Joystick.hpp>
-#include <Ancona/Core2D/InputDevices/Keyboard.hpp>
 #include <Ancona/Core2D/InputDevices/Mouse.hpp>
 #include <Ancona/Core2D/InputDevices/Touch.hpp>
+#include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
@@ -21,9 +21,9 @@ unsigned int Game::FrameCount = 0;
 Game::Game(
     int windowWidth,
     int windowHeight,
-    const std::string& title,
-    const sf::Uint32& style) :
-        _window(new ildhal::Window(title, windowWidth, windowHeight))
+    const std::string & title,
+    const unsigned int & style) :
+        _window(new ildhal::Window(title, windowWidth, windowHeight, style))
 {
     _screenManager = std::unique_ptr<ScreenManager>(new ScreenManager(*_window, windowWidth, windowHeight));
 }
@@ -53,7 +53,7 @@ void Game::Run()
             continue;
         }
 
-        Keyboard::_ClearKeys();
+        ildhal::Keyboard::_ClearKeys();
         Mouse::_ClearButtons();
         Touch::_ClearFingers();
         Joystick::_ClearButtons();
@@ -98,10 +98,10 @@ void Game::ProcessWindowEvent(ildhal::Event event)
 
     if (_windowIsActive) {
         if (event.type == ildhal::Event::KeyPressed) {
-            Keyboard::_AddKeyPress(event.key.code);
+            ildhal::Keyboard::_AddKeyPress(event.key.code);
         }
         if (event.type == ildhal::Event::KeyReleased) {
-            Keyboard::_AddKeyRelease(event.key.code);
+            ildhal::Keyboard::_AddKeyRelease(event.key.code);
         }
         if (event.type == ildhal::Event::MouseButtonPressed) {
             Mouse::_AddButtonPress(event.mouseButton.button);

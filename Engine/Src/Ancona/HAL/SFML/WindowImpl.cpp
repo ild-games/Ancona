@@ -1,5 +1,6 @@
 #include <SFML/System.hpp>
 
+#include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/SFML/WindowImpl.hpp>
 #include <Ancona/System/Log.hpp>
 
@@ -26,7 +27,7 @@ void Window::Impl::translateEventFromSFML(Event & event, sf::Event & sfmlEvent)
     }
     else if (sfmlEvent.type == sf::Event::KeyPressed || sfmlEvent.type == sf::Event::KeyReleased)
     {
-        event.key.code = sfmlEvent.key.code;
+        event.key.code = (Keyboard::Key) sfmlEvent.key.code;
         event.key.alt = sfmlEvent.key.alt;
         event.key.control = sfmlEvent.key.control;
         event.key.shift = sfmlEvent.key.shift;

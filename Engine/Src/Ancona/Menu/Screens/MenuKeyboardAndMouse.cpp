@@ -1,4 +1,3 @@
-#include <Ancona/Core2D/InputDevices/Keyboard.hpp>
 #include <Ancona/Core2D/InputDevices/Mouse.hpp>
 
 #include "MenuGameSystems.hpp"

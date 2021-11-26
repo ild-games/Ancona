@@ -28,6 +28,8 @@
 
 #include <SFML/Window.hpp>
 
+#include <Ancona/HAL/Keyboard.hpp>
+
 namespace ildhal
 {
 
@@ -50,7 +52,7 @@ class Event
         ////////////////////////////////////////////////////////////
         struct KeyEvent
         {
-            sf::Keyboard::Key code;    ///< Code of the key that has been pressed
+            Keyboard::Key code;    ///< Code of the key that has been pressed
             bool          alt;     ///< Is the Alt key pressed?
             bool          control; ///< Is the Control key pressed?
             bool          shift;   ///< Is the Shift key pressed?
