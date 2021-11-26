@@ -1,6 +1,8 @@
 #include <SFML/System.hpp>
 
 #include <Ancona/HAL/Keyboard.hpp>
+#include <Ancona/HAL/Mouse.hpp>
+#include <Ancona/HAL/Sensor.hpp>
 #include <Ancona/HAL/SFML/WindowImpl.hpp>
 #include <Ancona/System/Log.hpp>
 
@@ -9,7 +11,7 @@ using namespace ildhal;
 /* Pimpl Implementation */
 
 Window::Impl::Impl(
-    const std::string& title,
+    const std::string & title,
     int width,
     int height,
     unsigned int style)
@@ -48,6 +50,12 @@ void Window::Impl::translateEventFromSFML(Event & event, sf::Event & sfmlEvent)
         event.mouseButton.x = sfmlEvent.mouseButton.x;
         event.mouseButton.y = sfmlEvent.mouseButton.y;
     }
+    else if (sfmlEvent.type == sf::Event::MouseWheelMoved)
+    {
+        event.mouseWheel.delta = sfmlEvent.mouseWheel.delta;
+        event.mouseWheel.x = sfmlEvent.mouseWheel.x;
+        event.mouseWheel.y = sfmlEvent.mouseWheel.y;
+    }
     else if (sfmlEvent.type == sf::Event::MouseWheelScrolled)
     {
         event.mouseWheelScroll.wheel = (Mouse::Wheel) sfmlEvent.mouseWheelScroll.wheel;
@@ -58,7 +66,7 @@ void Window::Impl::translateEventFromSFML(Event & event, sf::Event & sfmlEvent)
     else if (sfmlEvent.type == sf::Event::JoystickMoved)
     {
         event.joystickMove.joystickId = sfmlEvent.joystickMove.joystickId;
-        event.joystickMove.axis = sfmlEvent.joystickMove.axis;
+        event.joystickMove.axis = (Joystick::Axis) sfmlEvent.joystickMove.axis;
         event.joystickMove.position = sfmlEvent.joystickMove.position;
     }
     else if (sfmlEvent.type == sf::Event::JoystickButtonPressed || sfmlEvent.type == sf::Event::JoystickButtonReleased)
@@ -78,7 +86,7 @@ void Window::Impl::translateEventFromSFML(Event & event, sf::Event & sfmlEvent)
     }
     else if (sfmlEvent.type == sf::Event::SensorChanged)
     {
-        event.sensor.type = sfmlEvent.sensor.type;
+        event.sensor.type = (Sensor::Type) sfmlEvent.sensor.type;
         event.sensor.x = sfmlEvent.sensor.x;
         event.sensor.y = sfmlEvent.sensor.y;
         event.sensor.z = sfmlEvent.sensor.z;

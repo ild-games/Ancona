@@ -2,10 +2,10 @@
 #include <SFML/System.hpp>
 
 #include <Ancona/Core2D/Core/Game.hpp>
-#include <Ancona/Core2D/InputDevices/Joystick.hpp>
-#include <Ancona/Core2D/InputDevices/Touch.hpp>
+#include <Ancona/HAL/Joystick.hpp>
 #include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/Mouse.hpp>
+#include <Ancona/HAL/Touch.hpp>
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
@@ -55,8 +55,8 @@ void Game::Run()
 
         ildhal::Keyboard::_ClearKeys();
         ildhal::Mouse::_ClearButtons();
-        Touch::_ClearFingers();
-        Joystick::_ClearButtons();
+        ildhal::Touch::_ClearFingers();
+        ildhal::Joystick::_ClearButtons();
         Jukebox::Update();
         while (_window->pollEvent(event)) {
             ProcessWindowEvent(event);
@@ -90,7 +90,7 @@ void Game::ProcessWindowEvent(ildhal::Event event)
         _window->setActive(false);
     }
     if (event.type == ildhal::Event::GainedFocus) {
-        Touch::_ClearAllFingersState();
+        ildhal::Touch::_ClearAllFingersState();
         _windowIsActive = true;
         _window->resetGLStates();
         _window->setActive(true);
@@ -110,19 +110,19 @@ void Game::ProcessWindowEvent(ildhal::Event event)
             ildhal::Mouse::_AddButtonRelease(event.mouseButton.button);
         }
         if (event.type == ildhal::Event::TouchBegan) {
-            Touch::_AddFingerPress(event.touch.finger, event.touch.x, event.touch.y);
+            ildhal::Touch::_AddFingerPress(event.touch.finger, event.touch.x, event.touch.y);
         }
         if (event.type == ildhal::Event::TouchEnded) {
-            Touch::_AddFingerRelease(event.touch.finger);
+            ildhal::Touch::_AddFingerRelease(event.touch.finger);
         }
         if (event.type == ildhal::Event::TouchMoved) {
-            Touch::_AddFingerMoved(event.touch.finger, event.touch.x, event.touch.y);
+            ildhal::Touch::_AddFingerMoved(event.touch.finger, event.touch.x, event.touch.y);
         }
         if (event.type == ildhal::Event::JoystickButtonPressed) {
-            Joystick::_AddButtonPress(event.joystickButton.joystickId, event.joystickButton.button);
+            ildhal::Joystick::_AddButtonPress(event.joystickButton.joystickId, event.joystickButton.button);
         }
         if (event.type == ildhal::Event::JoystickButtonReleased) {
-            Joystick::_AddButtonRelease(event.joystickButton.joystickId, event.joystickButton.button);
+            ildhal::Joystick::_AddButtonRelease(event.joystickButton.joystickId, event.joystickButton.button);
         }
     }
 }

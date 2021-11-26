@@ -1,10 +1,8 @@
-#include <Ancona/Core2D/InputDevices/Touch.hpp>
-#include <Ancona/Util/Algorithm/ContainerExtensions.hpp>
+#include <Ancona/HAL/Touch.hpp>
+#include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Core2D/Core/Game.hpp>
-#include <Ancona/System/Log.hpp>
-#include <sstream>
 
-using namespace ild;
+using namespace ildhal;
 
 std::set<unsigned int> Touch::_pressedFingers;
 std::set<unsigned int> Touch::_releasedFingers;
@@ -41,14 +39,14 @@ void Touch::_AddFingerPress(unsigned int finger, int x, int y)
 {
     _pressedFingers.insert(finger);
     _heldFingers.insert(finger);
-    _heldFingersToFrameCount[finger] = Game::FrameCount;
+    _heldFingersToFrameCount[finger] = ild::Game::FrameCount;
     _fingerPosition[finger] = sf::Vector2i(x, y);
 }
 
 void Touch::_AddFingerRelease(unsigned int finger)
 {
     _releasedFingers.insert(finger);
-    if (_heldFingersToFrameCount[finger] != Game::FrameCount) {
+    if (_heldFingersToFrameCount[finger] != ild::Game::FrameCount) {
         auto iter = std::find(_heldFingers.begin(), _heldFingers.end(), finger);
         if (iter != _heldFingers.end()) {
             _heldFingers.erase(iter);

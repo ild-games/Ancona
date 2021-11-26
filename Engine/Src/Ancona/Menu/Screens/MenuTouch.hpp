@@ -1,7 +1,7 @@
 #ifndef Anona_Menu_Input_MenuTouch_H_
 #define Anona_Menu_Input_MenuTouch_H_
 
-#include "MenuInputHandler.hpp"
+#include <Ancona/Menu/Screens/MenuInputHandler.hpp>
 
 namespace ildmenu
 {

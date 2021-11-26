@@ -27,10 +27,10 @@
 #ifndef Ancona_HAL_Event_H_
 #define Ancona_HAL_Event_H_
 
-#include <SFML/Window.hpp>
-
+#include <Ancona/HAL/Joystick.hpp>
 #include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/Mouse.hpp>
+#include <Ancona/HAL/Sensor.hpp>
 
 namespace ildhal
 {
@@ -93,6 +93,20 @@ class Event
         };
 
         ////////////////////////////////////////////////////////////
+        /// \brief Mouse wheel events parameters (MouseWheelMoved)
+        ///
+        /// \deprecated This event is deprecated and potentially inaccurate.
+        ///             Use MouseWheelScrollEvent instead.
+        ///
+        ////////////////////////////////////////////////////////////
+        struct MouseWheelEvent
+        {
+            int delta; ///< Number of ticks the wheel has moved (positive is up, negative is down)
+            int x;     ///< X position of the mouse pointer, relative to the left of the owner window
+            int y;     ///< Y position of the mouse pointer, relative to the top of the owner window
+        };
+
+        ////////////////////////////////////////////////////////////
         /// \brief Mouse wheel events parameters (MouseWheelScrolled)
         ///
         ////////////////////////////////////////////////////////////
@@ -121,7 +135,7 @@ class Event
         struct JoystickMoveEvent
         {
             unsigned int   joystickId; ///< Index of the joystick (in range [0 .. Joystick::Count - 1])
-            sf::Joystick::Axis axis;       ///< Axis on which the joystick moved
+            Joystick::Axis axis;       ///< Axis on which the joystick moved
             float          position;   ///< New position on the axis (in range [-100 .. 100])
         };
 
@@ -153,7 +167,7 @@ class Event
         ////////////////////////////////////////////////////////////
         struct SensorEvent
         {
-            sf::Sensor::Type type; ///< Type of the sensor
+            Sensor::Type type; ///< Type of the sensor
             float x;           ///< Current value of the sensor on X axis
             float y;           ///< Current value of the sensor on Y axis
             float z;           ///< Current value of the sensor on Z axis
@@ -172,6 +186,7 @@ class Event
             TextEntered,            ///< A character was entered (data in event.text)
             KeyPressed,             ///< A key was pressed (data in event.key)
             KeyReleased,            ///< A key was released (data in event.key)
+            MouseWheelMoved,        ///< The mouse wheel was scrolled (data in event.mouseWheel) (deprecated)
             MouseWheelScrolled,     ///< The mouse wheel was scrolled (data in event.mouseWheelScroll)
             MouseButtonPressed,     ///< A mouse button was pressed (data in event.mouseButton)
             MouseButtonReleased,    ///< A mouse button was released (data in event.mouseButton)
@@ -203,6 +218,7 @@ class Event
             TextEvent             text;              ///< Text event parameters (Event::TextEntered)
             MouseMoveEvent        mouseMove;         ///< Mouse move event parameters (Event::MouseMoved)
             MouseButtonEvent      mouseButton;       ///< Mouse button event parameters (Event::MouseButtonPressed, Event::MouseButtonReleased)
+            MouseWheelEvent       mouseWheel;        ///< Mouse wheel event parameters (Event::MouseWheelMoved) (deprecated)
             MouseWheelScrollEvent mouseWheelScroll;  ///< Mouse wheel event parameters (Event::MouseWheelScrolled)
             JoystickMoveEvent     joystickMove;      ///< Joystick move event parameters (Event::JoystickMoved)
             JoystickButtonEvent   joystickButton;    ///< Joystick button event parameters (Event::JoystickButtonPressed, Event::JoystickButtonReleased)

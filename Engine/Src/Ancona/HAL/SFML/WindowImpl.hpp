@@ -13,7 +13,7 @@ class Window::Impl
 {
     public:
         Impl(
-            const std::string& title,
+            const std::string & title,
             int width,
             int height,
             unsigned int style = WindowStyle::Default);

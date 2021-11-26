@@ -1,12 +1,13 @@
-#ifndef Ancona_Engine_InputDevices_Touch_H_
-#define Ancona_Engine_InputDevices_Touch_H_
+#ifndef Ancona_HAL_Touch_H_
+#define Ancona_HAL_Touch_H_
+
+#include <map>
+#include <set>
+#include <unordered_map>
 
 #include <SFML/Window.hpp>
-#include <unordered_map>
-#include <set>
-#include <map>
 
-namespace ild
+namespace ildhal
 {
 
 /**

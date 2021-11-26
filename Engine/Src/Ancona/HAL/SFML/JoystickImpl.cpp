@@ -1,6 +1,8 @@
-#include <Ancona/Core2D/InputDevices/Joystick.hpp>
+#include <SFML/Window.hpp>
 
-using namespace ild;
+#include <Ancona/HAL/Joystick.hpp>
+
+using namespace ildhal;
 
 std::unordered_map<int, std::set<int>> Joystick::_pressedButtons;
 std::unordered_map<int, std::set<int>> Joystick::_releasedButtons;

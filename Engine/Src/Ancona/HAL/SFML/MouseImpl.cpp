@@ -49,7 +49,10 @@ void Mouse::_AddButtonRelease(const Mouse::Button & btn)
 {
     _releasedButtons.insert(btn);
     if (_heldButtonsToFrameCount[btn] != ild::Game::FrameCount) {
-        _heldButtons.erase(std::find(_heldButtons.begin(), _heldButtons.end(), btn));
+        auto iter = std::find(_heldButtons.begin(), _heldButtons.end(), btn);
+        if (iter != _heldButtons.end()) {
+            _heldButtons.erase(iter);
+        }
     } else {
         _heldButtonsToClear.insert(btn);
     }
@@ -60,7 +63,10 @@ void Mouse::_ClearButtons()
     _pressedButtons.clear();
     _releasedButtons.clear();
     for (auto heldButtonToClear : _heldButtonsToClear) {
-        _heldButtons.erase(std::find(_heldButtons.begin(), _heldButtons.end(), heldButtonToClear));
+        auto iter = std::find(_heldButtons.begin(), _heldButtons.end(), heldButtonToClear);
+        if (iter != _heldButtons.end()) {
+            _heldButtons.erase(iter);
+        }
         _heldButtonsToFrameCount[heldButtonToClear] = 0;
     }
     _heldButtonsToClear.clear();
