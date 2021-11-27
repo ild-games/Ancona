@@ -3,6 +3,7 @@
 
 #include <Ancona/Core2D/InputDevices/InputHandler.hpp>
 #include <Ancona/Core2D/Systems/InputControlComponent.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 #include "MenuGameSystems.hpp"
 #include "../Systems/ButtonSystem.hpp"
@@ -61,7 +62,7 @@ class MenuInputComponent : public ild::InputControlComponent
          * @param location Location of the pointer.
          * @param isDown Is the pointer down or up.
          */
-        void UpdatePointer(ild::Point location, bool isDown);
+        void UpdatePointer(ild::Vector2f location, bool isDown);
 
     private:
         MenuGameSystems & _systems;

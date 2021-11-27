@@ -79,7 +79,7 @@ class Window : public RenderTarget
         /// each call to display() to ensure that the current frame
         /// lasted long enough to match the framerate limit.
         /// SFML will try to match the given limit as much as it can,
-        /// but since it internally uses sf::sleep, whose precision
+        /// but since it internally uses sleep, whose precision
         /// depends on the underlying OS, the results may be a little
         /// unprecise as well (for example, you can get 65 FPS when
         /// requesting 60).
@@ -139,7 +139,7 @@ class Window : public RenderTarget
         /// thus you should always call this function in a loop
         /// to make sure that you process every pending event.
         /// \code
-        /// sf::Event event;
+        /// Event event;
         /// while (window.pollEvent(event))
         /// {
         ///    // process event...
@@ -168,7 +168,7 @@ class Window : public RenderTarget
         ////////////////////////////////////////////////////////////
         /// \brief Close the window and destroy all the attached resources
         ///
-        /// After calling this function, the sf::Window instance remains
+        /// After calling this function, the Window instance remains
         /// valid and you can call create() to recreate the window.
         /// All other functions such as pollEvent() or display() will
         /// still work (i.e. you don't have to test isOpen() every time),
@@ -214,7 +214,7 @@ class Window : public RenderTarget
         /// \return Size in pixels
         ///
         ////////////////////////////////////////////////////////////
-        virtual sf::Vector2u GetSize() const;
+        virtual ild::Vector2u GetSize() const;
 
         // TODO remove when drawing HAL abstraction is finished, not needed at that time
         sf::RenderTarget & GetRenderTarget();

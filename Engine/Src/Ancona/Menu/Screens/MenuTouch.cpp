@@ -21,7 +21,7 @@ void MenuTouch::HandleFingerPress(const int finger, float delta)
         auto fingerPosition = _systems->screenManager().Window.MapPixelToCoords(
             ildhal::Touch::FingerPosition(finger),
             _systems->drawable().defaultCamera()->view());
-        _lastPosition = sf::Vector2f(fingerPosition);
+        _lastPosition = ild::Vector2f(fingerPosition);
         _playerComponent->UpdatePointer(_lastPosition, true);
     }
     else if (ildhal::Touch::IsFingerReleased(finger))
@@ -31,7 +31,7 @@ void MenuTouch::HandleFingerPress(const int finger, float delta)
     else
     {
         auto infinity = std::numeric_limits<float>::infinity();
-        _playerComponent->UpdatePointer(sf::Vector2f(infinity, infinity), false);
+        _playerComponent->UpdatePointer(ild::Vector2f(infinity, infinity), false);
     }
 }
 

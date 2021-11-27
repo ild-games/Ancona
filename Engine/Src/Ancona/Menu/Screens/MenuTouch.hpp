@@ -2,6 +2,7 @@
 #define Anona_Menu_Input_MenuTouch_H_
 
 #include <Ancona/Menu/Screens/MenuInputHandler.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ildmenu
 {
@@ -19,7 +20,7 @@ class MenuTouch: public MenuInputHandler
         virtual bool IsAnyFingerDown() override;
 
     private:
-        sf::Vector2f _lastPosition;
+        ild::Vector2f _lastPosition;
         void HandleFingerPress(const int finger, float delta);
 };
 

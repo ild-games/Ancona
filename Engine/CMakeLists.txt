@@ -10,4 +10,4 @@ add_subdirectory(Src/Ancona/Menu)
 add_subdirectory(Src/Ancona/System)
 
 install(DIRECTORY Src/ DESTINATION include
-    FILES_MATCHING PATTERN *.hpp)
+    FILES_MATCHING PATTERN *.hpp PATTERN *.inl)

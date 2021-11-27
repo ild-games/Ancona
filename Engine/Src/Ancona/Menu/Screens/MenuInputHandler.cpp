@@ -27,7 +27,7 @@ MenuInputComponent::MenuInputComponent(
 
 }
 
-void MenuInputComponent::UpdatePointer(ild::Point location, bool isDown)
+void MenuInputComponent::UpdatePointer(ild::Vector2f location, bool isDown)
 {
     _systems.button().Pointer(location, isDown);
 }

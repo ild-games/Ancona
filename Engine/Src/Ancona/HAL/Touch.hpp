@@ -5,7 +5,7 @@
 #include <set>
 #include <unordered_map>
 
-#include <SFML/Window.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ildhal
 {
@@ -42,7 +42,7 @@ class Touch
          * @return true if the finger is down, otherwise false
          */
         static bool IsFingerDown(unsigned int finger);
-        static sf::Vector2i FingerPosition(unsigned int finger);
+        static ild::Vector2i FingerPosition(unsigned int finger);
 
         /**
          * @brief INTERNAL ONLY
@@ -74,7 +74,7 @@ class Touch
         static std::set<unsigned int> _heldFingers;
         static std::map<unsigned int, unsigned int> _heldFingersToFrameCount;
         static std::set<unsigned int> _heldFingersToClear;
-        static std::map<unsigned int, sf::Vector2i> _fingerPosition;
+        static std::map<unsigned int, ild::Vector2i> _fingerPosition;
 };
 
 }

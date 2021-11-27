@@ -5,10 +5,13 @@
 #include <SFML/System.hpp>
 
 #include <Ancona/Core2D/Core/Game.hpp>
+#include <Ancona/HAL/Color.hpp>
+#include <Ancona/HAL/Event.hpp>
 #include <Ancona/HAL/Joystick.hpp>
 #include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/Mouse.hpp>
 #include <Ancona/HAL/Touch.hpp>
+#include <Ancona/HAL/Window.hpp>
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
@@ -76,7 +79,7 @@ void Game::Run()
         float delta = elapsed.asSeconds();
         Timer::Update(delta);
         _screenManager->Update(delta);
-        _window->Clear(sf::Color::Black);
+        _window->Clear(ildhal::Color::Black);
         _screenManager->Draw(delta);
         _window->Display();
         FrameCount++;

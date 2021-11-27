@@ -42,10 +42,10 @@ void Actions::Serialize(Archive & arc)
     arc.system(_drawableSystem, "drawable");
 }
 
-static Point TweenPosition(
+static sf::Vector2f TweenPosition(
     ValueAction<sf::Vector2f> & action, 
     float beforeRatio,
-    const Point & position)
+    const sf::Vector2f & position)
 {
     float afterRatio = action.tweenRatio();
 
@@ -79,9 +79,9 @@ void Actions::ApplyScaleActions(DrawableComponent & drawableComponent, float del
     }
 }
 
-Point Actions::ApplyPositionActions(const PositionComponent & position, float delta)
+sf::Vector2f Actions::ApplyPositionActions(const PositionComponent & position, float delta)
 {
-    Point location = position.position();
+    sf::Vector2f location = position.position();
     for(auto& action : _positionActions)
     {
         float beforeRatio = action->tweenRatio();
@@ -91,9 +91,9 @@ Point Actions::ApplyPositionActions(const PositionComponent & position, float de
     return location;
 }
 
-Point Actions::ApplyVelocityActions(const PositionComponent & position, float delta)
+sf::Vector2f Actions::ApplyVelocityActions(const PositionComponent & position, float delta)
 {
-    Point velocity;
+    sf::Vector2f velocity;
     for(auto& action : _velocityActions)
     {
         float overflow = action->Update(delta);
@@ -119,13 +119,13 @@ void Actions::Apply(PositionComponent & position, DrawableComponent & drawable, 
     RemoveDoneActions<ScaleActionProxy>(_scaleActions);
     
     //Velocity actions apply additively
-    Point velocity = ApplyVelocityActions(position, delta);
+    sf::Vector2f velocity = ApplyVelocityActions(position, delta);
 
     if (_positionActions.size())
     {
         //Only a single position action will effect the result
         position.position(ApplyPositionActions(position, delta));
-        position.velocity(Point());
+        position.velocity(sf::Vector2f());
     }
     else
     {

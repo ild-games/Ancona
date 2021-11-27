@@ -31,6 +31,9 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
+#include <Ancona/HAL/Color.hpp>
+#include <Ancona/Util/Vector2.hpp>
+
 namespace ildhal
 {
 
@@ -51,7 +54,7 @@ class RenderTarget
         /// \param color Fill color to use to clear the render target
         ///
         ////////////////////////////////////////////////////////////
-        void Clear(const sf::Color & color = sf::Color(0, 0, 0, 255));
+        void Clear(const Color & color = Color(0, 0, 0, 255));
 
         ////////////////////////////////////////////////////////////
         /// \brief Draw a drawable object to the render target
@@ -114,7 +117,7 @@ class RenderTarget
         /// \see mapCoordsToPixel
         ///
         ////////////////////////////////////////////////////////////
-        sf::Vector2f MapPixelToCoords(const sf::Vector2i& point, const sf::View & view) const;
+        ild::Vector2f MapPixelToCoords(const ild::Vector2i & point, const sf::View & view) const;
 
         ////////////////////////////////////////////////////////////
         /// \brief Reset the internal OpenGL states so that the target is ready for drawing
@@ -145,7 +148,7 @@ class RenderTarget
         /// \return Size in pixels
         ///
         ////////////////////////////////////////////////////////////
-        virtual sf::Vector2u GetSize() const = 0;
+        virtual ild::Vector2u GetSize() const = 0;
 
         /* getters and setters */
         priv::RenderTargetImpl & getRenderTargetImpl() const { return *_pimpl; }

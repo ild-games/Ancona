@@ -12,9 +12,9 @@ priv::RenderTargetImpl::RenderTargetImpl(
 
 /* HAL Interface Implementation */
 
-void RenderTarget::Clear(const sf::Color & color)
+void RenderTarget::Clear(const Color & color)
 {
-    _pimpl->getSfmlRenderTarget().clear(color);
+    _pimpl->getSfmlRenderTarget().clear(sf::Color(color.toInteger()));
 }
 
 void RenderTarget::Draw(const sf::Drawable & drawable, const sf::RenderStates & states)
@@ -32,9 +32,11 @@ const sf::View & RenderTarget::GetDefaultView() const
     return _pimpl->getSfmlRenderTarget().getDefaultView();
 }
 
-sf::Vector2f RenderTarget::MapPixelToCoords(const sf::Vector2i & point, const sf::View & view) const
+ild::Vector2f RenderTarget::MapPixelToCoords(const ild::Vector2i & point, const sf::View & view) const
 {
-    return _pimpl->getSfmlRenderTarget().mapPixelToCoords(point, view);
+    auto sfmlPoint = sf::Vector2i(point.x, point.y);
+    auto coords = _pimpl->getSfmlRenderTarget().mapPixelToCoords(sfmlPoint, view);
+    return ild::Vector2f(coords.x, coords.y);
 }
 
 void RenderTarget::ResetGLStates()

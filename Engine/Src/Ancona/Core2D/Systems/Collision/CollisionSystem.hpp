@@ -16,7 +16,7 @@ namespace ild
 /**
  * @brief Function signature used by the collision system.
  */
-typedef std::function<void(const Entity &, const Entity &, const Point &, float)> CollisionCallback;
+typedef std::function<void(const Entity &, const Entity &, const sf::Vector2f &, float)> CollisionCallback;
 
 /**
  * @brief System used to provide collision interactions and callbacks for entities.
@@ -135,14 +135,14 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
         void HandleCollision(
             EntityComponentPair & pairA,
             EntityComponentPair & pairB,
-            const Point &fixNormal,
+            const sf::Vector2f &fixNormal,
             float fixMagnitude);
         bool EntitiesOverlapping(float fixMagnitude);
 
-        void FixCollision(CollisionComponent * a, CollisionComponent * b, const Point & fixNormal, float fixMagnitude);
+        void FixCollision(CollisionComponent * a, CollisionComponent * b, const sf::Vector2f & fixNormal, float fixMagnitude);
 
-        void PushApart(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);
-        void PushFirstOutOfSecond(CollisionComponent * a, CollisionComponent * b, const Point & correctFix);
+        void PushApart(CollisionComponent * a, CollisionComponent * b, const sf::Vector2f & correctFix);
+        void PushFirstOutOfSecond(CollisionComponent * a, CollisionComponent * b, const sf::Vector2f & correctFix);
 
 };
 

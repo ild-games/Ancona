@@ -1,5 +1,5 @@
-#ifndef Ancona_System_Android_Log_H_
-#define Ancona_System_Android_Log_H_
+#ifndef Ancona_System_Log_H_
+#define Ancona_System_Log_H_
 
 #include <string>
 #include <sstream>

@@ -31,7 +31,7 @@
 #include <unordered_map>
 #include <set>
 
-#include <SFML/Window.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ildhal
 {
@@ -73,7 +73,7 @@ class Mouse
         /// \return Current position of the mouse
         ///
         ////////////////////////////////////////////////////////////
-        static sf::Vector2i GetPosition();
+        static ild::Vector2i GetPosition();
 
         ////////////////////////////////////////////////////////////
         /// \brief Get the current position of the mouse in window coordinates
@@ -86,7 +86,7 @@ class Mouse
         /// \return Current position of the mouse
         ///
         ////////////////////////////////////////////////////////////
-        static sf::Vector2i GetPosition(const Window & relativeTo);
+        static ild::Vector2i GetPosition(const Window & relativeTo);
 
         /**
          * @brief Deteremines if a button was just pressed

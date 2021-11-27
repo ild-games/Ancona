@@ -83,7 +83,7 @@ class Actions
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
         std::vector<ScaleActionProxy> _scaleActions;
-        Point _actionVelocity;
+        sf::Vector2f _actionVelocity;
         PositionSystem * _positionSystem;
         DrawableSystem * _drawableSystem;
 
@@ -99,8 +99,8 @@ class Actions
                 );
         }
 
-        Point ApplyPositionActions(const PositionComponent & position, float delta);
-        Point ApplyVelocityActions(const PositionComponent & position, float delta);
+        sf::Vector2f ApplyPositionActions(const PositionComponent & position, float delta);
+        sf::Vector2f ApplyVelocityActions(const PositionComponent & position, float delta);
         void ApplyScaleActions(DrawableComponent & drawable, float delta);
 };
 

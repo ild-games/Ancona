@@ -6,12 +6,10 @@
 namespace ild
 {
 
-typedef sf::Vector2f Point;
-
 /**
- * @brief Operator used to output a Point to an out stream. The Point will be formatted as (x,y)
+ * @brief Operator used to output a sf::Vector2f to an out stream. The sf::Vector2f will be formatted as (x,y)
  */
-std::ostream & operator << (std::ostream& os, const Point&pt);
+std::ostream & operator << (std::ostream& os, const sf::Vector2f&pt);
 
 class PositionComponent
 {
@@ -34,15 +32,15 @@ class PositionComponent
         void Update(float delta);
 
         /* getters and setters */
-        inline const Point & position() const { return _position; }
-        inline const Point & velocity() const { return _velocity; }
-        inline void velocity(const Point & velocity) { _velocity = velocity; }
-        void position(const Point & position);
+        inline const sf::Vector2f & position() const { return _position; }
+        inline const sf::Vector2f & velocity() const { return _velocity; }
+        inline void velocity(const sf::Vector2f & velocity) { _velocity = velocity; }
+        void position(const sf::Vector2f & position);
 
     protected:
-        Point _actualPosition;
-        Point _position;
-        Point _velocity;
+        sf::Vector2f _actualPosition;
+        sf::Vector2f _position;
+        sf::Vector2f _velocity;
 
         void RoundPosition();
 };

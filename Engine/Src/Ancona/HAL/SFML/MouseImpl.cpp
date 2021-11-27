@@ -13,14 +13,17 @@ std::set<Mouse::Button> Mouse::_heldButtons;
 std::map<Mouse::Button, unsigned int> Mouse::_heldButtonsToFrameCount;
 std::set<Mouse::Button> Mouse::_heldButtonsToClear;
 
-sf::Vector2i Mouse::GetPosition()
+ild::Vector2i Mouse::GetPosition()
 {
-    return sf::Mouse::getPosition();
+    auto mousePosition = sf::Mouse::getPosition();
+    return ild::Vector2i(mousePosition.x, mousePosition.y);
 }
 
-sf::Vector2i Mouse::GetPosition(const Window & relativeTo)
+ild::Vector2i Mouse::GetPosition(const Window & relativeTo)
 {
-    return sf::Mouse::getPosition(relativeTo.getWindowImpl().getSfmlRenderWindow());
+    auto & sfmlRenderWindow = relativeTo.getWindowImpl().getSfmlRenderWindow();
+    auto mousePosition = sf::Mouse::getPosition(sfmlRenderWindow);
+    return ild::Vector2i(mousePosition.x, mousePosition.y);
 }
 
 bool Mouse::IsButtonPressed(const Mouse::Button & btn)

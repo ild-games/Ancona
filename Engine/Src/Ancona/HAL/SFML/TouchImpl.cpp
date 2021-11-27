@@ -9,7 +9,7 @@ std::set<unsigned int> Touch::_releasedFingers;
 std::set<unsigned int> Touch::_heldFingers;
 std::map<unsigned int, unsigned int> Touch::_heldFingersToFrameCount;
 std::set<unsigned int> Touch::_heldFingersToClear;
-std::map<unsigned int, sf::Vector2i> Touch::_fingerPosition;
+std::map<unsigned int, ild::Vector2i> Touch::_fingerPosition;
 
 bool Touch::IsFingerPressed(unsigned int finger)
 {
@@ -26,13 +26,13 @@ bool Touch::IsFingerDown(unsigned int finger)
     return alg::contains(_heldFingers, finger);
 }
 
-sf::Vector2i Touch::FingerPosition(unsigned int finger)
+ild::Vector2i Touch::FingerPosition(unsigned int finger)
 {
     if (_fingerPosition.find(finger) != _fingerPosition.end()) {
         return _fingerPosition[finger];
     }
 
-    return sf::Vector2i(0, 0);
+    return ild::Vector2i(0, 0);
 }
 
 void Touch::_AddFingerPress(unsigned int finger, int x, int y)
@@ -40,7 +40,7 @@ void Touch::_AddFingerPress(unsigned int finger, int x, int y)
     _pressedFingers.insert(finger);
     _heldFingers.insert(finger);
     _heldFingersToFrameCount[finger] = ild::Game::FrameCount;
-    _fingerPosition[finger] = sf::Vector2i(x, y);
+    _fingerPosition[finger] = ild::Vector2i(x, y);
 }
 
 void Touch::_AddFingerRelease(unsigned int finger)
@@ -51,7 +51,7 @@ void Touch::_AddFingerRelease(unsigned int finger)
         if (iter != _heldFingers.end()) {
             _heldFingers.erase(iter);
         }
-        _fingerPosition[finger] = sf::Vector2i(0, 0);
+        _fingerPosition[finger] = ild::Vector2i(0, 0);
     } else {
         _heldFingersToClear.insert(finger);
     }
@@ -59,7 +59,7 @@ void Touch::_AddFingerRelease(unsigned int finger)
 
 void Touch::_AddFingerMoved(unsigned int finger, int x, int y)
 {
-    _fingerPosition[finger] = sf::Vector2i(x, y);
+    _fingerPosition[finger] = ild::Vector2i(x, y);
 }
 
 void Touch::_ClearFingers()
@@ -68,7 +68,7 @@ void Touch::_ClearFingers()
     _releasedFingers.clear();
     for (auto heldFingerToClear : _heldFingersToClear) {
         _heldFingers.erase(std::find(_heldFingers.begin(), _heldFingers.end(), heldFingerToClear));
-        _fingerPosition[heldFingerToClear] = sf::Vector2i(0, 0);
+        _fingerPosition[heldFingerToClear] = ild::Vector2i(0, 0);
         _heldFingersToFrameCount[heldFingerToClear] = 0;
     }
     _heldFingersToClear.clear();

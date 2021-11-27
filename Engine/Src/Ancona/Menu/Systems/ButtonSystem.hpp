@@ -5,6 +5,7 @@
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ildmenu
 {
@@ -137,7 +138,7 @@ class ButtonSystem : public ild::UnorderedSystem<ButtonComponent>
          * @param location Current location of the pointer.
          * @param isDown   True if the pointer is down/clicked. False otherwise.
          */
-        void Pointer(ild::Point location, bool isDown);
+        void Pointer(ild::Vector2f location, bool isDown);
 
         void DisableAll();
         void EnableAll();
@@ -151,12 +152,12 @@ class ButtonSystem : public ild::UnorderedSystem<ButtonComponent>
                 const ild::Entity & entity);
 
         /* getters and setters */
-        const ild::Point & location() { return _location; }
+        const ild::Vector2f & location() { return _location; }
 
     private:
         ild::Entity _clickedEntity = ild::nullentity;
         ild::Entity _pressedEntity = ild::nullentity;
-        ild::Point _location;
+        ild::Vector2f _location;
         PointerStateEnum _pointerState = PointerState::Up;
         bool _isDown = false;
 };

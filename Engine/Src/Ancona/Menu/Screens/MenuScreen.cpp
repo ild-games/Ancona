@@ -1,5 +1,6 @@
 #include "MenuScreen.hpp"
 
+#include <Ancona/HAL/Color.hpp>
 #include <Ancona/Util/StrUtil.hpp>
 
 using namespace ildmenu;
@@ -43,6 +44,6 @@ void MenuScreen::Update(float delta)
 
 void MenuScreen::Draw(float delta)
 {
-    _screenManager.Window.Clear(sf::Color::Black);
+    _screenManager.Window.Clear(ildhal::Color::Black);
     _systems->systemManager().Update(delta, ild::UpdateStep::Draw);
 }

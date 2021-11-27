@@ -23,7 +23,7 @@ CollisionComponent::CollisionComponent(
 {
 }
 
-bool CollisionComponent::Collides(const CollisionComponent& otherComponent, Point& fixNormal, float& fixMagnitude) const
+bool CollisionComponent::Collides(const CollisionComponent& otherComponent, sf::Vector2f& fixNormal, float& fixMagnitude) const
 {
     return _enabled && otherComponent.enabled() && _dim.Intersects(otherComponent._dim, fixNormal, fixMagnitude);
 }

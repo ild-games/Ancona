@@ -74,7 +74,7 @@ class CollisionComponent
      *
      * @return True if the components collide.  False otherwise.
      */
-    bool Collides(const CollisionComponent &otherComponent, Point &fixNormal, float &fixMagnitude) const;
+    bool Collides(const CollisionComponent &otherComponent, sf::Vector2f &fixNormal, float &fixMagnitude) const;
 
     /**
      * @brief Update the internal state for purpose of collision.
