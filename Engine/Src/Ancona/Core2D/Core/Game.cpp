@@ -1,3 +1,6 @@
+#include <cmath>
+#include <sstream>
+
 #include <SDL2/SDL.h>
 #include <SFML/System.hpp>
 
@@ -23,7 +26,7 @@ Game::Game(
     int windowHeight,
     const std::string & title,
     const unsigned int & style) :
-        _window(new ildhal::Window(title, windowWidth, windowHeight, style))
+        _window(std::make_unique<ildhal::Window>(title, windowWidth, windowHeight, style))
 {
     _screenManager = std::unique_ptr<ScreenManager>(new ScreenManager(*_window, windowWidth, windowHeight));
 }
@@ -36,18 +39,24 @@ Game::~Game()
 
 void Game::Run()
 {
-    sf::Clock clock;
-    sf::Music* music = new sf::Music();
-    Jukebox::InitMusic(music);
-    _window->setFramerateLimit(60);
-    _window->setVerticalSyncEnabled(true);
-    _window->setKeyRepeatEnabled(false);
+    float fps;
+    sf::Clock fpsClock;
+    sf::Time fpsPreviousTime = fpsClock.getElapsedTime();
+    sf::Time fpsCurrentTime;
+    std::ostringstream fpsStream;
 
-    while (_window->isOpen() && !_screenManager->Empty()) {
+    sf::Clock clock;
+    std::shared_ptr<sf::Music> music = std::make_shared<sf::Music>();
+    Jukebox::InitMusic(music);
+    // _window->SetFramerateLimit(60);
+    // _window->SetVerticalSyncEnabled(true);
+    _window->SetKeyRepeatEnabled(false);
+
+    while (_window->IsOpen() && !_screenManager->Empty()) {
         ildhal::Event event;
         if (!_windowIsActive) {
             sf::sleep(sf::seconds(0.5f));
-            while (_window->pollEvent(event)) {
+            while (_window->PollEvent(event)) {
                 ProcessWindowEvent(event);
             }
             continue;
@@ -58,21 +67,29 @@ void Game::Run()
         ildhal::Touch::_ClearFingers();
         ildhal::Joystick::_ClearButtons();
         Jukebox::Update();
-        while (_window->pollEvent(event)) {
+        while (_window->PollEvent(event)) {
             ProcessWindowEvent(event);
         }
 
         sf::Time elapsed = clock.restart();
-        float delta = std::min(elapsed.asSeconds(), 0.0235f);
+        // float delta = std::min(elapsed.asSeconds(), 0.0235f);
+        float delta = elapsed.asSeconds();
         Timer::Update(delta);
         _screenManager->Update(delta);
-        _window->clear(sf::Color::Black);
+        _window->Clear(sf::Color::Black);
         _screenManager->Draw(delta);
-        _window->display();
+        _window->Display();
         FrameCount++;
+
+        fpsCurrentTime = fpsClock.getElapsedTime();
+        fps = 1.0f / (fpsCurrentTime.asSeconds() - fpsPreviousTime.asSeconds());
+        fpsPreviousTime = fpsCurrentTime;
+        fpsStream.str("");
+        fpsStream.clear();
+        fpsStream << "FPS: " << (int) std::round(fps) << std::endl;
+        _window->SetTitle(fpsStream.str());
     }
     Jukebox::StopMusic();
-    delete music;
 }
 
 void Game::ProcessWindowEvent(ildhal::Event event)
@@ -83,17 +100,17 @@ void Game::ProcessWindowEvent(ildhal::Event event)
         while (!_screenManager->Empty()) {
             _screenManager->PopImmediate();
         }
-        _window->close();
+        _window->Close();
     }
     if (event.type == ildhal::Event::LostFocus) {
         _windowIsActive = false;
-        _window->setActive(false);
+        _window->SetActive(false);
     }
     if (event.type == ildhal::Event::GainedFocus) {
         ildhal::Touch::_ClearAllFingersState();
         _windowIsActive = true;
-        _window->resetGLStates();
-        _window->setActive(true);
+        _window->ResetGLStates();
+        _window->SetActive(true);
     }
 
     if (_windowIsActive) {

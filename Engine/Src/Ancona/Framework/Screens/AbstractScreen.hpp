@@ -72,6 +72,9 @@ class AbstractScreen
          */
         virtual void Draw(float delta) = 0;
 
+        virtual void OnEntering();
+        virtual void OnExiting();
+
         /**
          * @brief Code to run while the screen is entering. Defaults to screen transitions.
          *
@@ -136,7 +139,9 @@ class AbstractScreen
          * @brief Request list used by this screen.
          */
         std::shared_ptr<RequestList> _requestList;
-        
+    private:
+
+        float _transitioningAlpha;
 };
 
 }

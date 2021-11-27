@@ -11,7 +11,7 @@ void MenuKeyboardAndMouse::HandleInput(float delta)
     auto & window = _systems->screenManager().Window;
     auto mouseWindowPixelPosition = ildhal::Mouse::GetPosition(window);
     auto defaultView = _systems->drawable().defaultCamera()->view();
-    auto mouseCoordsPosition = window.mapPixelToCoords(mouseWindowPixelPosition, defaultView);
+    auto mouseCoordsPosition = window.MapPixelToCoords(mouseWindowPixelPosition, defaultView);
 
     _playerComponent->UpdatePointer(mouseCoordsPosition, isPressed);
 }

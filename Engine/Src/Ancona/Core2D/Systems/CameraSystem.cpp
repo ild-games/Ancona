@@ -45,7 +45,7 @@ void CameraComponent::Draw(sf::RenderTarget& target, ildhal::Window & window, fl
         sf::Vector2f(),
         _view.getRotation());
 
-    ApplyLetterboxView(window.getSize().x, window.getSize().y);
+    ApplyLetterboxView(window.GetSize().x, window.GetSize().y);
     target.setView(_view);
 
     if (!_sorted) {

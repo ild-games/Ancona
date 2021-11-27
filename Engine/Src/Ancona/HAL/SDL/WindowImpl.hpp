@@ -6,17 +6,20 @@
 namespace ildhal
 {
 
-class Window::Impl
+namespace priv
+{
+
+class WindowImpl
 {
     public:
-        Impl(
+        WindowImpl(
             const std::string& title,
             int width,
             int height,
             unsigned int style = WindowStyle::Default);
-
-    private:
 };
+
+}
 
 }
 

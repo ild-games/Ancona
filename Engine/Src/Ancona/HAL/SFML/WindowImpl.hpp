@@ -5,23 +5,31 @@
 
 #include <Ancona/HAL/Window.hpp>
 #include <Ancona/HAL/Event.hpp>
+#include <Ancona/HAL/SFML/RenderTargetImpl.hpp>
 
 namespace ildhal
 {
 
-class Window::Impl
+namespace priv
+{
+
+class WindowImpl : public RenderTargetImpl
 {
     public:
-        Impl(
+        WindowImpl(
             const std::string & title,
             int width,
             int height,
             unsigned int style = WindowStyle::Default);
 
-        std::unique_ptr<sf::RenderWindow> SFMLWindow;
+        void TranslateEventFromSFML(ildhal::Event & event, sf::Event & sfmlEvent);
 
-        void translateEventFromSFML(Event & event, sf::Event & sfmlEvent);
+        /* getters and setters */
+        sf::RenderWindow & getSfmlRenderWindow() const { return static_cast<sf::RenderWindow &>(*_sfmlRenderTarget); }
+
 };
+
+}
 
 }
 

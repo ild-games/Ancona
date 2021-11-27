@@ -27,6 +27,7 @@ ScreenManager::~ScreenManager()
 void ScreenManager::Push(AbstractScreen * screen, bool load)
 {
     _screens.push(screen);
+    _screens.top()->OnEntering();
     screen->__Entering = true;
     if (load)
     {
@@ -36,6 +37,7 @@ void ScreenManager::Push(AbstractScreen * screen, bool load)
 
 void ScreenManager::Pop()
 {
+    _screens.top()->OnExiting();
     _screens.top()->__Exiting = true;
 }
 

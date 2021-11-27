@@ -10,16 +10,16 @@ using namespace ildhal;
 
 /* Pimpl Implementation */
 
-Window::Impl::Impl(
+priv::WindowImpl::WindowImpl(
     const std::string & title,
     int width,
     int height,
-    unsigned int style)
-    : SFMLWindow(new sf::RenderWindow(sf::VideoMode(width, height), title, style))
+    unsigned int style) :
+        RenderTargetImpl(std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), title, style))
 {
 }
 
-void Window::Impl::translateEventFromSFML(Event & event, sf::Event & sfmlEvent)
+void priv::WindowImpl::TranslateEventFromSFML(Event & event, sf::Event & sfmlEvent)
 {
     event.type = (Event::EventType) sfmlEvent.type;
     if (sfmlEvent.type == sf::Event::Resized)
@@ -93,84 +93,75 @@ void Window::Impl::translateEventFromSFML(Event & event, sf::Event & sfmlEvent)
     }
 }
 
-/* Interface Implementation */
+/* HAL Interface Implementation */
 
 Window::Window(
     const std::string& title,
     int width,
     int height,
     unsigned int style)
-    : _pimpl(new Window::Impl(title, width, height, style))
 {
+    _pimpl = std::make_unique<priv::RenderTargetImpl>(priv::WindowImpl(title, width, height, style));
 }
 
 Window::~Window() { }
 
-void Window::setFramerateLimit(unsigned int limit)
+void Window::SetFramerateLimit(unsigned int limit)
 {
-    _pimpl->SFMLWindow->setFramerateLimit(limit);
+    getWindowImpl().getSfmlRenderWindow().setFramerateLimit(limit);
 }
-void Window::setVerticalSyncEnabled(bool enabled)
-{
 
-    _pimpl->SFMLWindow->setVerticalSyncEnabled(enabled);
-}
-void Window::setKeyRepeatEnabled(bool enabled)
+void Window::SetVerticalSyncEnabled(bool enabled)
 {
-    _pimpl->SFMLWindow->setKeyRepeatEnabled(enabled);
+    getWindowImpl().getSfmlRenderWindow().setVerticalSyncEnabled(enabled);
 }
-bool Window::isOpen() const
+
+void Window::SetKeyRepeatEnabled(bool enabled)
 {
-    return _pimpl->SFMLWindow->isOpen();
+    getWindowImpl().getSfmlRenderWindow().setKeyRepeatEnabled(enabled);
 }
-bool Window::pollEvent(Event & event)
+
+bool Window::IsOpen() const
+{
+    return getWindowImpl().getSfmlRenderWindow().isOpen();
+}
+
+bool Window::PollEvent(Event & event)
 {
     sf::Event sfmlEvent;
-    bool pollingSuccessful = _pimpl->SFMLWindow->pollEvent(sfmlEvent);
-    _pimpl->translateEventFromSFML(event, sfmlEvent);
+    bool pollingSuccessful = getWindowImpl().getSfmlRenderWindow().pollEvent(sfmlEvent);
+    getWindowImpl().TranslateEventFromSFML(event, sfmlEvent);
     return pollingSuccessful;
 }
-void Window::clear(const sf::Color& color)
+
+void Window::Display()
 {
-    _pimpl->SFMLWindow->clear(color);
+    getWindowImpl().getSfmlRenderWindow().display();
 }
-void Window::display()
+
+void Window::Close()
 {
-    _pimpl->SFMLWindow->display();
+    getWindowImpl().getSfmlRenderWindow().close();
 }
-void Window::close()
+
+bool Window::SetActive(bool active) const
 {
-    _pimpl->SFMLWindow->close();
+    return getWindowImpl().getSfmlRenderWindow().setActive(active);
 }
-bool Window::setActive(bool active) const
+
+void Window::SetTitle(const std::string & title)
 {
-    return _pimpl->SFMLWindow->setActive(active);
+    getWindowImpl().getSfmlRenderWindow().setTitle(title);
 }
-void Window::resetGLStates()
+
+sf::Vector2u Window::GetSize() const
 {
-    _pimpl->SFMLWindow->resetGLStates();
+    return getWindowImpl().getSfmlRenderWindow().getSize();
 }
-void Window::draw(const sf::Drawable & drawable, const sf::RenderStates & states)
+
+sf::RenderTarget & Window::GetRenderTarget()
 {
-    _pimpl->SFMLWindow->draw(drawable, states);
+    return getWindowImpl().getSfmlRenderWindow();
 }
-void Window::setView(const sf::View & view)
-{
-    _pimpl->SFMLWindow->setView(view);
-}
-const sf::View & Window::getDefaultView() const
-{
-    return _pimpl->SFMLWindow->getDefaultView();
-}
-sf::Vector2f Window::mapPixelToCoords(const sf::Vector2i & point, const sf::View & view) const
-{
-    return _pimpl->SFMLWindow->mapPixelToCoords(point, view);
-}
-sf::Vector2u Window::getSize() const
-{
-    return _pimpl->SFMLWindow->getSize();
-}
-sf::RenderTarget & Window::getRenderTarget()
-{
-    return *_pimpl->SFMLWindow;
-}
+
+priv::WindowImpl & Window::getWindowImpl() const { return static_cast<priv::WindowImpl &>(getRenderTargetImpl()); }

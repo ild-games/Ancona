@@ -1,11 +1,10 @@
 #include <Ancona/HAL/SFML/WindowImpl.hpp>
-#include <Ancona/System/Log.hpp>
 
 using namespace ildhal;
 
 /* Pimpl Implementation */
 
-Window::Impl::Impl(
+WindowImpl::WindowImpl(
     const std::string& title,
     int width,
     int height,
@@ -13,14 +12,14 @@ Window::Impl::Impl(
 {
 }
 
-/* Pimpl Interface */
+/* HAL Interface Implementation */
 
 Window::Window(
     const std::string& title,
     int width,
     int height,
     unsigned int style)
-    : _pimpl(new Window::Impl(title, width, height, style))
+    : _pimpl(new priv::WindowImpl(title, width, height, style))
 {
 }
 

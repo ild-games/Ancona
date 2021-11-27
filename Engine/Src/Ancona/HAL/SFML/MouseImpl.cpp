@@ -20,7 +20,7 @@ sf::Vector2i Mouse::GetPosition()
 
 sf::Vector2i Mouse::GetPosition(const Window & relativeTo)
 {
-    return sf::Mouse::getPosition(*relativeTo.getPimpl().SFMLWindow);
+    return sf::Mouse::getPosition(relativeTo.getWindowImpl().getSfmlRenderWindow());
 }
 
 bool Mouse::IsButtonPressed(const Mouse::Button & btn)

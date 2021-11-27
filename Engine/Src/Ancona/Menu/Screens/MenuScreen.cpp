@@ -43,6 +43,6 @@ void MenuScreen::Update(float delta)
 
 void MenuScreen::Draw(float delta)
 {
-    _screenManager.Window.clear(sf::Color::Black);
+    _screenManager.Window.Clear(sf::Color::Black);
     _systems->systemManager().Update(delta, ild::UpdateStep::Draw);
 }

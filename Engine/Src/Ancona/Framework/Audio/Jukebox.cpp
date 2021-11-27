@@ -12,23 +12,25 @@ std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> Jukebox::_jukebo
 std::string Jukebox::_musicKeyPlaying = "";
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
-sf::Music* Jukebox::_music = nullptr;
+std::shared_ptr<sf::Music> & Jukebox::_music = std::shared_ptr<sf::Music>(nullptr);
 float Jukebox::_loopStart = 0.0f;
 bool Jukebox::_loop = true;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
 
 void Jukebox::Update()
 {
-    if (_music != nullptr) {
-        // do our own looping of music since the SFML setLoopPoints API is inconsisent in whether or not it works
-        if (_music->getStatus() == sf::SoundSource::Status::Stopped && _loop && _loopStart > 0.0f) {
-            _music->play();
-            _music->setPlayingOffset(sf::seconds(_loopStart));
-        }
+    if (!_music) {
+        return;
+    }
+
+    // do our own looping of music since the SFML setLoopPoints API is inconsisent in whether or not it works
+    if (_music->getStatus() == sf::SoundSource::Status::Stopped && _loop && _loopStart > 0.0f) {
+        _music->play();
+        _music->setPlayingOffset(sf::seconds(_loopStart));
     }
 }
 
-void Jukebox::InitMusic(sf::Music* music)
+void Jukebox::InitMusic(std::shared_ptr<sf::Music> & music)
 {
     _music = music;
 }

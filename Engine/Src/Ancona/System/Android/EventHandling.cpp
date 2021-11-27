@@ -9,7 +9,7 @@ void EventHandling::HandleEvent(const ildhal::Event & event, bool & windowIsActi
     {
         Jukebox::PauseMusic();
         windowIsActive = false;
-        window.setActive(false);
+        window.SetActive(false);
     }
     if (event.type == ildhal::Event::MouseEntered)
     {

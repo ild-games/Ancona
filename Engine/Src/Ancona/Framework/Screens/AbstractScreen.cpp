@@ -1,7 +1,9 @@
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 #include <Ancona/Framework/Screens/AbstractScreen.hpp>
+#include <Ancona/System/Log.hpp>
 
 using namespace ild;
 
@@ -16,7 +18,7 @@ AbstractScreen::AbstractScreen(
     KEY(key),
     _transitionColor(0, 0, 0, 255),
     _transitionRect(sf::Vector2f(_screenManager.windowWidth() * 5, _screenManager.windowHeight() * 5)),
-    _defaultCam(sf::View(_screenManager.Window.getDefaultView())),
+    _defaultCam(sf::View(_screenManager.Window.GetDefaultView())),
     _requestList(requestList)
 {
 }
@@ -29,32 +31,40 @@ AbstractScreen::~AbstractScreen()
     }
 }
 
+void AbstractScreen::OnEntering()
+{
+    _transitioningAlpha = 255.0f;
+}
+
+void AbstractScreen::OnExiting()
+{
+    _transitioningAlpha = 0.0f;
+}
+
 void AbstractScreen::Entering(float delta)
 {
-    int alpha = _transitionColor.a;
-    alpha -= (TRANSITION_SPEED * delta);
-    if (alpha < 0) 
+    _transitioningAlpha -= (TRANSITION_SPEED * delta);
+    if (_transitioningAlpha < 0.0f)
     {
-        alpha = 0;
-        __Entering = false; 
+        _transitioningAlpha = 0.0f;
+        __Entering = false;
     }
-    _transitionColor.a = (sf::Uint8) alpha;
+    _transitionColor.a = (sf::Uint8) _transitioningAlpha;
     _transitionRect.setFillColor(_transitionColor);
-    _screenManager.Window.setView(_defaultCam);
-    _screenManager.Window.draw(_transitionRect);
+    _screenManager.Window.SetView(_defaultCam);
+    _screenManager.Window.Draw(_transitionRect);
 }
 
 void AbstractScreen::Exiting(float delta)
 {
-    int alpha = _transitionColor.a;
-    alpha += (TRANSITION_SPEED * delta);
-    if (alpha > 255) 
+    _transitioningAlpha += (TRANSITION_SPEED * delta);
+    if (_transitioningAlpha > 255.0f)
     {
-        alpha = 255;
-        __Exiting = false; 
+        _transitioningAlpha = 255.0f;
+        __Exiting = false;
     }
-    _transitionColor.a = (sf::Uint8) alpha;
+    _transitionColor.a = (sf::Uint8) _transitioningAlpha;
     _transitionRect.setFillColor(_transitionColor);
-    _screenManager.Window.setView(_defaultCam);
-    _screenManager.Window.draw(_transitionRect);
+    _screenManager.Window.SetView(_defaultCam);
+    _screenManager.Window.Draw(_transitionRect);
 }
