@@ -5,9 +5,8 @@
 #include <string>
 #include <unordered_map>
 
-#include <SFML/Audio.hpp>
-
-#include "JukeboxSounds.hpp"
+#include <Ancona/Framework/Audio/JukeboxSounds.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild {
 
@@ -16,7 +15,7 @@ public:
     static void Update();
 
     /* music */
-    static void InitMusic(std::shared_ptr<sf::Music> & music);
+    static void InitMusic(std::shared_ptr<ildhal::Music> & music);
     static void PlayMusic(const std::string& musicKey, const bool& loop = true, const float& loopStart = 0.0f);
     static void PlayMusic(const bool& loop = true, const float& loopStart = 0.0f);
     static void StopMusic();
@@ -38,7 +37,7 @@ public:
 
 private:
     static std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> _jukeboxSounds;
-    static std::shared_ptr<sf::Music> & _music;
+    static std::shared_ptr<ildhal::Music> & _music;
     static float _loopStart;
     static bool _loop;
     static std::string _musicKeyPlaying;

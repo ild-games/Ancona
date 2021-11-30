@@ -1,5 +1,7 @@
 #include <cmath>
+
 #include <Ancona/Core2D/Systems/Drawable/TileBlockDrawable.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/System/Log.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::TileBlockDrawable);
@@ -15,12 +17,12 @@ Drawable * TileBlockDrawable::Copy() {
     return drawable;
 }
 
-void TileBlockDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta) {
-    sf::RenderStates states;
-    drawableTransform.translate(-(_tileSize.x * _numTiles.x * _anchor.x), -(_tileSize.y * _numTiles.y * _anchor.y));
-    states.transform = drawableTransform;
-    states.texture = _texture;
-    target.draw(_vertexArray, states);
+void TileBlockDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) {
+    // std::string * hello = nullptr;
+    // ILD_Log(*hello);
+    drawableTransform.Translate(-(_tileSize.x * _numTiles.x * _anchor.x), -(_tileSize.y * _numTiles.y * _anchor.y));
+    ildhal::RenderStates states(ildhal::BlendAlpha, drawableTransform, *_texture);
+    target.Draw(*_vertexArray, states);
 }
 
 void TileBlockDrawable::Serialize(Archive & arc) {
@@ -36,16 +38,16 @@ void TileBlockDrawable::FetchDependencies(const Entity &entity) {
 
 void TileBlockDrawable::InitializeVertexArray() {
     if (_textureKey != "") {
-        _texture = ResourceLibrary::Get<sf::Texture>(_textureKey);
-        _tileSize = sf::Vector2f(_texture->getSize().x / 4, _texture->getSize().y / 4);
-        _numTiles = sf::Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
+        _texture = ResourceLibrary::Get<ildhal::Texture>(_textureKey);
+        _tileSize = Vector2f(_texture->size().x / 4, _texture->size().y / 4);
+        _numTiles = Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
         _numVertices = std::ceil(_numTiles.x) * std::ceil(_numTiles.y) * NUM_VERTICES_PER_TILE;
         SetupVertexBlock();
     }
 }
 
 void TileBlockDrawable::SetupVertexBlock() {
-    _vertexArray = sf::VertexArray(sf::TrianglesStrip, _numVertices);
+    _vertexArray = std::make_unique<ildhal::VertexArray>(ildhal::TriangleStrip, _numVertices);
 
     int vertexIndex = 0;
     for (int whichYBlock = 0; whichYBlock < std::ceil(_numTiles.y); whichYBlock++) {
@@ -74,17 +76,17 @@ void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int & ve
 
         float positionX = (whichXBlock * _tileSize.x) + (_tileSize.x * xVertexOffset) - (_tileSize.x * fractionPartX);
         float positionY = (whichYBlock * _tileSize.y) + (_tileSize.y * yVertexOffset) - (_tileSize.y * fractionPartY);
-        _vertexArray[vertexIndex].position = sf::Vector2f(positionX, positionY);
+        _vertexArray->SetVertexPosition(vertexIndex, Vector2f(positionX, positionY));
 
         float texCoordsX = (xTileToUse * _tileSize.x) + ((BlockTileStartingPosition().x + xVertexOffset) * _tileSize.x);
         float texCoordsY = (yTileToUse * _tileSize.y) + ((BlockTileStartingPosition().y + yVertexOffset) * _tileSize.y);
-        _vertexArray[vertexIndex].texCoords = sf::Vector2f(texCoordsX, texCoordsY);
+        _vertexArray->SetVertexTexCoords(vertexIndex, Vector2f(texCoordsX, texCoordsY));
 
         vertexIndex++;
     }
 }
 
-sf::Vector2i & TileBlockDrawable::BlockTileStartingPosition() {
+Vector2i & TileBlockDrawable::BlockTileStartingPosition() {
     if (_numTiles.x == 1.0f && _numTiles.y == 1.0f) {
         return SINGLE_BLOCK_TILE_POS;
     } else if (_numTiles.x > 1.0f && _numTiles.y == 1.0f) {

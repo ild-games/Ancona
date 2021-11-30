@@ -1,17 +1,16 @@
 #ifndef Ancona_Engine_Resource_SoundBufferLoader_H_
 #define Ancona_Engine_Resource_SoundBufferLoader_H_
 
-#include <SFML/Audio.hpp>
-
-#include <Ancona/Framework/Resource/SFMLResourceLoader.hpp>
+#include <Ancona/Framework/Resource/HalResourceLoader.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {
 
 /**
- * @brief SoundBuffer loader is used to load an sf::SoundBuffer
+ * @brief SoundBuffer loader is used to load an ildhal::SoundBuffer
  */
-class SoundBufferLoader : public SFMLResourceLoader<sf::SoundBuffer>
+class SoundBufferLoader : public HalResourceLoader<ildhal::SoundBuffer>
 {
     public:
         /**

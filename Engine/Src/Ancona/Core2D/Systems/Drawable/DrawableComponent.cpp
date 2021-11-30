@@ -3,6 +3,7 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Graphics/Transform.hpp>
 #include <Ancona/Util/Math.hpp>
 
 using namespace ild;
@@ -28,10 +29,12 @@ Drawable * DrawableComponent::GetDrawable(const std::string & key)
 }
 
 
-void DrawableComponent::Draw(sf::RenderTarget & target, float delta)
+void DrawableComponent::Draw(ildhal::RenderTarget & target, float delta)
 {
-    sf::Transform transform;
-    transform.translate(std::round(_positionComponent->position().x), std::round(_positionComponent->position().y));
+    Transform transform;
+    transform.Translate(
+        std::round(_positionComponent->position().x),
+        std::round(_positionComponent->position().y));
     _topDrawable->Draw(target, transform, delta);
 }
 

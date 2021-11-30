@@ -1,6 +1,9 @@
+
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/Graphics/Rect.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 #include <Ancona/System/Log.hpp>
 
@@ -9,34 +12,32 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::TextDrawable)
 using namespace ild;
 
 TextDrawable::TextDrawable(
-        const std::string text,
-        const std::string fontKey,
-        const sf::Color color,
-        const int characterSize,
-        const float priority,
-        const std::string & key,
-        float priorityOffset,
-        sf::Vector2f anchor,
-        bool smooth) :
-    Drawable(
-            priority,
-            key,
-            priorityOffset,
-            anchor),
-    _fontKey(fontKey),
-    _color(color),
-    _characterSize(characterSize),
-    _smooth(smooth) {
-    _text = std::unique_ptr<sf::Text>(new sf::Text(text, *ResourceLibrary::Get<sf::Font>(fontKey)));
+    const std::string& text,
+    const std::string& fontKey,
+    const Color color,
+    const int characterSize,
+    const float priority,
+    const std::string & key,
+    float priorityOffset,
+    Vector2f anchor,
+    bool smooth) :
+        Drawable(priority, key, priorityOffset, anchor),
+        _fontKey(fontKey),
+        _color(color),
+        _characterSize(characterSize),
+        _smooth(smooth),
+        _text(std::make_unique<ildhal::Text>(text, fontKey))
+{
     SetupText();
 }
 
-TextDrawable::TextDrawable(const std::string text, const sf::Font * font) : Drawable() {
-    _text = std::unique_ptr<sf::Text>(new sf::Text(text, *font));
+TextDrawable::TextDrawable(const std::string & text, const std::string & fontKey) : Drawable()
+{
+    _text = std::make_unique<ildhal::Text>(text, fontKey);
 }
 
 Drawable * TextDrawable::Copy() {
-    auto drawable = new TextDrawable(_text->getString().toAnsiString(), _text->getFont());
+    auto drawable = new TextDrawable(_text->string(), _text->fontKey());
     Drawable::CopyProperties(drawable);
     drawable->_color = _color;
     drawable->_characterSize = _characterSize;
@@ -45,68 +46,69 @@ Drawable * TextDrawable::Copy() {
     return drawable;
 }
 
-void TextDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta)
+void TextDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
-    sf::RenderStates states(drawableTransform);
-    target.draw(*_text, states);
+    ildhal::RenderStates states(drawableTransform);
+    target.Draw(*_text, states);
 }
 
 
 void TextDrawable::CenterOrigin()
 {
-    sf::FloatRect textRect = _text->getLocalBounds();
-    _text->setOrigin(
+    auto textRect = _text->localBounds();
+    _text->origin(
         textRect.left + (textRect.width * _anchor.x),
         textRect.top  + (textRect.height * _anchor.y));
 }
 
-void TextDrawable::Serialize(Archive &archive) {
+void TextDrawable::Serialize(Archive &archive)
+{
     Drawable::Serialize(archive);
     archive(_text, "text");
-    _color = _text->getFillColor();
-    _characterSize = _text->getCharacterSize();
-    _smooth = const_cast<sf::Texture&>(_text->getFont()->getTexture(_characterSize)).isSmooth();
+    _color = _text->fillColor();
+    _characterSize = _text->characterSize();
+    _smooth = _text->smooth();
 }
 
-void TextDrawable::FetchDependencies(const Entity &entity) {
+void TextDrawable::FetchDependencies(const Entity &entity)
+{
     Drawable::FetchDependencies(entity);
     CenterOrigin();
 }
 
-void TextDrawable::SetupText() {
-    _text->setFillColor(_color);
-    _text->setCharacterSize(_characterSize);
+void TextDrawable::SetupText()
+{
+    _text->fillColor(_color);
+    _text->characterSize(_characterSize);
     if (!_smooth) {
-        const_cast<sf::Texture&>(_text->getFont()->getTexture(_characterSize)).setSmooth(false);
+        _text->smooth(false);
     }
 }
 
 /* getters and setters */
-void TextDrawable::text(std::string text, bool resetOrigin)
-{ 
-    _text->setString(text); 
+void TextDrawable::text(const std::string& text, bool resetOrigin)
+{
+    _text->string(text); 
     if (resetOrigin) {
         CenterOrigin();
     }
 }
 
-sf::Vector2f TextDrawable::size()
+Vector2f TextDrawable::size()
 {
-    sf::Vector2f size(_text->getLocalBounds().width, _text->getLocalBounds().height);
+    Vector2f size(_text->localBounds().width, _text->localBounds().height);
     return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 int TextDrawable::alpha()
 {
-    return _text->getFillColor().a;
+    return _text->fillColor().a;
 }
 
 void TextDrawable::alpha(int alpha)
 {
-    sf::Color * col = 
-        new sf::Color(_text->getFillColor());
-    col->a = alpha;
-    _text->setFillColor(*col);
-    delete col;
+    Color col(_text->fillColor());
+    col.a = alpha;
+    _text->fillColor(col);
 }
 

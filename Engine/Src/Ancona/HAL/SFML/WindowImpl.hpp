@@ -23,7 +23,7 @@ class WindowImpl : public RenderTargetImpl
             unsigned int style = WindowStyle::Default);
 
         /* getters and setters */
-        sf::RenderWindow & getSfmlRenderWindow() const { return static_cast<sf::RenderWindow &>(*_sfmlRenderTarget); }
+        sf::RenderWindow & sfmlRenderWindow() const;
 
 };
 

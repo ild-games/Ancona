@@ -3,6 +3,7 @@
 
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild
 {
@@ -36,11 +37,11 @@ class PathComponent
         float TimeForSegment(int segment);
 
         /* getters and setters */
-        std::vector<sf::Vector2f> & vertices() { return _vertices; }
+        std::vector<Vector2f> & vertices() { return _vertices; }
         bool isLoop() { return _isLoop; }
 
     private:
-        std::vector<sf::Vector2f> _vertices;
+        std::vector<Vector2f> _vertices;
         bool _isLoop;
         float _cycleTime;
 

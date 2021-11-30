@@ -3,13 +3,15 @@
 
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
+#include <Ancona/Util/Vector2.hpp>
+
 namespace ild
 {
 
 /**
- * @brief Operator used to output a sf::Vector2f to an out stream. The sf::Vector2f will be formatted as (x,y)
+ * @brief Operator used to output a Vector2f to an out stream. The Vector2f will be formatted as (x,y)
  */
-std::ostream & operator << (std::ostream& os, const sf::Vector2f&pt);
+std::ostream & operator << (std::ostream& os, const Vector2f&pt);
 
 class PositionComponent
 {
@@ -32,15 +34,15 @@ class PositionComponent
         void Update(float delta);
 
         /* getters and setters */
-        inline const sf::Vector2f & position() const { return _position; }
-        inline const sf::Vector2f & velocity() const { return _velocity; }
-        inline void velocity(const sf::Vector2f & velocity) { _velocity = velocity; }
-        void position(const sf::Vector2f & position);
+        inline const Vector2f & position() const { return _position; }
+        inline const Vector2f & velocity() const { return _velocity; }
+        inline void velocity(const Vector2f & velocity) { _velocity = velocity; }
+        void position(const Vector2f & position);
 
     protected:
-        sf::Vector2f _actualPosition;
-        sf::Vector2f _position;
-        sf::Vector2f _velocity;
+        Vector2f _actualPosition;
+        Vector2f _position;
+        Vector2f _velocity;
 
         void RoundPosition();
 };

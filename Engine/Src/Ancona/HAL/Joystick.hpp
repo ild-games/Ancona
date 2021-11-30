@@ -49,7 +49,7 @@ class Joystick
         };
 
         ////////////////////////////////////////////////////////////
-        /// \brief Axes supported by SFML joysticks
+        /// \brief Axes supported by joysticks
         ///
         ////////////////////////////////////////////////////////////
         enum Axis

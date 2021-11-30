@@ -13,7 +13,7 @@ AnimatedDrawable::AnimatedDrawable(
         const std::string & key,
         float duration,
         float priorityOffset,
-        sf::Vector2f anchor) :
+        Vector2f anchor) :
     Drawable(
             priority,
             key,
@@ -37,11 +37,11 @@ Drawable * AnimatedDrawable::Copy() {
     return drawable;
 }
 
-void AnimatedDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta)
+void AnimatedDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
     if (_anchor.x != 0.0f || _anchor.y != 0.0f) {
         auto size = this->size();
-        drawableTransform.translate(
+        drawableTransform.Translate(
             -(size.x * _anchor.x / std::abs(_scale.x)),
             -(size.y * _anchor.y / std::abs(_scale.y)));
     }
@@ -149,11 +149,11 @@ int AnimatedDrawable::NumberOfFrames()
 }
 
 /* getters and setters */
-sf::Vector2f AnimatedDrawable::size()
+Vector2f AnimatedDrawable::size()
 {
     return VectorMath::ComponentMultiplication(
         _frames[_curFrame]->size(),
-        sf::Vector2f(std::abs(_scale.x), std::abs(_scale.y)));
+        Vector2f(std::abs(_scale.x), std::abs(_scale.y)));
 }
 
 int AnimatedDrawable::alpha()
@@ -169,9 +169,9 @@ void AnimatedDrawable::alpha(int newAlpha)
     }
 }
 
-sf::Vector2f AnimatedDrawable::position(sf::Vector2f entityPosition)
+Vector2f AnimatedDrawable::position(Vector2f entityPosition)
 {
     auto position = _frames[_curFrame]->position(entityPosition);
     auto size = this->size();
-    return entityPosition - sf::Vector2f(size.x * _anchor.x, size.y * _anchor.y);
+    return entityPosition - Vector2f(size.x * _anchor.x, size.y * _anchor.y);
 }

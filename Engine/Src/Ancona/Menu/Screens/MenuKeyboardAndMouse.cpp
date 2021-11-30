@@ -1,9 +1,9 @@
-#include <Ancona/HAL/Mouse.hpp>
+#include <Ancona/HAL.hpp>
 
 #include "MenuGameSystems.hpp"
 #include "MenuKeyboardAndMouse.hpp"
 
-using namespace ildmenu;
+using namespace ild;
 
 void MenuKeyboardAndMouse::HandleInput(float delta)
 {

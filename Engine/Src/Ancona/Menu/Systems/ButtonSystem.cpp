@@ -3,7 +3,7 @@
 #include <Ancona/Util/Assert.hpp>
 #include "ButtonSystem.hpp"
 
-using namespace ildmenu;
+using namespace ild;
 
 ButtonStateEnum GetNextButtonState(ButtonStateEnum currentState, PointerStateEnum pointerState, bool mouseIsOver);
 PointerStateEnum GetNextPointerState(bool isDown, PointerStateEnum previousState);
@@ -115,7 +115,7 @@ ButtonSystem::ButtonSystem(
 void ButtonSystem::Update(float delta)
 {
     _pointerState = GetNextPointerState(_isDown, _pointerState);
-    ild::Box2 box(sf::Vector2f(_location.x, _location.y), sf::Vector2f(1.0, 1.0));
+    ild::Box2 box(_location, ild::Vector2f(1.0, 1.0));
 
     _clickedEntity = ild::nullentity;
     _pressedEntity = ild::nullentity;

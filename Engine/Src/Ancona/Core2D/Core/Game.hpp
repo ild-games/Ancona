@@ -4,11 +4,8 @@
 #include <memory>
 #include <string>
 
-#include <SFML/Graphics.hpp>
-
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
-#include <Ancona/HAL/Window.hpp>
-#include <Ancona/HAL/Event.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild {
 
@@ -18,7 +15,7 @@ class Game {
             int windowWidth,
             int windowHeight,
             const std::string & title,
-            const unsigned int & style = sf::Style::Default);
+            const unsigned int & style = ildhal::WindowStyle::Default);
 
         void Run();
 

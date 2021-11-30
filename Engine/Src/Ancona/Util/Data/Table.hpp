@@ -1,6 +1,8 @@
 #ifndef ANCONA_UTIL_DATA_TABLE_H
 #define ANCONA_UTIL_DATA_TABLE_H
 
+#include "vector"
+
 #include "../Algorithm.hpp"
 #include "../Assert.hpp"
 
@@ -66,11 +68,11 @@ class Table
         int numberOfColumns() const { return _numberOfColumns; }
 
     private:
+        std::vector<std::vector<T>> _data;
         const std::string ROW_OUT_OF_BOUNDS_MSG = "Row is out of bounds";
         const std::string COL_OUT_OF_BOUNDS_MSG = "Column is out of bounds";
         int _numberOfRows = 0;
         int _numberOfColumns = 0;
-        std::vector<std::vector<T>> _data;
 };
 
 }

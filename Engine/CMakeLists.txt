@@ -2,6 +2,7 @@
 #be created and a line should be added here.
 add_subdirectory(Src/Ancona/Core2D)
 add_subdirectory(Src/Ancona/Framework)
+add_subdirectory(Src/Ancona/Graphics)
 add_subdirectory(Src/Ancona/HAL)
 add_subdirectory(Src/Ancona/Platformer)
 add_subdirectory(Src/Ancona/Util)

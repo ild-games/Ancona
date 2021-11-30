@@ -1,10 +1,8 @@
+#include <Ancona/Framework/Audio/JukeboxSounds.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/System/Log.hpp>
 
-#include "JukeboxSounds.hpp"
-
 using namespace ild;
-
 
 JukeboxSounds::JukeboxSounds() {
     for (int i = 0; i < NUM_ALLOCATED_SOUNDS; i++) {
@@ -18,7 +16,7 @@ void JukeboxSounds::Add(const std::string & soundKey) {
         return;
     }
 
-    _sounds.emplace_back(new sf::Sound(*ResourceLibrary::Get<sf::SoundBuffer>(soundKey)));
+    _sounds.emplace_back(new ildhal::Sound(*ResourceLibrary::Get<ildhal::SoundBuffer>(soundKey)));
 }
 
 
@@ -36,9 +34,9 @@ void JukeboxSounds::Play(const unsigned long & jobID, const float & volume) {
         return;
     }
 
-    _sounds[indexToUse]->setVolume(volume * 100.0f);
-    _sounds[indexToUse]->stop();
-    _sounds[indexToUse]->play();
+    _sounds[indexToUse]->volume(volume * 100.0f);
+    _sounds[indexToUse]->Stop();
+    _sounds[indexToUse]->Play();
 }
 
 int JukeboxSounds::FindSoundIndexByJob(const unsigned long & jobID) {

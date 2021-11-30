@@ -6,7 +6,7 @@
 #include "MapSerializer.hpp"
 #include "PolymorphicRegistration.hpp"
 #include "Serializer.hpp"
-#include "SFMLSerializer.hpp"
+#include "HalSerializer.hpp"
 #include "StdSerializer.hpp"
 #include "UtilSerializer.hpp"
 

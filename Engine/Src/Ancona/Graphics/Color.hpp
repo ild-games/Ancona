@@ -24,10 +24,10 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Color_H_
-#define Ancona_HAL_Color_H_
+#ifndef Ancona_Graphics_Color_H_
+#define Ancona_Graphics_Color_H_
 
-namespace ildhal
+namespace ild
 {
 
 class Color

@@ -9,7 +9,7 @@
 
 using namespace ild;
 
-void nop(const Entity & e1,const Entity & e2, const sf::Vector2f & fixNormal, float fixMagnitude) {}
+void nop(const Entity & e1,const Entity & e2, const Vector2f & fixNormal, float fixMagnitude) {}
 
 CollisionSystem::CollisionSystem(const std::string & name, SystemManager & manager, PositionSystem & positions)
     : UnorderedSystem<CollisionComponent>(name, manager,UpdateStep::Physics), _positions(positions)
@@ -36,7 +36,7 @@ void CollisionSystem::OnLoad()
     }
 }
 
-void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * b, const sf::Vector2f & fixNormal, float fixMagnitude)
+void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * b, const Vector2f & fixNormal, float fixMagnitude)
 {
     auto typeA = a->bodyType();
     auto typeB = b->bodyType();
@@ -69,23 +69,23 @@ void CollisionSystem::FixCollision(CollisionComponent * a, CollisionComponent * 
 
 }
 
-void CollisionSystem::PushFirstOutOfSecond(CollisionComponent *a, CollisionComponent *b, const sf::Vector2f &correctFix)
+void CollisionSystem::PushFirstOutOfSecond(CollisionComponent *a, CollisionComponent *b, const Vector2f &correctFix)
 {
     auto & posA = a->positionComponent();
     posA.position(posA.position() + correctFix);
 }
 
-void CollisionSystem::PushApart(CollisionComponent *a, CollisionComponent *b, const sf::Vector2f &correctFix)
+void CollisionSystem::PushApart(CollisionComponent *a, CollisionComponent *b, const Vector2f &correctFix)
 {
     //If both bodies are solid then push them out of eachoter.
     auto & posA = a->positionComponent();
     auto & posB = b->positionComponent();
 
-    if(posA.velocity() == sf::Vector2f())
+    if(posA.velocity() == Vector2f())
     {
         posB.position(posB.position() + -correctFix);
     }
-    else if(posB.velocity() == sf::Vector2f())
+    else if(posB.velocity() == Vector2f())
     {
         posA.position(posA.position() + correctFix);
     }
@@ -119,7 +119,7 @@ void CollisionSystem::Update(float delta)
             }
 
 
-            sf::Vector2f fixNormal;
+            Vector2f fixNormal;
             float fixMagnitude;
             if (entityComponentPairA.second->Collides(*entityComponentPairB.second, fixNormal, fixMagnitude))
             {
@@ -138,7 +138,7 @@ void CollisionSystem::Update(float delta)
 
 void CollisionSystem::GetEntitiesInBox(std::vector<Collision> & collisions, const Box2 & box, const CollisionComponent * ignore) {
     collisions.clear();
-    sf::Vector2f fixVector;
+    Vector2f fixVector;
     float fixMagnitude;
     for (EntityComponentPair pair : * this) {
         if (pair.second != ignore && box.Intersects(pair.second->box(), fixVector, fixMagnitude)) {
@@ -148,7 +148,7 @@ void CollisionSystem::GetEntitiesInBox(std::vector<Collision> & collisions, cons
 }
 
 CollisionComponent * CollisionSystem::CreateComponent(const Entity & entity,
-        const sf::Vector3f & dim,
+        const Vector3f & dim,
         CollisionType type,
         BodyTypeEnum bodyType)
 {
@@ -215,7 +215,7 @@ bool CollisionSystem::UniqueCollision(EntityComponentPair &entityA, EntityCompon
 void CollisionSystem::HandleCollision(
     EntityComponentPair & pairA,
     EntityComponentPair & pairB,
-    const sf::Vector2f &fixNormal,
+    const Vector2f &fixNormal,
     float fixMagnitude)
 {
     auto type1 = pairA.second->type();

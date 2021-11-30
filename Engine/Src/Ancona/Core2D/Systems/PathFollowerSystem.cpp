@@ -53,9 +53,9 @@ float PathFollowerComponent::NextSegmentTime(int lastVertexIndex, int nextVertex
     }
 }
 
-sf::Vector2f PathFollowerComponent::NextSegmentDistance() {
+Vector2f PathFollowerComponent::NextSegmentDistance() {
     auto nextVertex = _pathComponent->vertices()[_nextVertexIndex];
-    return sf::Vector2f(
+    return Vector2f(
         _pathPositionComponent->position().x + nextVertex.x, 
         _pathPositionComponent->position().y + nextVertex.y);
 }
@@ -85,7 +85,7 @@ void PathFollowerComponent::FetchDependencies(const Entity &entity) {
     _pathPositionComponent = _positionSystem->at(_pathEntity);
     _actionComponent = _actionSystem->at(entity);
     _action = _actionComponent->actions().CreatePositionAction();
-    auto firstVertex = (_pathComponent->vertices().size() > 0) ? _pathComponent->vertices()[0] : sf::Vector2f(0.0f, 0.0f);
+    auto firstVertex = (_pathComponent->vertices().size() > 0) ? _pathComponent->vertices()[0] : Vector2f(0.0f, 0.0f);
     _action->value(_pathPositionComponent->position() + firstVertex)->duration(0);
     _entity = entity;
 }

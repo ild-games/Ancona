@@ -4,8 +4,6 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 
-#include <SFML/System.hpp>
-
 namespace ild
 {
 

@@ -2,8 +2,10 @@
 #define Ancona_Engine_Audio_JukeboxSounds_H_
 
 #include <memory>
+#include <string>
+#include <vector>
 
-#include <SFML/Audio.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {
@@ -22,7 +24,7 @@ class JukeboxSounds
 
         int _numRegisteredSounds = 0;
         int _nextSoundToUse = 0;
-        std::vector<std::unique_ptr<sf::Sound>> _sounds;
+        std::vector<std::unique_ptr<ildhal::Sound>> _sounds;
         unsigned long _jobIDs[NUM_ALLOCATED_SOUNDS];
 
         int FindSoundIndexByJob(const unsigned long & jobID);

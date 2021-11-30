@@ -13,7 +13,7 @@ static DualMap<std::string, BodyTypeEnum> BodyTypeEnumStringMap{
 
 CollisionComponent::CollisionComponent(
     CollisionSystem* collisionSystem,
-    const sf::Vector3f& dim,
+    const Vector3f& dim,
     CollisionType type,
     BodyTypeEnum bodyType)
     : _system(collisionSystem)
@@ -23,7 +23,7 @@ CollisionComponent::CollisionComponent(
 {
 }
 
-bool CollisionComponent::Collides(const CollisionComponent& otherComponent, sf::Vector2f& fixNormal, float& fixMagnitude) const
+bool CollisionComponent::Collides(const CollisionComponent& otherComponent, Vector2f& fixNormal, float& fixMagnitude) const
 {
     return _enabled && otherComponent.enabled() && _dim.Intersects(otherComponent._dim, fixNormal, fixMagnitude);
 }

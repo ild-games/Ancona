@@ -1,11 +1,11 @@
 #ifndef Ancona_Engine_Core_Systems_Drawable_H_
 #define Ancona_Engine_Core_Systems_Drawable_H_
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Graphics/Transform.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild
 {
@@ -61,10 +61,10 @@ class Drawable
          * @param anchor Vector that defines the offset from its parent drawable.
          */
         Drawable(
-                const float priority,
-                const std::string & key,
-                float priorityOffset = 0,
-                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
+            const float priority,
+            const std::string & key,
+            float priorityOffset = 0,
+            Vector2f anchor = Vector2f(0.0f, 0.0f));
 
         /**
          * @brief Draws the object to the window.
@@ -73,9 +73,9 @@ class Drawable
          * @param parentTransform Transform of the parent drawable.
          */
         void Draw(
-                sf::RenderTarget & target,
-                sf::Transform parentTransform,
-                float delta);
+            ildhal::RenderTarget & target,
+            Transform parentTransform,
+            float delta);
 
         virtual void PostDrawUpdate(float delta) { }
 
@@ -120,12 +120,12 @@ class Drawable
         float renderPriority() const { return _renderPriority + _priorityOffset; }
         void renderPriority(const float renderPriority) { _renderPriority = renderPriority; }
         void priorityOffset(const float priorityOffset) { _priorityOffset = priorityOffset; }
-        sf::Vector2f anchor() { return _anchor; }
-        void anchor(sf::Vector2f anchor) { _anchor = anchor; }
+        Vector2f anchor() { return _anchor; }
+        void anchor(Vector2f anchor) { _anchor = anchor; }
         float rotation() { return _rotation; }
-        sf::Vector2f scale() { return _scale; }
+        Vector2f scale() { return _scale; }
         void rotation(float rotation) { _rotation = rotation; }
-        void scale(sf::Vector2f scale) { _scale = scale; };
+        void scale(Vector2f scale) { _scale = scale; };
         /**
          * @brief The actual position of a drawable takes in the position from the position component
          *        and also takes into account the anchor of the drawable which might change it's true
@@ -135,8 +135,8 @@ class Drawable
          *
          * @returns The actual position the drawable is drawn at
          */
-        virtual sf::Vector2f position(sf::Vector2f entityPosition);
-        virtual sf::Vector2f size() = 0;
+        virtual Vector2f position(Vector2f entityPosition);
+        virtual Vector2f size() = 0;
         virtual int alpha() = 0;
         virtual void alpha(int alpha) = 0;
         std::string key() { return _key; }
@@ -153,11 +153,11 @@ class Drawable
         /**
          * @brief Offset coordinate for this drawable element.
          */
-        sf::Vector2f _anchor;
+        Vector2f _anchor;
         /**
          * @brief Amount to scale the drawable element.
          */
-        sf::Vector2f _scale = sf::Vector2f(1.0f, 1.0f);
+        Vector2f _scale = Vector2f(1.0f, 1.0f);
         /**
          * @brief priority of rendering this obj.
          */
@@ -176,11 +176,12 @@ class Drawable
         bool _inactive = false;
     private:
 
-        sf::Transform CalculateTransforms();
+        Transform CalculateTransforms();
+
         virtual void OnDraw(
-                sf::RenderTarget & target,
-                sf::Transform drawableTransform,
-                float delta) = 0;
+            ildhal::RenderTarget & target,
+            Transform drawableTransform,
+            float delta) = 0;
 };
 
 }

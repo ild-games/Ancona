@@ -14,21 +14,21 @@ Actions::Actions(
 
 VectorActionProxy Actions::CreatePositionAction()
 {
-    VectorActionProxy action(new ValueAction<sf::Vector2f>());
+    VectorActionProxy action(new ValueAction<Vector2f>());
     _positionActions.push_back(action);
     return action;
 }
 
 VectorActionProxy Actions::CreateVelocityAction()
 {
-    VectorActionProxy action(new ValueAction<sf::Vector2f>());
+    VectorActionProxy action(new ValueAction<Vector2f>());
     _velocityActions.push_back(action);
     return action;
 }
 
 ScaleActionProxy Actions::CreateScaleAction(std::string drawableKey)
 {
-    ScaleActionProxy action(new ScaleAction<sf::Vector2f>(drawableKey));
+    ScaleActionProxy action(new ScaleAction<Vector2f>(drawableKey));
     _scaleActions.push_back(action);
     return action;
 }
@@ -42,10 +42,10 @@ void Actions::Serialize(Archive & arc)
     arc.system(_drawableSystem, "drawable");
 }
 
-static sf::Vector2f TweenPosition(
-    ValueAction<sf::Vector2f> & action, 
+static Vector2f TweenPosition(
+    ValueAction<Vector2f> & action, 
     float beforeRatio,
-    const sf::Vector2f & position)
+    const Vector2f & position)
 {
     float afterRatio = action.tweenRatio();
 
@@ -79,9 +79,9 @@ void Actions::ApplyScaleActions(DrawableComponent & drawableComponent, float del
     }
 }
 
-sf::Vector2f Actions::ApplyPositionActions(const PositionComponent & position, float delta)
+Vector2f Actions::ApplyPositionActions(const PositionComponent & position, float delta)
 {
-    sf::Vector2f location = position.position();
+    Vector2f location = position.position();
     for(auto& action : _positionActions)
     {
         float beforeRatio = action->tweenRatio();
@@ -91,9 +91,9 @@ sf::Vector2f Actions::ApplyPositionActions(const PositionComponent & position, f
     return location;
 }
 
-sf::Vector2f Actions::ApplyVelocityActions(const PositionComponent & position, float delta)
+Vector2f Actions::ApplyVelocityActions(const PositionComponent & position, float delta)
 {
-    sf::Vector2f velocity;
+    Vector2f velocity;
     for(auto& action : _velocityActions)
     {
         float overflow = action->Update(delta);
@@ -119,13 +119,13 @@ void Actions::Apply(PositionComponent & position, DrawableComponent & drawable, 
     RemoveDoneActions<ScaleActionProxy>(_scaleActions);
     
     //Velocity actions apply additively
-    sf::Vector2f velocity = ApplyVelocityActions(position, delta);
+    Vector2f velocity = ApplyVelocityActions(position, delta);
 
     if (_positionActions.size())
     {
         //Only a single position action will effect the result
         position.position(ApplyPositionActions(position, delta));
-        position.velocity(sf::Vector2f());
+        position.velocity(Vector2f());
     }
     else
     {

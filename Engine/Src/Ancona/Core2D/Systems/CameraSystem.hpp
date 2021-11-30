@@ -3,14 +3,13 @@
 
 #include <vector>
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
-#include <Ancona/HAL/Window.hpp>
+#include <Ancona/Graphics/View.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild {
 
@@ -39,13 +38,13 @@ public:
      * @param upperBounds The max position the camera can be in for the x and y axis
      */
     CameraComponent(
-        const sf::View& originalView,
+        const View& originalView,
         float renderPriority,
         DrawableSystem* drawableSystem,
         float scale = 1.0f,
-        sf::Vector2f offset = sf::Vector2f(0, 0),
-        sf::Vector2f lowerBounds = sf::Vector2f(std::numeric_limits<float>::min(), std::numeric_limits<float>::min()),
-        sf::Vector2f upperBounds = sf::Vector2f(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()));
+        Vector2f offset = Vector2f(0, 0),
+        Vector2f lowerBounds = Vector2f(std::numeric_limits<float>::min(), std::numeric_limits<float>::min()),
+        Vector2f upperBounds = Vector2f(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()));
 
     /**
      * @brief Overridable destructor.
@@ -60,7 +59,7 @@ public:
     /**
      * @brief Draws the camera and all renderables on it.
      */
-    void Draw(sf::RenderTarget& target, ildhal::Window & window, float delta);
+    void Draw(ildhal::RenderTarget& target, ildhal::Window & window, float delta);
 
     /**
      * @brief Adds a DrawableComponent to the camera's render queue.
@@ -95,13 +94,13 @@ public:
     void follows(Entity follows);
     void scale(float scale);
     float scale() { return _scale; }
-    void lowerBounds(const sf::Vector2f& lowerBounds) { _lowerBounds = lowerBounds; }
-    const sf::Vector2f& lowerBounds() { return _lowerBounds; }
-    void upperBounds(const sf::Vector2f& upperBounds) { _upperBounds = upperBounds; }
-    const sf::Vector2f& upperBounds() { return _upperBounds; }
-    const sf::View& view() { return _view; }
-    const sf::Vector2f& offset() { return _offset; }
-    void offset(const sf::Vector2f& offset) { _offset = offset; }
+    void lowerBounds(const Vector2f& lowerBounds) { _lowerBounds = lowerBounds; }
+    const Vector2f& lowerBounds() { return _lowerBounds; }
+    void upperBounds(const Vector2f& upperBounds) { _upperBounds = upperBounds; }
+    const Vector2f& upperBounds() { return _upperBounds; }
+    const View& view() { return _view; }
+    const Vector2f& offset() { return _offset; }
+    void offset(const Vector2f& offset) { _offset = offset; }
 
 protected:
     /**
@@ -117,13 +116,13 @@ protected:
      *          * applying bounds
      * @returns Vector for the true position of the camera
      */
-    virtual sf::Vector2f GetEffectiveCenter();
+    virtual Vector2f GetEffectiveCenter();
 
 private:
     /**
-     * @brief SFML view for actually applying the camera's position on the window.
+     * @brief View for actually applying the camera's position on the window.
      */
-    sf::View _view;
+    View _view;
     /**
      * @brief priority in which the camera is rendered, lower priority means  it will be rendered sooner.
      */
@@ -134,16 +133,16 @@ private:
     std::vector<DrawableComponent*> _renderQueue;
     float _scale = 1;
     float _originalScale = 1;
-    sf::Vector2f _offset;
+    Vector2f _offset;
     Entity _follows = nullentity;
-    sf::Vector2f _size;
-    sf::Vector2f _lowerBounds;
-    sf::Vector2f _upperBounds;
+    Vector2f _size;
+    Vector2f _lowerBounds;
+    Vector2f _upperBounds;
     PositionSystem* _positionSystem;
     DrawableSystem* _drawableSystem;
     bool _default = false;
     bool _sorted = false;
-    sf::Vector2f _startingCenter;
+    Vector2f _startingCenter;
 
     void ApplyLetterboxView(int windowWidth, int windowHeight);
 };
@@ -182,7 +181,7 @@ public:
      */
     CameraComponent* CreateComponent(
         const Entity& entity,
-        const sf::View& originalView,
+        const View& originalView,
         float renderPriority,
         DrawableSystem* drawableSystem,
         float scale = 1.0f);

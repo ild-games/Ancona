@@ -1,5 +1,5 @@
-#ifndef Ancona_Engine_Resource_SFMLResourceLoader_H_
-#define Ancona_Engine_Resource_SFMLResourceLoader_H_
+#ifndef Ancona_Engine_Resource_HalResourceLoader_H_
+#define Ancona_Engine_Resource_HalResourceLoader_H_
 
 #include <string>
 
@@ -9,14 +9,14 @@ namespace ild
 {
 
 /**
- * @brief SFMLLoader can be used to define a loader for any SFML resource type that implements loadFromFile
+ * @brief HalResourceLoader can be used to define a loader for any Hal resource type that implements loadFromFile
  *
- * @tparam SFMLType Type of SFML resource to be loaded
+ * @tparam HalType Type of Hal resource to be loaded
  *
  * @author Jeff Swenson
  */
-template <class SFMLType>
-class SFMLResourceLoader : public AbstractLoader
+template <class HalType>
+class HalResourceLoader : public AbstractLoader
 {
     public:
         /**
@@ -25,10 +25,10 @@ class SFMLResourceLoader : public AbstractLoader
          * @param resourceName Name that describes resource type
          * @param fileExtension File extension used for the resource
          */
-        SFMLResourceLoader(
+        HalResourceLoader(
                 const std::string & resourceName,
                 const std::string & fileExtension) :
-            AbstractLoader(resourceName,typeid(SFMLType)),
+            AbstractLoader(resourceName,typeid(HalType)),
             _fileExtension(fileExtension)
         {
         }
@@ -38,13 +38,13 @@ class SFMLResourceLoader : public AbstractLoader
          */
         void * Load(const std::string & resourceKey) override
         {
-            SFMLType * object = new SFMLType();
+            HalType * object = new HalType();
             std::string fileName = GetResourceFileName(
                     resourceKey,
                     _fileExtension);
 
 
-            if(!(object->loadFromFile(fileName)))
+            if(!(object->LoadFromFile(fileName)))
             {
                 //If the load failed then null should be returned
                 delete object;
@@ -58,7 +58,7 @@ class SFMLResourceLoader : public AbstractLoader
          */
         void DeleteResource(void * resource) override
         {
-            SFMLType * object = static_cast<SFMLType *>(resource);
+            HalType * object = static_cast<HalType *>(resource);
             delete object;
         }
 

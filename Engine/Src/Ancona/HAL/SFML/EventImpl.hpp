@@ -14,7 +14,7 @@ namespace priv
 class EventImpl
 {
     public:
-        static void TranslateSFMLToAncona(const sf::Event & sfmlEvent, ildhal::Event & event);
+        static void TranslateSfmlToAncona(const sf::Event & sfmlEvent, ildhal::Event & event);
 };
 
 }

@@ -3,11 +3,10 @@
 
 #include <memory>
 
-#include <SFML/Graphics.hpp>
-
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/ContainerDrawable.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {
@@ -65,7 +64,7 @@ class DrawableComponent
         /**
          * @brief Draws the DrawableComponent
          */
-        void Draw(sf::RenderTarget& target, float delta);
+        void Draw(ildhal::RenderTarget& target, float delta);
         void PostDrawUpdate(float delta);
 
         /**

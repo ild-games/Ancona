@@ -1,4 +1,4 @@
-#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 #include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/Mouse.hpp>
@@ -8,7 +8,8 @@
 #include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
-using namespace ildhal;
+namespace ildhal
+{
 
 /* Pimpl Implementation */
 
@@ -16,9 +17,17 @@ priv::WindowImpl::WindowImpl(
     const std::string & title,
     int width,
     int height,
-    unsigned int style) :
-        RenderTargetImpl(std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), title, style))
+    unsigned int style)
 {
+    _sfmlRenderTarget = std::make_unique<sf::RenderWindow>(
+        sf::VideoMode(width, height),
+        title,
+        style);
+}
+
+sf::RenderWindow & priv::WindowImpl::sfmlRenderWindow() const
+{
+    return static_cast<sf::RenderWindow &>(*_sfmlRenderTarget);
 }
 
 /* HAL Interface Implementation */
@@ -29,68 +38,72 @@ Window::Window(
     int height,
     unsigned int style)
 {
-    _pimpl = std::make_unique<priv::RenderTargetImpl>(priv::WindowImpl(title, width, height, style));
-}
-
-Window::~Window() { }
-
-void Window::SetFramerateLimit(unsigned int limit)
-{
-    getWindowImpl().getSfmlRenderWindow().setFramerateLimit(limit);
-}
-
-void Window::SetVerticalSyncEnabled(bool enabled)
-{
-    getWindowImpl().getSfmlRenderWindow().setVerticalSyncEnabled(enabled);
-}
-
-void Window::SetKeyRepeatEnabled(bool enabled)
-{
-    getWindowImpl().getSfmlRenderWindow().setKeyRepeatEnabled(enabled);
-}
-
-bool Window::IsOpen() const
-{
-    return getWindowImpl().getSfmlRenderWindow().isOpen();
+    _pimpl = std::make_unique<priv::WindowImpl>(
+        title,
+        width,
+        height,
+        style);
 }
 
 bool Window::PollEvent(Event & event)
 {
     sf::Event sfmlEvent;
-    bool pollingSuccessful = getWindowImpl().getSfmlRenderWindow().pollEvent(sfmlEvent);
-    priv::EventImpl::TranslateSFMLToAncona(sfmlEvent, event);
+    bool pollingSuccessful = windowImpl().sfmlRenderWindow().pollEvent(sfmlEvent);
+    priv::EventImpl::TranslateSfmlToAncona(sfmlEvent, event);
     return pollingSuccessful;
 }
 
 void Window::Display()
 {
-    getWindowImpl().getSfmlRenderWindow().display();
+    windowImpl().sfmlRenderWindow().display();
 }
 
 void Window::Close()
 {
-    getWindowImpl().getSfmlRenderWindow().close();
+    windowImpl().sfmlRenderWindow().close();
 }
 
-bool Window::SetActive(bool active) const
-{
-    return getWindowImpl().getSfmlRenderWindow().setActive(active);
-}
+/* getters and setters */
 
-void Window::SetTitle(const std::string & title)
+ild::Vector2u Window::size() const
 {
-    getWindowImpl().getSfmlRenderWindow().setTitle(title);
-}
-
-ild::Vector2u Window::GetSize() const
-{
-    auto size = getWindowImpl().getSfmlRenderWindow().getSize();
+    auto size = windowImpl().sfmlRenderWindow().getSize();
     return ild::Vector2u(size.x, size.y);
 }
 
-sf::RenderTarget & Window::GetRenderTarget()
+void Window::title(const std::string & title)
 {
-    return getWindowImpl().getSfmlRenderWindow();
+    windowImpl().sfmlRenderWindow().setTitle(title);
 }
 
-priv::WindowImpl & Window::getWindowImpl() const { return static_cast<priv::WindowImpl &>(getRenderTargetImpl()); }
+bool Window::active(bool active) const
+{
+    return windowImpl().sfmlRenderWindow().setActive(active);
+}
+
+bool Window::open() const
+{
+    return windowImpl().sfmlRenderWindow().isOpen();
+}
+
+void Window::keyRepeatEnabled(bool enabled)
+{
+    windowImpl().sfmlRenderWindow().setKeyRepeatEnabled(enabled);
+}
+
+void Window::verticalSyncEnabled(bool enabled)
+{
+    windowImpl().sfmlRenderWindow().setVerticalSyncEnabled(enabled);
+}
+
+void Window::framerateLimit(unsigned int limit)
+{
+    windowImpl().sfmlRenderWindow().setFramerateLimit(limit);
+}
+
+priv::WindowImpl & Window::windowImpl() const
+{
+    return static_cast<priv::WindowImpl &>(*_pimpl);
+}
+
+}

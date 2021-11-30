@@ -7,6 +7,7 @@
 
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 #include "ValueAction.hpp"
 #include "ScaleAction.hpp"
@@ -22,8 +23,8 @@ const float INSTANT = 0.0f;
 
 }
 
-typedef std::shared_ptr<ValueAction<sf::Vector2f>> VectorActionProxy;
-typedef std::shared_ptr<ScaleAction<sf::Vector2f>> ScaleActionProxy;
+typedef std::shared_ptr<ValueAction<Vector2f>> VectorActionProxy;
+typedef std::shared_ptr<ScaleAction<Vector2f>> ScaleActionProxy;
 
 /**
  * @brief Actions is used to contain all of the Actions that are effecting
@@ -83,7 +84,7 @@ class Actions
         std::vector<VectorActionProxy> _positionActions;
         std::vector<VectorActionProxy> _velocityActions;
         std::vector<ScaleActionProxy> _scaleActions;
-        sf::Vector2f _actionVelocity;
+        Vector2f _actionVelocity;
         PositionSystem * _positionSystem;
         DrawableSystem * _drawableSystem;
 
@@ -99,8 +100,8 @@ class Actions
                 );
         }
 
-        sf::Vector2f ApplyPositionActions(const PositionComponent & position, float delta);
-        sf::Vector2f ApplyVelocityActions(const PositionComponent & position, float delta);
+        Vector2f ApplyPositionActions(const PositionComponent & position, float delta);
+        Vector2f ApplyVelocityActions(const PositionComponent & position, float delta);
         void ApplyScaleActions(DrawableComponent & drawable, float delta);
 };
 

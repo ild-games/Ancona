@@ -3,7 +3,8 @@
 #include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 
-using namespace ildhal;
+namespace ildhal
+{
 
 std::set<Keyboard::Key> Keyboard::_pressedKeys;
 std::set<Keyboard::Key> Keyboard::_releasedKeys;
@@ -52,4 +53,6 @@ void Keyboard::_ClearKeys()
         _heldKeysToFrameCount[heldKeyToClear] = 0;
     }
     _heldKeysToClear.clear();
+}
+
 }

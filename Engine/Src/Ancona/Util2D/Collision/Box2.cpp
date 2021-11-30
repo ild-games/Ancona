@@ -21,8 +21,8 @@ DoesIntersect::Enum OptimizedIntersectRotated(const Box2 & left, const Box2 & ri
     * If the boxes are rotated, we know that the radius of the box is less than the two dimensions added together. If
     * the circules formed by the radius don't overlap, then we know the boxes don't overlap.
     */
-    auto leftPosition = sf::Vector2f(left.TopLeft().first, left.TopLeft().second);
-    auto rightPosition = sf::Vector2f(right.TopLeft().first, right.TopLeft().second);
+    auto leftPosition = Vector2f(left.TopLeft().first, left.TopLeft().second);
+    auto rightPosition = Vector2f(right.TopLeft().first, right.TopLeft().second);
 
     auto radiusLeft = left.Dimension.x + left.Dimension.y;
     auto radiusRight = right.Dimension.x + right.Dimension.y;
@@ -75,9 +75,9 @@ DoesIntersect::Enum OptimizedIntersect(const Box2 & left, const Box2 & right)
 }
 
 Box2::Box2(
-    const sf::Vector2f & position,
-    const sf::Vector2f & dimension,
-    const sf::Vector2f & anchor,
+    const Vector2f & position,
+    const Vector2f & dimension,
+    const Vector2f & anchor,
     const float & rotation)
 {
     Position = position;
@@ -87,7 +87,7 @@ Box2::Box2(
 }
 
 Box2::Box2(float dimX, float dimY)
-    : Box2(sf::Vector2f(),sf::Vector2f(dimX,dimY))
+    : Box2(Vector2f(),Vector2f(dimX,dimY))
 {
 
 }
@@ -106,7 +106,7 @@ bool Box2::Intersects(const Box2 & box) const
     auto intersects = OptimizedIntersect(*this, box);
     if (intersects == DoesIntersect::Maybe)
     {
-        sf::Vector2f fixVector;
+        Vector2f fixVector;
         float mag;
         return SATCollision(box, fixVector, mag);
     }
@@ -114,7 +114,7 @@ bool Box2::Intersects(const Box2 & box) const
 }
 
 
-bool Box2::Intersects(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const
+bool Box2::Intersects(const Box2 & box, Vector2f & fixNormal, float & fixMagnitude) const
 {
     if (OptimizedIntersect(*this, box) == DoesIntersect::No)
     {
@@ -127,7 +127,7 @@ bool Box2::Intersects(const Box2 & box, sf::Vector2f & fixNormal, float & fixMag
     return SATCollision(box, fixNormal, fixMagnitude);
 }
 
-bool Box2::SATCollision(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const
+bool Box2::SATCollision(const Box2 & box, Vector2f & fixNormal, float & fixMagnitude) const
 {
     static Math::Vertices2 verticesA;
     static Math::Vertices2 verticesB;
@@ -146,7 +146,7 @@ bool Box2::SATCollision(const Box2 & box, sf::Vector2f & fixNormal, float & fixM
     return collides;
 }
 
-sf::Vector2f Box2::GetNormalOfCollisionEdge(const Box2 & box) const
+Vector2f Box2::GetNormalOfCollisionEdge(const Box2 & box) const
 {
     Math::Vertices2 verticesA;
     Math::Vertices2 verticesB;
@@ -156,7 +156,7 @@ sf::Vector2f Box2::GetNormalOfCollisionEdge(const Box2 & box) const
 
     Math::CollisionFix fix = Math::GetFixVector(verticesA, verticesB);
 
-    sf::Vector2f normal(fix.normal.first,fix.normal.second);
+    Vector2f normal(fix.normal.first,fix.normal.second);
 
     if(!VectorMath::PointsTo(normal, Position, box.Position))
     {

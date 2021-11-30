@@ -1,4 +1,5 @@
 #include <Ancona/Core2D/Systems/Drawable/ImageDrawable.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::ImageDrawable);
@@ -34,12 +35,12 @@ Drawable * ImageDrawable::Copy() {
     return drawable;
 }
 
-void ImageDrawable::OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta)
+void ImageDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
     if (_sprite.get() != NULL)
     {
-        sf::RenderStates states(drawableTransform);
-        target.draw(*_sprite, states);
+        ildhal::RenderStates states(drawableTransform);
+        target.Draw(*_sprite, states);
     }
 }
 
@@ -50,50 +51,50 @@ void ImageDrawable::SetupSprite()
         return;
     }
 
-    SetupSprite(ResourceLibrary::Get<sf::Texture>(_textureKey));
+    SetupSprite(ResourceLibrary::Get<ildhal::Texture>(_textureKey));
 }
 
-void ImageDrawable::SetupSprite(sf::Texture * texture)
+void ImageDrawable::SetupSprite(ildhal::Texture * texture)
 {
     if (_isTiled)
     {
-        texture->setSmooth(false);
-        texture->setRepeated(true);
+        texture->smooth(false);
+        texture->repeated(true);
         _textureRect.Dimension.x = _tiledArea.x;
         _textureRect.Dimension.y = _tiledArea.y;
     }
     else
     {
-        texture->setSmooth(true);
+        texture->smooth(true);
         if (_isWholeImage)
         {
-            _textureRect.Dimension.x = texture->getSize().x;
-            _textureRect.Dimension.y = texture->getSize().y;
+            _textureRect.Dimension.x = texture->size().x;
+            _textureRect.Dimension.y = texture->size().y;
         }
     }
 
-    auto spriteRect = sf::Rect<int>(
+    auto spriteRect = ild::Rect<int>(
         _textureRect.Position.x,
         _textureRect.Position.y,
         _textureRect.Dimension.x,
         _textureRect.Dimension.y);
 
-    _sprite.reset(new sf::Sprite(*texture, spriteRect));
-    _sprite->setOrigin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
+    _sprite.reset(new ildhal::Sprite(*texture, spriteRect));
+    _sprite->origin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
     ApplyColor();
     ApplyAlpha();
 }
 
 void ImageDrawable::ApplyAlpha() 
 {
-    sf::Color col(_sprite->getColor());
+    Color col(_sprite->color());
     col.a = _alpha;
-    _sprite->setColor(col);
+    _sprite->color(col);
 }
 
 void ImageDrawable::ApplyColor() 
 {
-    _sprite->setColor(_color);
+    _sprite->color(_color);
 }
 
 void ImageDrawable::Serialize(Archive & arc)
@@ -111,12 +112,12 @@ void ImageDrawable::FetchDependencies(const Entity &entity)
     Drawable::FetchDependencies(entity);
     if (_textureKey != "")
     {
-        SetupSprite(ResourceLibrary::Get<sf::Texture>(_textureKey));
+        SetupSprite(ResourceLibrary::Get<ildhal::Texture>(_textureKey));
     }
 }
 
 /* getters and setters */
-sf::Vector2f ImageDrawable::size()
+Vector2f ImageDrawable::size()
 {
     if (_isTiled) 
     {
@@ -134,7 +135,7 @@ void ImageDrawable::alpha(int newAlpha)
     ApplyAlpha(); 
 }
 
-void ImageDrawable::color(sf::Color newColor) 
+void ImageDrawable::color(Color newColor) 
 { 
     _color = newColor; 
     ApplyColor();

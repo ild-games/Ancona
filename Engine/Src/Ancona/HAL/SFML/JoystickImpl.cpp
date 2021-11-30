@@ -2,7 +2,8 @@
 
 #include <Ancona/HAL/Joystick.hpp>
 
-using namespace ildhal;
+namespace ildhal
+{
 
 std::unordered_map<int, std::set<int>> Joystick::_pressedButtons;
 std::unordered_map<int, std::set<int>> Joystick::_releasedButtons;
@@ -50,4 +51,6 @@ void Joystick::_ClearButtons()
 {
     _pressedButtons.clear();
     _releasedButtons.clear();
+}
+
 }

@@ -3,7 +3,7 @@
 
 #include "MenuInputHandler.hpp"
 
-namespace ildmenu
+namespace ild
 {
 
 /**

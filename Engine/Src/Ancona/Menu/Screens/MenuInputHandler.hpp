@@ -8,7 +8,7 @@
 #include "MenuGameSystems.hpp"
 #include "../Systems/ButtonSystem.hpp"
 
-namespace ildmenu
+namespace ild
 {
 
 class MenuGameSystems;

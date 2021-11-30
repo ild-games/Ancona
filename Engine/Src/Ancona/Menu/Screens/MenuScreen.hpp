@@ -6,7 +6,7 @@
 #include "MenuInputHandler.hpp"
 #include "MenuGameSystems.hpp"
 
-namespace ildmenu
+namespace ild
 {
 
 typedef std::function<void(std::string)> ButtonPressedCallback;

@@ -11,7 +11,7 @@ namespace ild
 
 class RequestList;
 class AbstractLoader;
-    
+
 class ResourceHolder 
 {
     public:

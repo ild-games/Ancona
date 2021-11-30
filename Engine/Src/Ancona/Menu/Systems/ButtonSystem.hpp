@@ -7,7 +7,7 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
-namespace ildmenu
+namespace ild
 {
 
 namespace ButtonState

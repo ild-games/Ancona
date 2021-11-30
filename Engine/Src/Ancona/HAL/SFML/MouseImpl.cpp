@@ -5,7 +5,8 @@
 #include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 
-using namespace ildhal;
+namespace ildhal
+{
 
 std::set<Mouse::Button> Mouse::_pressedButtons;
 std::set<Mouse::Button> Mouse::_releasedButtons;
@@ -21,7 +22,7 @@ ild::Vector2i Mouse::GetPosition()
 
 ild::Vector2i Mouse::GetPosition(const Window & relativeTo)
 {
-    auto & sfmlRenderWindow = relativeTo.getWindowImpl().getSfmlRenderWindow();
+    auto & sfmlRenderWindow = relativeTo.windowImpl().sfmlRenderWindow();
     auto mousePosition = sf::Mouse::getPosition(sfmlRenderWindow);
     return ild::Vector2i(mousePosition.x, mousePosition.y);
 }
@@ -73,4 +74,6 @@ void Mouse::_ClearButtons()
         _heldButtonsToFrameCount[heldButtonToClear] = 0;
     }
     _heldButtonsToClear.clear();
+}
+
 }

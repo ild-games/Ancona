@@ -1,19 +1,18 @@
 #ifndef Ancona_Engine_Resource_TextureLoader_H_
 #define Ancona_Engine_Resource_TextureLoader_H_
 
-#include <SFML/Graphics.hpp>
-
-#include <Ancona/Framework/Resource/SFMLResourceLoader.hpp>
+#include <Ancona/Framework/Resource/HalResourceLoader.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {
 
 /**
- * @brief Texture loader is used to load an sf::Texture
+ * @brief Texture loader is used to load an ildhal::Texture
 *
  * @author Jeff Swenson
  */
-class TextureLoader : public SFMLResourceLoader<sf::Texture>
+class TextureLoader : public HalResourceLoader<ildhal::Texture>
 {
     public:
         /**

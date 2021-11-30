@@ -4,9 +4,10 @@
 #include <Ancona/HAL/Mouse.hpp>
 #include <Ancona/HAL/Sensor.hpp>
 
-using namespace ildhal;
+namespace ildhal
+{
 
-void priv::EventImpl::TranslateSFMLToAncona(const sf::Event & sfmlEvent, Event & event)
+void priv::EventImpl::TranslateSfmlToAncona(const sf::Event & sfmlEvent, Event & event)
 {
     event.type = (Event::EventType) sfmlEvent.type;
     if (sfmlEvent.type == sf::Event::Resized)
@@ -78,4 +79,6 @@ void priv::EventImpl::TranslateSFMLToAncona(const sf::Event & sfmlEvent, Event &
         event.sensor.y = sfmlEvent.sensor.y;
         event.sensor.z = sfmlEvent.sensor.z;
     }
+}
+
 }

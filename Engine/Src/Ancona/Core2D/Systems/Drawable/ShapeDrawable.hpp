@@ -1,11 +1,11 @@
 #ifndef Ancona_Engine_Core_Systems_ShapeDrawable_H_
 #define Ancona_Engine_Core_Systems_ShapeDrawable_H_
 
-#include <SFML/Graphics.hpp>
-
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Graphics/Transform.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
-
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild
 {
@@ -23,21 +23,12 @@ class ShapeDrawable : public Drawable
          */
         ShapeDrawable() {}
 
-        /**
-         * @brief An element to draw a shape to an entity.
-         *
-         * @param positionSystem System that defines the entity's position
-         * @param shape SFML Shape that is going to be drawn.
-         * @param priority RenderPriority that determines when the sprite is rendered
-         * @param priorityOffset Optional offset to the render priority
-         * @param anchor Offset coordinates from the PositionComponent
-         */
         ShapeDrawable(
-                sf::Shape * shape,
+                ildhal::Shape * shape,
                 const float priority,
                 const std::string & key,
                 float priorityOffset = 0,
-                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
+                Vector2f anchor = Vector2f(0.0f, 0.0f));
 
         Drawable * Copy() override;
 
@@ -52,7 +43,7 @@ class ShapeDrawable : public Drawable
         void FetchDependencies(const Entity & entity) override;
 
         /* getters and setters */
-        sf::Vector2f size() override;
+        Vector2f size() override;
         int alpha() override;
         void alpha(int alpha) override;
 
@@ -60,9 +51,9 @@ class ShapeDrawable : public Drawable
         /**
          * @brief Shape used for the drawing.
          */
-        std::unique_ptr<sf::Shape> _shape;
+        std::unique_ptr<ildhal::Shape> _shape;
 
-        void OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta) override;
+        void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
 
 };
 

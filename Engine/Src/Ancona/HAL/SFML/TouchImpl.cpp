@@ -2,7 +2,8 @@
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Core2D/Core/Game.hpp>
 
-using namespace ildhal;
+namespace ildhal
+{
 
 std::set<unsigned int> Touch::_pressedFingers;
 std::set<unsigned int> Touch::_releasedFingers;
@@ -80,4 +81,6 @@ void Touch::_ClearAllFingersState()
     _releasedFingers.clear();
     _heldFingers.clear();
     _heldFingersToClear.clear();
+}
+
 }

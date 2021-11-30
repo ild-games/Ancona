@@ -1,7 +1,8 @@
 #ifndef Ancona_Util2D_Box3_H_
 #define Ancona_Util2D_Box3_H_
 
-#include <SFML/System.hpp>
+#include <Ancona/Util/Vector2.hpp>
+#include <Ancona/Util/Vector3.hpp>
 
 namespace ild
 {
@@ -21,23 +22,23 @@ class Box3
          * @param dimension The size of the box
          * @param rotation The rotation of the box
          */
-        Box3(const sf::Vector3f & position,
-             const sf::Vector3f & dimension,
-             const sf::Vector2f & rotation=sf::Vector2f());
+        Box3(const Vector3f & position,
+             const Vector3f & dimension,
+             const Vector2f & rotation = Vector2f());
 
         /**
          * @brief Position of the box.  The position is at the center
          * of the box.
          */
-        sf::Vector3f Position;
+        Vector3f Position;
         /**
          * @brief Dimension of the box: Length X Width X Height
          */
-        sf::Vector3f Dimension;
+        Vector3f Dimension;
         /**
          * @brief The rotation of the box.
          */
-        sf::Vector2f Rotation;
+        Vector2f Rotation;
 
         /**
          * @brief Test if the two boxes intersect

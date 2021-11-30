@@ -2,26 +2,28 @@
 
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Assert.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 using namespace ild;
 
 /* Component */
 CameraComponent::CameraComponent()
-    : _offset(sf::Vector2f(0, 0))
+    : _offset(Vector2f(0, 0))
 {
 }
 
 CameraComponent::CameraComponent(
-    const sf::View& originalView,
+    const View& originalView,
     float renderPriority,
     DrawableSystem* drawableSystem,
     float scale,
-    sf::Vector2f offset,
-    sf::Vector2f upperBounds,
-    sf::Vector2f lowerBounds)
-    : _view(sf::View(originalView))
+    Vector2f offset,
+    Vector2f upperBounds,
+    Vector2f lowerBounds)
+    : _view(View(originalView))
     , _renderPriority(renderPriority)
     , _scale(scale)
     , _offset(offset)
@@ -34,19 +36,19 @@ CameraComponent::CameraComponent(
 void CameraComponent::Update(float delta)
 {
     auto effectivePosition = GetEffectiveCenter();
-    _view.setCenter(std::round(effectivePosition.x), std::round(effectivePosition.y));
+    _view.center(std::round(effectivePosition.x), std::round(effectivePosition.y));
 }
 
-void CameraComponent::Draw(sf::RenderTarget& target, ildhal::Window & window, float delta)
+void CameraComponent::Draw(ildhal::RenderTarget& target, ildhal::Window & window, float delta)
 {
     Box2 cameraPosition(
-        sf::Vector2f(_view.getCenter().x - (_view.getSize().x), _view.getCenter().y - (_view.getSize().y)),
-        sf::Vector2f(_view.getSize().x * 2, _view.getSize().y * 2),
-        sf::Vector2f(),
-        _view.getRotation());
+        Vector2f(_view.center().x - (_view.size().x), _view.center().y - (_view.size().y)),
+        Vector2f(_view.size().x * 2, _view.size().y * 2),
+        Vector2f(),
+        _view.rotation());
 
-    ApplyLetterboxView(window.GetSize().x, window.GetSize().y);
-    target.setView(_view);
+    ApplyLetterboxView(window.size().x, window.size().y);
+    target.view(_view);
 
     if (!_sorted) {
         alg::sort(
@@ -68,7 +70,7 @@ void CameraComponent::Draw(sf::RenderTarget& target, ildhal::Window & window, fl
 void CameraComponent::ApplyLetterboxView(int windowWidth, int windowHeight)
 {
     float windowRatio = (float)windowWidth / (float)windowHeight;
-    float viewRatio = (float)_view.getSize().x / (float)_view.getSize().y;
+    float viewRatio = (float)_view.size().x / (float)_view.size().y;
     float sizeX = 1;
     float sizeY = 1;
     float posX = 0;
@@ -82,12 +84,12 @@ void CameraComponent::ApplyLetterboxView(int windowWidth, int windowHeight)
         posY = (1 - sizeY) / 2.f;
     }
 
-    _view.setViewport(sf::FloatRect(posX, posY, sizeX, sizeY));
+    _view.viewport(FloatRect(posX, posY, sizeX, sizeY));
 }
 
-sf::Vector2f CameraComponent::GetEffectiveCenter()
+Vector2f CameraComponent::GetEffectiveCenter()
 {
-    sf::Vector2f effectivePosition;
+    Vector2f effectivePosition;
     if (_followPosition != nullptr) {
         effectivePosition = _followPosition->position() + _offset;
     } else {
@@ -119,9 +121,9 @@ void CameraComponent::FetchDependencies(const Entity& entity)
     if (_follows != nullentity) {
         _followPosition = (*_positionSystem)[_follows];
     }
-    _view.setSize(_size);
-    _view.setCenter(_size.x / 2, _size.y / 2);
-    _startingCenter = _view.getCenter();
+    _view.size(_size);
+    _view.center(_size.x / 2, _size.y / 2);
+    _startingCenter = _view.center();
     scale(_originalScale);
     _drawableSystem->AddCamera(this);
     if (_default) {
@@ -153,9 +155,9 @@ void CameraComponent::follows(Entity follows)
 void CameraComponent::scale(float scale)
 {
     ILD_Assert(scale != float(0), "Scale cannot be 0");
-    _view.zoom(1 / _scale);
+    _view.Zoom(1 / _scale);
     _scale = scale;
-    _view.zoom(_scale);
+    _view.Zoom(_scale);
 }
 
 /* System */
@@ -175,7 +177,7 @@ void CameraSystem::Update(float delta)
 
 CameraComponent* CameraSystem::CreateComponent(
     const Entity& entity,
-    const sf::View& originalView,
+    const View& originalView,
     float renderPriority,
     DrawableSystem* drawableSystem,
     float scale)

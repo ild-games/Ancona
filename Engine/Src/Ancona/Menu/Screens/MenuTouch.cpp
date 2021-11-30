@@ -1,11 +1,11 @@
 #include <sstream>
 #include <limits>
 
-#include <Ancona/HAL/Touch.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/Menu/Screens/MenuGameSystems.hpp>
 #include <Ancona/Menu/Screens/MenuTouch.hpp>
 
-using namespace ildmenu;
+using namespace ild;
 
 void MenuTouch::HandleInput(float delta)
 {

@@ -1,8 +1,6 @@
 #ifndef Ancona_Platformer_Action_ScaleAction_hpp
 #define Ancona_Platformer_Action_ScaleAction_hpp
 
-#include <SFML/System.hpp>
-
 #include "ValueAction.hpp"
 
 namespace ild

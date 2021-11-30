@@ -1,7 +1,7 @@
 #ifndef Ancona_Util_Math_H_
 #define Ancona_Util_Math_H_
 
-#include <SFML/Graphics.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild {
 
@@ -14,7 +14,7 @@ int signum(T val) {
 
 float DegreesToRadians(float degrees);
 float RadiansToDegrees(float rads);
-float Distance(sf::Vector2f startPoint, sf::Vector2f endPoint);
+float Distance(const Vector2f & startPoint, const Vector2f & endPoint);
 
 }
 

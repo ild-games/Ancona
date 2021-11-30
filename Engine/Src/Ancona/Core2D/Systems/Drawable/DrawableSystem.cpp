@@ -1,5 +1,6 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 
 using namespace ild;
@@ -10,9 +11,9 @@ DrawableSystem::DrawableSystem(
         SystemManager & systemManager) :
     UnorderedSystem(systemName, systemManager, UpdateStep::Draw),
     _window(window),
-    _renderTexture(new sf::RenderTexture()),
-    _windowSprite(new sf::Sprite()),
-    _renderView(new sf::View())
+    _renderTexture(new ildhal::RenderTexture()),
+    _windowSprite(new ildhal::Sprite()),
+    _renderView(new View())
 {
 }
 
@@ -26,17 +27,17 @@ void DrawableSystem::Update(float delta)
 
 void DrawableSystem::RenderUsingTexture(float delta)
 {
-    _renderTexture->clear(sf::Color::Black);
+    _renderTexture->Clear(Color::Black);
 
     for (auto & camera : _cameras)
     {
         camera->Draw(*_renderTexture, _window, delta);
     }
 
-    _renderTexture->display();
-    _renderTexture->setSmooth(true);
-    _windowSprite->setTexture(_renderTexture->getTexture());
-    sf::RenderStates states(sf::BlendNone);
+    _renderTexture->Display();
+    _renderTexture->smooth(true);
+    // _windowSprite->texture(_renderTexture->texture()); // need to implement
+    ildhal::RenderStates states(ildhal::BlendNone);
     _window.Draw(*_windowSprite, states);
 }
 
@@ -44,18 +45,18 @@ void DrawableSystem::RenderUsingWindow(float delta)
 {
     for (auto & camera : _cameras)
     {
-        camera->Draw(_window.GetRenderTarget(), _window, delta);
+        camera->Draw(_window, _window, delta);
     }
-    _window.SetView(_defaultCamera->view());
+    _window.view(_defaultCamera->view());
 }
 
 void DrawableSystem::SetupWindowRenderElements() 
 {
-    auto defaultSize = _defaultCamera->view().getSize();
-    _renderTexture->create(defaultSize.x, defaultSize.y);
-    _renderView->setSize(defaultSize);
-    _renderView->setCenter(defaultSize.x / 2, defaultSize.y / 2);
-    _window.SetView(*_renderView);
+    auto defaultSize = _defaultCamera->view().size();
+    _renderTexture->Create(defaultSize.x, defaultSize.y);
+    _renderView->size(defaultSize);
+    _renderView->center(defaultSize.x / 2, defaultSize.y / 2);
+    _window.view(*_renderView);
 }
 
 void DrawableSystem::AddCamera(CameraComponent * camera)

@@ -1,8 +1,9 @@
 #ifndef Ancona_Engine_Core_Systems_ContainerDrawable_H_
 #define Ancona_Engine_Core_Systems_ContainerDrawable_H_
 
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Graphics/Transform.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild
 {
@@ -33,7 +34,7 @@ class ContainerDrawable : public Drawable
                 const float priority,
                 const std::string & key,
                 float priorityOffset = 0,
-                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
+                Vector2f anchor = Vector2f(0.0f, 0.0f));
 
         Drawable * Copy() override;
         void PostDrawUpdate(float delta) override;
@@ -77,19 +78,17 @@ class ContainerDrawable : public Drawable
         }
 
         /* getters and setters */
-        sf::Vector2f size() override;
-        sf::Vector2f position(sf::Vector2f entityPosition) override;
+        Vector2f size() override;
+        Vector2f position(Vector2f entityPosition) override;
         int alpha() override;
         void alpha(int alpha) override;
 
-
     private:
-        
 
         std::vector<std::shared_ptr<Drawable>> _drawables;
 
         void SortDrawables();
-        void OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta) override;
+        void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
 };
 
 }

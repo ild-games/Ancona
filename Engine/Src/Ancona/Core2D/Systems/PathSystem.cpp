@@ -29,8 +29,8 @@ float PathComponent::DistanceForSegment(int segment) {
         ILD_Assert(_isLoop, "Only loops should care about the last segment length because it connects the end points.")
     }
 
-    sf::Vector2f startVertex = _vertices[segment];
-    sf::Vector2f endVertex;
+    Vector2f startVertex = _vertices[segment];
+    Vector2f endVertex;
     if (segment == (int) _vertices.size() - 1) {
         endVertex = _vertices[0];
     } else {

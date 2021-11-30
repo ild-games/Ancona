@@ -11,7 +11,7 @@ Drawable::Drawable(
         const float priority,
         const std::string & key,
         float priorityOffset,
-        sf::Vector2f anchor) :
+        Vector2f anchor) :
     _key(key),
     _anchor(anchor),
     _renderPriority(priority),
@@ -40,18 +40,18 @@ void Drawable::Serialize(Archive &arc)
     arc(_key, "key");
 }
 
-void Drawable::Draw(sf::RenderTarget & target, sf::Transform parentTransform, float delta)
+void Drawable::Draw(ildhal::RenderTarget & target, Transform parentTransform, float delta)
 {
     if (!_inactive)
     {
-        OnDraw(target, parentTransform.combine(CalculateTransforms()), delta);
+        OnDraw(target, parentTransform.Combine(CalculateTransforms()), delta);
     }
 }
 
-sf::Transform Drawable::CalculateTransforms()
+Transform Drawable::CalculateTransforms()
 {
-    sf::Transform transform;
-    transform.rotate(_rotation).scale(_scale);
+    Transform transform;
+    transform.Rotate(_rotation).Scale(_scale);
     return transform;
 }
 
@@ -79,8 +79,8 @@ void Drawable::SetYDirection(int upOrDownSignum)
 }
 
 /* getters and setters */
-sf::Vector2f Drawable::position(sf::Vector2f entityPosition)
+Vector2f Drawable::position(Vector2f entityPosition)
 {
     auto size = this->size();
-    return entityPosition - sf::Vector2f(size.x * _anchor.x, size.y * _anchor.y);
+    return entityPosition - Vector2f(size.x * _anchor.x, size.y * _anchor.y);
 }

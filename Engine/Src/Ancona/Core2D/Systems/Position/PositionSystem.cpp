@@ -5,13 +5,13 @@
 REGISTER_POLYMORPHIC_SERIALIZER(ild::PositionComponent);
 
 namespace ild {
-std::ostream & operator << (std::ostream& os, const sf::Vector2f&pt)
+std::ostream & operator << (std::ostream& os, const Vector2f&pt)
 {
     os << "(" << pt.x << "," << pt.y << ")";
     return os;
 }
 
-std::ostream & operator << (std::ostream&& os, const sf::Vector2f&pt)
+std::ostream & operator << (std::ostream&& os, const Vector2f&pt)
 {
     os << "(" << pt.x << "," << pt.y << ")";
     return os;
@@ -74,7 +74,7 @@ void PositionComponent::RoundPosition()
 }
 
 /* getters and setters */
-void PositionComponent::position(const sf::Vector2f & position)
+void PositionComponent::position(const Vector2f & position)
 {
     _position = position;
     _actualPosition = position;

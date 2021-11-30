@@ -1,6 +1,4 @@
-#include <SFML/Window.hpp>
-
-#include <Ancona/HAL/Color.hpp>
+#include <Ancona/Graphics/Color.hpp>
 #include <Ancona/Framework/Screens/LoadingScreen.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 
@@ -30,7 +28,7 @@ void LoadingScreen::Update(float delta)
 
 void LoadingScreen::Draw(float delta)
 {
-    _screenManager.Window.Clear(ildhal::Color::Black);
+    _screenManager.Window.Clear(Color::Black);
 }
 
 void LoadingScreen::Entering(float delta)

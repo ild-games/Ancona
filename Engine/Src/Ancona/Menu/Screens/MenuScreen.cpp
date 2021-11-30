@@ -1,9 +1,9 @@
 #include "MenuScreen.hpp"
 
-#include <Ancona/HAL/Color.hpp>
+#include <Ancona/Graphics/Color.hpp>
 #include <Ancona/Util/StrUtil.hpp>
 
-using namespace ildmenu;
+using namespace ild;
 
 MenuScreen::MenuScreen(
         ButtonPressedCallback buttonPressed,
@@ -44,6 +44,6 @@ void MenuScreen::Update(float delta)
 
 void MenuScreen::Draw(float delta)
 {
-    _screenManager.Window.Clear(ildhal::Color::Black);
+    _screenManager.Window.Clear(Color::Black);
     _systems->systemManager().Update(delta, ild::UpdateStep::Draw);
 }

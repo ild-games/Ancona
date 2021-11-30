@@ -1,10 +1,9 @@
 #ifndef Ancona_Engine_Screen_ScreenManager_H_
 #define Ancona_Engine_Screen_ScreenManager_H_
 
-#include <SFML/Graphics.hpp>
 #include <stack>
 
-#include <Ancona/HAL/Window.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {

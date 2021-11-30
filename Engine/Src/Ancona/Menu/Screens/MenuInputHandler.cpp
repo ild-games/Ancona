@@ -7,7 +7,7 @@
 #include "MenuInputHandler.hpp"
 
 
-using namespace ildmenu;
+using namespace ild;
 
 ///////////////////////////////
 // MenuInputHandler

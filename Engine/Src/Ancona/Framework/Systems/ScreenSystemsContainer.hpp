@@ -5,8 +5,6 @@
 #include <memory>
 #include <string>
 
-#include <SFML/Graphics.hpp>
-
 #include <Ancona/Framework/EntityFramework/SystemManager.hpp>
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Util/Assert.hpp>

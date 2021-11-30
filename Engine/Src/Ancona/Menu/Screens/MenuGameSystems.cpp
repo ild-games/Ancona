@@ -1,6 +1,6 @@
 #include "MenuGameSystems.hpp"
 
-using namespace ildmenu;
+using namespace ild;
 
 MenuGameSystems::MenuGameSystems(ild::ScreenManager & screenManager) :
     ScreenSystemsContainer(screenManager, 0)

@@ -2,7 +2,6 @@
 #define Ancona_Core2D_Systems_Audio_Music_H_
 
 #include <string>
-#include <SFML/Audio.hpp>
 
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 

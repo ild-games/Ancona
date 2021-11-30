@@ -16,7 +16,7 @@
 
 #include "../Systems/ButtonSystem.hpp"
 
-namespace ildmenu
+namespace ild
 {
 
 /**

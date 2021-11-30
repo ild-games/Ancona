@@ -1,6 +1,5 @@
 #include <Ancona/Core2D/Systems/Audio/SoundSystem.hpp>
 #include <Ancona/Framework/Audio/Jukebox.hpp>
-#include <SFML/Audio.hpp>
 
 using namespace ild;
 

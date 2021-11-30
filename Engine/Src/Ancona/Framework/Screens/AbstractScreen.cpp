@@ -17,8 +17,8 @@ AbstractScreen::AbstractScreen(
     _screenManager(screenManager),
     KEY(key),
     _transitionColor(0, 0, 0, 255),
-    _transitionRect(sf::Vector2f(_screenManager.windowWidth() * 5, _screenManager.windowHeight() * 5)),
-    _defaultCam(sf::View(_screenManager.Window.GetDefaultView())),
+    _transitionRect(Vector2f(_screenManager.windowWidth() * 5, _screenManager.windowHeight() * 5)),
+    _defaultCam(View(_screenManager.Window.defaultView())),
     _requestList(requestList)
 {
 }
@@ -49,9 +49,9 @@ void AbstractScreen::Entering(float delta)
         _transitioningAlpha = 0.0f;
         __Entering = false;
     }
-    _transitionColor.a = (sf::Uint8) _transitioningAlpha;
-    _transitionRect.setFillColor(_transitionColor);
-    _screenManager.Window.SetView(_defaultCam);
+    _transitionColor.a = (unsigned char) _transitioningAlpha;
+    _transitionRect.fillColor(_transitionColor);
+    _screenManager.Window.view(_defaultCam);
     _screenManager.Window.Draw(_transitionRect);
 }
 
@@ -63,8 +63,8 @@ void AbstractScreen::Exiting(float delta)
         _transitioningAlpha = 255.0f;
         __Exiting = false;
     }
-    _transitionColor.a = (sf::Uint8) _transitioningAlpha;
-    _transitionRect.setFillColor(_transitionColor);
-    _screenManager.Window.SetView(_defaultCam);
+    _transitionColor.a = (unsigned char) _transitioningAlpha;
+    _transitionRect.fillColor(_transitionColor);
+    _screenManager.Window.view(_defaultCam);
     _screenManager.Window.Draw(_transitionRect);
 }

@@ -3,6 +3,7 @@
 
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Assert.hpp>
 
@@ -12,7 +13,7 @@ std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> Jukebox::_jukebo
 std::string Jukebox::_musicKeyPlaying = "";
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
-std::shared_ptr<sf::Music> & Jukebox::_music = std::shared_ptr<sf::Music>(nullptr);
+std::shared_ptr<ildhal::Music> & Jukebox::_music = std::shared_ptr<ildhal::Music>(nullptr);
 float Jukebox::_loopStart = 0.0f;
 bool Jukebox::_loop = true;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
@@ -24,13 +25,13 @@ void Jukebox::Update()
     }
 
     // do our own looping of music since the SFML setLoopPoints API is inconsisent in whether or not it works
-    if (_music->getStatus() == sf::SoundSource::Status::Stopped && _loop && _loopStart > 0.0f) {
-        _music->play();
-        _music->setPlayingOffset(sf::seconds(_loopStart));
+    if (_music->status() == ildhal::SoundSource::Status::Stopped && _loop && _loopStart > 0.0f) {
+        _music->Play();
+        _music->playingOffset(ildhal::seconds(_loopStart));
     }
 }
 
-void Jukebox::InitMusic(std::shared_ptr<sf::Music> & music)
+void Jukebox::InitMusic(std::shared_ptr<ildhal::Music> & music)
 {
     _music = music;
 }
@@ -84,7 +85,7 @@ void Jukebox::PlayMusic(const std::string& musicKey, const bool& loop, const flo
     auto resourceRoot = ResourceLibrary::ResourceRoot();
     std::stringstream stream;
     stream << resourceRoot << "/" << musicKey << ".ogg";
-    _music->openFromFile(stream.str());
+    _music->OpenFromFile(stream.str());
     PlayMusic(loop, loopStart);
 }
 
@@ -97,8 +98,8 @@ void Jukebox::PlayMusic(const bool& loop, const float& loopStart)
     ApplyMusicVolume();
     _loop = loop;
     _loopStart = loopStart;
-    _music->setLoop(_loop && _loopStart == 0.0f);
-    _music->play();
+    _music->loop(_loop && _loopStart == 0.0f);
+    _music->Play();
 }
 
 void Jukebox::StopMusic()
@@ -108,7 +109,7 @@ void Jukebox::StopMusic()
     }
 
     _musicKeyPlaying = "";
-    _music->stop();
+    _music->Stop();
 }
 
 void Jukebox::PauseMusic()
@@ -117,7 +118,7 @@ void Jukebox::PauseMusic()
         return;
     }
 
-    _music->pause();
+    _music->Pause();
 }
 
 void Jukebox::ApplyMusicVolume()
@@ -127,10 +128,10 @@ void Jukebox::ApplyMusicVolume()
     }
 
     if (_musicVolumePercent == 0.0f) {
-        _music->setVolume(0.0f);
+        _music->volume(0.0f);
     } else {
         auto realVolume = std::pow(100.0f, _musicVolumePercent - 1);
-        _music->setVolume(realVolume * 100);
+        _music->volume(realVolume * 100);
     }
 }
 

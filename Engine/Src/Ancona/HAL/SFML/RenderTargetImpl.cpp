@@ -1,45 +1,54 @@
+#include <Ancona/HAL/SFML/DrawableImpl.hpp>
 #include <Ancona/HAL/SFML/RenderTargetImpl.hpp>
+#include <Ancona/HAL/SFML/RenderStatesImpl.hpp>
+#include <Ancona/HAL/SFML/ViewImpl.hpp>
 
-using namespace ildhal;
-
-/* Pimpl Implementation */
-
-priv::RenderTargetImpl::RenderTargetImpl(
-    std::unique_ptr<sf::RenderTarget> sfmlRenderTarget) :
-        _sfmlRenderTarget(std::move(sfmlRenderTarget))
+namespace ildhal
 {
-}
 
 /* HAL Interface Implementation */
 
-void RenderTarget::Clear(const Color & color)
+void RenderTarget::Clear(const ild::Color & color)
 {
-    _pimpl->getSfmlRenderTarget().clear(sf::Color(color.toInteger()));
+    auto sfmlColor = sf::Color(color.toInteger());
+    renderTargetImpl().sfmlRenderTarget().clear(sfmlColor);
 }
 
-void RenderTarget::Draw(const sf::Drawable & drawable, const sf::RenderStates & states)
+void RenderTarget::Draw(const Drawable & drawable, const RenderStates & states)
 {
-    _pimpl->getSfmlRenderTarget().draw(drawable, states);
+    renderTargetImpl().sfmlRenderTarget().draw(
+        drawable.drawableImpl().sfmlDrawable(),
+        states.renderStatesImpl().sfmlRenderStates());
 }
 
-void RenderTarget::SetView(const sf::View & view)
-{
-    _pimpl->getSfmlRenderTarget().setView(view);
-}
-
-const sf::View & RenderTarget::GetDefaultView() const
-{
-    return _pimpl->getSfmlRenderTarget().getDefaultView();
-}
-
-ild::Vector2f RenderTarget::MapPixelToCoords(const ild::Vector2i & point, const sf::View & view) const
+ild::Vector2f RenderTarget::MapPixelToCoords(const ild::Vector2i & point, const ild::View & view) const
 {
     auto sfmlPoint = sf::Vector2i(point.x, point.y);
-    auto coords = _pimpl->getSfmlRenderTarget().mapPixelToCoords(sfmlPoint, view);
+    sf::View sfmlView;
+    priv::ViewImpl::TranslateAnconaToSfml(view, sfmlView);
+    auto coords = renderTargetImpl().sfmlRenderTarget().mapPixelToCoords(sfmlPoint, sfmlView);
     return ild::Vector2f(coords.x, coords.y);
 }
 
 void RenderTarget::ResetGLStates()
 {
-    _pimpl->getSfmlRenderTarget().resetGLStates();
+    renderTargetImpl().sfmlRenderTarget().resetGLStates();
+}
+
+/* getters and setters */
+const ild::View & RenderTarget::defaultView() const
+{
+    auto sfmlView = renderTargetImpl().sfmlRenderTarget().getDefaultView();
+    ild::View view;
+    priv::ViewImpl::TranslateSfmlToAncona(sfmlView, view);
+    return view;
+}
+
+void RenderTarget::view(const ild::View & view)
+{
+    sf::View sfmlView = renderTargetImpl().sfmlRenderTarget().getView();
+    priv::ViewImpl::TranslateAnconaToSfml(view, sfmlView);
+    renderTargetImpl().sfmlRenderTarget().setView(sfmlView);
+}
+
 }

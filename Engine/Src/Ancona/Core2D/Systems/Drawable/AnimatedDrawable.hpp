@@ -2,6 +2,8 @@
 #define Ancona_Engine_Core_Systems_AnimatedDrawable_H_
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Graphics/Transform.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild
 {
@@ -33,7 +35,7 @@ class AnimatedDrawable : public Drawable
                 const std::string & key,
                 float duration,
                 float priorityOffset = 0,
-                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f));
+                Vector2f anchor = Vector2f(0.0f, 0.0f));
 
         Drawable * Copy() override;
         void PostDrawUpdate(float delta) override;
@@ -88,8 +90,8 @@ class AnimatedDrawable : public Drawable
         void SetCurrentFrame(unsigned int frame);
 
         /* getters and setters */
-        sf::Vector2f size() override;
-        sf::Vector2f position(sf::Vector2f entityPosition) override;
+        Vector2f size() override;
+        Vector2f position(Vector2f entityPosition) override;
         int alpha() override;
         void alpha(int alpha) override;
         void duration(float duration) { _duration = duration; }
@@ -107,7 +109,7 @@ class AnimatedDrawable : public Drawable
 
         void Tick(float delta);
         void AdvanceFrame();
-        void OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta) override;
+        void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
 };
 
 }

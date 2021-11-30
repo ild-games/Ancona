@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <SFML/Audio.hpp>
-
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 
 namespace ild

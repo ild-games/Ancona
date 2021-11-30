@@ -3,10 +3,9 @@
 
 #include <vector>
 
-#include <SFML/System.hpp>
-
 #include <Ancona/Util2D/Collision/Box3.hpp>
 #include <Ancona/Util2D/Collision/Math.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild
 {
@@ -22,15 +21,15 @@ class Box2
         /**
          * @brief Position of the box.  The position is located at the center.
          */
-        sf::Vector2f Position;
+        Vector2f Position;
         /**
          * @brief Dimension of the box:  Length X Width
          */
-        sf::Vector2f Dimension;
+        Vector2f Dimension;
         /**
          * @brief Anchor point to rotate the box around
          */
-        sf::Vector2f Anchor;
+        Vector2f Anchor;
         /**
          * @brief The rotation of the box.
          */
@@ -43,9 +42,9 @@ class Box2
          * @param dimension Dimension of the square
          * @param rotation Rotation of the square
          */
-        Box2(const sf::Vector2f & position = sf::Vector2f(),
-             const sf::Vector2f & dimension = sf::Vector2f(),
-             const sf::Vector2f & anchor = sf::Vector2f(),
+        Box2(const Vector2f & position = Vector2f(),
+             const Vector2f & dimension = Vector2f(),
+             const Vector2f & anchor = Vector2f(),
              const float & rotation=0.0f);
 
         /**
@@ -82,7 +81,7 @@ class Box2
          *
          * @return True if they intersect.  False otherwise.
          */
-        bool Intersects(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const;
+        bool Intersects(const Box2 & box, Vector2f & fixNormal, float & fixMagnitude) const;
 
         /**
          * @brief Get the normal to the edge that is colliding with or
@@ -92,14 +91,14 @@ class Box2
          *
          * @return Normal from the nearest edge.
          */
-        sf::Vector2f GetNormalOfCollisionEdge(const Box2 & box) const;
+        Vector2f GetNormalOfCollisionEdge(const Box2 & box) const;
 
         /**
          * Determine if the box contains the point.
          * @param  point check for contains.
          * @return True if the point is in in the box.
          */
-        bool ContainsPoint(const sf::Vector2f & point);
+        bool ContainsPoint(const Vector2f & point);
 
         /**
          * @brief Clear the vertices vector and fill it with vertices for the box.
@@ -140,7 +139,7 @@ class Box2
         void position(float x, float y);
         void dimension(float x, float y) {Dimension.x = x; Dimension.y = y;};
     private:
-        bool SATCollision(const Box2 & box, sf::Vector2f & fixNormal, float & fixMagnitude) const;
+        bool SATCollision(const Box2 & box, Vector2f & fixNormal, float & fixMagnitude) const;
 };
 
 }

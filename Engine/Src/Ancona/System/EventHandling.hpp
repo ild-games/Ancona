@@ -1,8 +1,7 @@
 #ifndef Ancona_Systems_EventHandling_H_
 #define Ancona_Systems_EventHandling_H_
 
-#include <Ancona/HAL/Window.hpp>
-#include <Ancona/HAL/Event.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {

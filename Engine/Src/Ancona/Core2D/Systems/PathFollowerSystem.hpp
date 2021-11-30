@@ -6,6 +6,7 @@
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Platformer/Actions/ActionSystem.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild {
 
@@ -58,7 +59,7 @@ class PathFollowerComponent {
         void StartNextPathSegment();
         int NewVertexIndexAfterPathEnd();
         float NextSegmentTime(int lastVertexIndex, int nextVertexIndex);
-        sf::Vector2f NextSegmentDistance();
+        Vector2f NextSegmentDistance();
         bool IsPathDone();
         void ChangeDirection();
 };

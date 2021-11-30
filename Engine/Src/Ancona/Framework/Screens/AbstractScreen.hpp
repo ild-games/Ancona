@@ -9,6 +9,9 @@
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
+#include <Ancona/Graphics/View.hpp>
+#include <Ancona/Graphics/Color.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {
@@ -122,11 +125,11 @@ class AbstractScreen
         /**
          * @brief Color of the default transition.
          */
-        sf::Color _transitionColor;
+        Color _transitionColor;
         /**
          * @brief Rectangle used to create the default transition.
          */
-        sf::RectangleShape _transitionRect;
+        ildhal::RectangleShape _transitionRect;
         /**
          * @brief Speed the default transition happens at.
          */
@@ -134,7 +137,7 @@ class AbstractScreen
         /**
          * @brief The default camera used when the window is first spawned.
          */
-        const sf::View _defaultCam;
+        const View _defaultCam;
         /**
          * @brief Request list used by this screen.
          */

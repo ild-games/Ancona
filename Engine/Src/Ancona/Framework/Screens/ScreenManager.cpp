@@ -1,7 +1,6 @@
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/Framework/Screens/LoadingScreen.hpp>
 #include <Ancona/Framework/Screens/AbstractScreen.hpp>
-#include <SFML/Graphics.hpp>
 
 #include <iostream>
 

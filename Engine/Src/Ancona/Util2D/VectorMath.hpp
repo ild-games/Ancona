@@ -1,7 +1,8 @@
 #ifndef Ancona_Util2D_VectorMath_H_
 #define Ancona_Util2D_VectorMath_H_
 
-#include <SFML/System.hpp>
+#include <Ancona/Util/Vector2.hpp>
+#include <Ancona/Util/Vector3.hpp>
 
 namespace ild
 {
@@ -15,7 +16,7 @@ namespace VectorMath
      *
      * @return A normalized vector pointing in th same direction.
      */
-    sf::Vector2f Normalize(const sf::Vector2f & vector);
+    Vector2f Normalize(const Vector2f & vector);
 
     /**
      * @brief Calculate the magnitude of the vector.
@@ -24,7 +25,7 @@ namespace VectorMath
      *
      * @return magnitude of the vector.
      */
-    float Magnitude(const sf::Vector2f & vector);
+    float Magnitude(const Vector2f & vector);
 
     /**
      * @brief Return a Vector2f that is rotated a given amount of
@@ -35,7 +36,7 @@ namespace VectorMath
      *
      * @return A Vector2f that is rotated from the source vector.
      */
-    sf::Vector2f Rotate(sf::Vector2f vectToRotate, float rads);
+    Vector2f Rotate(Vector2f vectToRotate, float rads);
 
     /**
      * @brief Return a Vector3f that is rotated a given amount of
@@ -46,7 +47,7 @@ namespace VectorMath
      *
      * @return A Vector3f that is rotated from the source vector.
      */
-    sf::Vector3f Rotate(sf::Vector3f vectToRotate, float rads);
+    Vector3f Rotate(Vector3f vectToRotate, float rads);
 
     /**
      * @brief Return a Vector2f where each component is multiplied by the
@@ -57,7 +58,7 @@ namespace VectorMath
      *
      * @return Resulting Vector2f
      */
-    sf::Vector2f ComponentMultiplication(sf::Vector2f lhs, sf::Vector2f rhs);
+    Vector2f ComponentMultiplication(Vector2f lhs, Vector2f rhs);
 
     /**
      * @brief Return a Vector2f where each component is multiplied by the
@@ -68,7 +69,7 @@ namespace VectorMath
      *
      * @return Resulting Vector2f
      */
-    sf::Vector3f ComponentMultiplication(sf::Vector3f lhs, sf::Vector3f rhs);
+    Vector3f ComponentMultiplication(Vector3f lhs, Vector3f rhs);
 
     /**
      * @brief Test if the middle vector within the small angle between left and right bound vectors.
@@ -79,7 +80,7 @@ namespace VectorMath
      *
      * @return True if the middle vector is between the right and left bounds.
      */
-    bool Between(const sf::Vector2f & leftBound, const sf::Vector2f & rightBound, const sf::Vector2f & middle);
+    bool Between(const Vector2f & leftBound, const Vector2f & rightBound, const Vector2f & middle);
 
     /**
      * @brief Produce the 2d cross product.
@@ -89,7 +90,7 @@ namespace VectorMath
      *
      * @return The cross product.
      */
-    float Cross(const sf::Vector2f & left, const sf::Vector2f right);
+    float Cross(const Vector2f & left, const Vector2f right);
 
     /**
      * @brief Convert degrees to radians.
@@ -112,7 +113,7 @@ namespace VectorMath
      *
      * @return True if the vector points from positionA to positionB.
      */
-    bool PointsTo(const sf::Vector2f & vector,const sf::Vector2f & positionA,const sf::Vector2f & positionB);
+    bool PointsTo(const Vector2f & vector,const Vector2f & positionA,const Vector2f & positionB);
 
     /**
      * @brief Convert radians to degrees.

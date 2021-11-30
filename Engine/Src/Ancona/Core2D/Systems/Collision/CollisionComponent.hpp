@@ -6,6 +6,8 @@
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Util2D/Collision/Box2.hpp>
 #include <Ancona/Util/Data.hpp>
+#include <Ancona/Util/Vector2.hpp>
+#include <Ancona/Util/Vector3.hpp>
 
 #include "Collision.hpp"
 
@@ -57,7 +59,7 @@ class CollisionComponent
      * @param type Type of entity for collisions.
      * @param bodyType BodyType of the collision component.  Determines how collision fixing is performed.
      */
-    CollisionComponent(CollisionSystem *collisionSystem, const sf::Vector3f &dim, CollisionType type, BodyTypeEnum bodyType);
+    CollisionComponent(CollisionSystem *collisionSystem, const Vector3f &dim, CollisionType type, BodyTypeEnum bodyType);
 
     /*
      * Constructor that should only be used by the loading system.
@@ -74,7 +76,7 @@ class CollisionComponent
      *
      * @return True if the components collide.  False otherwise.
      */
-    bool Collides(const CollisionComponent &otherComponent, sf::Vector2f &fixNormal, float &fixMagnitude) const;
+    bool Collides(const CollisionComponent &otherComponent, Vector2f &fixNormal, float &fixMagnitude) const;
 
     /**
      * @brief Update the internal state for purpose of collision.
@@ -115,8 +117,8 @@ class CollisionComponent
     void bodyType(const BodyTypeEnum &bodyType) { _bodyType = bodyType; }
     PositionComponent &positionComponent() { return *_position; }
     const Box2 &box() const { return _dim; }
-    void anchor(const sf::Vector2f &anchor) { _anchor = anchor; }
-    const sf::Vector2f &anchor() const { return _anchor; }
+    void anchor(const Vector2f &anchor) { _anchor = anchor; }
+    const Vector2f &anchor() const { return _anchor; }
     bool enabled() const { return _enabled; }
     void enabled(const bool &newEnabled) { _enabled = newEnabled; }
 
@@ -126,7 +128,7 @@ class CollisionComponent
     Box2 _dim;
     CollisionType _type;
     BodyTypeEnum _bodyType;
-    sf::Vector2f _anchor;
+    Vector2f _anchor;
     bool _enabled = true;
 };
 }

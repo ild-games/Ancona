@@ -4,7 +4,7 @@
 #include <Ancona/Menu/Screens/MenuInputHandler.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
-namespace ildmenu
+namespace ild
 {
 
 /**

@@ -2,7 +2,11 @@
 #define Ancona_Engine_Core_Systems_TextDrawable_H_
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
+#include <Ancona/Graphics/Transform.hpp>
+#include <Ancona/Graphics/Color.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ild
 {
@@ -19,7 +23,7 @@ class TextDrawable : public Drawable
          * @brief Default constructor, should only be used by the serializer.
          */
         TextDrawable() {}
-        TextDrawable(const std::string text, const sf::Font * font);
+        TextDrawable(const std::string & text, const std::string & fontKey);
 
         /**
          * @brief An element to draw text to an entity.
@@ -27,7 +31,7 @@ class TextDrawable : public Drawable
          * @param positionSystem System that can be used to determine the entity's location.
          * @param text Text being drawn.
          * @param fontKey Name of font to use.
-         * @param color SFML Color of the text.
+         * @param color Color of the text.
          * @param characterSize Font size in pixels.
          * @param priority RenderPriority that determines when the sprite is rendered.
          * @param priorityOffset Optional offset to the render priority, defaults to 0.
@@ -35,15 +39,15 @@ class TextDrawable : public Drawable
          * @param smooth Optional bool to determine if the text should be smoothed, defaults to true.
          */
         TextDrawable(
-                const std::string text,
-                const std::string fontKey,
-                const sf::Color color,
-                const int characterSize,
-                const float priority,
-                const std::string & key,
-                float priorityOffset = 0,
-                sf::Vector2f anchor = sf::Vector2f(0.0f, 0.0f),
-                bool smooth = true);
+            const std::string& text,
+            const std::string& fontKey,
+            const Color color,
+            const int characterSize,
+            const float priority,
+            const std::string & key,
+            float priorityOffset = 0,
+            Vector2f anchor = Vector2f(0.0f, 0.0f),
+            bool smooth = true);
 
         Drawable * Copy() override;
 
@@ -58,24 +62,24 @@ class TextDrawable : public Drawable
         void FetchDependencies(const Entity & entity) override;
 
         /* getters and setters */
-        std::string text() { return _text->getString(); }
-        void text(std::string text, bool resetOrigin = true);
-        sf::Vector2f size() override;
+        const std::string & text() { return _text->string(); }
+        void text(const std::string& text, bool resetOrigin = true);
+        Vector2f size() override;
         int alpha() override;
         void alpha(int alpha) override;
-        sf::Color color() { return _color; }
-        void color(sf::Color newColor) { _color = newColor; SetupText(); }
+        Color color() { return _color; }
+        void color(Color newColor) { _color = newColor; SetupText(); }
     private:
-        std::unique_ptr<sf::Text> _text;
+        std::unique_ptr<ildhal::Text> _text;
         std::string _fontKey = "";
-        sf::Color _color = sf::Color::White;
+        Color _color = Color::White;
         int _characterSize = 10;
         bool _smooth = true;
 
 
         void SetupText();
         void CenterOrigin();
-        void OnDraw(sf::RenderTarget & target, sf::Transform drawableTransform, float delta) override;
+        void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
 };
 
 }
