@@ -19,8 +19,7 @@ class Archive;
  * @author Tucker Lein
  * @author Jeff Swenson
  */
-template <class T>
-struct Serializer
+template <class T> struct Serializer
 {
     /**
      * @brief Used to call serialize on the property.
@@ -28,17 +27,17 @@ struct Serializer
      * @param property Property being serialized.
      * @param arc Archive instance.
      */
-    static void Serialize(T & property, Archive & arc)
+    static void Serialize(T &property, Archive &arc)
     {
         property.Serialize(arc);
     }
 
-    static const rapidjson::Type SerializingType() 
+    static const rapidjson::Type SerializingType()
     {
         return rapidjson::Type::kObjectType;
     }
 };
 
-}
+} // namespace ild
 
 #endif

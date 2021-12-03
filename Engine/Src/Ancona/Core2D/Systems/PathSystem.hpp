@@ -13,56 +13,58 @@ namespace ild
  */
 class PathComponent
 {
-    public:
-        /**
-         * Construct a blank PathComponent for serialization.
-         */
-        PathComponent();
+  public:
+    /**
+     * Construct a blank PathComponent for serialization.
+     */
+    PathComponent();
 
-        /**
-         * @copydoc ild::CameraComponent::FetchDependencies
-         */
-        void FetchDependencies(const Entity & entity);
+    /**
+     * @copydoc ild::CameraComponent::FetchDependencies
+     */
+    void FetchDependencies(const Entity &entity);
 
-        /**
-         * @copydoc ild::CameraComponent::Serialize
-         */
-        void Serialize(Archive & arc);
+    /**
+     * @copydoc ild::CameraComponent::Serialize
+     */
+    void Serialize(Archive &arc);
 
-        /**
-         * @brief Update step where the component logic happens.
-         */
-        void Update(float delta);
+    /**
+     * @brief Update step where the component logic happens.
+     */
+    void Update(float delta);
 
-        float TimeForSegment(int segment);
+    float TimeForSegment(int segment);
 
-        /* getters and setters */
-        std::vector<Vector2f> & vertices() { return _vertices; }
-        bool isLoop() { return _isLoop; }
+    /* getters and setters */
+    std::vector<Vector2f> &vertices()
+    {
+        return _vertices;
+    }
+    bool isLoop()
+    {
+        return _isLoop;
+    }
 
-    private:
-        std::vector<Vector2f> _vertices;
-        bool _isLoop;
-        float _cycleTime;
+  private:
+    std::vector<Vector2f> _vertices;
+    bool _isLoop;
+    float _cycleTime;
 
-        float DistanceForSegment(int segment);
-        float TotalDistance();
+    float DistanceForSegment(int segment);
+    float TotalDistance();
 };
 
 class PathSystem : public UnorderedSystem<PathComponent>
 {
-    public:
-        PathSystem(
-                std::string name,
-                SystemManager & manager);
+  public:
+    PathSystem(std::string name, SystemManager &manager);
 
-        void Update(float delta) override;
+    void Update(float delta) override;
 
-        PathComponent * CreateComponent(
-                const Entity & entity);
-
+    PathComponent *CreateComponent(const Entity &entity);
 };
 
-}
+} // namespace ild
 
 #endif

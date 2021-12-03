@@ -35,12 +35,12 @@ namespace ildhal
 
 class Vertex
 {
-    public:
-        ild::Vector2f  position;  ///< 2D position of the vertex
-        ild::Color     color;     ///< Color of the vertex
-        ild::Vector2f  texCoords; ///< Coordinates of the texture's pixel to map to the vertex
+  public:
+    ild::Vector2f position;  ///< 2D position of the vertex
+    ild::Color color;        ///< Color of the vertex
+    ild::Vector2f texCoords; ///< Coordinates of the texture's pixel to map to the vertex
 };
 
-}
+} // namespace ildhal
 
 #endif

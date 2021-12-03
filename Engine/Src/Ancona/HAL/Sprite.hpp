@@ -38,25 +38,25 @@ class Texture;
 
 namespace priv
 {
-    class SpriteImpl;
+class SpriteImpl;
 }
 
 class Sprite : public Drawable
 {
-    public:
-        Sprite();
-        Sprite(const Texture& texture, const ild::IntRect& rectangle);
+  public:
+    Sprite();
+    Sprite(const Texture &texture, const ild::IntRect &rectangle);
 
-        /* getters and setters */
-        void origin(const ild::Vector2f& newOrigin);
-        void origin(float x, float y);
-        const ild::Color& color() const;
-        void color(const ild::Color& newColor);
-        void texture(const Texture& newTexture, bool resetRect = false);
+    /* getters and setters */
+    void origin(const ild::Vector2f &newOrigin);
+    void origin(float x, float y);
+    const ild::Color &color() const;
+    void color(const ild::Color &newColor);
+    void texture(const Texture &newTexture, bool resetRect = false);
 
-        priv::SpriteImpl & spriteImpl() const;
+    priv::SpriteImpl &spriteImpl() const;
 };
 
-}
+} // namespace ildhal
 
 #endif

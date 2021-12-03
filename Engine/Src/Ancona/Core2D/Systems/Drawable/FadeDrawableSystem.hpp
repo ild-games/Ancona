@@ -14,74 +14,81 @@ class FadeDrawableSystem;
  *
  * @author Tucker Lein
  */
-class FadeDrawableComponent 
+class FadeDrawableComponent
 {
-    public:
-        FadeDrawableComponent() {}
+  public:
+    FadeDrawableComponent()
+    {
+    }
 
-        /**
-         * @brief Constructs a new FadeDrawableComponent
-         *
-         * @param drawableComponent DrawableComponent being faded.
-         * @param system FadeDrawableSystem used to make these components.
-         * @param owner The entity this component is attached to.
-         * @param fadeIn True if the graphics are fading in, false if they are fading out.
-         * @param destroySelf True if the the component should remove itself after finishing the fade, otherwise false. Defaults to true.
-         * @param fadeSpeed Speed at which the fade occurs, defaults to 650.0f
-         */
-        FadeDrawableComponent(
-                DrawableComponent * drawableComponent,
-                FadeDrawableSystem * system,
-                const Entity & owner,
-                float fadeIn,
-                bool destroySelf = true,
-                float fadeSpeed = 650.0f);
+    /**
+     * @brief Constructs a new FadeDrawableComponent
+     *
+     * @param drawableComponent DrawableComponent being faded.
+     * @param system FadeDrawableSystem used to make these components.
+     * @param owner The entity this component is attached to.
+     * @param fadeIn True if the graphics are fading in, false if they are fading out.
+     * @param destroySelf True if the the component should remove itself after finishing the fade, otherwise false.
+     * Defaults to true.
+     * @param fadeSpeed Speed at which the fade occurs, defaults to 650.0f
+     */
+    FadeDrawableComponent(DrawableComponent *drawableComponent, FadeDrawableSystem *system, const Entity &owner,
+                          float fadeIn, bool destroySelf = true, float fadeSpeed = 650.0f);
 
-        /**
-         * @brief Updates the fade of the DrawableComponent.
-         *
-         * @param delta Seconds since the last update.
-         */
-        void Update(float delta);
+    /**
+     * @brief Updates the fade of the DrawableComponent.
+     *
+     * @param delta Seconds since the last update.
+     */
+    void Update(float delta);
 
+    /* getters and setters */
+    bool fadeIn()
+    {
+        return _fadeIn;
+    }
+    void fadeIn(bool fadeIn)
+    {
+        _fadeIn = fadeIn;
+    }
+    void destroySelf(bool newDestroySelf)
+    {
+        _destroySelf = newDestroySelf;
+    }
 
-        /* getters and setters */
-        bool fadeIn() { return _fadeIn; }
-        void fadeIn(bool fadeIn) { _fadeIn = fadeIn; }
-        void destroySelf(bool newDestroySelf) { _destroySelf = newDestroySelf; }
-    private:
-        /**
-         * @brief The drawable component being faded.
-         */
-        DrawableComponent * _drawableComponent;
-        /**
-         * @brief The FadeDrawableSystem instance for the current screen.
-         */
-        FadeDrawableSystem * _system;
-        /**
-         * @brief The entity this component is attached to.
-         */
-        Entity _owner;
-        /**
-         * @brief Speed the fade occurs at.
-         */
-        float FADE_SPEED = 100.0f;
-        /**
-         * @brief True if the drawable is fading in, false if it is fading out.
-         */
-        bool _fadeIn;
-        /**
-         * @brief True if the componenet should remove itself after the fade, otherwise false.
-         */
-        bool _destroySelf;
+  private:
+    /**
+     * @brief The drawable component being faded.
+     */
+    DrawableComponent *_drawableComponent;
+    /**
+     * @brief The FadeDrawableSystem instance for the current screen.
+     */
+    FadeDrawableSystem *_system;
+    /**
+     * @brief The entity this component is attached to.
+     */
+    Entity _owner;
+    /**
+     * @brief Speed the fade occurs at.
+     */
+    float FADE_SPEED = 100.0f;
+    /**
+     * @brief True if the drawable is fading in, false if it is fading out.
+     */
+    bool _fadeIn;
+    /**
+     * @brief True if the componenet should remove itself after the fade, otherwise false.
+     */
+    bool _destroySelf;
 
-        /**
-         * @brief Manipulates the fade of an alpha at one step.
-         *
-         * @param alpha The alpha as it was at the start of this fade step.
-         * @param delta Seconds since the last update.
-         */
-        int FadeStep(int alpha, float delta);
+    /**
+     * @brief Manipulates the fade of an alpha at one step.
+     *
+     * @param alpha The alpha as it was at the start of this fade step.
+     * @param delta Seconds since the last update.
+     */
+    int FadeStep(int alpha, float delta);
 };
 
 /**
@@ -91,42 +98,37 @@ class FadeDrawableComponent
  */
 class FadeDrawableSystem : public UnorderedSystem<FadeDrawableComponent>
 {
-    public:
-        /**
-         * @brief Default constructor
-         *
-         * @param name Name to identify the system by.
-         * @param manager SystemManager instance for the current screen.
-         */
-        FadeDrawableSystem(const std::string & name, SystemManager & manager);
+  public:
+    /**
+     * @brief Default constructor
+     *
+     * @param name Name to identify the system by.
+     * @param manager SystemManager instance for the current screen.
+     */
+    FadeDrawableSystem(const std::string &name, SystemManager &manager);
 
-        /**
-         * @brief Updates the components managed by the system.
-         *
-         * @param delta Seconds since last update
-         */
-        void Update(float delta);
+    /**
+     * @brief Updates the components managed by the system.
+     *
+     * @param delta Seconds since last update
+     */
+    void Update(float delta);
 
-        /**
-         * @brief Constructs a FadeDrawableComponent and attaches it to the system.
-         *
-         * @param entity Entity to associate the component with.
-         * @param drawableComponent DrawableComponent for the entity.
-         * @param fadeIn True if the graphics are fading in, false if they are fading out.
-         * @param destroySelf True if the entity should be destroyed after the fade
-         * @param fadeSpeed Speed at which the fade occurs, defaults to 650.0f
-         *
-         * @return Pointer to the FadeDrawableComponent being created.
-         */
-        FadeDrawableComponent * CreateComponent(
-                const Entity & entity,
-                DrawableComponent * drawableComponent,
-                bool fadeIn,
-                bool destroySelf,
-                float fadeSpeed = 650.0f);
+    /**
+     * @brief Constructs a FadeDrawableComponent and attaches it to the system.
+     *
+     * @param entity Entity to associate the component with.
+     * @param drawableComponent DrawableComponent for the entity.
+     * @param fadeIn True if the graphics are fading in, false if they are fading out.
+     * @param destroySelf True if the entity should be destroyed after the fade
+     * @param fadeSpeed Speed at which the fade occurs, defaults to 650.0f
+     *
+     * @return Pointer to the FadeDrawableComponent being created.
+     */
+    FadeDrawableComponent *CreateComponent(const Entity &entity, DrawableComponent *drawableComponent, bool fadeIn,
+                                           bool destroySelf, float fadeSpeed = 650.0f);
 };
 
-
-}
+} // namespace ild
 
 #endif

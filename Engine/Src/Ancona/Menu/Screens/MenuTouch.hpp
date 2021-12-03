@@ -10,20 +10,20 @@ namespace ild
 /**
  * @brief Touch input handler for the menu.
  */
-class MenuTouch: public MenuInputHandler
+class MenuTouch : public MenuInputHandler
 {
-    public:
-        /**
-         * @brief Captures input and calls out to the inputComponent's actions.
-         */
-        virtual void HandleInput(float delta) override;
-        virtual bool IsAnyFingerDown() override;
+  public:
+    /**
+     * @brief Captures input and calls out to the inputComponent's actions.
+     */
+    virtual void HandleInput(float delta) override;
+    virtual bool IsAnyFingerDown() override;
 
-    private:
-        ild::Vector2f _lastPosition;
-        void HandleFingerPress(const int finger, float delta);
+  private:
+    ild::Vector2f _lastPosition;
+    void HandleFingerPress(const int finger, float delta);
 };
 
-}
+} // namespace ild
 
 #endif

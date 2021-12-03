@@ -20,88 +20,107 @@ class DrawableSystem;
  */
 class DrawableComponent
 {
-    public:
-        /**
-         * @brief Default constructor, should only be used by the serializer.
-         */
-        DrawableComponent();
+  public:
+    /**
+     * @brief Default constructor, should only be used by the serializer.
+     */
+    DrawableComponent();
 
-        /**
-         * @brief Construct a DrawableComponent.
-         *
-         * @param topDrawable Drawable to associate the DrawableComponent with.
-         * @param cameraComponent CameraComponent used to render these renderables.
-         */
-        DrawableComponent(
-                std::unique_ptr<Drawable> topDrawable,
-                DrawableSystem * drawableSystem,
-                PositionSystem * positionSystem,
-                CameraComponent * cameraComponent);
+    /**
+     * @brief Construct a DrawableComponent.
+     *
+     * @param topDrawable Drawable to associate the DrawableComponent with.
+     * @param cameraComponent CameraComponent used to render these renderables.
+     */
+    DrawableComponent(std::unique_ptr<Drawable> topDrawable, DrawableSystem *drawableSystem,
+                      PositionSystem *positionSystem, CameraComponent *cameraComponent);
 
-        DrawableComponent & operator=(DrawableComponent & rhs)
+    DrawableComponent &operator=(DrawableComponent &rhs)
+    {
+        if (this == &rhs)
         {
-            if (this == &rhs) {
-                return *this;
-            }
-
-            _topDrawable.reset(rhs.topDrawable()->Copy());
-            _camera = rhs.cameraComponent();
-            _cameraSystem = rhs.cameraSystem();
-            _positionSystem = rhs.positionSystem();
-            _positionComponent = rhs.positionComponent();
-            _drawableSystem = rhs.drawableSystem();
-            _camEntity = rhs.camEntity();
             return *this;
         }
 
-        /**
-         * @brief Gets the specified drawable that is on the component.
-         *
-         * @param key Key for the drawable element.
-         */
-        Drawable * GetDrawable(const std::string & key);
+        _topDrawable.reset(rhs.topDrawable()->Copy());
+        _camera = rhs.cameraComponent();
+        _cameraSystem = rhs.cameraSystem();
+        _positionSystem = rhs.positionSystem();
+        _positionComponent = rhs.positionComponent();
+        _drawableSystem = rhs.drawableSystem();
+        _camEntity = rhs.camEntity();
+        return *this;
+    }
 
-        /**
-         * @brief Draws the DrawableComponent
-         */
-        void Draw(ildhal::RenderTarget& target, float delta);
-        void PostDrawUpdate(float delta);
+    /**
+     * @brief Gets the specified drawable that is on the component.
+     *
+     * @param key Key for the drawable element.
+     */
+    Drawable *GetDrawable(const std::string &key);
 
-        /**
-         * @copydoc ild::CameraComponent::FetchDependencies
-         */
-        void FetchDependencies(const Entity & entity);
+    /**
+     * @brief Draws the DrawableComponent
+     */
+    void Draw(ildhal::RenderTarget &target, float delta);
+    void PostDrawUpdate(float delta);
 
-        /**
-         * Get the bounding box for the drawable. Used to determine if the drawable should be rendered.
-         * @return Bounding box describing the edge of the drawable.
-         */
-        Box2 BoundingBox();
+    /**
+     * @copydoc ild::CameraComponent::FetchDependencies
+     */
+    void FetchDependencies(const Entity &entity);
 
-        /**
-         * @copydoc ild::CameraComponent::Serialize
-         */
-        void Serialize(Archive & arc);
+    /**
+     * Get the bounding box for the drawable. Used to determine if the drawable should be rendered.
+     * @return Bounding box describing the edge of the drawable.
+     */
+    Box2 BoundingBox();
 
-        /* getters and setters */
-        Drawable * topDrawable() { return _topDrawable.get(); }
-        CameraComponent * cameraComponent() { return _camera; }
-        CameraSystem * cameraSystem() { return _cameraSystem; }
-        PositionSystem * positionSystem() { return _positionSystem; }
-        PositionComponent * positionComponent() { return _positionComponent; }
-        DrawableSystem * drawableSystem() { return _drawableSystem; }
-        const Entity & camEntity() { return _camEntity; }
-    private:
-        std::unique_ptr<Drawable> _topDrawable;
-        CameraComponent * _camera;
-        CameraSystem * _cameraSystem;
-        PositionSystem * _positionSystem;
-        PositionComponent * _positionComponent;
-        DrawableSystem * _drawableSystem;
-        Entity _camEntity = nullentity;
+    /**
+     * @copydoc ild::CameraComponent::Serialize
+     */
+    void Serialize(Archive &arc);
 
+    /* getters and setters */
+    Drawable *topDrawable()
+    {
+        return _topDrawable.get();
+    }
+    CameraComponent *cameraComponent()
+    {
+        return _camera;
+    }
+    CameraSystem *cameraSystem()
+    {
+        return _cameraSystem;
+    }
+    PositionSystem *positionSystem()
+    {
+        return _positionSystem;
+    }
+    PositionComponent *positionComponent()
+    {
+        return _positionComponent;
+    }
+    DrawableSystem *drawableSystem()
+    {
+        return _drawableSystem;
+    }
+    const Entity &camEntity()
+    {
+        return _camEntity;
+    }
+
+  private:
+    std::unique_ptr<Drawable> _topDrawable;
+    CameraComponent *_camera;
+    CameraSystem *_cameraSystem;
+    PositionSystem *_positionSystem;
+    PositionComponent *_positionComponent;
+    DrawableSystem *_drawableSystem;
+    Entity _camEntity = nullentity;
 };
 
-}
+} // namespace ild
 
 #endif

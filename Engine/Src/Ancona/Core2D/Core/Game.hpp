@@ -7,36 +7,41 @@
 #include <Ancona/Framework/Screens/ScreenManager.hpp>
 #include <Ancona/HAL.hpp>
 
-namespace ild {
+namespace ild
+{
 
-class Game {
-    public:
-        Game(
-            int windowWidth,
-            int windowHeight,
-            const std::string & title,
-            const unsigned int & style = ildhal::WindowStyle::Default);
+class Game
+{
+  public:
+    Game(int windowWidth, int windowHeight, const std::string &title,
+         const unsigned int &style = ildhal::WindowStyle::Default);
 
-        void Run();
+    void Run();
 
-        virtual ~Game();
+    virtual ~Game();
 
-        static unsigned int FrameCount;
+    static unsigned int FrameCount;
 
-        /* getters and setters */
-        const bool & windowIsActive() const { return _windowIsActive; }
-        ScreenManager & screenManager() { return *_screenManager; }
+    /* getters and setters */
+    const bool &windowIsActive() const
+    {
+        return _windowIsActive;
+    }
+    ScreenManager &screenManager()
+    {
+        return *_screenManager;
+    }
 
-    protected:
-        std::unique_ptr<ScreenManager> _screenManager;
+  protected:
+    std::unique_ptr<ScreenManager> _screenManager;
 
-        std::unique_ptr<ildhal::Window> _window;
+    std::unique_ptr<ildhal::Window> _window;
 
-    private:
-        void ProcessWindowEvent(ildhal::Event event);
+  private:
+    void ProcessWindowEvent(ildhal::Event event);
 
-        bool _windowIsActive = true;
-    };
-}
+    bool _windowIsActive = true;
+};
+} // namespace ild
 
 #endif

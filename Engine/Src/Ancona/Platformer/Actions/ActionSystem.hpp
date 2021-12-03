@@ -4,8 +4,8 @@
 #include <memory>
 #include <string>
 
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
 
 #include "Actions.hpp"
@@ -21,43 +21,48 @@ class ActionSystem;
  */
 class ActionComponent
 {
-    public:
-        /**
-         * @brief Initialize a new action copmonent
-         *
-         * @param actionSystem Action system that the component belongs to.
-         */
-        ActionComponent(ActionSystem * actionSystem);
+  public:
+    /**
+     * @brief Initialize a new action copmonent
+     *
+     * @param actionSystem Action system that the component belongs to.
+     */
+    ActionComponent(ActionSystem *actionSystem);
 
+    /**
+     * @brief Default constructor that should only be used for serialization.
+     */
+    ActionComponent()
+    {
+    }
 
-        /**
-         * @brief Default constructor that should only be used for serialization.
-         */
-        ActionComponent() { }
+    /**
+     * @brief Update the component.  This will apply any active actions to the entities state.
+     */
+    void Update(float delta);
 
-        /**
-         * @brief Update the component.  This will apply any active actions to the entities state.
-         */
-        void Update(float delta);
+    /**
+     * @copydoc ild::CameraComponent::Serialize
+     */
+    void Serialize(Archive &arc);
 
-        /**
-         * @copydoc ild::CameraComponent::Serialize
-         */
-        void Serialize(Archive & arc);
+    /**
+     * @copydoc ild::CameraComponent::FetchDependencies
+     */
+    void FetchDependencies(const Entity &entity);
 
-        /**
-         * @copydoc ild::CameraComponent::FetchDependencies
-         */
-        void FetchDependencies(const Entity & entity);
+    /* getters and setters */
+    inline Actions &actions()
+    {
+        return _actions;
+    }
 
-        /* getters and setters */
-        inline Actions & actions() { return _actions; }
-    private:
-        Actions _actions;
-        PositionSystem * _positionSystem;
-        PositionComponent * _position;
-        DrawableSystem * _drawableSystem;
-        DrawableComponent * _drawable;
+  private:
+    Actions _actions;
+    PositionSystem *_positionSystem;
+    PositionComponent *_position;
+    DrawableSystem *_drawableSystem;
+    DrawableComponent *_drawable;
 };
 
 /**
@@ -66,44 +71,47 @@ class ActionComponent
  */
 class ActionSystem : public UnorderedSystem<ActionComponent>
 {
-    public:
+  public:
+    /**
+     * @brief Construct and initialize the ActionSystem.
+     *
+     * @param systemName Name of the system.
+     * @param manager System manager the position system belongs to.
+     * @param positionSystem System that tracks the position of the entities.
+     */
+    ActionSystem(std::string systemName, SystemManager &manager, PositionSystem *positionSystem,
+                 DrawableSystem *drawableSystem);
 
-        /**
-         * @brief Construct and initialize the ActionSystem.
-         *
-         * @param systemName Name of the system.
-         * @param manager System manager the position system belongs to.
-         * @param positionSystem System that tracks the position of the entities.
-         */
-        ActionSystem(
-                std::string systemName,
-                SystemManager & manager,
-                PositionSystem * positionSystem,
-                DrawableSystem * drawableSystem);
+    /**
+     * @brief Update all of the components in the action system
+     *
+     * @param delta Time passed in seconds since the last update.
+     */
+    void Update(float delta);
 
-        /**
-         * @brief Update all of the components in the action system
-         *
-         * @param delta Time passed in seconds since the last update.
-         */
-        void Update(float delta);
+    /**
+     * @brief Create a Action Component and add it to the system.
+     *
+     * @param entity Entity to add the component to.
+     *
+     * @return A pointer to the position component.
+     */
+    ActionComponent *CreateComponent(const Entity &entity);
 
-        /**
-         * @brief Create a Action Component and add it to the system.
-         *
-         * @param entity Entity to add the component to.
-         *
-         * @return A pointer to the position component.
-         */
-        ActionComponent * CreateComponent(const Entity & entity);
+    /** Getters and Setters */
+    PositionSystem *positionSystem()
+    {
+        return _positionSystem;
+    }
+    DrawableSystem *drawableSystem()
+    {
+        return _drawableSystem;
+    }
 
-        /** Getters and Setters */
-        PositionSystem * positionSystem() { return _positionSystem; }
-        DrawableSystem * drawableSystem() { return _drawableSystem; }
-    private:
-        PositionSystem * _positionSystem;
-        DrawableSystem * _drawableSystem;
+  private:
+    PositionSystem *_positionSystem;
+    DrawableSystem *_drawableSystem;
 };
 
-}
+} // namespace ild
 #endif

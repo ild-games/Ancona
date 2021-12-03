@@ -38,7 +38,7 @@ priv::RenderTextureImpl::RenderTextureImpl()
     _sfmlRenderTarget = std::make_unique<sf::RenderTexture>();
 }
 
-sf::RenderTexture & priv::RenderTextureImpl::sfmlRenderTexture() const
+sf::RenderTexture &priv::RenderTextureImpl::sfmlRenderTexture() const
 {
     return static_cast<sf::RenderTexture &>(*_sfmlRenderTarget);
 }
@@ -74,12 +74,12 @@ void RenderTexture::smooth(bool newSmooth)
 
 // const Texture& RenderTexture::texture() const
 // {
-//     return 
+//     return
 // }
 
-priv::RenderTextureImpl & RenderTexture::renderTextureImpl() const
+priv::RenderTextureImpl &RenderTexture::renderTextureImpl() const
 {
     return static_cast<priv::RenderTextureImpl &>(*_pimpl);
 }
 
-}
+} // namespace ildhal

@@ -17,12 +17,11 @@ priv::TextureImpl::~TextureImpl()
 
 /* HAL Interface Implementation */
 
-Texture::Texture() : 
-    _pimpl(std::make_unique<priv::TextureImpl>())
+Texture::Texture() : _pimpl(std::make_unique<priv::TextureImpl>())
 {
 }
 
-bool Texture::LoadFromFile(const std::string& filename)
+bool Texture::LoadFromFile(const std::string &filename)
 {
     return textureImpl().sfmlTexture().loadFromFile(filename);
 }
@@ -50,4 +49,4 @@ bool Texture::smooth() const
     return textureImpl().sfmlTexture().isSmooth();
 }
 
-}
+} // namespace ildhal

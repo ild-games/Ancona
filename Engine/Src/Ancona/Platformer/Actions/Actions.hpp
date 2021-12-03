@@ -5,12 +5,12 @@
 #include <memory>
 #include <vector>
 
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
+#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
-#include "ValueAction.hpp"
 #include "ScaleAction.hpp"
+#include "ValueAction.hpp"
 
 namespace ild
 {
@@ -21,7 +21,7 @@ namespace ActionDuration
 const float PERSISTENT = std::numeric_limits<float>::infinity();
 const float INSTANT = 0.0f;
 
-}
+} // namespace ActionDuration
 
 typedef std::shared_ptr<ValueAction<Vector2f>> VectorActionProxy;
 typedef std::shared_ptr<ScaleAction<Vector2f>> ScaleActionProxy;
@@ -33,77 +33,73 @@ typedef std::shared_ptr<ScaleAction<Vector2f>> ScaleActionProxy;
  */
 class Actions
 {
-    public:
-        /**
-         * @brief Default constructor that should only be used for serialization.
-         */
-        Actions() {}
+  public:
+    /**
+     * @brief Default constructor that should only be used for serialization.
+     */
+    Actions()
+    {
+    }
 
-        /**
-         * @brief Construct a container for actions.
-         *
-         * @param positionSystem Action system that the actions belong to.
-         */
-        Actions(
-            PositionSystem * positionSystem,
-            DrawableSystem * drawableSystem);
+    /**
+     * @brief Construct a container for actions.
+     *
+     * @param positionSystem Action system that the actions belong to.
+     */
+    Actions(PositionSystem *positionSystem, DrawableSystem *drawableSystem);
 
-        /**
-         * @brief Update the position based on inactive Actions in
-         * the object.
-         */
-        void Apply(
-            PositionComponent & position, 
-            DrawableComponent & drawable,
-            float delta);
+    /**
+     * @brief Update the position based on inactive Actions in
+     * the object.
+     */
+    void Apply(PositionComponent &position, DrawableComponent &drawable, float delta);
 
-        /**
-         * @brief Create an action for setting the position.
-         *
-         * @return A proxy to the position Action.
-         */
-        VectorActionProxy CreatePositionAction();
+    /**
+     * @brief Create an action for setting the position.
+     *
+     * @return A proxy to the position Action.
+     */
+    VectorActionProxy CreatePositionAction();
 
-        /**
-         * @brief Create an action for setting the velocity.
-         *
-         * @return A proxy to the velocity Action.
-         */
-        VectorActionProxy CreateVelocityAction();
-        ScaleActionProxy CreateScaleAction(std::string drawableKey = "");
+    /**
+     * @brief Create an action for setting the velocity.
+     *
+     * @return A proxy to the velocity Action.
+     */
+    VectorActionProxy CreateVelocityAction();
+    ScaleActionProxy CreateScaleAction(std::string drawableKey = "");
 
-        /**
-         * @copydoc ild::CameraComponent::Serialize
-         */
-        void Serialize(Archive & arc);
+    /**
+     * @copydoc ild::CameraComponent::Serialize
+     */
+    void Serialize(Archive &arc);
 
-        void position(PositionSystem * positionSystem) { _positionSystem = positionSystem; }
-        void drawable(DrawableSystem * drawableSystem) { _drawableSystem = drawableSystem; }
+    void position(PositionSystem *positionSystem)
+    {
+        _positionSystem = positionSystem;
+    }
+    void drawable(DrawableSystem *drawableSystem)
+    {
+        _drawableSystem = drawableSystem;
+    }
 
-    private:
-        std::vector<VectorActionProxy> _positionActions;
-        std::vector<VectorActionProxy> _velocityActions;
-        std::vector<ScaleActionProxy> _scaleActions;
-        Vector2f _actionVelocity;
-        PositionSystem * _positionSystem;
-        DrawableSystem * _drawableSystem;
+  private:
+    std::vector<VectorActionProxy> _positionActions;
+    std::vector<VectorActionProxy> _velocityActions;
+    std::vector<ScaleActionProxy> _scaleActions;
+    Vector2f _actionVelocity;
+    PositionSystem *_positionSystem;
+    DrawableSystem *_drawableSystem;
 
-        template<typename T>
-        void RemoveDoneActions(std::vector<T> & actions)
-        {
-            actions.erase(
-                alg::remove_if(
-                    actions,
-                    [](T & action) { return action->Done(); }
-                    ),
-                actions.end()
-                );
-        }
+    template <typename T> void RemoveDoneActions(std::vector<T> &actions)
+    {
+        actions.erase(alg::remove_if(actions, [](T &action) { return action->Done(); }), actions.end());
+    }
 
-        Vector2f ApplyPositionActions(const PositionComponent & position, float delta);
-        Vector2f ApplyVelocityActions(const PositionComponent & position, float delta);
-        void ApplyScaleActions(DrawableComponent & drawable, float delta);
+    Vector2f ApplyPositionActions(const PositionComponent &position, float delta);
+    Vector2f ApplyVelocityActions(const PositionComponent &position, float delta);
+    void ApplyScaleActions(DrawableComponent &drawable, float delta);
 };
 
-}
+} // namespace ild
 #endif

@@ -1,5 +1,5 @@
-#include <sstream>
 #include <cmath>
+#include <sstream>
 
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
@@ -9,36 +9,40 @@
 
 using namespace ild;
 
-std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> Jukebox::_jukeboxSounds = std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>>();
+std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> Jukebox::_jukeboxSounds =
+    std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>>();
 std::string Jukebox::_musicKeyPlaying = "";
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
-std::shared_ptr<ildhal::Music> & Jukebox::_music = std::shared_ptr<ildhal::Music>(nullptr);
+std::shared_ptr<ildhal::Music> &Jukebox::_music = std::shared_ptr<ildhal::Music>(nullptr);
 float Jukebox::_loopStart = 0.0f;
 bool Jukebox::_loop = true;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
 
 void Jukebox::Update()
 {
-    if (!_music) {
+    if (!_music)
+    {
         return;
     }
 
     // do our own looping of music since the SFML setLoopPoints API is inconsisent in whether or not it works
-    if (_music->status() == ildhal::SoundSource::Status::Stopped && _loop && _loopStart > 0.0f) {
+    if (_music->status() == ildhal::SoundSource::Status::Stopped && _loop && _loopStart > 0.0f)
+    {
         _music->Play();
         _music->playingOffset(ildhal::seconds(_loopStart));
     }
 }
 
-void Jukebox::InitMusic(std::shared_ptr<ildhal::Music> & music)
+void Jukebox::InitMusic(std::shared_ptr<ildhal::Music> &music)
 {
     _music = music;
 }
 
-void Jukebox::RegisterSound(const std::string& soundKey)
+void Jukebox::RegisterSound(const std::string &soundKey)
 {
-    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
+    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end())
+    {
         _jukeboxSounds.emplace(soundKey, std::unique_ptr<JukeboxSounds>(new JukeboxSounds()));
     }
 
@@ -51,10 +55,12 @@ void Jukebox::ClearSounds()
     _nextSoundLifecycleJobID = 0;
 }
 
-unsigned long Jukebox::ReserveSoundLifecycleID(const std::string& soundKey)
+unsigned long Jukebox::ReserveSoundLifecycleID(const std::string &soundKey)
 {
-    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
-        ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before reserving a sound allocation.");
+    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end())
+    {
+        ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before "
+                         "reserving a sound allocation.");
     }
 
     _nextSoundLifecycleJobID++;
@@ -62,22 +68,26 @@ unsigned long Jukebox::ReserveSoundLifecycleID(const std::string& soundKey)
     return _nextSoundLifecycleJobID;
 }
 
-void Jukebox::PlaySound(const std::string& soundKey, const unsigned long& jobID, const float& volume)
+void Jukebox::PlaySound(const std::string &soundKey, const unsigned long &jobID, const float &volume)
 {
-    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end()) {
-        ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before playing a sound");
+    if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end())
+    {
+        ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before "
+                         "playing a sound");
     }
 
     _jukeboxSounds[soundKey]->Play(jobID, volume);
 }
 
-void Jukebox::PlayMusic(const std::string& musicKey, const bool& loop, const float& loopStart)
+void Jukebox::PlayMusic(const std::string &musicKey, const bool &loop, const float &loopStart)
 {
-    if (!_music) {
+    if (!_music)
+    {
         return;
     }
 
-    if (musicKey == _musicKeyPlaying) {
+    if (musicKey == _musicKeyPlaying)
+    {
         return;
     }
 
@@ -89,9 +99,10 @@ void Jukebox::PlayMusic(const std::string& musicKey, const bool& loop, const flo
     PlayMusic(loop, loopStart);
 }
 
-void Jukebox::PlayMusic(const bool& loop, const float& loopStart)
+void Jukebox::PlayMusic(const bool &loop, const float &loopStart)
 {
-    if (!_music) {
+    if (!_music)
+    {
         return;
     }
 
@@ -104,7 +115,8 @@ void Jukebox::PlayMusic(const bool& loop, const float& loopStart)
 
 void Jukebox::StopMusic()
 {
-    if (!_music) {
+    if (!_music)
+    {
         return;
     }
 
@@ -114,7 +126,8 @@ void Jukebox::StopMusic()
 
 void Jukebox::PauseMusic()
 {
-    if (!_music) {
+    if (!_music)
+    {
         return;
     }
 
@@ -123,13 +136,17 @@ void Jukebox::PauseMusic()
 
 void Jukebox::ApplyMusicVolume()
 {
-    if (!_music) {
+    if (!_music)
+    {
         return;
     }
 
-    if (_musicVolumePercent == 0.0f) {
+    if (_musicVolumePercent == 0.0f)
+    {
         _music->volume(0.0f);
-    } else {
+    }
+    else
+    {
         auto realVolume = std::pow(100.0f, _musicVolumePercent - 1);
         _music->volume(realVolume * 100);
     }

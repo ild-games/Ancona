@@ -34,25 +34,27 @@ namespace ildhal
 
 namespace priv
 {
-    class ClockImpl;
+class ClockImpl;
 }
 
 class Clock
 {
-    public:
-        Clock();
+  public:
+    Clock();
 
-        Time ElapsedTime() const;
-        Time Restart();
+    Time ElapsedTime() const;
+    Time Restart();
 
-        /* getters and setters */
-        priv::ClockImpl & clockImpl() const { return *_pimpl; }
-    private:
+    /* getters and setters */
+    priv::ClockImpl &clockImpl() const
+    {
+        return *_pimpl;
+    }
 
-        std::unique_ptr<priv::ClockImpl> _pimpl;
+  private:
+    std::unique_ptr<priv::ClockImpl> _pimpl;
 };
 
-}
-
+} // namespace ildhal
 
 #endif

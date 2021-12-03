@@ -13,18 +13,21 @@ namespace priv
 
 class ClockImpl
 {
-    public:
-        ClockImpl();
+  public:
+    ClockImpl();
 
-        /* getters and setters */
-        sf::Clock & sfmlClock() const { return *_sfmlClock; }
+    /* getters and setters */
+    sf::Clock &sfmlClock() const
+    {
+        return *_sfmlClock;
+    }
 
-    private:
-        std::unique_ptr<sf::Clock> _sfmlClock;
+  private:
+    std::unique_ptr<sf::Clock> _sfmlClock;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

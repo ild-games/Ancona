@@ -1,7 +1,7 @@
 #include <sstream>
 
-#include <Ancona/Util/Assert.hpp>
 #include "ButtonSystem.hpp"
+#include <Ancona/Util/Assert.hpp>
 
 using namespace ild;
 
@@ -9,15 +9,14 @@ ButtonStateEnum GetNextButtonState(ButtonStateEnum currentState, PointerStateEnu
 PointerStateEnum GetNextPointerState(bool isDown, PointerStateEnum previousState);
 std::string GetButtonStateTitle(ButtonStateEnum buttonState);
 
-
 /* Component */
 ButtonComponent::ButtonComponent()
 {
 }
 
-void ButtonComponent::Update(float delta, const ild::Box2 & position, PointerStateEnum pointerState)
+void ButtonComponent::Update(float delta, const ild::Box2 &position, PointerStateEnum pointerState)
 {
-    if (_disabled) 
+    if (_disabled)
     {
         return;
     }
@@ -62,24 +61,24 @@ std::string GetButtonStateTitle(ButtonStateEnum buttonState)
 {
     switch (buttonState)
     {
-        case ButtonState::Clicked:
-            return "pressed";
-            break;
-        case ButtonState::Hover:
-            return "hover";
-            break;
-        case ButtonState::Normal:
-            return "normal";
-            break;
-        case ButtonState::Pressed:
-            return "pressed";
-            break;
+    case ButtonState::Clicked:
+        return "pressed";
+        break;
+    case ButtonState::Hover:
+        return "hover";
+        break;
+    case ButtonState::Normal:
+        return "normal";
+        break;
+    case ButtonState::Pressed:
+        return "pressed";
+        break;
     }
     ILD_Assert(false, "Unknown button state in GetButtonStateTitle");
     return "unknown";
 }
 
-void ButtonComponent::Serialize(ild::Archive & arc)
+void ButtonComponent::Serialize(ild::Archive &arc)
 {
     // Implement component serialization here
     arc.system(_collisionSystem, "collision");
@@ -96,19 +95,17 @@ void ButtonComponent::FetchDependencies(const ild::Entity &entity)
 }
 
 /* getters and setters */
-void ButtonComponent::disabled(const bool & newDisabled)
+void ButtonComponent::disabled(const bool &newDisabled)
 {
-    _disabled = newDisabled; 
+    _disabled = newDisabled;
     auto initialState = _buttonState;
     _buttonState = ButtonStateEnum::Normal;
     ChangeDrawable(initialState, _buttonState);
 }
 
 /* System */
-ButtonSystem::ButtonSystem(
-        std::string name,
-        ild::SystemManager &manager) :
-    UnorderedSystem(name, manager, ild::UpdateStep::Update)
+ButtonSystem::ButtonSystem(std::string name, ild::SystemManager &manager)
+    : UnorderedSystem(name, manager, ild::UpdateStep::Update)
 {
 }
 
@@ -119,12 +116,16 @@ void ButtonSystem::Update(float delta)
 
     _clickedEntity = ild::nullentity;
     _pressedEntity = ild::nullentity;
-    for (EntityComponentPair comp : *this) {
+    for (EntityComponentPair comp : *this)
+    {
         comp.second->Update(delta, box, _pointerState);
 
-        if (comp.second->WasClicked()) {
+        if (comp.second->WasClicked())
+        {
             _clickedEntity = comp.first;
-        } else if (comp.second->IsPressed()) {
+        }
+        else if (comp.second->IsPressed())
+        {
             _pressedEntity = comp.first;
         }
     }
@@ -132,14 +133,16 @@ void ButtonSystem::Update(float delta)
 
 void ButtonSystem::DisableAll()
 {
-    for (EntityComponentPair comp : *this) {
+    for (EntityComponentPair comp : *this)
+    {
         comp.second->disabled(true);
     }
 }
 
 void ButtonSystem::EnableAll()
 {
-    for (EntityComponentPair comp : *this) {
+    for (EntityComponentPair comp : *this)
+    {
         comp.second->disabled(false);
     }
 }
@@ -150,9 +153,9 @@ void ButtonSystem::Pointer(ild::Vector2f location, bool isDown)
     _isDown = isDown;
 }
 
-ButtonComponent * ButtonSystem::CreateComponent(const ild::Entity &entity)
+ButtonComponent *ButtonSystem::CreateComponent(const ild::Entity &entity)
 {
-    ButtonComponent * comp = new ButtonComponent();
+    ButtonComponent *comp = new ButtonComponent();
     AttachComponent(entity, comp);
     return comp;
 }
@@ -169,7 +172,8 @@ ild::Entity ButtonSystem::GetClickedEntity()
 
 std::string ButtonSystem::GetClickedKey()
 {
-    if (WasEntityClicked()) {
+    if (WasEntityClicked())
+    {
         return this->at(_clickedEntity)->key();
     }
     return "";
@@ -187,7 +191,8 @@ ild::Entity ButtonSystem::GetPressedEntity()
 
 std::string ButtonSystem::GetPressedKey()
 {
-    if (IsEntityPressed()) {
+    if (IsEntityPressed())
+    {
         return this->at(_pressedEntity)->key();
     }
     return "";
@@ -197,42 +202,42 @@ PointerStateEnum GetNextPointerState(bool isDown, PointerStateEnum previousState
 {
     switch (previousState)
     {
-        case PointerState::IsPressedDown:
-            if (isDown)
-            {
-                return PointerState::IsPressedDown;
-            }
-            else
-            {
-                return PointerState::WasLetUp;
-            }
-        case PointerState::WasLetUp:
-            if (isDown)
-            {
-                return PointerState::WasPressedDown;
-            }
-            else
-            {
-                return PointerState::Up;
-            }
-        case PointerState::WasPressedDown:
-            if (isDown)
-            {
-                return PointerState::IsPressedDown;
-            }
-            else
-            {
-                return PointerState::WasLetUp;
-            }
-        case PointerState::Up:
-            if (isDown)
-            {
-                return PointerState::WasPressedDown;
-            }
-            else
-            {
-                return PointerState::Up;
-            }
+    case PointerState::IsPressedDown:
+        if (isDown)
+        {
+            return PointerState::IsPressedDown;
+        }
+        else
+        {
+            return PointerState::WasLetUp;
+        }
+    case PointerState::WasLetUp:
+        if (isDown)
+        {
+            return PointerState::WasPressedDown;
+        }
+        else
+        {
+            return PointerState::Up;
+        }
+    case PointerState::WasPressedDown:
+        if (isDown)
+        {
+            return PointerState::IsPressedDown;
+        }
+        else
+        {
+            return PointerState::WasLetUp;
+        }
+    case PointerState::Up:
+        if (isDown)
+        {
+            return PointerState::WasPressedDown;
+        }
+        else
+        {
+            return PointerState::Up;
+        }
     }
     ILD_Assert(false, "Unknown state reached in GetNextPointerState");
     return PointerState::Up;
@@ -242,43 +247,43 @@ ButtonStateEnum GetNextButtonState(ButtonStateEnum currentState, PointerStateEnu
 {
     switch (pointerState)
     {
-        case PointerState::Up:
-            if (mouseIsOver)
-            {
-                return ButtonState::Hover;
-            }
-            else
-            {
-                return ButtonState::Normal;
-            }
-            break;
-        case PointerState::WasLetUp:
-            if (mouseIsOver && currentState == ButtonState::Pressed)
-            {
-                return ButtonState::Clicked;
-            }
-            else if (mouseIsOver)
-            {
-                return ButtonState::Hover;
-            }
-            else
-            {
-                return ButtonState::Normal;
-            }
-            break;
-        case PointerState::WasPressedDown:
-            if (mouseIsOver)
-            {
-                return ButtonState::Pressed;
-            }
-            else
-            {
-                return ButtonState::Normal;
-            }
-            break;
-        case PointerState::IsPressedDown:
-            return currentState;
-            break;
+    case PointerState::Up:
+        if (mouseIsOver)
+        {
+            return ButtonState::Hover;
+        }
+        else
+        {
+            return ButtonState::Normal;
+        }
+        break;
+    case PointerState::WasLetUp:
+        if (mouseIsOver && currentState == ButtonState::Pressed)
+        {
+            return ButtonState::Clicked;
+        }
+        else if (mouseIsOver)
+        {
+            return ButtonState::Hover;
+        }
+        else
+        {
+            return ButtonState::Normal;
+        }
+        break;
+    case PointerState::WasPressedDown:
+        if (mouseIsOver)
+        {
+            return ButtonState::Pressed;
+        }
+        else
+        {
+            return ButtonState::Normal;
+        }
+        break;
+    case PointerState::IsPressedDown:
+        return currentState;
+        break;
     }
     ILD_Assert(false, "Unknown state reached in GetNextButtonState");
     return currentState;

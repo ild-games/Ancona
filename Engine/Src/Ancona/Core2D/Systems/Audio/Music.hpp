@@ -10,28 +10,32 @@ namespace ild
 
 class Music
 {
-    public:
-        Music() {}
+  public:
+    Music()
+    {
+    }
 
-        void Play();
-        void Stop();
-        void Pause();
-        void Update(float delta);
+    void Play();
+    void Stop();
+    void Pause();
+    void Update(float delta);
 
-        void Serialize(Archive &arc);
-        void FetchDependencies(const Entity & entity);
+    void Serialize(Archive &arc);
+    void FetchDependencies(const Entity &entity);
 
-        /* getters and setters */
-        const std::string & key() { return _musicKey; }
+    /* getters and setters */
+    const std::string &key()
+    {
+        return _musicKey;
+    }
 
-    private:
-        float _volume;
-        std::string _musicKey;
-        float _loopStart = 0.0f;
-        bool _loop = true;
-
+  private:
+    float _volume;
+    std::string _musicKey;
+    float _loopStart = 0.0f;
+    bool _loop = true;
 };
 
-}
+} // namespace ild
 
 #endif

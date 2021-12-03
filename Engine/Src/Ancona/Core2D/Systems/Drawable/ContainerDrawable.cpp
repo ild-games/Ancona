@@ -7,46 +7,42 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::ContainerDrawable);
 
 using namespace ild;
 
-ContainerDrawable::ContainerDrawable(
-        const float priority,
-        const std::string & key,
-        float priorityOffset,
-        Vector2f anchor) :
-    Drawable(
-            priority,
-            key,
-            priorityOffset,
-            anchor)
+ContainerDrawable::ContainerDrawable(const float priority, const std::string &key, float priorityOffset,
+                                     Vector2f anchor)
+    : Drawable(priority, key, priorityOffset, anchor)
 {
 }
 
-Drawable * ContainerDrawable::Copy() {
+Drawable *ContainerDrawable::Copy()
+{
     auto drawable = new ContainerDrawable();
     Drawable::CopyProperties(drawable);
 
-    for (auto & childDrawable : _drawables) {
+    for (auto &childDrawable : _drawables)
+    {
         drawable->AddDrawable(childDrawable->Copy());
     }
     return drawable;
 }
 
-void ContainerDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
+void ContainerDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta)
 {
-    if (_anchor.x != 0.0f || _anchor.y != 0.0f) {
+    if (_anchor.x != 0.0f || _anchor.y != 0.0f)
+    {
         auto size = this->size();
-        drawableTransform.Translate(
-            -(size.x * _anchor.x / std::abs(_scale.x)),
-            -(size.y * _anchor.y / std::abs(_scale.y)));
+        drawableTransform.Translate(-(size.x * _anchor.x / std::abs(_scale.x)),
+                                    -(size.y * _anchor.y / std::abs(_scale.y)));
     }
-    for (auto & drawable : _drawables)
+    for (auto &drawable : _drawables)
     {
         drawable->Draw(target, drawableTransform, delta);
     }
 }
 
-void ContainerDrawable::PostDrawUpdate(float delta) 
+void ContainerDrawable::PostDrawUpdate(float delta)
 {
-    for (auto & childDrawable : _drawables) {
+    for (auto &childDrawable : _drawables)
+    {
         childDrawable->PostDrawUpdate(delta);
     }
 }
@@ -54,16 +50,16 @@ void ContainerDrawable::PostDrawUpdate(float delta)
 void ContainerDrawable::FetchDependencies(const Entity &entity)
 {
     Drawable::FetchDependencies(entity);
-    for (auto & drawable : _drawables)
+    for (auto &drawable : _drawables)
     {
         drawable->FetchDependencies(entity);
     }
     SortDrawables();
 }
 
-Drawable * ContainerDrawable::FindDrawable(const std::string & key)
+Drawable *ContainerDrawable::FindDrawable(const std::string &key)
 {
-    Drawable * toReturn = Drawable::FindDrawable(key);
+    Drawable *toReturn = Drawable::FindDrawable(key);
     if (toReturn == nullptr)
     {
         for (auto &drawable : _drawables)
@@ -80,38 +76,35 @@ Drawable * ContainerDrawable::FindDrawable(const std::string & key)
 
 void ContainerDrawable::SortDrawables()
 {
-    alg::sort(
-            _drawables,
-            [](const std::shared_ptr<Drawable> & lhs, const std::shared_ptr<Drawable> & rhs)
-            {
-                return lhs->renderPriority() < rhs->renderPriority();
-            });
+    alg::sort(_drawables, [](const std::shared_ptr<Drawable> &lhs, const std::shared_ptr<Drawable> &rhs) {
+        return lhs->renderPriority() < rhs->renderPriority();
+    });
 }
 
-void ContainerDrawable::Serialize(Archive & arc)
+void ContainerDrawable::Serialize(Archive &arc)
 {
     Drawable::Serialize(arc);
     arc(_drawables, "drawables");
 }
 
-void ContainerDrawable::AddDrawable(Drawable * drawable)
+void ContainerDrawable::AddDrawable(Drawable *drawable)
 {
     _drawables.emplace_back(drawable);
 }
 
-void ContainerDrawable::RemoveDrawable(const std::string & key)
+void ContainerDrawable::RemoveDrawable(const std::string &key)
 {
-    _drawables.erase(alg::remove_if(_drawables, [key](const std::shared_ptr<Drawable> & drawable) {
-        return key == drawable->key();
-    }));
+    _drawables.erase(alg::remove_if(
+        _drawables, [key](const std::shared_ptr<Drawable> &drawable) { return key == drawable->key(); }));
 }
 
 Vector2f ContainerDrawable::size()
 {
     float minX = INFINITY, minY = INFINITY, maxX = -INFINITY, maxY = -INFINITY;
-    for (auto & drawable : _drawables)
+    for (auto &drawable : _drawables)
     {
-        if (!drawable->inactive()) {
+        if (!drawable->inactive())
+        {
             Vector2f drawableSize = drawable->size();
 
             float curX = -(drawableSize.x * drawable->anchor().x);
@@ -136,9 +129,7 @@ Vector2f ContainerDrawable::size()
         }
     }
     Vector2f size(maxX - minX, maxY - minY);
-    return VectorMath::ComponentMultiplication(
-        size,
-        Vector2f(std::abs(_scale.x), std::abs(_scale.y)));
+    return VectorMath::ComponentMultiplication(size, Vector2f(std::abs(_scale.x), std::abs(_scale.y)));
 }
 
 int ContainerDrawable::alpha()
@@ -152,7 +143,7 @@ int ContainerDrawable::alpha()
 
 void ContainerDrawable::alpha(int alpha)
 {
-    for (auto & drawable : _drawables)
+    for (auto &drawable : _drawables)
     {
         drawable->alpha(alpha);
     }
@@ -161,14 +152,17 @@ void ContainerDrawable::alpha(int alpha)
 Vector2f ContainerDrawable::position(Vector2f entityPosition)
 {
     float minX = INFINITY, minY = INFINITY;
-    for (auto & drawable : _drawables) {
+    for (auto &drawable : _drawables)
+    {
         Vector2f drawablePosition = drawable->position(entityPosition);
 
-        if (drawablePosition.x < minX) {
+        if (drawablePosition.x < minX)
+        {
             minX = drawablePosition.x;
         }
 
-        if (drawablePosition.y < minY) {
+        if (drawablePosition.y < minY)
+        {
             minY = drawablePosition.y;
         }
     }

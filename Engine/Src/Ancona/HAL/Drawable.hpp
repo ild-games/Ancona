@@ -36,23 +36,24 @@ namespace ildhal
 
 namespace priv
 {
-    class DrawableImpl;
+class DrawableImpl;
 }
 
 class RenderTarget;
 
 class Drawable
 {
-    public:
+  public:
+    /* getters and setters */
+    priv::DrawableImpl &drawableImpl() const
+    {
+        return *_pimpl;
+    }
 
-        /* getters and setters */
-        priv::DrawableImpl & drawableImpl() const { return *_pimpl; }
-    protected:
-
-        std::unique_ptr<priv::DrawableImpl> _pimpl;
+  protected:
+    std::unique_ptr<priv::DrawableImpl> _pimpl;
 };
 
-}
-
+} // namespace ildhal
 
 #endif

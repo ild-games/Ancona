@@ -8,36 +8,28 @@
 
 using namespace ild;
 
-DrawableComponent::DrawableComponent() { }
-
-DrawableComponent::DrawableComponent(
-        std::unique_ptr<Drawable> topDrawable,
-        DrawableSystem * drawableSystem,
-        PositionSystem * positionSystem,
-        CameraComponent * cameraComponent) :
-    _topDrawable(std::move(topDrawable)),
-    _camera(cameraComponent),
-    _positionSystem(positionSystem),
-    _drawableSystem(drawableSystem)
+DrawableComponent::DrawableComponent()
 {
 }
 
+DrawableComponent::DrawableComponent(std::unique_ptr<Drawable> topDrawable, DrawableSystem *drawableSystem,
+                                     PositionSystem *positionSystem, CameraComponent *cameraComponent)
+    : _topDrawable(std::move(topDrawable)), _camera(cameraComponent), _positionSystem(positionSystem),
+      _drawableSystem(drawableSystem)
+{
+}
 
-Drawable * DrawableComponent::GetDrawable(const std::string & key)
+Drawable *DrawableComponent::GetDrawable(const std::string &key)
 {
     return _topDrawable->FindDrawable(key);
 }
 
-
-void DrawableComponent::Draw(ildhal::RenderTarget & target, float delta)
+void DrawableComponent::Draw(ildhal::RenderTarget &target, float delta)
 {
     Transform transform;
-    transform.Translate(
-        std::round(_positionComponent->position().x),
-        std::round(_positionComponent->position().y));
+    transform.Translate(std::round(_positionComponent->position().x), std::round(_positionComponent->position().y));
     _topDrawable->Draw(target, transform, delta);
 }
-
 
 void DrawableComponent::PostDrawUpdate(float delta)
 {
@@ -46,16 +38,13 @@ void DrawableComponent::PostDrawUpdate(float delta)
 
 Box2 DrawableComponent::BoundingBox()
 {
-    return Box2(
-        _topDrawable->position(_positionComponent->position()),
-        _topDrawable->size(),
-        _topDrawable->anchor(),
-        Math::DegreesToRadians(_topDrawable->rotation()));
+    return Box2(_topDrawable->position(_positionComponent->position()), _topDrawable->size(), _topDrawable->anchor(),
+                Math::DegreesToRadians(_topDrawable->rotation()));
 }
 
-void DrawableComponent::FetchDependencies(const Entity & entity)
+void DrawableComponent::FetchDependencies(const Entity &entity)
 {
-    if(_camEntity == nullentity)
+    if (_camEntity == nullentity)
     {
         _camera = _drawableSystem->defaultCamera();
         ILD_Assert(_drawableSystem->defaultCamera() != nullptr, "Default camera not set");
@@ -69,7 +58,7 @@ void DrawableComponent::FetchDependencies(const Entity & entity)
     _topDrawable->FetchDependencies(entity);
 }
 
-void DrawableComponent::Serialize(Archive & arc)
+void DrawableComponent::Serialize(Archive &arc)
 {
     arc.entityUsingJsonKey(_camEntity, "camEntity");
     arc.system(_cameraSystem, "camera");

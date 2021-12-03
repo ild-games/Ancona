@@ -2,7 +2,6 @@
 
 using namespace ild;
 
-SerializingContext::SerializingContext(ScreenSystemsContainer & systems) :
-    _systems(systems)
+SerializingContext::SerializingContext(ScreenSystemsContainer &systems) : _systems(systems)
 {
 }

@@ -27,8 +27,8 @@
 #ifndef Ancona_HAL_RenderTarget_H_
 #define Ancona_HAL_RenderTarget_H_
 
-#include <Ancona/Graphics/View.hpp>
 #include <Ancona/Graphics/Color.hpp>
+#include <Ancona/Graphics/View.hpp>
 #include <Ancona/HAL/Drawable.hpp>
 #include <Ancona/HAL/RenderStates.hpp>
 #include <Ancona/Util/Vector2.hpp>
@@ -38,29 +38,31 @@ namespace ildhal
 
 namespace priv
 {
-    class RenderTargetImpl;
+class RenderTargetImpl;
 }
 
 class RenderTarget
 {
-    public:
-        void Clear(const ild::Color & color = ild::Color(0, 0, 0, 255));
-        void Draw(const Drawable & drawable, const RenderStates & states = RenderStates::Default);
-        ild::Vector2f MapPixelToCoords(const ild::Vector2i & point, const ild::View & view) const;
-        void ResetGLStates();
+  public:
+    void Clear(const ild::Color &color = ild::Color(0, 0, 0, 255));
+    void Draw(const Drawable &drawable, const RenderStates &states = RenderStates::Default);
+    ild::Vector2f MapPixelToCoords(const ild::Vector2i &point, const ild::View &view) const;
+    void ResetGLStates();
 
-        /* getters and setters */
-        const ild::View & defaultView() const;
-        void view(const ild::View & view);
-        virtual ild::Vector2u size() const = 0;
+    /* getters and setters */
+    const ild::View &defaultView() const;
+    void view(const ild::View &view);
+    virtual ild::Vector2u size() const = 0;
 
-        priv::RenderTargetImpl & renderTargetImpl() const { return *_pimpl; }
+    priv::RenderTargetImpl &renderTargetImpl() const
+    {
+        return *_pimpl;
+    }
 
-    protected:
-
-        std::unique_ptr<priv::RenderTargetImpl> _pimpl;
+  protected:
+    std::unique_ptr<priv::RenderTargetImpl> _pimpl;
 };
 
-}
+} // namespace ildhal
 
 #endif

@@ -1,10 +1,10 @@
 #ifndef Ancona_Engine_Serializing_HalSerializer_H_
 #define Ancona_Engine_Serializing_HalSerializer_H_
 
+#include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Serializing/Archive.hpp>
 #include <Ancona/Framework/Serializing/Serializer.hpp>
 #include <Ancona/Framework/Serializing/StdSerializer.hpp>
-#include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Graphics/Color.hpp>
 #include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL.hpp>
@@ -13,10 +13,9 @@
 namespace ild
 {
 
-template <>
-struct Serializer<ildhal::Text>
+template <> struct Serializer<ildhal::Text>
 {
-    static void Serialize(ildhal::Text & property, Archive & arc)
+    static void Serialize(ildhal::Text &property, Archive &arc)
     {
         std::string text;
         std::string fontKey;
@@ -34,7 +33,7 @@ struct Serializer<ildhal::Text>
 
         arc(text, "text");
         arc(color, "color");
-        arc(characterSize,"characterSize");
+        arc(characterSize, "characterSize");
         arc(smooth, "smooth");
 
         if (arc.loading())
@@ -51,49 +50,46 @@ struct Serializer<ildhal::Text>
         }
     }
 
-    static const rapidjson::Type SerializingType() 
+    static const rapidjson::Type SerializingType()
     {
         return rapidjson::Type::kObjectType;
     }
 };
 
-template <>
-struct Serializer<ildhal::Shape>
+template <> struct Serializer<ildhal::Shape>
 {
-    static void Serialize(ildhal::Shape & shape, Archive & arc)
+    static void Serialize(ildhal::Shape &shape, Archive &arc)
     {
         ILD_Assert(false, "Cannot serialize ildhal::Shape");
     }
 
-    static const rapidjson::Type SerializingType() 
+    static const rapidjson::Type SerializingType()
     {
         return rapidjson::Type::kObjectType;
     }
 };
 
-template <>
-struct Serializer<ildhal::RectangleShape>
+template <> struct Serializer<ildhal::RectangleShape>
 {
-    static void Serialize(ildhal::RectangleShape & shape, Archive & arc);
+    static void Serialize(ildhal::RectangleShape &shape, Archive &arc);
 
-    static const rapidjson::Type SerializingType() 
+    static const rapidjson::Type SerializingType()
     {
         return rapidjson::Type::kObjectType;
     }
 };
 
-template <>
-struct Serializer<ildhal::CircleShape>
+template <> struct Serializer<ildhal::CircleShape>
 {
-    static void Serialize(ildhal::CircleShape & shape, Archive & arc);
+    static void Serialize(ildhal::CircleShape &shape, Archive &arc);
 
-    static const rapidjson::Type SerializingType() 
+    static const rapidjson::Type SerializingType()
     {
         return rapidjson::Type::kObjectType;
     }
 };
 
-}
+} // namespace ild
 
 GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(ildhal::Shape)
 

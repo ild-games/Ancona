@@ -4,10 +4,10 @@
 #include <vector>
 
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
-#include <Ancona/Util2D/Collision/Box2.hpp>
 #include <Ancona/Util/Data.hpp>
 #include <Ancona/Util/Vector2.hpp>
 #include <Ancona/Util/Vector3.hpp>
+#include <Ancona/Util2D/Collision/Box2.hpp>
 
 #include "Collision.hpp"
 
@@ -40,12 +40,12 @@ enum Type
     Environment,
     Count
 };
-}
+} // namespace BodyType
 typedef BodyType::Type BodyTypeEnum;
 
 /**
- * @brief Component attached to entities by the collision system.  It keeps track of state describing how the entity interacts
- * with other entities.
+ * @brief Component attached to entities by the collision system.  It keeps track of state describing how the entity
+ * interacts with other entities.
  * @author Jeff Swenson
  */
 class CollisionComponent
@@ -59,7 +59,8 @@ class CollisionComponent
      * @param type Type of entity for collisions.
      * @param bodyType BodyType of the collision component.  Determines how collision fixing is performed.
      */
-    CollisionComponent(CollisionSystem *collisionSystem, const Vector3f &dim, CollisionType type, BodyTypeEnum bodyType);
+    CollisionComponent(CollisionSystem *collisionSystem, const Vector3f &dim, CollisionType type,
+                       BodyTypeEnum bodyType);
 
     /*
      * Constructor that should only be used by the loading system.
@@ -111,16 +112,46 @@ class CollisionComponent
     void GetCollisions(std::vector<Collision> &collisions, const Box2 &boxToTest) const;
 
     /* getters and setters */
-    const CollisionType &type() const { return _type; }
-    void type(const CollisionType &type) { _type = type; }
-    const BodyTypeEnum &bodyType() const { return _bodyType; }
-    void bodyType(const BodyTypeEnum &bodyType) { _bodyType = bodyType; }
-    PositionComponent &positionComponent() { return *_position; }
-    const Box2 &box() const { return _dim; }
-    void anchor(const Vector2f &anchor) { _anchor = anchor; }
-    const Vector2f &anchor() const { return _anchor; }
-    bool enabled() const { return _enabled; }
-    void enabled(const bool &newEnabled) { _enabled = newEnabled; }
+    const CollisionType &type() const
+    {
+        return _type;
+    }
+    void type(const CollisionType &type)
+    {
+        _type = type;
+    }
+    const BodyTypeEnum &bodyType() const
+    {
+        return _bodyType;
+    }
+    void bodyType(const BodyTypeEnum &bodyType)
+    {
+        _bodyType = bodyType;
+    }
+    PositionComponent &positionComponent()
+    {
+        return *_position;
+    }
+    const Box2 &box() const
+    {
+        return _dim;
+    }
+    void anchor(const Vector2f &anchor)
+    {
+        _anchor = anchor;
+    }
+    const Vector2f &anchor() const
+    {
+        return _anchor;
+    }
+    bool enabled() const
+    {
+        return _enabled;
+    }
+    void enabled(const bool &newEnabled)
+    {
+        _enabled = newEnabled;
+    }
 
   private:
     PositionComponent *_position;
@@ -131,5 +162,5 @@ class CollisionComponent
     Vector2f _anchor;
     bool _enabled = true;
 };
-}
+} // namespace ild
 #endif

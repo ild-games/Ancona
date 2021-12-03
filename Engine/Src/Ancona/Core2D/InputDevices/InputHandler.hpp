@@ -14,14 +14,14 @@ class InputControlComponent;
  */
 class InputHandler
 {
-    public:
-        /**
-         * @brief Gathers the input for this specific control
-         *        device
-         */
-        virtual void HandleInput(float delta) = 0;
+  public:
+    /**
+     * @brief Gathers the input for this specific control
+     *        device
+     */
+    virtual void HandleInput(float delta) = 0;
 };
 
-}
+} // namespace ild
 
 #endif

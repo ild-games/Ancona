@@ -1,6 +1,6 @@
+#include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/HAL/Touch.hpp>
 #include <Ancona/Util/Algorithm.hpp>
-#include <Ancona/Core2D/Core/Game.hpp>
 
 namespace ildhal
 {
@@ -29,7 +29,8 @@ bool Touch::IsFingerDown(unsigned int finger)
 
 ild::Vector2i Touch::FingerPosition(unsigned int finger)
 {
-    if (_fingerPosition.find(finger) != _fingerPosition.end()) {
+    if (_fingerPosition.find(finger) != _fingerPosition.end())
+    {
         return _fingerPosition[finger];
     }
 
@@ -47,13 +48,17 @@ void Touch::_AddFingerPress(unsigned int finger, int x, int y)
 void Touch::_AddFingerRelease(unsigned int finger)
 {
     _releasedFingers.insert(finger);
-    if (_heldFingersToFrameCount[finger] != ild::Game::FrameCount) {
+    if (_heldFingersToFrameCount[finger] != ild::Game::FrameCount)
+    {
         auto iter = std::find(_heldFingers.begin(), _heldFingers.end(), finger);
-        if (iter != _heldFingers.end()) {
+        if (iter != _heldFingers.end())
+        {
             _heldFingers.erase(iter);
         }
         _fingerPosition[finger] = ild::Vector2i(0, 0);
-    } else {
+    }
+    else
+    {
         _heldFingersToClear.insert(finger);
     }
 }
@@ -67,7 +72,8 @@ void Touch::_ClearFingers()
 {
     _pressedFingers.clear();
     _releasedFingers.clear();
-    for (auto heldFingerToClear : _heldFingersToClear) {
+    for (auto heldFingerToClear : _heldFingersToClear)
+    {
         _heldFingers.erase(std::find(_heldFingers.begin(), _heldFingers.end(), heldFingerToClear));
         _fingerPosition[heldFingerToClear] = ild::Vector2i(0, 0);
         _heldFingersToFrameCount[heldFingerToClear] = 0;
@@ -83,4 +89,4 @@ void Touch::_ClearAllFingersState()
     _heldFingersToClear.clear();
 }
 
-}
+} // namespace ildhal

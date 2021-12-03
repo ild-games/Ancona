@@ -4,56 +4,50 @@
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::PositionComponent);
 
-namespace ild {
-std::ostream & operator << (std::ostream& os, const Vector2f&pt)
+namespace ild
+{
+std::ostream &operator<<(std::ostream &os, const Vector2f &pt)
 {
     os << "(" << pt.x << "," << pt.y << ")";
     return os;
 }
 
-std::ostream & operator << (std::ostream&& os, const Vector2f&pt)
+std::ostream &operator<<(std::ostream &&os, const Vector2f &pt)
 {
     os << "(" << pt.x << "," << pt.y << ")";
     return os;
 }
-}
+} // namespace ild
 
 using namespace ild;
 
-
-PositionSystem::PositionSystem(
-        std::string systemName,
-        SystemManager & manager) :
-    UnorderedSystem<PositionComponent>(
-            systemName,
-            manager,
-            UpdateStep::Physics)
+PositionSystem::PositionSystem(std::string systemName, SystemManager &manager)
+    : UnorderedSystem<PositionComponent>(systemName, manager, UpdateStep::Physics)
 {
-
 }
 
 void PositionSystem::Update(float delta)
 {
-    for(EntityComponentPair pair : *this)
+    for (EntityComponentPair pair : *this)
     {
         pair.second->Update(delta);
     }
 }
 
-PositionComponent * PositionSystem::CreateComponent(const Entity & entity)
+PositionComponent *PositionSystem::CreateComponent(const Entity &entity)
 {
     auto comp = new PositionComponent();
     AttachComponent(entity, comp);
     return comp;
 }
 
-void PositionComponent::Serialize(Archive & arc)
+void PositionComponent::Serialize(Archive &arc)
 {
     arc(_position, "position");
     arc(_velocity, "velocity");
 }
 
-void PositionComponent::FetchDependencies(const Entity & entity)
+void PositionComponent::FetchDependencies(const Entity &entity)
 {
     _actualPosition = _position;
 }
@@ -74,7 +68,7 @@ void PositionComponent::RoundPosition()
 }
 
 /* getters and setters */
-void PositionComponent::position(const Vector2f & position)
+void PositionComponent::position(const Vector2f &position)
 {
     _position = position;
     _actualPosition = position;

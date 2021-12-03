@@ -2,8 +2,7 @@
 
 using namespace ild;
 
-MenuGameSystems::MenuGameSystems(ild::ScreenManager & screenManager) :
-    ScreenSystemsContainer(screenManager, 0)
+MenuGameSystems::MenuGameSystems(ild::ScreenManager &screenManager) : ScreenSystemsContainer(screenManager, 0)
 {
     _position = ConstructSystem<ild::PositionSystem>("position", *_systemManager);
     _input = new ild::InputControlSystem(*_systemManager);

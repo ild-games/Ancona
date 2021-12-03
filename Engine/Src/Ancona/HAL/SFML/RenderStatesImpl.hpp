@@ -13,21 +13,21 @@ namespace priv
 
 class RenderStatesImpl
 {
-    public:
-        RenderStatesImpl(
-            const sf::BlendMode& blendMode,
-            const sf::Transform& transform,
-            const sf::Texture* texture);
+  public:
+    RenderStatesImpl(const sf::BlendMode &blendMode, const sf::Transform &transform, const sf::Texture *texture);
 
-        /* getters and setters */
-        sf::RenderStates & sfmlRenderStates() const { return *_sfmlRenderStates; }
+    /* getters and setters */
+    sf::RenderStates &sfmlRenderStates() const
+    {
+        return *_sfmlRenderStates;
+    }
 
-    protected:
-        std::unique_ptr<sf::RenderStates> _sfmlRenderStates;
+  protected:
+    std::unique_ptr<sf::RenderStates> _sfmlRenderStates;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

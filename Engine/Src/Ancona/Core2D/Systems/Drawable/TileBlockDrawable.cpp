@@ -8,7 +8,8 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::TileBlockDrawable);
 
 using namespace ild;
 
-Drawable * TileBlockDrawable::Copy() {
+Drawable *TileBlockDrawable::Copy()
+{
     auto drawable = new TileBlockDrawable();
     Drawable::CopyProperties(drawable);
     drawable->textureKey(_textureKey);
@@ -17,7 +18,8 @@ Drawable * TileBlockDrawable::Copy() {
     return drawable;
 }
 
-void TileBlockDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) {
+void TileBlockDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta)
+{
     // std::string * hello = nullptr;
     // ILD_Log(*hello);
     drawableTransform.Translate(-(_tileSize.x * _numTiles.x * _anchor.x), -(_tileSize.y * _numTiles.y * _anchor.y));
@@ -25,19 +27,23 @@ void TileBlockDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawable
     target.Draw(*_vertexArray, states);
 }
 
-void TileBlockDrawable::Serialize(Archive & arc) {
+void TileBlockDrawable::Serialize(Archive &arc)
+{
     Drawable::Serialize(arc);
     arc(_textureKey, "textureKey");
     arc(_size, "size");
 }
 
-void TileBlockDrawable::FetchDependencies(const Entity &entity) {
+void TileBlockDrawable::FetchDependencies(const Entity &entity)
+{
     Drawable::FetchDependencies(entity);
     InitializeVertexArray();
 }
 
-void TileBlockDrawable::InitializeVertexArray() {
-    if (_textureKey != "") {
+void TileBlockDrawable::InitializeVertexArray()
+{
+    if (_textureKey != "")
+    {
         _texture = ResourceLibrary::Get<ildhal::Texture>(_textureKey);
         _tileSize = Vector2f(_texture->size().x / 4, _texture->size().y / 4);
         _numTiles = Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
@@ -46,31 +52,40 @@ void TileBlockDrawable::InitializeVertexArray() {
     }
 }
 
-void TileBlockDrawable::SetupVertexBlock() {
+void TileBlockDrawable::SetupVertexBlock()
+{
     _vertexArray = std::make_unique<ildhal::VertexArray>(ildhal::TriangleStrip, _numVertices);
 
     int vertexIndex = 0;
-    for (int whichYBlock = 0; whichYBlock < std::ceil(_numTiles.y); whichYBlock++) {
+    for (int whichYBlock = 0; whichYBlock < std::ceil(_numTiles.y); whichYBlock++)
+    {
         // For every row in the 9 slice, go the opposite direction as the last row. This lets the next
         // vertex process always be right next to the last vertex process which prevents tearing.
-        if (whichYBlock % 2 == 0) {
-            for (int whichXBlock = 0; whichXBlock < std::ceil(_numTiles.x); whichXBlock++) {
+        if (whichYBlock % 2 == 0)
+        {
+            for (int whichXBlock = 0; whichXBlock < std::ceil(_numTiles.x); whichXBlock++)
+            {
                 AddVertexTile(whichXBlock, whichYBlock, vertexIndex, true);
             }
-        } else {
-            for (int whichXBlock = std::ceil(_numTiles.x) - 1; whichXBlock >= 0; whichXBlock--) {
+        }
+        else
+        {
+            for (int whichXBlock = std::ceil(_numTiles.x) - 1; whichXBlock >= 0; whichXBlock--)
+            {
                 AddVertexTile(whichXBlock, whichYBlock, vertexIndex, false);
             }
         }
     }
 }
 
-void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight) {
-    for (int whichVertex = 0; whichVertex < NUM_VERTICES_PER_TILE; whichVertex++) {
+void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int &vertexIndex, bool isLeftToRight)
+{
+    for (int whichVertex = 0; whichVertex < NUM_VERTICES_PER_TILE; whichVertex++)
+    {
         float fractionPartX = whichXBlock < std::ceil(_numTiles.x) - 1 ? 0 : _numTiles.x - (int)_numTiles.x;
         float fractionPartY = whichYBlock < std::ceil(_numTiles.y) - 1 ? 0 : _numTiles.y - (int)_numTiles.y;
         int xVertexOffset = XVertexOffset(isLeftToRight, whichVertex);
-        int yVertexOffset = (whichVertex+1) % 2;
+        int yVertexOffset = (whichVertex + 1) % 2;
         int xTileToUse = XTileToUse(whichXBlock);
         int yTileToUse = YTileToUse(whichYBlock);
 
@@ -86,50 +101,80 @@ void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int & ve
     }
 }
 
-Vector2i & TileBlockDrawable::BlockTileStartingPosition() {
-    if (_numTiles.x == 1.0f && _numTiles.y == 1.0f) {
+Vector2i &TileBlockDrawable::BlockTileStartingPosition()
+{
+    if (_numTiles.x == 1.0f && _numTiles.y == 1.0f)
+    {
         return SINGLE_BLOCK_TILE_POS;
-    } else if (_numTiles.x > 1.0f && _numTiles.y == 1.0f) {
+    }
+    else if (_numTiles.x > 1.0f && _numTiles.y == 1.0f)
+    {
         return HORIZONTAL_BLOCK_TILE_POS;
-    } else if (_numTiles.x == 1.0f && _numTiles.y > 1.0f) {
+    }
+    else if (_numTiles.x == 1.0f && _numTiles.y > 1.0f)
+    {
         return VERTICAL_BLOCK_TILE_POS;
-    } else {
+    }
+    else
+    {
         return FULL_BLOCK_TILE_POS;
     }
 }
 
-int TileBlockDrawable::XVertexOffset(bool isLeftToRight, int whichVertex) {
-    if (isLeftToRight) {
-        if (whichVertex < 2) {
+int TileBlockDrawable::XVertexOffset(bool isLeftToRight, int whichVertex)
+{
+    if (isLeftToRight)
+    {
+        if (whichVertex < 2)
+        {
             return 0;
-        } else {
+        }
+        else
+        {
             return 1;
         }
-    } else {
-        if (whichVertex < 2) {
+    }
+    else
+    {
+        if (whichVertex < 2)
+        {
             return 1;
-        } else {
+        }
+        else
+        {
             return 0;
         }
     }
 }
 
-int TileBlockDrawable::XTileToUse(int whichXBlock) {
-    if (whichXBlock == 0) {
+int TileBlockDrawable::XTileToUse(int whichXBlock)
+{
+    if (whichXBlock == 0)
+    {
         return 0;
-    } else if (whichXBlock > 0 && whichXBlock < _numTiles.x - 1) {
+    }
+    else if (whichXBlock > 0 && whichXBlock < _numTiles.x - 1)
+    {
         return 1;
-    } else {
+    }
+    else
+    {
         return 2;
     }
 }
 
-int TileBlockDrawable::YTileToUse(int whichYBlock) {
-    if (whichYBlock == 0) {
+int TileBlockDrawable::YTileToUse(int whichYBlock)
+{
+    if (whichYBlock == 0)
+    {
         return 0;
-    } else if (whichYBlock > 0 && whichYBlock < _numTiles.y - 1) {
+    }
+    else if (whichYBlock > 0 && whichYBlock < _numTiles.y - 1)
+    {
         return 1;
-    } else {
+    }
+    else
+    {
         return 2;
     }
 }

@@ -2,19 +2,19 @@
 
 using namespace ild;
 
-std::unordered_map<std::type_index, std::string> * PolymorphicMap::_typeToName;
-std::unordered_map<std::string, std::unique_ptr<PolymorphicSerializer>> * PolymorphicMap::_serializers;
+std::unordered_map<std::type_index, std::string> *PolymorphicMap::_typeToName;
+std::unordered_map<std::string, std::unique_ptr<PolymorphicSerializer>> *PolymorphicMap::_serializers;
 
-PolymorphicSerializer * PolymorphicMap::serializer(const std::string &name)
+PolymorphicSerializer *PolymorphicMap::serializer(const std::string &name)
 {
     if (_serializers->find(name) != _serializers->end())
     {
-        return (*_serializers)[name].get(); 
+        return (*_serializers)[name].get();
     }
     return nullptr;
 }
 
-void PolymorphicMap::RegisterType(const std::string & name, std::type_index type, PolymorphicSerializer * serializer)
+void PolymorphicMap::RegisterType(const std::string &name, std::type_index type, PolymorphicSerializer *serializer)
 {
     static bool shouldInitMaps = true;
     if (shouldInitMaps)

@@ -4,19 +4,10 @@
 using namespace ild;
 
 /* Component */
-FadeDrawableComponent::FadeDrawableComponent(
-        DrawableComponent * drawableComponent,
-        FadeDrawableSystem * system,
-        const Entity & owner,
-        float fadeIn,
-        bool destroySelf,
-        float fadeSpeed) :
-    _drawableComponent(drawableComponent),
-    _system(system),
-    _owner(owner),
-    FADE_SPEED(fadeSpeed),
-    _fadeIn(fadeIn),
-    _destroySelf(destroySelf)
+FadeDrawableComponent::FadeDrawableComponent(DrawableComponent *drawableComponent, FadeDrawableSystem *system,
+                                             const Entity &owner, float fadeIn, bool destroySelf, float fadeSpeed)
+    : _drawableComponent(drawableComponent), _system(system), _owner(owner), FADE_SPEED(fadeSpeed), _fadeIn(fadeIn),
+      _destroySelf(destroySelf)
 {
 }
 
@@ -28,10 +19,10 @@ void FadeDrawableComponent::Update(float delta)
 int FadeDrawableComponent::FadeStep(int alpha, float delta)
 {
     bool timeToRemove = false;
-    if(_fadeIn)
+    if (_fadeIn)
     {
         alpha += (FADE_SPEED * delta);
-        if(alpha > 255)
+        if (alpha > 255)
         {
             alpha = 255;
             timeToRemove = true;
@@ -40,13 +31,13 @@ int FadeDrawableComponent::FadeStep(int alpha, float delta)
     else
     {
         alpha -= (FADE_SPEED * delta);
-        if(alpha < 0)
+        if (alpha < 0)
         {
             alpha = 0;
             timeToRemove = true;
         }
     }
-    if(_destroySelf && timeToRemove)
+    if (_destroySelf && timeToRemove)
     {
         _system->QueueDeleteComponent(_owner);
         _destroySelf = false;
@@ -55,37 +46,25 @@ int FadeDrawableComponent::FadeStep(int alpha, float delta)
 }
 
 /* System */
-FadeDrawableSystem::FadeDrawableSystem(
-        const std::string & name,
-        SystemManager & manager) :
-    UnorderedSystem(name, manager, UpdateStep::Update)
+FadeDrawableSystem::FadeDrawableSystem(const std::string &name, SystemManager &manager)
+    : UnorderedSystem(name, manager, UpdateStep::Update)
 {
 }
 
 void FadeDrawableSystem::Update(float delta)
 {
-    for(EntityComponentPair comp : *this) 
+    for (EntityComponentPair comp : *this)
     {
         comp.second->Update(delta);
     }
 }
 
-FadeDrawableComponent * FadeDrawableSystem::CreateComponent(
-        const Entity & entity,
-        DrawableComponent * drawableComponent,
-        bool fadeIn,
-        bool destroySelf,
-        float fadeSpeed)
+FadeDrawableComponent *FadeDrawableSystem::CreateComponent(const Entity &entity, DrawableComponent *drawableComponent,
+                                                           bool fadeIn, bool destroySelf, float fadeSpeed)
 {
-    FadeDrawableComponent *comp = new FadeDrawableComponent(
-            drawableComponent,
-            this,
-            entity,
-            fadeIn,
-            destroySelf,
-            fadeSpeed);
+    FadeDrawableComponent *comp =
+        new FadeDrawableComponent(drawableComponent, this, entity, fadeIn, destroySelf, fadeSpeed);
     AttachComponent(entity, comp);
 
     return comp;
 }
-

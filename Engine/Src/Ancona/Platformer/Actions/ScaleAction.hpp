@@ -6,21 +6,27 @@
 namespace ild
 {
 
-template<typename T>
-class ScaleAction : public ValueAction<T>
+template <typename T> class ScaleAction : public ValueAction<T>
 {
-    public:
-        ScaleAction(std::string drawableKey = "") : _drawableKey(drawableKey)
-        {
-        }
+  public:
+    ScaleAction(std::string drawableKey = "") : _drawableKey(drawableKey)
+    {
+    }
 
-        /* getters and setters */
-        std::string drawableKey() { return _drawableKey; }
-        void drawableKey(std::string newDrawableKey) { _drawableKey = newDrawableKey; }
-    private:
-        std::string _drawableKey = "";
+    /* getters and setters */
+    std::string drawableKey()
+    {
+        return _drawableKey;
+    }
+    void drawableKey(std::string newDrawableKey)
+    {
+        _drawableKey = newDrawableKey;
+    }
+
+  private:
+    std::string _drawableKey = "";
 };
 
-}
+} // namespace ild
 
 #endif

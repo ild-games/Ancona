@@ -14,16 +14,15 @@ namespace priv
 
 class RenderTextureImpl : public RenderTargetImpl
 {
-    public:
-        RenderTextureImpl();
+  public:
+    RenderTextureImpl();
 
-        /* getters and setters */
-        sf::RenderTexture & sfmlRenderTexture() const;
-
+    /* getters and setters */
+    sf::RenderTexture &sfmlRenderTexture() const;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

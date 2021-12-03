@@ -13,12 +13,12 @@ namespace priv
 
 namespace TransformImpl
 {
-    ild::Transform TranslateSfmlToAncona(const sf::Transform & transform);
-    sf::Transform TranslateAnconaToSfml(const ild::Transform & transform);
-}
+ild::Transform TranslateSfmlToAncona(const sf::Transform &transform);
+sf::Transform TranslateAnconaToSfml(const ild::Transform &transform);
+} // namespace TransformImpl
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

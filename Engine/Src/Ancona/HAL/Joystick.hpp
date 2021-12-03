@@ -35,47 +35,46 @@ namespace ildhal
 
 class Joystick
 {
-    public:
+  public:
+    ////////////////////////////////////////////////////////////
+    /// \brief Constants related to joysticks capabilities
+    ///
+    ////////////////////////////////////////////////////////////
+    enum
+    {
+        Count = 8,        ///< Maximum number of supported joysticks
+        ButtonCount = 32, ///< Maximum number of supported buttons
+        AxisCount = 8     ///< Maximum number of supported axes
+    };
 
-        ////////////////////////////////////////////////////////////
-        /// \brief Constants related to joysticks capabilities
-        ///
-        ////////////////////////////////////////////////////////////
-        enum
-        {
-            Count       = 8,  ///< Maximum number of supported joysticks
-            ButtonCount = 32, ///< Maximum number of supported buttons
-            AxisCount   = 8   ///< Maximum number of supported axes
-        };
+    ////////////////////////////////////////////////////////////
+    /// \brief Axes supported by joysticks
+    ///
+    ////////////////////////////////////////////////////////////
+    enum Axis
+    {
+        X,    ///< The X axis
+        Y,    ///< The Y axis
+        Z,    ///< The Z axis
+        R,    ///< The R axis
+        U,    ///< The U axis
+        V,    ///< The V axis
+        PovX, ///< The X axis of the point-of-view hat
+        PovY  ///< The Y axis of the point-of-view hat
+    };
 
-        ////////////////////////////////////////////////////////////
-        /// \brief Axes supported by joysticks
-        ///
-        ////////////////////////////////////////////////////////////
-        enum Axis
-        {
-            X,    ///< The X axis
-            Y,    ///< The Y axis
-            Z,    ///< The Z axis
-            R,    ///< The R axis
-            U,    ///< The U axis
-            V,    ///< The V axis
-            PovX, ///< The X axis of the point-of-view hat
-            PovY  ///< The Y axis of the point-of-view hat
-        };
+    static bool IsButtonPressed(const int joystick, const int button);
+    static bool IsButtonReleased(const int joystick, const int button);
+    static bool IsButtonDown(const int joystick, const int button);
+    static void _AddButtonPress(const int joystick, const int button);
+    static void _AddButtonRelease(const int joystick, const int button);
+    static void _ClearButtons();
 
-        static bool IsButtonPressed(const int joystick, const int button);
-        static bool IsButtonReleased(const int joystick, const int button);
-        static bool IsButtonDown(const int joystick, const int button);
-        static void _AddButtonPress(const int joystick, const int button);
-        static void _AddButtonRelease(const int joystick, const int button);
-        static void _ClearButtons();
-    private:
-
-        static std::unordered_map<int, std::set<int>> _pressedButtons;
-        static std::unordered_map<int, std::set<int>> _releasedButtons;
+  private:
+    static std::unordered_map<int, std::set<int>> _pressedButtons;
+    static std::unordered_map<int, std::set<int>> _releasedButtons;
 };
 
-}
+} // namespace ildhal
 
 #endif

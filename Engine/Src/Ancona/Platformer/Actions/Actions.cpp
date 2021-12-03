@@ -1,14 +1,11 @@
 #include <Ancona/Platformer/Actions/Actions.hpp>
-#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 #include <Ancona/System/Log.hpp>
+#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 
 using namespace ild;
 
-Actions::Actions(
-        PositionSystem * positionSystem,
-        DrawableSystem * drawableSystem) : 
-    _positionSystem(positionSystem),
-    _drawableSystem(drawableSystem)
+Actions::Actions(PositionSystem *positionSystem, DrawableSystem *drawableSystem)
+    : _positionSystem(positionSystem), _drawableSystem(drawableSystem)
 {
 }
 
@@ -33,7 +30,7 @@ ScaleActionProxy Actions::CreateScaleAction(std::string drawableKey)
     return action;
 }
 
-void Actions::Serialize(Archive & arc)
+void Actions::Serialize(Archive &arc)
 {
     arc(_velocityActions, "platformVelocityActions");
     arc(_positionActions, "platformPositionActions");
@@ -42,32 +39,28 @@ void Actions::Serialize(Archive & arc)
     arc.system(_drawableSystem, "drawable");
 }
 
-static Vector2f TweenPosition(
-    ValueAction<Vector2f> & action, 
-    float beforeRatio,
-    const Vector2f & position)
+static Vector2f TweenPosition(ValueAction<Vector2f> &action, float beforeRatio, const Vector2f &position)
 {
     float afterRatio = action.tweenRatio();
 
-    if(afterRatio == 1)
+    if (afterRatio == 1)
     {
         return action.value();
     }
 
-    return position + (afterRatio - beforeRatio) / (1 - beforeRatio) *
-        (action.value() - position);
+    return position + (afterRatio - beforeRatio) / (1 - beforeRatio) * (action.value() - position);
 }
 
-void Actions::ApplyScaleActions(DrawableComponent & drawableComponent, float delta)
+void Actions::ApplyScaleActions(DrawableComponent &drawableComponent, float delta)
 {
-    for(auto& action : _scaleActions)
+    for (auto &action : _scaleActions)
     {
-        Drawable * drawable = nullptr;
-        if (action->drawableKey() == "") 
+        Drawable *drawable = nullptr;
+        if (action->drawableKey() == "")
         {
             drawable = drawableComponent.topDrawable();
         }
-        else 
+        else
         {
             drawable = drawableComponent.GetDrawable(action->drawableKey());
         }
@@ -79,10 +72,10 @@ void Actions::ApplyScaleActions(DrawableComponent & drawableComponent, float del
     }
 }
 
-Vector2f Actions::ApplyPositionActions(const PositionComponent & position, float delta)
+Vector2f Actions::ApplyPositionActions(const PositionComponent &position, float delta)
 {
     Vector2f location = position.position();
-    for(auto& action : _positionActions)
+    for (auto &action : _positionActions)
     {
         float beforeRatio = action->tweenRatio();
         action->Update(delta);
@@ -91,15 +84,15 @@ Vector2f Actions::ApplyPositionActions(const PositionComponent & position, float
     return location;
 }
 
-Vector2f Actions::ApplyVelocityActions(const PositionComponent & position, float delta)
+Vector2f Actions::ApplyVelocityActions(const PositionComponent &position, float delta)
 {
     Vector2f velocity;
-    for(auto& action : _velocityActions)
+    for (auto &action : _velocityActions)
     {
         float overflow = action->Update(delta);
         auto value = action->value();
 
-        if(overflow > 0)
+        if (overflow > 0)
         {
             velocity += value * (1 - overflow / delta);
         }
@@ -111,19 +104,19 @@ Vector2f Actions::ApplyVelocityActions(const PositionComponent & position, float
     return velocity;
 }
 
-void Actions::Apply(PositionComponent & position, DrawableComponent & drawable, float delta)
+void Actions::Apply(PositionComponent &position, DrawableComponent &drawable, float delta)
 {
 
     RemoveDoneActions<VectorActionProxy>(_velocityActions);
     RemoveDoneActions<VectorActionProxy>(_positionActions);
     RemoveDoneActions<ScaleActionProxy>(_scaleActions);
-    
-    //Velocity actions apply additively
+
+    // Velocity actions apply additively
     Vector2f velocity = ApplyVelocityActions(position, delta);
 
     if (_positionActions.size())
     {
-        //Only a single position action will effect the result
+        // Only a single position action will effect the result
         position.position(ApplyPositionActions(position, delta));
         position.velocity(Vector2f());
     }

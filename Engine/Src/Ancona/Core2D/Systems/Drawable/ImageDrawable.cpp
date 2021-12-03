@@ -6,24 +6,17 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::ImageDrawable);
 
 using namespace ild;
 
-ImageDrawable::ImageDrawable(
-        std::string textureKey,
-        const float priority,
-        const std::string & key) :
-    Drawable(priority, key),
-    _textureKey(textureKey)
+ImageDrawable::ImageDrawable(std::string textureKey, const float priority, const std::string &key)
+    : Drawable(priority, key), _textureKey(textureKey)
 {
 }
 
-ImageDrawable::ImageDrawable(
-        const float priority,
-        const std::string & key) :
-    Drawable(priority, key),
-    _textureKey("")
+ImageDrawable::ImageDrawable(const float priority, const std::string &key) : Drawable(priority, key), _textureKey("")
 {
 }
 
-Drawable * ImageDrawable::Copy() {
+Drawable *ImageDrawable::Copy()
+{
     auto drawable = new ImageDrawable();
     Drawable::CopyProperties(drawable);
     drawable->textureKey(_textureKey);
@@ -35,7 +28,7 @@ Drawable * ImageDrawable::Copy() {
     return drawable;
 }
 
-void ImageDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
+void ImageDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta)
 {
     if (_sprite.get() != NULL)
     {
@@ -46,7 +39,7 @@ void ImageDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTran
 
 void ImageDrawable::SetupSprite()
 {
-    if (_textureKey == "") 
+    if (_textureKey == "")
     {
         return;
     }
@@ -54,7 +47,7 @@ void ImageDrawable::SetupSprite()
     SetupSprite(ResourceLibrary::Get<ildhal::Texture>(_textureKey));
 }
 
-void ImageDrawable::SetupSprite(ildhal::Texture * texture)
+void ImageDrawable::SetupSprite(ildhal::Texture *texture)
 {
     if (_isTiled)
     {
@@ -73,11 +66,8 @@ void ImageDrawable::SetupSprite(ildhal::Texture * texture)
         }
     }
 
-    auto spriteRect = ild::Rect<int>(
-        _textureRect.Position.x,
-        _textureRect.Position.y,
-        _textureRect.Dimension.x,
-        _textureRect.Dimension.y);
+    auto spriteRect = ild::Rect<int>(_textureRect.Position.x, _textureRect.Position.y, _textureRect.Dimension.x,
+                                     _textureRect.Dimension.y);
 
     _sprite.reset(new ildhal::Sprite(*texture, spriteRect));
     _sprite->origin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
@@ -85,19 +75,19 @@ void ImageDrawable::SetupSprite(ildhal::Texture * texture)
     ApplyAlpha();
 }
 
-void ImageDrawable::ApplyAlpha() 
+void ImageDrawable::ApplyAlpha()
 {
     Color col(_sprite->color());
     col.a = _alpha;
     _sprite->color(col);
 }
 
-void ImageDrawable::ApplyColor() 
+void ImageDrawable::ApplyColor()
 {
     _sprite->color(_color);
 }
 
-void ImageDrawable::Serialize(Archive & arc)
+void ImageDrawable::Serialize(Archive &arc)
 {
     Drawable::Serialize(arc);
     arc(_textureKey, "textureKey");
@@ -119,24 +109,24 @@ void ImageDrawable::FetchDependencies(const Entity &entity)
 /* getters and setters */
 Vector2f ImageDrawable::size()
 {
-    if (_isTiled) 
+    if (_isTiled)
     {
         return VectorMath::ComponentMultiplication(_tiledArea, _scale);
     }
-    else 
+    else
     {
         return VectorMath::ComponentMultiplication(_textureRect.Dimension, _scale);
     }
 }
 
-void ImageDrawable::alpha(int newAlpha) 
+void ImageDrawable::alpha(int newAlpha)
 {
-    _alpha = newAlpha; 
-    ApplyAlpha(); 
+    _alpha = newAlpha;
+    ApplyAlpha();
 }
 
-void ImageDrawable::color(Color newColor) 
-{ 
-    _color = newColor; 
+void ImageDrawable::color(Color newColor)
+{
+    _color = newColor;
     ApplyColor();
 }

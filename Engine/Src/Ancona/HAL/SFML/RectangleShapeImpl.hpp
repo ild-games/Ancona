@@ -14,17 +14,16 @@ namespace priv
 
 class RectangleShapeImpl : public ShapeImpl
 {
-    public:
-        RectangleShapeImpl();
-        explicit RectangleShapeImpl(const sf::Vector2f& size);
+  public:
+    RectangleShapeImpl();
+    explicit RectangleShapeImpl(const sf::Vector2f &size);
 
-        /* getters and setters */
-        sf::RectangleShape & sfmlRectangleShape() const;
-
+    /* getters and setters */
+    sf::RectangleShape &sfmlRectangleShape() const;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

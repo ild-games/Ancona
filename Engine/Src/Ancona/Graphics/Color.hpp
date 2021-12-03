@@ -32,60 +32,60 @@ namespace ild
 
 class Color
 {
-    public:
-        ////////////////////////////////////////////////////////////
-        /// \brief Default constructor
-        ///
-        /// Constructs an opaque black color. It is equivalent to
-        /// Color(0, 0, 0, 255).
-        ///
-        ////////////////////////////////////////////////////////////
-        Color();
+  public:
+    ////////////////////////////////////////////////////////////
+    /// \brief Default constructor
+    ///
+    /// Constructs an opaque black color. It is equivalent to
+    /// Color(0, 0, 0, 255).
+    ///
+    ////////////////////////////////////////////////////////////
+    Color();
 
-        ////////////////////////////////////////////////////////////
-        /// \brief Construct the color from its 4 RGBA components
-        ///
-        /// \param red   Red component (in the range [0, 255])
-        /// \param green Green component (in the range [0, 255])
-        /// \param blue  Blue component (in the range [0, 255])
-        /// \param alpha Alpha (opacity) component (in the range [0, 255])
-        ///
-        ////////////////////////////////////////////////////////////
-        Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha = 255);
+    ////////////////////////////////////////////////////////////
+    /// \brief Construct the color from its 4 RGBA components
+    ///
+    /// \param red   Red component (in the range [0, 255])
+    /// \param green Green component (in the range [0, 255])
+    /// \param blue  Blue component (in the range [0, 255])
+    /// \param alpha Alpha (opacity) component (in the range [0, 255])
+    ///
+    ////////////////////////////////////////////////////////////
+    Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha = 255);
 
-        ////////////////////////////////////////////////////////////
-        /// \brief Construct the color from 32-bit unsigned integer
-        ///
-        /// \param color Number containing the RGBA components (in that order)
-        ///
-        ////////////////////////////////////////////////////////////
-        explicit Color(unsigned int color);
+    ////////////////////////////////////////////////////////////
+    /// \brief Construct the color from 32-bit unsigned integer
+    ///
+    /// \param color Number containing the RGBA components (in that order)
+    ///
+    ////////////////////////////////////////////////////////////
+    explicit Color(unsigned int color);
 
-        ////////////////////////////////////////////////////////////
-        /// \brief Retrieve the color as a 32-bit unsigned integer
-        ///
-        /// \return Color represented as a 32-bit unsigned integer
-        ///
-        ////////////////////////////////////////////////////////////
-        unsigned int toInteger() const;
+    ////////////////////////////////////////////////////////////
+    /// \brief Retrieve the color as a 32-bit unsigned integer
+    ///
+    /// \return Color represented as a 32-bit unsigned integer
+    ///
+    ////////////////////////////////////////////////////////////
+    unsigned int toInteger() const;
 
-        static const Color Black;       ///< Black predefined color
-        static const Color White;       ///< White predefined color
-        static const Color Red;         ///< Red predefined color
-        static const Color Green;       ///< Green predefined color
-        static const Color Blue;        ///< Blue predefined color
-        static const Color Yellow;      ///< Yellow predefined color
-        static const Color Magenta;     ///< Magenta predefined color
-        static const Color Cyan;        ///< Cyan predefined color
-        static const Color Transparent; ///< Transparent (black) predefined color
+    static const Color Black;       ///< Black predefined color
+    static const Color White;       ///< White predefined color
+    static const Color Red;         ///< Red predefined color
+    static const Color Green;       ///< Green predefined color
+    static const Color Blue;        ///< Blue predefined color
+    static const Color Yellow;      ///< Yellow predefined color
+    static const Color Magenta;     ///< Magenta predefined color
+    static const Color Cyan;        ///< Cyan predefined color
+    static const Color Transparent; ///< Transparent (black) predefined color
 
-        ////////////////////////////////////////////////////////////
-        // Member data
-        ////////////////////////////////////////////////////////////
-        unsigned char r; ///< Red component
-        unsigned char g; ///< Green component
-        unsigned char b; ///< Blue component
-        unsigned char a; ///< Alpha (opacity) component
+    ////////////////////////////////////////////////////////////
+    // Member data
+    ////////////////////////////////////////////////////////////
+    unsigned char r; ///< Red component
+    unsigned char g; ///< Green component
+    unsigned char b; ///< Blue component
+    unsigned char a; ///< Alpha (opacity) component
 };
 
 ////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ class Color
 /// \return True if colors are equal, false if they are different
 ///
 ////////////////////////////////////////////////////////////
-bool operator ==(const Color & left, const Color & right);
+bool operator==(const Color &left, const Color &right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -114,7 +114,7 @@ bool operator ==(const Color & left, const Color & right);
 /// \return True if colors are different, false if they are equal
 ///
 ////////////////////////////////////////////////////////////
-bool operator !=(const Color & left, const Color & right);
+bool operator!=(const Color &left, const Color &right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -129,7 +129,7 @@ bool operator !=(const Color & left, const Color & right);
 /// \return Result of \a left + \a right
 ///
 ////////////////////////////////////////////////////////////
-Color operator +(const Color & left, const Color & right);
+Color operator+(const Color &left, const Color &right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -144,7 +144,7 @@ Color operator +(const Color & left, const Color & right);
 /// \return Result of \a left - \a right
 ///
 ////////////////////////////////////////////////////////////
-Color operator -(const Color & left, const Color & right);
+Color operator-(const Color &left, const Color &right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -161,7 +161,7 @@ Color operator -(const Color & left, const Color & right);
 /// \return Result of \a left * \a right
 ///
 ////////////////////////////////////////////////////////////
-Color operator *(const Color& left, const Color& right);
+Color operator*(const Color &left, const Color &right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -177,7 +177,7 @@ Color operator *(const Color& left, const Color& right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-Color& operator +=(Color & left, const Color & right);
+Color &operator+=(Color &left, const Color &right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -193,7 +193,7 @@ Color& operator +=(Color & left, const Color & right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-Color & operator -=(Color & left, const Color & right);
+Color &operator-=(Color &left, const Color &right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -211,9 +211,8 @@ Color & operator -=(Color & left, const Color & right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-Color & operator *=(Color & left, const Color & right);
+Color &operator*=(Color &left, const Color &right);
 
-
-}
+} // namespace ild
 
 #endif

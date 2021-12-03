@@ -8,24 +8,26 @@
 #include <Ancona/Framework/Audio/JukeboxSounds.hpp>
 #include <Ancona/HAL.hpp>
 
-namespace ild {
+namespace ild
+{
 
-class Jukebox {
-public:
+class Jukebox
+{
+  public:
     static void Update();
 
     /* music */
-    static void InitMusic(std::shared_ptr<ildhal::Music> & music);
-    static void PlayMusic(const std::string& musicKey, const bool& loop = true, const float& loopStart = 0.0f);
-    static void PlayMusic(const bool& loop = true, const float& loopStart = 0.0f);
+    static void InitMusic(std::shared_ptr<ildhal::Music> &music);
+    static void PlayMusic(const std::string &musicKey, const bool &loop = true, const float &loopStart = 0.0f);
+    static void PlayMusic(const bool &loop = true, const float &loopStart = 0.0f);
     static void StopMusic();
     static void PauseMusic();
 
     /* sound */
-    static void RegisterSound(const std::string& soundKey);
+    static void RegisterSound(const std::string &soundKey);
     static void ClearSounds();
-    static unsigned long ReserveSoundLifecycleID(const std::string& soundKey);
-    static void PlaySound(const std::string& soundKey, const unsigned long& jobID, const float& volume);
+    static unsigned long ReserveSoundLifecycleID(const std::string &soundKey);
+    static void PlaySound(const std::string &soundKey, const unsigned long &jobID, const float &volume);
 
     /* getters and setters */
     static void musicVolumePercent(float volume);
@@ -35,9 +37,9 @@ public:
     static float loopStart();
     static bool loop();
 
-private:
+  private:
     static std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> _jukeboxSounds;
-    static std::shared_ptr<ildhal::Music> & _music;
+    static std::shared_ptr<ildhal::Music> &_music;
     static float _loopStart;
     static bool _loop;
     static std::string _musicKeyPlaying;
@@ -47,6 +49,6 @@ private:
 
     static void ApplyMusicVolume();
 };
-}
+} // namespace ild
 
 #endif

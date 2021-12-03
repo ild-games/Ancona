@@ -13,17 +13,19 @@ namespace priv
 
 class DrawableImpl
 {
-    public:
+  public:
+    /* getters and setters */
+    sf::Drawable &sfmlDrawable() const
+    {
+        return *_sfmlDrawable;
+    }
 
-        /* getters and setters */
-        sf::Drawable & sfmlDrawable() const { return *_sfmlDrawable; }
-
-    protected:
-        std::unique_ptr<sf::Drawable> _sfmlDrawable;
+  protected:
+    std::unique_ptr<sf::Drawable> _sfmlDrawable;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

@@ -8,10 +8,10 @@ namespace ild
 
 class EventHandling
 {
-    public:
-        static void HandleEvent(const ildhal::Event & event, bool & windowIsActive, ildhal::Window & window);
+  public:
+    static void HandleEvent(const ildhal::Event &event, bool &windowIsActive, ildhal::Window &window);
 };
 
-}
+} // namespace ild
 
 #endif

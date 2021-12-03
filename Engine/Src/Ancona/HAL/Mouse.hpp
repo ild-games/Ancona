@@ -28,8 +28,8 @@
 #define Ancona_HAL_Mouse_H_
 
 #include <map>
-#include <unordered_map>
 #include <set>
+#include <unordered_map>
 
 #include <Ancona/Util/Vector2.hpp>
 
@@ -40,111 +40,109 @@ class Window;
 
 class Mouse
 {
-    public:
+  public:
+    enum Button
+    {
+        Left,     ///< The left mouse button
+        Right,    ///< The right mouse button
+        Middle,   ///< The middle (wheel) mouse button
+        XButton1, ///< The first extra mouse button
+        XButton2, ///< The second extra mouse button
 
-        enum Button
-        {
-            Left,       ///< The left mouse button
-            Right,      ///< The right mouse button
-            Middle,     ///< The middle (wheel) mouse button
-            XButton1,   ///< The first extra mouse button
-            XButton2,   ///< The second extra mouse button
+        ButtonCount ///< Keep last -- the total number of mouse buttons
+    };
 
-            ButtonCount ///< Keep last -- the total number of mouse buttons
-        };
+    ////////////////////////////////////////////////////////////
+    /// \brief Mouse wheels
+    ///
+    ////////////////////////////////////////////////////////////
+    enum Wheel
+    {
+        VerticalWheel,  ///< The vertical mouse wheel
+        HorizontalWheel ///< The horizontal mouse wheel
+    };
 
-        ////////////////////////////////////////////////////////////
-        /// \brief Mouse wheels
-        ///
-        ////////////////////////////////////////////////////////////
-        enum Wheel
-        {
-            VerticalWheel,  ///< The vertical mouse wheel
-            HorizontalWheel ///< The horizontal mouse wheel
-        };
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the current position of the mouse in desktop coordinates
+    ///
+    /// This function returns the global position of the mouse
+    /// cursor on the desktop.
+    ///
+    /// \return Current position of the mouse
+    ///
+    ////////////////////////////////////////////////////////////
+    static ild::Vector2i GetPosition();
 
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the current position of the mouse in window coordinates
+    ///
+    /// This function returns the current position of the mouse
+    /// cursor, relative to the given window.
+    ///
+    /// \param relativeTo Reference window
+    ///
+    /// \return Current position of the mouse
+    ///
+    ////////////////////////////////////////////////////////////
+    static ild::Vector2i GetPosition(const Window &relativeTo);
 
-        ////////////////////////////////////////////////////////////
-        /// \brief Get the current position of the mouse in desktop coordinates
-        ///
-        /// This function returns the global position of the mouse
-        /// cursor on the desktop.
-        ///
-        /// \return Current position of the mouse
-        ///
-        ////////////////////////////////////////////////////////////
-        static ild::Vector2i GetPosition();
+    /**
+     * @brief Deteremines if a button was just pressed
+     *
+     * @param  btn Mouse::Button to check if it is pressed
+     *
+     * @return true if the button is pressed, otherwise false
+     */
+    static bool IsButtonPressed(const Mouse::Button &btn);
 
-        ////////////////////////////////////////////////////////////
-        /// \brief Get the current position of the mouse in window coordinates
-        ///
-        /// This function returns the current position of the mouse
-        /// cursor, relative to the given window.
-        ///
-        /// \param relativeTo Reference window
-        ///
-        /// \return Current position of the mouse
-        ///
-        ////////////////////////////////////////////////////////////
-        static ild::Vector2i GetPosition(const Window & relativeTo);
+    /**
+     * @brief Deteremines if a button was just released
+     *
+     * @param  btn Mouse::Button to check if it is released
+     *
+     * @return true if the button is released, otherwise false
+     */
+    static bool IsButtonReleased(const Mouse::Button &btn);
 
-        /**
-         * @brief Deteremines if a button was just pressed
-         *
-         * @param  btn Mouse::Button to check if it is pressed
-         *
-         * @return true if the button is pressed, otherwise false
-         */
-        static bool IsButtonPressed(const Mouse::Button & btn);
+    /**
+     * @brief Deteremines if a button is down
+     *
+     * @param  btn Mouse::Button to check if it is down
+     *
+     * @return true if the button is down, otherwise false
+     */
+    static bool IsButtonDown(const Mouse::Button &btn);
 
-        /**
-         * @brief Deteremines if a button was just released
-         *
-         * @param  btn Mouse::Button to check if it is released
-         *
-         * @return true if the button is released, otherwise false
-         */
-        static bool IsButtonReleased(const Mouse::Button & btn);
+    /**
+     * @brief INTERNAL ONLY
+     *        Adds a button press event for the given button
+     *
+     * @param btn Mouse::Button being pressed
+     */
+    static void _AddButtonPress(const Mouse::Button &btn);
 
-        /**
-         * @brief Deteremines if a button is down
-         *
-         * @param  btn Mouse::Button to check if it is down
-         *
-         * @return true if the button is down, otherwise false
-         */
-        static bool IsButtonDown(const Mouse::Button & btn);
+    /**
+     * @brief INTERNAL ONLY
+     *        Adds a button released event for the given button
+     *
+     * @param btn Mouse::Button being released
+     */
+    static void _AddButtonRelease(const Mouse::Button &btn);
 
-        /**
-         * @brief INTERNAL ONLY
-         *        Adds a button press event for the given button
-         *
-         * @param btn Mouse::Button being pressed
-         */
-        static void _AddButtonPress(const Mouse::Button & btn);
+    /**
+     * @brief INTERNAL ONLY
+     *        Clears all button events
+     */
+    static void _ClearButtons();
 
-        /**
-         * @brief INTERNAL ONLY
-         *        Adds a button released event for the given button
-         *
-         * @param btn Mouse::Button being released
-         */
-        static void _AddButtonRelease(const Mouse::Button & btn);
-
-        /**
-         * @brief INTERNAL ONLY
-         *        Clears all button events
-         */
-        static void _ClearButtons();
-
-    private:
-        static std::set<Mouse::Button> _pressedButtons;
-        static std::set<Mouse::Button> _releasedButtons;
-        static std::set<Mouse::Button> _heldButtons;
-        static std::map<Mouse::Button, unsigned int> _heldButtonsToFrameCount;
-        static std::set<Mouse::Button> _heldButtonsToClear;
+  private:
+    static std::set<Mouse::Button> _pressedButtons;
+    static std::set<Mouse::Button> _releasedButtons;
+    static std::set<Mouse::Button> _heldButtons;
+    static std::map<Mouse::Button, unsigned int> _heldButtonsToFrameCount;
+    static std::set<Mouse::Button> _heldButtonsToClear;
 };
 
-}
+} // namespace ildhal
 
 #endif

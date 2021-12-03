@@ -40,40 +40,36 @@ namespace ildhal
 
 namespace priv
 {
-    class TextImpl;
+class TextImpl;
 }
 
 class Text : public Drawable
 {
-    public:
-        Text();
-        Text(
-            const std::string& string,
-            const std::string& fontKey,
-            unsigned int characterSize = 30);
+  public:
+    Text();
+    Text(const std::string &string, const std::string &fontKey, unsigned int characterSize = 30);
 
-        /* getters and setters */
-        void origin(const ild::Vector2f& origin);
-        void origin(float x, float y);
-        const ild::Color& fillColor() const;
-        void fillColor(const ild::Color& color);
-        ild::FloatRect localBounds() const;
-        unsigned int characterSize() const;
-        void characterSize(unsigned int size);
-        const std::string& string() const;
-        void string(const std::string& newString);
-        const std::string& fontKey() const;
-        void fontKey(const std::string& fontKey);
-        bool smooth() const;
-        void smooth(bool newSmooth) const;
+    /* getters and setters */
+    void origin(const ild::Vector2f &origin);
+    void origin(float x, float y);
+    const ild::Color &fillColor() const;
+    void fillColor(const ild::Color &color);
+    ild::FloatRect localBounds() const;
+    unsigned int characterSize() const;
+    void characterSize(unsigned int size);
+    const std::string &string() const;
+    void string(const std::string &newString);
+    const std::string &fontKey() const;
+    void fontKey(const std::string &fontKey);
+    bool smooth() const;
+    void smooth(bool newSmooth) const;
 
-        priv::TextImpl & textImpl() const;
+    priv::TextImpl &textImpl() const;
 
-    private:
-
-        std::string _fontKey;
+  private:
+    std::string _fontKey;
 };
 
-}
+} // namespace ildhal
 
 #endif

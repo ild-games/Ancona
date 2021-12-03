@@ -36,24 +36,23 @@ class SoundBuffer;
 
 namespace priv
 {
-    class SoundImpl;
+class SoundImpl;
 }
 
-class Sound: public SoundSource
+class Sound : public SoundSource
 {
-    public:
-        Sound();
-        explicit Sound(const SoundBuffer& buffer);
+  public:
+    Sound();
+    explicit Sound(const SoundBuffer &buffer);
 
-        void Play();
-        void Pause();
-        void Stop();
+    void Play();
+    void Pause();
+    void Stop();
 
-        /* getters and setters */
-        priv::SoundImpl & soundImpl() const;
+    /* getters and setters */
+    priv::SoundImpl &soundImpl() const;
 };
 
-}
-
+} // namespace ildhal
 
 #endif

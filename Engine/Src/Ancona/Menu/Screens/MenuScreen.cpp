@@ -5,14 +5,9 @@
 
 using namespace ild;
 
-MenuScreen::MenuScreen(
-        ButtonPressedCallback buttonPressed,
-        std::string mapKey,
-        ild::ScreenManager & manager,
-        std::shared_ptr<MenuInputHandler> inputHandler) :
-    ild::AbstractScreen(mapKey, manager),
-    _buttonPressed(buttonPressed),
-    _inputHandler(inputHandler)
+MenuScreen::MenuScreen(ButtonPressedCallback buttonPressed, std::string mapKey, ild::ScreenManager &manager,
+                       std::shared_ptr<MenuInputHandler> inputHandler)
+    : ild::AbstractScreen(mapKey, manager), _buttonPressed(buttonPressed), _inputHandler(inputHandler)
 {
     _systems = std::unique_ptr<MenuGameSystems>(new MenuGameSystems(manager));
 }

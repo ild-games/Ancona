@@ -12,12 +12,12 @@ namespace ild
 class iOSFileOperations
 {
     friend class FileOperations;
-    
-    private:
-        static std::string DocumentsRoot();
-        static bool IsFileInDocumentsFolder(const std::string & filePath);
+
+  private:
+    static std::string DocumentsRoot();
+    static bool IsFileInDocumentsFolder(const std::string &filePath);
 };
 
-}
+} // namespace ild
 
 #endif

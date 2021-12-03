@@ -9,15 +9,15 @@ namespace ild
 /**
  * @brief Keyboard & mouse handler for the menu.
  */
-class MenuKeyboardAndMouse: public MenuInputHandler
+class MenuKeyboardAndMouse : public MenuInputHandler
 {
-    public:
-        /**
-         * @brief Captures input and calls out to the inputComponent's actions.
-         */
-        virtual void HandleInput(float delta) override;
+  public:
+    /**
+     * @brief Captures input and calls out to the inputComponent's actions.
+     */
+    virtual void HandleInput(float delta) override;
 };
 
-}
+} // namespace ild
 
 #endif

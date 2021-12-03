@@ -6,18 +6,17 @@ namespace ild
 
 class Timer
 {
-    public:
-        static void Update(float delta);
-        static void Restart();
-        static float AsMilliseconds();
-        static void SetMilliseconds(float millis);
+  public:
+    static void Update(float delta);
+    static void Restart();
+    static float AsMilliseconds();
+    static void SetMilliseconds(float millis);
 
-    private:
-        static float _elapsedTime;
-        static float _startTime;
+  private:
+    static float _elapsedTime;
+    static float _startTime;
 };
 
-}
+} // namespace ild
 
 #endif
-

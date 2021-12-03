@@ -39,30 +39,28 @@ class Texture;
 
 namespace priv
 {
-    class RenderStatesImpl;
+class RenderStatesImpl;
 }
 
 class RenderStates
 {
-    public:
-        static const RenderStates Default;
+  public:
+    static const RenderStates Default;
 
-        RenderStates();
-        RenderStates(const BlendMode& blendMode);
-        RenderStates(const ild::Transform& transform);
-        RenderStates(
-            const BlendMode& blendMode,
-            const ild::Transform& transform,
-            const Texture& texture);
+    RenderStates();
+    RenderStates(const BlendMode &blendMode);
+    RenderStates(const ild::Transform &transform);
+    RenderStates(const BlendMode &blendMode, const ild::Transform &transform, const Texture &texture);
 
-        priv::RenderStatesImpl & renderStatesImpl() const { return *_pimpl; }
+    priv::RenderStatesImpl &renderStatesImpl() const
+    {
+        return *_pimpl;
+    }
 
-    private:
-
-        std::unique_ptr<priv::RenderStatesImpl> _pimpl;
+  private:
+    std::unique_ptr<priv::RenderStatesImpl> _pimpl;
 };
 
-}
-
+} // namespace ildhal
 
 #endif

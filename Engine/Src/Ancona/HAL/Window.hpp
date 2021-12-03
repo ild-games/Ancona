@@ -35,53 +35,48 @@ namespace ildhal
 
 namespace WindowStyle
 {
-    ////////////////////////////////////////////////////////////
-    /// \brief Enumeration of the window styles
-    ///
-    ////////////////////////////////////////////////////////////
-    enum
-    {
-        None       = 0,      ///< No border / title bar (this flag and all others are mutually exclusive)
-        Titlebar   = 1 << 0, ///< Title bar + fixed border
-        Resize     = 1 << 1, ///< Title bar + resizable border + maximize button
-        Close      = 1 << 2, ///< Title bar + close button
-        Fullscreen = 1 << 3, ///< Fullscreen mode (this flag and all others are mutually exclusive)
+////////////////////////////////////////////////////////////
+/// \brief Enumeration of the window styles
+///
+////////////////////////////////////////////////////////////
+enum
+{
+    None = 0,            ///< No border / title bar (this flag and all others are mutually exclusive)
+    Titlebar = 1 << 0,   ///< Title bar + fixed border
+    Resize = 1 << 1,     ///< Title bar + resizable border + maximize button
+    Close = 1 << 2,      ///< Title bar + close button
+    Fullscreen = 1 << 3, ///< Fullscreen mode (this flag and all others are mutually exclusive)
 
-        Default = Titlebar | Resize | Close ///< Default window style
-    };
-}
+    Default = Titlebar | Resize | Close ///< Default window style
+};
+} // namespace WindowStyle
 
 namespace priv
 {
-    class WindowImpl;
+class WindowImpl;
 }
 
 class Window : public RenderTarget
 {
-    public:
+  public:
+    Window(const std::string &title, int width, int height, unsigned int style = WindowStyle::Default);
 
-        Window(
-            const std::string& title,
-            int width,
-            int height,
-            unsigned int style = WindowStyle::Default);
+    bool PollEvent(Event &event);
+    void Display();
+    void Close();
 
-        bool PollEvent(Event & event);
-        void Display();
-        void Close();
+    /* getters and setters */
+    virtual ild::Vector2u size() const;
+    void title(const std::string &title);
+    bool active(bool active = true) const;
+    bool open() const;
+    void keyRepeatEnabled(bool enabled);
+    void verticalSyncEnabled(bool enabled);
+    void framerateLimit(unsigned int limit);
 
-        /* getters and setters */
-        virtual ild::Vector2u size() const;
-        void title(const std::string & title);
-        bool active(bool active = true) const;
-        bool open() const;
-        void keyRepeatEnabled(bool enabled);
-        void verticalSyncEnabled(bool enabled);
-        void framerateLimit(unsigned int limit);
-
-        priv::WindowImpl & windowImpl() const;
+    priv::WindowImpl &windowImpl() const;
 };
 
-}
+} // namespace ildhal
 
 #endif

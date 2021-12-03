@@ -3,8 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <Ancona/HAL/Sprite.hpp>
 #include <Ancona/HAL/SFML/DrawableImpl.hpp>
+#include <Ancona/HAL/Sprite.hpp>
 
 namespace ildhal
 {
@@ -14,20 +14,17 @@ namespace priv
 
 class SpriteImpl : public DrawableImpl
 {
-    public:
-        SpriteImpl();
+  public:
+    SpriteImpl();
 
-        SpriteImpl(
-            const sf::Texture& texture,
-            const sf::IntRect& rectangle);
+    SpriteImpl(const sf::Texture &texture, const sf::IntRect &rectangle);
 
-        /* getters and setters */
-        sf::Sprite & sfmlSprite() const;
-
+    /* getters and setters */
+    sf::Sprite &sfmlSprite() const;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

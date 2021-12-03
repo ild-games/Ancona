@@ -15,82 +15,82 @@ namespace ild
  */
 class ContainerDrawable : public Drawable
 {
-    public:
-        /**
-         * @brief Default constructor, should only be used by the serializer.
-         */
-        ContainerDrawable() {}
+  public:
+    /**
+     * @brief Default constructor, should only be used by the serializer.
+     */
+    ContainerDrawable()
+    {
+    }
 
-        /**
-         * @brief Constructs a ContainerDrawable
-         *
-         * @param priority RenderPriority that determines when the drawable obj is rendered.
-         * @param priorityOffset Optional offset to the render priority.
-         * @param anchor Vector that defines the offset from its parent drawable or from the PositionComponent
-         *                       position if it is the top drawable.
-         *
-         */
-        ContainerDrawable(
-                const float priority,
-                const std::string & key,
-                float priorityOffset = 0,
-                Vector2f anchor = Vector2f(0.0f, 0.0f));
+    /**
+     * @brief Constructs a ContainerDrawable
+     *
+     * @param priority RenderPriority that determines when the drawable obj is rendered.
+     * @param priorityOffset Optional offset to the render priority.
+     * @param anchor Vector that defines the offset from its parent drawable or from the PositionComponent
+     *                       position if it is the top drawable.
+     *
+     */
+    ContainerDrawable(const float priority, const std::string &key, float priorityOffset = 0,
+                      Vector2f anchor = Vector2f(0.0f, 0.0f));
 
-        Drawable * Copy() override;
-        void PostDrawUpdate(float delta) override;
+    Drawable *Copy() override;
+    void PostDrawUpdate(float delta) override;
 
-        /**
-         * @copydoc ild::CameraComponent::Serialize
-         */
-        void Serialize(Archive & arc) override;
+    /**
+     * @copydoc ild::CameraComponent::Serialize
+     */
+    void Serialize(Archive &arc) override;
 
-        /**
-         * @copydoc ild::CameraComponent::FetchDependencies
-         */
-        void FetchDependencies(const Entity & entity) override;
+    /**
+     * @copydoc ild::CameraComponent::FetchDependencies
+     */
+    void FetchDependencies(const Entity &entity) override;
 
-        /**
-         * @brief Adds a drawable to the container drawable
-         *
-         * @param Drawable pointer to Drawable to add
-         */
-        void AddDrawable(Drawable * drawable);
+    /**
+     * @brief Adds a drawable to the container drawable
+     *
+     * @param Drawable pointer to Drawable to add
+     */
+    void AddDrawable(Drawable *drawable);
 
-        /**
-         * @brief Removes a drawable from the container drawable
-         *
-         * @param key Key of the drawable to delete.
-         */
-        void RemoveDrawable(const std::string & key);
+    /**
+     * @brief Removes a drawable from the container drawable
+     *
+     * @param key Key of the drawable to delete.
+     */
+    void RemoveDrawable(const std::string &key);
 
-        /**
-         * @copydoc ild::Drawable::FindDrawable
-         */
-        Drawable * FindDrawable(const std::string & key) override;
+    /**
+     * @copydoc ild::Drawable::FindDrawable
+     */
+    Drawable *FindDrawable(const std::string &key) override;
 
-        typedef std::vector<std::shared_ptr<Drawable>>::iterator iterator;
+    typedef std::vector<std::shared_ptr<Drawable>>::iterator iterator;
 
-        iterator begin() {
-            return _drawables.begin();
-        }
-        iterator end() {
-            return _drawables.end();
-        }
+    iterator begin()
+    {
+        return _drawables.begin();
+    }
+    iterator end()
+    {
+        return _drawables.end();
+    }
 
-        /* getters and setters */
-        Vector2f size() override;
-        Vector2f position(Vector2f entityPosition) override;
-        int alpha() override;
-        void alpha(int alpha) override;
+    /* getters and setters */
+    Vector2f size() override;
+    Vector2f position(Vector2f entityPosition) override;
+    int alpha() override;
+    void alpha(int alpha) override;
 
-    private:
+  private:
+    std::vector<std::shared_ptr<Drawable>> _drawables;
 
-        std::vector<std::shared_ptr<Drawable>> _drawables;
-
-        void SortDrawables();
-        void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
+    void SortDrawables();
+    void OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta) override;
 };
 
-}
+} // namespace ild
 
 #endif

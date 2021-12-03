@@ -37,24 +37,24 @@ namespace ildhal
 
 namespace priv
 {
-    class ShapeImpl;
+class ShapeImpl;
 }
 
 class Shape : public Drawable
 {
-    public:
-        /* getters and setters */
-        void origin(const ild::Vector2f& origin);
-        void origin(float x, float y);
-        const ild::Color& fillColor() const;
-        void fillColor(const ild::Color& color);
-        const ild::Color& outlineColor() const;
-        void outlineColor(const ild::Color& color);
-        ild::FloatRect localBounds() const;
+  public:
+    /* getters and setters */
+    void origin(const ild::Vector2f &origin);
+    void origin(float x, float y);
+    const ild::Color &fillColor() const;
+    void fillColor(const ild::Color &color);
+    const ild::Color &outlineColor() const;
+    void outlineColor(const ild::Color &color);
+    ild::FloatRect localBounds() const;
 
-        priv::ShapeImpl & shapeImpl() const;
+    priv::ShapeImpl &shapeImpl() const;
 };
 
-}
+} // namespace ildhal
 
 #endif

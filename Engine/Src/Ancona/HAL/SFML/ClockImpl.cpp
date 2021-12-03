@@ -6,14 +6,12 @@ namespace ildhal
 
 /* Pimpl Implementation */
 
-priv::ClockImpl::ClockImpl() :
-    _sfmlClock(std::make_unique<sf::Clock>())
+priv::ClockImpl::ClockImpl() : _sfmlClock(std::make_unique<sf::Clock>())
 {
 }
 
 /* HAL Interface Implementation */
-Clock::Clock() :
-    _pimpl(std::make_unique<priv::ClockImpl>())
+Clock::Clock() : _pimpl(std::make_unique<priv::ClockImpl>())
 {
 }
 
@@ -29,4 +27,4 @@ Time Clock::Restart()
     return ildhal::seconds(seconds);
 }
 
-}
+} // namespace ildhal

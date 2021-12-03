@@ -30,7 +30,7 @@
 namespace ildhal
 {
 
-struct  BlendMode
+struct BlendMode
 {
     ////////////////////////////////////////////////////////
     /// \brief Enumeration of the blending factors
@@ -97,23 +97,22 @@ struct  BlendMode
     /// \param alphaBlendEquation     Specifies how to combine the source and destination alphas.
     ///
     ////////////////////////////////////////////////////////////
-    BlendMode(Factor colorSourceFactor, Factor colorDestinationFactor,
-              Equation colorBlendEquation, Factor alphaSourceFactor,
-              Factor alphaDestinationFactor, Equation alphaBlendEquation);
+    BlendMode(Factor colorSourceFactor, Factor colorDestinationFactor, Equation colorBlendEquation,
+              Factor alphaSourceFactor, Factor alphaDestinationFactor, Equation alphaBlendEquation);
 
     ////////////////////////////////////////////////////////////
     // Member Data
     ////////////////////////////////////////////////////////////
-    Factor   colorSrcFactor; ///< Source blending factor for the color channels
-    Factor   colorDstFactor; ///< Destination blending factor for the color channels
-    Equation colorEquation;  ///< Blending equation for the color channels
-    Factor   alphaSrcFactor; ///< Source blending factor for the alpha channel
-    Factor   alphaDstFactor; ///< Destination blending factor for the alpha channel
-    Equation alphaEquation;  ///< Blending equation for the alpha channel
+    Factor colorSrcFactor;  ///< Source blending factor for the color channels
+    Factor colorDstFactor;  ///< Destination blending factor for the color channels
+    Equation colorEquation; ///< Blending equation for the color channels
+    Factor alphaSrcFactor;  ///< Source blending factor for the alpha channel
+    Factor alphaDstFactor;  ///< Destination blending factor for the alpha channel
+    Equation alphaEquation; ///< Blending equation for the alpha channel
 };
 
-bool operator ==(const BlendMode& left, const BlendMode& right);
-bool operator !=(const BlendMode& left, const BlendMode& right);
+bool operator==(const BlendMode &left, const BlendMode &right);
+bool operator!=(const BlendMode &left, const BlendMode &right);
 
 ////////////////////////////////////////////////////////////
 // Commonly used blending modes
@@ -123,7 +122,6 @@ extern const BlendMode BlendAdd;      ///< Add source to dest
 extern const BlendMode BlendMultiply; ///< Multiply source and dest
 extern const BlendMode BlendNone;     ///< Overwrite dest with source
 
-}
-
+} // namespace ildhal
 
 #endif

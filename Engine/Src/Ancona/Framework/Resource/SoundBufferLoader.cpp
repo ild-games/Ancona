@@ -2,9 +2,7 @@
 
 using namespace ild;
 
-SoundBufferLoader::SoundBufferLoader(
-        const std::string & resourceName, 
-        const std::string & fileExtension) :
-    HalResourceLoader<ildhal::SoundBuffer>(resourceName, fileExtension)
+SoundBufferLoader::SoundBufferLoader(const std::string &resourceName, const std::string &fileExtension)
+    : HalResourceLoader<ildhal::SoundBuffer>(resourceName, fileExtension)
 {
 }

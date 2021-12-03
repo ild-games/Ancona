@@ -34,34 +34,36 @@ namespace ildhal
 
 namespace priv
 {
-    class SoundSourceImpl;
+class SoundSourceImpl;
 }
 
 class SoundSource
 {
-    public:
-        enum Status
-        {
-            Stopped, ///< Sound is not playing
-            Paused,  ///< Sound is paused
-            Playing  ///< Sound is playing
-        };
+  public:
+    enum Status
+    {
+        Stopped, ///< Sound is not playing
+        Paused,  ///< Sound is paused
+        Playing  ///< Sound is playing
+    };
 
-        virtual void Play() = 0;
-        virtual void Pause() = 0;
-        virtual void Stop() = 0;
+    virtual void Play() = 0;
+    virtual void Pause() = 0;
+    virtual void Stop() = 0;
 
-        /* getters and setters */
-        Status status() const;
-        void volume(float volume);
+    /* getters and setters */
+    Status status() const;
+    void volume(float volume);
 
-        priv::SoundSourceImpl & soundSourceImpl() const { return *_pimpl; }
-    protected:
+    priv::SoundSourceImpl &soundSourceImpl() const
+    {
+        return *_pimpl;
+    }
 
-        std::unique_ptr<priv::SoundSourceImpl> _pimpl;
+  protected:
+    std::unique_ptr<priv::SoundSourceImpl> _pimpl;
 };
 
-}
-
+} // namespace ildhal
 
 #endif

@@ -2,9 +2,7 @@
 
 using namespace ild;
 
-FontLoader::FontLoader(
-        const std::string & resourceName, 
-        const std::string & fileExtension) :
-    HalResourceLoader<ildhal::Font>(resourceName, fileExtension)
+FontLoader::FontLoader(const std::string &resourceName, const std::string &fileExtension)
+    : HalResourceLoader<ildhal::Font>(resourceName, fileExtension)
 {
 }

@@ -1,5 +1,5 @@
-#include <sstream>
 #include <limits>
+#include <sstream>
 
 #include <Ancona/HAL.hpp>
 #include <Ancona/Menu/Screens/MenuGameSystems.hpp>
@@ -19,8 +19,7 @@ void MenuTouch::HandleFingerPress(const int finger, float delta)
         using namespace ild;
 
         auto fingerPosition = _systems->screenManager().Window.MapPixelToCoords(
-            ildhal::Touch::FingerPosition(finger),
-            _systems->drawable().defaultCamera()->view());
+            ildhal::Touch::FingerPosition(finger), _systems->drawable().defaultCamera()->view());
         _lastPosition = ild::Vector2f(fingerPosition);
         _playerComponent->UpdatePointer(_lastPosition, true);
     }

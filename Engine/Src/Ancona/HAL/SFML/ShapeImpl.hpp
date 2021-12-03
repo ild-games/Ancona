@@ -3,8 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <Ancona/HAL/Shape.hpp>
 #include <Ancona/HAL/SFML/DrawableImpl.hpp>
+#include <Ancona/HAL/Shape.hpp>
 
 namespace ildhal
 {
@@ -14,14 +14,13 @@ namespace priv
 
 class ShapeImpl : public DrawableImpl
 {
-    public:
-        /* getters and setters */
-        sf::Shape & sfmlShape() const;
-
+  public:
+    /* getters and setters */
+    sf::Shape &sfmlShape() const;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

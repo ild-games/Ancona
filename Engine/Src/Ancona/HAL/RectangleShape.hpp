@@ -35,22 +35,22 @@ namespace ildhal
 
 namespace priv
 {
-    class RectangleShapeImpl;
+class RectangleShapeImpl;
 }
 
 class RectangleShape : public Shape
 {
-    public:
-        RectangleShape();
-        explicit RectangleShape(const ild::Vector2f& size);
+  public:
+    RectangleShape();
+    explicit RectangleShape(const ild::Vector2f &size);
 
-        /* getters and setters */
-        const ild::Vector2f& size() const;
-        void size(const ild::Vector2f& newSize);
+    /* getters and setters */
+    const ild::Vector2f &size() const;
+    void size(const ild::Vector2f &newSize);
 
-        priv::RectangleShapeImpl & rectangleShapeImpl() const;
+    priv::RectangleShapeImpl &rectangleShapeImpl() const;
 };
 
-}
+} // namespace ildhal
 
 #endif

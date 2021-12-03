@@ -34,23 +34,26 @@ namespace ildhal
 
 namespace priv
 {
-    class SoundBufferImpl;
+class SoundBufferImpl;
 }
 
 class SoundBuffer
 {
-    public:
-        SoundBuffer();
+  public:
+    SoundBuffer();
 
-        bool LoadFromFile(const std::string& filename);
+    bool LoadFromFile(const std::string &filename);
 
-        /* getters and setters */
-        priv::SoundBufferImpl & soundBufferImpl() const { return *_pimpl; }
-    private:
+    /* getters and setters */
+    priv::SoundBufferImpl &soundBufferImpl() const
+    {
+        return *_pimpl;
+    }
 
-        std::unique_ptr<priv::SoundBufferImpl> _pimpl;
+  private:
+    std::unique_ptr<priv::SoundBufferImpl> _pimpl;
 };
 
-}
+} // namespace ildhal
 
 #endif

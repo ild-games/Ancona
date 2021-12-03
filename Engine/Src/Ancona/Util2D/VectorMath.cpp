@@ -8,12 +8,12 @@ namespace ild
 namespace VectorMath
 {
 
-float Magnitude(const Vector2f & vector)
+float Magnitude(const Vector2f &vector)
 {
     return sqrt(vector.x * vector.x + vector.y * vector.y);
 }
 
-Vector2f Normalize(const Vector2f & vector)
+Vector2f Normalize(const Vector2f &vector)
 {
     auto magnitude = Magnitude(vector);
     return Vector2f(vector.x / magnitude, vector.y / magnitude);
@@ -57,27 +57,27 @@ float RadiansToDegrees(float rads)
     return rads * (180 / M_PI);
 }
 
-float Cross(const Vector2f & left, const Vector2f right)
+float Cross(const Vector2f &left, const Vector2f right)
 {
     return left.x * right.y - left.y * right.x;
 }
 
-bool PointsTo(const Vector2f & vector,const Vector2f & positionA,const Vector2f & positionB)
+bool PointsTo(const Vector2f &vector, const Vector2f &positionA, const Vector2f &positionB)
 {
     auto diff = positionB - positionA;
     decltype(diff) norm1(-diff.y, diff.x);
     decltype(diff) norm2(diff.y, -diff.x);
 
-    return Cross(vector,norm1) >=0 && Cross(vector,norm2) <= 0;
+    return Cross(vector, norm1) >= 0 && Cross(vector, norm2) <= 0;
 }
 
-bool Between(const Vector2f & leftBound, const Vector2f & rightBound, const Vector2f & middle)
+bool Between(const Vector2f &leftBound, const Vector2f &rightBound, const Vector2f &middle)
 {
-    auto & a = leftBound;
-    auto & b = middle;
-    auto & c = rightBound;
+    auto &a = leftBound;
+    auto &b = middle;
+    auto &c = rightBound;
 
-    return Cross(a,b) * Cross(a,c) >= 0 && Cross(c,b) * Cross(c,a) >= 0;
+    return Cross(a, b) * Cross(a, c) >= 0 && Cross(c, b) * Cross(c, a) >= 0;
 }
-}
-}
+} // namespace VectorMath
+} // namespace ild

@@ -32,9 +32,8 @@
 namespace ildhal
 {
 
-void sleep(const Time & duration);
+void sleep(const Time &duration);
 
 }
-
 
 #endif

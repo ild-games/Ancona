@@ -37,22 +37,22 @@ namespace ildhal
 
 namespace priv
 {
-    class VertexArrayImpl;
+class VertexArrayImpl;
 }
 
 class VertexArray : public Drawable
 {
-    public:
-        VertexArray();
-        explicit VertexArray(PrimitiveRenderType type, std::size_t vertexCount = 0);
+  public:
+    VertexArray();
+    explicit VertexArray(PrimitiveRenderType type, std::size_t vertexCount = 0);
 
-        void SetVertexPosition(std::size_t index, const ild::Vector2f & newPosition);
-        void SetVertexTexCoords(std::size_t index, const ild::Vector2f & newTexCoords);
+    void SetVertexPosition(std::size_t index, const ild::Vector2f &newPosition);
+    void SetVertexTexCoords(std::size_t index, const ild::Vector2f &newTexCoords);
 
-        /* getters and setters */
-        priv::VertexArrayImpl & vertexArrayImpl() const;
+    /* getters and setters */
+    priv::VertexArrayImpl &vertexArrayImpl() const;
 };
 
-}
+} // namespace ildhal
 
 #endif

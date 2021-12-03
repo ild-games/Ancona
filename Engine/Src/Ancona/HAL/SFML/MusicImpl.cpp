@@ -7,13 +7,12 @@ namespace ildhal
 
 /* Pimpl Implementation */
 
-
 priv::MusicImpl::MusicImpl()
 {
-    _sfmlSoundSource = std::make_unique<sf::Music>(); 
+    _sfmlSoundSource = std::make_unique<sf::Music>();
 }
 
-sf::Music & priv::MusicImpl::sfmlMusic() const
+sf::Music &priv::MusicImpl::sfmlMusic() const
 {
     return static_cast<sf::Music &>(*_sfmlSoundSource);
 }
@@ -24,7 +23,6 @@ Music::Music()
 {
     _pimpl = std::make_unique<priv::MusicImpl>();
 }
-
 
 void Music::Play()
 {
@@ -41,7 +39,7 @@ void Music::Stop()
     musicImpl().sfmlMusic().stop();
 }
 
-bool Music::OpenFromFile(const std::string& filename)
+bool Music::OpenFromFile(const std::string &filename)
 {
     return musicImpl().sfmlMusic().openFromFile(filename);
 }
@@ -57,9 +55,9 @@ void Music::playingOffset(Time timeOffset)
     musicImpl().sfmlMusic().setPlayingOffset(sf::seconds(timeOffset.AsSeconds()));
 }
 
-priv::MusicImpl & Music::musicImpl() const
+priv::MusicImpl &Music::musicImpl() const
 {
     return static_cast<priv::MusicImpl &>(*_pimpl);
 }
 
-}
+} // namespace ildhal

@@ -1,22 +1,24 @@
-#include <string>
 #include <fstream>
+#include <string>
 
 #include <Ancona/Framework/Resource/RequestList.hpp>
-#include <Ancona/Util/StrUtil.hpp>
 #include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
+#include <Ancona/Util/StrUtil.hpp>
 
 using namespace ild;
 
-RequestList::RequestList() { }
+RequestList::RequestList()
+{
+}
 
-RequestList::RequestList(std::istream & openStream)
+RequestList::RequestList(std::istream &openStream)
 {
     LoadFromFile(openStream);
     _next = begin();
     Start();
 }
 
-RequestList::RequestList(const std::string & requestFile)
+RequestList::RequestList(const std::string &requestFile)
 {
     std::ifstream openStream(requestFile, std::ios::out);
     LoadFromFile(openStream);
@@ -28,10 +30,9 @@ void RequestList::Start()
     _next = begin();
 }
 
-void RequestList::Add(const std::string & resourceType, const std::string & resourceKey)
+void RequestList::Add(const std::string &resourceType, const std::string &resourceKey)
 {
-    _requestList.push_back(
-            std::pair<std::string,std::string>(resourceType,resourceKey)); 
+    _requestList.push_back(std::pair<std::string, std::string>(resourceType, resourceKey));
 }
 
 RequestList::iterator RequestList::begin() const
@@ -46,39 +47,38 @@ RequestList::iterator RequestList::end() const
 
 RequestList::iterator RequestList::Next()
 {
-    if(_next == end())
+    if (_next == end())
     {
         return end();
     }
     return _next++;
 }
 
-bool RequestList::Contains(const std::string & resourceType, const std::string & resourceKey)
+bool RequestList::Contains(const std::string &resourceType, const std::string &resourceKey)
 {
-    return alg::find_if(_requestList, [resourceType, resourceKey](const std::pair<std::string, std::string> & entry) {
-        return entry.first == resourceType && entry.second == resourceKey;
-    }) != _requestList.end();
+    return alg::find_if(_requestList, [resourceType, resourceKey](const std::pair<std::string, std::string> &entry) {
+               return entry.first == resourceType && entry.second == resourceKey;
+           }) != _requestList.end();
 }
 
 float RequestList::PercentLoaded()
 {
-    return 1 - ((float) std::distance(_next, end()) /
-            _requestList.size());
+    return 1 - ((float)std::distance(_next, end()) / _requestList.size());
 }
 
-void RequestList::LoadFromFile(std::istream & openStream)
+void RequestList::LoadFromFile(std::istream &openStream)
 {
     std::vector<std::string> pieces;
     std::string line;
 
-    while(!openStream.eof())
+    while (!openStream.eof())
     {
         std::getline(openStream, line);
         pieces.clear();
 
         pieces = StrUtil::Split(line, ',', 2);
 
-        if(pieces.size() == 2)
+        if (pieces.size() == 2)
         {
             StrUtil::Trim(pieces[0]);
             StrUtil::Trim(pieces[1]);

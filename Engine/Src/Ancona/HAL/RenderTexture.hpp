@@ -36,25 +36,25 @@ namespace ildhal
 
 namespace priv
 {
-    class RenderTextureImpl;
+class RenderTextureImpl;
 }
 
 class RenderTexture : public RenderTarget
 {
-    public:
-        RenderTexture();
+  public:
+    RenderTexture();
 
-        void Display();
-        bool Create(unsigned int width, unsigned int height);
+    void Display();
+    bool Create(unsigned int width, unsigned int height);
 
-        /* getters and setters */
-        ild::Vector2u size() const;
-        void smooth(bool smooth);
-        // const Texture& texture() const;
+    /* getters and setters */
+    ild::Vector2u size() const;
+    void smooth(bool smooth);
+    // const Texture& texture() const;
 
-        priv::RenderTextureImpl & renderTextureImpl() const;
+    priv::RenderTextureImpl &renderTextureImpl() const;
 };
 
-}
+} // namespace ildhal
 
 #endif

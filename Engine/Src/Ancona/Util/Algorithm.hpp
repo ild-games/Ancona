@@ -5,8 +5,8 @@
 #include <iterator>
 #include <utility>
 
-#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 #include <Ancona/Util/Algorithm/ContainerExtensions.hpp>
+#include <Ancona/Util/Algorithm/ContainerWrappers.hpp>
 #include <Ancona/Util/Algorithm/Types.hpp>
 
 #endif

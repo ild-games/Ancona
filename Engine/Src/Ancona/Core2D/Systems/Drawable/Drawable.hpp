@@ -2,9 +2,9 @@
 #define Ancona_Engine_Core_Systems_Drawable_H_
 
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Graphics/Transform.hpp>
 #include <Ancona/HAL.hpp>
-#include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
 namespace ild
@@ -13,18 +13,18 @@ namespace ild
 namespace RenderPriority
 {
 
-    /**
-     * @brief Determines when the drawable objects are rendered, the lower the priority the sooner they are rendered.
-     *
-     * @author Tucker Lein
-     */
-    enum RenderPriority
-    {
-        Background = -1000,
-        Player = 0,
-        Foreground = 1000,
-    };
-}
+/**
+ * @brief Determines when the drawable objects are rendered, the lower the priority the sooner they are rendered.
+ *
+ * @author Tucker Lein
+ */
+enum RenderPriority
+{
+    Background = -1000,
+    Player = 0,
+    Foreground = 1000,
+};
+} // namespace RenderPriority
 
 /**
  * @brief Defines when the sprite should be rendered
@@ -44,147 +44,180 @@ class DrawableComponent;
 class Drawable
 {
 
-    public:
-        /**
-         * @brief Default constructor, should only be used by the serializer.
-         */
-        Drawable () {}
+  public:
+    /**
+     * @brief Default constructor, should only be used by the serializer.
+     */
+    Drawable()
+    {
+    }
 
-        virtual ~Drawable() {};
+    virtual ~Drawable(){};
 
-        /**
-         * @brief Constructs a Drawable.
-         *
-         * @param priority RenderPriority that determines when the drawable obj is rendered.
-         * @param key Key of the drawable.
-         * @param priorityOffset Optional offset to the render priority.
-         * @param anchor Vector that defines the offset from its parent drawable.
-         */
-        Drawable(
-            const float priority,
-            const std::string & key,
-            float priorityOffset = 0,
-            Vector2f anchor = Vector2f(0.0f, 0.0f));
+    /**
+     * @brief Constructs a Drawable.
+     *
+     * @param priority RenderPriority that determines when the drawable obj is rendered.
+     * @param key Key of the drawable.
+     * @param priorityOffset Optional offset to the render priority.
+     * @param anchor Vector that defines the offset from its parent drawable.
+     */
+    Drawable(const float priority, const std::string &key, float priorityOffset = 0,
+             Vector2f anchor = Vector2f(0.0f, 0.0f));
 
-        /**
-         * @brief Draws the object to the window.
-         *
-         * @param window RenderWindow for the game.
-         * @param parentTransform Transform of the parent drawable.
-         */
-        void Draw(
-            ildhal::RenderTarget & target,
-            Transform parentTransform,
-            float delta);
+    /**
+     * @brief Draws the object to the window.
+     *
+     * @param window RenderWindow for the game.
+     * @param parentTransform Transform of the parent drawable.
+     */
+    void Draw(ildhal::RenderTarget &target, Transform parentTransform, float delta);
 
-        virtual void PostDrawUpdate(float delta) { }
+    virtual void PostDrawUpdate(float delta)
+    {
+    }
 
-        virtual Drawable * Copy() = 0;
-        void CopyProperties(Drawable * drawable);
+    virtual Drawable *Copy() = 0;
+    void CopyProperties(Drawable *drawable);
 
-        /**
-         * @copydoc ild::CameraComponent::FetchDependencies
-         */
-        virtual void FetchDependencies(const Entity & entity);
+    /**
+     * @copydoc ild::CameraComponent::FetchDependencies
+     */
+    virtual void FetchDependencies(const Entity &entity);
 
-        /**
-         * @copydoc ild::CameraComponent::Serialize
-         */
-        virtual void Serialize(Archive & arc);
+    /**
+     * @copydoc ild::CameraComponent::Serialize
+     */
+    virtual void Serialize(Archive &arc);
 
-        /**
-         * Sets the direction of the drawable in the x axis.
-         * @param leftOrRightSignum -1 if the drawable should be facing left, 1 if right.
-         */
-        void SetXDirection(int leftOrRightSignum);
+    /**
+     * Sets the direction of the drawable in the x axis.
+     * @param leftOrRightSignum -1 if the drawable should be facing left, 1 if right.
+     */
+    void SetXDirection(int leftOrRightSignum);
 
-        /**
-         * Sets the direction of the drawable in the y axis.
-         * @param upOrDownSignum -1 if the drawable should be facing up, 1 if down.
-         */
-        void SetYDirection(int upOrDownSignum);
+    /**
+     * Sets the direction of the drawable in the y axis.
+     * @param upOrDownSignum -1 if the drawable should be facing up, 1 if down.
+     */
+    void SetYDirection(int upOrDownSignum);
 
-        /**
-         * @brief Finds a drawable contained within this drawable. The default
-         *        implementation simply returns itself if the keys match. Container
-         *        and Animation drawables will walk their children to try and find
-         *        the drawable if the keys do not match.
-         *
-         * @param key Key of the drawable to find
-         *
-         * @returns Pointer to the drawable, nullptr if no such drawable exists.
-         */
-        virtual Drawable * FindDrawable(const std::string & key);
+    /**
+     * @brief Finds a drawable contained within this drawable. The default
+     *        implementation simply returns itself if the keys match. Container
+     *        and Animation drawables will walk their children to try and find
+     *        the drawable if the keys do not match.
+     *
+     * @param key Key of the drawable to find
+     *
+     * @returns Pointer to the drawable, nullptr if no such drawable exists.
+     */
+    virtual Drawable *FindDrawable(const std::string &key);
 
-        /* getters and setters */
-        float renderPriority() const { return _renderPriority + _priorityOffset; }
-        void renderPriority(const float renderPriority) { _renderPriority = renderPriority; }
-        void priorityOffset(const float priorityOffset) { _priorityOffset = priorityOffset; }
-        Vector2f anchor() { return _anchor; }
-        void anchor(Vector2f anchor) { _anchor = anchor; }
-        float rotation() { return _rotation; }
-        Vector2f scale() { return _scale; }
-        void rotation(float rotation) { _rotation = rotation; }
-        void scale(Vector2f scale) { _scale = scale; };
-        /**
-         * @brief The actual position of a drawable takes in the position from the position component
-         *        and also takes into account the anchor of the drawable which might change it's true
-         *        position.
-         *
-         * @param entityPosition The position from the entity's position component
-         *
-         * @returns The actual position the drawable is drawn at
-         */
-        virtual Vector2f position(Vector2f entityPosition);
-        virtual Vector2f size() = 0;
-        virtual int alpha() = 0;
-        virtual void alpha(int alpha) = 0;
-        std::string key() { return _key; }
-        void key(const std::string & key) { _key = key; }
-        bool inactive() { return _inactive; }
-        void inactive(bool inactive) { _inactive = inactive; }
+    /* getters and setters */
+    float renderPriority() const
+    {
+        return _renderPriority + _priorityOffset;
+    }
+    void renderPriority(const float renderPriority)
+    {
+        _renderPriority = renderPriority;
+    }
+    void priorityOffset(const float priorityOffset)
+    {
+        _priorityOffset = priorityOffset;
+    }
+    Vector2f anchor()
+    {
+        return _anchor;
+    }
+    void anchor(Vector2f anchor)
+    {
+        _anchor = anchor;
+    }
+    float rotation()
+    {
+        return _rotation;
+    }
+    Vector2f scale()
+    {
+        return _scale;
+    }
+    void rotation(float rotation)
+    {
+        _rotation = rotation;
+    }
+    void scale(Vector2f scale)
+    {
+        _scale = scale;
+    };
+    /**
+     * @brief The actual position of a drawable takes in the position from the position component
+     *        and also takes into account the anchor of the drawable which might change it's true
+     *        position.
+     *
+     * @param entityPosition The position from the entity's position component
+     *
+     * @returns The actual position the drawable is drawn at
+     */
+    virtual Vector2f position(Vector2f entityPosition);
+    virtual Vector2f size() = 0;
+    virtual int alpha() = 0;
+    virtual void alpha(int alpha) = 0;
+    std::string key()
+    {
+        return _key;
+    }
+    void key(const std::string &key)
+    {
+        _key = key;
+    }
+    bool inactive()
+    {
+        return _inactive;
+    }
+    void inactive(bool inactive)
+    {
+        _inactive = inactive;
+    }
 
+  protected:
+    /**
+     * @brief Key that describes the Drawable.
+     */
+    std::string _key;
+    /**
+     * @brief Offset coordinate for this drawable element.
+     */
+    Vector2f _anchor;
+    /**
+     * @brief Amount to scale the drawable element.
+     */
+    Vector2f _scale = Vector2f(1.0f, 1.0f);
+    /**
+     * @brief priority of rendering this obj.
+     */
+    float _renderPriority;
+    /**
+     * @brief Offsets the render priority.
+     */
+    float _priorityOffset;
+    /**
+     * @brief Amount to rotate the drawable element.
+     */
+    float _rotation = 0;
+    /**
+     * @brief True if the drawable is actively drawn/updated. Otherwise false.
+     */
+    bool _inactive = false;
 
-    protected:
-        /**
-         * @brief Key that describes the Drawable.
-         */
-        std::string _key;
-        /**
-         * @brief Offset coordinate for this drawable element.
-         */
-        Vector2f _anchor;
-        /**
-         * @brief Amount to scale the drawable element.
-         */
-        Vector2f _scale = Vector2f(1.0f, 1.0f);
-        /**
-         * @brief priority of rendering this obj.
-         */
-        float _renderPriority;
-        /**
-         * @brief Offsets the render priority.
-         */
-        float _priorityOffset;
-        /**
-         * @brief Amount to rotate the drawable element.
-         */
-        float _rotation = 0;
-        /**
-         * @brief True if the drawable is actively drawn/updated. Otherwise false.
-         */
-        bool _inactive = false;
-    private:
+  private:
+    Transform CalculateTransforms();
 
-        Transform CalculateTransforms();
-
-        virtual void OnDraw(
-            ildhal::RenderTarget & target,
-            Transform drawableTransform,
-            float delta) = 0;
+    virtual void OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta) = 0;
 };
 
-}
+} // namespace ild
 
 GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(ild::Drawable)
 

@@ -13,18 +13,21 @@ namespace priv
 
 class SoundBufferImpl
 {
-    public:
-        SoundBufferImpl();
+  public:
+    SoundBufferImpl();
 
-        /* getters and setters */
-        sf::SoundBuffer & sfmlSoundBuffer() const { return *_sfmlSoundBuffer; }
+    /* getters and setters */
+    sf::SoundBuffer &sfmlSoundBuffer() const
+    {
+        return *_sfmlSoundBuffer;
+    }
 
-    private:
-        std::unique_ptr<sf::SoundBuffer> _sfmlSoundBuffer;
+  private:
+    std::unique_ptr<sf::SoundBuffer> _sfmlSoundBuffer;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

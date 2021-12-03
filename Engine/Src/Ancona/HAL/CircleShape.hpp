@@ -34,21 +34,21 @@ namespace ildhal
 
 namespace priv
 {
-    class CircleShapeImpl;
+class CircleShapeImpl;
 }
 
 class CircleShape : public Shape
 {
-    public:
-        CircleShape();
+  public:
+    CircleShape();
 
-        void radius(float radius);
-        float radius() const;
+    void radius(float radius);
+    float radius() const;
 
-        /* getters and setters */
-        priv::CircleShapeImpl & circleShapeImpl() const;
+    /* getters and setters */
+    priv::CircleShapeImpl &circleShapeImpl() const;
 };
 
-}
+} // namespace ildhal
 
 #endif

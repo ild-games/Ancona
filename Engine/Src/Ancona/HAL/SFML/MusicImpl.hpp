@@ -13,15 +13,15 @@ namespace priv
 
 class MusicImpl : public SoundSourceImpl
 {
-    public:
-        MusicImpl();
+  public:
+    MusicImpl();
 
-        /* getters and setters */
-        sf::Music & sfmlMusic() const;
+    /* getters and setters */
+    sf::Music &sfmlMusic() const;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

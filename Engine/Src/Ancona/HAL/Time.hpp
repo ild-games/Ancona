@@ -32,27 +32,29 @@ namespace ildhal
 
 namespace priv
 {
-    class TimeImpl;
+class TimeImpl;
 }
 
 class Time
 {
-    public:
-        Time();
-        Time(float seconds);
+  public:
+    Time();
+    Time(float seconds);
 
-        float AsSeconds() const;
+    float AsSeconds() const;
 
-        /* getters and setters */
-        priv::TimeImpl & timeImpl() const { return *_pimpl; }
-    private:
+    /* getters and setters */
+    priv::TimeImpl &timeImpl() const
+    {
+        return *_pimpl;
+    }
 
-        std::unique_ptr<priv::TimeImpl> _pimpl;
+  private:
+    std::unique_ptr<priv::TimeImpl> _pimpl;
 };
 
 Time seconds(float amount);
 
-}
-
+} // namespace ildhal
 
 #endif

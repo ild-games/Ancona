@@ -14,22 +14,24 @@ namespace ild
  */
 class SerializingContext
 {
-    public:
-        /**
-         * @brief Construct the SerializingContext.
-         *
-         * @param systems System container for the screen.
-         */
-        SerializingContext(ScreenSystemsContainer & systems);
+  public:
+    /**
+     * @brief Construct the SerializingContext.
+     *
+     * @param systems System container for the screen.
+     */
+    SerializingContext(ScreenSystemsContainer &systems);
 
+    /* getters and setters */
+    ScreenSystemsContainer &systems()
+    {
+        return _systems;
+    }
 
-        /* getters and setters */
-        ScreenSystemsContainer & systems() { return _systems; }
-    private:
-        ScreenSystemsContainer & _systems;
-
+  private:
+    ScreenSystemsContainer &_systems;
 };
 
-}
+} // namespace ild
 
 #endif

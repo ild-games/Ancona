@@ -13,12 +13,12 @@ namespace priv
 
 namespace ViewImpl
 {
-    void TranslateSfmlToAncona(const sf::View & sfmlView, ild::View & view);
-    void TranslateAnconaToSfml(const ild::View & view, sf::View & sfmlView);
-}
+void TranslateSfmlToAncona(const sf::View &sfmlView, ild::View &view);
+void TranslateAnconaToSfml(const ild::View &view, sf::View &sfmlView);
+} // namespace ViewImpl
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

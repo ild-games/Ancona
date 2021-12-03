@@ -4,39 +4,29 @@
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL.hpp>
-#include <Ancona/Util2D/VectorMath.hpp>
 #include <Ancona/System/Log.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::TextDrawable)
 
 using namespace ild;
 
-TextDrawable::TextDrawable(
-    const std::string& text,
-    const std::string& fontKey,
-    const Color color,
-    const int characterSize,
-    const float priority,
-    const std::string & key,
-    float priorityOffset,
-    Vector2f anchor,
-    bool smooth) :
-        Drawable(priority, key, priorityOffset, anchor),
-        _fontKey(fontKey),
-        _color(color),
-        _characterSize(characterSize),
-        _smooth(smooth),
-        _text(std::make_unique<ildhal::Text>(text, fontKey))
+TextDrawable::TextDrawable(const std::string &text, const std::string &fontKey, const Color color,
+                           const int characterSize, const float priority, const std::string &key, float priorityOffset,
+                           Vector2f anchor, bool smooth)
+    : Drawable(priority, key, priorityOffset, anchor), _fontKey(fontKey), _color(color), _characterSize(characterSize),
+      _smooth(smooth), _text(std::make_unique<ildhal::Text>(text, fontKey))
 {
     SetupText();
 }
 
-TextDrawable::TextDrawable(const std::string & text, const std::string & fontKey) : Drawable()
+TextDrawable::TextDrawable(const std::string &text, const std::string &fontKey) : Drawable()
 {
     _text = std::make_unique<ildhal::Text>(text, fontKey);
 }
 
-Drawable * TextDrawable::Copy() {
+Drawable *TextDrawable::Copy()
+{
     auto drawable = new TextDrawable(_text->string(), _text->fontKey());
     Drawable::CopyProperties(drawable);
     drawable->_color = _color;
@@ -46,19 +36,16 @@ Drawable * TextDrawable::Copy() {
     return drawable;
 }
 
-void TextDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
+void TextDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta)
 {
     ildhal::RenderStates states(drawableTransform);
     target.Draw(*_text, states);
 }
 
-
 void TextDrawable::CenterOrigin()
 {
     auto textRect = _text->localBounds();
-    _text->origin(
-        textRect.left + (textRect.width * _anchor.x),
-        textRect.top  + (textRect.height * _anchor.y));
+    _text->origin(textRect.left + (textRect.width * _anchor.x), textRect.top + (textRect.height * _anchor.y));
 }
 
 void TextDrawable::Serialize(Archive &archive)
@@ -80,16 +67,18 @@ void TextDrawable::SetupText()
 {
     _text->fillColor(_color);
     _text->characterSize(_characterSize);
-    if (!_smooth) {
+    if (!_smooth)
+    {
         _text->smooth(false);
     }
 }
 
 /* getters and setters */
-void TextDrawable::text(const std::string& text, bool resetOrigin)
+void TextDrawable::text(const std::string &text, bool resetOrigin)
 {
-    _text->string(text); 
-    if (resetOrigin) {
+    _text->string(text);
+    if (resetOrigin)
+    {
         CenterOrigin();
     }
 }
@@ -111,4 +100,3 @@ void TextDrawable::alpha(int alpha)
     col.a = alpha;
     _text->fillColor(col);
 }
-

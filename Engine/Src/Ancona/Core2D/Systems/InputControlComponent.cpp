@@ -2,9 +2,7 @@
 
 using namespace ild;
 
-InputControlComponent::InputControlComponent(
-        std::shared_ptr<InputHandler> handler) :
-    _handler(handler)
+InputControlComponent::InputControlComponent(std::shared_ptr<InputHandler> handler) : _handler(handler)
 {
 }
 

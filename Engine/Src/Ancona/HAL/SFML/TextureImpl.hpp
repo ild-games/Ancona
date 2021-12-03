@@ -13,19 +13,22 @@ namespace priv
 
 class TextureImpl
 {
-    public:
-        TextureImpl();
-        ~TextureImpl();
+  public:
+    TextureImpl();
+    ~TextureImpl();
 
-        /* getters and setters */
-        sf::Texture & sfmlTexture() const { return *_sfmlTexture; }
+    /* getters and setters */
+    sf::Texture &sfmlTexture() const
+    {
+        return *_sfmlTexture;
+    }
 
-    private:
-        sf::Texture * _sfmlTexture;
+  private:
+    sf::Texture *_sfmlTexture;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

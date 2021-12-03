@@ -34,25 +34,27 @@ namespace ildhal
 
 namespace priv
 {
-    class FontImpl;
+class FontImpl;
 }
 
 class Font
 {
-    public:
-        Font();
+  public:
+    Font();
 
-        bool LoadFromFile(const std::string& filename);
+    bool LoadFromFile(const std::string &filename);
 
-        /* getters and setters */
+    /* getters and setters */
 
-        priv::FontImpl & fontImpl() const { return *_pimpl; }
-    private:
+    priv::FontImpl &fontImpl() const
+    {
+        return *_pimpl;
+    }
 
-        std::unique_ptr<priv::FontImpl> _pimpl;
+  private:
+    std::unique_ptr<priv::FontImpl> _pimpl;
 };
 
-}
-
+} // namespace ildhal
 
 #endif

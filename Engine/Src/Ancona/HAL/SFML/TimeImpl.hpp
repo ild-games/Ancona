@@ -13,19 +13,22 @@ namespace priv
 
 class TimeImpl
 {
-    public:
-        TimeImpl();
-        TimeImpl(float seconds);
+  public:
+    TimeImpl();
+    TimeImpl(float seconds);
 
-        /* getters and setters */
-        sf::Time & sfmlTime() const { return *_sfmlTime; }
+    /* getters and setters */
+    sf::Time &sfmlTime() const
+    {
+        return *_sfmlTime;
+    }
 
-    private:
-        std::unique_ptr<sf::Time> _sfmlTime;
+  private:
+    std::unique_ptr<sf::Time> _sfmlTime;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

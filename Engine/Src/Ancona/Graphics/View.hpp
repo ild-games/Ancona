@@ -36,49 +36,61 @@ namespace ild
 
 class View
 {
-    public:
+  public:
+    View();
+    explicit View(const FloatRect &rectangle);
 
-        View();
-        explicit View(const FloatRect& rectangle);
+    View(const Vector2f &center, const Vector2f &size);
+    void Reset(const FloatRect &rectangle);
+    void Move(float offsetX, float offsetY);
+    void Move(const Vector2f &offset);
+    void Rotate(float angle);
+    void Zoom(float factor);
+    const Transform &InverseTransform() const;
 
-        View(const Vector2f& center, const Vector2f& size);
-        void Reset(const FloatRect& rectangle);
-        void Move(float offsetX, float offsetY);
-        void Move(const Vector2f& offset);
-        void Rotate(float angle);
-        void Zoom(float factor);
-        const Transform& InverseTransform() const;
+    /* getters and setters */
+    const Vector2f &center() const
+    {
+        return _center;
+    }
+    void center(float x, float y);
+    void center(const Vector2f &centerPoint);
 
-        /* getters and setters */
-        const Vector2f& center() const { return _center; }
-        void center(float x, float y);
-        void center(const Vector2f& centerPoint);
+    const Vector2f &size() const
+    {
+        return _size;
+    }
+    void size(float width, float height);
+    void size(const Vector2f &newSize);
 
-        const Vector2f& size() const { return _size; }
-        void size(float width, float height);
-        void size(const Vector2f& newSize);
+    float rotation() const
+    {
+        return _rotation;
+    }
+    void rotation(float angle);
 
-        float rotation() const { return _rotation; }
-        void rotation(float angle);
+    const FloatRect &viewport() const
+    {
+        return _viewport;
+    }
+    void viewport(const FloatRect &viewport)
+    {
+        _viewport = viewport;
+    }
 
-        const FloatRect& viewport() const { return _viewport; }
-        void viewport(const FloatRect& viewport) { _viewport = viewport; }
+    const Transform &transform() const;
 
-        const Transform& transform() const;
-
-    private:
-
-        Vector2f          _center;              ///< Center of the view, in scene coordinates
-        Vector2f          _size;                ///< Size of the view, in scene coordinates
-        float             _rotation;            ///< Angle of rotation of the view rectangle, in degrees
-        FloatRect         _viewport;            ///< Viewport rectangle, expressed as a factor of the render-target's size
-        mutable Transform _transform;           ///< Precomputed projection transform corresponding to the view
-        mutable Transform _inverseTransform;    ///< Precomputed inverse projection transform corresponding to the view
-        mutable bool      _transformUpdated;    ///< Internal state telling if the transform needs to be updated
-        mutable bool      _invTransformUpdated; ///< Internal state telling if the inverse transform needs to be updated
+  private:
+    Vector2f _center;                    ///< Center of the view, in scene coordinates
+    Vector2f _size;                      ///< Size of the view, in scene coordinates
+    float _rotation;                     ///< Angle of rotation of the view rectangle, in degrees
+    FloatRect _viewport;                 ///< Viewport rectangle, expressed as a factor of the render-target's size
+    mutable Transform _transform;        ///< Precomputed projection transform corresponding to the view
+    mutable Transform _inverseTransform; ///< Precomputed inverse projection transform corresponding to the view
+    mutable bool _transformUpdated;      ///< Internal state telling if the transform needs to be updated
+    mutable bool _invTransformUpdated;   ///< Internal state telling if the inverse transform needs to be updated
 };
 
-}
-
+} // namespace ild
 
 #endif

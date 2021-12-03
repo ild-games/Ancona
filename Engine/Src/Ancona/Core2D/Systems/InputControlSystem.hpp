@@ -9,28 +9,27 @@ namespace ild
 {
 
 /**
- * @brief Used to provide the wiring for a player control component created 
+ * @brief Used to provide the wiring for a player control component created
  * in the game project.
  * @author Jeff Swenson
  */
 class InputControlSystem : public UnorderedSystem<InputControlComponent>
 {
-    public:
-        InputControlSystem(std::string name, SystemManager & manager);
-        InputControlSystem(SystemManager & manager);
-        /**
-         * @brief Attach an InputControlComponent to the the 
-         * entity.  The system will delete the component when
-         * it is removed from the entity.
-         *
-         * @param entity Entity component will be attached to.
-         * @param component Component to attach.
-         */
-        void AddComponent(const Entity & entity, 
-                InputControlComponent * component);
+  public:
+    InputControlSystem(std::string name, SystemManager &manager);
+    InputControlSystem(SystemManager &manager);
+    /**
+     * @brief Attach an InputControlComponent to the the
+     * entity.  The system will delete the component when
+     * it is removed from the entity.
+     *
+     * @param entity Entity component will be attached to.
+     * @param component Component to attach.
+     */
+    void AddComponent(const Entity &entity, InputControlComponent *component);
 
-        void Update(float delta);
+    void Update(float delta);
 };
 
-}
+} // namespace ild
 #endif

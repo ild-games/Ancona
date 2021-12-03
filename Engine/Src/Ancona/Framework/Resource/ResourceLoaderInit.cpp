@@ -2,10 +2,10 @@
 
 using namespace ild;
 
-TextureLoader* _jpegTextureLoader = nullptr;
-TextureLoader* _pngTextureLoader = nullptr;
-FontLoader* _ttfFontLoader = nullptr;
-SoundBufferLoader* _wavSoundBufferLoader = nullptr;
+TextureLoader *_jpegTextureLoader = nullptr;
+TextureLoader *_pngTextureLoader = nullptr;
+FontLoader *_ttfFontLoader = nullptr;
+SoundBufferLoader *_wavSoundBufferLoader = nullptr;
 
 void ResourceLoaderInit::Init()
 {
@@ -17,19 +17,23 @@ void ResourceLoaderInit::Init()
 
 void ResourceLoaderInit::Destroy()
 {
-    if (_jpegTextureLoader != nullptr) {
+    if (_jpegTextureLoader != nullptr)
+    {
         delete _jpegTextureLoader;
     }
 
-    if (_pngTextureLoader != nullptr) {
+    if (_pngTextureLoader != nullptr)
+    {
         delete _pngTextureLoader;
     }
 
-    if (_ttfFontLoader != nullptr) {
+    if (_ttfFontLoader != nullptr)
+    {
         delete _ttfFontLoader;
     }
 
-    if (_wavSoundBufferLoader != nullptr) {
+    if (_wavSoundBufferLoader != nullptr)
+    {
         delete _wavSoundBufferLoader;
     }
 }

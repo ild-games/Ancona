@@ -37,26 +37,25 @@ namespace ildhal
 
 namespace priv
 {
-    class MusicImpl;
+class MusicImpl;
 }
 
-class Music: public SoundSource
+class Music : public SoundSource
 {
-    public:
-        Music();
+  public:
+    Music();
 
-        void Play();
-        void Pause();
-        void Stop();
-        bool OpenFromFile(const std::string& filename);
+    void Play();
+    void Pause();
+    void Stop();
+    bool OpenFromFile(const std::string &filename);
 
-        /* getters and setters */
-        void loop(bool newLoop);
-        void playingOffset(Time timeOffset);
-        priv::MusicImpl & musicImpl() const;
+    /* getters and setters */
+    void loop(bool newLoop);
+    void playingOffset(Time timeOffset);
+    priv::MusicImpl &musicImpl() const;
 };
 
-}
-
+} // namespace ildhal
 
 #endif

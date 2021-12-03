@@ -14,16 +14,15 @@ namespace priv
 
 class CircleShapeImpl : public ShapeImpl
 {
-    public:
-        CircleShapeImpl();
+  public:
+    CircleShapeImpl();
 
-        /* getters and setters */
-        sf::CircleShape & sfmlCircleShape() const;
-
+    /* getters and setters */
+    sf::CircleShape &sfmlCircleShape() const;
 };
 
-}
+} // namespace priv
 
-}
+} // namespace ildhal
 
 #endif

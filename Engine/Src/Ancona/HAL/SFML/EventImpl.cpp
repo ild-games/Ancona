@@ -1,15 +1,15 @@
-#include <Ancona/HAL/SFML/EventImpl.hpp>
 #include <Ancona/HAL/Joystick.hpp>
 #include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/Mouse.hpp>
+#include <Ancona/HAL/SFML/EventImpl.hpp>
 #include <Ancona/HAL/Sensor.hpp>
 
 namespace ildhal
 {
 
-void priv::EventImpl::TranslateSfmlToAncona(const sf::Event & sfmlEvent, Event & event)
+void priv::EventImpl::TranslateSfmlToAncona(const sf::Event &sfmlEvent, Event &event)
 {
-    event.type = (Event::EventType) sfmlEvent.type;
+    event.type = (Event::EventType)sfmlEvent.type;
     if (sfmlEvent.type == sf::Event::Resized)
     {
         event.size.width = sfmlEvent.size.width;
@@ -17,7 +17,7 @@ void priv::EventImpl::TranslateSfmlToAncona(const sf::Event & sfmlEvent, Event &
     }
     else if (sfmlEvent.type == sf::Event::KeyPressed || sfmlEvent.type == sf::Event::KeyReleased)
     {
-        event.key.code = (Keyboard::Key) sfmlEvent.key.code;
+        event.key.code = (Keyboard::Key)sfmlEvent.key.code;
         event.key.alt = sfmlEvent.key.alt;
         event.key.control = sfmlEvent.key.control;
         event.key.shift = sfmlEvent.key.shift;
@@ -34,7 +34,7 @@ void priv::EventImpl::TranslateSfmlToAncona(const sf::Event & sfmlEvent, Event &
     }
     else if (sfmlEvent.type == sf::Event::MouseButtonPressed || sfmlEvent.type == sf::Event::MouseButtonReleased)
     {
-        event.mouseButton.button = (Mouse::Button) sfmlEvent.mouseButton.button;
+        event.mouseButton.button = (Mouse::Button)sfmlEvent.mouseButton.button;
         event.mouseButton.x = sfmlEvent.mouseButton.x;
         event.mouseButton.y = sfmlEvent.mouseButton.y;
     }
@@ -46,7 +46,7 @@ void priv::EventImpl::TranslateSfmlToAncona(const sf::Event & sfmlEvent, Event &
     }
     else if (sfmlEvent.type == sf::Event::MouseWheelScrolled)
     {
-        event.mouseWheelScroll.wheel = (Mouse::Wheel) sfmlEvent.mouseWheelScroll.wheel;
+        event.mouseWheelScroll.wheel = (Mouse::Wheel)sfmlEvent.mouseWheelScroll.wheel;
         event.mouseWheelScroll.delta = sfmlEvent.mouseWheelScroll.delta;
         event.mouseWheelScroll.x = sfmlEvent.mouseWheelScroll.x;
         event.mouseWheelScroll.y = sfmlEvent.mouseWheelScroll.y;
@@ -54,7 +54,7 @@ void priv::EventImpl::TranslateSfmlToAncona(const sf::Event & sfmlEvent, Event &
     else if (sfmlEvent.type == sf::Event::JoystickMoved)
     {
         event.joystickMove.joystickId = sfmlEvent.joystickMove.joystickId;
-        event.joystickMove.axis = (Joystick::Axis) sfmlEvent.joystickMove.axis;
+        event.joystickMove.axis = (Joystick::Axis)sfmlEvent.joystickMove.axis;
         event.joystickMove.position = sfmlEvent.joystickMove.position;
     }
     else if (sfmlEvent.type == sf::Event::JoystickButtonPressed || sfmlEvent.type == sf::Event::JoystickButtonReleased)
@@ -66,7 +66,8 @@ void priv::EventImpl::TranslateSfmlToAncona(const sf::Event & sfmlEvent, Event &
     {
         event.joystickConnect.joystickId = sfmlEvent.joystickConnect.joystickId;
     }
-    else if (sfmlEvent.type == sf::Event::TouchBegan || sfmlEvent.type == sf::Event::TouchMoved || sfmlEvent.type == sf::Event::TouchEnded)
+    else if (sfmlEvent.type == sf::Event::TouchBegan || sfmlEvent.type == sf::Event::TouchMoved ||
+             sfmlEvent.type == sf::Event::TouchEnded)
     {
         event.touch.finger = sfmlEvent.touch.finger;
         event.touch.x = sfmlEvent.touch.x;
@@ -74,11 +75,11 @@ void priv::EventImpl::TranslateSfmlToAncona(const sf::Event & sfmlEvent, Event &
     }
     else if (sfmlEvent.type == sf::Event::SensorChanged)
     {
-        event.sensor.type = (Sensor::Type) sfmlEvent.sensor.type;
+        event.sensor.type = (Sensor::Type)sfmlEvent.sensor.type;
         event.sensor.x = sfmlEvent.sensor.x;
         event.sensor.y = sfmlEvent.sensor.y;
         event.sensor.z = sfmlEvent.sensor.z;
     }
 }
 
-}
+} // namespace ildhal

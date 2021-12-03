@@ -14,16 +14,16 @@ class Archive;
  */
 class PolymorphicSerializer
 {
-    public:
-        /**
-         * @brief Serializes polymorphic types.
-         *
-         * @param property Property being serialized.
-         * @param arc Archive instance
-         */
-        virtual void Serialize(void *& property, Archive & arc) = 0;
+  public:
+    /**
+     * @brief Serializes polymorphic types.
+     *
+     * @param property Property being serialized.
+     * @param arc Archive instance
+     */
+    virtual void Serialize(void *&property, Archive &arc) = 0;
 };
 
-}
+} // namespace ild
 
 #endif

@@ -2,9 +2,7 @@
 
 using namespace ild;
 
-PolymorphicSerializerAbstractBase::PolymorphicSerializerAbstractBase(
-        std::string className) : 
-    _className(className)
+PolymorphicSerializerAbstractBase::PolymorphicSerializerAbstractBase(std::string className) : _className(className)
 {
 }
 

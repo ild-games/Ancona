@@ -7,42 +7,34 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::ShapeDrawable);
 
 using namespace ild;
 
-ShapeDrawable::ShapeDrawable(
-        ildhal::Shape * shape,
-        const float priorty,
-        const std::string & key,
-        float priorityOffset,
-        Vector2f anchor) :
-    Drawable(
-            priorty,
-            key,
-            priorityOffset,
-            anchor),
-    _shape(shape)
+ShapeDrawable::ShapeDrawable(ildhal::Shape *shape, const float priorty, const std::string &key, float priorityOffset,
+                             Vector2f anchor)
+    : Drawable(priorty, key, priorityOffset, anchor), _shape(shape)
 {
 }
 
-Drawable * ShapeDrawable::Copy() {
+Drawable *ShapeDrawable::Copy()
+{
     ILD_Assert(false, "ShapeDrawable copy not implemented.");
     auto drawable = new ShapeDrawable();
     Drawable::CopyProperties(drawable);
     return drawable;
 }
 
-void ShapeDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
+void ShapeDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta)
 {
     ildhal::RenderStates states(drawableTransform);
     target.Draw(*_shape, states);
 }
 
-void ShapeDrawable::FetchDependencies(const Entity &entity) {
+void ShapeDrawable::FetchDependencies(const Entity &entity)
+{
     Drawable::FetchDependencies(entity);
-    _shape->origin(
-        _shape->localBounds().width * _anchor.x,
-        _shape->localBounds().height * _anchor.y);
+    _shape->origin(_shape->localBounds().width * _anchor.x, _shape->localBounds().height * _anchor.y);
 }
 
-void ShapeDrawable::Serialize(Archive &archive) {
+void ShapeDrawable::Serialize(Archive &archive)
+{
     Drawable::Serialize(archive);
     archive(_shape, "shape");
 }
@@ -69,4 +61,3 @@ void ShapeDrawable::alpha(int alpha)
     fillCol.a = alpha;
     _shape->fillColor(fillCol);
 }
-

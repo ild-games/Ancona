@@ -12,20 +12,18 @@ namespace ild
  *
  * @author Tucker Lein
  */
-class FontLoader: public HalResourceLoader<ildhal::Font>
+class FontLoader : public HalResourceLoader<ildhal::Font>
 {
-    public:
-        /**
-         * @brief Initialize a font loader and register it with the ResourceLibrary
-         *
-         * @param resourceName Resource Type to be used (EX "FontTTF")
-         * @param fileExtension File extension to be used (EX "ttf")
-         */
-        FontLoader(
-                const std::string & resourceName,
-                const std::string & fileExtension);
+  public:
+    /**
+     * @brief Initialize a font loader and register it with the ResourceLibrary
+     *
+     * @param resourceName Resource Type to be used (EX "FontTTF")
+     * @param fileExtension File extension to be used (EX "ttf")
+     */
+    FontLoader(const std::string &resourceName, const std::string &fileExtension);
 };
 
-}
+} // namespace ild
 
 #endif

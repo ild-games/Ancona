@@ -36,28 +36,30 @@ namespace ildhal
 
 namespace priv
 {
-    class TextureImpl;
+class TextureImpl;
 }
 
 class Texture
 {
-    public:
-        Texture();
-        bool LoadFromFile(const std::string& filename);
+  public:
+    Texture();
+    bool LoadFromFile(const std::string &filename);
 
-        /* getters and setters */
-        void repeated(bool newRepeated);
-        ild::Vector2u size() const;
-        void smooth(bool newSmooth);
-        bool smooth() const;
+    /* getters and setters */
+    void repeated(bool newRepeated);
+    ild::Vector2u size() const;
+    void smooth(bool newSmooth);
+    bool smooth() const;
 
-        priv::TextureImpl & textureImpl() const { return *_pimpl; }
-    private:
+    priv::TextureImpl &textureImpl() const
+    {
+        return *_pimpl;
+    }
 
-        std::unique_ptr<priv::TextureImpl> _pimpl;
+  private:
+    std::unique_ptr<priv::TextureImpl> _pimpl;
 };
 
-}
-
+} // namespace ildhal
 
 #endif
