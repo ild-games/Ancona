@@ -1,6 +1,6 @@
 #include <Ancona/HAL/Music.hpp>
 #include <Ancona/HAL/SFML/MusicImpl.hpp>
-#include <Ancona/HAL/SFML/TimeImpl.hpp>
+#include <Ancona/HAL/Time.hpp>
 
 namespace ildhal
 {

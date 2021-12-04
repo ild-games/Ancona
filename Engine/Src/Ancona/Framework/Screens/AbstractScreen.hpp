@@ -65,6 +65,8 @@ class AbstractScreen
     {
     }
 
+    virtual void InputUpdate(float delta) = 0;
+
     /**
      * @brief Handles the update logic on the screen
      *

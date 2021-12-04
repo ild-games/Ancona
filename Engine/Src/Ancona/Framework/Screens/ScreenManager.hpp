@@ -55,6 +55,7 @@ class ScreenManager
      */
     void Replace(AbstractScreen *screen);
 
+    void InputUpdate(float delta);
     /**
      * @brief Updates the current screen
      *

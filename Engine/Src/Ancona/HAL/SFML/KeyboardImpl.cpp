@@ -9,7 +9,7 @@ namespace ildhal
 std::set<Keyboard::Key> Keyboard::_pressedKeys;
 std::set<Keyboard::Key> Keyboard::_releasedKeys;
 std::set<Keyboard::Key> Keyboard::_heldKeys;
-std::map<Keyboard::Key, unsigned int> Keyboard::_heldKeysToFrameCount;
+std::map<Keyboard::Key, unsigned long> Keyboard::_heldKeysToFrameCount;
 std::set<Keyboard::Key> Keyboard::_heldKeysToClear;
 
 bool Keyboard::IsKeyPressed(const Keyboard::Key &key)
@@ -39,7 +39,11 @@ void Keyboard::_AddKeyRelease(const Keyboard::Key &key)
     _releasedKeys.insert(key);
     if (_heldKeysToFrameCount[key] != ild::Game::FrameCount)
     {
-        _heldKeys.erase(std::find(_heldKeys.begin(), _heldKeys.end(), key));
+        auto iter = std::find(_heldKeys.begin(), _heldKeys.end(), key);
+        if (iter != _heldKeys.end())
+        {
+            _heldKeys.erase(iter);
+        }
     }
     else
     {
@@ -53,7 +57,11 @@ void Keyboard::_ClearKeys()
     _releasedKeys.clear();
     for (auto heldKeyToClear : _heldKeysToClear)
     {
-        _heldKeys.erase(std::find(_heldKeys.begin(), _heldKeys.end(), heldKeyToClear));
+        auto iter = std::find(_heldKeys.begin(), _heldKeys.end(), heldKeyToClear);
+        if (iter != _heldKeys.end())
+        {
+            _heldKeys.erase(iter);
+        }
         _heldKeysToFrameCount[heldKeyToClear] = 0;
     }
     _heldKeysToClear.clear();

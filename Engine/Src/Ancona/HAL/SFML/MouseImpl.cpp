@@ -11,7 +11,7 @@ namespace ildhal
 std::set<Mouse::Button> Mouse::_pressedButtons;
 std::set<Mouse::Button> Mouse::_releasedButtons;
 std::set<Mouse::Button> Mouse::_heldButtons;
-std::map<Mouse::Button, unsigned int> Mouse::_heldButtonsToFrameCount;
+std::map<Mouse::Button, unsigned long> Mouse::_heldButtonsToFrameCount;
 std::set<Mouse::Button> Mouse::_heldButtonsToClear;
 
 ild::Vector2i Mouse::GetPosition()

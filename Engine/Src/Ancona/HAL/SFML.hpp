@@ -19,7 +19,6 @@
 #include <Ancona/HAL/SFML/SpriteImpl.hpp>
 #include <Ancona/HAL/SFML/TextImpl.hpp>
 #include <Ancona/HAL/SFML/TextureImpl.hpp>
-#include <Ancona/HAL/SFML/TimeImpl.hpp>
 #include <Ancona/HAL/SFML/TransformImpl.hpp>
 #include <Ancona/HAL/SFML/VertexArrayImpl.hpp>
 #include <Ancona/HAL/SFML/ViewImpl.hpp>

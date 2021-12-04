@@ -39,21 +39,53 @@ class Time
 {
   public:
     Time();
-    Time(float seconds);
 
     float AsSeconds() const;
+    int AsMilliseconds() const;
+    signed long long AsMicroseconds() const;
 
-    /* getters and setters */
-    priv::TimeImpl &timeImpl() const
-    {
-        return *_pimpl;
-    }
+    static const Time Zero; ///< Predefined "zero" time value
 
   private:
-    std::unique_ptr<priv::TimeImpl> _pimpl;
+    friend Time seconds(float);
+    friend Time milliseconds(int);
+    friend Time microseconds(signed long long);
+
+    explicit Time(signed long long microseconds);
+
+  private:
+    signed long long _microseconds; ///< Time value stored as microseconds
 };
 
 Time seconds(float amount);
+Time milliseconds(int amount);
+Time microseconds(signed long long amount);
+Time minTime(Time a, Time b);
+
+bool operator==(Time left, Time right);
+bool operator!=(Time left, Time right);
+bool operator<(Time left, Time right);
+bool operator>(Time left, Time right);
+bool operator<=(Time left, Time right);
+bool operator>=(Time left, Time right);
+Time operator-(Time right);
+Time operator+(Time left, Time right);
+Time &operator+=(Time &left, Time right);
+Time operator-(Time left, Time right);
+Time &operator-=(Time &left, Time right);
+Time operator*(Time left, float right);
+Time operator*(Time left, signed long long right);
+Time operator*(float left, Time right);
+Time operator*(signed long long left, Time right);
+Time &operator*=(Time &left, float right);
+Time &operator*=(Time &left, signed long long right);
+Time operator/(Time left, float right);
+Time operator/(Time left, signed long long right);
+Time &operator/=(Time &left, float right);
+Time &operator/=(Time &left, signed long long right);
+float operator/(Time left, Time right);
+Time operator%(Time left, Time right);
+Time &operator%=(Time &left, Time right);
 
 } // namespace ildhal
 

@@ -14,34 +14,63 @@
 
 using namespace ild;
 
-unsigned int Game::FrameCount = 0;
+unsigned long Game::FrameCount = 0;
 
-Game::Game(int windowWidth, int windowHeight, const std::string &title, const unsigned int &style)
-    : _window(std::make_unique<ildhal::Window>(title, windowWidth, windowHeight, style))
+Game::Game(const GameConfig &config)
+    : _config(config),
+      _window(std::make_unique<ildhal::Window>(config.title, config.windowWidth, config.windowHeight, config.style)),
+      _music(std::make_shared<ildhal::Music>())
 {
-    _screenManager = std::unique_ptr<ScreenManager>(new ScreenManager(*_window, windowWidth, windowHeight));
+    _screenManager = std::make_unique<ScreenManager>(*_window, config.windowWidth, config.windowHeight);
+    Jukebox::InitMusic(_music);
+    if (config.isFpsLimited)
+    {
+        _window->framerateLimit(config.fpsLimit);
+    }
+    _window->verticalSyncEnabled(config.isVSyncEnabled);
+    _window->keyRepeatEnabled(config.isKeyRepeatEnabled);
 }
 
 Game::~Game()
 {
+    Jukebox::StopMusic();
     ResourceLibrary::GarbageCollect();
     ResourceLoaderInit::Destroy();
 }
 
+void Game::InputUpdate(float deltaTime)
+{
+    _screenManager->InputUpdate(deltaTime);
+}
+
+void Game::FixedUpdate(float fixedDeltaTime)
+{
+    _screenManager->Update(fixedDeltaTime);
+}
+
+void Game::Render(float delta)
+{
+    _window->Clear(Color::Black);
+    _screenManager->Draw(delta);
+    _window->Display();
+}
+
 void Game::Run()
 {
-    float fps;
-    ildhal::Clock fpsClock;
-    ildhal::Time fpsPreviousTime = fpsClock.ElapsedTime();
-    ildhal::Time fpsCurrentTime;
+    unsigned int fpsFrames = 0;
+    ildhal::Time fpsPreviousTime = ildhal::Time::Zero;
+    ildhal::Time fpsCurrentTime = ildhal::Time::Zero;
+    ildhal::Time fpsDisplayUpdateInterval = ildhal::seconds(1.0f);
     std::ostringstream fpsStream;
 
     ildhal::Clock clock;
-    std::shared_ptr<ildhal::Music> music = std::make_shared<ildhal::Music>();
-    Jukebox::InitMusic(music);
-    _window->framerateLimit(60);
-    _window->verticalSyncEnabled(true);
-    _window->keyRepeatEnabled(false);
+
+    ildhal::Time minDeltaTime = ildhal::seconds(1.0f / _config.minFps);
+    ildhal::Time totalTime = ildhal::Time::Zero;
+    ildhal::Time fixedDeltaTime = ildhal::seconds(1.0f / _config.fixedUpdateFps);
+
+    ildhal::Time currentTime = clock.ElapsedTime();
+    ildhal::Time accumulator = ildhal::Time::Zero;
 
     while (_window->open() && !_screenManager->Empty())
     {
@@ -55,7 +84,75 @@ void Game::Run()
             }
             continue;
         }
+        Jukebox::Update();
+        while (_window->PollEvent(event))
+        {
+            ProcessWindowEvent(event);
+        }
 
+        ildhal::Time newTime = clock.ElapsedTime();
+        ildhal::Time deltaTime = ildhal::minTime(newTime - currentTime, minDeltaTime);
+        currentTime = newTime;
+        accumulator += deltaTime;
+
+        // TODO get rid of this dumb thing and just use a HAL timer
+        Timer::Update(deltaTime.AsSeconds());
+
+        InputUpdate(deltaTime.AsSeconds());
+        while (accumulator >= fixedDeltaTime)
+        {
+            FixedUpdate(fixedDeltaTime.AsSeconds());
+            totalTime += fixedDeltaTime;
+            accumulator -= fixedDeltaTime;
+
+            // clear input after first FixedUpdate has had a chance to process input
+            ildhal::Keyboard::_ClearKeys();
+            ildhal::Mouse::_ClearButtons();
+            ildhal::Touch::_ClearFingers();
+            ildhal::Joystick::_ClearButtons();
+        }
+        ILD_Log(std::ostringstream() << "Accumulator: " << accumulator.AsSeconds());
+
+        Render(deltaTime.AsSeconds());
+
+        FrameCount++;
+
+        fpsFrames++;
+        fpsCurrentTime = clock.ElapsedTime();
+        if (fpsCurrentTime - fpsPreviousTime >= fpsDisplayUpdateInterval)
+        {
+            fpsStream.str("");
+            fpsStream.clear();
+            fpsStream << "FPS: " << fpsFrames << std::endl;
+            _window->title(fpsStream.str());
+            fpsFrames = 0;
+            fpsPreviousTime = fpsCurrentTime;
+        }
+    }
+}
+
+void Game::RunOld()
+{
+    unsigned int fpsFrames = 0;
+    ildhal::Clock fpsClock;
+    ildhal::Time fpsPreviousTime = fpsClock.ElapsedTime();
+    ildhal::Time fpsCurrentTime;
+    std::ostringstream fpsStream;
+
+    ildhal::Clock clock;
+
+    while (_window->open() && !_screenManager->Empty())
+    {
+        ildhal::Event event;
+        if (!_windowIsActive)
+        {
+            ildhal::sleep(ildhal::seconds(0.5f));
+            while (_window->PollEvent(event))
+            {
+                ProcessWindowEvent(event);
+            }
+            continue;
+        }
         ildhal::Keyboard::_ClearKeys();
         ildhal::Mouse::_ClearButtons();
         ildhal::Touch::_ClearFingers();
@@ -67,6 +164,7 @@ void Game::Run()
         }
 
         ildhal::Time elapsed = clock.Restart();
+        // float delta = elapsed.AsSeconds();
         float delta = std::min(elapsed.AsSeconds(), 0.0235f);
         Timer::Update(delta);
         _screenManager->Update(delta);
@@ -75,13 +173,17 @@ void Game::Run()
         _window->Display();
         FrameCount++;
 
+        fpsFrames++;
         fpsCurrentTime = fpsClock.ElapsedTime();
-        fps = 1.0f / (fpsCurrentTime.AsSeconds() - fpsPreviousTime.AsSeconds());
-        fpsPreviousTime = ildhal::seconds(fpsCurrentTime.AsSeconds());
-        fpsStream.str("");
-        fpsStream.clear();
-        fpsStream << "FPS: " << (int)std::round(fps) << std::endl;
-        _window->title(fpsStream.str());
+        if (fpsCurrentTime.AsSeconds() - fpsPreviousTime.AsSeconds() >= 1.0f)
+        {
+            fpsStream.str("");
+            fpsStream.clear();
+            fpsStream << "FPS: " << fpsFrames << std::endl;
+            _window->title(fpsStream.str());
+            fpsFrames = 0;
+            fpsPreviousTime = ildhal::seconds(fpsCurrentTime.AsSeconds());
+        }
     }
     Jukebox::StopMusic();
 }

@@ -8,7 +8,7 @@ namespace ildhal
 std::set<unsigned int> Touch::_pressedFingers;
 std::set<unsigned int> Touch::_releasedFingers;
 std::set<unsigned int> Touch::_heldFingers;
-std::map<unsigned int, unsigned int> Touch::_heldFingersToFrameCount;
+std::map<unsigned int, unsigned long> Touch::_heldFingersToFrameCount;
 std::set<unsigned int> Touch::_heldFingersToClear;
 std::map<unsigned int, ild::Vector2i> Touch::_fingerPosition;
 

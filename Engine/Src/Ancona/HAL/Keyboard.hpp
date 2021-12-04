@@ -213,7 +213,7 @@ class Keyboard
     static std::set<Keyboard::Key> _pressedKeys;
     static std::set<Keyboard::Key> _releasedKeys;
     static std::set<Keyboard::Key> _heldKeys;
-    static std::map<Keyboard::Key, unsigned int> _heldKeysToFrameCount;
+    static std::map<Keyboard::Key, unsigned long> _heldKeysToFrameCount;
     static std::set<Keyboard::Key> _heldKeysToClear;
 };
 

@@ -139,7 +139,7 @@ class Mouse
     static std::set<Mouse::Button> _pressedButtons;
     static std::set<Mouse::Button> _releasedButtons;
     static std::set<Mouse::Button> _heldButtons;
-    static std::map<Mouse::Button, unsigned int> _heldButtonsToFrameCount;
+    static std::map<Mouse::Button, unsigned long> _heldButtonsToFrameCount;
     static std::set<Mouse::Button> _heldButtonsToClear;
 };
 

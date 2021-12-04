@@ -12,6 +12,10 @@ LoadingScreen::LoadingScreen(AbstractScreen *screenLoading, ScreenManager &manag
                                        _screenLoading->requestList(), true));
 }
 
+void LoadingScreen::InputUpdate(float delta)
+{
+}
+
 void LoadingScreen::Update(float delta)
 {
     if (!_mapLoader->ContinueLoading())

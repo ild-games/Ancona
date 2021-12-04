@@ -25,9 +25,13 @@ void MenuScreen::Init()
     _systems->input().AddComponent(inputEntity, menuInputComponent);
 }
 
-void MenuScreen::Update(float delta)
+void MenuScreen::InputUpdate(float delta)
 {
     _systems->systemManager().Update(delta, ild::UpdateStep::Input);
+}
+
+void MenuScreen::Update(float delta)
+{
     _systems->systemManager().Update(delta, ild::UpdateStep::Update);
     _systems->systemManager().Update(delta, ild::UpdateStep::Physics);
 

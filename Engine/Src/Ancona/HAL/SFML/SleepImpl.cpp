@@ -1,14 +1,14 @@
 #include <SFML/System.hpp>
 
-#include <Ancona/HAL/SFML/TimeImpl.hpp>
 #include <Ancona/HAL/Sleep.hpp>
+#include <Ancona/HAL/Time.hpp>
 
 namespace ildhal
 {
 
 void sleep(const Time &duration)
 {
-    sf::sleep(duration.timeImpl().sfmlTime());
+    sf::sleep(sf::microseconds(duration.AsMicroseconds()));
 }
 
 } // namespace ildhal

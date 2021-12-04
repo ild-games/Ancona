@@ -72,7 +72,7 @@ class Touch
     static std::set<unsigned int> _pressedFingers;
     static std::set<unsigned int> _releasedFingers;
     static std::set<unsigned int> _heldFingers;
-    static std::map<unsigned int, unsigned int> _heldFingersToFrameCount;
+    static std::map<unsigned int, unsigned long> _heldFingersToFrameCount;
     static std::set<unsigned int> _heldFingersToClear;
     static std::map<unsigned int, ild::Vector2i> _fingerPosition;
 };

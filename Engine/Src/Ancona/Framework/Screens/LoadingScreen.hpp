@@ -26,6 +26,7 @@ class LoadingScreen : public AbstractScreen
      */
     LoadingScreen(AbstractScreen *screenLoading, ScreenManager &manager);
 
+    void InputUpdate(float delta) override;
     /**
      * @brief Loads in the next resource.
      *

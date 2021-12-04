@@ -32,6 +32,11 @@ void ScreenManager::Push(AbstractScreen *screen, bool load)
 
 void ScreenManager::Pop()
 {
+    if (_screens.top()->__Exiting)
+    {
+        return;
+    }
+
     _screens.top()->OnExiting();
     _screens.top()->__Exiting = true;
 }
@@ -52,6 +57,23 @@ void ScreenManager::Replace(AbstractScreen *screen)
     _replacementScreen = screen;
 }
 
+void ScreenManager::InputUpdate(float delta)
+{
+    if (!Empty())
+    {
+        auto screen = _screens.top();
+        if (!screen->__Initialized)
+        {
+            screen->Init();
+            screen->__Initialized = true;
+        }
+        if (!screen->__Exiting)
+        {
+            screen->InputUpdate(delta);
+        }
+    }
+}
+
 void ScreenManager::Update(float delta)
 {
     if (!Empty())
@@ -62,7 +84,10 @@ void ScreenManager::Update(float delta)
             screen->Init();
             screen->__Initialized = true;
         }
-        screen->Update(delta);
+        if (!screen->__Exiting)
+        {
+            screen->Update(delta);
+        }
         screen->systemsContainer()->systemManager().PostUpdate();
     }
 }

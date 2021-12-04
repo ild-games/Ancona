@@ -36,6 +36,7 @@ class MenuScreen : public ild::AbstractScreen
      */
     void Init() override;
 
+    void InputUpdate(float delta) override;
     /**
      * @brief Handles the update logic on the screen
      *

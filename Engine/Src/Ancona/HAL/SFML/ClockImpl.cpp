@@ -1,5 +1,5 @@
 #include <Ancona/HAL/SFML/ClockImpl.hpp>
-#include <Ancona/HAL/SFML/TimeImpl.hpp>
+#include <Ancona/HAL/Time.hpp>
 
 namespace ildhal
 {

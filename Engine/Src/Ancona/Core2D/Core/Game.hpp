@@ -10,17 +10,34 @@
 namespace ild
 {
 
+struct GameConfig
+{
+    int windowWidth = 1280;
+    int windowHeight = 720;
+    std::string title = "Ancona Game";
+    bool isVSyncEnabled = true;
+    bool isFpsLimited = true;
+    float fpsLimit = 60.0f;
+    float fixedUpdateFps = 60.0f;
+    float minFps = 45.0f;
+    bool isKeyRepeatEnabled = false;
+    unsigned int style = ildhal::WindowStyle::Default;
+};
+
 class Game
 {
   public:
-    Game(int windowWidth, int windowHeight, const std::string &title,
-         const unsigned int &style = ildhal::WindowStyle::Default);
+    Game(const GameConfig &config);
 
     void Run();
+    void RunOld();
+    void InputUpdate(float deltaTime);
+    void FixedUpdate(float fixedDeltaTime);
+    void Render(float delta);
 
     virtual ~Game();
 
-    static unsigned int FrameCount;
+    static unsigned long FrameCount;
 
     /* getters and setters */
     const bool &windowIsActive() const
@@ -34,13 +51,14 @@ class Game
 
   protected:
     std::unique_ptr<ScreenManager> _screenManager;
-
     std::unique_ptr<ildhal::Window> _window;
 
   private:
-    void ProcessWindowEvent(ildhal::Event event);
-
+    const GameConfig &_config;
     bool _windowIsActive = true;
+    std::shared_ptr<ildhal::Music> _music;
+
+    void ProcessWindowEvent(ildhal::Event event);
 };
 } // namespace ild
 
