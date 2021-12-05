@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include <Ancona/Core2D/Core/Game.hpp>
+#include <Ancona/Core/Game.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Graphics/Rect.hpp>

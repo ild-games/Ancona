@@ -1,6 +1,5 @@
+cmake_minimum_required(VERSION 3.22.0)
 #Owner: Jeff Swenson
-
-cmake_minimum_required(VERSION 2.8)
 
 project(ANCONA)
 
@@ -8,10 +7,10 @@ include (${RAFT})
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
-#Set C++ Version to 11
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+#Set C++ Version to C++14
+set(CMAKE_CXX_STANDARD 14)
 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID AND NOT IOS)
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID AND NOT IOS AND NOT WIN32)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
 endif()
 if(IOS)
@@ -27,9 +26,17 @@ endif()
 
 include_directories(Engine/Src)
 
-set(ANCONA_LIBS Ancona_Platformer Ancona_Core2D
-    Ancona_Framework Ancona_Util2D Ancona_Util Ancona_System)
-
+set (ANCONA_LIBS
+    Ancona_Core
+    Ancona_Core2D
+    Ancona_Framework
+    Ancona_Graphics
+    Ancona_HAL
+    Ancona_Menu
+    Ancona_Platformer
+    Ancona_System
+    Ancona_Util
+    Ancona_Util2D)
 
 set(ANCONA_EXT_LIBS
     optimized sfml-graphics debug sfml-graphics-d

@@ -1,6 +1,6 @@
 #include <Ancona/HAL/Keyboard.hpp>
 
-#include <Ancona/Core2D/Core/Game.hpp>
+#include <Ancona/Core/Game.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 
 namespace ildhal

@@ -1,7 +1,7 @@
 #include <cmath>
 #include <sstream>
 
-#include <Ancona/Core2D/Core/Game.hpp>
+#include <Ancona/Core/Game.hpp>
 #include <Ancona/Framework/Audio/Jukebox.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Resource/ResourceLoaderInit.hpp>
@@ -12,18 +12,17 @@
 #include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Timer.hpp>
 
-using namespace ild;
+namespace ild
+{
 
 unsigned long Game::FrameCount = 0;
 float Game::InterpolationAlpha = 1.0f;
 
 Game::Game(const GameConfig &config)
     : _config(config),
-      _window(std::make_unique<ildhal::Window>(config.title, config.windowWidth, config.windowHeight, config.style)),
-      _music(std::make_shared<ildhal::Music>())
+      _window(std::make_unique<ildhal::Window>(config.title, config.windowWidth, config.windowHeight, config.style))
 {
     _screenManager = std::make_unique<ScreenManager>(*_window, config.windowWidth, config.windowHeight);
-    Jukebox::InitMusic(_music);
     if (config.isFpsLimited)
     {
         _window->framerateLimit(config.fpsLimit);
@@ -185,7 +184,6 @@ void Game::RunOld()
             fpsPreviousTime = ildhal::seconds(fpsCurrentTime.AsSeconds());
         }
     }
-    Jukebox::StopMusic();
 }
 
 void Game::ProcessWindowEvent(ildhal::Event event)
@@ -253,3 +251,4 @@ void Game::ProcessWindowEvent(ildhal::Event event)
         }
     }
 }
+} // namespace ild

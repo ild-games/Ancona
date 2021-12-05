@@ -50,7 +50,7 @@ class Sprite : public Drawable
     /* getters and setters */
     void origin(const ild::Vector2f &newOrigin);
     void origin(float x, float y);
-    const ild::Color &color() const;
+    const ild::Color color() const;
     void color(const ild::Color &newColor);
     void texture(const Texture &newTexture, bool resetRect = false);
 

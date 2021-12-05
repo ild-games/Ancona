@@ -1,4 +1,4 @@
-#include <Ancona/Framework/Resource/ResourceLibrary.hpp>ramework/Resource/ResourceLibrary.hpp>
+#include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/HAL/SFML/FontImpl.hpp>
 #include <Ancona/HAL/SFML/TextImpl.hpp>
 
@@ -58,10 +58,9 @@ void Text::origin(float x, float y)
     textImpl().sfmlText().setOrigin(x, y);
 }
 
-const ild::Color &Text::fillColor() const
+const ild::Color Text::fillColor() const
 {
-    ild::Color color(textImpl().sfmlText().getFillColor().toInteger());
-    return color;
+    return ild::Color(textImpl().sfmlText().getFillColor().toInteger());
 }
 
 void Text::fillColor(const ild::Color &color)

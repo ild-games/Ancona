@@ -87,22 +87,23 @@ bool operator!=(const Color &left, const Color &right)
 Color operator+(const Color &left, const Color &right)
 {
     return Color(
-        unsigned char(std::min(int(left.r) + right.r, 255)), unsigned char(std::min(int(left.g) + right.g, 255)),
-        unsigned char(std::min(int(left.b) + right.b, 255)), unsigned char(std::min(int(left.a) + right.a, 255)));
+        (unsigned char)(std::min(int(left.r) + right.r, 255)), (unsigned char)(std::min(int(left.g) + right.g, 255)),
+        (unsigned char)(std::min(int(left.b) + right.b, 255)), (unsigned char)(std::min(int(left.a) + right.a, 255)));
 }
 
 ////////////////////////////////////////////////////////////
 Color operator-(const Color &left, const Color &right)
 {
-    return Color(unsigned char(std::max(int(left.r) - right.r, 0)), unsigned char(std::max(int(left.g) - right.g, 0)),
-                 unsigned char(std::max(int(left.b) - right.b, 0)), unsigned char(std::max(int(left.a) - right.a, 0)));
+    return Color(
+        (unsigned char)(std::max(int(left.r) - right.r, 0)), (unsigned char)(std::max(int(left.g) - right.g, 0)),
+        (unsigned char)(std::max(int(left.b) - right.b, 0)), (unsigned char)(std::max(int(left.a) - right.a, 0)));
 }
 
 ////////////////////////////////////////////////////////////
 Color operator*(const Color &left, const Color &right)
 {
-    return Color(unsigned char(int(left.r) * right.r / 255), unsigned char(int(left.g) * right.g / 255),
-                 unsigned char(int(left.b) * right.b / 255), unsigned char(int(left.a) * right.a / 255));
+    return Color((unsigned char)(int(left.r) * right.r / 255), (unsigned char)(int(left.g) * right.g / 255),
+                 (unsigned char)(int(left.b) * right.b / 255), (unsigned char)(int(left.a) * right.a / 255));
 }
 
 ////////////////////////////////////////////////////////////

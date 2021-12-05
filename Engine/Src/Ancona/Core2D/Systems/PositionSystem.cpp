@@ -26,7 +26,7 @@
 
 #include <cmath>
 
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/PositionSystem.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::PositionComponent);
 

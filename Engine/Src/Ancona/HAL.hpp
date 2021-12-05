@@ -1,5 +1,4 @@
-#ifndef Ancona_HAL_H_
-#define Ancona_HAL_H_
+#pragma once
 
 #include <Ancona/HAL/BlendMode.hpp>
 #include <Ancona/HAL/CircleShape.hpp>
@@ -32,5 +31,3 @@
 #include <Ancona/HAL/Window.hpp>
 
 #include <Ancona/HAL/SFML.hpp>
-
-#endif

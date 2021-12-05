@@ -45,7 +45,7 @@ class RectangleShape : public Shape
     explicit RectangleShape(const ild::Vector2f &size);
 
     /* getters and setters */
-    const ild::Vector2f &size() const;
+    const ild::Vector2f size() const;
     void size(const ild::Vector2f &newSize);
 
     priv::RectangleShapeImpl &rectangleShapeImpl() const;

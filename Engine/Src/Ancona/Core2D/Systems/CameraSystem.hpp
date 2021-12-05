@@ -4,7 +4,7 @@
 #include <vector>
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Graphics/View.hpp>

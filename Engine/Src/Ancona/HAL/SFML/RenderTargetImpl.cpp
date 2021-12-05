@@ -35,7 +35,7 @@ void RenderTarget::ResetGLStates()
 }
 
 /* getters and setters */
-const ild::View &RenderTarget::defaultView() const
+const ild::View RenderTarget::defaultView() const
 {
     auto sfmlView = renderTargetImpl().sfmlRenderTarget().getDefaultView();
     ild::View view;

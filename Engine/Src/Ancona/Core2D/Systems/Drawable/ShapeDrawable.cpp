@@ -1,5 +1,5 @@
 #include <Ancona/Core2D/Systems/Drawable/ShapeDrawable.hpp>
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/HAL.hpp>
 #include <Ancona/Util2D/VectorMath.hpp>
 

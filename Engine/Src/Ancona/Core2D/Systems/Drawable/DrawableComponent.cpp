@@ -1,9 +1,9 @@
 #include <cmath>
 
-#include <Ancona/Core2D/Core/Game.hpp>
+#include <Ancona/Core/Game.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Graphics/Transform.hpp>
 #include <Ancona/Util/Math.hpp>
 

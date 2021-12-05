@@ -36,7 +36,7 @@ RectangleShape::RectangleShape(const ild::Vector2f &size)
 
 /* getters and setters */
 
-const ild::Vector2f &RectangleShape::size() const
+const ild::Vector2f RectangleShape::size() const
 {
     auto sfmlSize = rectangleShapeImpl().sfmlRectangleShape().getSize();
     return ild::Vector2f(sfmlSize.x, sfmlSize.y);

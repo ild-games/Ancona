@@ -47,7 +47,7 @@ void Sprite::origin(float x, float y)
     spriteImpl().sfmlSprite().setOrigin(x, y);
 }
 
-const ild::Color &Sprite::color() const
+const ild::Color Sprite::color() const
 {
     ild::Color color(spriteImpl().sfmlSprite().getColor().toInteger());
     return color;

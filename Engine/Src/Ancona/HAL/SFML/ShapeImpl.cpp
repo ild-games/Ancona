@@ -23,7 +23,7 @@ void Shape::origin(float x, float y)
     shapeImpl().sfmlShape().setOrigin(x, y);
 }
 
-const ild::Color &Shape::fillColor() const
+const ild::Color Shape::fillColor() const
 {
     return ild::Color(shapeImpl().sfmlShape().getFillColor().toInteger());
 }
@@ -33,7 +33,7 @@ void Shape::fillColor(const ild::Color &color)
     shapeImpl().sfmlShape().setFillColor(sf::Color(color.toInteger()));
 }
 
-const ild::Color &Shape::outlineColor() const
+const ild::Color Shape::outlineColor() const
 {
     return ild::Color(shapeImpl().sfmlShape().getOutlineColor().toInteger());
 }

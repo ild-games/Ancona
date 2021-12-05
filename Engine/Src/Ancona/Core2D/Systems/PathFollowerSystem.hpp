@@ -2,7 +2,7 @@
 #define Ancona_Core2D_Systems_PathFollowerSystem_H_
 
 #include <Ancona/Core2D/Systems/PathSystem.hpp>
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Platformer/Actions/ActionSystem.hpp>

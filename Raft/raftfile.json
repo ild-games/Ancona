@@ -65,6 +65,10 @@
             "architecture" : "Host"
         },
         {
+            "platform" : "Ninja",
+            "architecture" : "Host"
+        },
+        {
             "platform" : "Android",
             "architecture" : "armeabi"
         },

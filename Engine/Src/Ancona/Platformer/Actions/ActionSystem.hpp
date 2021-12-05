@@ -5,7 +5,7 @@
 #include <string>
 
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
 
 #include "Actions.hpp"

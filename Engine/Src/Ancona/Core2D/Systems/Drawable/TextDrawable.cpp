@@ -1,6 +1,6 @@
 
 #include <Ancona/Core2D/Systems/Drawable/TextDrawable.hpp>
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL.hpp>

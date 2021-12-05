@@ -4,7 +4,7 @@
 #include <functional>
 #include <vector>
 
-#include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
+#include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Util/Data.hpp>
 #include <Ancona/Util/Vector2.hpp>

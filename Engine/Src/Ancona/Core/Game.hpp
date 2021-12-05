@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Core_Game_H_
-#define Ancona_Engine_Core_Game_H_
+#pragma once
 
 #include <memory>
 #include <string>
@@ -57,10 +56,7 @@ class Game
   private:
     const GameConfig &_config;
     bool _windowIsActive = true;
-    std::shared_ptr<ildhal::Music> _music;
 
     void ProcessWindowEvent(ildhal::Event event);
 };
 } // namespace ild
-
-#endif

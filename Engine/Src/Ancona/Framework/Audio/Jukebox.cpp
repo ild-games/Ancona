@@ -14,7 +14,7 @@ std::unordered_map<std::string, std::unique_ptr<JukeboxSounds>> Jukebox::_jukebo
 std::string Jukebox::_musicKeyPlaying = "";
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
-std::shared_ptr<ildhal::Music> &Jukebox::_music = std::shared_ptr<ildhal::Music>(nullptr);
+std::unique_ptr<ildhal::Music> Jukebox::_music = std::make_unique<ildhal::Music>();
 float Jukebox::_loopStart = 0.0f;
 bool Jukebox::_loop = true;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
@@ -32,11 +32,6 @@ void Jukebox::Update()
         _music->Play();
         _music->playingOffset(ildhal::seconds(_loopStart));
     }
-}
-
-void Jukebox::InitMusic(std::shared_ptr<ildhal::Music> &music)
-{
-    _music = music;
 }
 
 void Jukebox::RegisterSound(const std::string &soundKey)

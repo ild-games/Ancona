@@ -21,10 +21,9 @@ class LogControls
      * @param msg Message to print out
      */
     static void _log(const std::string &msg);
-    static void _log(std::ostream &stream)
+    static void _log(std::ostringstream &stream)
     {
-        std::ostringstream &stringStream = dynamic_cast<std::ostringstream &>(stream);
-        _log(stringStream.str());
+        _log(stream.str());
     }
 };
 

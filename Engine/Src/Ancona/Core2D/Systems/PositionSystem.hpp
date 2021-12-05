@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_Engine_Position_PositionSystem_hpp
-#define Ancona_Engine_Position_PositionSystem_hpp
+#pragma once
 
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
@@ -124,4 +123,3 @@ class PositionSystem : public UnorderedSystem<PositionComponent>
 };
 
 } // namespace ild
-#endif

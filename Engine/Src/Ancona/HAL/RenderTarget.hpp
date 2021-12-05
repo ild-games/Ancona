@@ -50,7 +50,7 @@ class RenderTarget
     void ResetGLStates();
 
     /* getters and setters */
-    const ild::View &defaultView() const;
+    const ild::View defaultView() const;
     void view(const ild::View &view);
     virtual ild::Vector2u size() const = 0;
 
