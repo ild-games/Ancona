@@ -38,6 +38,7 @@ class Game
     virtual ~Game();
 
     static unsigned long FrameCount;
+    static float InterpolationAlpha;
 
     /* getters and setters */
     const bool &windowIsActive() const

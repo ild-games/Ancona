@@ -1,3 +1,29 @@
+// Altered SFML Transformable.hpp for Ancona's positioning
+
+////////////////////////////////////////////////////////////
+//
+// SFML - Simple and Fast Multimedia Library
+// Copyright (C) 2007-2018 Laurent Gomila (laurent@sfml-dev.org)
+//
+// This software is provided 'as-is', without any express or implied warranty.
+// In no event will the authors be held liable for any damages arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it freely,
+// subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented;
+//    you must not claim that you wrote the original software.
+//    If you use this software in a product, an acknowledgment
+//    in the product documentation would be appreciated but is not required.
+//
+// 2. Altered source versions must be plainly marked as such,
+//    and must not be misrepresented as being the original software.
+//
+// 3. This notice may not be removed or altered from any source distribution.
+//
+////////////////////////////////////////////////////////////
+
 #ifndef Ancona_Engine_Position_PositionSystem_hpp
 #define Ancona_Engine_Position_PositionSystem_hpp
 
@@ -33,13 +59,10 @@ class PositionComponent
      */
     void FetchDependencies(const Entity &entity);
 
+    void PreUpdate();
     void Update(float delta);
 
     /* getters and setters */
-    inline const Vector2f &position() const
-    {
-        return _position;
-    }
     inline const Vector2f &velocity() const
     {
         return _velocity;
@@ -48,14 +71,24 @@ class PositionComponent
     {
         _velocity = velocity;
     }
+
+    const Vector2f position() const;
     void position(const Vector2f &position);
+    const Transform &transform() const;
+    Transform interpolatedTransform(float alpha) const;
+    const Vector2f interpolatedPosition(float alpha) const;
 
   protected:
-    Vector2f _actualPosition;
-    Vector2f _position;
-    Vector2f _velocity;
+    mutable Transform _transform;
+    mutable bool _transformNeedsUpdate = true;
+    Vector2f _origin = Vector2f(0, 0);
+    Vector2f _scale = Vector2f(1, 1);
+    float _rotation = 0;
+    Vector2f _previousPosition = Vector2f(0, 0);
+    Vector2f _actualPosition = Vector2f(0, 0);
+    Vector2f _velocity = Vector2f(0, 0);
 
-    void RoundPosition();
+    const Vector2f RoundPosition(const Vector2f &position) const;
 };
 
 /**
@@ -81,12 +114,13 @@ class PositionSystem : public UnorderedSystem<PositionComponent>
     PositionComponent *CreateComponent(const Entity &entity);
 
   protected:
+    void PreUpdate() override;
     /**
      * @brief Update the position components.  Must be implemented by the child position system.
      *
      * @param delta Fraction of a second since the last update.
      */
-    void Update(float delta);
+    void Update(float delta) override;
 };
 
 } // namespace ild

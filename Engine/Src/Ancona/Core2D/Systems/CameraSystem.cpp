@@ -1,5 +1,6 @@
 #include <cmath>
 
+#include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Core2D/Systems/CameraSystem.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Graphics/Rect.hpp>
@@ -23,14 +24,15 @@ CameraComponent::CameraComponent(const View &originalView, float renderPriority,
 
 void CameraComponent::Update(float delta)
 {
-    auto effectivePosition = GetEffectiveCenter();
-    _view.center(std::round(effectivePosition.x), std::round(effectivePosition.y));
 }
 
 void CameraComponent::Draw(ildhal::RenderTarget &target, ildhal::Window &window, float delta)
 {
-    Box2 cameraPosition(Vector2f(_view.center().x - (_view.size().x), _view.center().y - (_view.size().y)),
-                        Vector2f(_view.size().x * 2, _view.size().y * 2), Vector2f(), _view.rotation());
+    auto effectivePosition = GetEffectiveCenter();
+    _view.center(effectivePosition.x, effectivePosition.y);
+
+    Box2 cameraBounds(Vector2f(_view.center().x - (_view.size().x), _view.center().y - (_view.size().y)),
+                      Vector2f(_view.size().x * 2.0f, _view.size().y * 2.0f), Vector2f(), _view.rotation());
 
     ApplyLetterboxView(window.size().x, window.size().y);
     target.view(_view);
@@ -45,7 +47,7 @@ void CameraComponent::Draw(ildhal::RenderTarget &target, ildhal::Window &window,
     for (DrawableComponent *drawable : _renderQueue)
     {
         auto drawableBox = drawable->BoundingBox();
-        if (cameraPosition.Intersects(drawableBox))
+        if (cameraBounds.Intersects(drawableBox))
         {
             drawable->Draw(target, delta);
         }
@@ -56,21 +58,21 @@ void CameraComponent::Draw(ildhal::RenderTarget &target, ildhal::Window &window,
 void CameraComponent::ApplyLetterboxView(int windowWidth, int windowHeight)
 {
     float windowRatio = (float)windowWidth / (float)windowHeight;
-    float viewRatio = (float)_view.size().x / (float)_view.size().y;
-    float sizeX = 1;
-    float sizeY = 1;
-    float posX = 0;
-    float posY = 0;
+    float viewRatio = _view.size().x / _view.size().y;
+    float sizeX = 1.0f;
+    float sizeY = 1.0f;
+    float posX = 0.0f;
+    float posY = 0.0f;
 
     if (windowRatio >= viewRatio)
     {
         sizeX = viewRatio / windowRatio;
-        posX = (1 - sizeX) / 2.f;
+        posX = (1.0f - sizeX) / 2.0f;
     }
     else
     {
         sizeY = windowRatio / viewRatio;
-        posY = (1 - sizeY) / 2.f;
+        posY = (1.0f - sizeY) / 2.0f;
     }
 
     _view.viewport(FloatRect(posX, posY, sizeX, sizeY));
@@ -81,7 +83,7 @@ Vector2f CameraComponent::GetEffectiveCenter()
     Vector2f effectivePosition;
     if (_followPosition != nullptr)
     {
-        effectivePosition = _followPosition->position() + _offset;
+        effectivePosition = _followPosition->interpolatedPosition(Game::InterpolationAlpha) + _offset;
     }
     else
     {
@@ -116,7 +118,7 @@ void CameraComponent::FetchDependencies(const Entity &entity)
         _followPosition = (*_positionSystem)[_follows];
     }
     _view.size(_size);
-    _view.center(_size.x / 2, _size.y / 2);
+    _view.center(_size.x / 2.0f, _size.y / 2.0f);
     _startingCenter = _view.center();
     scale(_originalScale);
     _drawableSystem->AddCamera(this);
@@ -150,13 +152,14 @@ void CameraComponent::follows(Entity follows)
 void CameraComponent::scale(float scale)
 {
     ILD_Assert(scale != float(0), "Scale cannot be 0");
-    _view.Zoom(1 / _scale);
+    _view.Zoom(1.0f / _scale);
     _scale = scale;
     _view.Zoom(_scale);
 }
 
 /* System */
-CameraSystem::CameraSystem(std::string name, SystemManager &manager) : UnorderedSystem(name, manager, UpdateStep::Draw)
+CameraSystem::CameraSystem(std::string name, SystemManager &manager)
+    : UnorderedSystem(name, manager, UpdateStep::Update)
 {
 }
 

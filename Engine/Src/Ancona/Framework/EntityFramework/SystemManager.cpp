@@ -13,6 +13,20 @@ SystemManager::SystemManager()
     _maxEntityId = 0;
 }
 
+void SystemManager::PreUpdate(UpdateStepEnum updateStep)
+{
+    if (_systemsNeedInit)
+    {
+        InitSystems();
+    }
+
+    FetchWaitingDependencies();
+    for (auto &system : _systems[updateStep])
+    {
+        system->PreUpdate();
+    }
+}
+
 void SystemManager::Update(float delta, UpdateStepEnum updateStep)
 {
     if (_systemsNeedInit)

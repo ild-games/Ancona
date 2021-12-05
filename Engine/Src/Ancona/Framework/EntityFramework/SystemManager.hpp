@@ -41,6 +41,7 @@ class SystemManager
      * @param updateStep Determines which managers should be updated
      */
     void Update(float delta, UpdateStepEnum updateStep);
+    void PreUpdate(UpdateStepEnum updateStep);
     void PostUpdate();
 
     /**

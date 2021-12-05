@@ -15,6 +15,7 @@
 using namespace ild;
 
 unsigned long Game::FrameCount = 0;
+float Game::InterpolationAlpha = 1.0f;
 
 Game::Game(const GameConfig &config)
     : _config(config),
@@ -95,12 +96,11 @@ void Game::Run()
         currentTime = newTime;
         accumulator += deltaTime;
 
-        // TODO get rid of this dumb thing and just use a HAL timer
         Timer::Update(deltaTime.AsSeconds());
 
-        InputUpdate(deltaTime.AsSeconds());
         while (accumulator >= fixedDeltaTime)
         {
+            InputUpdate(fixedDeltaTime.AsSeconds());
             FixedUpdate(fixedDeltaTime.AsSeconds());
             totalTime += fixedDeltaTime;
             accumulator -= fixedDeltaTime;
@@ -111,7 +111,7 @@ void Game::Run()
             ildhal::Touch::_ClearFingers();
             ildhal::Joystick::_ClearButtons();
         }
-        ILD_Log(std::ostringstream() << "Accumulator: " << accumulator.AsSeconds());
+        InterpolationAlpha = accumulator / fixedDeltaTime;
 
         Render(deltaTime.AsSeconds());
 
@@ -123,7 +123,7 @@ void Game::Run()
         {
             fpsStream.str("");
             fpsStream.clear();
-            fpsStream << "FPS: " << fpsFrames << std::endl;
+            fpsStream << "FPS: " << fpsFrames << ", Fixed FPS: " << (int)_config.fixedUpdateFps << std::endl;
             _window->title(fpsStream.str());
             fpsFrames = 0;
             fpsPreviousTime = fpsCurrentTime;

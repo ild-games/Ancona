@@ -57,6 +57,10 @@ class AbstractSystem
     {
     }
 
+    virtual void PreUpdate()
+    {
+    }
+
     /**
      * @brief Called to update all components controlled by the system.
      *

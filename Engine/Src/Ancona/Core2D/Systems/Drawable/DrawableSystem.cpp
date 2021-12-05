@@ -49,7 +49,7 @@ void DrawableSystem::SetupWindowRenderElements()
     auto defaultSize = _defaultCamera->view().size();
     _renderTexture->Create(defaultSize.x, defaultSize.y);
     _renderView->size(defaultSize);
-    _renderView->center(defaultSize.x / 2, defaultSize.y / 2);
+    _renderView->center(defaultSize.x / 2.0f, defaultSize.y / 2.0f);
     _window.view(*_renderView);
 }
 

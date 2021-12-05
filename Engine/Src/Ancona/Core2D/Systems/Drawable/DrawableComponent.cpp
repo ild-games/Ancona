@@ -1,5 +1,6 @@
 #include <cmath>
 
+#include <Ancona/Core2D/Core/Game.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableComponent.hpp>
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/Position/PositionSystem.hpp>
@@ -26,9 +27,7 @@ Drawable *DrawableComponent::GetDrawable(const std::string &key)
 
 void DrawableComponent::Draw(ildhal::RenderTarget &target, float delta)
 {
-    Transform transform;
-    transform.Translate(std::round(_positionComponent->position().x), std::round(_positionComponent->position().y));
-    _topDrawable->Draw(target, transform, delta);
+    _topDrawable->Draw(target, _positionComponent->interpolatedTransform(Game::InterpolationAlpha), delta);
 }
 
 void DrawableComponent::PostDrawUpdate(float delta)

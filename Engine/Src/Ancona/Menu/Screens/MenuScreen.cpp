@@ -27,11 +27,14 @@ void MenuScreen::Init()
 
 void MenuScreen::InputUpdate(float delta)
 {
-    _systems->systemManager().Update(delta, ild::UpdateStep::Input);
 }
 
 void MenuScreen::Update(float delta)
 {
+    _systems->systemManager().PreUpdate(ild::UpdateStep::Input);
+    _systems->systemManager().PreUpdate(ild::UpdateStep::Update);
+    _systems->systemManager().PreUpdate(ild::UpdateStep::Physics);
+    _systems->systemManager().Update(delta, ild::UpdateStep::Input);
     _systems->systemManager().Update(delta, ild::UpdateStep::Update);
     _systems->systemManager().Update(delta, ild::UpdateStep::Physics);
 
@@ -44,5 +47,6 @@ void MenuScreen::Update(float delta)
 void MenuScreen::Draw(float delta)
 {
     _screenManager.Window.Clear(Color::Black);
+    _systems->systemManager().PreUpdate(ild::UpdateStep::Draw);
     _systems->systemManager().Update(delta, ild::UpdateStep::Draw);
 }
