@@ -28,7 +28,8 @@ GENERATE_METHOD_TESTER(FetchDependencies);
  *
  * @tparam ComponentType The type of component that the system manages.
  */
-template <class ComponentType> class UnorderedSystem : public AbstractSystem
+template<class ComponentType>
+class UnorderedSystem : public AbstractSystem
 {
   public:
     /**
@@ -38,9 +39,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
      * @param manager The SystemManager that owns BaseSystem
      * @param updateStep Determine when the system is updated
      */
-    UnorderedSystem(SystemManager &manager, UpdateStepEnum updateStep) : AbstractSystem("", manager, updateStep)
-    {
-    }
+    UnorderedSystem(SystemManager & manager, UpdateStepEnum updateStep) : AbstractSystem("", manager, updateStep) {}
 
     /**
      * @brief Construct and initialize the UnorderedSystem with a name.  The system will
@@ -50,8 +49,8 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
      * @param manager The SystemManager that owns BaseSystem
      * @param updateStep Determine when the system is updated
      */
-    UnorderedSystem(std::string systemName, SystemManager &manager, UpdateStepEnum updateStep)
-        : AbstractSystem(systemName, manager, updateStep)
+    UnorderedSystem(std::string systemName, SystemManager & manager, UpdateStepEnum updateStep) :
+            AbstractSystem(systemName, manager, updateStep)
     {
     }
 
@@ -64,7 +63,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
      *
      * @return A reference to the component if it exists
      */
-    ComponentType *operator[](const Entity &entity)
+    ComponentType * operator[](const Entity & entity)
     {
         auto componentIter = _components.find(entity);
         if (componentIter != _components.end())
@@ -74,10 +73,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
         return NULL;
     }
 
-    ComponentType *at(const Entity &entity)
-    {
-        return (*this)[entity];
-    }
+    ComponentType * at(const Entity & entity) { return (*this)[entity]; }
 
     /**
      * @brief Implementation for AbstractSystem method
@@ -87,7 +83,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
     /**
      * @brief Implementation for AbstractSystem method
      */
-    void RemoveComponent(const Entity &entity) override
+    void RemoveComponent(const Entity & entity) override
     {
         ILD_Assert(EntityHasComponent(entity), "Can not remove a component that does not exist");
 
@@ -95,7 +91,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
         _systemManager.UnregisterComponent(entity, this);
     }
 
-    void CopyComponentToEntity(const Entity &fromEntity, const Entity &toEntity) override
+    void CopyComponentToEntity(const Entity & fromEntity, const Entity & toEntity) override
     {
         if (!EntityHasComponent(fromEntity))
         {
@@ -111,7 +107,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
     /**
      * @brief Implementation for AbstractSystem method
      */
-    bool EntityHasComponent(const Entity &entity) const override
+    bool EntityHasComponent(const Entity & entity) const override
     {
         return _components.find(entity) != _components.end();
     }
@@ -119,17 +115,14 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
     /**
      * @copydoc ild::AbstractSystem::QueuDeleteComponent
      */
-    void QueueDeleteComponent(const Entity &entity) override
-    {
-        _deleteComponentQueue.push_back(entity);
-    }
+    void QueueDeleteComponent(const Entity & entity) override { _deleteComponentQueue.push_back(entity); }
 
     /**
      * @copydoc ild::AbstractSystem::DeleteQueuedComponents
      */
     void DeleteQueuedComponents() override
     {
-        for (Entity &entity : _deleteComponentQueue)
+        for (Entity & entity : _deleteComponentQueue)
         {
             RemoveComponent(entity);
         }
@@ -141,13 +134,15 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
      *
      * NOTE: This method should only be called by SystemManager
      */
-    void EntityIsDeleted(const Entity &entity) override
+    void EntityIsDeleted(const Entity & entity) override
     {
-        ILD_Assert(EntityHasComponent(entity), "A system should not be notified of an entities deletion if the \
+        ILD_Assert(
+            EntityHasComponent(entity),
+            "A system should not be notified of an entities deletion if the \
                     system does not contain a component for the entity");
 
         auto componentIter = _components.find(entity);
-        ComponentType *component = componentIter->second;
+        ComponentType * component = componentIter->second;
 
         // Allow a child class to react to the component being removed
         OnComponentRemove(entity, component);
@@ -160,10 +155,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
     /**
      * @brief Implements a default system serializer. It will serialzie polymorphic and non-polymorphic components.
      */
-    virtual void Serialize(Archive &arc) override
-    {
-        Serialize(arc, HasMethod::Serialize<ComponentType, Archive>());
-    }
+    virtual void Serialize(Archive & arc) override { Serialize(arc, HasMethod::Serialize<ComponentType, Archive>()); }
 
   private:
     /**
@@ -175,7 +167,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
      */
     std::vector<Entity> _deleteComponentQueue;
 
-    void Serialize(Archive &arc, std::true_type)
+    void Serialize(Archive & arc, std::true_type)
     {
         if (arc.loading())
         {
@@ -188,7 +180,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
             for (auto iter = arc.CurrentBranch().MemberBegin(); iter != arc.CurrentBranch().MemberEnd(); iter++)
             {
                 auto entityKey = iter->name.GetString();
-                ComponentType *value;
+                ComponentType * value;
                 arc(value, entityKey);
                 auto entity = arc.entity(entityKey);
                 AttachComponent(entity, value);
@@ -206,14 +198,14 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
             for (auto entityKey : EntityKeysToSave(arc))
             {
                 Entity en = _systemManager.GetEntity(entityKey);
-                ComponentType *value = _components[en];
+                ComponentType * value = _components[en];
                 arc(value, entityKey);
             }
             arc.ExitProperty();
         }
     }
 
-    const std::vector<std::string> EntityKeysToSave(Archive &arc)
+    const std::vector<std::string> EntityKeysToSave(Archive & arc)
     {
         if (arc.snapshotSave())
         {
@@ -230,26 +222,23 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
         }
     }
 
-    void Serialize(Archive &arc, std::false_type)
+    void Serialize(Archive & arc, std::false_type)
     {
         ILD_Assert(false, "Cannot serialize system if its components lack a serialize method.");
     }
 
-    bool FetchDependencies(const Entity &entity, std::true_type)
+    bool FetchDependencies(const Entity & entity, std::true_type)
     {
         (*this)[entity]->FetchDependencies(entity);
         return true;
     }
 
-    bool FetchDependencies(const Entity &entity, std::false_type)
-    {
-        return false;
-    }
+    bool FetchDependencies(const Entity & entity, std::false_type) { return false; }
 
     /**
      * @copydoc AbstractSystem::FetchComponentDependencies()
      */
-    void FetchComponentDependencies(const Entity &entity) override
+    void FetchComponentDependencies(const Entity & entity) override
     {
         FetchDependencies(entity, HasMethod::FetchDependencies<ComponentType, Entity>());
     }
@@ -264,7 +253,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
     /**
      * @brief EntityComponentPair should be used as the types in for each loops iterating over the component
      */
-    typedef typename std::pair<const Entity, ComponentType *> &EntityComponentPair;
+    typedef typename std::pair<const Entity, ComponentType *> & EntityComponentPair;
 
     /**
      * @brief This method can be overriden to allow a child class to respond when
@@ -274,7 +263,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
      * @param entity Entity that component is being removed from
      * @param component Component that is being removed
      */
-    virtual void OnComponentRemove(Entity entity, ComponentType *component){};
+    virtual void OnComponentRemove(Entity entity, ComponentType * component) {};
 
     /**
      * @brief Get at iterator to the first component in the system.  No order of
@@ -282,20 +271,14 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
      *
      * @return An iterator that can be used to iterate over the components
      */
-    EntityComponentIter begin()
-    {
-        return _components.begin();
-    }
+    EntityComponentIter begin() { return _components.begin(); }
 
     /**
      * @brief Get the end iterator for the system.
      *
      * @return The end iterator.
      */
-    EntityComponentIter end()
-    {
-        return _components.end();
-    }
+    EntityComponentIter end() { return _components.end(); }
 
     /**
      * @brief Used by child classes to add components to an entity.  Attach component will
@@ -304,7 +287,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
      * @param entity Component that should be attached to the entity
      * @param component Entity to attach the component to
      */
-    virtual void AttachComponent(const Entity &entity, ComponentType *component)
+    virtual void AttachComponent(const Entity & entity, ComponentType * component)
     {
         ILD_Assert(component != NULL, "Can not attach a null component");
         ILD_Assert(!EntityHasComponent(entity), "Can not attach two of the same component to an entity");
@@ -317,7 +300,7 @@ template <class ComponentType> class UnorderedSystem : public AbstractSystem
     {
         // We use delete instead of unique_ptrs because it makes implementing
         // the begin() and end() iterators much easier.
-        for (auto &entityComponentPair : *this)
+        for (auto & entityComponentPair : *this)
         {
             delete entityComponentPair.second;
         }

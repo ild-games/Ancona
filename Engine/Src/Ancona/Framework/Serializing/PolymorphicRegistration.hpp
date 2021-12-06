@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Serializing_PolymorphicRegistration_H_
-#define Ancona_Engine_Serializing_PolymorphicRegistration_H_
+#pragma once
 
 #include <string>
 
@@ -102,5 +101,3 @@ template <class T> std::string static RegisterAbstractType(const std::string &na
 } // namespace PolymorphicRegistration
 
 } // namespace ild
-
-#endif

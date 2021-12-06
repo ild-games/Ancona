@@ -1,5 +1,4 @@
-#ifndef Ancona_Util2D_Collision_Math_H_
-#define Ancona_Util2D_Collision_Math_H_
+#pragma once
 
 #include <utility>
 #include <vector>
@@ -164,5 +163,3 @@ CollisionFix GetFixVector(const Vertices2 &shapeA, const Vertices2 &shapeB);
 }; // namespace Math
 
 } // namespace ild
-
-#endif

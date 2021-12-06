@@ -1,5 +1,4 @@
-#ifndef Ancona_Systems_FileOperations_H_
-#define Ancona_Systems_FileOperations_H_
+#pragma once
 
 #include <fstream>
 #include <iostream>
@@ -75,5 +74,3 @@ class FileOperations
 };
 
 } // namespace ild
-
-#endif

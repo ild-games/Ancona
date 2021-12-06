@@ -1,5 +1,4 @@
-#ifndef ANCONA_ENGINE_CONFIG_CONFIG_H_
-#define ANCONA_ENGINE_CONFIG_CONFIG_H_
+#pragma once
 
 #include <istream>
 #include <string>
@@ -48,5 +47,3 @@ class Config
 };
 
 } // namespace ild
-
-#endif

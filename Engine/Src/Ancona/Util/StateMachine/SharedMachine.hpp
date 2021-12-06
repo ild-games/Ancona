@@ -8,15 +8,15 @@ namespace ild
 
 typedef int MachineState;
 
-#define StateType(TypeName)                                                                                            \
-    namespace TypeName                                                                                                 \
-    {                                                                                                                  \
-    enum Type : MachineState                                                                                           \
+#define StateType(TypeName)  \
+    namespace TypeName       \
+    {                        \
+    enum Type : MachineState \
     {
-#define EndStateType                                                                                                   \
-    , Count                                                                                                            \
-    }                                                                                                                  \
-    ;                                                                                                                  \
+#define EndStateType \
+    , Count          \
+    }                \
+    ;                \
     }
 
 /**
@@ -27,7 +27,8 @@ typedef int MachineState;
  * @tparam ReturnType Return type of the action.
  * @tparam ArgsT Arguments passed to the action.  The call will look like objectType.action(state, ArgsT ...).
  */
-template <class ObjectType, class ReturnType, class... ArgsT> class SharedMachine
+template<class ObjectType, class ReturnType, class... ArgsT>
+class SharedMachine
 {
   public:
     /**
@@ -35,9 +36,7 @@ template <class ObjectType, class ReturnType, class... ArgsT> class SharedMachin
      *
      * @param stateCount The number of states the machine should contain
      */
-    SharedMachine(int maxState) : _actions(maxState, nullptr)
-    {
-    }
+    SharedMachine(int maxState) : _actions(maxState, nullptr) {}
 
     /**
      * @brief Method Type used by the state machine
@@ -56,10 +55,7 @@ template <class ObjectType, class ReturnType, class... ArgsT> class SharedMachin
      * @param state State to have the action set.
      * @param action Action to be used for the state.
      */
-    void SetAction(const MachineState &state, MachineAction action)
-    {
-        _actions[state] = action;
-    }
+    void SetAction(const MachineState &state, MachineAction action) { _actions[state] = action; }
 
     /**
      * @brief Fire the action corresponding to the state on the object.

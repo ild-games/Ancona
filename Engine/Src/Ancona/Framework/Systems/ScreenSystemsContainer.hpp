@@ -41,7 +41,8 @@ class ScreenSystemsContainer
      *
      * @return Pointer to the system.
      */
-    template <typename T, typename... Args> T *ConstructSystem(std::string systemName, Args &&...sysArgs)
+    template<typename T, typename... Args>
+    T *ConstructSystem(std::string systemName, Args &&...sysArgs)
     {
         ILD_Assert(_systemMap.find(systemName) == _systemMap.end(), systemName + " already exists for this screen.");
         T *system = new T(systemName, std::forward<Args>(sysArgs)...);
@@ -57,34 +58,21 @@ class ScreenSystemsContainer
      *
      * @return Instance of the system.
      */
-    template <typename T> T *GetSystem(const std::string &systemName)
+    template<typename T>
+    T *GetSystem(const std::string &systemName)
     {
-        ILD_Assert(_systemMap.find(systemName) != _systemMap.end(),
-                   systemName + " does not exist, please construct it first.");
+        ILD_Assert(
+            _systemMap.find(systemName) != _systemMap.end(),
+            systemName + " does not exist, please construct it first.");
         return static_cast<T *>(_systemMap[systemName]);
     }
 
     /* getters and setters */
-    SystemManager &systemManager()
-    {
-        return *_systemManager;
-    }
-    ScreenManager &screenManager()
-    {
-        return _screenManager;
-    }
-    int profile()
-    {
-        return _profile;
-    }
-    std::map<std::string, AbstractSystem *>::const_iterator begin()
-    {
-        return _systemMap.begin();
-    }
-    std::map<std::string, AbstractSystem *>::const_iterator end()
-    {
-        return _systemMap.end();
-    }
+    SystemManager &systemManager() { return *_systemManager; }
+    ScreenManager &screenManager() { return _screenManager; }
+    int profile() { return _profile; }
+    std::map<std::string, AbstractSystem *>::const_iterator begin() { return _systemMap.begin(); }
+    std::map<std::string, AbstractSystem *>::const_iterator end() { return _systemMap.end(); }
 
   protected:
     /**

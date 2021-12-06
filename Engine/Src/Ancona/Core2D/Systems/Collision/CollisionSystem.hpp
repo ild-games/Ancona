@@ -1,16 +1,13 @@
-#ifndef Ancona_Engine_Core_Systems_Collision_CollisionSystem_H_
-#define Ancona_Engine_Core_Systems_Collision_CollisionSystem_H_
+#pragma once
 
-#include <functional>
-#include <vector>
-
+#include <Ancona/Core2D/Systems/Collision/CollisionComponent.hpp>
 #include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UnorderedSystem.hpp>
 #include <Ancona/Util/Data.hpp>
 #include <Ancona/Util/Vector2.hpp>
 #include <Ancona/Util/Vector3.hpp>
-
-#include "CollisionComponent.hpp"
+#include <functional>
+#include <vector>
 
 namespace ild
 {
@@ -56,8 +53,11 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
      *
      * @return A pointer to the component.
      */
-    CollisionComponent *CreateComponent(const Entity &entity, const Vector3f &dim, CollisionType type,
-                                        BodyTypeEnum bodyType = BodyType::None);
+    CollisionComponent *CreateComponent(
+        const Entity &entity,
+        const Vector3f &dim,
+        CollisionType type,
+        BodyTypeEnum bodyType = BodyType::None);
 
     /**
      * Find the entities that collide with the box.
@@ -118,14 +118,8 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
     bool DoesTypeDetectCollisions(BodyTypeEnum type);
 
     /* Getters and Setters */
-    PositionSystem &position()
-    {
-        return _positions;
-    }
-    void maxSlope(float value)
-    {
-        _maxSlope = value;
-    }
+    PositionSystem &position() { return _positions; }
+    void maxSlope(float value) { _maxSlope = value; }
     CollisionType noneType() const;
 
   private:
@@ -139,8 +133,11 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
     const std::string COLLISION_TYPE_MUST_EXIST_MSG = "The collision type must exist";
 
     bool UniqueCollision(EntityComponentPair &entityA, EntityComponentPair &entityB);
-    void HandleCollision(EntityComponentPair &pairA, EntityComponentPair &pairB, const Vector2f &fixNormal,
-                         float fixMagnitude);
+    void HandleCollision(
+        EntityComponentPair &pairA,
+        EntityComponentPair &pairB,
+        const Vector2f &fixNormal,
+        float fixMagnitude);
     bool EntitiesOverlapping(float fixMagnitude);
 
     void FixCollision(CollisionComponent *a, CollisionComponent *b, const Vector2f &fixNormal, float fixMagnitude);
@@ -150,4 +147,3 @@ class CollisionSystem : public UnorderedSystem<CollisionComponent>
 };
 
 } // namespace ild
-#endif
