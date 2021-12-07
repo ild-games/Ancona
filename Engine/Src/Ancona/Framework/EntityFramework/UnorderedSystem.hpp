@@ -78,7 +78,7 @@ class UnorderedSystem : public AbstractSystem
     /**
      * @brief Implementation for AbstractSystem method
      */
-    virtual void Update(float delta) override = 0;
+    virtual void Update(float delta) override {}
 
     /**
      * @brief Implementation for AbstractSystem method
@@ -248,12 +248,12 @@ class UnorderedSystem : public AbstractSystem
      * @brief EntityComponentIter is an iterator that can be used to iterate over all contained
      * components.
      */
-    typedef typename std::unordered_map<Entity, ComponentType *>::iterator EntityComponentIter;
+    using typename std::unordered_map<Entity, ComponentType *>::iterator EntityComponentIter;
 
     /**
      * @brief EntityComponentPair should be used as the types in for each loops iterating over the component
      */
-    typedef typename std::pair<const Entity, ComponentType *> & EntityComponentPair;
+    using typename std::pair<const Entity, ComponentType *> & EntityComponentPair;
 
     /**
      * @brief This method can be overriden to allow a child class to respond when

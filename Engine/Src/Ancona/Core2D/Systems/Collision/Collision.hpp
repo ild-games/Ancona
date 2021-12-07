@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Core_Systems_Collision_Collision_H_
-#define Ancona_Engine_Core_Systems_Collision_Collision_H_
+#pragma once
 
 #include <Ancona/Framework/EntityFramework/Entity.hpp>
 #include <Ancona/Util/Vector2.hpp>
@@ -12,29 +11,20 @@ class CollisionComponent;
 class Collision
 {
   public:
-    Collision(Entity entity, CollisionComponent *component, Vector2f fixNormal, float magnitude)
-        : _fixNormal(fixNormal), _entity(entity), _component(component), _fixMagnitude(magnitude)
+    Collision(Entity entity, CollisionComponent * component, Vector2f fixNormal, float magnitude) :
+            _fixNormal(fixNormal),
+            _entity(entity),
+            _component(component),
+            _fixMagnitude(magnitude)
     {
     }
 
-    Entity entity()
-    {
-        return _entity;
-    }
-    CollisionComponent *collisionComponent()
-    {
-        return _component;
-    }
-    Vector2f fixNormal()
-    {
-        return _fixNormal;
-    }
-    float fixMagnitude()
-    {
-        return _fixMagnitude;
-    }
+    Entity entity() { return _entity; }
+    CollisionComponent * collisionComponent() { return _component; }
+    Vector2f fixNormal() { return _fixNormal; }
+    float fixMagnitude() { return _fixMagnitude; }
 
-    bool operator==(const ild::Collision &right)
+    bool operator==(const ild::Collision & right)
     {
         return right._entity == _entity && right._fixNormal == _fixNormal && right._fixMagnitude == _fixMagnitude;
     }
@@ -42,10 +32,8 @@ class Collision
   private:
     Vector2f _fixNormal;
     Entity _entity;
-    CollisionComponent *_component;
+    CollisionComponent * _component;
     float _fixMagnitude;
 };
 
 } // namespace ild
-
-#endif
