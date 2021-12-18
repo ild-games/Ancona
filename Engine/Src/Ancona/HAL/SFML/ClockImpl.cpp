@@ -17,14 +17,14 @@ Clock::Clock() : _pimpl(std::make_unique<priv::ClockImpl>())
 
 Time Clock::ElapsedTime() const
 {
-    auto seconds = clockImpl().sfmlClock().getElapsedTime().asSeconds();
-    return ildhal::seconds(seconds);
+    float seconds = clockImpl().sfmlClock().getElapsedTime().asSeconds();
+    return ildhal::seconds(static_cast<double>(seconds));
 }
 
 Time Clock::Restart()
 {
-    auto seconds = clockImpl().sfmlClock().restart().asSeconds();
-    return ildhal::seconds(seconds);
+    float seconds = clockImpl().sfmlClock().restart().asSeconds();
+    return ildhal::seconds(static_cast<double>(seconds));
 }
 
 } // namespace ildhal

@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Resource_SoundBufferLoader_H_
-#define Ancona_Engine_Resource_SoundBufferLoader_H_
+#pragma once
 
 #include <Ancona/Framework/Resource/HalResourceLoader.hpp>
 #include <Ancona/HAL.hpp>
@@ -19,9 +18,7 @@ class SoundBufferLoader : public HalResourceLoader<ildhal::SoundBuffer>
      * @param resourceName Resource Type to be used (EX "SoundWAV")
      * @param fileExtension File extension to be used (EX "wav")
      */
-    SoundBufferLoader(const std::string &resourceName, const std::string &fileExtension);
+    SoundBufferLoader(const std::string & resourceName, const std::string & fileExtension);
 };
 
 } // namespace ild
-
-#endif

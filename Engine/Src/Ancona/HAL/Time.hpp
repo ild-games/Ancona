@@ -40,26 +40,26 @@ class Time
   public:
     Time();
 
-    float AsSeconds() const;
+    double AsSeconds() const;
     int AsMilliseconds() const;
-    signed long long AsMicroseconds() const;
+    int64_t AsMicroseconds() const;
 
     static const Time Zero; ///< Predefined "zero" time value
 
   private:
-    friend Time seconds(float);
+    friend Time seconds(double);
     friend Time milliseconds(int);
-    friend Time microseconds(signed long long);
+    friend Time microseconds(int64_t);
 
-    explicit Time(signed long long microseconds);
+    explicit Time(int64_t microseconds);
 
   private:
-    signed long long _microseconds; ///< Time value stored as microseconds
+    int64_t _microseconds; ///< Time value stored as microseconds
 };
 
-Time seconds(float amount);
+Time seconds(double amount);
 Time milliseconds(int amount);
-Time microseconds(signed long long amount);
+Time microseconds(int64_t amount);
 Time minTime(Time a, Time b);
 
 bool operator==(Time left, Time right);
@@ -70,22 +70,22 @@ bool operator<=(Time left, Time right);
 bool operator>=(Time left, Time right);
 Time operator-(Time right);
 Time operator+(Time left, Time right);
-Time &operator+=(Time &left, Time right);
+Time & operator+=(Time & left, Time right);
 Time operator-(Time left, Time right);
-Time &operator-=(Time &left, Time right);
-Time operator*(Time left, float right);
-Time operator*(Time left, signed long long right);
-Time operator*(float left, Time right);
-Time operator*(signed long long left, Time right);
-Time &operator*=(Time &left, float right);
-Time &operator*=(Time &left, signed long long right);
-Time operator/(Time left, float right);
-Time operator/(Time left, signed long long right);
-Time &operator/=(Time &left, float right);
-Time &operator/=(Time &left, signed long long right);
-float operator/(Time left, Time right);
+Time & operator-=(Time & left, Time right);
+Time operator*(Time left, double right);
+Time operator*(Time left, int64_t right);
+Time operator*(double left, Time right);
+Time operator*(int64_t left, Time right);
+Time & operator*=(Time & left, double right);
+Time & operator*=(Time & left, int64_t right);
+Time operator/(Time left, double right);
+Time operator/(Time left, int64_t right);
+Time & operator/=(Time & left, double right);
+Time & operator/=(Time & left, int64_t right);
+double operator/(Time left, Time right);
 Time operator%(Time left, Time right);
-Time &operator%=(Time &left, Time right);
+Time & operator%=(Time & left, Time right);
 
 } // namespace ildhal
 

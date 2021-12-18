@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Texture_H_
-#define Ancona_HAL_Texture_H_
+#pragma once
 
 #include <string>
 
@@ -43,7 +42,7 @@ class Texture
 {
   public:
     Texture();
-    bool LoadFromFile(const std::string &filename);
+    bool LoadFromFile(const std::string & filename);
 
     /* getters and setters */
     void repeated(bool newRepeated);
@@ -51,15 +50,10 @@ class Texture
     void smooth(bool newSmooth);
     bool smooth() const;
 
-    priv::TextureImpl &textureImpl() const
-    {
-        return *_pimpl;
-    }
+    priv::TextureImpl & textureImpl() const { return *_pimpl; }
 
   private:
     std::unique_ptr<priv::TextureImpl> _pimpl;
 };
 
 } // namespace ildhal
-
-#endif

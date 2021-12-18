@@ -24,8 +24,9 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Clock_H_
-#define Ancona_HAL_Clock_H_
+#pragma once
+
+#include <memory>
 
 #include <Ancona/HAL/Time.hpp>
 
@@ -46,15 +47,10 @@ class Clock
     Time Restart();
 
     /* getters and setters */
-    priv::ClockImpl &clockImpl() const
-    {
-        return *_pimpl;
-    }
+    priv::ClockImpl & clockImpl() const { return *_pimpl; }
 
   private:
     std::unique_ptr<priv::ClockImpl> _pimpl;
 };
 
 } // namespace ildhal
-
-#endif

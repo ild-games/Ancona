@@ -2,16 +2,25 @@
 #include <Ancona/Framework/Serializing/Serializing.hpp>
 #include <Ancona/Util/Json.hpp>
 
-using namespace ild;
+namespace ild
+{
 
 std::unique_ptr<rapidjson::Document> MapSerializer::_lastMapRoot =
     std::unique_ptr<rapidjson::Document>(new rapidjson::Document());
 std::string MapSerializer::_lastMapLoaded = "";
 
-MapSerializer::MapSerializer(std::string key, ScreenSystemsContainer &systems, std::shared_ptr<RequestList> request,
-                             bool loading, bool snapshotSave)
-    : _key(key), _request(request), _loadingContext(new SerializingContext(systems)), _profile(systems.profile()),
-      _loading(loading), _snapshotSave(snapshotSave)
+MapSerializer::MapSerializer(
+    std::string key,
+    ScreenSystemsContainer & systems,
+    std::shared_ptr<RequestList> request,
+    bool loading,
+    bool snapshotSave) :
+        _key(key),
+        _request(request),
+        _loadingContext(new SerializingContext(systems)),
+        _profile(systems.profile()),
+        _loading(loading),
+        _snapshotSave(snapshotSave)
 {
     ILD_Assert(_profile != -1, "A profile must be specified for the map");
 }
@@ -20,23 +29,23 @@ bool MapSerializer::ContinueLoading()
 {
     switch (_state)
     {
-    case LoadingMetaData:
-        LoadMetaData();
-        break;
-    case LoadingMapFile:
-        LoadMapFile();
-        break;
-    case LoadingAssets:
-        LoadAssets();
-        break;
-    case LoadingEntities:
-        LoadEntities();
-        break;
-    case SerializingComponents:
-        SerializeComponents();
-        break;
-    case DoneSerializing:
-        return false;
+        case LoadingMetaData:
+            LoadMetaData();
+            break;
+        case LoadingMapFile:
+            LoadMapFile();
+            break;
+        case LoadingAssets:
+            LoadAssets();
+            break;
+        case LoadingEntities:
+            LoadEntities();
+            break;
+        case SerializingComponents:
+            SerializeComponents();
+            break;
+        case DoneSerializing:
+            return false;
     }
     return true;
 }
@@ -81,7 +90,7 @@ void MapSerializer::LoadMapFile()
     {
         for (auto iter = _mapRoot["assets"].Begin(); iter < _mapRoot["assets"].End(); iter++)
         {
-            rapidjson::Value &assetJson = *iter;
+            rapidjson::Value & assetJson = *iter;
             auto type = assetJson["type"].GetString();
             auto key = assetJson["key"].GetString();
             if (!_request->Contains(type, key))
@@ -117,7 +126,7 @@ void MapSerializer::LoadEntities()
     }
     for (auto iter = _mapRoot["entities"].Begin(); iter < _mapRoot["entities"].End(); iter++)
     {
-        rapidjson::Value &curEntity = *iter;
+        rapidjson::Value & curEntity = *iter;
         _loadingContext->systems().systemManager().CreateEntity(curEntity.GetString());
     }
     _state = SerializerState::SerializingComponents;
@@ -139,8 +148,9 @@ void MapSerializer::SerializeComponents()
     _state = SerializerState::DoneSerializing;
 }
 
-void MapSerializer::SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair,
-                                             Archive &currentArc)
+void MapSerializer::SerializeSpecifiedSystem(
+    std::pair<std::string, AbstractSystem *> systemNamePair,
+    Archive & currentArc)
 {
     if (currentArc.HasProperty(systemNamePair.first))
     {
@@ -153,3 +163,5 @@ void MapSerializer::SerializeSpecifiedSystem(std::pair<std::string, AbstractSyst
         }
     }
 }
+
+} // namespace ild

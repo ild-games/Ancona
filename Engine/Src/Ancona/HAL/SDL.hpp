@@ -1,0 +1,24 @@
+#pragma once
+
+#include <Ancona/HAL/SDL/BlendModeImpl.hpp>
+#include <Ancona/HAL/SDL/CircleShapeImpl.hpp>
+#include <Ancona/HAL/SDL/ClockImpl.hpp>
+#include <Ancona/HAL/SDL/DrawableImpl.hpp>
+#include <Ancona/HAL/SDL/EventImpl.hpp>
+#include <Ancona/HAL/SDL/FontImpl.hpp>
+#include <Ancona/HAL/SDL/MusicImpl.hpp>
+#include <Ancona/HAL/SDL/RectangleShapeImpl.hpp>
+#include <Ancona/HAL/SDL/RenderStatesImpl.hpp>
+#include <Ancona/HAL/SDL/RenderTargetImpl.hpp>
+#include <Ancona/HAL/SDL/RenderTextureImpl.hpp>
+#include <Ancona/HAL/SDL/ShapeImpl.hpp>
+#include <Ancona/HAL/SDL/SoundBufferImpl.hpp>
+#include <Ancona/HAL/SDL/SoundImpl.hpp>
+#include <Ancona/HAL/SDL/SoundSourceImpl.hpp>
+#include <Ancona/HAL/SDL/SpriteImpl.hpp>
+#include <Ancona/HAL/SDL/TextImpl.hpp>
+#include <Ancona/HAL/SDL/TextureImpl.hpp>
+#include <Ancona/HAL/SDL/TransformImpl.hpp>
+#include <Ancona/HAL/SDL/VertexArrayImpl.hpp>
+#include <Ancona/HAL/SDL/ViewImpl.hpp>
+#include <Ancona/HAL/SDL/WindowImpl.hpp>

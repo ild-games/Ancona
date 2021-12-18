@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Resource_TextureLoader_H_
-#define Ancona_Engine_Resource_TextureLoader_H_
+#pragma once
 
 #include <Ancona/Framework/Resource/HalResourceLoader.hpp>
 #include <Ancona/HAL.hpp>
@@ -21,9 +20,7 @@ class TextureLoader : public HalResourceLoader<ildhal::Texture>
      * @param resourceName Resource Type to be used (EX "TextureJPEG")
      * @param fileExtension File extension to be used (EX "jpeg")
      */
-    TextureLoader(const std::string &resourceName, const std::string &fileExtension);
+    TextureLoader(const std::string & resourceName, const std::string & fileExtension);
 };
 
 } // namespace ild
-
-#endif

@@ -13,24 +13,25 @@ namespace ildhal
 
 /* Pimpl Implementation */
 
-priv::WindowImpl::WindowImpl(const std::string &title, int width, int height, unsigned int style)
+priv::WindowImpl::WindowImpl(const std::string & title, int width, int height, unsigned int style)
 {
     _sfmlRenderTarget = std::make_unique<sf::RenderWindow>(sf::VideoMode(width, height), title, style);
 }
 
-sf::RenderWindow &priv::WindowImpl::sfmlRenderWindow() const
+sf::RenderWindow & priv::WindowImpl::sfmlRenderWindow() const
 {
     return static_cast<sf::RenderWindow &>(*_sfmlRenderTarget);
 }
 
 /* HAL Interface Implementation */
 
-Window::Window(const std::string &title, int width, int height, unsigned int style)
+Window::Window(const std::string & title, int width, int height, bool useVsync, unsigned int style)
 {
     _pimpl = std::make_unique<priv::WindowImpl>(title, width, height, style);
+    windowImpl().sfmlRenderWindow().setVerticalSyncEnabled(useVsync);
 }
 
-bool Window::PollEvent(Event &event)
+bool Window::PollEvent(Event & event)
 {
     sf::Event sfmlEvent;
     bool pollingSuccessful = windowImpl().sfmlRenderWindow().pollEvent(sfmlEvent);
@@ -56,9 +57,22 @@ ild::Vector2u Window::size() const
     return ild::Vector2u(size.x, size.y);
 }
 
-void Window::title(const std::string &title)
+void Window::title(const std::string & title)
 {
     windowImpl().sfmlRenderWindow().setTitle(title);
+}
+
+void Window::active(bool newActive)
+{
+    if (windowImpl().sfmlRenderWindow().setActive(newActive))
+    {
+        windowImpl().isActive(newActive);
+    }
+}
+
+bool Window::active() const
+{
+    return windowImpl().isActive();
 }
 
 bool Window::active(bool active) const
@@ -76,17 +90,12 @@ void Window::keyRepeatEnabled(bool enabled)
     windowImpl().sfmlRenderWindow().setKeyRepeatEnabled(enabled);
 }
 
-void Window::verticalSyncEnabled(bool enabled)
-{
-    windowImpl().sfmlRenderWindow().setVerticalSyncEnabled(enabled);
-}
-
 void Window::framerateLimit(unsigned int limit)
 {
     windowImpl().sfmlRenderWindow().setFramerateLimit(limit);
 }
 
-priv::WindowImpl &Window::windowImpl() const
+priv::WindowImpl & Window::windowImpl() const
 {
     return static_cast<priv::WindowImpl &>(*_pimpl);
 }

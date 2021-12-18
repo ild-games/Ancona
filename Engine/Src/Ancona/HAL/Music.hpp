@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Music_H_
-#define Ancona_HAL_Music_H_
+#pragma once
 
 #include <string>
 
@@ -48,14 +47,12 @@ class Music : public SoundSource
     void Play();
     void Pause();
     void Stop();
-    bool OpenFromFile(const std::string &filename);
+    bool OpenFromFile(const std::string & filename);
 
     /* getters and setters */
     void loop(bool newLoop);
     void playingOffset(Time timeOffset);
-    priv::MusicImpl &musicImpl() const;
+    priv::MusicImpl & musicImpl() const;
 };
 
 } // namespace ildhal
-
-#endif

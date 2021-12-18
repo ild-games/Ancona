@@ -2,14 +2,19 @@
 #include <Ancona/Framework/Screens/LoadingScreen.hpp>
 #include <Ancona/Graphics/Color.hpp>
 
-using namespace ild;
+namespace ild
+{
 
-LoadingScreen::LoadingScreen(AbstractScreen *screenLoading, ScreenManager &manager)
-    : AbstractScreen("loading", manager), _screenLoading(screenLoading)
+LoadingScreen::LoadingScreen(AbstractScreen * screenLoading, ScreenManager & manager) :
+        AbstractScreen("loading", manager),
+        _screenLoading(screenLoading)
 {
     _systemsContainer = std::unique_ptr<ScreenSystemsContainer>(new ScreenSystemsContainer(manager));
-    _mapLoader.reset(new MapSerializer(screenLoading->key(), *screenLoading->systemsContainer(),
-                                       _screenLoading->requestList(), true));
+    _mapLoader.reset(new MapSerializer(
+        screenLoading->key(),
+        *screenLoading->systemsContainer(),
+        _screenLoading->requestList(),
+        true));
 }
 
 void LoadingScreen::InputUpdate(float delta)
@@ -39,7 +44,9 @@ void LoadingScreen::Exiting(float delta)
     __Exiting = false;
 }
 
-ScreenSystemsContainer *LoadingScreen::systemsContainer()
+ScreenSystemsContainer * LoadingScreen::systemsContainer()
 {
     return _systemsContainer.get();
 }
+
+} // namespace ild

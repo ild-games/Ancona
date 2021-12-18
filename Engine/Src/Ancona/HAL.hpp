@@ -30,4 +30,4 @@
 #include <Ancona/HAL/VertexArray.hpp>
 #include <Ancona/HAL/Window.hpp>
 
-#include <Ancona/HAL/SFML.hpp>
+#include <Ancona/HAL/SDL.hpp>

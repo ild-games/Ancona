@@ -16,9 +16,9 @@ struct GameConfig
     std::string title = "Ancona Game";
     bool isVSyncEnabled = true;
     bool isFpsLimited = true;
-    float fpsLimit = 60.0f;
-    float fixedUpdateFps = 60.0f;
-    float minFps = 45.0f;
+    double fpsLimit = 60.0;
+    double fixedUpdateFps = 60.0;
+    double minFps = 45.0;
     bool isKeyRepeatEnabled = false;
     unsigned int style = ildhal::WindowStyle::Default;
 };
@@ -26,7 +26,7 @@ struct GameConfig
 class Game
 {
   public:
-    Game(const GameConfig &config);
+    Game(const GameConfig & config);
 
     void Run();
     void RunOld();
@@ -40,23 +40,18 @@ class Game
     static float InterpolationAlpha;
 
     /* getters and setters */
-    const bool &windowIsActive() const
-    {
-        return _windowIsActive;
-    }
-    ScreenManager &screenManager()
-    {
-        return *_screenManager;
-    }
+    const bool & windowIsActive() const { return _windowIsActive; }
+    ScreenManager & screenManager() { return *_screenManager; }
 
   protected:
     std::unique_ptr<ScreenManager> _screenManager;
     std::unique_ptr<ildhal::Window> _window;
 
   private:
-    const GameConfig &_config;
+    const GameConfig & _config;
     bool _windowIsActive = true;
 
     void ProcessWindowEvent(ildhal::Event event);
 };
+
 } // namespace ild

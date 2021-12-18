@@ -6,7 +6,8 @@
 #include <algorithm>
 #include <sstream>
 
-using namespace ild;
+namespace ild
+{
 
 std::unordered_map<std::type_index, ResourceLibrary::resource_map> ResourceLibrary::_resources;
 
@@ -14,21 +15,21 @@ std::unordered_map<std::string, AbstractLoader *> ResourceLibrary::_loaders;
 
 std::unordered_map<std::string, std::unordered_map<std::string, std::string>> ResourceLibrary::_alternateSources;
 
-void ResourceLibrary::RegisterLoader(AbstractLoader *loader)
+void ResourceLibrary::RegisterLoader(AbstractLoader * loader)
 {
     _loaders[loader->resourceName()] = loader;
 }
 
-void ResourceLibrary::Request(const RequestList &request)
+void ResourceLibrary::Request(const RequestList & request)
 {
 }
 
-void ResourceLibrary::Return(const RequestList &request)
+void ResourceLibrary::Return(const RequestList & request)
 {
-    for (auto &resource : request)
+    for (auto & resource : request)
     {
         auto loader = _loaders[resource.first];
-        auto &type = loader->resourceType();
+        auto & type = loader->resourceType();
 
         // Decrement the reference count of the resource by one
         auto resourceIterator = _resources[type].find(resource.second);
@@ -41,7 +42,7 @@ void ResourceLibrary::Return(const RequestList &request)
 
 void ResourceLibrary::GarbageCollect()
 {
-    for (auto &type : _resources)
+    for (auto & type : _resources)
     {
         auto resourceIterator = type.second.begin();
         while (resourceIterator != type.second.end())
@@ -59,10 +60,10 @@ void ResourceLibrary::GarbageCollect()
     }
 }
 
-void ResourceLibrary::DeleteResource(const std::string &type, const std::string &key)
+void ResourceLibrary::DeleteResource(const std::string & type, const std::string & key)
 {
     auto loader = _loaders[type];
-    ResourceLibrary::resource_map &resources = _resources[loader->resourceType()];
+    ResourceLibrary::resource_map & resources = _resources[loader->resourceType()];
     auto resourceIter = resources.find(key);
 
     if (resourceIter != resources.end())
@@ -72,7 +73,7 @@ void ResourceLibrary::DeleteResource(const std::string &type, const std::string 
     }
 }
 
-bool ResourceLibrary::DoneLoading(RequestList &request)
+bool ResourceLibrary::DoneLoading(RequestList & request)
 {
     bool onDisk = false;
     while (!onDisk)
@@ -90,7 +91,7 @@ bool ResourceLibrary::DoneLoading(RequestList &request)
 
         auto loader = _loaders[requestIter->first];
         auto type = loader->resourceType();
-        ResourceLibrary::resource_map &resources = _resources[type];
+        ResourceLibrary::resource_map & resources = _resources[type];
 
         auto resourceIter = resources.find(requestIter->second);
         if (resourceIter == resources.end())
@@ -108,7 +109,7 @@ bool ResourceLibrary::DoneLoading(RequestList &request)
     return false;
 }
 
-const std::string &ResourceLibrary::FileToLoad(const std::string &type, const std::string &key)
+const std::string & ResourceLibrary::FileToLoad(const std::string & type, const std::string & key)
 {
     if (_alternateSources[type].find(key) == _alternateSources[type].end())
     {
@@ -118,14 +119,16 @@ const std::string &ResourceLibrary::FileToLoad(const std::string &type, const st
     return _alternateSources[type][key];
 }
 
-void ResourceLibrary::ProvideAlternateSource(const std::string &type, const std::string &key,
-                                             const std::string &alternateSource)
+void ResourceLibrary::ProvideAlternateSource(
+    const std::string & type,
+    const std::string & key,
+    const std::string & alternateSource)
 {
     _alternateSources[type][key] = alternateSource;
     DeleteResource(type, key);
 }
 
-void ResourceLibrary::ClearAlternateSource(const std::string &type, const std::string &key)
+void ResourceLibrary::ClearAlternateSource(const std::string & type, const std::string & key)
 {
     _alternateSources[type].erase(key);
     DeleteResource(type, key);
@@ -140,3 +143,5 @@ std::string ResourceLibrary::ResourceRoot()
     stream << projectRoot << resourcePrefix << resourceRoot;
     return stream.str();
 }
+
+} // namespace ild

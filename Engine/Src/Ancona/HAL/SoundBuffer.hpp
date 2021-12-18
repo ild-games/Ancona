@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_SoundBuffer_H_
-#define Ancona_HAL_SoundBuffer_H_
+#pragma once
 
 #include <string>
 
@@ -42,18 +41,13 @@ class SoundBuffer
   public:
     SoundBuffer();
 
-    bool LoadFromFile(const std::string &filename);
+    bool LoadFromFile(const std::string & filename);
 
     /* getters and setters */
-    priv::SoundBufferImpl &soundBufferImpl() const
-    {
-        return *_pimpl;
-    }
+    priv::SoundBufferImpl & soundBufferImpl() const { return *_pimpl; }
 
   private:
     std::unique_ptr<priv::SoundBufferImpl> _pimpl;
 };
 
 } // namespace ildhal
-
-#endif

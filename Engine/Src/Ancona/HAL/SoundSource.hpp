@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_SoundSource_H_
-#define Ancona_HAL_SoundSource_H_
+#pragma once
 
 #include <memory>
 
@@ -43,8 +42,8 @@ class SoundSource
     enum Status
     {
         Stopped, ///< Sound is not playing
-        Paused,  ///< Sound is paused
-        Playing  ///< Sound is playing
+        Paused, ///< Sound is paused
+        Playing ///< Sound is playing
     };
 
     virtual void Play() = 0;
@@ -55,15 +54,10 @@ class SoundSource
     Status status() const;
     void volume(float volume);
 
-    priv::SoundSourceImpl &soundSourceImpl() const
-    {
-        return *_pimpl;
-    }
+    priv::SoundSourceImpl & soundSourceImpl() const { return *_pimpl; }
 
   protected:
     std::unique_ptr<priv::SoundSourceImpl> _pimpl;
 };
 
 } // namespace ildhal
-
-#endif

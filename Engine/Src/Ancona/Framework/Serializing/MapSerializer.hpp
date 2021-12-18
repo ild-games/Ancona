@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Serializing_MapSerializer_H_
-#define Ancona_Engine_Serializing_MapSerializer_H_
+#pragma once
 
 #include <memory>
 #include <string>
@@ -46,8 +45,12 @@ class MapSerializer
      * @param snapshotSave True if everything will be saved, otherwise only specified systems will be saved. Defaults to
      * false.
      */
-    MapSerializer(std::string key, ScreenSystemsContainer &systems, std::shared_ptr<RequestList> request, bool loading,
-                  bool snapshotSave = false);
+    MapSerializer(
+        std::string key,
+        ScreenSystemsContainer & systems,
+        std::shared_ptr<RequestList> request,
+        bool loading,
+        bool snapshotSave = false);
 
     /**
      * @brief Continue the loading process of the Map.
@@ -57,10 +60,7 @@ class MapSerializer
     bool ContinueLoading();
 
     /* getters and setters */
-    std::shared_ptr<RequestList> requestList()
-    {
-        return _request;
-    }
+    std::shared_ptr<RequestList> requestList() { return _request; }
 
   private:
     void LoadMetaData();
@@ -68,7 +68,7 @@ class MapSerializer
     void LoadAssets();
     void LoadEntities();
     void SerializeComponents();
-    void SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive &currentArc);
+    void SerializeSpecifiedSystem(std::pair<std::string, AbstractSystem *> systemNamePair, Archive & currentArc);
 
     /**
      * @brief Key that describes the map the screen is currently on.
@@ -120,5 +120,3 @@ class MapSerializer
 };
 
 } // namespace ild
-
-#endif

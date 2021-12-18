@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Screens_LoadingScreen_H_
-#define Ancona_Engine_Screens_LoadingScreen_H_
+#pragma once
 
 #include <memory>
 
@@ -24,7 +23,7 @@ class LoadingScreen : public AbstractScreen
      * @param screenLoading The Screen the the loading screen is loading.
      * @param manager ScreenManager instance for the game.
      */
-    LoadingScreen(AbstractScreen *screenLoading, ScreenManager &manager);
+    LoadingScreen(AbstractScreen * screenLoading, ScreenManager & manager);
 
     void InputUpdate(float delta) override;
     /**
@@ -50,13 +49,13 @@ class LoadingScreen : public AbstractScreen
     virtual void Exiting(float delta) override;
 
     /* getters and setters */
-    ScreenSystemsContainer *systemsContainer() override;
+    ScreenSystemsContainer * systemsContainer() override;
 
   private:
     /**
      * @brief The Screen that will be loaded.
      */
-    AbstractScreen *_screenLoading;
+    AbstractScreen * _screenLoading;
     /**
      * @brief Loads in the map data.
      */
@@ -68,5 +67,3 @@ class LoadingScreen : public AbstractScreen
 };
 
 } // namespace ild
-
-#endif

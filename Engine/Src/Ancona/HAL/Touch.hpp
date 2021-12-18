@@ -23,7 +23,7 @@ class Touch
      *
      * @return true if the finger is pressed, otherwise false
      */
-    static bool IsFingerPressed(unsigned int finger);
+    static bool IsFingerPressed(int64_t finger);
 
     /**
      * @brief Deteremines if a finger was just released
@@ -32,7 +32,7 @@ class Touch
      *
      * @return true if the finger is released, otherwise false
      */
-    static bool IsFingerReleased(unsigned int finger);
+    static bool IsFingerReleased(int64_t finger);
 
     /**
      * @brief Deteremines if a finger is down
@@ -41,8 +41,8 @@ class Touch
      *
      * @return true if the finger is down, otherwise false
      */
-    static bool IsFingerDown(unsigned int finger);
-    static ild::Vector2i FingerPosition(unsigned int finger);
+    static bool IsFingerDown(int64_t finger);
+    static ild::Vector2i FingerPosition(int64_t finger);
 
     /**
      * @brief INTERNAL ONLY
@@ -50,7 +50,7 @@ class Touch
      *
      * @param finger finger being pressed
      */
-    static void _AddFingerPress(unsigned int finger, int x, int y);
+    static void _AddFingerPress(int64_t finger, int x, int y);
 
     /**
      * @brief INTERNAL ONLY
@@ -58,8 +58,8 @@ class Touch
      *
      * @param finger finger being released
      */
-    static void _AddFingerRelease(unsigned int finger);
-    static void _AddFingerMoved(unsigned int finger, int x, int y);
+    static void _AddFingerRelease(int64_t finger);
+    static void _AddFingerMoved(int64_t finger, int x, int y);
 
     /**
      * @brief INTERNAL ONLY
@@ -69,12 +69,12 @@ class Touch
     static void _ClearAllFingersState();
 
   private:
-    static std::set<unsigned int> _pressedFingers;
-    static std::set<unsigned int> _releasedFingers;
-    static std::set<unsigned int> _heldFingers;
-    static std::map<unsigned int, unsigned long> _heldFingersToFrameCount;
-    static std::set<unsigned int> _heldFingersToClear;
-    static std::map<unsigned int, ild::Vector2i> _fingerPosition;
+    static std::set<int64_t> _pressedFingers;
+    static std::set<int64_t> _releasedFingers;
+    static std::set<int64_t> _heldFingers;
+    static std::map<int64_t, unsigned long> _heldFingersToFrameCount;
+    static std::set<int64_t> _heldFingersToClear;
+    static std::map<int64_t, ild::Vector2i> _fingerPosition;
 };
 
 } // namespace ildhal

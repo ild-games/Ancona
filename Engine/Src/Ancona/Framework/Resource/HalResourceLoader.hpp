@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Resource_HalResourceLoader_H_
-#define Ancona_Engine_Resource_HalResourceLoader_H_
+#pragma once
 
 #include <string>
 
@@ -15,7 +14,8 @@ namespace ild
  *
  * @author Jeff Swenson
  */
-template <class HalType> class HalResourceLoader : public AbstractLoader
+template<class HalType>
+class HalResourceLoader : public AbstractLoader
 {
   public:
     /**
@@ -24,17 +24,18 @@ template <class HalType> class HalResourceLoader : public AbstractLoader
      * @param resourceName Name that describes resource type
      * @param fileExtension File extension used for the resource
      */
-    HalResourceLoader(const std::string &resourceName, const std::string &fileExtension)
-        : AbstractLoader(resourceName, typeid(HalType)), _fileExtension(fileExtension)
+    HalResourceLoader(const std::string & resourceName, const std::string & fileExtension) :
+            AbstractLoader(resourceName, typeid(HalType)),
+            _fileExtension(fileExtension)
     {
     }
 
     /**
      * @copydoc ild::AbstractLoader::Load
      */
-    void *Load(const std::string &resourceKey) override
+    void * Load(const std::string & resourceKey) override
     {
-        HalType *object = new HalType();
+        HalType * object = new HalType();
         std::string fileName = GetResourceFileName(resourceKey, _fileExtension);
 
         if (!(object->LoadFromFile(fileName)))
@@ -49,9 +50,9 @@ template <class HalType> class HalResourceLoader : public AbstractLoader
     /**
      * @copydoc ild::AbstractLoader::DeleteResource
      */
-    void DeleteResource(void *resource) override
+    void DeleteResource(void * resource) override
     {
-        HalType *object = static_cast<HalType *>(resource);
+        HalType * object = static_cast<HalType *>(resource);
         delete object;
     }
 
@@ -60,5 +61,3 @@ template <class HalType> class HalResourceLoader : public AbstractLoader
 };
 
 } // namespace ild
-
-#endif

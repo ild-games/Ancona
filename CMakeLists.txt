@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.22.0)
 project(ANCONA)
 
 include (${RAFT})
+include_directories("${RAFT_INCLUDE_DIR}/SDL2")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
@@ -41,7 +42,9 @@ set (ANCONA_LIBS
 set(ANCONA_EXT_LIBS
     optimized sfml-graphics debug sfml-graphics-d
     optimized sfml-window debug sfml-window-d
-    optimized sfml-system debug sfml-system-d)
+    optimized sfml-system debug sfml-system-d
+    SDL2
+    SDL2_image)
 
 if(ANDROID)
     set(ANCONA_EXT_LIBS ${ANCONA_EXT_LIBS} android EGL log)

@@ -1,11 +1,12 @@
 #include <Ancona/Framework/Resource/ResourceLoaderInit.hpp>
 
-using namespace ild;
+namespace ild
+{
 
-TextureLoader *_jpegTextureLoader = nullptr;
-TextureLoader *_pngTextureLoader = nullptr;
-FontLoader *_ttfFontLoader = nullptr;
-SoundBufferLoader *_wavSoundBufferLoader = nullptr;
+TextureLoader * _jpegTextureLoader = nullptr;
+TextureLoader * _pngTextureLoader = nullptr;
+FontLoader * _ttfFontLoader = nullptr;
+SoundBufferLoader * _wavSoundBufferLoader = nullptr;
 
 void ResourceLoaderInit::Init()
 {
@@ -37,3 +38,5 @@ void ResourceLoaderInit::Destroy()
         delete _wavSoundBufferLoader;
     }
 }
+
+} // namespace ild
