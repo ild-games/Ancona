@@ -1,5 +1,4 @@
-#ifndef Ancona_HAL_SFML_RenderStatesImpl_H_
-#define Ancona_HAL_SFML_RenderStatesImpl_H_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 
@@ -14,13 +13,10 @@ namespace priv
 class RenderStatesImpl
 {
   public:
-    RenderStatesImpl(const sf::BlendMode &blendMode, const sf::Transform &transform, const sf::Texture *texture);
+    RenderStatesImpl(const sf::BlendMode & blendMode, const sf::Transform & transform, const sf::Texture * texture);
 
     /* getters and setters */
-    sf::RenderStates &sfmlRenderStates() const
-    {
-        return *_sfmlRenderStates;
-    }
+    sf::RenderStates & sfmlRenderStates() const { return *_sfmlRenderStates; }
 
   protected:
     std::unique_ptr<sf::RenderStates> _sfmlRenderStates;
@@ -29,5 +25,3 @@ class RenderStatesImpl
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

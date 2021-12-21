@@ -14,6 +14,7 @@ LoadingScreen::LoadingScreen(AbstractScreen * screenLoading, ScreenManager & man
         screenLoading->key(),
         *screenLoading->systemsContainer(),
         _screenLoading->requestList(),
+        _screenManager.Window,
         true));
 }
 

@@ -44,18 +44,18 @@ Game::~Game()
 
 void Game::InputUpdate(float deltaTime)
 {
-    // _screenManager->InputUpdate(deltaTime);
+    _screenManager->InputUpdate(deltaTime);
 }
 
 void Game::FixedUpdate(float fixedDeltaTime)
 {
-    // _screenManager->Update(fixedDeltaTime);
+    _screenManager->Update(fixedDeltaTime);
 }
 
 void Game::Render(float delta)
 {
     _window->Clear(Color::Black);
-    // _screenManager->Draw(delta);
+    _screenManager->Draw(delta);
     _window->Display();
 }
 

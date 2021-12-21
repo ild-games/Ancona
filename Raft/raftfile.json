@@ -38,14 +38,34 @@
             ]
         },
         {
-            "name" : "sdl_raft_libs",
+            "name" : "SDL",
             "repository" : {
                 "type" : "git",
-                "location" : "https://github.com/ild-games/sdl_raft_libs",
-                "branch": "master"
+                "location" : "https://github.com/libsdl-org/SDL",
+                "branch": "tags/release-2.0.16"
             },
-            "buildSystem" : "raft"
+            "configOptions" : [
+                {
+                    "name": "DIRECTX",
+                    "value": "NO"
+                }
+            ],
+            "buildSystem" : "cmake"
+        },
+        {
+            "name" : "SDL_image",
+            "repository" : {
+                "type" : "git",
+                "location" : "https://github.com/libsdl-org/SDL_image.git",
+                "commit": "9c135204fba642a2bb8d3f892bc56a8f63b31e58"
+            },
+            "buildSystem" : "cmake",
+            "preloadCacheScript": "cmake/deps/configureSDL_image.cmake",
+            "patches": [
+                "Patches/SDL2_image_add_install_step_to_cmake.patch"
+            ]
         }
+
     ],
     "architectures" : [
         {

@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Screen_ScreenManager_H_
-#define Ancona_Engine_Screen_ScreenManager_H_
+#pragma once
 
 #include <stack>
 
@@ -29,7 +28,7 @@ class ScreenManager
      * @param windowWidth the intended render width of the window
      * @param windowHeight the intended render height of the window
      */
-    ScreenManager(ildhal::Window &window, int windowWidth, int windowHeight);
+    ScreenManager(ildhal::Window & window, int windowWidth, int windowHeight);
     ~ScreenManager();
 
     /**
@@ -38,7 +37,7 @@ class ScreenManager
      * @param screen Screen to load.
      * @param load True if the screen requires loading, otherwise false. Defaults to true.
      */
-    void Push(AbstractScreen *screen, bool load = true);
+    void Push(AbstractScreen * screen, bool load = true);
 
     /**
      * @brief Pops the current screen off the manager. This removes the reference
@@ -46,14 +45,14 @@ class ScreenManager
      */
     void Pop();
     void PopImmediate();
-    AbstractScreen *Peek();
+    AbstractScreen * Peek();
 
     /**
      * @brief Pops the current screen off the manager and pushes a new one on
      *
      * @param screen Screen to push
      */
-    void Replace(AbstractScreen *screen);
+    void Replace(AbstractScreen * screen);
 
     void InputUpdate(float delta);
     /**
@@ -82,17 +81,11 @@ class ScreenManager
     /**
      * @brief The window instance for the game
      */
-    ildhal::Window &Window;
+    ildhal::Window & Window;
 
     /* getters and setters */
-    int windowWidth() const
-    {
-        return _windowWidth;
-    }
-    int windowHeight() const
-    {
-        return _windowHeight;
-    }
+    int windowWidth() const { return _windowWidth; }
+    int windowHeight() const { return _windowHeight; }
 
   private:
     /**
@@ -102,7 +95,7 @@ class ScreenManager
     /**
      * @brief Screen that will be replacing the current screen after the exiting function has finished.
      */
-    AbstractScreen *_replacementScreen = nullptr;
+    AbstractScreen * _replacementScreen = nullptr;
     /**
      * @brief windowWidth the intended render width of the window
      */
@@ -120,5 +113,3 @@ class ScreenManager
 };
 
 } // namespace ild
-
-#endif

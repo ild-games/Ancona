@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.22.0)
 project(ANCONA)
 
 include (${RAFT})
-include_directories("${RAFT_INCLUDE_DIR}/SDL2")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
@@ -25,7 +24,10 @@ if(IOS)
     set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
 endif()
 
+set (ANCONA_HAL_ID "SDL")
+
 include_directories(Engine/Src)
+
 
 set (ANCONA_LIBS
     Ancona_Core
@@ -55,5 +57,8 @@ endif()
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# forward the SDL2 include directory so SDL_Image includes work
+include_directories("${RAFT_INCLUDE_DIR}/SDL2")
 
 add_subdirectory(Engine)

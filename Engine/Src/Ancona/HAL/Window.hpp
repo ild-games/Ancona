@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Window_H_
-#define Ancona_HAL_Window_H_
+#pragma once
 
 #include <Ancona/HAL/Event.hpp>
 #include <Ancona/HAL/RenderTarget.hpp>
@@ -78,5 +77,3 @@ class Window : public RenderTarget
 };
 
 } // namespace ildhal
-
-#endif

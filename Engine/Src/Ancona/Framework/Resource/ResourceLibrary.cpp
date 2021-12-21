@@ -1,10 +1,11 @@
+#include <algorithm>
+#include <sstream>
+
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/System/FileOperations.hpp>
-#include <algorithm>
-#include <sstream>
 
 namespace ild
 {
@@ -73,7 +74,7 @@ void ResourceLibrary::DeleteResource(const std::string & type, const std::string
     }
 }
 
-bool ResourceLibrary::DoneLoading(RequestList & request)
+bool ResourceLibrary::DoneLoading(RequestList & request, ildhal::RenderTarget & renderTarget)
 {
     bool onDisk = false;
     while (!onDisk)
@@ -98,7 +99,7 @@ bool ResourceLibrary::DoneLoading(RequestList & request)
         {
             // The resource does not exist in the dictionary and needs to be loaded
             onDisk = true;
-            auto rawResource = loader->Load(FileToLoad(requestIter->first, requestIter->second));
+            auto rawResource = loader->Load(FileToLoad(requestIter->first, requestIter->second), renderTarget);
             resources.emplace(requestIter->second, ResourceHolder(rawResource, 0, loader));
 
             resourceIter = resources.find(requestIter->second);

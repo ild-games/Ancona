@@ -55,7 +55,7 @@ RenderStates::RenderStates(const BlendMode & blendMode, const ild::Transform & t
 
     auto sfmlTransform = priv::TransformImpl::TranslateAnconaToSfml(transform);
 
-    auto sfmlTexture = &texture.textureImpl().sfmlTexture();
+    auto sfmlTexture = nullptr;
 
     _pimpl = std::make_unique<priv::RenderStatesImpl>(sfmlBlendMode, sfmlTransform, sfmlTexture);
 }

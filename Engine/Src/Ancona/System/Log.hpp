@@ -1,5 +1,4 @@
-#ifndef Ancona_System_Log_H_
-#define Ancona_System_Log_H_
+#pragma once
 
 #include <sstream>
 #include <string>
@@ -20,18 +19,15 @@ class LogControls
      *
      * @param msg Message to print out
      */
-    static void _log(const std::string &msg);
-    static void _log(std::ostringstream &stream)
-    {
-        _log(stream.str());
-    }
+    static void _log(const std::string & msg);
+    static void _log(std::ostringstream & stream) { _log(stream.str()); }
 };
 
 } // namespace ild
 
-#define ILD_Log(message)                                                                                               \
-    {                                                                                                                  \
-        ild::LogControls::_log(message);                                                                               \
+#define ILD_Log(message)                      \
+    {                                         \
+        std::ostringstream stream;            \
+        stream << message;                    \
+        ild::LogControls::_log(stream.str()); \
     }
-
-#endif

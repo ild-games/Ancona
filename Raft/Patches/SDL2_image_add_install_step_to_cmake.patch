@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1ebc3e3..7e903d2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -101,6 +101,10 @@ if (BUILD_SHARED_LIBS)
+ 	  target_compile_definitions(SDL2_image PRIVATE -DDLL_EXPORT)
+ 	endif()
+ 	target_link_libraries(SDL2_image PUBLIC SDL2::SDL2)
++	install(TARGETS SDL2_image LIBRARY)
++	install(TARGETS png LIBRARY)
++	install(TARGETS zlib LIBRARY)
++	install(FILES ${SDL_image_SOURCE_DIR}/SDL_image.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/SDL2_image)
+ else()
+ 	target_link_libraries(SDL2_image PUBLIC SDL2::SDL2-static)
+ endif()

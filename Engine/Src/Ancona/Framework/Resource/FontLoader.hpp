@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Resource_FontLoader_H_
-#define Ancona_Engine_Resource_FontLoader_H_
+#pragma once
 
 #include <Ancona/Framework/Resource/HalResourceLoader.hpp>
 #include <Ancona/HAL.hpp>
@@ -21,9 +20,7 @@ class FontLoader : public HalResourceLoader<ildhal::Font>
      * @param resourceName Resource Type to be used (EX "FontTTF")
      * @param fileExtension File extension to be used (EX "ttf")
      */
-    FontLoader(const std::string &resourceName, const std::string &fileExtension);
+    FontLoader(const std::string & resourceName, const std::string & fileExtension);
 };
 
 } // namespace ild
-
-#endif

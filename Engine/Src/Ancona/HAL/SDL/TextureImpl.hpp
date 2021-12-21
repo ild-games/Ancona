@@ -1,7 +1,8 @@
-#ifndef Ancona_HAL_SFML_TextureImpl_H_
-#define Ancona_HAL_SFML_TextureImpl_H_
+#pragma once
 
-#include <SFML/Graphics.hpp>
+#include <memory>
+
+#include <SDL2/SDL.h>
 
 #include <Ancona/HAL/Texture.hpp>
 
@@ -11,24 +12,24 @@ namespace ildhal
 namespace priv
 {
 
+struct SDL_TextureDestructor
+{
+    void operator()(SDL_Texture * t) const { SDL_DestroyTexture(t); }
+};
+
 class TextureImpl
 {
   public:
-    TextureImpl();
-    ~TextureImpl();
+    bool LoadSDLTextureFromFile(const std::string & filename, SDL_Renderer & sdlRenderer);
 
     /* getters and setters */
-    sf::Texture &sfmlTexture() const
-    {
-        return *_sfmlTexture;
-    }
+    SDL_Texture & sdlTexture() const { return *_sdlTexture; }
 
   private:
-    sf::Texture *_sfmlTexture;
+    std::unique_ptr<SDL_Texture, SDL_TextureDestructor> _sdlTexture =
+        std::unique_ptr<SDL_Texture, SDL_TextureDestructor>(nullptr);
 };
 
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

@@ -24,9 +24,9 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Font_H_
-#define Ancona_HAL_Font_H_
+#pragma once
 
+#include <Ancona/HAL/RenderTarget.hpp>
 #include <Ancona/HAL/Texture.hpp>
 
 namespace ildhal
@@ -42,19 +42,14 @@ class Font
   public:
     Font();
 
-    bool LoadFromFile(const std::string &filename);
+    bool LoadFromFile(const std::string & filename, ildhal::RenderTarget & renderTarget);
 
     /* getters and setters */
 
-    priv::FontImpl &fontImpl() const
-    {
-        return *_pimpl;
-    }
+    priv::FontImpl & fontImpl() const { return *_pimpl; }
 
   private:
     std::unique_ptr<priv::FontImpl> _pimpl;
 };
 
 } // namespace ildhal
-
-#endif

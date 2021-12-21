@@ -3,6 +3,7 @@
 #include <string>
 
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {
@@ -33,12 +34,12 @@ class HalResourceLoader : public AbstractLoader
     /**
      * @copydoc ild::AbstractLoader::Load
      */
-    void * Load(const std::string & resourceKey) override
+    void * Load(const std::string & resourceKey, ildhal::RenderTarget & target) override
     {
         HalType * object = new HalType();
         std::string fileName = GetResourceFileName(resourceKey, _fileExtension);
 
-        if (!(object->LoadFromFile(fileName)))
+        if (!(object->LoadFromFile(fileName, target)))
         {
             // If the load failed then null should be returned
             delete object;

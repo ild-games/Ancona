@@ -13,12 +13,14 @@ MapSerializer::MapSerializer(
     std::string key,
     ScreenSystemsContainer & systems,
     std::shared_ptr<RequestList> request,
+    ildhal::RenderTarget & renderTarget,
     bool loading,
     bool snapshotSave) :
-        _key(key),
-        _request(request),
         _loadingContext(new SerializingContext(systems)),
         _profile(systems.profile()),
+        _key(key),
+        _request(request),
+        _renderTarget(renderTarget),
         _loading(loading),
         _snapshotSave(snapshotSave)
 {
@@ -111,7 +113,7 @@ void MapSerializer::LoadAssets()
         _state = SerializerState::LoadingEntities;
         return;
     }
-    if (ResourceLibrary::DoneLoading(*_request))
+    if (ResourceLibrary::DoneLoading(*_request, _renderTarget))
     {
         _state = SerializerState::LoadingEntities;
     }

@@ -24,8 +24,9 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Time_H_
-#define Ancona_HAL_Time_H_
+#pragma once
+
+#include <cstdint>
 
 namespace ildhal
 {
@@ -88,5 +89,3 @@ Time operator%(Time left, Time right);
 Time & operator%=(Time & left, Time right);
 
 } // namespace ildhal
-
-#endif

@@ -26,8 +26,10 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 
+#include <Ancona/HAL/RenderTarget.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
 namespace ildhal
@@ -42,7 +44,7 @@ class Texture
 {
   public:
     Texture();
-    bool LoadFromFile(const std::string & filename);
+    bool LoadFromFile(const std::string & filename, ildhal::RenderTarget & renderTarget);
 
     /* getters and setters */
     void repeated(bool newRepeated);

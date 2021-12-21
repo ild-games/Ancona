@@ -1,10 +1,11 @@
-#ifndef Ancona_Engine_Resource_ResourceLibrary_H_
-#define Ancona_Engine_Resource_ResourceLibrary_H_
+#pragma once
 
 #include <string>
 #include <typeindex>
 #include <unordered_map>
 #include <utility>
+
+#include <Ancona/HAL.hpp>
 
 namespace ild
 {
@@ -15,14 +16,16 @@ class AbstractLoader;
 class ResourceHolder
 {
   public:
-    ResourceHolder(void *rawResource, int referenceCount, AbstractLoader *loader)
-        : rawResource(rawResource), referenceCount(referenceCount), loader(loader)
+    ResourceHolder(void * rawResource, int referenceCount, AbstractLoader * loader) :
+            rawResource(rawResource),
+            referenceCount(referenceCount),
+            loader(loader)
     {
     }
 
-    void *rawResource;
+    void * rawResource;
     int referenceCount = 0;
-    AbstractLoader *loader;
+    AbstractLoader * loader;
 };
 
 class ResourceLibrary
@@ -36,7 +39,8 @@ class ResourceLibrary
      *
      * @return A pointer to the resource
      */
-    template <class T> static T *Get(const std::string &key)
+    template<class T>
+    static T * Get(const std::string & key)
     {
         return static_cast<T *>(_resources.at(typeid(T)).at(key).rawResource);
     }
@@ -47,7 +51,7 @@ class ResourceLibrary
      *
      * @param loader Loader that should be library
      */
-    static void RegisterLoader(AbstractLoader *loader);
+    static void RegisterLoader(AbstractLoader * loader);
 
     /**
      * @brief Request the resources contained in the list.
@@ -56,7 +60,7 @@ class ResourceLibrary
      *
      * @param request List of resources to be loaded.
      */
-    static void Request(const RequestList &request);
+    static void Request(const RequestList & request);
 
     /**
      * @brief Return the resources contained in the list.
@@ -65,7 +69,7 @@ class ResourceLibrary
      *
      * @param request List of resources to be returned.
      */
-    static void Return(const RequestList &request);
+    static void Return(const RequestList & request);
 
     /**
      * @brief  Check if the request list is done loading.
@@ -76,12 +80,14 @@ class ResourceLibrary
      * @return True if the list is done loading.  False
      *         otherwise.
      */
-    static bool DoneLoading(RequestList &request);
+    static bool DoneLoading(RequestList & request, ildhal::RenderTarget & renderTarget);
 
-    static void ProvideAlternateSource(const std::string &type, const std::string &key,
-                                       const std::string &alternateSource);
+    static void ProvideAlternateSource(
+        const std::string & type,
+        const std::string & key,
+        const std::string & alternateSource);
 
-    static void ClearAlternateSource(const std::string &type, const std::string &key);
+    static void ClearAlternateSource(const std::string & type, const std::string & key);
 
     /**
      * @brief  Return a string that contains the path to the
@@ -115,10 +121,8 @@ class ResourceLibrary
 
     static std::unordered_map<std::string, std::unordered_map<std::string, std::string>> _alternateSources;
 
-    static void DeleteResource(const std::string &type, const std::string &key);
-    static const std::string &FileToLoad(const std::string &type, const std::string &key);
+    static void DeleteResource(const std::string & type, const std::string & key);
+    static const std::string & FileToLoad(const std::string & type, const std::string & key);
 };
 
 } // namespace ild
-
-#endif

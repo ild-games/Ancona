@@ -7,6 +7,7 @@
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Serializing/SerializingContext.hpp>
 #include <Ancona/Framework/Systems/ScreenSystemsContainer.hpp>
+#include <Ancona/HAL.hpp>
 #include <Ancona/System/FileOperations.hpp>
 #include <Ancona/Util/Json.hpp>
 
@@ -49,6 +50,7 @@ class MapSerializer
         std::string key,
         ScreenSystemsContainer & systems,
         std::shared_ptr<RequestList> request,
+        ildhal::RenderTarget & renderTarget,
         bool loading,
         bool snapshotSave = false);
 
@@ -110,6 +112,7 @@ class MapSerializer
      * @brief True if the MapSerializer is loading the map, false if it is saving it.
      */
     bool _loading;
+    ildhal::RenderTarget & _renderTarget;
     /**
      * @brief True if the saving will save everything, false if not.
      */

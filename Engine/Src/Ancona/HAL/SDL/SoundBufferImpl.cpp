@@ -15,7 +15,7 @@ SoundBuffer::SoundBuffer() : _pimpl(std::make_unique<priv::SoundBufferImpl>())
 {
 }
 
-bool SoundBuffer::LoadFromFile(const std::string & filename)
+bool SoundBuffer::LoadFromFile(const std::string & filename, ildhal::RenderTarget & target)
 {
     return soundBufferImpl().sfmlSoundBuffer().loadFromFile(filename);
 }
