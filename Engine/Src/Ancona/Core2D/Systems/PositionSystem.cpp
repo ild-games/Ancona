@@ -32,107 +32,75 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::PositionComponent);
 
 namespace ild
 {
-std::ostream &operator<<(std::ostream &os, const Vector2f &pt)
+std::ostream & operator<<(std::ostream & os, const Vector2f & pt)
 {
     os << "(" << pt.x << "," << pt.y << ")";
     return os;
 }
 
-std::ostream &operator<<(std::ostream &&os, const Vector2f &pt)
+std::ostream & operator<<(std::ostream && os, const Vector2f & pt)
 {
     os << "(" << pt.x << "," << pt.y << ")";
     return os;
 }
 
-void PositionComponent::Serialize(Archive &arc)
+void PositionComponent::Serialize(Archive & arc)
 {
-    arc(_actualPosition, "position");
+    Vector2f position;
+    arc(position, "position");
+    _transform.position(position);
+
     arc(_velocity, "velocity");
 }
 
-void PositionComponent::FetchDependencies(const Entity &entity)
+void PositionComponent::FetchDependencies(const Entity & entity)
 {
-    _transformNeedsUpdate = true;
 }
 
 void PositionComponent::PreUpdate()
 {
-    _previousPosition = _actualPosition;
+    _previousPosition = _transform.position();
 }
 
 void PositionComponent::Update(float delta)
 {
     if (_velocity.x != 0.0f || _velocity.y != 0.0f)
     {
-        _actualPosition += delta * _velocity;
+        _transform.Move(delta * _velocity);
     }
-}
-
-const Vector2f PositionComponent::RoundPosition(const Vector2f &position) const
-{
-    return Vector2f(std::round(position.x * 128) / 128, std::round(position.y * 128) / 128);
 }
 
 /* getters and setters */
 
 const Vector2f PositionComponent::position() const
 {
-    return _actualPosition;
+    return _transform.position();
 }
 
-const Vector2f PositionComponent::interpolatedPosition(float alpha) const
+void PositionComponent::position(const Vector2f & position)
 {
-    return _previousPosition * (1.0f - alpha) + _actualPosition * alpha;
+    _transform.position(position);
 }
 
-void PositionComponent::position(const Vector2f &position)
+const Transform & PositionComponent::transform() const
 {
-    _actualPosition = position;
-
-    _transformNeedsUpdate = true;
-}
-
-const Transform &PositionComponent::transform() const
-{
-    // Recompute the combined transform if needed
-    if (_transformNeedsUpdate)
-    {
-        float angle = -_rotation * 3.141592654f / 180.f;
-        float cosine = static_cast<float>(std::cos(angle));
-        float sine = static_cast<float>(std::sin(angle));
-        float sxc = _scale.x * cosine;
-        float syc = _scale.y * cosine;
-        float sxs = _scale.x * sine;
-        float sys = _scale.y * sine;
-        float tx = -_origin.x * sxc - _origin.y * sys + _actualPosition.x;
-        float ty = _origin.x * sxs - _origin.y * syc + _actualPosition.y;
-
-        _transform = Transform(sxc, sys, tx, -sxs, syc, ty, 0.f, 0.f, 1.f);
-        _transformNeedsUpdate = false;
-    }
-
     return _transform;
 }
 
-Transform PositionComponent::interpolatedTransform(float alpha) const
+const Vector2f & PositionComponent::interpolatedPosition(float alpha) const
 {
-    const Vector2f position = interpolatedPosition(alpha);
-
-    float angle = -_rotation * 3.141592654f / 180.f;
-    float cosine = static_cast<float>(std::cos(angle));
-    float sine = static_cast<float>(std::sin(angle));
-    float sxc = _scale.x * cosine;
-    float syc = _scale.y * cosine;
-    float sxs = _scale.x * sine;
-    float sys = _scale.y * sine;
-    float tx = -_origin.x * sxc - _origin.y * sys + position.x;
-    float ty = _origin.x * sxs - _origin.y * syc + position.y;
-
-    return Transform(sxc, sys, tx, -sxs, syc, ty, 0.f, 0.f, 1.f);
+    return _previousPosition * (1.0f - alpha) + _transform.position() * alpha;
 }
 
-PositionSystem::PositionSystem(std::string systemName, SystemManager &manager)
-    : UnorderedSystem<PositionComponent>(systemName, manager, UpdateStep::Physics)
+const Transform & PositionComponent::interpolatedTransform(float alpha) const
+{
+    Transform interpolatedTransform = _transform;
+    interpolatedTransform.position(interpolatedPosition(alpha));
+    return interpolatedTransform;
+}
+
+PositionSystem::PositionSystem(std::string systemName, SystemManager & manager) :
+        UnorderedSystem<PositionComponent>(systemName, manager, UpdateStep::Physics)
 {
 }
 
@@ -152,7 +120,7 @@ void PositionSystem::PreUpdate()
     }
 }
 
-PositionComponent *PositionSystem::CreateComponent(const Entity &entity)
+PositionComponent * PositionSystem::CreateComponent(const Entity & entity)
 {
     auto comp = new PositionComponent();
     AttachComponent(entity, comp);

@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_RenderStates_H_
-#define Ancona_HAL_RenderStates_H_
+#pragma once
 
 #include <memory>
 
@@ -48,19 +47,14 @@ class RenderStates
     static const RenderStates Default;
 
     RenderStates();
-    RenderStates(const BlendMode &blendMode);
-    RenderStates(const ild::Transform &transform);
-    RenderStates(const BlendMode &blendMode, const ild::Transform &transform, const Texture &texture);
+    RenderStates(const BlendMode & blendMode);
+    RenderStates(const ild::Transform & transform);
+    RenderStates(const BlendMode & blendMode, const ild::Transform & transform, const Texture & texture);
 
-    priv::RenderStatesImpl &renderStatesImpl() const
-    {
-        return *_pimpl;
-    }
+    priv::RenderStatesImpl & renderStatesImpl() const { return *_pimpl; }
 
   private:
     std::unique_ptr<priv::RenderStatesImpl> _pimpl;
 };
 
 } // namespace ildhal
-
-#endif

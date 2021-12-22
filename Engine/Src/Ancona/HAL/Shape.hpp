@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Shape_H_
-#define Ancona_HAL_Shape_H_
+#pragma once
 
 #include <Ancona/Graphics/Color.hpp>
 #include <Ancona/Graphics/Rect.hpp>
@@ -44,17 +43,15 @@ class Shape : public Drawable
 {
   public:
     /* getters and setters */
-    void origin(const ild::Vector2f &origin);
+    void origin(const ild::Vector2f & origin);
     void origin(float x, float y);
     const ild::Color fillColor() const;
-    void fillColor(const ild::Color &color);
+    void fillColor(const ild::Color & color);
     const ild::Color outlineColor() const;
-    void outlineColor(const ild::Color &color);
+    void outlineColor(const ild::Color & color);
     ild::FloatRect localBounds() const;
 
-    priv::ShapeImpl &shapeImpl() const;
+    priv::ShapeImpl & shapeImpl() const;
 };
 
 } // namespace ildhal
-
-#endif

@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_CircleShape_H_
-#define Ancona_HAL_CircleShape_H_
+#pragma once
 
 #include <Ancona/HAL/Shape.hpp>
 
@@ -46,9 +45,7 @@ class CircleShape : public Shape
     float radius() const;
 
     /* getters and setters */
-    priv::CircleShapeImpl &circleShapeImpl() const;
+    priv::CircleShapeImpl & circleShapeImpl() const;
 };
 
 } // namespace ildhal
-
-#endif

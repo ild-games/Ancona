@@ -1,5 +1,3 @@
-// Altered SFML Transformable.hpp for Ancona's positioning
-
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
@@ -36,7 +34,7 @@ namespace ild
 /**
  * @brief Operator used to output a Vector2f to an out stream. The Vector2f will be formatted as (x,y)
  */
-std::ostream &operator<<(std::ostream &os, const Vector2f &pt);
+std::ostream & operator<<(std::ostream & os, const Vector2f & pt);
 
 class PositionComponent
 {
@@ -44,50 +42,38 @@ class PositionComponent
     /**
      * @brief Overriable default destructor.
      */
-    ~PositionComponent()
-    {
-    }
+    ~PositionComponent() {}
 
     /**
      * @copydoc ild::CameraComponent::Serialize
      */
-    void Serialize(Archive &arc);
+    void Serialize(Archive & arc);
 
     /**
      * @copydoc ild::CameraComponent::FetchDependencies
      */
-    void FetchDependencies(const Entity &entity);
+    void FetchDependencies(const Entity & entity);
 
     void PreUpdate();
     void Update(float delta);
 
     /* getters and setters */
-    inline const Vector2f &velocity() const
-    {
-        return _velocity;
-    }
-    inline void velocity(const Vector2f &velocity)
-    {
-        _velocity = velocity;
-    }
+    inline const Vector2f & velocity() const { return _velocity; }
+    inline void velocity(const Vector2f & velocity) { _velocity = velocity; }
 
     const Vector2f position() const;
-    void position(const Vector2f &position);
-    const Transform &transform() const;
-    Transform interpolatedTransform(float alpha) const;
-    const Vector2f interpolatedPosition(float alpha) const;
+    void position(const Vector2f & position);
+    const Transform & transform() const;
+    const Vector2f & interpolatedPosition(float alpha) const;
+    const Transform & interpolatedTransform(float alpha) const;
 
   protected:
-    mutable Transform _transform;
-    mutable bool _transformNeedsUpdate = true;
+    Transform _transform;
     Vector2f _origin = Vector2f(0, 0);
     Vector2f _scale = Vector2f(1, 1);
     float _rotation = 0;
     Vector2f _previousPosition = Vector2f(0, 0);
-    Vector2f _actualPosition = Vector2f(0, 0);
     Vector2f _velocity = Vector2f(0, 0);
-
-    const Vector2f RoundPosition(const Vector2f &position) const;
 };
 
 /**
@@ -104,13 +90,13 @@ class PositionSystem : public UnorderedSystem<PositionComponent>
      * @param systemName Name of the system.
      * @param manager Manager that the system belongs to.
      */
-    PositionSystem(std::string systemName, SystemManager &manager);
+    PositionSystem(std::string systemName, SystemManager & manager);
 
     /**
      * Create a position component at (0,0)
      * @param Entity entity to create the component for.
      */
-    PositionComponent *CreateComponent(const Entity &entity);
+    PositionComponent * CreateComponent(const Entity & entity);
 
   protected:
     void PreUpdate() override;

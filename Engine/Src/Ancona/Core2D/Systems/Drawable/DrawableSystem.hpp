@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Core_Systems_DrawableSystem_H_
-#define Ancona_Engine_Core_Systems_DrawableSystem_H_
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -31,7 +30,7 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
      * @param window Window for game.
      * @param systemManager SystemManager for the screen.
      */
-    DrawableSystem(std::string systemName, ildhal::Window &window, SystemManager &systemManager);
+    DrawableSystem(std::string systemName, ildhal::Window & window, SystemManager & systemManager);
 
     /**
      * @brief Draw all drawable elements to the screen.
@@ -47,14 +46,14 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
      *
      * @param camera CameraComponent to add.
      */
-    void AddCamera(CameraComponent *camera);
+    void AddCamera(CameraComponent * camera);
 
     /**
      * @brief Removes a CameraComponent from the system's cameras.
      *
      * @param camera CameraComponent to remove.
      */
-    void RemoveCamera(CameraComponent *camera);
+    void RemoveCamera(CameraComponent * camera);
 
     /**
      * @brief Creates a DrawableComponent on the system.
@@ -63,8 +62,10 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
      *
      * @return Pointer to the newly created DrawableComponent.
      */
-    DrawableComponent *CreateComponent(const Entity &entity, std::unique_ptr<Drawable> topDrawable,
-                                       PositionSystem *position);
+    DrawableComponent * CreateComponent(
+        const Entity & entity,
+        std::unique_ptr<Drawable> topDrawable,
+        PositionSystem * position);
 
     /**
      * @brief Creates a DrawableComponent on the system.
@@ -74,27 +75,27 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
      *
      * @return Pointer to the newly created DrawableComponent.
      */
-    DrawableComponent *CreateComponent(const Entity &entity, std::unique_ptr<Drawable> topDrawable,
-                                       PositionSystem *position, CameraComponent *camera);
+    DrawableComponent * CreateComponent(
+        const Entity & entity,
+        std::unique_ptr<Drawable> topDrawable,
+        PositionSystem * position,
+        CameraComponent * camera);
 
     /* gettes and setters */
-    void defaultCamera(CameraComponent *defaultCamera);
-    CameraComponent *defaultCamera()
-    {
-        return _defaultCamera;
-    }
+    void defaultCamera(CameraComponent * defaultCamera);
+    CameraComponent * defaultCamera() { return _defaultCamera; }
 
   protected:
     /**
      * @see copydoc::SystemManager::OnComponentRemove
      */
-    void OnComponentRemove(Entity entity, DrawableComponent *component);
+    void OnComponentRemove(Entity entity, DrawableComponent * component);
 
   private:
     /**
      * @brief The window the sprite system will draw to.
      */
-    ildhal::Window &_window;
+    ildhal::Window & _window;
     std::unique_ptr<ildhal::RenderTexture> _renderTexture;
     std::unique_ptr<ildhal::Sprite> _windowSprite;
     std::unique_ptr<View> _renderView;
@@ -106,11 +107,9 @@ class DrawableSystem : public UnorderedSystem<DrawableComponent>
     /**
      * @brief Default camera to use for drawable components.
      */
-    CameraComponent *_defaultCamera = nullptr;
+    CameraComponent * _defaultCamera = nullptr;
 
     void SetupWindowRenderElements();
 };
 
 } // namespace ild
-
-#endif

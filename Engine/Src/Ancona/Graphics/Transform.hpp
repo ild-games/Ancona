@@ -1,4 +1,4 @@
-// Altered SFML Transform.hpp for Ancona's namespace
+// Altered SFML Transformable.hpp for Ancona's namespace
 
 ////////////////////////////////////////////////////////////
 //
@@ -24,10 +24,9 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_Graphics_Transform_H_
-#define Ancona_Graphics_Transform_H_
+#pragma once
 
-#include <Ancona/Graphics/Rect.hpp>
+#include <Ancona/Graphics/MatrixTransform.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
 namespace ild
@@ -37,38 +36,50 @@ class Transform
 {
   public:
     Transform();
-    Transform(float a00, float a01, float a02, float a10, float a11, float a12, float a20, float a21, float a22);
 
-    Vector2f TransformPoint(float x, float y) const;
-    Vector2f TransformPoint(const Vector2f &point) const;
-    FloatRect TransformRect(const FloatRect &rectangle) const;
-    Transform &Combine(const Transform &transform);
-    Transform &Translate(float x, float y);
-    Transform &Translate(const Vector2f &offset);
-    Transform &Rotate(float angle);
-    Transform &Rotate(float angle, float centerX, float centerY);
-    Transform &Rotate(float angle, const Vector2f &center);
-    Transform &Scale(float scaleX, float scaleY);
-    Transform &Scale(float scaleX, float scaleY, float centerX, float centerY);
-    Transform &Scale(const Vector2f &factors);
-    Transform &Scale(const Vector2f &factors, const Vector2f &center);
-    Transform Inverse() const;
-
-    static const Transform Identity; ///< The identity transform (does nothing)
+    void Move(float offsetX, float offsetY);
+    void Move(const Vector2f & offset);
+    void Rotate(float angle);
+    void Scale(float factorX, float factorY);
+    void Scale(const Vector2f & factor);
+    Transform & Combine(const Transform & combineWith);
 
     /* getters and setters */
-    const float *matrix() const;
+    void position(float x, float y);
+    void position(const Vector2f & newPosition);
+    void rotation(float angle);
+    void scale(const Vector2f & factors);
+    void scale(float x, float y);
+    void origin(float x, float y);
+    void origin(const Vector2f & newOrigin);
+    const Vector2f & position() const;
+    float rotation() const;
+    const Vector2f & scale() const;
+    const Vector2f & origin() const;
+    const MatrixTransform & transform() const;
+    const MatrixTransform & inverseTransform() const;
 
   private:
-    float m_matrix[16]; ///< 4x4 matrix defining the transformation
+    friend Transform operator*(const Transform & left, const Transform & right);
+    friend Transform & operator*=(Transform & left, const Transform & right);
+    friend Vector2f operator*(const Transform & left, const Vector2f & right);
+    friend bool operator==(const Transform & left, const Transform & right);
+    friend bool operator!=(const Transform & left, const Transform & right);
+
+    Vector2f _origin; ///< Origin of translation/rotation/scaling of the object
+    Vector2f _position; ///< Position of the object in the 2D world
+    float _rotation; ///< Orientation of the object, in degrees
+    Vector2f _scale; ///< Scale of the object
+    mutable MatrixTransform _transform; ///< Combined transformation of the object
+    mutable bool _transformNeedUpdate; ///< Does the transform need to be recomputed?
+    mutable MatrixTransform _inverseTransform; ///< Combined transformation of the object
+    mutable bool _inverseTransformNeedUpdate; ///< Does the transform need to be recomputed?
 };
 
-Transform operator*(const Transform &left, const Transform &right);
-Transform &operator*=(Transform &left, const Transform &right);
-Vector2f operator*(const Transform &left, const Vector2f &right);
-bool operator==(const Transform &left, const Transform &right);
-bool operator!=(const Transform &left, const Transform &right);
+Transform operator*(const Transform & left, const Transform & right);
+Transform & operator*=(Transform & left, const Transform & right);
+Vector2f operator*(const Transform & left, const Vector2f & right);
+bool operator==(const Transform & left, const Transform & right);
+bool operator!=(const Transform & left, const Transform & right);
 
 } // namespace ild
-
-#endif

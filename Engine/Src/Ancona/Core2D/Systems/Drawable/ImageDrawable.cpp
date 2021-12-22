@@ -32,10 +32,10 @@ Drawable * ImageDrawable::Copy()
 
 void ImageDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
-    if (_sprite.get() != NULL)
+    if (_sprite)
     {
         ildhal::RenderStates states(drawableTransform);
-        target.Draw(*_sprite, states);
+        _sprite->Draw(target, states, size());
     }
 }
 

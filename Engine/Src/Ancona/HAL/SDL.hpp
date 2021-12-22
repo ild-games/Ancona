@@ -18,7 +18,6 @@
 #include <Ancona/HAL/SDL/SpriteImpl.hpp>
 #include <Ancona/HAL/SDL/TextImpl.hpp>
 #include <Ancona/HAL/SDL/TextureImpl.hpp>
-#include <Ancona/HAL/SDL/TransformImpl.hpp>
 #include <Ancona/HAL/SDL/VertexArrayImpl.hpp>
 #include <Ancona/HAL/SDL/ViewImpl.hpp>
 #include <Ancona/HAL/SDL/WindowImpl.hpp>

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
+#include <Ancona/Graphics/Transform.hpp>
 #include <Ancona/HAL/RenderStates.hpp>
 
 namespace ildhal
@@ -13,13 +12,15 @@ namespace priv
 class RenderStatesImpl
 {
   public:
-    RenderStatesImpl(const sf::BlendMode & blendMode, const sf::Transform & transform, const sf::Texture * texture);
+    RenderStatesImpl(const ildhal::BlendMode & blendMode, const ild::Transform & transform);
 
     /* getters and setters */
-    sf::RenderStates & sfmlRenderStates() const { return *_sfmlRenderStates; }
+    const ildhal::BlendMode & blendMode() const { return _blendMode; }
+    const ild::Transform & transform() const { return _transform; }
 
   protected:
-    std::unique_ptr<sf::RenderStates> _sfmlRenderStates;
+    ildhal::BlendMode _blendMode;
+    ild::Transform _transform;
 };
 
 } // namespace priv

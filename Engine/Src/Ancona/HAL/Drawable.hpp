@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Drawable_H_
-#define Ancona_HAL_Drawable_H_
+#pragma once
 
 #include <memory>
 
@@ -45,15 +44,10 @@ class Drawable
 {
   public:
     /* getters and setters */
-    priv::DrawableImpl &drawableImpl() const
-    {
-        return *_pimpl;
-    }
+    priv::DrawableImpl & drawableImpl() const { return *_pimpl; }
 
   protected:
     std::unique_ptr<priv::DrawableImpl> _pimpl;
 };
 
 } // namespace ildhal
-
-#endif

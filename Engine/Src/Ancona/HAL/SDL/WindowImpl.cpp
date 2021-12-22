@@ -103,13 +103,10 @@ void Window::Close()
 
 ild::Vector2u Window::size() const
 {
-    int * x = 0;
-    int * y = 0;
-    SDL_GetWindowSize(&windowImpl().sdlWindow(), x, y);
-    auto vector = ild::Vector2u((unsigned int) *x, (unsigned int) *y);
-    delete x;
-    delete y;
-    return vector;
+    int x = 0;
+    int y = 0;
+    SDL_GetWindowSize(&windowImpl().sdlWindow(), &x, &y);
+    return ild::Vector2u((unsigned int) x, (unsigned int) y);
 }
 
 void Window::title(const std::string & title)

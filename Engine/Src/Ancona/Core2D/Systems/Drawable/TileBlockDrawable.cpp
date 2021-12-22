@@ -8,7 +8,7 @@ REGISTER_POLYMORPHIC_SERIALIZER(ild::TileBlockDrawable);
 
 using namespace ild;
 
-Drawable *TileBlockDrawable::Copy()
+Drawable * TileBlockDrawable::Copy()
 {
     auto drawable = new TileBlockDrawable();
     Drawable::CopyProperties(drawable);
@@ -18,23 +18,23 @@ Drawable *TileBlockDrawable::Copy()
     return drawable;
 }
 
-void TileBlockDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta)
+void TileBlockDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
     // std::string * hello = nullptr;
     // ILD_Log(*hello);
-    drawableTransform.Translate(-(_tileSize.x * _numTiles.x * _anchor.x), -(_tileSize.y * _numTiles.y * _anchor.y));
+    drawableTransform.Move(-(_tileSize.x * _numTiles.x * _anchor.x), -(_tileSize.y * _numTiles.y * _anchor.y));
     ildhal::RenderStates states(ildhal::BlendAlpha, drawableTransform, *_texture);
     target.Draw(*_vertexArray, states);
 }
 
-void TileBlockDrawable::Serialize(Archive &arc)
+void TileBlockDrawable::Serialize(Archive & arc)
 {
     Drawable::Serialize(arc);
     arc(_textureKey, "textureKey");
     arc(_size, "size");
 }
 
-void TileBlockDrawable::FetchDependencies(const Entity &entity)
+void TileBlockDrawable::FetchDependencies(const Entity & entity)
 {
     Drawable::FetchDependencies(entity);
     InitializeVertexArray();
@@ -78,12 +78,12 @@ void TileBlockDrawable::SetupVertexBlock()
     }
 }
 
-void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int &vertexIndex, bool isLeftToRight)
+void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight)
 {
     for (int whichVertex = 0; whichVertex < NUM_VERTICES_PER_TILE; whichVertex++)
     {
-        float fractionPartX = whichXBlock < std::ceil(_numTiles.x) - 1 ? 0 : _numTiles.x - (int)_numTiles.x;
-        float fractionPartY = whichYBlock < std::ceil(_numTiles.y) - 1 ? 0 : _numTiles.y - (int)_numTiles.y;
+        float fractionPartX = whichXBlock < std::ceil(_numTiles.x) - 1 ? 0 : _numTiles.x - (int) _numTiles.x;
+        float fractionPartY = whichYBlock < std::ceil(_numTiles.y) - 1 ? 0 : _numTiles.y - (int) _numTiles.y;
         int xVertexOffset = XVertexOffset(isLeftToRight, whichVertex);
         int yVertexOffset = (whichVertex + 1) % 2;
         int xTileToUse = XTileToUse(whichXBlock);
@@ -101,7 +101,7 @@ void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int &ver
     }
 }
 
-Vector2i &TileBlockDrawable::BlockTileStartingPosition()
+Vector2i & TileBlockDrawable::BlockTileStartingPosition()
 {
     if (_numTiles.x == 1.0f && _numTiles.y == 1.0f)
     {

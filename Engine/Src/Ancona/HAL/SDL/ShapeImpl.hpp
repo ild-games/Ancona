@@ -1,7 +1,4 @@
-#ifndef Ancona_HAL_SFML_ShapeImpl_H_
-#define Ancona_HAL_SFML_ShapeImpl_H_
-
-#include <SFML/Graphics.hpp>
+#pragma once
 
 #include <Ancona/HAL/SDL/DrawableImpl.hpp>
 #include <Ancona/HAL/Shape.hpp>
@@ -14,13 +11,8 @@ namespace priv
 
 class ShapeImpl : public DrawableImpl
 {
-  public:
-    /* getters and setters */
-    sf::Shape & sfmlShape() const;
 };
 
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

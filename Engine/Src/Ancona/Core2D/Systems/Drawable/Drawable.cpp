@@ -7,12 +7,15 @@ REGISTER_POLYMORPHIC_SERIALIZER_ABSTRACT_BASE(ild::Drawable);
 
 using namespace ild;
 
-Drawable::Drawable(const float priority, const std::string &key, float priorityOffset, Vector2f anchor)
-    : _key(key), _anchor(anchor), _renderPriority(priority), _priorityOffset(priorityOffset)
+Drawable::Drawable(const float priority, const std::string & key, float priorityOffset, Vector2f anchor) :
+        _key(key),
+        _anchor(anchor),
+        _renderPriority(priority),
+        _priorityOffset(priorityOffset)
 {
 }
 
-void Drawable::CopyProperties(Drawable *drawable)
+void Drawable::CopyProperties(Drawable * drawable)
 {
     drawable->key(_key);
     drawable->anchor(_anchor);
@@ -23,7 +26,7 @@ void Drawable::CopyProperties(Drawable *drawable)
     drawable->inactive(_inactive);
 }
 
-void Drawable::Serialize(Archive &arc)
+void Drawable::Serialize(Archive & arc)
 {
     arc(_renderPriority, "renderPriority");
     arc(_priorityOffset, "priorityOffset");
@@ -34,7 +37,7 @@ void Drawable::Serialize(Archive &arc)
     arc(_key, "key");
 }
 
-void Drawable::Draw(ildhal::RenderTarget &target, Transform parentTransform, float delta)
+void Drawable::Draw(ildhal::RenderTarget & target, Transform parentTransform, float delta)
 {
     if (!_inactive)
     {
@@ -45,15 +48,16 @@ void Drawable::Draw(ildhal::RenderTarget &target, Transform parentTransform, flo
 Transform Drawable::CalculateTransforms()
 {
     Transform transform;
-    transform.Rotate(_rotation).Scale(_scale);
+    transform.Rotate(_rotation);
+    transform.Scale(_scale);
     return transform;
 }
 
-void Drawable::FetchDependencies(const Entity &entity)
+void Drawable::FetchDependencies(const Entity & entity)
 {
 }
 
-Drawable *Drawable::FindDrawable(const std::string &key)
+Drawable * Drawable::FindDrawable(const std::string & key)
 {
     if (key == _key)
     {

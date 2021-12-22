@@ -7,15 +7,21 @@
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::AnimatedDrawable)
 
-using namespace ild;
+namespace ild
+{
 
-AnimatedDrawable::AnimatedDrawable(const float priority, const std::string &key, float duration, float priorityOffset,
-                                   Vector2f anchor)
-    : Drawable(priority, key, priorityOffset, anchor), _duration(duration)
+AnimatedDrawable::AnimatedDrawable(
+    const float priority,
+    const std::string & key,
+    float duration,
+    float priorityOffset,
+    Vector2f anchor) :
+        Drawable(priority, key, priorityOffset, anchor),
+        _duration(duration)
 {
 }
 
-Drawable *AnimatedDrawable::Copy()
+Drawable * AnimatedDrawable::Copy()
 {
     auto drawable = new AnimatedDrawable();
     Drawable::CopyProperties(drawable);
@@ -24,20 +30,19 @@ Drawable *AnimatedDrawable::Copy()
     drawable->_loopOnce = _loopOnce;
     drawable->_timeUntilChange = _timeUntilChange;
     drawable->_curFrame = _curFrame;
-    for (auto &frame : _frames)
+    for (auto & frame : _frames)
     {
         drawable->AddFrame(frame->Copy());
     }
     return drawable;
 }
 
-void AnimatedDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta)
+void AnimatedDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
     if (_anchor.x != 0.0f || _anchor.y != 0.0f)
     {
         auto size = this->size();
-        drawableTransform.Translate(-(size.x * _anchor.x / std::abs(_scale.x)),
-                                    -(size.y * _anchor.y / std::abs(_scale.y)));
+        drawableTransform.Move(-(size.x * _anchor.x / std::abs(_scale.x)), -(size.y * _anchor.y / std::abs(_scale.y)));
     }
     _frames[_curFrame]->Draw(target, drawableTransform, delta);
 }
@@ -45,7 +50,7 @@ void AnimatedDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTr
 void AnimatedDrawable::PostDrawUpdate(float delta)
 {
     Tick(delta);
-    for (auto &frame : _frames)
+    for (auto & frame : _frames)
     {
         frame->PostDrawUpdate(delta);
     }
@@ -83,18 +88,18 @@ void AnimatedDrawable::SetCurrentFrame(unsigned int frame)
     }
 }
 
-void AnimatedDrawable::FetchDependencies(const Entity &entity)
+void AnimatedDrawable::FetchDependencies(const Entity & entity)
 {
     Drawable::FetchDependencies(entity);
     _timeUntilChange = _duration;
     _curFrame = 0;
-    for (auto &drawable : _frames)
+    for (auto & drawable : _frames)
     {
         drawable->FetchDependencies(entity);
     }
 }
 
-void AnimatedDrawable::Serialize(Archive &archive)
+void AnimatedDrawable::Serialize(Archive & archive)
 {
     Drawable::Serialize(archive);
     archive(_duration, "duration");
@@ -102,12 +107,12 @@ void AnimatedDrawable::Serialize(Archive &archive)
     archive(_loopOnce, "loopOnce");
 }
 
-Drawable *AnimatedDrawable::FindDrawable(const std::string &key)
+Drawable * AnimatedDrawable::FindDrawable(const std::string & key)
 {
-    Drawable *toReturn = Drawable::FindDrawable(key);
+    Drawable * toReturn = Drawable::FindDrawable(key);
     if (toReturn == nullptr)
     {
-        for (auto &drawable : _frames)
+        for (auto & drawable : _frames)
         {
             toReturn = drawable->FindDrawable(key);
             if (toReturn != nullptr)
@@ -119,15 +124,19 @@ Drawable *AnimatedDrawable::FindDrawable(const std::string &key)
     return toReturn;
 }
 
-void AnimatedDrawable::AddFrame(Drawable *frame)
+void AnimatedDrawable::AddFrame(Drawable * frame)
 {
     _frames.emplace_back(frame);
 }
 
-void AnimatedDrawable::RemoveFrame(const std::string &key)
+void AnimatedDrawable::RemoveFrame(const std::string & key)
 {
-    _frames.erase(
-        alg::remove_if(_frames, [key](const std::unique_ptr<Drawable> &drawable) { return key == drawable->key(); }));
+    _frames.erase(alg::remove_if(
+        _frames,
+        [key](const std::unique_ptr<Drawable> & drawable)
+        {
+            return key == drawable->key();
+        }));
 }
 
 void AnimatedDrawable::ResetAnimation()
@@ -148,8 +157,9 @@ int AnimatedDrawable::NumberOfFrames()
 /* getters and setters */
 Vector2f AnimatedDrawable::size()
 {
-    return VectorMath::ComponentMultiplication(_frames[_curFrame]->size(),
-                                               Vector2f(std::abs(_scale.x), std::abs(_scale.y)));
+    return VectorMath::ComponentMultiplication(
+        _frames[_curFrame]->size(),
+        Vector2f(std::abs(_scale.x), std::abs(_scale.y)));
 }
 
 int AnimatedDrawable::alpha()
@@ -159,7 +169,7 @@ int AnimatedDrawable::alpha()
 
 void AnimatedDrawable::alpha(int newAlpha)
 {
-    for (auto &frame : _frames)
+    for (auto & frame : _frames)
     {
         frame->alpha(newAlpha);
     }
@@ -171,3 +181,5 @@ Vector2f AnimatedDrawable::position(Vector2f entityPosition)
     auto size = this->size();
     return entityPosition - Vector2f(size.x * _anchor.x, size.y * _anchor.y);
 }
+
+} // namespace ild

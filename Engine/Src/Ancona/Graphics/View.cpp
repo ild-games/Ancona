@@ -29,34 +29,31 @@
 
 using namespace ild;
 
-View::View()
-    : _center(), _size(), _rotation(0), _viewport(0, 0, 1, 1), _transformUpdated(false), _invTransformUpdated(false)
+View::View() : _center(), _size(), _rotation(0), _viewport(0, 0, 1, 1)
 {
     Reset(FloatRect(0, 0, 1000, 1000));
 }
 
-View::View(const FloatRect &rectangle)
-    : _center(), _size(), _rotation(0), _viewport(0, 0, 1, 1), _transformUpdated(false), _invTransformUpdated(false)
+View::View(const FloatRect & rectangle) : _center(), _size(), _rotation(0), _viewport(0, 0, 1, 1)
 {
     Reset(rectangle);
 }
 
-View::View(const Vector2f &center, const Vector2f &size)
-    : _center(center), _size(size), _rotation(0), _viewport(0, 0, 1, 1), _transformUpdated(false),
-      _invTransformUpdated(false)
+View::View(const Vector2f & center, const Vector2f & size) :
+        _center(center),
+        _size(size),
+        _rotation(0),
+        _viewport(0, 0, 1, 1)
 {
 }
 
-void View::Reset(const FloatRect &rectangle)
+void View::Reset(const FloatRect & rectangle)
 {
     _center.x = rectangle.left + rectangle.width / 2.f;
     _center.y = rectangle.top + rectangle.height / 2.f;
     _size.x = rectangle.width;
     _size.y = rectangle.height;
     _rotation = 0;
-
-    _transformUpdated = false;
-    _invTransformUpdated = false;
 }
 
 void View::Move(float offsetX, float offsetY)
@@ -64,7 +61,7 @@ void View::Move(float offsetX, float offsetY)
     center(_center.x + offsetX, _center.y + offsetY);
 }
 
-void View::Move(const Vector2f &offset)
+void View::Move(const Vector2f & offset)
 {
     center(_center + offset);
 }
@@ -79,30 +76,15 @@ void View::Zoom(float factor)
     size(_size.x * factor, _size.y * factor);
 }
 
-const Transform &View::InverseTransform() const
-{
-    // Recompute the matrix if needed
-    if (!_invTransformUpdated)
-    {
-        _inverseTransform = transform().Inverse();
-        _invTransformUpdated = true;
-    }
-
-    return _inverseTransform;
-}
-
 /* getters and setters */
 
 void View::center(float x, float y)
 {
     _center.x = x;
     _center.y = y;
-
-    _transformUpdated = false;
-    _invTransformUpdated = false;
 }
 
-void View::center(const Vector2f &centerPoint)
+void View::center(const Vector2f & centerPoint)
 {
     center(centerPoint.x, centerPoint.y);
 }
@@ -111,12 +93,9 @@ void View::size(float width, float height)
 {
     _size.x = width;
     _size.y = height;
-
-    _transformUpdated = false;
-    _invTransformUpdated = false;
 }
 
-void View::size(const Vector2f &newSize)
+void View::size(const Vector2f & newSize)
 {
     size(newSize.x, newSize.y);
 }
@@ -128,33 +107,9 @@ void View::rotation(float angle)
     {
         _rotation += 360.f;
     }
-
-    _transformUpdated = false;
-    _invTransformUpdated = false;
 }
 
-const Transform &View::transform() const
+const Transform & View::transform() const
 {
-    // Recompute the matrix if needed
-    if (!_transformUpdated)
-    {
-        // Rotation components
-        float angle = _rotation * 3.141592654f / 180.f;
-        float cosine = static_cast<float>(std::cos(angle));
-        float sine = static_cast<float>(std::sin(angle));
-        float tx = -_center.x * cosine - _center.y * sine + _center.x;
-        float ty = _center.x * sine - _center.y * cosine + _center.y;
-
-        // Projection components
-        float a = 2.f / _size.x;
-        float b = -2.f / _size.y;
-        float c = -a * _center.x;
-        float d = -b * _center.y;
-
-        // Rebuild the projection matrix
-        _transform = Transform(a * cosine, a * sine, a * tx + c, -b * sine, b * cosine, b * ty + d, 0.f, 0.f, 1.f);
-        _transformUpdated = true;
-    }
-
     return _transform;
 }

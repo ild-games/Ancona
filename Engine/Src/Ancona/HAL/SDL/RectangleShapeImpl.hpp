@@ -1,7 +1,4 @@
-#ifndef Ancona_HAL_SFML_RectangleShapeImpl_H_
-#define Ancona_HAL_SFML_RectangleShapeImpl_H_
-
-#include <SFML/Graphics.hpp>
+#pragma once
 
 #include <Ancona/HAL/RectangleShape.hpp>
 #include <Ancona/HAL/SDL/ShapeImpl.hpp>
@@ -14,16 +11,8 @@ namespace priv
 
 class RectangleShapeImpl : public ShapeImpl
 {
-  public:
-    RectangleShapeImpl();
-    explicit RectangleShapeImpl(const sf::Vector2f & size);
-
-    /* getters and setters */
-    sf::RectangleShape & sfmlRectangleShape() const;
 };
 
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

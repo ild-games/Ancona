@@ -1,4 +1,4 @@
-// Altered SFML Transform.cpp for Ancona's namespace
+// Altered SFML Transformable.cpp for Ancona's namespace
 
 ////////////////////////////////////////////////////////////
 //
@@ -24,230 +24,196 @@
 //
 ////////////////////////////////////////////////////////////
 
-#include <Ancona/Graphics/Transform.hpp>
 #include <cmath>
+
+#include <Ancona/Graphics/Transform.hpp>
 
 namespace ild
 {
 
-const Transform Transform::Identity;
-
-Transform::Transform()
+Transform::Transform() :
+        _origin(0, 0),
+        _position(0, 0),
+        _rotation(0),
+        _scale(1, 1),
+        _transform(),
+        _transformNeedUpdate(true),
+        _inverseTransform(),
+        _inverseTransformNeedUpdate(true)
 {
-    // Identity matrix
-    m_matrix[0] = 1.f;
-    m_matrix[4] = 0.f;
-    m_matrix[8] = 0.f;
-    m_matrix[12] = 0.f;
-    m_matrix[1] = 0.f;
-    m_matrix[5] = 1.f;
-    m_matrix[9] = 0.f;
-    m_matrix[13] = 0.f;
-    m_matrix[2] = 0.f;
-    m_matrix[6] = 0.f;
-    m_matrix[10] = 1.f;
-    m_matrix[14] = 0.f;
-    m_matrix[3] = 0.f;
-    m_matrix[7] = 0.f;
-    m_matrix[11] = 0.f;
-    m_matrix[15] = 1.f;
 }
 
-Transform::Transform(float a00, float a01, float a02, float a10, float a11, float a12, float a20, float a21, float a22)
+void Transform::Move(float offsetX, float offsetY)
 {
-    m_matrix[0] = a00;
-    m_matrix[4] = a01;
-    m_matrix[8] = 0.f;
-    m_matrix[12] = a02;
-    m_matrix[1] = a10;
-    m_matrix[5] = a11;
-    m_matrix[9] = 0.f;
-    m_matrix[13] = a12;
-    m_matrix[2] = 0.f;
-    m_matrix[6] = 0.f;
-    m_matrix[10] = 1.f;
-    m_matrix[14] = 0.f;
-    m_matrix[3] = a20;
-    m_matrix[7] = a21;
-    m_matrix[11] = 0.f;
-    m_matrix[15] = a22;
+    position(_position.x + offsetX, _position.y + offsetY);
 }
 
-const float *Transform::matrix() const
+void Transform::Move(const Vector2f & offset)
 {
-    return m_matrix;
+    position(_position.x + offset.x, _position.y + offset.y);
 }
 
-Transform Transform::Inverse() const
+void Transform::Rotate(float angle)
 {
-    // Compute the determinant
-    float det = m_matrix[0] * (m_matrix[15] * m_matrix[5] - m_matrix[7] * m_matrix[13]) -
-                m_matrix[1] * (m_matrix[15] * m_matrix[4] - m_matrix[7] * m_matrix[12]) +
-                m_matrix[3] * (m_matrix[13] * m_matrix[4] - m_matrix[5] * m_matrix[12]);
-
-    // Compute the inverse if the determinant is not zero
-    // (don't use an epsilon because the determinant may *really* be tiny)
-    if (det != 0.f)
-    {
-        return Transform((m_matrix[15] * m_matrix[5] - m_matrix[7] * m_matrix[13]) / det,
-                         -(m_matrix[15] * m_matrix[4] - m_matrix[7] * m_matrix[12]) / det,
-                         (m_matrix[13] * m_matrix[4] - m_matrix[5] * m_matrix[12]) / det,
-                         -(m_matrix[15] * m_matrix[1] - m_matrix[3] * m_matrix[13]) / det,
-                         (m_matrix[15] * m_matrix[0] - m_matrix[3] * m_matrix[12]) / det,
-                         -(m_matrix[13] * m_matrix[0] - m_matrix[1] * m_matrix[12]) / det,
-                         (m_matrix[7] * m_matrix[1] - m_matrix[3] * m_matrix[5]) / det,
-                         -(m_matrix[7] * m_matrix[0] - m_matrix[3] * m_matrix[4]) / det,
-                         (m_matrix[5] * m_matrix[0] - m_matrix[1] * m_matrix[4]) / det);
-    }
-    else
-    {
-        return Identity;
-    }
+    rotation(_rotation + angle);
 }
 
-Vector2f Transform::TransformPoint(float x, float y) const
+void Transform::Scale(float factorX, float factorY)
 {
-    return Vector2f(m_matrix[0] * x + m_matrix[4] * y + m_matrix[12], m_matrix[1] * x + m_matrix[5] * y + m_matrix[13]);
+    scale(_scale.x * factorX, _scale.y * factorY);
 }
 
-Vector2f Transform::TransformPoint(const Vector2f &point) const
+void Transform::Scale(const Vector2f & factor)
 {
-    return TransformPoint(point.x, point.y);
+    scale(_scale.x * factor.x, _scale.y * factor.y);
 }
 
-FloatRect Transform::TransformRect(const FloatRect &rectangle) const
+Transform & Transform::Combine(const Transform & combineWith)
 {
-    // Transform the 4 corners of the rectangle
-    const Vector2f points[] = {TransformPoint(rectangle.left, rectangle.top),
-                               TransformPoint(rectangle.left, rectangle.top + rectangle.height),
-                               TransformPoint(rectangle.left + rectangle.width, rectangle.top),
-                               TransformPoint(rectangle.left + rectangle.width, rectangle.top + rectangle.height)};
+    _origin += combineWith._origin;
+    _position += combineWith._position;
+    _rotation += combineWith._rotation;
+    _scale += combineWith._scale;
 
-    // Compute the bounding rectangle of the transformed points
-    float left = points[0].x;
-    float top = points[0].y;
-    float right = points[0].x;
-    float bottom = points[0].y;
-    for (int i = 1; i < 4; ++i)
-    {
-        if (points[i].x < left)
-            left = points[i].x;
-        else if (points[i].x > right)
-            right = points[i].x;
-        if (points[i].y < top)
-            top = points[i].y;
-        else if (points[i].y > bottom)
-            bottom = points[i].y;
-    }
-
-    return FloatRect(left, top, right - left, bottom - top);
-}
-
-Transform &Transform::Combine(const Transform &transform)
-{
-    const float *a = m_matrix;
-    const float *b = transform.m_matrix;
-
-    *this = Transform(a[0] * b[0] + a[4] * b[1] + a[12] * b[3], a[0] * b[4] + a[4] * b[5] + a[12] * b[7],
-                      a[0] * b[12] + a[4] * b[13] + a[12] * b[15], a[1] * b[0] + a[5] * b[1] + a[13] * b[3],
-                      a[1] * b[4] + a[5] * b[5] + a[13] * b[7], a[1] * b[12] + a[5] * b[13] + a[13] * b[15],
-                      a[3] * b[0] + a[7] * b[1] + a[15] * b[3], a[3] * b[4] + a[7] * b[5] + a[15] * b[7],
-                      a[3] * b[12] + a[7] * b[13] + a[15] * b[15]);
+    _transform = _transform.Combine(combineWith._transform);
+    _inverseTransform = _inverseTransform.Combine(combineWith._inverseTransform);
 
     return *this;
 }
 
-Transform &Transform::Translate(float x, float y)
-{
-    Transform translation(1, 0, x, 0, 1, y, 0, 0, 1);
+/* getters and setters */
 
-    return Combine(translation);
+void Transform::position(float x, float y)
+{
+    _position.x = x;
+    _position.y = y;
+    _transformNeedUpdate = true;
+    _inverseTransformNeedUpdate = true;
 }
 
-Transform &Transform::Translate(const Vector2f &offset)
+void Transform::position(const Vector2f & newPosition)
 {
-    return Translate(offset.x, offset.y);
+    position(newPosition.x, newPosition.y);
 }
 
-Transform &Transform::Rotate(float angle)
+void Transform::rotation(float angle)
 {
-    float rad = angle * 3.141592654f / 180.f;
-    float cos = std::cos(rad);
-    float sin = std::sin(rad);
+    _rotation = static_cast<float>(fmod(angle, 360));
+    if (_rotation < 0)
+    {
+        _rotation += 360.f;
+    }
 
-    Transform rotation(cos, -sin, 0, sin, cos, 0, 0, 0, 1);
-
-    return Combine(rotation);
+    _transformNeedUpdate = true;
+    _inverseTransformNeedUpdate = true;
 }
 
-Transform &Transform::Rotate(float angle, float centerX, float centerY)
+void Transform::scale(float factorX, float factorY)
 {
-    float rad = angle * 3.141592654f / 180.f;
-    float cos = std::cos(rad);
-    float sin = std::sin(rad);
-
-    Transform rotation(cos, -sin, centerX * (1 - cos) + centerY * sin, sin, cos, centerY * (1 - cos) - centerX * sin, 0,
-                       0, 1);
-
-    return Combine(rotation);
+    _scale.x = factorX;
+    _scale.y = factorY;
+    _transformNeedUpdate = true;
+    _inverseTransformNeedUpdate = true;
 }
 
-Transform &Transform::Rotate(float angle, const Vector2f &center)
+void Transform::scale(const Vector2f & factors)
 {
-    return Rotate(angle, center.x, center.y);
+    scale(factors.x, factors.y);
 }
 
-Transform &Transform::Scale(float scaleX, float scaleY)
+void Transform::origin(float x, float y)
 {
-    Transform scaling(scaleX, 0, 0, 0, scaleY, 0, 0, 0, 1);
-
-    return Combine(scaling);
+    _origin.x = x;
+    _origin.y = y;
+    _transformNeedUpdate = true;
+    _inverseTransformNeedUpdate = true;
 }
 
-Transform &Transform::Scale(float scaleX, float scaleY, float centerX, float centerY)
+void Transform::origin(const Vector2f & newOrigin)
 {
-    Transform scaling(scaleX, 0, centerX * (1 - scaleX), 0, scaleY, centerY * (1 - scaleY), 0, 0, 1);
-
-    return Combine(scaling);
+    origin(newOrigin.x, newOrigin.y);
 }
 
-Transform &Transform::Scale(const Vector2f &factors)
+const Vector2f & Transform::position() const
 {
-    return Scale(factors.x, factors.y);
+    return _position;
 }
 
-Transform &Transform::Scale(const Vector2f &factors, const Vector2f &center)
+float Transform::rotation() const
 {
-    return Scale(factors.x, factors.y, center.x, center.y);
+    return _rotation;
 }
 
-Transform operator*(const Transform &left, const Transform &right)
+const Vector2f & Transform::scale() const
 {
-    return Transform(left).Combine(right);
+    return _scale;
 }
 
-Transform &operator*=(Transform &left, const Transform &right)
+const Vector2f & Transform::origin() const
 {
-    return left.Combine(right);
+    return _origin;
 }
 
-Vector2f operator*(const Transform &left, const Vector2f &right)
+const MatrixTransform & Transform::transform() const
 {
-    return left.TransformPoint(right);
+    // Recompute the combined transform if needed
+    if (_transformNeedUpdate)
+    {
+        float angle = -_rotation * 3.141592654f / 180.f;
+        float cosine = static_cast<float>(std::cos(angle));
+        float sine = static_cast<float>(std::sin(angle));
+        float sxc = _scale.x * cosine;
+        float syc = _scale.y * cosine;
+        float sxs = _scale.x * sine;
+        float sys = _scale.y * sine;
+        float tx = -_origin.x * sxc - _origin.y * sys + _position.x;
+        float ty = _origin.x * sxs - _origin.y * syc + _position.y;
+
+        _transform = MatrixTransform(sxc, sys, tx, -sxs, syc, ty, 0.f, 0.f, 1.f);
+        _transformNeedUpdate = false;
+    }
+
+    return _transform;
 }
 
-bool operator==(const Transform &left, const Transform &right)
+const MatrixTransform & Transform::inverseTransform() const
 {
-    const float *a = left.matrix();
-    const float *b = right.matrix();
+    // Recompute the inverse transform if needed
+    if (_inverseTransformNeedUpdate)
+    {
+        _inverseTransform = transform().Inverse();
+        _inverseTransformNeedUpdate = false;
+    }
 
-    return ((a[0] == b[0]) && (a[1] == b[1]) && (a[3] == b[3]) && (a[4] == b[4]) && (a[5] == b[5]) && (a[7] == b[7]) &&
-            (a[12] == b[12]) && (a[13] == b[13]) && (a[15] == b[15]));
+    return _inverseTransform;
 }
 
-bool operator!=(const Transform &left, const Transform &right)
+Transform operator*(const Transform & left, const Transform & right)
 {
-    return !(left == right);
+    Transform newTransform = left;
+    newTransform._transform = left._transform * right._transform;
+    return newTransform;
+}
+
+Transform & operator*=(Transform & left, const Transform & right)
+{
+    left._transform *= right._transform;
+    return left;
+}
+
+Vector2f operator*(const Transform & left, const Vector2f & right)
+{
+    return left._transform.TransformPoint(right);
+}
+
+bool operator==(const Transform & left, const Transform & right)
+{
+    return left._transform == right._transform;
+}
+
+bool operator!=(const Transform & left, const Transform & right)
+{
+    return !(left._transform == right._transform);
 }
 
 } // namespace ild

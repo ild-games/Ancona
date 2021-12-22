@@ -1,5 +1,4 @@
-#ifndef Ancona_HAL_SFML_TransformImpl_H_
-#define Ancona_HAL_SFML_TransformImpl_H_
+#pragma once
 
 #include <SFML/Graphics.hpp>
 
@@ -13,12 +12,10 @@ namespace priv
 
 namespace TransformImpl
 {
-ild::Transform TranslateSfmlToAncona(const sf::Transform &transform);
-sf::Transform TranslateAnconaToSfml(const ild::Transform &transform);
+ild::Transform TranslateSfmlToAncona(const sf::Transform & transform);
+sf::Transform TranslateAnconaToSfml(const ild::Transform & transform);
 } // namespace TransformImpl
 
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

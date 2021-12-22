@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Core_Systems_ContainerDrawable_H_
-#define Ancona_Engine_Core_Systems_ContainerDrawable_H_
+#pragma once
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Graphics/Transform.hpp>
@@ -19,9 +18,7 @@ class ContainerDrawable : public Drawable
     /**
      * @brief Default constructor, should only be used by the serializer.
      */
-    ContainerDrawable()
-    {
-    }
+    ContainerDrawable() {}
 
     /**
      * @brief Constructs a ContainerDrawable
@@ -32,51 +29,48 @@ class ContainerDrawable : public Drawable
      *                       position if it is the top drawable.
      *
      */
-    ContainerDrawable(const float priority, const std::string &key, float priorityOffset = 0,
-                      Vector2f anchor = Vector2f(0.0f, 0.0f));
+    ContainerDrawable(
+        const float priority,
+        const std::string & key,
+        float priorityOffset = 0,
+        Vector2f anchor = Vector2f(0.0f, 0.0f));
 
-    Drawable *Copy() override;
+    Drawable * Copy() override;
     void PostDrawUpdate(float delta) override;
 
     /**
      * @copydoc ild::CameraComponent::Serialize
      */
-    void Serialize(Archive &arc) override;
+    void Serialize(Archive & arc) override;
 
     /**
      * @copydoc ild::CameraComponent::FetchDependencies
      */
-    void FetchDependencies(const Entity &entity) override;
+    void FetchDependencies(const Entity & entity) override;
 
     /**
      * @brief Adds a drawable to the container drawable
      *
      * @param Drawable pointer to Drawable to add
      */
-    void AddDrawable(Drawable *drawable);
+    void AddDrawable(Drawable * drawable);
 
     /**
      * @brief Removes a drawable from the container drawable
      *
      * @param key Key of the drawable to delete.
      */
-    void RemoveDrawable(const std::string &key);
+    void RemoveDrawable(const std::string & key);
 
     /**
      * @copydoc ild::Drawable::FindDrawable
      */
-    Drawable *FindDrawable(const std::string &key) override;
+    Drawable * FindDrawable(const std::string & key) override;
 
     typedef std::vector<std::shared_ptr<Drawable>>::iterator iterator;
 
-    iterator begin()
-    {
-        return _drawables.begin();
-    }
-    iterator end()
-    {
-        return _drawables.end();
-    }
+    iterator begin() { return _drawables.begin(); }
+    iterator end() { return _drawables.end(); }
 
     /* getters and setters */
     Vector2f size() override;
@@ -88,9 +82,7 @@ class ContainerDrawable : public Drawable
     std::vector<std::shared_ptr<Drawable>> _drawables;
 
     void SortDrawables();
-    void OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta) override;
+    void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
 };
 
 } // namespace ild
-
-#endif

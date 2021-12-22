@@ -8,17 +8,29 @@
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
-using namespace ild;
+namespace ild
+{
 
 /* Component */
 CameraComponent::CameraComponent() : _offset(Vector2f(0, 0))
 {
 }
 
-CameraComponent::CameraComponent(const View &originalView, float renderPriority, DrawableSystem *drawableSystem,
-                                 float scale, Vector2f offset, Vector2f upperBounds, Vector2f lowerBounds)
-    : _view(View(originalView)), _renderPriority(renderPriority), _scale(scale), _offset(offset),
-      _lowerBounds(lowerBounds), _upperBounds(upperBounds), _drawableSystem(drawableSystem)
+CameraComponent::CameraComponent(
+    const View & originalView,
+    float renderPriority,
+    DrawableSystem * drawableSystem,
+    float scale,
+    Vector2f offset,
+    Vector2f upperBounds,
+    Vector2f lowerBounds) :
+        _view(View(originalView)),
+        _renderPriority(renderPriority),
+        _scale(scale),
+        _offset(offset),
+        _lowerBounds(lowerBounds),
+        _upperBounds(upperBounds),
+        _drawableSystem(drawableSystem)
 {
 }
 
@@ -26,25 +38,31 @@ void CameraComponent::Update(float delta)
 {
 }
 
-void CameraComponent::Draw(ildhal::RenderTarget &target, ildhal::Window &window, float delta)
+void CameraComponent::Draw(ildhal::RenderTarget & target, ildhal::Window & window, float delta)
 {
     auto effectivePosition = GetEffectiveCenter();
     _view.center(effectivePosition.x, effectivePosition.y);
 
-    Box2 cameraBounds(Vector2f(_view.center().x - (_view.size().x), _view.center().y - (_view.size().y)),
-                      Vector2f(_view.size().x * 2.0f, _view.size().y * 2.0f), Vector2f(), _view.rotation());
+    Box2 cameraBounds(
+        Vector2f(_view.center().x - (_view.size().x), _view.center().y - (_view.size().y)),
+        Vector2f(_view.size().x * 2.0f, _view.size().y * 2.0f),
+        Vector2f(),
+        _view.rotation());
 
     ApplyLetterboxView(window.size().x, window.size().y);
     target.view(_view);
 
     if (!_sorted)
     {
-        alg::sort(_renderQueue, [](DrawableComponent *lhs, DrawableComponent *rhs) {
-            return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
-        });
+        alg::sort(
+            _renderQueue,
+            [](DrawableComponent * lhs, DrawableComponent * rhs)
+            {
+                return lhs->topDrawable()->renderPriority() < rhs->topDrawable()->renderPriority();
+            });
     }
 
-    for (DrawableComponent *drawable : _renderQueue)
+    for (DrawableComponent * drawable : _renderQueue)
     {
         auto drawableBox = drawable->BoundingBox();
         if (cameraBounds.Intersects(drawableBox))
@@ -57,7 +75,7 @@ void CameraComponent::Draw(ildhal::RenderTarget &target, ildhal::Window &window,
 
 void CameraComponent::ApplyLetterboxView(int windowWidth, int windowHeight)
 {
-    float windowRatio = (float)windowWidth / (float)windowHeight;
+    float windowRatio = (float) windowWidth / (float) windowHeight;
     float viewRatio = _view.size().x / _view.size().y;
     float sizeX = 1.0f;
     float sizeY = 1.0f;
@@ -96,14 +114,14 @@ Vector2f CameraComponent::GetEffectiveCenter()
     return effectivePosition;
 }
 
-void CameraComponent::AddDrawableComponent(DrawableComponent *drawable)
+void CameraComponent::AddDrawableComponent(DrawableComponent * drawable)
 {
     ILD_Assert(!alg::contains(_renderQueue, drawable), "Can't add the same drawable twice.");
     _sorted = false;
     _renderQueue.push_back(drawable);
 }
 
-void CameraComponent::RemoveDrawableComponent(DrawableComponent *drawable)
+void CameraComponent::RemoveDrawableComponent(DrawableComponent * drawable)
 {
     if (std::find(_renderQueue.begin(), _renderQueue.end(), drawable) != _renderQueue.end())
     {
@@ -111,7 +129,7 @@ void CameraComponent::RemoveDrawableComponent(DrawableComponent *drawable)
     }
 }
 
-void CameraComponent::FetchDependencies(const Entity &entity)
+void CameraComponent::FetchDependencies(const Entity & entity)
 {
     if (_follows != nullentity)
     {
@@ -128,7 +146,7 @@ void CameraComponent::FetchDependencies(const Entity &entity)
     }
 }
 
-void CameraComponent::Serialize(Archive &arc)
+void CameraComponent::Serialize(Archive & arc)
 {
     arc(_renderPriority, "renderPriority");
     arc(_originalScale, "scale");
@@ -158,8 +176,8 @@ void CameraComponent::scale(float scale)
 }
 
 /* System */
-CameraSystem::CameraSystem(std::string name, SystemManager &manager)
-    : UnorderedSystem(name, manager, UpdateStep::Update)
+CameraSystem::CameraSystem(std::string name, SystemManager & manager) :
+        UnorderedSystem(name, manager, UpdateStep::Update)
 {
 }
 
@@ -171,10 +189,16 @@ void CameraSystem::Update(float delta)
     }
 }
 
-CameraComponent *CameraSystem::CreateComponent(const Entity &entity, const View &originalView, float renderPriority,
-                                               DrawableSystem *drawableSystem, float scale)
+CameraComponent * CameraSystem::CreateComponent(
+    const Entity & entity,
+    const View & originalView,
+    float renderPriority,
+    DrawableSystem * drawableSystem,
+    float scale)
 {
-    CameraComponent *comp = new CameraComponent(originalView, renderPriority, drawableSystem, scale);
+    CameraComponent * comp = new CameraComponent(originalView, renderPriority, drawableSystem, scale);
     AttachComponent(entity, comp);
     return comp;
 }
+
+} // namespace ild

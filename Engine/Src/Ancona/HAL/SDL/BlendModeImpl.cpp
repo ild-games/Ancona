@@ -31,26 +31,6 @@ namespace ildhal
 
 /* Pimpl Implementation */
 
-void priv::BlendModeImpl::TranslateSfmlToAncona(const sf::BlendMode & sfmlBlendMode, BlendMode & blendMode)
-{
-    blendMode.colorSrcFactor = (BlendMode::Factor) sfmlBlendMode.colorSrcFactor;
-    blendMode.colorDstFactor = (BlendMode::Factor) sfmlBlendMode.colorDstFactor;
-    blendMode.colorEquation = (BlendMode::Equation) sfmlBlendMode.colorEquation;
-    blendMode.alphaSrcFactor = (BlendMode::Factor) sfmlBlendMode.alphaSrcFactor;
-    blendMode.alphaDstFactor = (BlendMode::Factor) sfmlBlendMode.alphaDstFactor;
-    blendMode.alphaEquation = (BlendMode::Equation) sfmlBlendMode.alphaEquation;
-}
-
-void priv::BlendModeImpl::TranslateAnconaToSfml(const BlendMode & blendMode, sf::BlendMode & sfmlBlendMode)
-{
-    sfmlBlendMode.colorSrcFactor = (sf::BlendMode::Factor) blendMode.colorSrcFactor;
-    sfmlBlendMode.colorDstFactor = (sf::BlendMode::Factor) blendMode.colorDstFactor;
-    sfmlBlendMode.colorEquation = (sf::BlendMode::Equation) blendMode.colorEquation;
-    sfmlBlendMode.alphaSrcFactor = (sf::BlendMode::Factor) blendMode.alphaSrcFactor;
-    sfmlBlendMode.alphaDstFactor = (sf::BlendMode::Factor) blendMode.alphaDstFactor;
-    sfmlBlendMode.alphaEquation = (sf::BlendMode::Equation) blendMode.alphaEquation;
-}
-
 /* HAL Interface Implementation */
 
 ////////////////////////////////////////////////////////////

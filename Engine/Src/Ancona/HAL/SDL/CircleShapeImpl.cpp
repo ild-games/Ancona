@@ -8,16 +8,6 @@ namespace ildhal
 
 /* Pimpl Implementation */
 
-priv::CircleShapeImpl::CircleShapeImpl()
-{
-    _sfmlDrawable = std::make_unique<sf::CircleShape>();
-}
-
-sf::CircleShape & priv::CircleShapeImpl::sfmlCircleShape() const
-{
-    return static_cast<sf::CircleShape &>(*_sfmlDrawable);
-}
-
 /* HAL Interface Implementation */
 
 CircleShape::CircleShape()
@@ -27,12 +17,11 @@ CircleShape::CircleShape()
 
 void CircleShape::radius(float radius)
 {
-    circleShapeImpl().sfmlCircleShape().setRadius(radius);
 }
 
 float CircleShape::radius() const
 {
-    return circleShapeImpl().sfmlCircleShape().getRadius();
+    return 0.0f;
 }
 
 priv::CircleShapeImpl & CircleShape::circleShapeImpl() const

@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Core_Systems_AnimatedDrawable_H_
-#define Ancona_Engine_Core_Systems_AnimatedDrawable_H_
+#pragma once
 
 #include <Ancona/Core2D/Systems/Drawable/Drawable.hpp>
 #include <Ancona/Graphics/Transform.hpp>
@@ -20,9 +19,7 @@ class AnimatedDrawable : public Drawable
     /**
      * @brief Default constructor, should only be used by the serializer.
      */
-    AnimatedDrawable()
-    {
-    }
+    AnimatedDrawable() {}
 
     /**
      * @brief Constructs an AnimatedDrawable
@@ -32,40 +29,44 @@ class AnimatedDrawable : public Drawable
      * @param priorityOffset Optional offset to the render priority.
      * @param anchor Vector that defines the offset from its parent drawable.
      */
-    AnimatedDrawable(const float priority, const std::string &key, float duration, float priorityOffset = 0,
-                     Vector2f anchor = Vector2f(0.0f, 0.0f));
+    AnimatedDrawable(
+        const float priority,
+        const std::string & key,
+        float duration,
+        float priorityOffset = 0,
+        Vector2f anchor = Vector2f(0.0f, 0.0f));
 
-    Drawable *Copy() override;
+    Drawable * Copy() override;
     void PostDrawUpdate(float delta) override;
 
     /**
      * @copydoc ild::CameraComponent::Serialize
      */
-    void Serialize(Archive &arc) override;
+    void Serialize(Archive & arc) override;
 
     /**
      * @copydoc ild::CameraComponent::FetchDependencies
      */
-    void FetchDependencies(const Entity &entity) override;
+    void FetchDependencies(const Entity & entity) override;
 
     /**
      * @brief Adds a frame to the AnimatedDrawable
      *
      * @param Drawable to add as frame.
      */
-    void AddFrame(Drawable *frame);
+    void AddFrame(Drawable * frame);
 
     /**
      * @brief Removes a frame from the AnimatedDrawable
      *
      * @param key Key of drawable to remove.
      */
-    void RemoveFrame(const std::string &key);
+    void RemoveFrame(const std::string & key);
 
     /**
      * @copydoc ild::Drawable::FindDrawable
      */
-    Drawable *FindDrawable(const std::string &key) override;
+    Drawable * FindDrawable(const std::string & key) override;
 
     /**
      * Reset the Animation to the first frame.
@@ -92,22 +93,10 @@ class AnimatedDrawable : public Drawable
     Vector2f position(Vector2f entityPosition) override;
     int alpha() override;
     void alpha(int alpha) override;
-    void duration(float duration)
-    {
-        _duration = duration;
-    }
-    float duration()
-    {
-        return _duration;
-    }
-    void loopOnce(bool loopOnce)
-    {
-        _loopOnce = loopOnce;
-    }
-    unsigned int curFrame()
-    {
-        return _curFrame;
-    }
+    void duration(float duration) { _duration = duration; }
+    float duration() { return _duration; }
+    void loopOnce(bool loopOnce) { _loopOnce = loopOnce; }
+    unsigned int curFrame() { return _curFrame; }
 
   private:
     std::vector<std::unique_ptr<Drawable>> _frames;
@@ -118,9 +107,7 @@ class AnimatedDrawable : public Drawable
 
     void Tick(float delta);
     void AdvanceFrame();
-    void OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta) override;
+    void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
 };
 
 } // namespace ild
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Core_Systems_Drawable_H_
-#define Ancona_Engine_Core_Systems_Drawable_H_
+#pragma once
 
 #include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
@@ -24,6 +23,7 @@ enum RenderPriority
     Player = 0,
     Foreground = 1000,
 };
+
 } // namespace RenderPriority
 
 /**
@@ -43,16 +43,13 @@ class DrawableComponent;
  */
 class Drawable
 {
-
   public:
     /**
      * @brief Default constructor, should only be used by the serializer.
      */
-    Drawable()
-    {
-    }
+    Drawable() {}
 
-    virtual ~Drawable(){};
+    virtual ~Drawable() {};
 
     /**
      * @brief Constructs a Drawable.
@@ -62,8 +59,11 @@ class Drawable
      * @param priorityOffset Optional offset to the render priority.
      * @param anchor Vector that defines the offset from its parent drawable.
      */
-    Drawable(const float priority, const std::string &key, float priorityOffset = 0,
-             Vector2f anchor = Vector2f(0.0f, 0.0f));
+    Drawable(
+        const float priority,
+        const std::string & key,
+        float priorityOffset = 0,
+        Vector2f anchor = Vector2f(0.0f, 0.0f));
 
     /**
      * @brief Draws the object to the window.
@@ -71,24 +71,22 @@ class Drawable
      * @param window RenderWindow for the game.
      * @param parentTransform Transform of the parent drawable.
      */
-    void Draw(ildhal::RenderTarget &target, Transform parentTransform, float delta);
+    void Draw(ildhal::RenderTarget & target, Transform parentTransform, float delta);
 
-    virtual void PostDrawUpdate(float delta)
-    {
-    }
+    virtual void PostDrawUpdate(float delta) {}
 
-    virtual Drawable *Copy() = 0;
-    void CopyProperties(Drawable *drawable);
+    virtual Drawable * Copy() = 0;
+    void CopyProperties(Drawable * drawable);
 
     /**
      * @copydoc ild::CameraComponent::FetchDependencies
      */
-    virtual void FetchDependencies(const Entity &entity);
+    virtual void FetchDependencies(const Entity & entity);
 
     /**
      * @copydoc ild::CameraComponent::Serialize
      */
-    virtual void Serialize(Archive &arc);
+    virtual void Serialize(Archive & arc);
 
     /**
      * Sets the direction of the drawable in the x axis.
@@ -112,45 +110,18 @@ class Drawable
      *
      * @returns Pointer to the drawable, nullptr if no such drawable exists.
      */
-    virtual Drawable *FindDrawable(const std::string &key);
+    virtual Drawable * FindDrawable(const std::string & key);
 
     /* getters and setters */
-    float renderPriority() const
-    {
-        return _renderPriority + _priorityOffset;
-    }
-    void renderPriority(const float renderPriority)
-    {
-        _renderPriority = renderPriority;
-    }
-    void priorityOffset(const float priorityOffset)
-    {
-        _priorityOffset = priorityOffset;
-    }
-    Vector2f anchor()
-    {
-        return _anchor;
-    }
-    void anchor(Vector2f anchor)
-    {
-        _anchor = anchor;
-    }
-    float rotation()
-    {
-        return _rotation;
-    }
-    Vector2f scale()
-    {
-        return _scale;
-    }
-    void rotation(float rotation)
-    {
-        _rotation = rotation;
-    }
-    void scale(Vector2f scale)
-    {
-        _scale = scale;
-    };
+    float renderPriority() const { return _renderPriority + _priorityOffset; }
+    void renderPriority(const float renderPriority) { _renderPriority = renderPriority; }
+    void priorityOffset(const float priorityOffset) { _priorityOffset = priorityOffset; }
+    Vector2f anchor() { return _anchor; }
+    void anchor(Vector2f anchor) { _anchor = anchor; }
+    float rotation() { return _rotation; }
+    Vector2f scale() { return _scale; }
+    void rotation(float rotation) { _rotation = rotation; }
+    void scale(Vector2f scale) { _scale = scale; };
     /**
      * @brief The actual position of a drawable takes in the position from the position component
      *        and also takes into account the anchor of the drawable which might change it's true
@@ -164,22 +135,10 @@ class Drawable
     virtual Vector2f size() = 0;
     virtual int alpha() = 0;
     virtual void alpha(int alpha) = 0;
-    std::string key()
-    {
-        return _key;
-    }
-    void key(const std::string &key)
-    {
-        _key = key;
-    }
-    bool inactive()
-    {
-        return _inactive;
-    }
-    void inactive(bool inactive)
-    {
-        _inactive = inactive;
-    }
+    std::string key() { return _key; }
+    void key(const std::string & key) { _key = key; }
+    bool inactive() { return _inactive; }
+    void inactive(bool inactive) { _inactive = inactive; }
 
   protected:
     /**
@@ -214,11 +173,9 @@ class Drawable
   private:
     Transform CalculateTransforms();
 
-    virtual void OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta) = 0;
+    virtual void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) = 0;
 };
 
 } // namespace ild
 
 GENERATE_ABSTRACT_CLASS_CONSTRUCTOR(ild::Drawable)
-
-#endif

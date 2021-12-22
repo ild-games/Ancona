@@ -29,6 +29,9 @@
 #include <Ancona/Graphics/Color.hpp>
 #include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL/Drawable.hpp>
+#include <Ancona/HAL/RenderStates.hpp>
+#include <Ancona/HAL/RenderTarget.hpp>
+#include <Ancona/Util/Vector2.hpp>
 
 namespace ildhal
 {
@@ -45,6 +48,11 @@ class Sprite : public Drawable
   public:
     Sprite();
     Sprite(const Texture & texture, const ild::IntRect & rectangle);
+
+    void Draw(
+        ildhal::RenderTarget & renderTarget,
+        const ildhal::RenderStates & renderStates,
+        const ild::Vector2f & size);
 
     /* getters and setters */
     void origin(const ild::Vector2f & newOrigin);
