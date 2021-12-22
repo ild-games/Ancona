@@ -31,7 +31,7 @@
             "repository" : {
                 "type" : "git",
                 "location" : "https://github.com/SFML/SFML",
-                "branch": "tags/2.5.1"
+                "commit": "c824d3d57a5ef905a4453c9c2fde892c2aa8737b"
             },
             "buildSystem" : "cmake",
             "patches" : [
@@ -60,7 +60,12 @@
                 "commit": "9c135204fba642a2bb8d3f892bc56a8f63b31e58"
             },
             "buildSystem" : "cmake",
-            "preloadCacheScript": "cmake/deps/configureSDL_image.cmake",
+            "configOptions": [
+                {
+                    "name": "PNG_ARM_NEON",
+                    "value": "off"
+                }
+            ],
             "patches": [
                 "Patches/SDL2_image_add_install_step_to_cmake.patch"
             ]

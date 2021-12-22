@@ -7,9 +7,8 @@ include (${RAFT})
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/BuildTools/Modules)
 
-#Set C++ Version to C++14
-set(CMAKE_CXX_STANDARD 14)
-
+#Set C++ Version to C++17
+set(CMAKE_CXX_STANDARD 17)
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" AND NOT ANDROID AND NOT IOS AND NOT WIN32)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
 endif()
@@ -27,7 +26,6 @@ endif()
 set (ANCONA_HAL_ID "SDL")
 
 include_directories(Engine/Src)
-
 
 set (ANCONA_LIBS
     Ancona_Core
