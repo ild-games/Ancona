@@ -51,6 +51,11 @@ class RenderStates
     RenderStates(const ild::Transform & transform);
     RenderStates(const BlendMode & blendMode, const ild::Transform & transform, const Texture & texture);
 
+    /* getters and setters */
+    void blendMode(const ildhal::BlendMode & newBlendMode);
+    void transform(const ild::Transform & newTransform);
+    void size(const ild::Vector2f & newSize);
+
     priv::RenderStatesImpl & renderStatesImpl() const { return *_pimpl; }
 
   private:

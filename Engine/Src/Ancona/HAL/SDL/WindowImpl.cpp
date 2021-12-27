@@ -53,6 +53,7 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
 {
     priv::EventImpl::PopulateSdlToAnconaKeycodeMap();
 
+    // SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     SDL_Init(SDL_INIT_EVERYTHING);
 
     uint32_t windowFlags = SDL_WINDOW_SHOWN;
@@ -64,8 +65,13 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
     SDL_Window * window =
         SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, windowFlags);
 
-    uint32_t rendererFlags = useVsync ? SDL_RENDERER_PRESENTVSYNC : 0x0;
+    uint32_t rendererFlags = ((useVsync ? SDL_RENDERER_PRESENTVSYNC : 0x0) | (SDL_RENDERER_ACCELERATED));
     SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, rendererFlags);
+    SDL_RendererInfo rendererInfo;
+    if (SDL_GetRendererInfo(renderer, &rendererInfo) == 0)
+    {
+        ILD_Log("Renderer name: " << std::string(rendererInfo.name));
+    }
 
     _pimpl = std::make_unique<priv::WindowImpl>(window, renderer);
 }

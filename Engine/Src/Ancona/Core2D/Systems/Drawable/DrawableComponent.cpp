@@ -5,6 +5,7 @@
 #include <Ancona/Core2D/Systems/Drawable/DrawableSystem.hpp>
 #include <Ancona/Core2D/Systems/PositionSystem.hpp>
 #include <Ancona/Graphics/Transform.hpp>
+#include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Math.hpp>
 
 namespace ild
@@ -29,7 +30,8 @@ Drawable * DrawableComponent::GetDrawable(const std::string & key)
 
 void DrawableComponent::Draw(ildhal::RenderTarget & target, float delta)
 {
-    _topDrawable->Draw(target, _positionComponent->interpolatedTransform(Game::InterpolationAlpha), delta);
+    const Transform & interpolatedTransform = _positionComponent->interpolatedTransform(Game::InterpolationAlpha);
+    _topDrawable->Draw(target, interpolatedTransform, delta);
 }
 
 void DrawableComponent::PostDrawUpdate(float delta)

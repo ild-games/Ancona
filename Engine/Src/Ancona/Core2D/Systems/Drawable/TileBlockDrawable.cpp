@@ -6,7 +6,8 @@
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::TileBlockDrawable);
 
-using namespace ild;
+namespace ild
+{
 
 Drawable * TileBlockDrawable::Copy()
 {
@@ -20,11 +21,13 @@ Drawable * TileBlockDrawable::Copy()
 
 void TileBlockDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
-    // std::string * hello = nullptr;
-    // ILD_Log(*hello);
-    drawableTransform.Move(-(_tileSize.x * _numTiles.x * _anchor.x), -(_tileSize.y * _numTiles.y * _anchor.y));
+    if (!_vertexArray)
+    {
+        return;
+    }
+
     ildhal::RenderStates states(ildhal::BlendAlpha, drawableTransform, *_texture);
-    target.Draw(*_vertexArray, states);
+    _vertexArray->Draw(target, states);
 }
 
 void TileBlockDrawable::Serialize(Archive & arc)
@@ -42,14 +45,17 @@ void TileBlockDrawable::FetchDependencies(const Entity & entity)
 
 void TileBlockDrawable::InitializeVertexArray()
 {
-    if (_textureKey != "")
+    if (_textureKey == "")
     {
-        _texture = ResourceLibrary::Get<ildhal::Texture>(_textureKey);
-        _tileSize = Vector2f(_texture->size().x / 4, _texture->size().y / 4);
-        _numTiles = Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
-        _numVertices = std::ceil(_numTiles.x) * std::ceil(_numTiles.y) * NUM_VERTICES_PER_TILE;
-        SetupVertexBlock();
+        return;
     }
+
+    _texture = ResourceLibrary::Get<ildhal::Texture>(_textureKey);
+    _tileSize = Vector2f(_texture->size().x / 4, _texture->size().y / 4);
+    _numTiles = Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
+    _numVertices = std::ceil(_numTiles.x) * std::ceil(_numTiles.y) * NUM_VERTICES_PER_TILE;
+    SetupVertexBlock();
+    _vertexArray->origin(_tileSize.x * _numTiles.x * _anchor.x, _tileSize.y * _numTiles.y * _anchor.y);
 }
 
 void TileBlockDrawable::SetupVertexBlock()
@@ -80,25 +86,42 @@ void TileBlockDrawable::SetupVertexBlock()
 
 void TileBlockDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight)
 {
-    for (int whichVertex = 0; whichVertex < NUM_VERTICES_PER_TILE; whichVertex++)
-    {
-        float fractionPartX = whichXBlock < std::ceil(_numTiles.x) - 1 ? 0 : _numTiles.x - (int) _numTiles.x;
-        float fractionPartY = whichYBlock < std::ceil(_numTiles.y) - 1 ? 0 : _numTiles.y - (int) _numTiles.y;
-        int xVertexOffset = XVertexOffset(isLeftToRight, whichVertex);
-        int yVertexOffset = (whichVertex + 1) % 2;
-        int xTileToUse = XTileToUse(whichXBlock);
-        int yTileToUse = YTileToUse(whichYBlock);
+    // First triangle
+    VertexTileVert(0, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+    VertexTileVert(1, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+    VertexTileVert(2, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
 
-        float positionX = (whichXBlock * _tileSize.x) + (_tileSize.x * xVertexOffset) - (_tileSize.x * fractionPartX);
-        float positionY = (whichYBlock * _tileSize.y) + (_tileSize.y * yVertexOffset) - (_tileSize.y * fractionPartY);
-        _vertexArray->SetVertexPosition(vertexIndex, Vector2f(positionX, positionY));
+    // Second triangle
+    VertexTileVert(2, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+    VertexTileVert(1, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+    VertexTileVert(3, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+}
 
-        float texCoordsX = (xTileToUse * _tileSize.x) + ((BlockTileStartingPosition().x + xVertexOffset) * _tileSize.x);
-        float texCoordsY = (yTileToUse * _tileSize.y) + ((BlockTileStartingPosition().y + yVertexOffset) * _tileSize.y);
-        _vertexArray->SetVertexTexCoords(vertexIndex, Vector2f(texCoordsX, texCoordsY));
+void TileBlockDrawable::VertexTileVert(
+    int whichVertex,
+    int whichXBlock,
+    int whichYBlock,
+    int & vertexIndex,
+    bool isLeftToRight)
+{
+    float fractionPartX = whichXBlock < std::ceil(_numTiles.x) - 1 ? 0 : _numTiles.x - (int) _numTiles.x;
+    float fractionPartY = whichYBlock < std::ceil(_numTiles.y) - 1 ? 0 : _numTiles.y - (int) _numTiles.y;
+    int xVertexOffset = XVertexOffset(isLeftToRight, whichVertex);
+    int yVertexOffset = (whichVertex + 1) % 2;
+    int xTileToUse = XTileToUse(whichXBlock);
+    int yTileToUse = YTileToUse(whichYBlock);
 
-        vertexIndex++;
-    }
+    float positionX = (whichXBlock * _tileSize.x) + (_tileSize.x * xVertexOffset) - (_tileSize.x * fractionPartX);
+    float positionY = (whichYBlock * _tileSize.y) + (_tileSize.y * yVertexOffset) - (_tileSize.y * fractionPartY);
+    _vertexArray->SetVertexPosition(vertexIndex, Vector2f(positionX, positionY));
+
+    float texCoordsX = (xTileToUse * _tileSize.x) + ((BlockTileStartingPosition().x + xVertexOffset) * _tileSize.x);
+    float texCoordsY = (yTileToUse * _tileSize.y) + ((BlockTileStartingPosition().y + yVertexOffset) * _tileSize.y);
+    _vertexArray->SetVertexTexCoords(
+        vertexIndex,
+        Vector2f(texCoordsX / _texture->size().x, texCoordsY / _texture->size().y));
+
+    vertexIndex++;
 }
 
 Vector2i & TileBlockDrawable::BlockTileStartingPosition()
@@ -178,3 +201,5 @@ int TileBlockDrawable::YTileToUse(int whichYBlock)
         return 2;
     }
 }
+
+} // namespace ild

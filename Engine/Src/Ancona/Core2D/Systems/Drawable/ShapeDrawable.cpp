@@ -5,15 +5,21 @@
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::ShapeDrawable);
 
-using namespace ild;
+namespace ild
+{
 
-ShapeDrawable::ShapeDrawable(ildhal::Shape *shape, const float priorty, const std::string &key, float priorityOffset,
-                             Vector2f anchor)
-    : Drawable(priorty, key, priorityOffset, anchor), _shape(shape)
+ShapeDrawable::ShapeDrawable(
+    ildhal::Shape * shape,
+    const float priorty,
+    const std::string & key,
+    float priorityOffset,
+    Vector2f anchor) :
+        Drawable(priorty, key, priorityOffset, anchor),
+        _shape(shape)
 {
 }
 
-Drawable *ShapeDrawable::Copy()
+Drawable * ShapeDrawable::Copy()
 {
     ILD_Assert(false, "ShapeDrawable copy not implemented.");
     auto drawable = new ShapeDrawable();
@@ -21,19 +27,28 @@ Drawable *ShapeDrawable::Copy()
     return drawable;
 }
 
-void ShapeDrawable::OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta)
+void ShapeDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
+    if (!_shape)
+    {
+        return;
+    }
+
     ildhal::RenderStates states(drawableTransform);
     target.Draw(*_shape, states);
 }
 
-void ShapeDrawable::FetchDependencies(const Entity &entity)
+void ShapeDrawable::FetchDependencies(const Entity & entity)
 {
     Drawable::FetchDependencies(entity);
-    _shape->origin(_shape->localBounds().width * _anchor.x, _shape->localBounds().height * _anchor.y);
+
+    if (_shape)
+    {
+        _shape->origin(_shape->localBounds().width * _anchor.x, _shape->localBounds().height * _anchor.y);
+    }
 }
 
-void ShapeDrawable::Serialize(Archive &archive)
+void ShapeDrawable::Serialize(Archive & archive)
 {
     Drawable::Serialize(archive);
     archive(_shape, "shape");
@@ -42,17 +57,32 @@ void ShapeDrawable::Serialize(Archive &archive)
 /* getters and setters */
 Vector2f ShapeDrawable::size()
 {
+    if (!_shape)
+    {
+        return Vector2f(0.0f, 0.0f);
+    }
+
     Vector2f size(_shape->localBounds().width, _shape->localBounds().height);
     return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 int ShapeDrawable::alpha()
 {
+    if (!_shape)
+    {
+        return 0;
+    }
+
     return _shape->fillColor().a;
 }
 
 void ShapeDrawable::alpha(int alpha)
 {
+    if (!_shape)
+    {
+        return;
+    }
+
     Color outlineCol(_shape->outlineColor());
     outlineCol.a = alpha;
     _shape->outlineColor(outlineCol);
@@ -61,3 +91,5 @@ void ShapeDrawable::alpha(int alpha)
     fillCol.a = alpha;
     _shape->fillColor(fillCol);
 }
+
+} // namespace ild

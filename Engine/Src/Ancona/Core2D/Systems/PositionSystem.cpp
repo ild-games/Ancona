@@ -49,6 +49,7 @@ void PositionComponent::Serialize(Archive & arc)
     Vector2f position;
     arc(position, "position");
     _transform.position(position);
+    _interpolatedTransform.position(position);
 
     arc(_velocity, "velocity");
 }
@@ -72,7 +73,7 @@ void PositionComponent::Update(float delta)
 
 /* getters and setters */
 
-const Vector2f PositionComponent::position() const
+const Vector2f & PositionComponent::position() const
 {
     return _transform.position();
 }
@@ -87,16 +88,15 @@ const Transform & PositionComponent::transform() const
     return _transform;
 }
 
-const Vector2f & PositionComponent::interpolatedPosition(float alpha) const
+const Vector2f PositionComponent::interpolatedPosition(float alpha) const
 {
     return _previousPosition * (1.0f - alpha) + _transform.position() * alpha;
 }
 
-const Transform & PositionComponent::interpolatedTransform(float alpha) const
+const Transform & PositionComponent::interpolatedTransform(float alpha)
 {
-    Transform interpolatedTransform = _transform;
-    interpolatedTransform.position(interpolatedPosition(alpha));
-    return interpolatedTransform;
+    _interpolatedTransform.position(interpolatedPosition(alpha));
+    return _interpolatedTransform;
 }
 
 PositionSystem::PositionSystem(std::string systemName, SystemManager & manager) :

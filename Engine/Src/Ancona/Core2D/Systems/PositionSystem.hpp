@@ -61,14 +61,15 @@ class PositionComponent
     inline const Vector2f & velocity() const { return _velocity; }
     inline void velocity(const Vector2f & velocity) { _velocity = velocity; }
 
-    const Vector2f position() const;
+    const Vector2f & position() const;
     void position(const Vector2f & position);
     const Transform & transform() const;
-    const Vector2f & interpolatedPosition(float alpha) const;
-    const Transform & interpolatedTransform(float alpha) const;
+    const Vector2f interpolatedPosition(float alpha) const;
+    const Transform & interpolatedTransform(float alpha);
 
   protected:
     Transform _transform;
+    Transform _interpolatedTransform;
     Vector2f _origin = Vector2f(0, 0);
     Vector2f _scale = Vector2f(1, 1);
     float _rotation = 0;

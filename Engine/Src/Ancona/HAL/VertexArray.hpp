@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_VertexArray_H_
-#define Ancona_HAL_VertexArray_H_
+#pragma once
 
 #include <Ancona/HAL/Drawable.hpp>
 #include <Ancona/HAL/PrimitiveRenderType.hpp>
@@ -43,16 +42,16 @@ class VertexArrayImpl;
 class VertexArray : public Drawable
 {
   public:
-    VertexArray();
-    explicit VertexArray(PrimitiveRenderType type, std::size_t vertexCount = 0);
+    explicit VertexArray(PrimitiveRenderType type, int vertexCount = 0);
 
-    void SetVertexPosition(std::size_t index, const ild::Vector2f &newPosition);
-    void SetVertexTexCoords(std::size_t index, const ild::Vector2f &newTexCoords);
+    void SetVertexPosition(int index, const ild::Vector2f & newPosition);
+    void SetVertexTexCoords(int index, const ild::Vector2f & newTexCoords);
+    void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates);
 
     /* getters and setters */
-    priv::VertexArrayImpl &vertexArrayImpl() const;
+    void origin(const ild::Vector2f & newOrigin);
+    void origin(float x, float y);
+    priv::VertexArrayImpl & vertexArrayImpl() const;
 };
 
 } // namespace ildhal
-
-#endif

@@ -29,6 +29,8 @@
 #include <Ancona/Graphics/Color.hpp>
 #include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL/Drawable.hpp>
+#include <Ancona/HAL/RenderStates.hpp>
+#include <Ancona/HAL/RenderTarget.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
 namespace ildhal
@@ -42,6 +44,8 @@ class ShapeImpl;
 class Shape : public Drawable
 {
   public:
+    virtual void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates) = 0;
+
     /* getters and setters */
     void origin(const ild::Vector2f & origin);
     void origin(float x, float y);
@@ -49,7 +53,7 @@ class Shape : public Drawable
     void fillColor(const ild::Color & color);
     const ild::Color outlineColor() const;
     void outlineColor(const ild::Color & color);
-    ild::FloatRect localBounds() const;
+    virtual ild::FloatRect localBounds() const = 0;
 
     priv::ShapeImpl & shapeImpl() const;
 };

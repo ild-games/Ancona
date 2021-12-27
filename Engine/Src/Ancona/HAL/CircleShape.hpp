@@ -26,6 +26,7 @@
 
 #pragma once
 
+#include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL/Shape.hpp>
 
 namespace ildhal
@@ -41,10 +42,13 @@ class CircleShape : public Shape
   public:
     CircleShape();
 
-    void radius(float radius);
-    float radius() const;
+    void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates) override;
 
     /* getters and setters */
+    void radius(float radius);
+    float radius() const;
+    ild::FloatRect localBounds() const override;
+
     priv::CircleShapeImpl & circleShapeImpl() const;
 };
 

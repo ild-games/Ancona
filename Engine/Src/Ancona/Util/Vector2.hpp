@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_Util_Vector2_H_
-#define Ancona_Util_Vector2_H_
+#pragma once
 
 namespace ild
 {
@@ -34,7 +33,8 @@ namespace ild
 ///        2-dimensional vectors
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> class Vector2
+template<typename T>
+class Vector2
 {
   public:
     ////////////////////////////////////////////////////////////
@@ -65,7 +65,8 @@ template <typename T> class Vector2
     /// \param vector Vector to convert
     ///
     ////////////////////////////////////////////////////////////
-    template <typename U> explicit Vector2(const Vector2<U> &vector);
+    template<typename U>
+    explicit Vector2(const Vector2<U> & vector);
 
     ////////////////////////////////////////////////////////////
     // Member data
@@ -83,7 +84,8 @@ template <typename T> class Vector2
 /// \return Memberwise opposite of the vector
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> operator-(const Vector2<T> &right);
+template<typename T>
+Vector2<T> operator-(const Vector2<T> & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -98,7 +100,8 @@ template <typename T> Vector2<T> operator-(const Vector2<T> &right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> &operator+=(Vector2<T> &left, const Vector2<T> &right);
+template<typename T>
+Vector2<T> & operator+=(Vector2<T> & left, const Vector2<T> & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -113,7 +116,8 @@ template <typename T> Vector2<T> &operator+=(Vector2<T> &left, const Vector2<T> 
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> &operator-=(Vector2<T> &left, const Vector2<T> &right);
+template<typename T>
+Vector2<T> & operator-=(Vector2<T> & left, const Vector2<T> & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -125,7 +129,8 @@ template <typename T> Vector2<T> &operator-=(Vector2<T> &left, const Vector2<T> 
 /// \return Memberwise addition of both vectors
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> operator+(const Vector2<T> &left, const Vector2<T> &right);
+template<typename T>
+Vector2<T> operator+(const Vector2<T> & left, const Vector2<T> & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -137,7 +142,8 @@ template <typename T> Vector2<T> operator+(const Vector2<T> &left, const Vector2
 /// \return Memberwise subtraction of both vectors
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> operator-(const Vector2<T> &left, const Vector2<T> &right);
+template<typename T>
+Vector2<T> operator-(const Vector2<T> & left, const Vector2<T> & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -149,7 +155,8 @@ template <typename T> Vector2<T> operator-(const Vector2<T> &left, const Vector2
 /// \return Memberwise multiplication by \a right
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> operator*(const Vector2<T> &left, T right);
+template<typename T>
+Vector2<T> operator*(const Vector2<T> & left, T right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -161,7 +168,8 @@ template <typename T> Vector2<T> operator*(const Vector2<T> &left, T right);
 /// \return Memberwise multiplication by \a left
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> operator*(T left, const Vector2<T> &right);
+template<typename T>
+Vector2<T> operator*(T left, const Vector2<T> & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -176,7 +184,8 @@ template <typename T> Vector2<T> operator*(T left, const Vector2<T> &right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> &operator*=(Vector2<T> &left, T right);
+template<typename T>
+Vector2<T> & operator*=(Vector2<T> & left, T right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -188,7 +197,8 @@ template <typename T> Vector2<T> &operator*=(Vector2<T> &left, T right);
 /// \return Memberwise division by \a right
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> operator/(const Vector2<T> &left, T right);
+template<typename T>
+Vector2<T> operator/(const Vector2<T> & left, T right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -203,7 +213,8 @@ template <typename T> Vector2<T> operator/(const Vector2<T> &left, T right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> Vector2<T> &operator/=(Vector2<T> &left, T right);
+template<typename T>
+Vector2<T> & operator/=(Vector2<T> & left, T right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -217,7 +228,8 @@ template <typename T> Vector2<T> &operator/=(Vector2<T> &left, T right);
 /// \return True if \a left is equal to \a right
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> bool operator==(const Vector2<T> &left, const Vector2<T> &right);
+template<typename T>
+bool operator==(const Vector2<T> & left, const Vector2<T> & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Vector2
@@ -231,7 +243,8 @@ template <typename T> bool operator==(const Vector2<T> &left, const Vector2<T> &
 /// \return True if \a left is not equal to \a right
 ///
 ////////////////////////////////////////////////////////////
-template <typename T> bool operator!=(const Vector2<T> &left, const Vector2<T> &right);
+template<typename T>
+bool operator!=(const Vector2<T> & left, const Vector2<T> & right);
 
 #include <Ancona/Util/Vector2.inl>
 
@@ -241,5 +254,3 @@ typedef Vector2<unsigned int> Vector2u;
 typedef Vector2<float> Vector2f;
 
 } // namespace ild
-
-#endif // Ancona_Util_Vector2_H_

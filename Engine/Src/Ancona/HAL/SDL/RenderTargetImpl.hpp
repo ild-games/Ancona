@@ -4,6 +4,7 @@
 
 #include "SDL2/SDL.h"
 
+#include <Ancona/Graphics/View.hpp>
 #include <Ancona/HAL/RenderTarget.hpp>
 
 namespace ildhal
@@ -23,9 +24,14 @@ class RenderTargetImpl
     RenderTargetImpl() {}
     RenderTargetImpl(SDL_Renderer *);
 
+    /* getters and setters */
+    const ild::View & view() const { return _view; };
+    void view(const ild::View & view) { _view = view; };
     SDL_Renderer & sdlRenderer() const { return *_sdlRenderer; };
 
   private:
+    ild::View _view;
+
     std::unique_ptr<SDL_Renderer, SDL_RendererDestructor> _sdlRenderer;
 };
 

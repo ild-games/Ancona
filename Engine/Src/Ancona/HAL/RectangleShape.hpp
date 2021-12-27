@@ -24,9 +24,9 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_RectangleShape_H_
-#define Ancona_HAL_RectangleShape_H_
+#pragma once
 
+#include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL/Shape.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
@@ -42,15 +42,16 @@ class RectangleShape : public Shape
 {
   public:
     RectangleShape();
-    explicit RectangleShape(const ild::Vector2f &size);
+    explicit RectangleShape(const ild::Vector2f & size);
+
+    void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates) override;
 
     /* getters and setters */
     const ild::Vector2f size() const;
-    void size(const ild::Vector2f &newSize);
+    void size(const ild::Vector2f & newSize);
+    ild::FloatRect localBounds() const override;
 
-    priv::RectangleShapeImpl &rectangleShapeImpl() const;
+    priv::RectangleShapeImpl & rectangleShapeImpl() const;
 };
 
 } // namespace ildhal
-
-#endif

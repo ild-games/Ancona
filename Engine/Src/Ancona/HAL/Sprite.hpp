@@ -49,10 +49,7 @@ class Sprite : public Drawable
     Sprite();
     Sprite(const Texture & texture, const ild::IntRect & rectangle);
 
-    void Draw(
-        ildhal::RenderTarget & renderTarget,
-        const ildhal::RenderStates & renderStates,
-        const ild::Vector2f & size);
+    void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates);
 
     /* getters and setters */
     void origin(const ild::Vector2f & newOrigin);

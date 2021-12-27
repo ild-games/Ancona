@@ -26,8 +26,8 @@ class ImageDrawable : public Drawable
 
     void FetchDependencies(const Entity & entity) override;
 
-    void SetupSprite(ildhal::Texture * texture);
-    void SetupSprite();
+    void SetupDrawable();
+    void SetupDrawable(ildhal::Texture * texture);
 
     /* getters and setters */
     Vector2f size() override;
@@ -44,15 +44,27 @@ class ImageDrawable : public Drawable
 
   private:
     std::string _textureKey;
+    ildhal::Texture * _texture;
     Box2 _textureRect;
+    std::unique_ptr<ildhal::VertexArray> _vertexArray;
     std::unique_ptr<ildhal::Sprite> _sprite;
-    Vector2f _tiledArea;
     Color _color = Color::White;
     int _alpha = 255;
-    bool _isTiled = false;
     bool _isWholeImage = true;
 
+    bool _isTiled = false;
+    Vector2f _tileSize;
+    Vector2f _numTiles;
+    int _numVertices = 0;
+    Vector2f _tiledArea;
+    const int NUM_VERTICES_PER_TILE = 6;
+
     void OnDraw(ildhal::RenderTarget & target, Transform transform, float delta) override;
+    void SetupSprite(ildhal::Texture * texture);
+    void SetupVertexArray(ildhal::Texture * texture);
+    void SetupVertexArrayTiles();
+    void AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight);
+    void VertexTileVert(int whichVertex, int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight);
     void ApplyAlpha();
     void ApplyColor();
 };

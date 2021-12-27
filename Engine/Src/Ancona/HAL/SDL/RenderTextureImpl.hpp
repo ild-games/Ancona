@@ -1,7 +1,4 @@
-#ifndef Ancona_HAL_SFML_RenderTextureImpl_H_
-#define Ancona_HAL_SFML_RenderTextureImpl_H_
-
-#include <SFML/Graphics.hpp>
+#pragma once
 
 #include <Ancona/HAL/RenderTexture.hpp>
 #include <Ancona/HAL/SDL/RenderTargetImpl.hpp>
@@ -19,5 +16,3 @@ class RenderTextureImpl : public RenderTargetImpl
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

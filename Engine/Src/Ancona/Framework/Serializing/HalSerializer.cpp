@@ -7,7 +7,7 @@ REGISTER_POLYMORPHIC_SERIALIZER(ildhal::CircleShape);
 
 using namespace ild;
 
-void Serializer<ildhal::RectangleShape>::Serialize(ildhal::RectangleShape &shape, Archive &arc)
+void Serializer<ildhal::RectangleShape>::Serialize(ildhal::RectangleShape & shape, Archive & arc)
 {
     Vector2f dim;
     Color color;
@@ -26,7 +26,7 @@ void Serializer<ildhal::RectangleShape>::Serialize(ildhal::RectangleShape &shape
     }
 }
 
-void Serializer<ildhal::CircleShape>::Serialize(ildhal::CircleShape &shape, Archive &arc)
+void Serializer<ildhal::CircleShape>::Serialize(ildhal::CircleShape & shape, Archive & arc)
 {
     float radius;
     Color color;

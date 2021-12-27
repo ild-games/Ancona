@@ -1,3 +1,4 @@
+#include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
 
 #include <Ancona/HAL/SDL/RenderTargetImpl.hpp>
@@ -26,7 +27,6 @@ bool priv::TextureImpl::LoadSDLTextureFromFile(const std::string & filename, SDL
         return false;
     }
 
-    ILD_Log("Successfully loaded texture!: " << filename);
     _sdlTexture = std::unique_ptr<SDL_Texture, SDL_TextureDestructor>(texture);
 
     return true;
@@ -51,7 +51,11 @@ void Texture::repeated(bool newRepeated)
 
 ild::Vector2u Texture::size() const
 {
-    return ild::Vector2u(0, 0);
+    SDL_Texture * texture = &textureImpl().sdlTexture();
+    int w = 0;
+    int h = 0;
+    SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
+    return ild::Vector2u(w, h);
 }
 
 void Texture::smooth(bool newSmooth)

@@ -21,24 +21,26 @@ class ShapeDrawable : public Drawable
     /**
      * @brief Default constructor, should only be used by the serializer.
      */
-    ShapeDrawable()
-    {
-    }
+    ShapeDrawable() {}
 
-    ShapeDrawable(ildhal::Shape *shape, const float priority, const std::string &key, float priorityOffset = 0,
-                  Vector2f anchor = Vector2f(0.0f, 0.0f));
+    ShapeDrawable(
+        ildhal::Shape * shape,
+        const float priority,
+        const std::string & key,
+        float priorityOffset = 0,
+        Vector2f anchor = Vector2f(0.0f, 0.0f));
 
-    Drawable *Copy() override;
+    Drawable * Copy() override;
 
     /**
      * @copydoc ild::CameraComponent::Serialize
      */
-    void Serialize(Archive &arc) override;
+    void Serialize(Archive & arc) override;
 
     /**
      * @copydoc ild::CameraComponent::FetchDependencies
      */
-    void FetchDependencies(const Entity &entity) override;
+    void FetchDependencies(const Entity & entity) override;
 
     /* getters and setters */
     Vector2f size() override;
@@ -51,7 +53,7 @@ class ShapeDrawable : public Drawable
      */
     std::unique_ptr<ildhal::Shape> _shape;
 
-    void OnDraw(ildhal::RenderTarget &target, Transform drawableTransform, float delta) override;
+    void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
 };
 
 } // namespace ild

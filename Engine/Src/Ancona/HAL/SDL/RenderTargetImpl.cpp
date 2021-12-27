@@ -4,7 +4,6 @@
 #include <Ancona/HAL/SDL/DrawableImpl.hpp>
 #include <Ancona/HAL/SDL/RenderStatesImpl.hpp>
 #include <Ancona/HAL/SDL/RenderTargetImpl.hpp>
-#include <Ancona/HAL/SDL/ViewImpl.hpp>
 #include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Assert.hpp>
 
@@ -35,7 +34,7 @@ void RenderTarget::Draw(const Drawable & drawable, const RenderStates & states)
 
 ild::Vector2f RenderTarget::MapPixelToCoords(const ild::Vector2i & point, const ild::View & view) const
 {
-    return ild::Vector2f(0.0f, 0.0f);
+    return renderTargetImpl().view().transform().inverseTransform() * ild::Vector2f(point.x, point.y);
 }
 
 void RenderTarget::ResetGLStates()
@@ -51,14 +50,7 @@ const ild::View RenderTarget::defaultView() const
 
 void RenderTarget::view(const ild::View & view)
 {
-    const ild::Vector2f & size = view.size();
-    const ild::Vector2f & center = view.center();
-
-    SDL_Rect rect;
-    rect.x = (int) (center.x - (size.x / 2.0f));
-    rect.y = (int) (center.y - (size.y / 2.0f));
-    rect.w = (int) size.x;
-    rect.h = (int) size.y;
+    renderTargetImpl().view(view);
 }
 
 } // namespace ildhal

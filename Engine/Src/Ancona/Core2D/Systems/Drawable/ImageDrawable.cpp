@@ -26,48 +26,61 @@ Drawable * ImageDrawable::Copy()
     drawable->tiledArea(_tiledArea);
     drawable->isTiled(_isTiled);
     drawable->isWholeImage(_isWholeImage);
-    drawable->SetupSprite();
+    drawable->SetupDrawable();
     return drawable;
 }
 
 void ImageDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
-    if (_sprite)
+    if (_vertexArray)
     {
-        ildhal::RenderStates states(drawableTransform);
-        _sprite->Draw(target, states, size());
+        ildhal::RenderStates states(ildhal::BlendAlpha, drawableTransform, *_texture);
+        _vertexArray->Draw(target, states);
+    }
+    else if (_sprite)
+    {
+        ildhal::RenderStates states;
+        states.transform(drawableTransform);
+        states.size(size());
+        _sprite->Draw(target, states);
     }
 }
 
-void ImageDrawable::SetupSprite()
+void ImageDrawable::SetupDrawable()
 {
     if (_textureKey == "")
     {
         return;
     }
 
-    SetupSprite(ResourceLibrary::Get<ildhal::Texture>(_textureKey));
+    SetupDrawable(ResourceLibrary::Get<ildhal::Texture>(_textureKey));
+}
+
+void ImageDrawable::SetupDrawable(ildhal::Texture * texture)
+{
+    _texture = texture;
+    if (_isWholeImage)
+    {
+        _textureRect.Dimension.x = texture->size().x;
+        _textureRect.Dimension.y = texture->size().y;
+    }
+
+    if (_isTiled)
+    {
+        SetupVertexArray(texture);
+    }
+    else
+    {
+        SetupSprite(texture);
+    }
+
+    ApplyColor();
+    ApplyAlpha();
 }
 
 void ImageDrawable::SetupSprite(ildhal::Texture * texture)
 {
-    if (_isTiled)
-    {
-        texture->smooth(false);
-        texture->repeated(true);
-        _textureRect.Dimension.x = _tiledArea.x;
-        _textureRect.Dimension.y = _tiledArea.y;
-    }
-    else
-    {
-        texture->smooth(true);
-        if (_isWholeImage)
-        {
-            _textureRect.Dimension.x = texture->size().x;
-            _textureRect.Dimension.y = texture->size().y;
-        }
-    }
-
+    texture->smooth(true);
     auto spriteRect = ild::Rect<int>(
         _textureRect.Position.x,
         _textureRect.Position.y,
@@ -76,8 +89,90 @@ void ImageDrawable::SetupSprite(ildhal::Texture * texture)
 
     _sprite.reset(new ildhal::Sprite(*texture, spriteRect));
     _sprite->origin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
-    ApplyColor();
-    ApplyAlpha();
+}
+
+void ImageDrawable::SetupVertexArray(ildhal::Texture * texture)
+{
+    texture->smooth(false);
+    texture->repeated(true);
+
+    _tileSize = Vector2f(
+        _isWholeImage ? texture->size().x : _textureRect.Dimension.x,
+        _isWholeImage ? texture->size().y : _textureRect.Dimension.y);
+
+    _numTiles = Vector2f(_tiledArea.x / _tileSize.x, _tiledArea.y / _tileSize.y);
+    _numVertices = std::ceil(_numTiles.x) * std::ceil(_numTiles.y) * NUM_VERTICES_PER_TILE;
+    _vertexArray.reset(new ildhal::VertexArray(ildhal::TriangleStrip, _numVertices));
+    _vertexArray->origin(_tiledArea.x * _anchor.x, _tiledArea.y * _anchor.y);
+
+    SetupVertexArrayTiles();
+}
+
+void ImageDrawable::SetupVertexArrayTiles()
+{
+    int vertexIndex = 0;
+    for (int whichYBlock = 0; whichYBlock < std::ceil(_numTiles.y); whichYBlock++)
+    {
+        // For every row in the vertex array, go the opposite direction as the last row. This lets the next
+        // vertex process always be right next to the last vertex process which prevents tearing.
+        if (whichYBlock % 2 == 0)
+        {
+            for (int whichXBlock = 0; whichXBlock < std::ceil(_numTiles.x); whichXBlock++)
+            {
+                AddVertexTile(whichXBlock, whichYBlock, vertexIndex, true);
+            }
+        }
+        else
+        {
+            for (int whichXBlock = std::ceil(_numTiles.x) - 1; whichXBlock >= 0; whichXBlock--)
+            {
+                AddVertexTile(whichXBlock, whichYBlock, vertexIndex, false);
+            }
+        }
+    }
+}
+
+void ImageDrawable::AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight)
+{
+    // First triangle
+    VertexTileVert(0, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+    VertexTileVert(1, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+    VertexTileVert(2, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+
+    // Second triangle
+    VertexTileVert(2, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+    VertexTileVert(1, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+    VertexTileVert(3, whichXBlock, whichYBlock, vertexIndex, isLeftToRight);
+}
+
+void ImageDrawable::VertexTileVert(
+    int whichVertex,
+    int whichXBlock,
+    int whichYBlock,
+    int & vertexIndex,
+    bool isLeftToRight)
+{
+    float fractionPartX = whichXBlock < std::ceil(_numTiles.x) - 1 ? 0 : _numTiles.x - (int) _numTiles.x;
+    float fractionPartY = whichYBlock < std::ceil(_numTiles.y) - 1 ? 0 : _numTiles.y - (int) _numTiles.y;
+    int xVertexOffset = isLeftToRight ? (whichVertex < 2 ? 0 : 1) : (whichVertex < 2 ? 1 : 0);
+    int yVertexOffset = (whichVertex + 1) % 2;
+
+    float positionX = (whichXBlock * _tileSize.x) + (_tileSize.x * xVertexOffset);
+    float positionY = (whichYBlock * _tileSize.y) + (_tileSize.y * yVertexOffset);
+    positionX -= (fractionPartX > 0 && xVertexOffset == 1) ? _tileSize.x * (1.0f - fractionPartX) : 0;
+    positionY -= (fractionPartY > 0 && yVertexOffset == 1) ? _tileSize.y * (1.0f - fractionPartY) : 0;
+
+    _vertexArray->SetVertexPosition(vertexIndex, Vector2f(positionX, positionY));
+
+    float texCoordsX = xVertexOffset * _tileSize.x + _textureRect.Position.x;
+    float texCoordsY = yVertexOffset * _tileSize.y + _textureRect.Position.y;
+    texCoordsX -= (fractionPartX > 0 && xVertexOffset == 1) ? _tileSize.x * (1.0f - fractionPartX) : 0;
+    texCoordsY -= (fractionPartY > 0 && yVertexOffset == 1) ? _tileSize.y * (1.0f - fractionPartY) : 0;
+    texCoordsX /= _texture->size().x;
+    texCoordsY /= _texture->size().y;
+    _vertexArray->SetVertexTexCoords(vertexIndex, Vector2f(texCoordsX, texCoordsY));
+
+    vertexIndex++;
 }
 
 void ImageDrawable::ApplyAlpha()
@@ -107,7 +202,7 @@ void ImageDrawable::FetchDependencies(const Entity & entity)
     Drawable::FetchDependencies(entity);
     if (_textureKey != "")
     {
-        SetupSprite(ResourceLibrary::Get<ildhal::Texture>(_textureKey));
+        SetupDrawable(ResourceLibrary::Get<ildhal::Texture>(_textureKey));
     }
 }
 

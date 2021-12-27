@@ -42,7 +42,7 @@
             "repository" : {
                 "type" : "git",
                 "location" : "https://github.com/libsdl-org/SDL",
-                "branch": "tags/release-2.0.16"
+                "branch": "tags/release-2.0.18"
             },
             "configOptions" : [
                 {

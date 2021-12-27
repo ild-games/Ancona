@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Mouse_H_
-#define Ancona_HAL_Mouse_H_
+#pragma once
 
 #include <map>
 #include <set>
@@ -43,9 +42,9 @@ class Mouse
   public:
     enum Button
     {
-        Left,     ///< The left mouse button
-        Right,    ///< The right mouse button
-        Middle,   ///< The middle (wheel) mouse button
+        Left, ///< The left mouse button
+        Right, ///< The right mouse button
+        Middle, ///< The middle (wheel) mouse button
         XButton1, ///< The first extra mouse button
         XButton2, ///< The second extra mouse button
 
@@ -58,7 +57,7 @@ class Mouse
     ////////////////////////////////////////////////////////////
     enum Wheel
     {
-        VerticalWheel,  ///< The vertical mouse wheel
+        VerticalWheel, ///< The vertical mouse wheel
         HorizontalWheel ///< The horizontal mouse wheel
     };
 
@@ -84,7 +83,7 @@ class Mouse
     /// \return Current position of the mouse
     ///
     ////////////////////////////////////////////////////////////
-    static ild::Vector2i GetPosition(const Window &relativeTo);
+    static ild::Vector2i GetPosition(const Window & relativeTo);
 
     /**
      * @brief Deteremines if a button was just pressed
@@ -93,7 +92,7 @@ class Mouse
      *
      * @return true if the button is pressed, otherwise false
      */
-    static bool IsButtonPressed(const Mouse::Button &btn);
+    static bool IsButtonPressed(const Mouse::Button & btn);
 
     /**
      * @brief Deteremines if a button was just released
@@ -102,7 +101,7 @@ class Mouse
      *
      * @return true if the button is released, otherwise false
      */
-    static bool IsButtonReleased(const Mouse::Button &btn);
+    static bool IsButtonReleased(const Mouse::Button & btn);
 
     /**
      * @brief Deteremines if a button is down
@@ -111,7 +110,7 @@ class Mouse
      *
      * @return true if the button is down, otherwise false
      */
-    static bool IsButtonDown(const Mouse::Button &btn);
+    static bool IsButtonDown(const Mouse::Button & btn);
 
     /**
      * @brief INTERNAL ONLY
@@ -119,7 +118,7 @@ class Mouse
      *
      * @param btn Mouse::Button being pressed
      */
-    static void _AddButtonPress(const Mouse::Button &btn);
+    static void _AddButtonPress(const Mouse::Button & btn);
 
     /**
      * @brief INTERNAL ONLY
@@ -127,7 +126,7 @@ class Mouse
      *
      * @param btn Mouse::Button being released
      */
-    static void _AddButtonRelease(const Mouse::Button &btn);
+    static void _AddButtonRelease(const Mouse::Button & btn);
 
     /**
      * @brief INTERNAL ONLY
@@ -144,5 +143,3 @@ class Mouse
 };
 
 } // namespace ildhal
-
-#endif

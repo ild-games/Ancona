@@ -1,17 +1,23 @@
 #include <Ancona/HAL.hpp>
+#include <Ancona/System/Log.hpp>
 
 #include "MenuGameSystems.hpp"
 #include "MenuKeyboardAndMouse.hpp"
 
-using namespace ild;
+namespace ild
+{
 
 void MenuKeyboardAndMouse::HandleInput(float delta)
 {
     auto isPressed = ildhal::Mouse::IsButtonDown(ildhal::Mouse::Left);
-    auto &window = _systems->screenManager().Window;
+    auto & window = _systems->screenManager().Window;
     auto mouseWindowPixelPosition = ildhal::Mouse::GetPosition(window);
     auto defaultView = _systems->drawable().defaultCamera()->view();
     auto mouseCoordsPosition = window.MapPixelToCoords(mouseWindowPixelPosition, defaultView);
+    ILD_Log("mouseX: " << mouseWindowPixelPosition.x << ", mouseY: " << mouseWindowPixelPosition.y);
+    ILD_Log("worldX: " << mouseCoordsPosition.x << ", worldY: " << mouseCoordsPosition.y);
 
     _playerComponent->UpdatePointer(mouseCoordsPosition, isPressed);
 }
+
+} // namespace ild
