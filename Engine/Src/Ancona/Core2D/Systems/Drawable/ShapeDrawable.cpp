@@ -29,23 +29,15 @@ Drawable * ShapeDrawable::Copy()
 
 void ShapeDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
-    if (!_shape)
-    {
-        return;
-    }
-
     ildhal::RenderStates states(drawableTransform);
-    target.Draw(*_shape, states);
+    _shape->Draw(target, states);
 }
 
 void ShapeDrawable::FetchDependencies(const Entity & entity)
 {
     Drawable::FetchDependencies(entity);
 
-    if (_shape)
-    {
-        _shape->origin(_shape->localBounds().width * _anchor.x, _shape->localBounds().height * _anchor.y);
-    }
+    _shape->origin(_shape->localBounds().width * _anchor.x, _shape->localBounds().height * _anchor.y);
 }
 
 void ShapeDrawable::Serialize(Archive & archive)
@@ -57,32 +49,17 @@ void ShapeDrawable::Serialize(Archive & archive)
 /* getters and setters */
 Vector2f ShapeDrawable::size()
 {
-    if (!_shape)
-    {
-        return Vector2f(0.0f, 0.0f);
-    }
-
     Vector2f size(_shape->localBounds().width, _shape->localBounds().height);
     return VectorMath::ComponentMultiplication(size, _scale);
 }
 
 int ShapeDrawable::alpha()
 {
-    if (!_shape)
-    {
-        return 0;
-    }
-
     return _shape->fillColor().a;
 }
 
 void ShapeDrawable::alpha(int alpha)
 {
-    if (!_shape)
-    {
-        return;
-    }
-
     Color outlineCol(_shape->outlineColor());
     outlineCol.a = alpha;
     _shape->outlineColor(outlineCol);

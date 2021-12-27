@@ -67,6 +67,7 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
 
     uint32_t rendererFlags = ((useVsync ? SDL_RENDERER_PRESENTVSYNC : 0x0) | (SDL_RENDERER_ACCELERATED));
     SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, rendererFlags);
+
     SDL_RendererInfo rendererInfo;
     if (SDL_GetRendererInfo(renderer, &rendererInfo) == 0)
     {

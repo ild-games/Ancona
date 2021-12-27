@@ -1,5 +1,4 @@
-#ifndef Ancona_Engine_Screen_AbstractScreen_H_
-#define Ancona_Engine_Screen_AbstractScreen_H_
+#pragma once
 
 #include <memory>
 #include <string>
@@ -30,8 +29,10 @@ class AbstractScreen
      * @param key Key to identify the screen.
      * @param screenManager ScreenManager instance used by the game.
      */
-    AbstractScreen(std::string key, ScreenManager &screenManager,
-                   std::shared_ptr<RequestList> requestList = std::shared_ptr<RequestList>(new RequestList()));
+    AbstractScreen(
+        std::string key,
+        ScreenManager & screenManager,
+        std::shared_ptr<RequestList> requestList = std::shared_ptr<RequestList>(new RequestList()));
 
     /**
      * @brief Destructor for AbstractScreen.
@@ -43,9 +44,7 @@ class AbstractScreen
      * Will be called just before Update is called for the
      * first time.
      */
-    virtual void Init()
-    {
-    }
+    virtual void Init() {}
 
     /**
      * @brief Can be overridden to resume the screen.
@@ -53,17 +52,13 @@ class AbstractScreen
      * another screen popped off the stack to come back to
      * this screen.
      */
-    virtual void Resume()
-    {
-    }
+    virtual void Resume() {}
 
     /**
      * @brief Called right before the screen is removed as the active screen
      * can be overridden
      */
-    virtual void Unload()
-    {
-    }
+    virtual void Unload() {}
 
     virtual void InputUpdate(float delta) = 0;
 
@@ -115,25 +110,16 @@ class AbstractScreen
     bool __Exiting;
 
     /* getters and setters */
-    const std::string &key()
-    {
-        return KEY;
-    }
-    void requestList(std::shared_ptr<RequestList> requestList)
-    {
-        _requestList = requestList;
-    }
-    std::shared_ptr<RequestList> requestList()
-    {
-        return _requestList;
-    }
-    virtual ScreenSystemsContainer *systemsContainer() = 0;
+    const std::string & key() { return KEY; }
+    void requestList(std::shared_ptr<RequestList> requestList) { _requestList = requestList; }
+    std::shared_ptr<RequestList> requestList() { return _requestList; }
+    virtual ScreenSystemsContainer * systemsContainer() = 0;
 
   protected:
     /**
      * @brief Manages all the screens in the game
      */
-    ScreenManager &_screenManager;
+    ScreenManager & _screenManager;
     /**
      * @brief key to identify the screen.
      */
@@ -164,5 +150,3 @@ class AbstractScreen
 };
 
 } // namespace ild
-
-#endif

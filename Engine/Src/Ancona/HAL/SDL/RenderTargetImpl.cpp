@@ -17,13 +17,14 @@ priv::RenderTargetImpl::RenderTargetImpl(SDL_Renderer * renderer) :
 {
     int imgFlags = IMG_INIT_PNG;
     ILD_Assert(IMG_Init(imgFlags) & imgFlags, "SDL_image failed to initialize!");
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
 
 /* HAL Interface Implementation */
 
 void RenderTarget::Clear(const ild::Color & color)
 {
-    SDL_SetRenderDrawColor(&renderTargetImpl().sdlRenderer(), color.r, color.g, color.b, color.a);
+    SDL_SetRenderDrawColor(&renderTargetImpl().sdlRenderer(), color.r, color.g, color.b, 255);
     SDL_RenderClear(&renderTargetImpl().sdlRenderer());
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL2/SDL.h>
+
 #include <Ancona/HAL/RectangleShape.hpp>
 #include <Ancona/HAL/RenderStates.hpp>
 #include <Ancona/HAL/SDL/ShapeImpl.hpp>
@@ -13,6 +15,7 @@ namespace priv
 class RectangleShapeImpl : public ShapeImpl
 {
   public:
+    RectangleShapeImpl(const ild::Vector2f & size = ild::Vector2f(0.0f, 0.0f));
     void Draw(SDL_Renderer & sdlRenderer, const ildhal::RenderStates & renderStates);
 
     /* getters and setters */

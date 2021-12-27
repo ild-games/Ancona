@@ -14,8 +14,6 @@ void MenuKeyboardAndMouse::HandleInput(float delta)
     auto mouseWindowPixelPosition = ildhal::Mouse::GetPosition(window);
     auto defaultView = _systems->drawable().defaultCamera()->view();
     auto mouseCoordsPosition = window.MapPixelToCoords(mouseWindowPixelPosition, defaultView);
-    ILD_Log("mouseX: " << mouseWindowPixelPosition.x << ", mouseY: " << mouseWindowPixelPosition.y);
-    ILD_Log("worldX: " << mouseCoordsPosition.x << ", worldY: " << mouseCoordsPosition.y);
 
     _playerComponent->UpdatePointer(mouseCoordsPosition, isPressed);
 }

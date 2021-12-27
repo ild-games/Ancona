@@ -4,10 +4,13 @@
 
 #include <iostream>
 
-using namespace ild;
+namespace ild
+{
 
-ScreenManager::ScreenManager(ildhal::Window &window, int windowWidth, int windowHeight)
-    : Window(window), _windowWidth(windowWidth), _windowHeight(windowHeight)
+ScreenManager::ScreenManager(ildhal::Window & window, int windowWidth, int windowHeight) :
+        Window(window),
+        _windowWidth(windowWidth),
+        _windowHeight(windowHeight)
 {
 }
 
@@ -19,7 +22,7 @@ ScreenManager::~ScreenManager()
     }
 }
 
-void ScreenManager::Push(AbstractScreen *screen, bool load)
+void ScreenManager::Push(AbstractScreen * screen, bool load)
 {
     _screens.push(screen);
     _screens.top()->OnEntering();
@@ -46,12 +49,12 @@ void ScreenManager::PopImmediate()
     RemoveScreen();
 }
 
-AbstractScreen *ScreenManager::Peek()
+AbstractScreen * ScreenManager::Peek()
 {
     return _screens.top();
 }
 
-void ScreenManager::Replace(AbstractScreen *screen)
+void ScreenManager::Replace(AbstractScreen * screen)
 {
     Pop();
     _replacementScreen = screen;
@@ -147,3 +150,5 @@ void ScreenManager::SaveScreen()
 {
     // todo implement
 }
+
+} // namespace ild

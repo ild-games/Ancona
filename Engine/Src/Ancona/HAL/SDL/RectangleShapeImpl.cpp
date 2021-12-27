@@ -10,19 +10,22 @@ namespace ildhal
 {
 
 /* Pimpl Implementation */
+priv::RectangleShapeImpl::RectangleShapeImpl(const ild::Vector2f & size) : _size(size)
+{
+}
 
 void priv::RectangleShapeImpl::Draw(SDL_Renderer & sdlRenderer, const ildhal::RenderStates & renderStates)
 {
-    // SDL_SetRenderDrawColor(&sdlRenderer, _fillColor.r, _fillColor.g, _fillColor.b, _fillColor.a);
+    SDL_SetRenderDrawColor(&sdlRenderer, _fillColor.r, _fillColor.g, _fillColor.b, _fillColor.a);
 
-    // SDL_FRect sdlRect;
+    SDL_FRect sdlRect;
 
-    // const ild::Transform & transform = renderStates.renderStatesImpl().transform();
-    // sdlRect.x = transform.position().x - _origin.x;
-    // sdlRect.y = transform.position().y - _origin.y;
-    // sdlRect.w = _size.x;
-    // sdlRect.h = _size.y;
-    // SDL_RenderFillRectF(&sdlRenderer, &sdlRect);
+    const ild::Transform & transform = renderStates.renderStatesImpl().transform();
+    sdlRect.x = transform.position().x - _origin.x;
+    sdlRect.y = transform.position().y - _origin.y;
+    sdlRect.w = _size.x;
+    sdlRect.h = _size.y;
+    SDL_RenderFillRectF(&sdlRenderer, &sdlRect);
 }
 
 /* HAL Interface Implementation */
@@ -34,7 +37,7 @@ RectangleShape::RectangleShape()
 
 RectangleShape::RectangleShape(const ild::Vector2f & size)
 {
-    _pimpl = std::make_unique<priv::RectangleShapeImpl>();
+    _pimpl = std::make_unique<priv::RectangleShapeImpl>(size);
 }
 
 void RectangleShape::Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates)
@@ -46,20 +49,19 @@ void RectangleShape::Draw(ildhal::RenderTarget & renderTarget, const ildhal::Ren
 
 const ild::Vector2f RectangleShape::size() const
 {
-    return ild::Vector2f(0.0f, 0.0f);
-    // return rectangleShapeImpl().size();
+    return rectangleShapeImpl().size();
 }
 
 void RectangleShape::size(const ild::Vector2f & newSize)
 {
-    // rectangleShapeImpl().size(newSize);
+    rectangleShapeImpl().size(newSize);
 }
 
 ild::FloatRect RectangleShape::localBounds() const
 {
     ild::FloatRect rect;
-    // rect.width = rectangleShapeImpl().size().x;
-    // rect.height = rectangleShapeImpl().size().y;
+    rect.width = rectangleShapeImpl().size().x;
+    rect.height = rectangleShapeImpl().size().y;
     return rect;
 }
 

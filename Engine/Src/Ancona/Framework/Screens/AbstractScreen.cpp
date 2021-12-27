@@ -5,13 +5,22 @@
 #include <Ancona/Framework/Screens/AbstractScreen.hpp>
 #include <Ancona/System/Log.hpp>
 
-using namespace ild;
+namespace ild
+{
 
-AbstractScreen::AbstractScreen(std::string key, ScreenManager &screenManager, std::shared_ptr<RequestList> requestList)
-    : __Initialized(false), __Entering(false), __Exiting(false), _screenManager(screenManager), KEY(key),
-      _transitionColor(0, 0, 0, 255),
-      _transitionRect(Vector2f(_screenManager.windowWidth() * 5, _screenManager.windowHeight() * 5)),
-      _defaultCam(View(_screenManager.Window.defaultView())), _requestList(requestList)
+AbstractScreen::AbstractScreen(
+    std::string key,
+    ScreenManager & screenManager,
+    std::shared_ptr<RequestList> requestList) :
+        __Initialized(false),
+        __Entering(false),
+        __Exiting(false),
+        _screenManager(screenManager),
+        KEY(key),
+        _transitionColor(0, 0, 0, 255),
+        _transitionRect(Vector2f(screenManager.windowWidth() * 5, screenManager.windowHeight() * 5)),
+        _defaultCam(View(screenManager.Window.defaultView())),
+        _requestList(requestList)
 {
 }
 
@@ -41,10 +50,10 @@ void AbstractScreen::Entering(float delta)
         _transitioningAlpha = 0.0f;
         __Entering = false;
     }
-    _transitionColor.a = (unsigned char)_transitioningAlpha;
+    _transitionColor.a = (unsigned char) _transitioningAlpha;
     _transitionRect.fillColor(_transitionColor);
     _screenManager.Window.view(_defaultCam);
-    _screenManager.Window.Draw(_transitionRect);
+    _transitionRect.Draw(_screenManager.Window, ildhal::RenderStates::Default);
 }
 
 void AbstractScreen::Exiting(float delta)
@@ -55,8 +64,10 @@ void AbstractScreen::Exiting(float delta)
         _transitioningAlpha = 255.0f;
         __Exiting = false;
     }
-    _transitionColor.a = (unsigned char)_transitioningAlpha;
+    _transitionColor.a = (unsigned char) _transitioningAlpha;
     _transitionRect.fillColor(_transitionColor);
     _screenManager.Window.view(_defaultCam);
-    _screenManager.Window.Draw(_transitionRect);
+    _transitionRect.Draw(_screenManager.Window, ildhal::RenderStates::Default);
 }
+
+} // namespace ild

@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_Graphics_Color_H_
-#define Ancona_Graphics_Color_H_
+#pragma once
 
 namespace ild
 {
@@ -69,14 +68,14 @@ class Color
     ////////////////////////////////////////////////////////////
     unsigned int toInteger() const;
 
-    static const Color Black;       ///< Black predefined color
-    static const Color White;       ///< White predefined color
-    static const Color Red;         ///< Red predefined color
-    static const Color Green;       ///< Green predefined color
-    static const Color Blue;        ///< Blue predefined color
-    static const Color Yellow;      ///< Yellow predefined color
-    static const Color Magenta;     ///< Magenta predefined color
-    static const Color Cyan;        ///< Cyan predefined color
+    static const Color Black; ///< Black predefined color
+    static const Color White; ///< White predefined color
+    static const Color Red; ///< Red predefined color
+    static const Color Green; ///< Green predefined color
+    static const Color Blue; ///< Blue predefined color
+    static const Color Yellow; ///< Yellow predefined color
+    static const Color Magenta; ///< Magenta predefined color
+    static const Color Cyan; ///< Cyan predefined color
     static const Color Transparent; ///< Transparent (black) predefined color
 
     ////////////////////////////////////////////////////////////
@@ -100,7 +99,7 @@ class Color
 /// \return True if colors are equal, false if they are different
 ///
 ////////////////////////////////////////////////////////////
-bool operator==(const Color &left, const Color &right);
+bool operator==(const Color & left, const Color & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -114,7 +113,7 @@ bool operator==(const Color &left, const Color &right);
 /// \return True if colors are different, false if they are equal
 ///
 ////////////////////////////////////////////////////////////
-bool operator!=(const Color &left, const Color &right);
+bool operator!=(const Color & left, const Color & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -129,7 +128,7 @@ bool operator!=(const Color &left, const Color &right);
 /// \return Result of \a left + \a right
 ///
 ////////////////////////////////////////////////////////////
-Color operator+(const Color &left, const Color &right);
+Color operator+(const Color & left, const Color & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -144,7 +143,7 @@ Color operator+(const Color &left, const Color &right);
 /// \return Result of \a left - \a right
 ///
 ////////////////////////////////////////////////////////////
-Color operator-(const Color &left, const Color &right);
+Color operator-(const Color & left, const Color & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -161,7 +160,7 @@ Color operator-(const Color &left, const Color &right);
 /// \return Result of \a left * \a right
 ///
 ////////////////////////////////////////////////////////////
-Color operator*(const Color &left, const Color &right);
+Color operator*(const Color & left, const Color & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -177,7 +176,7 @@ Color operator*(const Color &left, const Color &right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-Color &operator+=(Color &left, const Color &right);
+Color & operator+=(Color & left, const Color & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -193,7 +192,7 @@ Color &operator+=(Color &left, const Color &right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-Color &operator-=(Color &left, const Color &right);
+Color & operator-=(Color & left, const Color & right);
 
 ////////////////////////////////////////////////////////////
 /// \relates Color
@@ -211,8 +210,6 @@ Color &operator-=(Color &left, const Color &right);
 /// \return Reference to \a left
 ///
 ////////////////////////////////////////////////////////////
-Color &operator*=(Color &left, const Color &right);
+Color & operator*=(Color & left, const Color & right);
 
 } // namespace ild
-
-#endif
