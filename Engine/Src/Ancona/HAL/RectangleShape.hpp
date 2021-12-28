@@ -42,6 +42,7 @@ class RectangleShape : public Shape
 {
   public:
     RectangleShape();
+    ~RectangleShape() override {};
     explicit RectangleShape(const ild::Vector2f & size);
 
     void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates) override;

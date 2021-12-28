@@ -54,7 +54,7 @@ void Text::characterSize(unsigned int size)
 
 const std::string & Text::string() const
 {
-    return "1";
+    return textImpl().text();
 }
 
 void Text::string(const std::string & newString)

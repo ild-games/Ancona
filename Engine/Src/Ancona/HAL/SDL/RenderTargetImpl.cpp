@@ -17,7 +17,6 @@ priv::RenderTargetImpl::RenderTargetImpl(SDL_Renderer * renderer) :
 {
     int imgFlags = IMG_INIT_PNG;
     ILD_Assert(IMG_Init(imgFlags) & imgFlags, "SDL_image failed to initialize!");
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
 
 /* HAL Interface Implementation */
@@ -35,7 +34,8 @@ void RenderTarget::Draw(const Drawable & drawable, const RenderStates & states)
 
 ild::Vector2f RenderTarget::MapPixelToCoords(const ild::Vector2i & point, const ild::View & view) const
 {
-    return renderTargetImpl().view().transform().inverseTransform() * ild::Vector2f(point.x, point.y);
+    ild::Vector2f viewPosition = view.center() - (view.size() / 2.0f);
+    return ild::Vector2f(point.x, point.y) + viewPosition;
 }
 
 void RenderTarget::ResetGLStates()

@@ -1,5 +1,4 @@
-#ifndef Ancona_HAL_SFML_SoundBufferImpl_H_
-#define Ancona_HAL_SFML_SoundBufferImpl_H_
+#pragma once
 
 #include <SFML/Audio.hpp>
 
@@ -17,10 +16,7 @@ class SoundBufferImpl
     SoundBufferImpl();
 
     /* getters and setters */
-    sf::SoundBuffer &sfmlSoundBuffer() const
-    {
-        return *_sfmlSoundBuffer;
-    }
+    sf::SoundBuffer & sfmlSoundBuffer() const { return *_sfmlSoundBuffer; }
 
   private:
     std::unique_ptr<sf::SoundBuffer> _sfmlSoundBuffer;
@@ -29,5 +25,3 @@ class SoundBufferImpl
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

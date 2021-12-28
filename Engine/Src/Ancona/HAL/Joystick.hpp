@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Joystick_H_
-#define Ancona_HAL_Joystick_H_
+#pragma once
 
 #include <set>
 #include <unordered_map>
@@ -42,9 +41,9 @@ class Joystick
     ////////////////////////////////////////////////////////////
     enum
     {
-        Count = 8,        ///< Maximum number of supported joysticks
+        Count = 8, ///< Maximum number of supported joysticks
         ButtonCount = 32, ///< Maximum number of supported buttons
-        AxisCount = 8     ///< Maximum number of supported axes
+        AxisCount = 8 ///< Maximum number of supported axes
     };
 
     ////////////////////////////////////////////////////////////
@@ -53,14 +52,14 @@ class Joystick
     ////////////////////////////////////////////////////////////
     enum Axis
     {
-        X,    ///< The X axis
-        Y,    ///< The Y axis
-        Z,    ///< The Z axis
-        R,    ///< The R axis
-        U,    ///< The U axis
-        V,    ///< The V axis
+        X, ///< The X axis
+        Y, ///< The Y axis
+        Z, ///< The Z axis
+        R, ///< The R axis
+        U, ///< The U axis
+        V, ///< The V axis
         PovX, ///< The X axis of the point-of-view hat
-        PovY  ///< The Y axis of the point-of-view hat
+        PovY ///< The Y axis of the point-of-view hat
     };
 
     static bool IsButtonPressed(const int joystick, const int button);
@@ -73,8 +72,9 @@ class Joystick
   private:
     static std::unordered_map<int, std::set<int>> _pressedButtons;
     static std::unordered_map<int, std::set<int>> _releasedButtons;
+    static std::unordered_map<int, std::set<int>> _heldButtons;
+    static std::unordered_map<int, std::unordered_map<int, unsigned long>> _heldButtonsToFrameCount;
+    static std::unordered_map<int, std::set<int>> _heldButtonsToClear;
 };
 
 } // namespace ildhal
-
-#endif

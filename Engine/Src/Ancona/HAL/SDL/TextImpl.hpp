@@ -13,6 +13,12 @@ namespace priv
 
 class TextImpl : public DrawableImpl
 {
+  public:
+    /* getters and setters */
+    const std::string & text() const { return _text; }
+
+  private:
+    std::string _text = "1";
 };
 
 } // namespace priv

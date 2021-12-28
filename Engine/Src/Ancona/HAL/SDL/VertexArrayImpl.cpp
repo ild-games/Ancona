@@ -19,7 +19,10 @@ priv::VertexArrayImpl::~VertexArrayImpl()
     delete[] _vertices;
 }
 
-void priv::VertexArrayImpl::Draw(SDL_Renderer & sdlRenderer, const ildhal::RenderStates & renderStates)
+void priv::VertexArrayImpl::Draw(
+    SDL_Renderer & sdlRenderer,
+    const ild::View & view,
+    const ildhal::RenderStates & renderStates)
 {
     SDL_Texture & texture = renderStates.renderStatesImpl().texture().textureImpl().sdlTexture();
     const ild::Transform & transform = renderStates.renderStatesImpl().transform();
@@ -27,8 +30,11 @@ void priv::VertexArrayImpl::Draw(SDL_Renderer & sdlRenderer, const ildhal::Rende
     SDL_Vertex * transformedVertices = new SDL_Vertex[_numVertices];
     for (int i = 0; i < _numVertices; i++)
     {
-        transformedVertices[i].position.x = _vertices[i].position.x + transform.position().x - _origin.x;
-        transformedVertices[i].position.y = _vertices[i].position.y + transform.position().y - _origin.y;
+        ild::Vector2f transformed = view.inverseTransform() * transform.transform() *
+            ild::Vector2f(_vertices[i].position.x, _vertices[i].position.y);
+
+        transformedVertices[i].position.x = transformed.x;
+        transformedVertices[i].position.y = transformed.y;
         transformedVertices[i].color = _vertices[i].color;
         transformedVertices[i].tex_coord = _vertices[i].tex_coord;
     }
@@ -56,38 +62,31 @@ void VertexArray::SetVertexPosition(int index, const ild::Vector2f & newPosition
     vertexArrayImpl().vertices()[index].position = position;
 }
 
-void VertexArray::SetVertexTexCoords(int index, const ild::Vector2f & newTexCoords)
+void VertexArray::SetVertexTexCoords(int index, const ild::Vector2f & newTexCoords, const ild::Color & color)
 {
     SDL_FPoint texCoord;
     texCoord.x = newTexCoords.x;
     texCoord.y = newTexCoords.y;
 
-    SDL_Color color;
-    color.r = 255;
-    color.b = 255;
-    color.g = 255;
-    color.a = 255;
+    SDL_Color sdlColor;
+    sdlColor.r = color.r;
+    sdlColor.g = color.g;
+    sdlColor.b = color.b;
+    sdlColor.a = color.a;
 
     vertexArrayImpl().vertices()[index].tex_coord = texCoord;
-    vertexArrayImpl().vertices()[index].color = color;
+    vertexArrayImpl().vertices()[index].color = sdlColor;
 }
 
 void VertexArray::Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates)
 {
-    vertexArrayImpl().Draw(renderTarget.renderTargetImpl().sdlRenderer(), renderStates);
+    vertexArrayImpl().Draw(
+        renderTarget.renderTargetImpl().sdlRenderer(),
+        renderTarget.renderTargetImpl().view(),
+        renderStates);
 }
 
 /* getters and setters */
-
-void VertexArray::origin(const ild::Vector2f & newOrigin)
-{
-    vertexArrayImpl().origin(newOrigin);
-}
-
-void VertexArray::origin(float x, float y)
-{
-    vertexArrayImpl().origin(ild::Vector2f(x, y));
-}
 
 priv::VertexArrayImpl & VertexArray::vertexArrayImpl() const
 {

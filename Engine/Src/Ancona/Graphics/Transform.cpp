@@ -73,7 +73,8 @@ Transform & Transform::Combine(const Transform & combineWith)
     _origin += combineWith._origin;
     _position += combineWith._position;
     _rotation += combineWith._rotation;
-    _scale += combineWith._scale;
+    _scale.x *= combineWith._scale.x;
+    _scale.y *= combineWith._scale.y;
 
     _transform = _transform.Combine(combineWith._transform);
     _inverseTransform = _inverseTransform.Combine(combineWith._inverseTransform);

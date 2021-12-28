@@ -169,6 +169,7 @@ class Drawable
      * @brief True if the drawable is actively drawn/updated. Otherwise false.
      */
     bool _inactive = false;
+    Vector2i _direction = Vector2i(1, 1);
 
   private:
     Transform CalculateTransforms();

@@ -32,7 +32,7 @@ class ImageDrawable : public Drawable
     /* getters and setters */
     Vector2f size() override;
     void alpha(int newAlpha) override;
-    int alpha() override { return _alpha; }
+    int alpha() override { return static_cast<int>(_color.a); }
     Color color() { return _color; }
     void color(Color newColor);
     void isWholeImage(bool isWholeImage) { _isWholeImage = isWholeImage; }
@@ -47,9 +47,7 @@ class ImageDrawable : public Drawable
     ildhal::Texture * _texture;
     Box2 _textureRect;
     std::unique_ptr<ildhal::VertexArray> _vertexArray;
-    std::unique_ptr<ildhal::Sprite> _sprite;
     Color _color = Color::White;
-    int _alpha = 255;
     bool _isWholeImage = true;
 
     bool _isTiled = false;
@@ -60,13 +58,11 @@ class ImageDrawable : public Drawable
     const int NUM_VERTICES_PER_TILE = 6;
 
     void OnDraw(ildhal::RenderTarget & target, Transform transform, float delta) override;
-    void SetupSprite(ildhal::Texture * texture);
-    void SetupVertexArray(ildhal::Texture * texture);
-    void SetupVertexArrayTiles();
+    void SetupSpriteVertexArray(ildhal::Texture * texture);
+    void SetupTiledVertexArray(ildhal::Texture * texture);
+    void SetupTiledVertexArrayTiles();
     void AddVertexTile(int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight);
     void VertexTileVert(int whichVertex, int whichXBlock, int whichYBlock, int & vertexIndex, bool isLeftToRight);
-    void ApplyAlpha();
-    void ApplyColor();
 };
 
 } // namespace ild

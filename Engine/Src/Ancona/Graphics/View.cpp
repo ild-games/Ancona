@@ -24,36 +24,36 @@
 //
 ////////////////////////////////////////////////////////////
 
-#include <Ancona/Graphics/View.hpp>
 #include <cmath>
 
-using namespace ild;
+#include <Ancona/Graphics/View.hpp>
+#include <Ancona/System/Log.hpp>
 
-View::View() : _center(), _size(), _rotation(0), _viewport(0, 0, 1, 1)
+namespace ild
+{
+
+View::View() : _viewport(0, 0, 1, 1)
 {
     Reset(FloatRect(0, 0, 1000, 1000));
 }
 
-View::View(const FloatRect & rectangle) : _center(), _size(), _rotation(0), _viewport(0, 0, 1, 1)
+View::View(const FloatRect & rectangle) : _viewport(0, 0, 1, 1)
 {
     Reset(rectangle);
 }
 
-View::View(const Vector2f & center, const Vector2f & size) :
-        _center(center),
-        _size(size),
-        _rotation(0),
-        _viewport(0, 0, 1, 1)
+View::View(const Vector2f & center, const Vector2f & size) : _viewport(0, 0, 1, 1)
 {
+    Reset(FloatRect(center.x - (size.x / 2.0f), center.y - (size.y / 2.0f), size.x, size.y));
 }
 
 void View::Reset(const FloatRect & rectangle)
 {
-    _center.x = rectangle.left + rectangle.width / 2.f;
-    _center.y = rectangle.top + rectangle.height / 2.f;
-    _size.x = rectangle.width;
-    _size.y = rectangle.height;
-    _rotation = 0;
+    _transform = Transform();
+    rotation(0.0f);
+    size(rectangle.width, rectangle.height);
+    center(rectangle.left + rectangle.width / 2.f, rectangle.top + rectangle.height / 2.f);
+    Zoom(1.0f);
 }
 
 void View::Move(float offsetX, float offsetY)
@@ -73,26 +73,23 @@ void View::Rotate(float angle)
 
 void View::Zoom(float factor)
 {
+    _transform.scale(factor, factor);
     size(_size.x * factor, _size.y * factor);
 }
 
 /* getters and setters */
-
-void View::center(float x, float y)
-{
-    _center.x = x;
-    _center.y = y;
-}
 
 void View::center(const Vector2f & centerPoint)
 {
     center(centerPoint.x, centerPoint.y);
 }
 
-void View::size(float width, float height)
+void View::center(float x, float y)
 {
-    _size.x = width;
-    _size.y = height;
+    _transform.position(x, y);
+
+    _center.x = x;
+    _center.y = y;
 }
 
 void View::size(const Vector2f & newSize)
@@ -100,8 +97,18 @@ void View::size(const Vector2f & newSize)
     size(newSize.x, newSize.y);
 }
 
+void View::size(float width, float height)
+{
+    _transform.origin(width / 2.0f, height / 2.0f);
+
+    _size.x = width;
+    _size.y = height;
+}
+
 void View::rotation(float angle)
 {
+    _transform.rotation(angle);
+
     _rotation = static_cast<float>(fmod(angle, 360));
     if (_rotation < 0)
     {
@@ -109,7 +116,4 @@ void View::rotation(float angle)
     }
 }
 
-const Transform & View::transform() const
-{
-    return _transform;
-}
+} // namespace ild

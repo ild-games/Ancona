@@ -32,18 +32,13 @@ Drawable * ImageDrawable::Copy()
 
 void ImageDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
-    if (_vertexArray)
+    if (!_vertexArray)
     {
-        ildhal::RenderStates states(ildhal::BlendAlpha, drawableTransform, *_texture);
-        _vertexArray->Draw(target, states);
+        return;
     }
-    else if (_sprite)
-    {
-        ildhal::RenderStates states;
-        states.transform(drawableTransform);
-        states.size(size());
-        _sprite->Draw(target, states);
-    }
+
+    ildhal::RenderStates states(ildhal::BlendAlpha, drawableTransform, *_texture);
+    _vertexArray->Draw(target, states);
 }
 
 void ImageDrawable::SetupDrawable()
@@ -67,35 +62,29 @@ void ImageDrawable::SetupDrawable(ildhal::Texture * texture)
 
     if (_isTiled)
     {
-        SetupVertexArray(texture);
+        SetupTiledVertexArray(texture);
     }
     else
     {
-        SetupSprite(texture);
+        SetupSpriteVertexArray(texture);
     }
-
-    ApplyColor();
-    ApplyAlpha();
 }
 
-void ImageDrawable::SetupSprite(ildhal::Texture * texture)
+void ImageDrawable::SetupSpriteVertexArray(ildhal::Texture * texture)
 {
-    texture->smooth(true);
-    auto spriteRect = ild::Rect<int>(
-        _textureRect.Position.x,
-        _textureRect.Position.y,
-        _textureRect.Dimension.x,
-        _textureRect.Dimension.y);
+    _tileSize = Vector2f(
+        _isWholeImage ? texture->size().x : _textureRect.Dimension.x,
+        _isWholeImage ? texture->size().y : _textureRect.Dimension.y);
+    _numTiles = Vector2f(1.0f, 1.0f);
+    _numVertices = NUM_VERTICES_PER_TILE;
+    _vertexArray.reset(new ildhal::VertexArray(ildhal::TriangleStrip, _numVertices));
 
-    _sprite.reset(new ildhal::Sprite(*texture, spriteRect));
-    _sprite->origin(spriteRect.width * _anchor.x, spriteRect.height * _anchor.y);
+    int vertexIndex = 0;
+    AddVertexTile(0, 0, vertexIndex, true);
 }
 
-void ImageDrawable::SetupVertexArray(ildhal::Texture * texture)
+void ImageDrawable::SetupTiledVertexArray(ildhal::Texture * texture)
 {
-    texture->smooth(false);
-    texture->repeated(true);
-
     _tileSize = Vector2f(
         _isWholeImage ? texture->size().x : _textureRect.Dimension.x,
         _isWholeImage ? texture->size().y : _textureRect.Dimension.y);
@@ -103,12 +92,11 @@ void ImageDrawable::SetupVertexArray(ildhal::Texture * texture)
     _numTiles = Vector2f(_tiledArea.x / _tileSize.x, _tiledArea.y / _tileSize.y);
     _numVertices = std::ceil(_numTiles.x) * std::ceil(_numTiles.y) * NUM_VERTICES_PER_TILE;
     _vertexArray.reset(new ildhal::VertexArray(ildhal::TriangleStrip, _numVertices));
-    _vertexArray->origin(_tiledArea.x * _anchor.x, _tiledArea.y * _anchor.y);
 
-    SetupVertexArrayTiles();
+    SetupTiledVertexArrayTiles();
 }
 
-void ImageDrawable::SetupVertexArrayTiles()
+void ImageDrawable::SetupTiledVertexArrayTiles()
 {
     int vertexIndex = 0;
     for (int whichYBlock = 0; whichYBlock < std::ceil(_numTiles.y); whichYBlock++)
@@ -170,21 +158,9 @@ void ImageDrawable::VertexTileVert(
     texCoordsY -= (fractionPartY > 0 && yVertexOffset == 1) ? _tileSize.y * (1.0f - fractionPartY) : 0;
     texCoordsX /= _texture->size().x;
     texCoordsY /= _texture->size().y;
-    _vertexArray->SetVertexTexCoords(vertexIndex, Vector2f(texCoordsX, texCoordsY));
+    _vertexArray->SetVertexTexCoords(vertexIndex, Vector2f(texCoordsX, texCoordsY), _color);
 
     vertexIndex++;
-}
-
-void ImageDrawable::ApplyAlpha()
-{
-    Color col(_sprite->color());
-    col.a = _alpha;
-    _sprite->color(col);
-}
-
-void ImageDrawable::ApplyColor()
-{
-    _sprite->color(_color);
 }
 
 void ImageDrawable::Serialize(Archive & arc)
@@ -221,14 +197,14 @@ Vector2f ImageDrawable::size()
 
 void ImageDrawable::alpha(int newAlpha)
 {
-    _alpha = newAlpha;
-    ApplyAlpha();
+    _color.a = (unsigned char) newAlpha;
+    SetupDrawable(_texture);
 }
 
 void ImageDrawable::color(Color newColor)
 {
     _color = newColor;
-    ApplyColor();
+    SetupDrawable(_texture);
 }
 
 } // namespace ild

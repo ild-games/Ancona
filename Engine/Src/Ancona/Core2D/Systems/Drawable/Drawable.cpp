@@ -24,6 +24,7 @@ void Drawable::CopyProperties(Drawable * drawable)
     drawable->scale(_scale);
     drawable->rotation(_rotation);
     drawable->inactive(_inactive);
+    drawable->_direction = _direction;
 }
 
 void Drawable::Serialize(Archive & arc)
@@ -35,21 +36,29 @@ void Drawable::Serialize(Archive & arc)
     arc(_anchor, "anchor");
     arc(_inactive, "inactive");
     arc(_key, "key");
+
+    _direction.x = _scale.x < 0.0f ? -1 : 1;
+    _direction.y = _scale.y < 0.0f ? -1 : 1;
 }
 
 void Drawable::Draw(ildhal::RenderTarget & target, Transform parentTransform, float delta)
 {
-    if (!_inactive)
+    if (_inactive)
     {
-        OnDraw(target, parentTransform.Combine(CalculateTransforms()), delta);
+        return;
     }
+
+    Transform drawableTransform = parentTransform.Combine(CalculateTransforms());
+    OnDraw(target, drawableTransform, delta);
 }
 
 Transform Drawable::CalculateTransforms()
 {
     Transform transform;
-    transform.Rotate(_rotation);
-    transform.Scale(_scale);
+    transform.rotation(_rotation);
+    transform.scale(_scale);
+    Vector2f drawableSize = size();
+    transform.origin(_anchor.x * drawableSize.x, _anchor.y * drawableSize.y);
     return transform;
 }
 
@@ -68,11 +77,13 @@ Drawable * Drawable::FindDrawable(const std::string & key)
 
 void Drawable::SetXDirection(int leftOrRightSignum)
 {
+    _direction.x = leftOrRightSignum;
     _scale.x = std::abs(_scale.x) * leftOrRightSignum;
 }
 
 void Drawable::SetYDirection(int upOrDownSignum)
 {
+    _direction.y = upOrDownSignum;
     _scale.y = std::abs(_scale.y) * upOrDownSignum;
 }
 

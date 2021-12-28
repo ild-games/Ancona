@@ -5,6 +5,7 @@
 #include <Ancona/HAL/SDL/RectangleShapeImpl.hpp>
 #include <Ancona/HAL/SDL/RenderStatesImpl.hpp>
 #include <Ancona/HAL/SDL/RenderTargetImpl.hpp>
+#include <Ancona/System/Log.hpp>
 
 namespace ildhal
 {
@@ -14,15 +15,19 @@ priv::RectangleShapeImpl::RectangleShapeImpl(const ild::Vector2f & size) : _size
 {
 }
 
-void priv::RectangleShapeImpl::Draw(SDL_Renderer & sdlRenderer, const ildhal::RenderStates & renderStates)
+void priv::RectangleShapeImpl::Draw(
+    SDL_Renderer & sdlRenderer,
+    const ild::View & view,
+    const ildhal::RenderStates & renderStates)
 {
     SDL_SetRenderDrawColor(&sdlRenderer, _fillColor.r, _fillColor.g, _fillColor.b, _fillColor.a);
 
-    SDL_FRect sdlRect;
-
     const ild::Transform & transform = renderStates.renderStatesImpl().transform();
-    sdlRect.x = transform.position().x - _origin.x;
-    sdlRect.y = transform.position().y - _origin.y;
+    ild::Vector2f positionInView = view.inverseTransform() * transform.transform() * ild::Vector2f(0.0f, 0.0f);
+
+    SDL_FRect sdlRect;
+    sdlRect.x = positionInView.x;
+    sdlRect.y = positionInView.y;
     sdlRect.w = _size.x;
     sdlRect.h = _size.y;
     SDL_RenderFillRectF(&sdlRenderer, &sdlRect);
@@ -42,7 +47,10 @@ RectangleShape::RectangleShape(const ild::Vector2f & size)
 
 void RectangleShape::Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates)
 {
-    rectangleShapeImpl().Draw(renderTarget.renderTargetImpl().sdlRenderer(), renderStates);
+    rectangleShapeImpl().Draw(
+        renderTarget.renderTargetImpl().sdlRenderer(),
+        renderTarget.renderTargetImpl().view(),
+        renderStates);
 }
 
 /* getters and setters */

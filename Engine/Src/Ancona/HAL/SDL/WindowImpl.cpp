@@ -54,6 +54,7 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
     priv::EventImpl::PopulateSdlToAnconaKeycodeMap();
 
     // SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); // linear instead of nearest neighbor
     SDL_Init(SDL_INIT_EVERYTHING);
 
     uint32_t windowFlags = SDL_WINDOW_SHOWN;
@@ -67,6 +68,7 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
 
     uint32_t rendererFlags = ((useVsync ? SDL_RENDERER_PRESENTVSYNC : 0x0) | (SDL_RENDERER_ACCELERATED));
     SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, rendererFlags);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     SDL_RendererInfo rendererInfo;
     if (SDL_GetRendererInfo(renderer, &rendererInfo) == 0)

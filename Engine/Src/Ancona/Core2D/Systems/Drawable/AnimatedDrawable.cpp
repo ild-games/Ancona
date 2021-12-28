@@ -39,11 +39,6 @@ Drawable * AnimatedDrawable::Copy()
 
 void AnimatedDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
-    if (_anchor.x != 0.0f || _anchor.y != 0.0f)
-    {
-        auto size = this->size();
-        drawableTransform.Move(-(size.x * _anchor.x / std::abs(_scale.x)), -(size.y * _anchor.y / std::abs(_scale.y)));
-    }
     _frames[_curFrame]->Draw(target, drawableTransform, delta);
 }
 

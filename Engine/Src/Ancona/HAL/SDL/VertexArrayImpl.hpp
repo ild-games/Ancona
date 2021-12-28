@@ -2,9 +2,11 @@
 
 #include <SDL2/SDL.h>
 
+#include <Ancona/Graphics/View.hpp>
 #include <Ancona/HAL/SDL/DrawableImpl.hpp>
 #include <Ancona/HAL/VertexArray.hpp>
 #include <Ancona/Util/Vector2.hpp>
+
 
 namespace ildhal
 {
@@ -18,7 +20,7 @@ class VertexArrayImpl : public DrawableImpl
     VertexArrayImpl(int vertexCount);
     ~VertexArrayImpl();
 
-    void Draw(SDL_Renderer & sdlRenderer, const ildhal::RenderStates & renderStates);
+    void Draw(SDL_Renderer & sdlRenderer, const ild::View & view, const ildhal::RenderStates & renderStates);
 
     /* getters and setters */
     SDL_Vertex * vertices() { return _vertices; }

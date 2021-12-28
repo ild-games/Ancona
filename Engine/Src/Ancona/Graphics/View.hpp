@@ -30,6 +30,7 @@
 #include <Ancona/Graphics/Transform.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
+
 namespace ild
 {
 
@@ -61,14 +62,15 @@ class View
     const FloatRect & viewport() const { return _viewport; }
     void viewport(const FloatRect & viewport) { _viewport = viewport; }
 
-    const Transform & transform() const;
+    const MatrixTransform & transform() const { return _transform.transform(); }
+    const MatrixTransform & inverseTransform() const { return _transform.inverseTransform(); }
 
   private:
     Vector2f _center; ///< Center of the view, in scene coordinates
     Vector2f _size; ///< Size of the view, in scene coordinates
     float _rotation; ///< Angle of rotation of the view rectangle, in degrees
     FloatRect _viewport; ///< Viewport rectangle, expressed as a factor of the render-target's size
-    Transform _transform; ///< Precomputed projection transform corresponding to the view
+    Transform _transform;
 };
 
 } // namespace ild

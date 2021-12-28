@@ -1,5 +1,4 @@
-#ifndef Ancona_HAL_SFML_SoundSourceImpl_H_
-#define Ancona_HAL_SFML_SoundSourceImpl_H_
+#pragma once
 
 #include <SFML/Audio.hpp>
 
@@ -15,10 +14,7 @@ class SoundSourceImpl
 {
   public:
     /* getters and setters */
-    sf::SoundSource &sfmlSoundSource() const
-    {
-        return *_sfmlSoundSource;
-    }
+    sf::SoundSource & sfmlSoundSource() const { return *_sfmlSoundSource; }
 
   protected:
     std::unique_ptr<sf::SoundSource> _sfmlSoundSource;
@@ -27,5 +23,3 @@ class SoundSourceImpl
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

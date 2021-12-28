@@ -1,5 +1,4 @@
-#ifndef Ancona_HAL_SFML_SoundImpl_H_
-#define Ancona_HAL_SFML_SoundImpl_H_
+#pragma once
 
 #include <SFML/Audio.hpp>
 
@@ -25,5 +24,3 @@ class SoundImpl : public SoundSourceImpl
 } // namespace priv
 
 } // namespace ildhal
-
-#endif

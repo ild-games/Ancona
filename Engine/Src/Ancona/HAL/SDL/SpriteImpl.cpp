@@ -13,7 +13,10 @@ priv::SpriteImpl::SpriteImpl(SDL_Texture * sdlTexture, const ild::IntRect & rect
 {
 }
 
-void priv::SpriteImpl::Draw(SDL_Renderer & sdlRenderer, const ildhal::RenderStates & renderStates)
+void priv::SpriteImpl::Draw(
+    SDL_Renderer & sdlRenderer,
+    const ild::View & view,
+    const ildhal::RenderStates & renderStates)
 {
     if (!_sdlTexture)
     {
@@ -27,13 +30,35 @@ void priv::SpriteImpl::Draw(SDL_Renderer & sdlRenderer, const ildhal::RenderStat
     src.h = _rect.height;
 
     const ild::Transform & transform = renderStates.renderStatesImpl().transform();
-    SDL_FRect dest;
-    dest.x = transform.position().x - _origin.x;
-    dest.y = transform.position().y - _origin.y;
-    dest.w = renderStates.renderStatesImpl().size().x;
-    dest.h = renderStates.renderStatesImpl().size().y;
+    ild::Vector2f scaledSize = ild::Vector2f(
+        renderStates.renderStatesImpl().size().x * std::abs(transform.scale().x),
+        renderStates.renderStatesImpl().size().y * std::abs(transform.scale().y));
 
-    SDL_RenderCopyF(&sdlRenderer, _sdlTexture, &src, &dest);
+    ild::Vector2f viewPosition = view.center() - (view.size() / 2.0f);
+    ild::Vector2f positionInView = transform.position() - viewPosition;
+
+    SDL_FRect dest;
+    dest.x = positionInView.x;
+    dest.y = positionInView.y;
+    dest.w = scaledSize.x;
+    dest.h = scaledSize.y;
+
+    SDL_FPoint sdlOrigin;
+    sdlOrigin.x = _origin.x;
+    sdlOrigin.y = _origin.y;
+
+    int flip = SDL_FLIP_NONE;
+    flip |= transform.scale().x < 0 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+    flip |= transform.scale().y < 0 ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE;
+
+    SDL_RenderCopyExF(
+        &sdlRenderer,
+        _sdlTexture,
+        &src,
+        &dest,
+        (double) transform.rotation(),
+        &sdlOrigin,
+        (SDL_RendererFlip) flip);
 }
 
 /* HAL Interface Implementation */
@@ -50,7 +75,10 @@ Sprite::Sprite(const Texture & texture, const ild::IntRect & rectangle)
 
 void Sprite::Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates)
 {
-    spriteImpl().Draw(renderTarget.renderTargetImpl().sdlRenderer(), renderStates);
+    spriteImpl().Draw(
+        renderTarget.renderTargetImpl().sdlRenderer(),
+        renderTarget.renderTargetImpl().view(),
+        renderStates);
 }
 
 /* getters and setters */

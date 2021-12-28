@@ -2,10 +2,12 @@
 
 #include <SDL2/SDL.h>
 
+#include <Ancona/Graphics/View.hpp>
 #include <Ancona/HAL/RenderStates.hpp>
 #include <Ancona/HAL/SDL/DrawableImpl.hpp>
 #include <Ancona/HAL/Sprite.hpp>
 #include <Ancona/Util/Vector2.hpp>
+
 
 namespace ildhal
 {
@@ -19,7 +21,7 @@ class SpriteImpl : public DrawableImpl
     SpriteImpl() {}
     SpriteImpl(SDL_Texture * sdlTexture, const ild::IntRect & rect);
 
-    void Draw(SDL_Renderer & sdlRenderer, const ildhal::RenderStates & renderStates);
+    void Draw(SDL_Renderer & sdlRenderer, const ild::View & view, const ildhal::RenderStates & renderStates);
 
     /* getters and setters */
     void origin(const ild::Vector2f & newOrigin) { _origin = newOrigin; }

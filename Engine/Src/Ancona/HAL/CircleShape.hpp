@@ -41,6 +41,7 @@ class CircleShape : public Shape
 {
   public:
     CircleShape();
+    ~CircleShape() override {};
 
     void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates) override;
 

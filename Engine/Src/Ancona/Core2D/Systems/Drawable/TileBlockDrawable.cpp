@@ -55,7 +55,6 @@ void TileBlockDrawable::InitializeVertexArray()
     _numTiles = Vector2f(_size.x / _tileSize.x, _size.y / _tileSize.y);
     _numVertices = std::ceil(_numTiles.x) * std::ceil(_numTiles.y) * NUM_VERTICES_PER_TILE;
     SetupVertexBlock();
-    _vertexArray->origin(_tileSize.x * _numTiles.x * _anchor.x, _tileSize.y * _numTiles.y * _anchor.y);
 }
 
 void TileBlockDrawable::SetupVertexBlock()
@@ -200,6 +199,18 @@ int TileBlockDrawable::YTileToUse(int whichYBlock)
     {
         return 2;
     }
+}
+
+void TileBlockDrawable::alpha(int newAlpha)
+{
+    _color.a = (unsigned char) newAlpha;
+    InitializeVertexArray();
+}
+
+void TileBlockDrawable::color(Color newColor)
+{
+    _color = newColor;
+    InitializeVertexArray();
 }
 
 } // namespace ild

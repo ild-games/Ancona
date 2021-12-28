@@ -44,6 +44,7 @@ class ShapeImpl;
 class Shape : public Drawable
 {
   public:
+    virtual ~Shape() {}
     virtual void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates) = 0;
 
     /* getters and setters */

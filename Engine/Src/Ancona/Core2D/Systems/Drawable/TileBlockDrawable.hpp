@@ -26,8 +26,10 @@ class TileBlockDrawable : public Drawable
     Vector2f size() override { return _size; }
     void size(const Vector2f & size) { _size = size; }
     void textureKey(const std::string & textureKey) { _textureKey = textureKey; }
-    void alpha(int newAlpha) override { _alpha = newAlpha; }
-    int alpha() override { return _alpha; }
+    void alpha(int newAlpha) override;
+    int alpha() override { return static_cast<int>(_color.a); }
+    Color color() { return _color; }
+    void color(Color newColor);
     ildhal::VertexArray & vertexArray() const { return *_vertexArray; }
 
   private:
@@ -38,7 +40,7 @@ class TileBlockDrawable : public Drawable
     Vector2f _size;
     std::unique_ptr<ildhal::VertexArray> _vertexArray;
     ildhal::Texture * _texture;
-    int _alpha = 255;
+    Color _color = Color::White;
 
     void OnDraw(ildhal::RenderTarget & target, Transform transform, float delta) override;
 

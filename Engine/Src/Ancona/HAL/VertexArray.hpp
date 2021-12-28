@@ -26,10 +26,12 @@
 
 #pragma once
 
+#include <Ancona/Graphics/Color.hpp>
 #include <Ancona/HAL/Drawable.hpp>
 #include <Ancona/HAL/PrimitiveRenderType.hpp>
 #include <Ancona/HAL/Vertex.hpp>
 #include <Ancona/Util/Vector2.hpp>
+
 
 namespace ildhal
 {
@@ -45,12 +47,13 @@ class VertexArray : public Drawable
     explicit VertexArray(PrimitiveRenderType type, int vertexCount = 0);
 
     void SetVertexPosition(int index, const ild::Vector2f & newPosition);
-    void SetVertexTexCoords(int index, const ild::Vector2f & newTexCoords);
+    void SetVertexTexCoords(
+        int index,
+        const ild::Vector2f & newTexCoords,
+        const ild::Color & color = ild::Color::White);
     void Draw(ildhal::RenderTarget & renderTarget, const ildhal::RenderStates & renderStates);
 
     /* getters and setters */
-    void origin(const ild::Vector2f & newOrigin);
-    void origin(float x, float y);
     priv::VertexArrayImpl & vertexArrayImpl() const;
 };
 
