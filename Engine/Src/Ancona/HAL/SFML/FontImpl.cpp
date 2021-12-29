@@ -15,7 +15,7 @@ Font::Font() : _pimpl(std::make_unique<priv::FontImpl>())
 {
 }
 
-bool Font::LoadFromFile(const std::string &filename)
+bool Font::LoadFromFile(const std::string & filename)
 {
     return fontImpl().sfmlFont().loadFromFile(filename);
 }

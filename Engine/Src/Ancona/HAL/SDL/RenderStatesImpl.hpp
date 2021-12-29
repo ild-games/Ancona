@@ -29,7 +29,7 @@ class RenderStatesImpl
   protected:
     ildhal::BlendMode _blendMode;
     ild::Transform _transform;
-    const ildhal::Texture & _texture;
+    const ildhal::Texture & _texture; // TODO change to a ptr since it's not always specified
     ild::Vector2f _size;
 };
 

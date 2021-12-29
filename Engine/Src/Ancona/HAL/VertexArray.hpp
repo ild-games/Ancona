@@ -29,6 +29,8 @@
 #include <Ancona/Graphics/Color.hpp>
 #include <Ancona/HAL/Drawable.hpp>
 #include <Ancona/HAL/PrimitiveRenderType.hpp>
+#include <Ancona/HAL/RenderStates.hpp>
+#include <Ancona/HAL/RenderTarget.hpp>
 #include <Ancona/HAL/Vertex.hpp>
 #include <Ancona/Util/Vector2.hpp>
 

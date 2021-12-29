@@ -32,6 +32,8 @@
 #include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL/Drawable.hpp>
 #include <Ancona/HAL/Font.hpp>
+#include <Ancona/HAL/RenderStates.hpp>
+#include <Ancona/HAL/RenderTarget.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
 namespace ildhal
@@ -48,9 +50,9 @@ class Text : public Drawable
     Text();
     Text(const std::string & string, const std::string & fontKey, unsigned int characterSize = 30);
 
+    void Draw(ildhal::RenderTarget & renderTarget, ildhal::RenderStates & renderStates);
+
     /* getters and setters */
-    void origin(const ild::Vector2f & origin);
-    void origin(float x, float y);
     const ild::Color fillColor() const;
     void fillColor(const ild::Color & color);
     ild::FloatRect localBounds() const;

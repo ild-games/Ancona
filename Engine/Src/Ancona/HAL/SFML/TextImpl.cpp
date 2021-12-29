@@ -12,23 +12,23 @@ priv::TextImpl::TextImpl()
     _sfmlDrawable = std::make_unique<sf::Text>();
 }
 
-priv::TextImpl::TextImpl(const std::string &string, const sf::Font &font, unsigned int characterSize)
-    : _underlyingSfmlString(string)
+priv::TextImpl::TextImpl(const std::string & string, const sf::Font & font, unsigned int characterSize) :
+        _underlyingSfmlString(string)
 {
     _sfmlDrawable = std::make_unique<sf::Text>(string, font, characterSize);
 }
 
-sf::Text &priv::TextImpl::sfmlText() const
+sf::Text & priv::TextImpl::sfmlText() const
 {
     return static_cast<sf::Text &>(*_sfmlDrawable);
 }
 
-void priv::TextImpl::underlyingSfmlString(const std::string &string)
+void priv::TextImpl::underlyingSfmlString(const std::string & string)
 {
     _underlyingSfmlString = string;
 }
 
-const std::string &priv::TextImpl::underlyingSfmlString() const
+const std::string & priv::TextImpl::underlyingSfmlString() const
 {
     return _underlyingSfmlString;
 }
@@ -40,15 +40,17 @@ Text::Text() : _fontKey(std::string())
     _pimpl = std::make_unique<priv::TextImpl>();
 }
 
-Text::Text(const std::string &string, const std::string &fontKey, unsigned int characterSize) : _fontKey(fontKey)
+Text::Text(const std::string & string, const std::string & fontKey, unsigned int characterSize) : _fontKey(fontKey)
 {
-    _pimpl = std::make_unique<priv::TextImpl>(string, ild::ResourceLibrary::Get<Font>(fontKey)->fontImpl().sfmlFont(),
-                                              characterSize);
+    _pimpl = std::make_unique<priv::TextImpl>(
+        string,
+        ild::ResourceLibrary::Get<Font>(fontKey)->fontImpl().sfmlFont(),
+        characterSize);
 }
 
 /* getters and setters */
 
-void Text::origin(const ild::Vector2f &origin)
+void Text::origin(const ild::Vector2f & origin)
 {
     textImpl().sfmlText().setOrigin(sf::Vector2f(origin.x, origin.x));
 }
@@ -63,7 +65,7 @@ const ild::Color Text::fillColor() const
     return ild::Color(textImpl().sfmlText().getFillColor().toInteger());
 }
 
-void Text::fillColor(const ild::Color &color)
+void Text::fillColor(const ild::Color & color)
 {
     textImpl().sfmlText().setFillColor(sf::Color(color.toInteger()));
 }
@@ -87,28 +89,28 @@ void Text::characterSize(unsigned int size)
     textImpl().sfmlText().setCharacterSize(size);
 }
 
-const std::string &Text::string() const
+const std::string & Text::string() const
 {
     return textImpl().underlyingSfmlString();
 }
 
-void Text::string(const std::string &newString)
+void Text::string(const std::string & newString)
 {
     textImpl().underlyingSfmlString(newString);
     textImpl().sfmlText().setString(newString);
 }
 
-const std::string &Text::fontKey() const
+const std::string & Text::fontKey() const
 {
     return _fontKey;
 }
 
-void Text::fontKey(const std::string &fontKey)
+void Text::fontKey(const std::string & fontKey)
 {
-    Font *font = ild::ResourceLibrary::Get<Font>(fontKey);
+    Font * font = ild::ResourceLibrary::Get<Font>(fontKey);
     _fontKey = fontKey;
-    priv::FontImpl &fontImpl = font->fontImpl();
-    sf::Font &sfmlFont = fontImpl.sfmlFont();
+    priv::FontImpl & fontImpl = font->fontImpl();
+    sf::Font & sfmlFont = fontImpl.sfmlFont();
 
     textImpl().sfmlText().setFont(sfmlFont);
 }
@@ -125,7 +127,7 @@ void Text::smooth(bool newSmooth) const
     const_cast<sf::Texture &>(textImpl().sfmlText().getFont()->getTexture(characterSize)).setSmooth(newSmooth);
 }
 
-priv::TextImpl &Text::textImpl() const
+priv::TextImpl & Text::textImpl() const
 {
     return static_cast<priv::TextImpl &>(*_pimpl);
 }

@@ -1,4 +1,5 @@
 #include <SDL2_image/SDL_image.h>
+#include <SDL2_ttf/SDL_ttf.h>
 
 #include <Ancona/Graphics/Rect.hpp>
 #include <Ancona/HAL/SDL/DrawableImpl.hpp>
@@ -17,6 +18,8 @@ priv::RenderTargetImpl::RenderTargetImpl(SDL_Renderer * renderer) :
 {
     int imgFlags = IMG_INIT_PNG;
     ILD_Assert(IMG_Init(imgFlags) & imgFlags, "SDL_image failed to initialize!");
+
+    ILD_Assert(TTF_Init() == 0, "SDL_ttf failed to initialize!");
 }
 
 /* HAL Interface Implementation */

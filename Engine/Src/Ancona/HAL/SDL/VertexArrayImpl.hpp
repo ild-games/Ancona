@@ -7,7 +7,6 @@
 #include <Ancona/HAL/VertexArray.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
-
 namespace ildhal
 {
 
@@ -24,12 +23,10 @@ class VertexArrayImpl : public DrawableImpl
 
     /* getters and setters */
     SDL_Vertex * vertices() { return _vertices; }
-    void origin(const ild::Vector2f & newOrigin) { _origin = newOrigin; }
 
   private:
     int _numVertices;
     SDL_Vertex * _vertices;
-    ild::Vector2f _origin = ild::Vector2f(0.0f, 0.0f);
 };
 
 } // namespace priv

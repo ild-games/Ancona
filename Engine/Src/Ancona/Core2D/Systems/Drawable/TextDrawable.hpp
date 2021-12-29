@@ -62,7 +62,7 @@ class TextDrawable : public Drawable
 
     /* getters and setters */
     const std::string & text() { return _text->string(); }
-    void text(const std::string & text, bool resetOrigin = true);
+    void text(const std::string & text);
     Vector2f size() override;
     int alpha() override;
     void alpha(int alpha) override;
@@ -81,7 +81,6 @@ class TextDrawable : public Drawable
     bool _smooth = true;
 
     void SetupText();
-    void CenterOrigin();
     void OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta) override;
 };
 

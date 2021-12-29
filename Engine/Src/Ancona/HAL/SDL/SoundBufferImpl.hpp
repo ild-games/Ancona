@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Audio.hpp>
+// #include <SFML/Audio.hpp>
 
 #include <Ancona/HAL/SoundBuffer.hpp>
 
@@ -16,10 +16,7 @@ class SoundBufferImpl
     SoundBufferImpl();
 
     /* getters and setters */
-    sf::SoundBuffer & sfmlSoundBuffer() const { return *_sfmlSoundBuffer; }
-
   private:
-    std::unique_ptr<sf::SoundBuffer> _sfmlSoundBuffer;
 };
 
 } // namespace priv

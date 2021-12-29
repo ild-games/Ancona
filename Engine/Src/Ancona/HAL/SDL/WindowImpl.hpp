@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
+#include <SDL2_ttf/SDL_ttf.h>
 
 #include <Ancona/HAL/SDL/ClockImpl.hpp>
 #include <Ancona/HAL/SDL/RenderTargetImpl.hpp>
@@ -19,6 +20,7 @@ struct SDL_WindowDestructor
     void operator()(SDL_Window * w) const
     {
         SDL_DestroyWindow(w);
+        TTF_Quit();
         IMG_Quit();
         SDL_Quit();
     }

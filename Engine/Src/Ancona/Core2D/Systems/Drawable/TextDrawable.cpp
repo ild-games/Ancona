@@ -50,13 +50,7 @@ Drawable * TextDrawable::Copy()
 void TextDrawable::OnDraw(ildhal::RenderTarget & target, Transform drawableTransform, float delta)
 {
     ildhal::RenderStates states(drawableTransform);
-    target.Draw(*_text, states);
-}
-
-void TextDrawable::CenterOrigin()
-{
-    auto textRect = _text->localBounds();
-    _text->origin(textRect.left + (textRect.width * _anchor.x), textRect.top + (textRect.height * _anchor.y));
+    _text->Draw(target, states);
 }
 
 void TextDrawable::Serialize(Archive & archive)
@@ -71,7 +65,6 @@ void TextDrawable::Serialize(Archive & archive)
 void TextDrawable::FetchDependencies(const Entity & entity)
 {
     Drawable::FetchDependencies(entity);
-    CenterOrigin();
 }
 
 void TextDrawable::SetupText()
@@ -85,19 +78,15 @@ void TextDrawable::SetupText()
 }
 
 /* getters and setters */
-void TextDrawable::text(const std::string & text, bool resetOrigin)
+void TextDrawable::text(const std::string & text)
 {
     _text->string(text);
-    if (resetOrigin)
-    {
-        CenterOrigin();
-    }
 }
 
 Vector2f TextDrawable::size()
 {
     Vector2f size(_text->localBounds().width, _text->localBounds().height);
-    return VectorMath::ComponentMultiplication(size, _scale);
+    return size;
 }
 
 int TextDrawable::alpha()

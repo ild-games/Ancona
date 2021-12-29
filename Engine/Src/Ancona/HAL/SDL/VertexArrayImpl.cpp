@@ -41,7 +41,7 @@ void priv::VertexArrayImpl::Draw(
 
     if (SDL_RenderGeometry(&sdlRenderer, &texture, transformedVertices, _numVertices, nullptr, 0) != 0)
     {
-        ILD_Log(std::string(SDL_GetError()));
+        ILD_Log("Failed to render VertexArray! SDL error: " << std::string(SDL_GetError()));
     }
     delete[] transformedVertices;
 }

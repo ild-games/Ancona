@@ -27,15 +27,19 @@
             ]
         },
         {
-            "name" : "sfml",
+            "name" : "freetype",
             "repository" : {
                 "type" : "git",
-                "location" : "https://github.com/SFML/SFML",
-                "commit": "c824d3d57a5ef905a4453c9c2fde892c2aa8737b"
+                "location" : "https://github.com/freetype/freetype.git",
+                "branch": "tags/VER-2-11-1"
             },
-            "buildSystem" : "cmake",
-            "patches" : [
-            ]
+            "configOptions": [
+                {
+                    "name": "BUILD_SHARED_LIBS",
+                    "value": "on"
+                }
+            ],
+            "buildSystem" : "cmake"
         },
         {
             "name" : "SDL",
@@ -69,8 +73,25 @@
             "patches": [
                 "Patches/SDL2_image_add_install_step_to_cmake.patch"
             ]
+        },
+        {
+            "name" : "SDL_ttf",
+            "repository" : {
+                "type" : "git",
+                "location" : "https://github.com/libsdl-org/SDL_ttf.git",
+                "commit": "f4f1093841e53b717d1354a43e901d8d93907a86"
+            },
+            "buildSystem" : "cmake",
+            "configOptions": [
+                {
+                    "name": "BUILD_SHARED_LIBS",
+                    "value": "on"
+                }
+            ],
+            "patches": [
+                "Patches/SDL2_ttf_add_raft_install_rules.patch"
+            ]
         }
-
     ],
     "architectures" : [
         {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Audio.hpp>
+// #include <SFML/Audio.hpp>
 
 #include <Ancona/HAL/SDL/SoundSourceImpl.hpp>
 
@@ -16,7 +16,6 @@ class MusicImpl : public SoundSourceImpl
     MusicImpl();
 
     /* getters and setters */
-    sf::Music & sfmlMusic() const;
 };
 
 } // namespace priv

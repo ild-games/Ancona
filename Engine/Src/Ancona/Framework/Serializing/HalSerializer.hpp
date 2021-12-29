@@ -13,9 +13,10 @@
 namespace ild
 {
 
-template <> struct Serializer<ildhal::Text>
+template<>
+struct Serializer<ildhal::Text>
 {
-    static void Serialize(ildhal::Text &property, Archive &arc)
+    static void Serialize(ildhal::Text & property, Archive & arc)
     {
         std::string text;
         std::string fontKey;
@@ -50,43 +51,31 @@ template <> struct Serializer<ildhal::Text>
         }
     }
 
-    static const rapidjson::Type SerializingType()
-    {
-        return rapidjson::Type::kObjectType;
-    }
+    static const rapidjson::Type SerializingType() { return rapidjson::Type::kObjectType; }
 };
 
-template <> struct Serializer<ildhal::Shape>
+template<>
+struct Serializer<ildhal::Shape>
 {
-    static void Serialize(ildhal::Shape &shape, Archive &arc)
-    {
-        ILD_Assert(false, "Cannot serialize ildhal::Shape");
-    }
+    static void Serialize(ildhal::Shape & shape, Archive & arc) { ILD_Assert(false, "Cannot serialize ildhal::Shape"); }
 
-    static const rapidjson::Type SerializingType()
-    {
-        return rapidjson::Type::kObjectType;
-    }
+    static const rapidjson::Type SerializingType() { return rapidjson::Type::kObjectType; }
 };
 
-template <> struct Serializer<ildhal::RectangleShape>
+template<>
+struct Serializer<ildhal::RectangleShape>
 {
-    static void Serialize(ildhal::RectangleShape &shape, Archive &arc);
+    static void Serialize(ildhal::RectangleShape & shape, Archive & arc);
 
-    static const rapidjson::Type SerializingType()
-    {
-        return rapidjson::Type::kObjectType;
-    }
+    static const rapidjson::Type SerializingType() { return rapidjson::Type::kObjectType; }
 };
 
-template <> struct Serializer<ildhal::CircleShape>
+template<>
+struct Serializer<ildhal::CircleShape>
 {
-    static void Serialize(ildhal::CircleShape &shape, Archive &arc);
+    static void Serialize(ildhal::CircleShape & shape, Archive & arc);
 
-    static const rapidjson::Type SerializingType()
-    {
-        return rapidjson::Type::kObjectType;
-    }
+    static const rapidjson::Type SerializingType() { return rapidjson::Type::kObjectType; }
 };
 
 } // namespace ild

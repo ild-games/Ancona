@@ -9,12 +9,6 @@ namespace ildhal
 
 priv::MusicImpl::MusicImpl()
 {
-    _sfmlSoundSource = std::make_unique<sf::Music>();
-}
-
-sf::Music & priv::MusicImpl::sfmlMusic() const
-{
-    return static_cast<sf::Music &>(*_sfmlSoundSource);
 }
 
 /* HAL Interface Implementation */
@@ -26,33 +20,28 @@ Music::Music()
 
 void Music::Play()
 {
-    musicImpl().sfmlMusic().play();
 }
 
 void Music::Pause()
 {
-    musicImpl().sfmlMusic().pause();
 }
 
 void Music::Stop()
 {
-    musicImpl().sfmlMusic().stop();
 }
 
 bool Music::OpenFromFile(const std::string & filename)
 {
-    return musicImpl().sfmlMusic().openFromFile(filename);
+    return true;
 }
 
 /* getters and setters */
 void Music::loop(bool newLoop)
 {
-    musicImpl().sfmlMusic().setLoop(newLoop);
 }
 
 void Music::playingOffset(Time timeOffset)
 {
-    musicImpl().sfmlMusic().setPlayingOffset(sf::seconds(static_cast<float>(timeOffset.AsSeconds())));
 }
 
 priv::MusicImpl & Music::musicImpl() const
