@@ -27,21 +27,6 @@
             ]
         },
         {
-            "name" : "freetype",
-            "repository" : {
-                "type" : "git",
-                "location" : "https://github.com/freetype/freetype.git",
-                "branch": "tags/VER-2-11-1"
-            },
-            "configOptions": [
-                {
-                    "name": "BUILD_SHARED_LIBS",
-                    "value": "on"
-                }
-            ],
-            "buildSystem" : "cmake"
-        },
-        {
             "name" : "SDL",
             "repository" : {
                 "type" : "git",

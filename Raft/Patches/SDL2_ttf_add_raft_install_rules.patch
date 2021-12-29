@@ -1,26 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6750436..c98da3c 100644
+index 6750436..e8d49c5 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -71,8 +71,16 @@ else ()
-   target_link_libraries(SDL2_ttf SDL2::SDL2-static)
-   set_target_properties(SDL2_ttf PROPERTIES POSITION_INDEPENDENT_CODE ON)
- endif ()
--target_link_libraries(SDL2_ttf Freetype::Freetype)
-+
-+if(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
-+    set(LIB_SUFFIX "d")
-+else()
-+    set(LIB_SUFFIX "")
-+endif()
-+target_link_directories(SDL2_ttf PRIVATE ${RAFT_LIB_DIR})
-+target_link_libraries(SDL2_ttf freetype${LIB_SUFFIX})
- target_include_directories(SDL2_ttf PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SDL2>)
-+target_include_directories(SDL2_ttf PRIVATE "${RAFT_INCLUDE_DIR}/freetype2")
- 
- install(
-   TARGETS SDL2_ttf
-@@ -83,7 +91,7 @@ install(
+@@ -83,7 +83,7 @@ install(
  )
  install(
    FILES SDL_ttf.h
@@ -29,3 +11,16 @@ index 6750436..c98da3c 100644
  )
  
  ##### export files #####
+@@ -114,6 +114,12 @@ install(
+   COMPONENT Devel
+ )
+ 
++if (BUILD_SHARED_LIBS)
++	if(WIN32)
++	  target_compile_definitions(SDL2_ttf PRIVATE -DDLL_EXPORT)
++	endif()
++endif()
++
+ ##### pkg-config #####
+ if (PKG_CONFIG_FOUND)
+   set(SDL_VERSION 2.0.0)

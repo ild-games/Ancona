@@ -40,15 +40,11 @@ set (ANCONA_LIBS
     Ancona_Util2D)
 
 set(ANCONA_EXT_LIBS
-    optimized sfml-graphics debug sfml-graphics-d
-    optimized sfml-window debug sfml-window-d
-    optimized sfml-system debug sfml-system-d
     SDL2
     SDL2_image)
 
 if(ANDROID)
     set(ANCONA_EXT_LIBS ${ANCONA_EXT_LIBS} android EGL log)
-    set(ANCONA_WHOLE_EXT_LIBS sfml-main)
 endif()
 
 #Configure output directories to be something sensible
