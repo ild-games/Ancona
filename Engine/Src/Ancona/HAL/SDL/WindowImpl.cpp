@@ -61,7 +61,7 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
     // SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); // linear instead of nearest neighbor
 
-    ILD_Assert(
+    ILD_ReleaseAssert(
         SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) >= 0,
         "SDL could not initialize! SDL Error: " << SDL_GetError());
 
@@ -84,17 +84,17 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
         ILD_Log("Renderer name: " << std::string(rendererInfo.name));
     }
 
-    ILD_Assert(
+    ILD_ReleaseAssert(
         IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG,
         "SDL_image failed to initialize! SDL_image error: " << IMG_GetError());
 
-    ILD_Assert(TTF_Init() >= 0, "SDL_ttf failed to initialize! SDL_ttf error: " << TTF_GetError());
+    ILD_ReleaseAssert(TTF_Init() >= 0, "SDL_ttf failed to initialize! SDL_ttf error: " << TTF_GetError());
 
-    ILD_Assert(
+    ILD_ReleaseAssert(
         Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG,
         "SDL_mixer could not initialize! SDL_mixer error: " << Mix_GetError());
 
-    ILD_Assert(
+    ILD_ReleaseAssert(
         Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) >= 0,
         "SDL_mixer could not initialize! SDL_mixer error: " << Mix_GetError());
 

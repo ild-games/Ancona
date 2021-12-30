@@ -58,3 +58,10 @@ class AssertControls
             ild::AssertControls::_ild_assert(condition, stream.str(), __FILE__, __LINE__); \
         }
 #endif
+
+#define ILD_ReleaseAssert(condition, message)                                          \
+    {                                                                                  \
+        std::ostringstream stream;                                                     \
+        stream << message;                                                             \
+        ild::AssertControls::_ild_assert(condition, stream.str(), __FILE__, __LINE__); \
+    }
