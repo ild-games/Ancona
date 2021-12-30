@@ -45,6 +45,14 @@ void priv::TextImpl::Draw(
 
 bool priv::TextImpl::SetupTexture(TTF_Font & sdlFont, SDL_Renderer & renderer)
 {
+    // Super weird situation here... SDL_ttf considers an alpha value of 0 to be OPAQUE and changes it to 255.
+    // Don't understand why, but for now just return false so nothing gets rendered when the color is fully
+    // transparent.
+    if ((int) _fillColor.a == 0)
+    {
+        return false;
+    }
+
     SDL_Color sdlColor;
     sdlColor.r = _fillColor.r;
     sdlColor.g = _fillColor.g;
@@ -152,6 +160,11 @@ const ild::Color Text::fillColor() const
 
 void Text::fillColor(const ild::Color & color)
 {
+    if (color == textImpl().fillColor())
+    {
+        return;
+    }
+
     textImpl().fillColor(color);
     textImpl().dirty(true);
 }
@@ -171,6 +184,11 @@ unsigned int Text::characterSize() const
 
 void Text::characterSize(unsigned int size)
 {
+    if (size == textImpl().characterSize())
+    {
+        return;
+    }
+
     textImpl().characterSize(size);
     textImpl().dirty(true);
 }
@@ -182,6 +200,11 @@ const std::string & Text::string() const
 
 void Text::string(const std::string & newString)
 {
+    if (newString == textImpl().text())
+    {
+        return;
+    }
+
     textImpl().text(newString);
     textImpl().dirty(true);
 }
@@ -198,11 +221,13 @@ void Text::fontKey(const std::string & fontKey)
 
 bool Text::smooth() const
 {
-    return false;
+    // SDL fonts are always smooth for now
+    return true;
 }
 
 void Text::smooth(bool newSmooth) const
 {
+    // SDL fonts are always smooth for now
 }
 
 priv::TextImpl & Text::textImpl() const

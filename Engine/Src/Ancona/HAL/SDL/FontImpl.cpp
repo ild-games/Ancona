@@ -14,7 +14,7 @@ bool priv::FontImpl::LoadSDLFontFromFile(const std::string & filename)
 
     if (!loadedFont)
     {
-        ILD_Log("Failed to load ttf font!: " << filename);
+        ILD_Log("Failed to load ttf font!: " << filename << "\nSDL_ttf error: " << TTF_GetError());
         return false;
     }
 

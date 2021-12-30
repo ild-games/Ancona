@@ -26,6 +26,10 @@
 //
 ////////////////////////////////////////////////////////////
 
+#include <SDL2_image/SDL_image.h>
+#include <SDL2_mixer/SDL_mixer.h>
+#include <SDL2_ttf/SDL_ttf.h>
+
 #include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/Mouse.hpp>
 #include <Ancona/HAL/SDL/EventImpl.hpp>
@@ -34,6 +38,7 @@
 #include <Ancona/HAL/Sleep.hpp>
 #include <Ancona/HAL/Window.hpp>
 #include <Ancona/System/Log.hpp>
+#include <Ancona/Util/Assert.hpp>
 #include <Ancona/Util/Vector2.hpp>
 
 namespace ildhal
@@ -55,7 +60,10 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
 
     // SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); // linear instead of nearest neighbor
-    SDL_Init(SDL_INIT_EVERYTHING);
+
+    ILD_Assert(
+        SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) >= 0,
+        "SDL could not initialize! SDL Error: " << SDL_GetError());
 
     uint32_t windowFlags = SDL_WINDOW_SHOWN;
     windowFlags |=
@@ -71,10 +79,24 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     SDL_RendererInfo rendererInfo;
-    if (SDL_GetRendererInfo(renderer, &rendererInfo) == 0)
+    if (SDL_GetRendererInfo(renderer, &rendererInfo) < 0)
     {
         ILD_Log("Renderer name: " << std::string(rendererInfo.name));
     }
+
+    ILD_Assert(
+        IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG,
+        "SDL_image failed to initialize! SDL_image error: " << IMG_GetError());
+
+    ILD_Assert(TTF_Init() >= 0, "SDL_ttf failed to initialize! SDL_ttf error: " << TTF_GetError());
+
+    ILD_Assert(
+        Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG,
+        "SDL_mixer could not initialize! SDL_mixer error: " << Mix_GetError());
+
+    ILD_Assert(
+        Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) >= 0,
+        "SDL_mixer could not initialize! SDL_mixer error: " << Mix_GetError());
 
     _pimpl = std::make_unique<priv::WindowImpl>(window, renderer);
 }

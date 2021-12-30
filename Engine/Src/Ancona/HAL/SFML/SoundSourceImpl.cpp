@@ -7,12 +7,12 @@ namespace ildhal
 
 SoundSource::Status SoundSource::status() const
 {
-    return (SoundSource::Status)soundSourceImpl().sfmlSoundSource().getStatus();
+    return (SoundSource::Status) soundSourceImpl().sfmlSoundSource().getStatus();
 }
 
 void SoundSource::volume(float volume)
 {
-    soundSourceImpl().sfmlSoundSource().setVolume(volume);
+    soundSourceImpl().sfmlSoundSource().setVolume(volume * 100.0f);
 }
 
 } // namespace ildhal

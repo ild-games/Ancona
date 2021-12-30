@@ -24,8 +24,7 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef Ancona_HAL_Sound_H_
-#define Ancona_HAL_Sound_H_
+#pragma once
 
 #include <Ancona/HAL/SoundSource.hpp>
 
@@ -43,16 +42,17 @@ class Sound : public SoundSource
 {
   public:
     Sound();
-    explicit Sound(const SoundBuffer &buffer);
+    explicit Sound(const SoundBuffer & buffer);
 
-    void Play();
-    void Pause();
-    void Stop();
+    void Play() override;
+    void Pause() override;
+    void Stop() override;
 
     /* getters and setters */
-    priv::SoundImpl &soundImpl() const;
+    SoundSource::Status status() const override;
+    void volume(float volume) override;
+
+    priv::SoundImpl & soundImpl() const;
 };
 
 } // namespace ildhal
-
-#endif

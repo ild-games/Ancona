@@ -1,0 +1,10 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8c5490b..70bba8c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -94,3 +94,5 @@ endif()
+ 
+ target_include_directories(SDL2_mixer PUBLIC include)
+ target_link_libraries(SDL2_mixer PRIVATE SDL2::SDL2)
++install(TARGETS SDL2_mixer LIBRARY)
++install(FILES ${SDL2_mixer_SOURCE_DIR}/include/SDL_mixer.h DESTINATION ${RAFT_INCLUDE_DIR}/SDL2_mixer)

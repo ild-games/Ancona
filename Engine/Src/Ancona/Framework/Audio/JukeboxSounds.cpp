@@ -42,7 +42,7 @@ void JukeboxSounds::Play(const unsigned long & jobID, const float & volume)
         return;
     }
 
-    _sounds[indexToUse]->volume(volume * 100.0f);
+    _sounds[indexToUse]->volume(volume);
     _sounds[indexToUse]->Stop();
     _sounds[indexToUse]->Play();
 }

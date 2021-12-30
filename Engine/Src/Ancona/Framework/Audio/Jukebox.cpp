@@ -34,7 +34,7 @@ void Jukebox::Update()
     }
 }
 
-void Jukebox::RegisterSound(const std::string &soundKey)
+void Jukebox::RegisterSound(const std::string & soundKey)
 {
     if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end())
     {
@@ -50,12 +50,14 @@ void Jukebox::ClearSounds()
     _nextSoundLifecycleJobID = 0;
 }
 
-unsigned long Jukebox::ReserveSoundLifecycleID(const std::string &soundKey)
+unsigned long Jukebox::ReserveSoundLifecycleID(const std::string & soundKey)
 {
     if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end())
     {
-        ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before "
-                         "reserving a sound allocation.");
+        ILD_Assert(
+            true,
+            "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before "
+            "reserving a sound allocation.");
     }
 
     _nextSoundLifecycleJobID++;
@@ -63,18 +65,20 @@ unsigned long Jukebox::ReserveSoundLifecycleID(const std::string &soundKey)
     return _nextSoundLifecycleJobID;
 }
 
-void Jukebox::PlaySound(const std::string &soundKey, const unsigned long &jobID, const float &volume)
+void Jukebox::PlaySound(const std::string & soundKey, const unsigned long & jobID, const float & volume)
 {
     if (_jukeboxSounds.find(soundKey) == _jukeboxSounds.end())
     {
-        ILD_Assert(true, "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before "
-                         "playing a sound");
+        ILD_Assert(
+            true,
+            "Sound key has not been registered in the Jukebox, please call Jukebox::RegisterSound before "
+            "playing a sound");
     }
 
     _jukeboxSounds[soundKey]->Play(jobID, volume);
 }
 
-void Jukebox::PlayMusic(const std::string &musicKey, const bool &loop, const float &loopStart)
+void Jukebox::PlayMusic(const std::string & musicKey, const bool & loop, const float & loopStart)
 {
     if (!_music)
     {
@@ -94,7 +98,7 @@ void Jukebox::PlayMusic(const std::string &musicKey, const bool &loop, const flo
     PlayMusic(loop, loopStart);
 }
 
-void Jukebox::PlayMusic(const bool &loop, const float &loopStart)
+void Jukebox::PlayMusic(const bool & loop, const float & loopStart)
 {
     if (!_music)
     {
@@ -143,7 +147,7 @@ void Jukebox::ApplyMusicVolume()
     else
     {
         auto realVolume = std::pow(100.0f, _musicVolumePercent - 1);
-        _music->volume(realVolume * 100);
+        _music->volume(realVolume);
     }
 }
 

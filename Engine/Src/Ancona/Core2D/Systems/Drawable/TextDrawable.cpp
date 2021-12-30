@@ -97,6 +97,11 @@ int TextDrawable::alpha()
 void TextDrawable::alpha(int alpha)
 {
     Color col(_text->fillColor());
+    if (alpha < 0)
+    {
+        alpha = 0;
+    }
+
     col.a = alpha;
     _text->fillColor(col);
 }

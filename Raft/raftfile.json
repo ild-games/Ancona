@@ -76,6 +76,32 @@
             "patches": [
                 "Patches/SDL2_ttf_add_raft_install_rules.patch"
             ]
+        },
+        {
+            "name" : "SDL_mixer",
+            "repository" : {
+                "type" : "git",
+                "location" : "https://github.com/libsdl-org/SDL_mixer.git",
+                "commit": "2f54a8ab312c75c90ad55f4ea1ee26d9889a712b"
+            },
+            "buildSystem" : "cmake",
+            "configOptions": [
+                {
+                    "name": "BUILD_SHARED_LIBS",
+                    "value": "on"
+                },
+                {
+                    "name": "SUPPORT_WAV",
+                    "value": "on"
+                },
+                {
+                    "name": "SUPPORT_OGG",
+                    "value": "on"
+                }
+            ],
+            "patches": [
+                "Patches/SDL2_mixer_add_install_step_to_cmake.patch"
+            ]
         }
     ],
     "architectures" : [

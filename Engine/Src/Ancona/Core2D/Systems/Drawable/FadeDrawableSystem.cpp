@@ -1,13 +1,23 @@
 #include <Ancona/Core2D/Systems/Drawable/FadeDrawableSystem.hpp>
 #include <Ancona/Framework/EntityFramework/UpdateStep.hpp>
 
-using namespace ild;
+namespace ild
+{
 
 /* Component */
-FadeDrawableComponent::FadeDrawableComponent(DrawableComponent *drawableComponent, FadeDrawableSystem *system,
-                                             const Entity &owner, float fadeIn, bool destroySelf, float fadeSpeed)
-    : _drawableComponent(drawableComponent), _system(system), _owner(owner), FADE_SPEED(fadeSpeed), _fadeIn(fadeIn),
-      _destroySelf(destroySelf)
+FadeDrawableComponent::FadeDrawableComponent(
+    DrawableComponent * drawableComponent,
+    FadeDrawableSystem * system,
+    const Entity & owner,
+    float fadeIn,
+    bool destroySelf,
+    float fadeSpeed) :
+        _drawableComponent(drawableComponent),
+        _system(system),
+        _owner(owner),
+        FADE_SPEED(fadeSpeed),
+        _fadeIn(fadeIn),
+        _destroySelf(destroySelf)
 {
 }
 
@@ -46,8 +56,8 @@ int FadeDrawableComponent::FadeStep(int alpha, float delta)
 }
 
 /* System */
-FadeDrawableSystem::FadeDrawableSystem(const std::string &name, SystemManager &manager)
-    : UnorderedSystem(name, manager, UpdateStep::Update)
+FadeDrawableSystem::FadeDrawableSystem(const std::string & name, SystemManager & manager) :
+        UnorderedSystem(name, manager, UpdateStep::Update)
 {
 }
 
@@ -59,12 +69,18 @@ void FadeDrawableSystem::Update(float delta)
     }
 }
 
-FadeDrawableComponent *FadeDrawableSystem::CreateComponent(const Entity &entity, DrawableComponent *drawableComponent,
-                                                           bool fadeIn, bool destroySelf, float fadeSpeed)
+FadeDrawableComponent * FadeDrawableSystem::CreateComponent(
+    const Entity & entity,
+    DrawableComponent * drawableComponent,
+    bool fadeIn,
+    bool destroySelf,
+    float fadeSpeed)
 {
-    FadeDrawableComponent *comp =
+    FadeDrawableComponent * comp =
         new FadeDrawableComponent(drawableComponent, this, entity, fadeIn, destroySelf, fadeSpeed);
     AttachComponent(entity, comp);
 
     return comp;
 }
+
+} // namespace ild

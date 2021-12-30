@@ -44,14 +44,16 @@ class Music : public SoundSource
   public:
     Music();
 
-    void Play();
-    void Pause();
-    void Stop();
+    void Play() override;
+    void Pause() override;
+    void Stop() override;
     bool OpenFromFile(const std::string & filename);
 
     /* getters and setters */
     void loop(bool newLoop);
     void playingOffset(Time timeOffset);
+    SoundSource::Status status() const override;
+    void volume(float volume) override;
     priv::MusicImpl & musicImpl() const;
 };
 

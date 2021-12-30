@@ -15,7 +15,7 @@ bool priv::TextureImpl::LoadSDLTextureFromFile(const std::string & filename, SDL
     SDL_Surface * loadedSurface = IMG_Load(filename.c_str());
     if (loadedSurface == nullptr)
     {
-        ILD_Log("Failed to create SDL_Surface for texture!: " << filename);
+        ILD_Log("Failed to create SDL_Surface for texture!: " << filename << "\nSDL_image error: " << IMG_GetError());
         return false;
     }
 
@@ -23,7 +23,7 @@ bool priv::TextureImpl::LoadSDLTextureFromFile(const std::string & filename, SDL
     SDL_FreeSurface(loadedSurface);
     if (texture == nullptr)
     {
-        ILD_Log("Failed to create SDL_Texture from surface!: " << filename);
+        ILD_Log("Failed to create SDL_Texture from surface!: " << filename << "\nSDL error: " << SDL_GetError());
         return false;
     }
 

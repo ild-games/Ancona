@@ -51,8 +51,8 @@ class SoundSource
     virtual void Stop() = 0;
 
     /* getters and setters */
-    Status status() const;
-    void volume(float volume);
+    virtual Status status() const = 0;
+    virtual void volume(float volume) = 0;
 
     priv::SoundSourceImpl & soundSourceImpl() const { return *_pimpl; }
 
