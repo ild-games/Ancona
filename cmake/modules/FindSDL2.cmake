@@ -1,7 +1,7 @@
 # forward the SDL2 include directory so SDL_Image includes work
 include_directories("${RAFT_INCLUDE_DIR}/SDL2")
 
-if(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
+if(NOT ANDROID AND CMAKE_BUILD_TYPE STREQUAL "DEBUG")
     set(LIB_SUFFIX "d")
 else()
     set(LIB_SUFFIX "")
@@ -17,6 +17,9 @@ elseif(WIN32)
     set_property(TARGET SDL2 PROPERTY IMPORTED_IMPLIB "${RAFT_LIB_DIR}/libSDL2${LIB_SUFFIX}.dll.a")
 elseif(APPLE)
     set_property(TARGET SDL2 PROPERTY IMPORTED_LOCATION "${RAFT_LIB_DIR}/libSDL2${LIB_SUFFIX}.dylib")
+    set_property(TARGET SDL2 PROPERTY IMPORTED_IMPLIB "${RAFT_LIB_DIR}/libSDL2${LIB_SUFFIX}.a")
+elseif(ANDROID)
+    set_property(TARGET SDL2 PROPERTY IMPORTED_LOCATION "${RAFT_LIB_DIR}/libSDL2${LIB_SUFFIX}.so")
     set_property(TARGET SDL2 PROPERTY IMPORTED_IMPLIB "${RAFT_LIB_DIR}/libSDL2${LIB_SUFFIX}.a")
 else()
     set_property(TARGET SDL2 PROPERTY IMPORTED_LOCATION "${RAFT_INSTALL_DIR}/bin/SDL2${LIB_SUFFIX}.so")

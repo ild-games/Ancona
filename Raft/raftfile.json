@@ -119,11 +119,11 @@
         },
         {
             "platform" : "Android",
-            "architecture" : "armeabi"
+            "architecture" : "armeabi-v7a"
         },
         {
             "platform" : "Android",
-            "architecture" : "armeabi-v7a"
+            "architecture" : "arm64-v8a"
         },
         {
             "platform" : "Android",
@@ -131,7 +131,7 @@
         },
         {
             "platform" : "Android",
-            "architecture" : "mips"
+            "architecture" : "x86_64"
         },
         {
             "platform" : "iOS",

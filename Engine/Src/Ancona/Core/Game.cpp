@@ -69,7 +69,7 @@ void Game::Run()
 
     ildhal::Clock clock;
 
-    ildhal::Time minDeltaTime = ildhal::seconds(1.0 / _config.minFps);
+    ildhal::Time maxDeltaTime = ildhal::seconds(1.0 / _config.minFps);
     ildhal::Time totalTime = ildhal::Time::Zero;
     ildhal::Time fixedDeltaTime = ildhal::seconds(1.0 / _config.fixedUpdateFps);
 
@@ -95,7 +95,7 @@ void Game::Run()
         }
 
         ildhal::Time newTime = clock.ElapsedTime();
-        ildhal::Time deltaTime = ildhal::minTime(newTime - currentTime, minDeltaTime);
+        ildhal::Time deltaTime = ildhal::minTime(newTime - currentTime, maxDeltaTime);
         currentTime = newTime;
         accumulator += deltaTime;
 

@@ -10,6 +10,7 @@
 #include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/Mouse.hpp>
 #include <Ancona/HAL/Music.hpp>
+#include <Ancona/HAL/OS.hpp>
 #include <Ancona/HAL/PrimitiveRenderType.hpp>
 #include <Ancona/HAL/RectangleShape.hpp>
 #include <Ancona/HAL/RenderStates.hpp>
@@ -29,5 +30,6 @@
 #include <Ancona/HAL/Vertex.hpp>
 #include <Ancona/HAL/VertexArray.hpp>
 #include <Ancona/HAL/Window.hpp>
+
 
 #include <Ancona/HAL/SDL.hpp>

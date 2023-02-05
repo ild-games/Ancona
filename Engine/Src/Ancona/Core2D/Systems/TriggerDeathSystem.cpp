@@ -1,6 +1,7 @@
 #include "TriggerDeathSystem.hpp"
 
-using namespace ild;
+namespace ild
+{
 
 /* Component */
 TriggerDeathComponent::TriggerDeathComponent()
@@ -15,14 +16,14 @@ void TriggerDeathComponent::Update(float delta)
     }
 }
 
-void TriggerDeathComponent::Serialize(Archive &arc)
+void TriggerDeathComponent::Serialize(Archive & arc)
 {
     arc(_animationToWatch, "animationToWatch");
     arc.system(_drawableSystem, "drawable");
     arc.systemManager(_systemManager);
 }
 
-void TriggerDeathComponent::FetchDependencies(const Entity &entity)
+void TriggerDeathComponent::FetchDependencies(const Entity & entity)
 {
     _animation =
         static_cast<AnimatedDrawable *>(_drawableSystem->at(entity)->topDrawable()->FindDrawable(_animationToWatch));
@@ -30,8 +31,8 @@ void TriggerDeathComponent::FetchDependencies(const Entity &entity)
 }
 
 /* System */
-TriggerDeathSystem::TriggerDeathSystem(std::string name, SystemManager &manager)
-    : UnorderedSystem(name, manager, UpdateStep::Update)
+TriggerDeathSystem::TriggerDeathSystem(std::string name, SystemManager & manager) :
+        UnorderedSystem(name, manager, UpdateStep::Update)
 {
 }
 
@@ -43,9 +44,11 @@ void TriggerDeathSystem::Update(float delta)
     }
 }
 
-TriggerDeathComponent *TriggerDeathSystem::CreateComponent(const Entity &entity)
+TriggerDeathComponent * TriggerDeathSystem::CreateComponent(const Entity & entity)
 {
-    TriggerDeathComponent *comp = new TriggerDeathComponent();
+    TriggerDeathComponent * comp = new TriggerDeathComponent();
     AttachComponent(entity, comp);
     return comp;
 }
+
+} // namespace ild
