@@ -1,6 +1,6 @@
 #include <memory>
 
-#include <SDL2_mixer/SDL_mixer.h>
+#include <SDL2/SDL_mixer.h>
 
 #include <Ancona/HAL/SDL/SoundBufferImpl.hpp>
 #include <Ancona/HAL/SDL/SoundImpl.hpp>
