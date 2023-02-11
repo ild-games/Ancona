@@ -80,21 +80,14 @@ target_include_directories(
       $<INSTALL_INTERFACE:include>
 )
 
-# Enumerate headers
-set(
-  Ancona_PUBLIC_HEADERS
-    Engine/Src/Ancona/Core.hpp
-    Engine/Src/Ancona/Core2D.hpp
-    Engine/Src/Ancona/Framework.hpp
-    Engine/Src/Ancona/Graphics.hpp
-    Engine/Src/Ancona/HAL.hpp
-    Engine/Src/Ancona/Menu.hpp
-    Engine/Src/Ancona/Platformer.hpp
-    Engine/Src/Ancona/System.hpp
-    Engine/Src/Ancona/Util.hpp
-    Engine/Src/Ancona/Util2D.hpp
+# Install headers
+install(DIRECTORY Engine/Src/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    FILES_MATCHING 
+      PATTERN *.h
+      PATTERN *.hpp
+      PATTERN *.inl
 )
-
 
 target_sources(
   Ancona
@@ -385,7 +378,6 @@ set_target_properties(
   Ancona
     PROPERTIES
       CXX_STANDARD 17
-      PUBLIC_HEADER "${Ancona_PUBLIC_HEADERS}"
 )
 
 # compiler options
