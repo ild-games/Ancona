@@ -5,7 +5,6 @@
 #include <Ancona/Framework/Resource/AbstractLoader.hpp>
 #include <Ancona/Framework/Resource/RequestList.hpp>
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
-#include <Ancona/System/FileOperations.hpp>
 
 namespace ild
 {
@@ -137,11 +136,10 @@ void ResourceLibrary::ClearAlternateSource(const std::string & type, const std::
 
 std::string ResourceLibrary::ResourceRoot()
 {
-    auto projectRoot = FileOperations::ResourceRoot();
     auto resourcePrefix = Config::GetOption("ResourcePrefix");
     auto resourceRoot = Config::GetOption("ResourceRoot");
     std::stringstream stream;
-    stream << projectRoot << resourcePrefix << resourceRoot;
+    stream << resourcePrefix << resourceRoot;
     return stream.str();
 }
 

@@ -120,8 +120,8 @@ bool priv::EventImpl::TranslateSdlFingerEventToAncona(
     const SDL_TouchFingerEvent & sdlTouchFingerEvent,
     ildhal::Event & event)
 {
-    event.touch.x = static_cast<int>(sdlTouchFingerEvent.x);
-    event.touch.y = static_cast<int>(sdlTouchFingerEvent.y);
+    event.touch.x = sdlTouchFingerEvent.x;
+    event.touch.y = sdlTouchFingerEvent.y;
     event.touch.finger = sdlTouchFingerEvent.fingerId;
     return true;
 }

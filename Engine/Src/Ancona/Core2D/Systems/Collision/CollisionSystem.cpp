@@ -1,7 +1,8 @@
 #include <algorithm>
 
 #include <Ancona/Core2D/Systems/Collision/CollisionSystem.hpp>
-#include <Ancona/System/FileOperations.hpp>
+#include <Ancona/HAL/FileOps.hpp>
+#include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 #include <Ancona/Util/Assert.hpp>
 #include <Ancona/Util/Json.hpp>
@@ -22,12 +23,8 @@ CollisionSystem::CollisionSystem(const std::string &name, SystemManager &manager
 void CollisionSystem::OnLoad()
 {
     CreateType(NONE_COLLISION_TYPE);
-    auto fileStream = FileOperations::GetInputFileStream("project/collision-types.json");
-    if (!fileStream)
-    {
-        return;
-    }
 
+    auto fileStream = ildhal::FileOps::GetInputFileStream("project/collision-types.json");
     rapidjson::IStreamWrapper fileStreamWrapper(*fileStream);
     rapidjson::Document collisionTypesRoot;
     collisionTypesRoot.ParseStream(fileStreamWrapper);

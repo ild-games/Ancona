@@ -10,12 +10,6 @@ using namespace ild;
 std::unordered_map<std::string, std::string> *Config::_options = NULL;
 static const std::string EMPTY_OPTION = "";
 
-void Config::Load(const std::string &configFile)
-{
-    std::ifstream file(configFile, std::ios::out);
-    Load(file);
-}
-
 void Config::Load(std::istream &file)
 {
     if (_options != NULL)

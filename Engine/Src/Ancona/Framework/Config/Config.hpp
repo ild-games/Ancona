@@ -17,13 +17,6 @@ class Config
 {
   public:
     /**
-     * @brief Load the setting file and store the options.
-     *
-     * @param configFile A string containing the configuration file name.
-     */
-    static void Load(const std::string &configFile);
-
-    /**
      * @brief Load settings from the input stream.
      *
      * @param configStream A string containing the configuration file name.

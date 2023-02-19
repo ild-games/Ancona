@@ -8,4 +8,9 @@ void * getNativeActivity()
     return nullptr;
 }
 
+const char * getInternalStoragePath()
+{
+    return nullptr;
+}
+
 } // namespace ildhal

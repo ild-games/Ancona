@@ -114,6 +114,7 @@ void Game::Run()
             ildhal::Touch::_ClearFingers();
             ildhal::Joystick::_ClearButtons();
         }
+
         InterpolationAlpha = accumulator / fixedDeltaTime;
 
         Render(static_cast<float>(deltaTime.AsSeconds()));
@@ -179,7 +180,11 @@ void Game::ProcessWindowEvent(ildhal::Event event)
         }
         if (event.type == ildhal::Event::TouchBegan)
         {
-            ildhal::Touch::_AddFingerPress(event.touch.finger, event.touch.x, event.touch.y);
+            ildhal::Touch::_AddFingerPress(
+                event.touch.finger,
+                event.touch.x,
+                event.touch.y,
+                _window->size());
         }
         if (event.type == ildhal::Event::TouchEnded)
         {
@@ -187,7 +192,11 @@ void Game::ProcessWindowEvent(ildhal::Event event)
         }
         if (event.type == ildhal::Event::TouchMoved)
         {
-            ildhal::Touch::_AddFingerMoved(event.touch.finger, event.touch.x, event.touch.y);
+            ildhal::Touch::_AddFingerMoved(
+                event.touch.finger,
+                event.touch.x,
+                event.touch.y,
+                _window->size());
         }
         if (event.type == ildhal::Event::JoystickButtonPressed)
         {

@@ -157,8 +157,8 @@ class Event
     struct TouchEvent
     {
         int64_t finger; ///< Index of the finger in case of multi-touch events
-        int x; ///< X position of the touch, relative to the left of the owner window
-        int y; ///< Y position of the touch, relative to the top of the owner window
+        float x; ///< X position of the touch, normalized 0..1
+        float y; ///< Y position of the touch, normalized 0..1
     };
 
     ////////////////////////////////////////////////////////////

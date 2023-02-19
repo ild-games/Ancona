@@ -1,6 +1,7 @@
 #include <Ancona/Framework/Resource/ResourceLibrary.hpp>
 #include <Ancona/Framework/Screens/LoadingScreen.hpp>
 #include <Ancona/Graphics/Color.hpp>
+#include <Ancona/System/Log.hpp>
 
 namespace ild
 {

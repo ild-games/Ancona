@@ -148,6 +148,7 @@ target_sources(
       Engine/Src/Ancona/HAL/SDL/CircleShapeImpl.cpp
       Engine/Src/Ancona/HAL/SDL/ClockImpl.cpp
       Engine/Src/Ancona/HAL/SDL/EventImpl.cpp
+      Engine/Src/Ancona/HAL/SDL/FileOpsImpl.cpp
       Engine/Src/Ancona/HAL/SDL/FontImpl.cpp
       Engine/Src/Ancona/HAL/SDL/JoystickImpl.cpp
       Engine/Src/Ancona/HAL/SDL/KeyboardImpl.cpp
@@ -157,6 +158,7 @@ target_sources(
       $<$<PLATFORM_ID:Darwin>:Engine/Src/Ancona/HAL/SDL/OSImpl.Desktop.cpp>
       $<$<PLATFORM_ID:Windows>:Engine/Src/Ancona/HAL/SDL/OSImpl.Desktop.cpp>
       $<$<PLATFORM_ID:Linux>:Engine/Src/Ancona/HAL/SDL/OSImpl.Desktop.cpp>
+      Engine/Src/Ancona/HAL/SDL/RapidJsonOStreamWrapperImpl.cpp
       Engine/Src/Ancona/HAL/SDL/RectangleShapeImpl.cpp
       Engine/Src/Ancona/HAL/SDL/RenderStatesImpl.cpp
       Engine/Src/Ancona/HAL/SDL/RenderTargetImpl.cpp
@@ -295,6 +297,7 @@ target_sources(
       Engine/Src/Ancona/HAL/Music.hpp
       Engine/Src/Ancona/HAL/OS.hpp
       Engine/Src/Ancona/HAL/PrimitiveRenderType.hpp
+      Engine/Src/Ancona/HAL/RapidJsonOStreamWrapper.hpp
       Engine/Src/Ancona/HAL/RectangleShape.hpp
       Engine/Src/Ancona/HAL/RenderStates.hpp
       Engine/Src/Ancona/HAL/RenderTarget.hpp
@@ -321,6 +324,7 @@ target_sources(
       Engine/Src/Ancona/HAL/SDL/EventImpl.hpp
       Engine/Src/Ancona/HAL/SDL/FontImpl.hpp
       Engine/Src/Ancona/HAL/SDL/MusicImpl.hpp
+      Engine/Src/Ancona/HAL/SDL/RapidJsonOStreamWrapperImpl.hpp
       Engine/Src/Ancona/HAL/SDL/RectangleShapeImpl.hpp
       Engine/Src/Ancona/HAL/SDL/RenderStatesImpl.hpp
       Engine/Src/Ancona/HAL/SDL/RenderTargetImpl.hpp

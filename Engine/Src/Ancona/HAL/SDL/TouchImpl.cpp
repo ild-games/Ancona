@@ -1,5 +1,6 @@
 #include <Ancona/Core/Game.hpp>
 #include <Ancona/HAL/Touch.hpp>
+#include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Algorithm.hpp>
 
 namespace ildhal
@@ -37,12 +38,16 @@ ild::Vector2i Touch::FingerPosition(int64_t finger)
     return ild::Vector2i(0, 0);
 }
 
-void Touch::_AddFingerPress(int64_t finger, int x, int y)
+void Touch::_AddFingerPress(int64_t finger, float x, float y, const ild::Vector2u & screenSize)
 {
     _pressedFingers.insert(finger);
     _heldFingers.insert(finger);
     _heldFingersToFrameCount[finger] = ild::Game::FrameCount;
-    _fingerPosition[finger] = ild::Vector2i(x, y);
+    _fingerPosition[finger] = ild::Vector2i(
+        (int)(x * screenSize.x),
+        (int)(y * screenSize.y));
+
+    ILD_Log("Finger Press x: " << _fingerPosition[finger].x << ", y: " << _fingerPosition[finger].y);
 }
 
 void Touch::_AddFingerRelease(int64_t finger)
@@ -63,9 +68,12 @@ void Touch::_AddFingerRelease(int64_t finger)
     }
 }
 
-void Touch::_AddFingerMoved(int64_t finger, int x, int y)
+void Touch::_AddFingerMoved(int64_t finger, float x, float y, const ild::Vector2u & screenSize)
 {
-    _fingerPosition[finger] = ild::Vector2i(x, y);
+    _fingerPosition[finger] = ild::Vector2i(
+        (int)(x * screenSize.x),
+        (int)(y * screenSize.y));
+    ILD_Log("Finger Moved x: " << _fingerPosition[finger].x << ", y: " << _fingerPosition[finger].y);
 }
 
 void Touch::_ClearFingers()

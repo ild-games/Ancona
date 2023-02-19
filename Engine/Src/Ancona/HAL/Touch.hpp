@@ -50,7 +50,7 @@ class Touch
      *
      * @param finger finger being pressed
      */
-    static void _AddFingerPress(int64_t finger, int x, int y);
+    static void _AddFingerPress(int64_t finger, float x, float y, const ild::Vector2u & screenSize);
 
     /**
      * @brief INTERNAL ONLY
@@ -59,7 +59,7 @@ class Touch
      * @param finger finger being released
      */
     static void _AddFingerRelease(int64_t finger);
-    static void _AddFingerMoved(int64_t finger, int x, int y);
+    static void _AddFingerMoved(int64_t finger, float x, float y, const ild::Vector2u & screenSize);
 
     /**
      * @brief INTERNAL ONLY

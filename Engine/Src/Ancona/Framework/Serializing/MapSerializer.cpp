@@ -1,5 +1,7 @@
 #include <Ancona/Framework/Config/Config.hpp>
 #include <Ancona/Framework/Serializing/Serializing.hpp>
+#include <Ancona/HAL/FileOps.hpp>
+#include <Ancona/System/Log.hpp>
 #include <Ancona/Util/Json.hpp>
 
 namespace ild
@@ -66,9 +68,9 @@ void MapSerializer::LoadMetaData()
 
 void MapSerializer::LoadMapFile()
 {
-    auto saveStream = FileOperations::GetInputFileStream(Config::GetOption("SaveData"));
-    rapidjson::IStreamWrapper saveStreamWrapper(*saveStream);
-    _saveRoot.ParseStream(saveStreamWrapper);
+    auto saveDataStream = ildhal::FileOps::GetInputFileStream(Config::GetOption("SaveData"));
+    rapidjson::IStreamWrapper saveDataStreamWrapper(*saveDataStream);
+    _saveRoot.ParseStream(saveDataStreamWrapper);
 
     _saveProfileRoot = _saveRoot["profiles"][_profile];
     _mapName = _saveProfileRoot["screen-maps"][_key].GetString();
@@ -80,7 +82,7 @@ void MapSerializer::LoadMapFile()
     else
     {
         std::string mapFileName = "maps/" + _mapName + ".map";
-        auto mapStream = FileOperations::GetInputFileStream(mapFileName);
+        auto mapStream = ildhal::FileOps::GetInputFileStream(mapFileName);
         rapidjson::IStreamWrapper mapStreamWrapper(*mapStream);
         _mapRoot.ParseStream(mapStreamWrapper);
         _lastMapRoot = std::unique_ptr<rapidjson::Document>(new rapidjson::Document());

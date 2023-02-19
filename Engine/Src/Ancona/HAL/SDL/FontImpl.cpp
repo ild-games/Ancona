@@ -10,7 +10,13 @@ namespace ildhal
 
 bool priv::FontImpl::LoadSDLFontFromFile(const std::string & filename)
 {
-    TTF_Font * loadedFont = TTF_OpenFont(filename.c_str(), 28);
+    SDL_RWops * rwops = SDL_RWFromFile(filename.c_str(), "rb");
+    if (rwops == nullptr)
+    {
+        ILD_Log("Failed to SDL_RWops for font!: " << filename << "\nSDL error: " << SDL_GetError());
+        return false;
+    }
+    TTF_Font * loadedFont = TTF_OpenFontRW(rwops, 1, 28);
 
     if (!loadedFont)
     {

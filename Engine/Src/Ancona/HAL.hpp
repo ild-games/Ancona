@@ -5,6 +5,7 @@
 #include <Ancona/HAL/Clock.hpp>
 #include <Ancona/HAL/Drawable.hpp>
 #include <Ancona/HAL/Event.hpp>
+#include <Ancona/HAL/FileOps.hpp>
 #include <Ancona/HAL/Font.hpp>
 #include <Ancona/HAL/Joystick.hpp>
 #include <Ancona/HAL/Keyboard.hpp>
@@ -12,6 +13,7 @@
 #include <Ancona/HAL/Music.hpp>
 #include <Ancona/HAL/OS.hpp>
 #include <Ancona/HAL/PrimitiveRenderType.hpp>
+#include <Ancona/HAL/RapidJsonOStreamWrapper.hpp>
 #include <Ancona/HAL/RectangleShape.hpp>
 #include <Ancona/HAL/RenderStates.hpp>
 #include <Ancona/HAL/RenderTarget.hpp>

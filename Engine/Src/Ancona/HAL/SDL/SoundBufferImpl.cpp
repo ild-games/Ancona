@@ -8,7 +8,13 @@ namespace ildhal
 
 bool priv::SoundBufferImpl::LoadSDLSoundFromFile(const std::string & filename)
 {
-    Mix_Chunk * loadedSound = Mix_LoadWAV(filename.c_str());
+    SDL_RWops * rwops = SDL_RWFromFile(filename.c_str(), "rb");
+    if (rwops == nullptr)
+    {
+        ILD_Log("Failed to SDL_RWops for sound!: " << filename << "\nSDL error: " << SDL_GetError());
+        return false;
+    }
+    Mix_Chunk * loadedSound = Mix_LoadWAV_RW(rwops, 1);
 
     if (!loadedSound)
     {

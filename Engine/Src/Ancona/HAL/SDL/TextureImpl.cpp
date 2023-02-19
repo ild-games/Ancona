@@ -12,7 +12,13 @@ namespace ildhal
 
 bool priv::TextureImpl::LoadSDLTextureFromFile(const std::string & filename, SDL_Renderer & sdlRenderer)
 {
-    SDL_Surface * loadedSurface = IMG_Load(filename.c_str());
+    SDL_RWops * rwops = SDL_RWFromFile(filename.c_str(), "rb");
+    if (rwops == nullptr)
+    {
+        ILD_Log("Failed to create SDL_RWops for texture!: " << filename << "\nSDL error: " << SDL_GetError());
+        return false;
+    }
+    SDL_Surface * loadedSurface = IMG_Load_RW(rwops, 1);
     if (loadedSurface == nullptr)
     {
         ILD_Log("Failed to create SDL_Surface for texture!: " << filename << "\nSDL_image error: " << IMG_GetError());

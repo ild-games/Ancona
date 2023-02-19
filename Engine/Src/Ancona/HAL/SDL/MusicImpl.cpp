@@ -10,7 +10,13 @@ namespace ildhal
 
 bool priv::MusicImpl::LoadSDLMusicFromFile(const std::string & filename)
 {
-    Mix_Music * loadedMusic = Mix_LoadMUS(filename.c_str());
+    SDL_RWops * rwops = SDL_RWFromFile(filename.c_str(), "rb");
+    if (rwops == nullptr)
+    {
+        ILD_Log("Failed to SDL_RWops for music!: " << filename << "\nSDL error: " << SDL_GetError());
+        return false;
+    }
+    Mix_Music * loadedMusic = Mix_LoadMUS_RW(rwops, 1);
 
     if (!loadedMusic)
     {

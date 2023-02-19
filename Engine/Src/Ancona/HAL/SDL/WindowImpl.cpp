@@ -77,6 +77,7 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
     uint32_t rendererFlags = ((useVsync ? SDL_RENDERER_PRESENTVSYNC : 0x0) | (SDL_RENDERER_ACCELERATED));
     SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, rendererFlags);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_RenderSetLogicalSize(renderer, width, height);
 
     SDL_RendererInfo rendererInfo;
     if (SDL_GetRendererInfo(renderer, &rendererInfo) < 0)
@@ -136,7 +137,9 @@ ild::Vector2u Window::size() const
 {
     int x = 0;
     int y = 0;
-    SDL_GetWindowSize(&windowImpl().sdlWindow(), &x, &y);
+
+    SDL_RenderGetLogicalSize(&windowImpl().sdlRenderer(), &x, &y);
+    // SDL_GetWindowSize(&windowImpl().sdlWindow(), &x, &y);
     return ild::Vector2u((unsigned int) x, (unsigned int) y);
 }
 
