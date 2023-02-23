@@ -33,4 +33,15 @@ std::unique_ptr<std::istream> FileOps::GetInputFileStream(const std::string & fi
     return return_stream;
 }
 
+void FileOps::SaveToFile(const char * data, size_t size, const std::string & filename)
+{
+    SDL_RWops * rwops = SDL_RWFromFile(filename.c_str(), "wb");
+    if (rwops == nullptr) {
+        return;
+    }
+
+    SDL_RWwrite(rwops, data, size, 1);
+    SDL_RWclose(rwops);
+}
+
 } // namespace ildhal

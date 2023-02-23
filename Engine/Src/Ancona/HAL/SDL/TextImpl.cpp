@@ -23,11 +23,11 @@ void priv::TextImpl::Draw(
 
     const ild::Transform & transform = renderStates.renderStatesImpl().transform();
 
-    SDL_Vertex * transformedVertices = new SDL_Vertex[NUM_VERTICES];
+    SDL_Vertex transformedVertices[NUM_VERTICES];
     for (int i = 0; i < NUM_VERTICES; i++)
     {
-        ild::Vector2f transformed = view.inverseTransform() * transform.transform() *
-            ild::Vector2f(_vertices[i].position.x, _vertices[i].position.y);
+        ild::Vector2f transformed = 
+          view.inverseTransform() * transform.transform() * ild::Vector2f(_vertices[i].position.x, _vertices[i].position.y);
 
         transformedVertices[i].position.x = transformed.x;
         transformedVertices[i].position.y = transformed.y;
@@ -37,10 +37,8 @@ void priv::TextImpl::Draw(
 
     if (SDL_RenderGeometry(&sdlRenderer, _texture, transformedVertices, NUM_VERTICES, nullptr, 0) != 0)
     {
-        ILD_Log("Failed to render VertexArray for text! SDL error: " << std::string(SDL_GetError()));
+        ILD_Log("Failed to render VertexArray for text! SDL error: " << SDL_GetError());
     }
-
-    delete[] transformedVertices;
 }
 
 bool priv::TextImpl::SetupTexture(TTF_Font & sdlFont, SDL_Renderer & renderer)
@@ -72,6 +70,10 @@ bool priv::TextImpl::SetupTexture(TTF_Font & sdlFont, SDL_Renderer & renderer)
         return false;
     }
 
+    if (_texture != nullptr)
+    {
+        SDL_DestroyTexture(_texture);
+    }
     _texture = SDL_CreateTextureFromSurface(&renderer, textSurface);
     if (!_texture)
     {

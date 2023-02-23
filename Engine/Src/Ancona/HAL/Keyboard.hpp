@@ -144,6 +144,7 @@ class Keyboard
         F14, ///< The F14 key
         F15, ///< The F15 key
         Pause, ///< The Pause key
+        BackButton, ///< The OS specific back button
 
         KeyCount, ///< Keep last -- the total number of keyboard keys
     };

@@ -27,6 +27,7 @@
 #include <cmath>
 
 #include <Ancona/Core2D/Systems/PositionSystem.hpp>
+#include <Ancona/Util2D/VectorMath.hpp>
 
 REGISTER_POLYMORPHIC_SERIALIZER(ild::PositionComponent);
 
@@ -88,15 +89,19 @@ const Transform & PositionComponent::transform() const
     return _transform;
 }
 
+const Transform & PositionComponent::interpolatedTransform(float alpha)
+{
+    if (VectorMath::Magnitude(_previousPosition - _transform.position()) > 100.0f) {
+      return _transform;
+    }
+
+    _interpolatedTransform.position(interpolatedPosition(alpha));
+    return _interpolatedTransform;
+}
+
 const Vector2f PositionComponent::interpolatedPosition(float alpha) const
 {
     return _previousPosition * (1.0f - alpha) + _transform.position() * alpha;
-}
-
-const Transform & PositionComponent::interpolatedTransform(float alpha)
-{
-    _interpolatedTransform.position(interpolatedPosition(alpha));
-    return _interpolatedTransform;
 }
 
 PositionSystem::PositionSystem(std::string systemName, SystemManager & manager) :

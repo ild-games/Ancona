@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Ancona/HAL/BackButton.hpp>
 #include <Ancona/HAL/BlendMode.hpp>
 #include <Ancona/HAL/CircleShape.hpp>
 #include <Ancona/HAL/Clock.hpp>
@@ -13,7 +14,6 @@
 #include <Ancona/HAL/Music.hpp>
 #include <Ancona/HAL/OS.hpp>
 #include <Ancona/HAL/PrimitiveRenderType.hpp>
-#include <Ancona/HAL/RapidJsonOStreamWrapper.hpp>
 #include <Ancona/HAL/RectangleShape.hpp>
 #include <Ancona/HAL/RenderStates.hpp>
 #include <Ancona/HAL/RenderTarget.hpp>

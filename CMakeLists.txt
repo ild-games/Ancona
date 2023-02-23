@@ -144,6 +144,10 @@ target_sources(
       Engine/Src/Ancona/Graphics/Transform.cpp
       Engine/Src/Ancona/Graphics/Rect.inl
       Engine/Src/Ancona/Graphics/View.cpp
+      $<$<PLATFORM_ID:Android>:Engine/Src/Ancona/HAL/SDL/BackButtonImpl.Android.cpp>
+      $<$<PLATFORM_ID:Darwin>:Engine/Src/Ancona/HAL/SDL/BackButtonImpl.Desktop.cpp>
+      $<$<PLATFORM_ID:Windows>:Engine/Src/Ancona/HAL/SDL/BackButtonImpl.Desktop.cpp>
+      $<$<PLATFORM_ID:Linux>:Engine/Src/Ancona/HAL/SDL/BackButtonImpl.Desktop.cpp>
       Engine/Src/Ancona/HAL/SDL/BlendModeImpl.cpp
       Engine/Src/Ancona/HAL/SDL/CircleShapeImpl.cpp
       Engine/Src/Ancona/HAL/SDL/ClockImpl.cpp
@@ -158,7 +162,6 @@ target_sources(
       $<$<PLATFORM_ID:Darwin>:Engine/Src/Ancona/HAL/SDL/OSImpl.Desktop.cpp>
       $<$<PLATFORM_ID:Windows>:Engine/Src/Ancona/HAL/SDL/OSImpl.Desktop.cpp>
       $<$<PLATFORM_ID:Linux>:Engine/Src/Ancona/HAL/SDL/OSImpl.Desktop.cpp>
-      Engine/Src/Ancona/HAL/SDL/RapidJsonOStreamWrapperImpl.cpp
       Engine/Src/Ancona/HAL/SDL/RectangleShapeImpl.cpp
       Engine/Src/Ancona/HAL/SDL/RenderStatesImpl.cpp
       Engine/Src/Ancona/HAL/SDL/RenderTargetImpl.cpp
@@ -285,6 +288,7 @@ target_sources(
       Engine/Src/Ancona/Graphics/Rect.inl
       Engine/Src/Ancona/Graphics/Transform.hpp
       Engine/Src/Ancona/Graphics/View.hpp
+      Engine/Src/Ancona/HAL/BackButton.hpp
       Engine/Src/Ancona/HAL/BlendMode.hpp
       Engine/Src/Ancona/HAL/CircleShape.hpp
       Engine/Src/Ancona/HAL/Clock.hpp
@@ -297,7 +301,6 @@ target_sources(
       Engine/Src/Ancona/HAL/Music.hpp
       Engine/Src/Ancona/HAL/OS.hpp
       Engine/Src/Ancona/HAL/PrimitiveRenderType.hpp
-      Engine/Src/Ancona/HAL/RapidJsonOStreamWrapper.hpp
       Engine/Src/Ancona/HAL/RectangleShape.hpp
       Engine/Src/Ancona/HAL/RenderStates.hpp
       Engine/Src/Ancona/HAL/RenderTarget.hpp
@@ -324,7 +327,6 @@ target_sources(
       Engine/Src/Ancona/HAL/SDL/EventImpl.hpp
       Engine/Src/Ancona/HAL/SDL/FontImpl.hpp
       Engine/Src/Ancona/HAL/SDL/MusicImpl.hpp
-      Engine/Src/Ancona/HAL/SDL/RapidJsonOStreamWrapperImpl.hpp
       Engine/Src/Ancona/HAL/SDL/RectangleShapeImpl.hpp
       Engine/Src/Ancona/HAL/SDL/RenderStatesImpl.hpp
       Engine/Src/Ancona/HAL/SDL/RenderTargetImpl.hpp

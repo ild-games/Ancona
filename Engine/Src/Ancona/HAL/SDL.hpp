@@ -7,7 +7,6 @@
 #include <Ancona/HAL/SDL/EventImpl.hpp>
 #include <Ancona/HAL/SDL/FontImpl.hpp>
 #include <Ancona/HAL/SDL/MusicImpl.hpp>
-#include <Ancona/HAL/SDL/RapidJsonOStreamWrapperImpl.hpp>
 #include <Ancona/HAL/SDL/RectangleShapeImpl.hpp>
 #include <Ancona/HAL/SDL/RenderStatesImpl.hpp>
 #include <Ancona/HAL/SDL/RenderTargetImpl.hpp>

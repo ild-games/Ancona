@@ -46,8 +46,6 @@ void Touch::_AddFingerPress(int64_t finger, float x, float y, const ild::Vector2
     _fingerPosition[finger] = ild::Vector2i(
         (int)(x * screenSize.x),
         (int)(y * screenSize.y));
-
-    ILD_Log("Finger Press x: " << _fingerPosition[finger].x << ", y: " << _fingerPosition[finger].y);
 }
 
 void Touch::_AddFingerRelease(int64_t finger)
@@ -73,7 +71,6 @@ void Touch::_AddFingerMoved(int64_t finger, float x, float y, const ild::Vector2
     _fingerPosition[finger] = ild::Vector2i(
         (int)(x * screenSize.x),
         (int)(y * screenSize.y));
-    ILD_Log("Finger Moved x: " << _fingerPosition[finger].x << ", y: " << _fingerPosition[finger].y);
 }
 
 void Touch::_ClearFingers()

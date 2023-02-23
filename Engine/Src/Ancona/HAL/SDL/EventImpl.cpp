@@ -244,6 +244,7 @@ void priv::EventImpl::PopulateSdlToAnconaKeycodeMap()
     _sdlToAnconaKeycodeMap[SDL_SCANCODE_F14] = Keyboard::Key::F14;
     _sdlToAnconaKeycodeMap[SDL_SCANCODE_F15] = Keyboard::Key::F15;
     _sdlToAnconaKeycodeMap[SDL_SCANCODE_PAUSE] = Keyboard::Key::Pause;
+    _sdlToAnconaKeycodeMap[SDL_SCANCODE_AC_BACK] = Keyboard::Key::BackButton;
 }
 
 } // namespace ildhal
