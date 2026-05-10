@@ -9,62 +9,51 @@
 namespace ildhal
 {
 
-int priv::EventImpl::_sdlToAnconaKeycodeMap[SDL_NUM_SCANCODES];
+int priv::EventImpl::_sdlToAnconaKeycodeMap[SDL_SCANCODE_COUNT];
 
 bool priv::EventImpl::TranslateSdlToAncona(const SDL_Event & sdlEvent, ildhal::Event & event, bool isKeyRepeatEnabled)
 {
     switch (sdlEvent.type)
     {
-        case SDL_QUIT:
+        case SDL_EVENT_QUIT:
             event.type = ildhal::Event::Closed;
             return true;
-        case SDL_WINDOWEVENT:
-            return TranslateSdlWindowEventToAncona(sdlEvent.window, event);
-        case SDL_KEYDOWN:
-            event.type = ildhal::Event::KeyPressed;
-            return TranslateSdlKeyboardEventToAncona(sdlEvent.key, event, isKeyRepeatEnabled);
-        case SDL_KEYUP:
-            event.type = ildhal::Event::KeyReleased;
-            return TranslateSdlKeyboardEventToAncona(sdlEvent.key, event, isKeyRepeatEnabled);
-        case SDL_MOUSEBUTTONDOWN:
-            event.type = ildhal::Event::MouseButtonPressed;
-            return TranslateSdlMouseButtonEventToAncona(sdlEvent.button, event);
-        case SDL_MOUSEBUTTONUP:
-            event.type = ildhal::Event::MouseButtonReleased;
-            return TranslateSdlMouseButtonEventToAncona(sdlEvent.button, event);
-        case SDL_FINGERDOWN:
-            event.type = ildhal::Event::TouchBegan;
-            return TranslateSdlFingerEventToAncona(sdlEvent.tfinger, event);
-        case SDL_FINGERUP:
-            event.type = ildhal::Event::TouchEnded;
-            return TranslateSdlFingerEventToAncona(sdlEvent.tfinger, event);
-        case SDL_FINGERMOTION:
-            event.type = ildhal::Event::TouchMoved;
-            return TranslateSdlFingerEventToAncona(sdlEvent.tfinger, event);
-        case SDL_JOYBUTTONDOWN:
-            event.type = ildhal::Event::JoystickButtonPressed;
-            return TranslateSdlJoyButtonEventToAncona(sdlEvent.jbutton, event);
-        case SDL_JOYBUTTONUP:
-            event.type = ildhal::Event::JoystickButtonReleased;
-            return TranslateSdlJoyButtonEventToAncona(sdlEvent.jbutton, event);
-    }
-
-    return false;
-}
-
-bool priv::EventImpl::TranslateSdlWindowEventToAncona(const SDL_WindowEvent & sdlWindowEvent, ildhal::Event & event)
-{
-    switch (sdlWindowEvent.event)
-    {
-        case SDL_WINDOWEVENT_CLOSE:
+        case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
             event.type = ildhal::Event::Closed;
             return true;
-        case SDL_WINDOWEVENT_FOCUS_LOST:
+        case SDL_EVENT_WINDOW_FOCUS_LOST:
             event.type = ildhal::Event::LostFocus;
             return true;
-        case SDL_WINDOWEVENT_FOCUS_GAINED:
+        case SDL_EVENT_WINDOW_FOCUS_GAINED:
             event.type = ildhal::Event::GainedFocus;
             return true;
+        case SDL_EVENT_KEY_DOWN:
+            event.type = ildhal::Event::KeyPressed;
+            return TranslateSdlKeyboardEventToAncona(sdlEvent.key, event, isKeyRepeatEnabled);
+        case SDL_EVENT_KEY_UP:
+            event.type = ildhal::Event::KeyReleased;
+            return TranslateSdlKeyboardEventToAncona(sdlEvent.key, event, isKeyRepeatEnabled);
+        case SDL_EVENT_MOUSE_BUTTON_DOWN:
+            event.type = ildhal::Event::MouseButtonPressed;
+            return TranslateSdlMouseButtonEventToAncona(sdlEvent.button, event);
+        case SDL_EVENT_MOUSE_BUTTON_UP:
+            event.type = ildhal::Event::MouseButtonReleased;
+            return TranslateSdlMouseButtonEventToAncona(sdlEvent.button, event);
+        case SDL_EVENT_FINGER_DOWN:
+            event.type = ildhal::Event::TouchBegan;
+            return TranslateSdlFingerEventToAncona(sdlEvent.tfinger, event);
+        case SDL_EVENT_FINGER_UP:
+            event.type = ildhal::Event::TouchEnded;
+            return TranslateSdlFingerEventToAncona(sdlEvent.tfinger, event);
+        case SDL_EVENT_FINGER_MOTION:
+            event.type = ildhal::Event::TouchMoved;
+            return TranslateSdlFingerEventToAncona(sdlEvent.tfinger, event);
+        case SDL_EVENT_JOYSTICK_BUTTON_DOWN:
+            event.type = ildhal::Event::JoystickButtonPressed;
+            return TranslateSdlJoyButtonEventToAncona(sdlEvent.jbutton, event);
+        case SDL_EVENT_JOYSTICK_BUTTON_UP:
+            event.type = ildhal::Event::JoystickButtonReleased;
+            return TranslateSdlJoyButtonEventToAncona(sdlEvent.jbutton, event);
     }
 
     return false;
@@ -75,16 +64,16 @@ bool priv::EventImpl::TranslateSdlKeyboardEventToAncona(
     ildhal::Event & event,
     bool isKeyRepeatEnabled)
 {
-    if ((!isKeyRepeatEnabled && sdlKeyboardEvent.repeat) || sdlKeyboardEvent.keysym.scancode >= SDL_NUM_SCANCODES)
+    if ((!isKeyRepeatEnabled && sdlKeyboardEvent.repeat) || sdlKeyboardEvent.scancode >= SDL_SCANCODE_COUNT)
     {
         return false;
     }
 
-    event.key.code = (Keyboard::Key) _sdlToAnconaKeycodeMap[sdlKeyboardEvent.keysym.scancode];
-    event.key.alt = !!(sdlKeyboardEvent.keysym.mod & KMOD_ALT);
-    event.key.control = !!(sdlKeyboardEvent.keysym.mod & KMOD_CTRL);
-    event.key.shift = !!(sdlKeyboardEvent.keysym.mod & KMOD_SHIFT);
-    event.key.system = !!(sdlKeyboardEvent.keysym.mod & KMOD_GUI);
+    event.key.code = (Keyboard::Key) _sdlToAnconaKeycodeMap[sdlKeyboardEvent.scancode];
+    event.key.alt = !!(sdlKeyboardEvent.mod & SDL_KMOD_ALT);
+    event.key.control = !!(sdlKeyboardEvent.mod & SDL_KMOD_CTRL);
+    event.key.shift = !!(sdlKeyboardEvent.mod & SDL_KMOD_SHIFT);
+    event.key.system = !!(sdlKeyboardEvent.mod & SDL_KMOD_GUI);
     return true;
 }
 
@@ -122,7 +111,7 @@ bool priv::EventImpl::TranslateSdlFingerEventToAncona(
 {
     event.touch.x = sdlTouchFingerEvent.x;
     event.touch.y = sdlTouchFingerEvent.y;
-    event.touch.finger = sdlTouchFingerEvent.fingerId;
+    event.touch.finger = sdlTouchFingerEvent.fingerID;
     return true;
 }
 
@@ -137,7 +126,7 @@ bool priv::EventImpl::TranslateSdlJoyButtonEventToAncona(
 
 void priv::EventImpl::PopulateSdlToAnconaKeycodeMap()
 {
-    for (int i = 0; i < SDL_NUM_SCANCODES; i++)
+    for (int i = 0; i < SDL_SCANCODE_COUNT; i++)
     {
         _sdlToAnconaKeycodeMap[i] = -1;
     }

@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <SDL2/SDL_mixer.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include <Ancona/HAL/SoundBuffer.hpp>
 
@@ -14,7 +14,7 @@ namespace priv
 
 struct SDL_SoundDestructor
 {
-    void operator()(Mix_Chunk * m) const { Mix_FreeChunk(m); }
+    void operator()(MIX_Audio * m) const { MIX_DestroyAudio(m); }
 };
 
 class SoundBufferImpl
@@ -23,11 +23,11 @@ class SoundBufferImpl
     bool LoadSDLSoundFromFile(const std::string & filename);
 
     /* getters and setters */
-    Mix_Chunk & sdlSound() const { return *_sdlSound; }
+    MIX_Audio & sdlSound() const { return *_sdlSound; }
 
   private:
-    std::unique_ptr<Mix_Chunk, SDL_SoundDestructor> _sdlSound =
-        std::unique_ptr<Mix_Chunk, SDL_SoundDestructor>(nullptr);
+    std::unique_ptr<MIX_Audio, SDL_SoundDestructor> _sdlSound =
+        std::unique_ptr<MIX_Audio, SDL_SoundDestructor>(nullptr);
 };
 
 } // namespace priv

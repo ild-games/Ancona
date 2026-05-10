@@ -1,4 +1,4 @@
-#include <SDL2/SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include <Ancona/HAL/SDL/FontImpl.hpp>
 #include <Ancona/System/Log.hpp>
@@ -10,17 +10,17 @@ namespace ildhal
 
 bool priv::FontImpl::LoadSDLFontFromFile(const std::string & filename)
 {
-    SDL_RWops * rwops = SDL_RWFromFile(filename.c_str(), "rb");
-    if (rwops == nullptr)
+    SDL_IOStream * io_stream = SDL_IOFromFile(filename.c_str(), "rb");
+    if (io_stream == nullptr)
     {
-        ILD_Log("Failed to SDL_RWops for font!: " << filename << "\nSDL error: " << SDL_GetError());
+        ILD_Log("Failed to SDL_IOStream for font!: " << filename << "\nSDL error: " << SDL_GetError());
         return false;
     }
-    TTF_Font * loadedFont = TTF_OpenFontRW(rwops, 1, 28);
+    TTF_Font * loadedFont = TTF_OpenFontIO(io_stream, 1, 28);
 
     if (!loadedFont)
     {
-        ILD_Log("Failed to load ttf font!: " << filename << "\nSDL_ttf error: " << TTF_GetError());
+        ILD_Log("Failed to load ttf font!: " << filename << "\nSDL_ttf error: " << SDL_GetError());
         return false;
     }
 

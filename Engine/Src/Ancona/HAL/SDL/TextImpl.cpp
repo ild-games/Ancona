@@ -59,14 +59,14 @@ bool priv::TextImpl::SetupTexture(TTF_Font & sdlFont, SDL_Renderer & renderer)
 
     if (TTF_SetFontSize(&sdlFont, _characterSize) < 0)
     {
-        ILD_Log("Unable to set character size of text! SDL_ttf error: " << TTF_GetError());
+        ILD_Log("Unable to set character size of text! SDL_ttf error: " << SDL_GetError());
         return false;
     }
 
-    SDL_Surface * textSurface = TTF_RenderText_Blended(&sdlFont, _text.c_str(), sdlColor);
+    SDL_Surface * textSurface = TTF_RenderText_Blended(&sdlFont, _text.c_str(), _text.length(), sdlColor);
     if (!textSurface)
     {
-        ILD_Log("Unable to render text surface! SDL_ttf error: " << TTF_GetError());
+        ILD_Log("Unable to render text surface! SDL_ttf error: " << SDL_GetError());
         return false;
     }
 
@@ -78,7 +78,7 @@ bool priv::TextImpl::SetupTexture(TTF_Font & sdlFont, SDL_Renderer & renderer)
     if (!_texture)
     {
         ILD_Log("Unable to create texture from rendered text! SDL error: " << SDL_GetError());
-        SDL_FreeSurface(textSurface);
+        SDL_DestroySurface(textSurface);
         return false;
     }
 
@@ -86,7 +86,7 @@ bool priv::TextImpl::SetupTexture(TTF_Font & sdlFont, SDL_Renderer & renderer)
     _dimensions.x = (float) textSurface->w;
     _dimensions.y = (float) textSurface->h;
 
-    SDL_FreeSurface(textSurface);
+    SDL_DestroySurface(textSurface);
 
     SetupVertexArray();
 
@@ -116,15 +116,16 @@ void priv::TextImpl::AddVertexArrayVert(int index, const ild::Vector2f & vertexN
     vertexTexPosition.x = vertexNormalizedPosition.x;
     vertexTexPosition.y = vertexNormalizedPosition.y;
 
-    SDL_Color sdlColor;
-    sdlColor.r = 255;
-    sdlColor.g = 255;
-    sdlColor.b = 255;
-    sdlColor.a = 255;
+    // TODO maybe not needed, but it doesn't work going from SDL2 -> SDL3?
+    // SDL_Color sdlColor;
+    // sdlColor.r = 255;
+    // sdlColor.g = 255;
+    // sdlColor.b = 255;
+    // sdlColor.a = 255;
 
     _vertices[index].position = vertexPosition;
     _vertices[index].tex_coord = vertexTexPosition;
-    _vertices[index].color = sdlColor;
+    // _vertices[index].color = sdlColor;
 }
 
 /* HAL Interface Implementation */

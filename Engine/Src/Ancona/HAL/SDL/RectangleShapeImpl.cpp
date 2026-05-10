@@ -1,6 +1,6 @@
 #include <memory>
 
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <Ancona/HAL/SDL/RectangleShapeImpl.hpp>
 #include <Ancona/HAL/SDL/RenderStatesImpl.hpp>
@@ -30,7 +30,7 @@ void priv::RectangleShapeImpl::Draw(
     sdlRect.y = positionInView.y;
     sdlRect.w = _size.x;
     sdlRect.h = _size.y;
-    SDL_RenderFillRectF(&sdlRenderer, &sdlRect);
+    SDL_RenderFillRect(&sdlRenderer, &sdlRect);
 }
 
 /* HAL Interface Implementation */

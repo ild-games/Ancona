@@ -1,6 +1,6 @@
 #include <memory>
 
-#include <SDL2/SDL_mixer.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include <Ancona/HAL/SDL/SoundBufferImpl.hpp>
 #include <Ancona/HAL/SDL/SoundImpl.hpp>
@@ -33,8 +33,8 @@ Sound::Sound(const SoundBuffer & buffer)
 
 void Sound::Play()
 {
-    Mix_Chunk & sdlSound = soundImpl().soundBuffer()->soundBufferImpl().sdlSound();
-    Mix_PlayChannel(-1, &sdlSound, 0);
+    MIX_Audio & sdlSound = soundImpl().soundBuffer()->soundBufferImpl().sdlSound();
+    MIX_PlayChannel(-1, &sdlSound, 0);
 }
 
 void Sound::Pause()
@@ -55,7 +55,7 @@ SoundSource::Status Sound::status() const
 
 void Sound::volume(float volume)
 {
-    Mix_Volume(-1, (int) (volume * 128));
+    MIX_Volume(-1, (int) (volume * 128));
 }
 
 priv::SoundImpl & Sound::soundImpl() const

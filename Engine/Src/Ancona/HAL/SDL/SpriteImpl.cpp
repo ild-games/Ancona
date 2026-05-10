@@ -23,11 +23,11 @@ void priv::SpriteImpl::Draw(
         return;
     }
 
-    SDL_Rect src;
-    src.x = _rect.left;
-    src.y = _rect.top;
-    src.w = _rect.width;
-    src.h = _rect.height;
+    SDL_FRect src;
+    src.x = (float)_rect.left;
+    src.y = (float)_rect.top;
+    src.w = (float)_rect.width;
+    src.h = (float)_rect.height;
 
     const ild::Transform & transform = renderStates.renderStatesImpl().transform();
     ild::Vector2f scaledSize = ild::Vector2f(
@@ -51,14 +51,14 @@ void priv::SpriteImpl::Draw(
     flip |= transform.scale().x < 0 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
     flip |= transform.scale().y < 0 ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE;
 
-    SDL_RenderCopyExF(
+    SDL_RenderTextureRotated(
         &sdlRenderer,
         _sdlTexture,
         &src,
         &dest,
         (double) transform.rotation(),
         &sdlOrigin,
-        (SDL_RendererFlip) flip);
+        (SDL_FlipMode) flip);
 }
 
 /* HAL Interface Implementation */

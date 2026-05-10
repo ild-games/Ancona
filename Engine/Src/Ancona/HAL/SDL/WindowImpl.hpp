@@ -2,10 +2,10 @@
 
 #include <memory>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_mixer/SDL_mixer.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 
 #include <Ancona/HAL/SDL/ClockImpl.hpp>
@@ -22,9 +22,8 @@ struct SDL_WindowDestructor
     void operator()(SDL_Window * w) const
     {
         SDL_DestroyWindow(w);
-        Mix_Quit();
+        MIX_Quit();
         TTF_Quit();
-        IMG_Quit();
         SDL_Quit();
     }
 };
@@ -32,7 +31,7 @@ struct SDL_WindowDestructor
 class WindowImpl : public RenderTargetImpl
 {
   public:
-    WindowImpl(SDL_Window *, SDL_Renderer *);
+    WindowImpl(SDL_Window *, SDL_Renderer *, MIX_Mixer *);
 
     /* getters and setters */
     SDL_Window & sdlWindow() const { return *_sdlWindow; }
@@ -48,6 +47,7 @@ class WindowImpl : public RenderTargetImpl
 
   private:
     std::unique_ptr<SDL_Window, SDL_WindowDestructor> _sdlWindow;
+    std::unique_ptr<MIX_Mixer> _sdlMixer;
 
     bool _isClosed = false;
     bool _isActive = false;

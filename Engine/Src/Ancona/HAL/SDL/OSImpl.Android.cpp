@@ -1,5 +1,5 @@
 #include <Ancona/HAL/OS.hpp>
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 namespace ildhal
 {
@@ -11,7 +11,7 @@ void * getNativeActivity()
 
 const char * getInternalStoragePath()
 {
-    return SDL_AndroidGetInternalStoragePath();
+    return SDL_GetAndroidInternalStoragePath();
 }
 
 } // namespace ildhal

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <Ancona/HAL/Event.hpp>
 
@@ -30,7 +30,7 @@ class EventImpl
         ildhal::Event & event);
     static bool TranslateSdlJoyButtonEventToAncona(const SDL_JoyButtonEvent & sdlJoyButtonEvent, ildhal::Event & event);
 
-    static int _sdlToAnconaKeycodeMap[SDL_NUM_SCANCODES];
+    static int _sdlToAnconaKeycodeMap[SDL_SCANCODE_COUNT];
 };
 
 } // namespace priv

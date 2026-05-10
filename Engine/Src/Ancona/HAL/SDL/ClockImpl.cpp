@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 #include <Ancona/HAL/SDL/ClockImpl.hpp>
 #include <Ancona/HAL/Time.hpp>

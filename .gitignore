@@ -66,3 +66,7 @@ TODO
 
 # VSCode files
 .vscode
+
+# debugging files
+build_output.txt
+

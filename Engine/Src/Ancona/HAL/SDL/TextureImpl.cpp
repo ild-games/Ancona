@@ -1,5 +1,6 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include <Ancona/HAL/SDL/RenderTargetImpl.hpp>
 #include <Ancona/HAL/SDL/TextureImpl.hpp>
@@ -12,21 +13,22 @@ namespace ildhal
 
 bool priv::TextureImpl::LoadSDLTextureFromFile(const std::string & filename, SDL_Renderer & sdlRenderer)
 {
-    SDL_RWops * rwops = SDL_RWFromFile(filename.c_str(), "rb");
+    SDL_IOStream * rwops = SDL_IOFromFile(filename.c_str(), "rb");
     if (rwops == nullptr)
     {
-        ILD_Log("Failed to create SDL_RWops for texture!: " << filename << "\nSDL error: " << SDL_GetError());
+        ILD_Log("Failed to create SDL_IOStream for texture!: " << filename << "\nSDL error: " << SDL_GetError());
         return false;
     }
-    SDL_Surface * loadedSurface = IMG_Load_RW(rwops, 1);
+    SDL_Surface * loadedSurface = IMG_Load_IO(rwops, 1);
     if (loadedSurface == nullptr)
     {
-        ILD_Log("Failed to create SDL_Surface for texture!: " << filename << "\nSDL_image error: " << IMG_GetError());
+        ILD_Log("Failed to create SDL_Surface for texture!: " << filename << "\nSDL_image error: " << SDL_GetError());
         return false;
     }
 
     SDL_Texture * texture = SDL_CreateTextureFromSurface(&sdlRenderer, loadedSurface);
-    SDL_FreeSurface(loadedSurface);
+    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_LINEAR);
+    SDL_DestroySurface(loadedSurface);
     if (texture == nullptr)
     {
         ILD_Log("Failed to create SDL_Texture from surface!: " << filename << "\nSDL error: " << SDL_GetError());
@@ -58,10 +60,11 @@ void Texture::repeated(bool newRepeated)
 ild::Vector2u Texture::size() const
 {
     SDL_Texture * texture = &textureImpl().sdlTexture();
-    int w = 0;
-    int h = 0;
-    SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
-    return ild::Vector2u(w, h);
+    float w = 0;
+    float h = 0;
+
+    SDL_GetTextureSize(texture, &w, &h);
+    return ild::Vector2u((int)w, (int)h);
 }
 
 void Texture::smooth(bool newSmooth)

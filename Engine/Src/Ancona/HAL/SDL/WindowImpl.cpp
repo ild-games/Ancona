@@ -26,9 +26,9 @@
 //
 ////////////////////////////////////////////////////////////
 
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_mixer/SDL_mixer.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include <Ancona/HAL/Keyboard.hpp>
 #include <Ancona/HAL/Mouse.hpp>
@@ -46,9 +46,10 @@ namespace ildhal
 
 /* Pimpl Implementation */
 
-priv::WindowImpl::WindowImpl(SDL_Window * window, SDL_Renderer * renderer) :
+priv::WindowImpl::WindowImpl(SDL_Window * window, SDL_Renderer * renderer, MIX_Mixer * mixer) :
         priv::RenderTargetImpl(renderer),
-        _sdlWindow(std::unique_ptr<SDL_Window, SDL_WindowDestructor>(window))
+        _sdlWindow(std::unique_ptr<SDL_Window, SDL_WindowDestructor>(window)),
+        _sdlMixer(std::unique_ptr<MIX_Mixer>(mixer))
 {
 }
 
@@ -58,48 +59,38 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
 {
     priv::EventImpl::PopulateSdlToAnconaKeycodeMap();
 
-    // SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); // linear instead of nearest neighbor
-
     ILD_ReleaseAssert(
-        SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) >= 0,
+        SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_GAMEPAD) >= 0,
         "SDL could not initialize! SDL Error: " << SDL_GetError());
 
-    uint32_t windowFlags = SDL_WINDOW_SHOWN;
+    uint32_t windowFlags = 0;
     windowFlags |=
         ((style & ildhal::WindowStyle::Titlebar ? 0x0 : SDL_WINDOW_BORDERLESS) |
          (style & ildhal::WindowStyle::Resize ? SDL_WINDOW_RESIZABLE : 0x0) |
          (style & ildhal::WindowStyle::Close ? 0x0 : 0x0) |
          (style & ildhal::WindowStyle::Fullscreen ? SDL_WINDOW_FULLSCREEN : 0x0));
-    SDL_Window * window =
-        SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, windowFlags);
+    SDL_Window * window = SDL_CreateWindow(title.c_str(), width, height, windowFlags);
 
-    uint32_t rendererFlags = ((useVsync ? SDL_RENDERER_PRESENTVSYNC : 0x0) | (SDL_RENDERER_ACCELERATED));
-    SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, rendererFlags);
+    uint32_t rendererFlags = 0;
+    SDL_Renderer * renderer = SDL_CreateRenderer(window, NULL);
+    SDL_SetRenderVSync(renderer, useVsync);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_RenderSetLogicalSize(renderer, width, height);
+    SDL_SetRenderLogicalPresentation(renderer, width, height, SDL_LOGICAL_PRESENTATION_DISABLED);
 
-    SDL_RendererInfo rendererInfo;
-    if (SDL_GetRendererInfo(renderer, &rendererInfo) < 0)
-    {
-        ILD_Log("Renderer name: " << std::string(rendererInfo.name));
-    }
+    const char* rendererName = SDL_GetRendererName(renderer);
+    ILD_Log("Renderer name: " << std::string(rendererName));
 
-    ILD_ReleaseAssert(
-        IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG,
-        "SDL_image failed to initialize! SDL_image error: " << IMG_GetError());
-
-    ILD_ReleaseAssert(TTF_Init() >= 0, "SDL_ttf failed to initialize! SDL_ttf error: " << TTF_GetError());
+    ILD_ReleaseAssert(TTF_Init() >= 0, "SDL_ttf failed to initialize! SDL_ttf error: " << SDL_GetError());
 
     ILD_ReleaseAssert(
-        Mix_Init(MIX_INIT_OGG) & MIX_INIT_OGG,
-        "SDL_mixer could not initialize! SDL_mixer error: " << Mix_GetError());
+        MIX_Init(),
+        "SDL_mixer could not initialize! SDL_mixer error: " << SDL_GetError());
 
+    MIX_Mixer* mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
     ILD_ReleaseAssert(
-        Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) >= 0,
-        "SDL_mixer could not initialize! SDL_mixer error: " << Mix_GetError());
-
-    _pimpl = std::make_unique<priv::WindowImpl>(window, renderer);
+        !mixer,
+        "SDL_Mixer couldn't create mixer on default device! SDL_mixer error: " << SDL_GetError());
+    _pimpl = std::make_unique<priv::WindowImpl>(window, renderer, mixer);
 }
 
 bool Window::PollEvent(Event & event)
@@ -138,8 +129,10 @@ ild::Vector2u Window::size() const
     int x = 0;
     int y = 0;
 
-    SDL_RenderGetLogicalSize(&windowImpl().sdlRenderer(), &x, &y);
-    // SDL_GetWindowSize(&windowImpl().sdlWindow(), &x, &y);
+    SDL_RendererLogicalPresentation mode;
+    if (!SDL_GetRenderLogicalPresentation(&windowImpl().sdlRenderer(), &x, &y, &mode)) {
+        SDL_Log("Failed to get logical presentation: %s", SDL_GetError());
+    }
     return ild::Vector2u((unsigned int) x, (unsigned int) y);
 }
 

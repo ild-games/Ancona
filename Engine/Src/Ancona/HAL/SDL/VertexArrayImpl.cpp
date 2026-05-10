@@ -68,7 +68,7 @@ void VertexArray::SetVertexTexCoords(int index, const ild::Vector2f & newTexCoor
     texCoord.x = newTexCoords.x;
     texCoord.y = newTexCoords.y;
 
-    SDL_Color sdlColor;
+    SDL_FColor sdlColor;
     sdlColor.r = color.r;
     sdlColor.g = color.g;
     sdlColor.b = color.b;

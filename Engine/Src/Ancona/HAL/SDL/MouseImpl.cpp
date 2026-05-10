@@ -16,16 +16,16 @@ std::set<Mouse::Button> Mouse::_heldButtonsToClear;
 
 ild::Vector2i Mouse::GetPosition()
 {
-    int x, y;
+    float x, y;
     SDL_GetGlobalMouseState(&x, &y);
-    return ild::Vector2i(x, y);
+    return ild::Vector2i(static_cast<int>(x), static_cast<int>(y));
 }
 
 ild::Vector2i Mouse::GetPosition(const Window & relativeTo)
 {
-    int x, y;
+    float x, y;
     SDL_GetMouseState(&x, &y);
-    return ild::Vector2i(x, y);
+    return ild::Vector2i(static_cast<int>(x), static_cast<int>(y));
 }
 
 bool Mouse::IsButtonPressed(const Mouse::Button & btn)

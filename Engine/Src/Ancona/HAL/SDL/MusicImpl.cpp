@@ -10,21 +10,21 @@ namespace ildhal
 
 bool priv::MusicImpl::LoadSDLMusicFromFile(const std::string & filename)
 {
-    SDL_RWops * rwops = SDL_RWFromFile(filename.c_str(), "rb");
+    SDL_IOStream * rwops = SDL_IOFromFile(filename.c_str(), "rb");
     if (rwops == nullptr)
     {
-        ILD_Log("Failed to SDL_RWops for music!: " << filename << "\nSDL error: " << SDL_GetError());
+        ILD_Log("Failed to SDL_IOStream for music!: " << filename << "\nSDL error: " << SDL_GetError());
         return false;
     }
-    Mix_Music * loadedMusic = Mix_LoadMUS_RW(rwops, 1);
+    MIX_Audio * loadedMusic = MIX_LoadMUS_RW(rwops, 1);
 
     if (!loadedMusic)
     {
-        ILD_Log("Failed to load music!: " << filename << "\nSDL_mixer error: " << Mix_GetError());
+        ILD_Log("Failed to load music!: " << filename << "\nSDL_mixer error: " << SDL_GetError());
         return false;
     }
 
-    _sdlMusic = std::unique_ptr<Mix_Music, SDL_MusicDestructor>(loadedMusic);
+    _sdlMusic = std::unique_ptr<MIX_Audio, SDL_MusicDestructor>(loadedMusic);
 
     return true;
 }
@@ -38,29 +38,29 @@ Music::Music()
 
 void Music::Play()
 {
-    if (Mix_PlayingMusic() == 0)
+    if (MIX_PlayingMusic() == 0)
     {
-        Mix_PlayMusic(&musicImpl().sdlMusic(), musicImpl().isLoop() ? -1 : 0);
+        MIX_PlayMusic(&musicImpl().sdlMusic(), musicImpl().isLoop() ? -1 : 0);
     }
     else
     {
-        Mix_ResumeMusic();
+        MIX_ResumeMusic();
     }
     musicImpl().status(SoundSource::Playing);
 }
 
 void Music::Pause()
 {
-    if (Mix_PausedMusic() == 0)
+    if (MIX_PausedMusic() == 0)
     {
-        Mix_PauseMusic();
+        MIX_PauseMusic();
     }
     musicImpl().status(SoundSource::Paused);
 }
 
 void Music::Stop()
 {
-    Mix_HaltMusic();
+    MIX_HaltMusic();
     musicImpl().status(SoundSource::Stopped);
 }
 
@@ -77,9 +77,9 @@ void Music::loop(bool newLoop)
 
 void Music::playingOffset(Time timeOffset)
 {
-    if (Mix_SetMusicPosition(timeOffset.AsSeconds()) < 0)
+    if (MIX_SetMusicPosition(timeOffset.AsSeconds()) < 0)
     {
-        ILD_Log("Failed to set music playing offset! SDL_mixer error: " << Mix_GetError());
+        ILD_Log("Failed to set music playing offset! SDL_mixer error: " << SDL_GetError());
     }
 }
 
@@ -91,7 +91,7 @@ SoundSource::Status Music::status() const
         return status;
     }
 
-    if (Mix_PlayingMusic() == 0)
+    if (MIX_PlayingMusic() == 0)
     {
         musicImpl().status(SoundSource::Status::Stopped);
         return SoundSource::Status::Stopped;
@@ -102,7 +102,7 @@ SoundSource::Status Music::status() const
 
 void Music::volume(float volume)
 {
-    Mix_VolumeMusic((int) (volume * 128));
+    MIX_VolumeMusic((int) (volume * 128));
 }
 
 priv::MusicImpl & Music::musicImpl() const

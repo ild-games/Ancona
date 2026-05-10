@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <SDL2/SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include <Ancona/HAL/Font.hpp>
 
