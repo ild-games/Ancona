@@ -10,6 +10,7 @@
 #include <Ancona/HAL/Font.hpp>
 #include <Ancona/HAL/Joystick.hpp>
 #include <Ancona/HAL/Keyboard.hpp>
+#include <Ancona/HAL/Mixer.hpp>
 #include <Ancona/HAL/Mouse.hpp>
 #include <Ancona/HAL/Music.hpp>
 #include <Ancona/HAL/OS.hpp>

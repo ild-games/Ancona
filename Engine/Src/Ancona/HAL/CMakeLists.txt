@@ -17,7 +17,7 @@ file(GLOB Ancona_HAL_Generic_Headers *.hpp *.inl)
 
 add_library(Ancona_HAL ${Ancona_HAL_Code} ${Ancona_HAL_Headers} ${Ancona_HAL_Generic_Code} ${Ancona_HAL_Generic_Headers})
 
-target_link_libraries(Ancona_HAL PUBLIC SDL2)
-target_link_libraries(Ancona_HAL PUBLIC SDL2_image)
+target_link_libraries(Ancona_HAL PUBLIC SDL3)
+target_link_libraries(Ancona_HAL PUBLIC SDL3_image)
 install(TARGETS Ancona_HAL DESTINATION lib)
 

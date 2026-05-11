@@ -46,10 +46,9 @@ namespace ildhal
 
 /* Pimpl Implementation */
 
-priv::WindowImpl::WindowImpl(SDL_Window * window, SDL_Renderer * renderer, MIX_Mixer * mixer) :
+priv::WindowImpl::WindowImpl(SDL_Window * window, SDL_Renderer * renderer) :
         priv::RenderTargetImpl(renderer),
-        _sdlWindow(std::unique_ptr<SDL_Window, SDL_WindowDestructor>(window)),
-        _sdlMixer(std::unique_ptr<MIX_Mixer>(mixer))
+        _sdlWindow(std::unique_ptr<SDL_Window, SDL_WindowDestructor>(window))
 {
 }
 
@@ -86,11 +85,7 @@ Window::Window(const std::string & title, int width, int height, bool useVsync, 
         MIX_Init(),
         "SDL_mixer could not initialize! SDL_mixer error: " << SDL_GetError());
 
-    MIX_Mixer* mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
-    ILD_ReleaseAssert(
-        !mixer,
-        "SDL_Mixer couldn't create mixer on default device! SDL_mixer error: " << SDL_GetError());
-    _pimpl = std::make_unique<priv::WindowImpl>(window, renderer, mixer);
+    _pimpl = std::make_unique<priv::WindowImpl>(window, renderer);
 }
 
 bool Window::PollEvent(Event & event)

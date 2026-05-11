@@ -15,9 +15,15 @@ std::string Jukebox::_musicKeyPlaying = "";
 float Jukebox::_musicVolumePercent = 1.0f;
 float Jukebox::_soundVolumePercent = 1.0f;
 std::unique_ptr<ildhal::Music> Jukebox::_music = std::make_unique<ildhal::Music>();
+std::unique_ptr<ildhal::Mixer> Jukebox::_mixer = std::unique_ptr<ildhal::Mixer>(nullptr);
 float Jukebox::_loopStart = 0.0f;
 bool Jukebox::_loop = true;
 unsigned long Jukebox::_nextSoundLifecycleJobID = 0;
+
+void Jukebox::Init()
+{
+    Jukebox::_mixer = std::make_unique<ildhal::Mixer>();
+}
 
 void Jukebox::Update()
 {
@@ -41,7 +47,7 @@ void Jukebox::RegisterSound(const std::string & soundKey)
         _jukeboxSounds.emplace(soundKey, std::unique_ptr<JukeboxSounds>(new JukeboxSounds()));
     }
 
-    _jukeboxSounds[soundKey]->Add(soundKey);
+    _jukeboxSounds[soundKey]->Add(*_mixer, soundKey);
 }
 
 void Jukebox::ClearSounds()
@@ -94,7 +100,7 @@ void Jukebox::PlayMusic(const std::string & musicKey, const bool & loop, const f
     auto resourceRoot = ResourceLibrary::ResourceRoot();
     std::stringstream stream;
     stream << resourceRoot << "/" << musicKey << ".ogg";
-    _music->OpenFromFile(stream.str());
+    _music->OpenFromFile(*_mixer, stream.str());
     PlayMusic(loop, loopStart);
 }
 

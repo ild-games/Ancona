@@ -14,7 +14,9 @@ class JukeboxSounds
   public:
     JukeboxSounds();
 
-    void Add(const std::string & soundKey);
+    void Add(
+        const ildhal::Mixer& mixer,
+        const std::string& soundKey);
     void CreateJob(const unsigned long & jobID);
     void Play(const unsigned long & jobID, const float & volume);
 

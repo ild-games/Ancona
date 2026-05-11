@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
 
 #include <Ancona/HAL/SoundBuffer.hpp>
@@ -12,22 +13,22 @@ namespace ildhal
 namespace priv
 {
 
-struct SDL_SoundDestructor
+struct SDL_IOStreamDestructor
 {
-    void operator()(MIX_Audio * m) const { MIX_DestroyAudio(m); }
+    void operator()(SDL_IOStream* m) const { SDL_CloseIO(m); }
 };
 
 class SoundBufferImpl
 {
   public:
-    bool LoadSDLSoundFromFile(const std::string & filename);
+    SoundBufferImpl();
+    bool LoadSDLAudioFromFile(const std::string& filename);
 
     /* getters and setters */
-    MIX_Audio & sdlSound() const { return *_sdlSound; }
+    SDL_IOStream& sdlIOStream() const { return *_sdlIOStream; }
 
   private:
-    std::unique_ptr<MIX_Audio, SDL_SoundDestructor> _sdlSound =
-        std::unique_ptr<MIX_Audio, SDL_SoundDestructor>(nullptr);
+    std::unique_ptr<SDL_IOStream, SDL_IOStreamDestructor> _sdlIOStream;
 };
 
 } // namespace priv

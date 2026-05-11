@@ -31,7 +31,7 @@ struct SDL_WindowDestructor
 class WindowImpl : public RenderTargetImpl
 {
   public:
-    WindowImpl(SDL_Window *, SDL_Renderer *, MIX_Mixer *);
+    WindowImpl(SDL_Window *, SDL_Renderer *);
 
     /* getters and setters */
     SDL_Window & sdlWindow() const { return *_sdlWindow; }
@@ -47,7 +47,6 @@ class WindowImpl : public RenderTargetImpl
 
   private:
     std::unique_ptr<SDL_Window, SDL_WindowDestructor> _sdlWindow;
-    std::unique_ptr<MIX_Mixer> _sdlMixer;
 
     bool _isClosed = false;
     bool _isActive = false;

@@ -13,7 +13,9 @@ JukeboxSounds::JukeboxSounds()
     }
 }
 
-void JukeboxSounds::Add(const std::string & soundKey)
+void JukeboxSounds::Add(
+    const ildhal::Mixer& mixer,
+    const std::string& soundKey)
 {
     _numRegisteredSounds++;
     if (_sounds.size() == NUM_ALLOCATED_SOUNDS)
@@ -21,7 +23,9 @@ void JukeboxSounds::Add(const std::string & soundKey)
         return;
     }
 
-    _sounds.emplace_back(new ildhal::Sound(*ResourceLibrary::Get<ildhal::SoundBuffer>(soundKey)));
+    _sounds.emplace_back(new ildhal::Sound(
+        mixer,
+        *ResourceLibrary::Get<ildhal::SoundBuffer>(soundKey)));
 }
 
 void JukeboxSounds::CreateJob(const unsigned long & jobID)

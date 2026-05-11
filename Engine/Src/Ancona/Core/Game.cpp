@@ -33,6 +33,7 @@ Game::Game(const GameConfig & config) :
         _window->framerateLimit(config.fpsLimit);
     }
     _window->keyRepeatEnabled(config.isKeyRepeatEnabled);
+    Jukebox::Init();
 }
 
 Game::~Game()

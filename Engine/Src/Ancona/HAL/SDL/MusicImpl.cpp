@@ -1,4 +1,5 @@
 #include <Ancona/HAL/Music.hpp>
+#include <Ancona/HAL/SDL/MixerImpl.hpp>
 #include <Ancona/HAL/SDL/MusicImpl.hpp>
 #include <Ancona/HAL/Time.hpp>
 #include <Ancona/System/Log.hpp>
@@ -8,7 +9,9 @@ namespace ildhal
 
 /* Pimpl Implementation */
 
-bool priv::MusicImpl::LoadSDLMusicFromFile(const std::string & filename)
+bool priv::MusicImpl::LoadSDLAudioFromFile(
+    MIX_Mixer& sdlMixer, 
+    const std::string & filename)
 {
     SDL_IOStream * rwops = SDL_IOFromFile(filename.c_str(), "rb");
     if (rwops == nullptr)
@@ -16,15 +19,27 @@ bool priv::MusicImpl::LoadSDLMusicFromFile(const std::string & filename)
         ILD_Log("Failed to SDL_IOStream for music!: " << filename << "\nSDL error: " << SDL_GetError());
         return false;
     }
-    MIX_Audio * loadedMusic = MIX_LoadMUS_RW(rwops, 1);
 
-    if (!loadedMusic)
+    // TODO maybe `false` for 3rd param, predecode as it will increase load 
+    // times and increase RAM usage by predecoding it upon load instead of
+    // on demand
+    MIX_Audio * loadedAudio = MIX_LoadAudio_IO(&sdlMixer, rwops, true, true);
+
+    if (!loadedAudio)
     {
-        ILD_Log("Failed to load music!: " << filename << "\nSDL_mixer error: " << SDL_GetError());
+        ILD_Log("Failed to load audio!: " << filename << "\nSDL_mixer error: " << SDL_GetError());
         return false;
     }
 
-    _sdlMusic = std::unique_ptr<MIX_Audio, SDL_MusicDestructor>(loadedMusic);
+    _sdlAudio = std::unique_ptr<MIX_Audio, MIX_AudioDestructor>(loadedAudio);
+
+    MIX_Track* track = MIX_CreateTrack(&sdlMixer);
+    if (!track) {
+        SDL_Log("Couldn't create a mixer track: %s", SDL_GetError());
+        return false;
+    }
+    MIX_SetTrackAudio(track, loadedAudio);
+    _sdlTrack = std::unique_ptr<MIX_Track, MIX_TrackDesctructor>(track);
 
     return true;
 }
@@ -38,35 +53,44 @@ Music::Music()
 
 void Music::Play()
 {
-    if (MIX_PlayingMusic() == 0)
+    if (!MIX_TrackPlaying(&musicImpl().sdlTrack()))
     {
-        MIX_PlayMusic(&musicImpl().sdlMusic(), musicImpl().isLoop() ? -1 : 0);
+        SDL_PropertiesID options = 0;
+        options = SDL_CreateProperties();
+        if (!options) {
+            SDL_Log("Couldn't create play options: %s", SDL_GetError());
+            // TODO error out?
+        }
+        if (musicImpl().isLoop()) {
+            SDL_SetNumberProperty(options, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+        }
+        MIX_PlayTrack(&musicImpl().sdlTrack(), options);
     }
     else
     {
-        MIX_ResumeMusic();
+        MIX_ResumeTrack(&musicImpl().sdlTrack());
     }
     musicImpl().status(SoundSource::Playing);
 }
 
 void Music::Pause()
 {
-    if (MIX_PausedMusic() == 0)
+    if (!MIX_TrackPaused(&musicImpl().sdlTrack()))
     {
-        MIX_PauseMusic();
+        MIX_PauseTrack(&musicImpl().sdlTrack());
     }
     musicImpl().status(SoundSource::Paused);
 }
 
 void Music::Stop()
 {
-    MIX_HaltMusic();
+    MIX_StopTrack(&musicImpl().sdlTrack(), 0);
     musicImpl().status(SoundSource::Stopped);
 }
 
-bool Music::OpenFromFile(const std::string & filename)
+bool Music::OpenFromFile(const ildhal::Mixer& mixer, const std::string& filename)
 {
-    return musicImpl().LoadSDLMusicFromFile(filename);
+    return musicImpl().LoadSDLAudioFromFile(mixer.mixerImpl().sdlMixer(), filename);
 }
 
 /* getters and setters */
@@ -77,7 +101,7 @@ void Music::loop(bool newLoop)
 
 void Music::playingOffset(Time timeOffset)
 {
-    if (MIX_SetMusicPosition(timeOffset.AsSeconds()) < 0)
+    if (!MIX_SetTrackPlaybackPosition(&musicImpl().sdlTrack(), timeOffset.AsSeconds()))
     {
         ILD_Log("Failed to set music playing offset! SDL_mixer error: " << SDL_GetError());
     }
@@ -91,7 +115,7 @@ SoundSource::Status Music::status() const
         return status;
     }
 
-    if (MIX_PlayingMusic() == 0)
+    if (!MIX_TrackPlaying(&musicImpl().sdlTrack()))
     {
         musicImpl().status(SoundSource::Status::Stopped);
         return SoundSource::Status::Stopped;
@@ -102,7 +126,7 @@ SoundSource::Status Music::status() const
 
 void Music::volume(float volume)
 {
-    MIX_VolumeMusic((int) (volume * 128));
+    MIX_SetTrackGain(&musicImpl().sdlTrack(), volume);
 }
 
 priv::MusicImpl & Music::musicImpl() const

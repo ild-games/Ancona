@@ -132,6 +132,7 @@ target_sources(
     Engine/Src/Ancona/HAL/SDL/FontImpl.cpp
     Engine/Src/Ancona/HAL/SDL/JoystickImpl.cpp
     Engine/Src/Ancona/HAL/SDL/KeyboardImpl.cpp
+    Engine/Src/Ancona/HAL/SDL/MixerImpl.cpp
     Engine/Src/Ancona/HAL/SDL/MouseImpl.cpp
     Engine/Src/Ancona/HAL/SDL/MusicImpl.cpp
     $<$<PLATFORM_ID:Android>:Engine/Src/Ancona/HAL/SDL/OSImpl.Android.cpp>
@@ -273,6 +274,7 @@ target_sources(
     Engine/Src/Ancona/HAL/Font.hpp
     Engine/Src/Ancona/HAL/Joystick.hpp
     Engine/Src/Ancona/HAL/Keyboard.hpp
+    Engine/Src/Ancona/HAL/Mixer.hpp
     Engine/Src/Ancona/HAL/Mouse.hpp
     Engine/Src/Ancona/HAL/Music.hpp
     Engine/Src/Ancona/HAL/OS.hpp
@@ -302,6 +304,7 @@ target_sources(
     Engine/Src/Ancona/HAL/SDL/DrawableImpl.hpp
     Engine/Src/Ancona/HAL/SDL/EventImpl.hpp
     Engine/Src/Ancona/HAL/SDL/FontImpl.hpp
+    Engine/Src/Ancona/HAL/SDL/MixerImpl.hpp
     Engine/Src/Ancona/HAL/SDL/MusicImpl.hpp
     Engine/Src/Ancona/HAL/SDL/RectangleShapeImpl.hpp
     Engine/Src/Ancona/HAL/SDL/RenderStatesImpl.hpp

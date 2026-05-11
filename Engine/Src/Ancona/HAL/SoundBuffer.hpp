@@ -28,6 +28,7 @@
 
 #include <string>
 
+#include <Ancona/HAL/Mixer.hpp>
 #include <Ancona/HAL/RenderTarget.hpp>
 
 namespace ildhal
@@ -43,7 +44,9 @@ class SoundBuffer
   public:
     SoundBuffer();
 
-    bool LoadFromFile(const std::string & filename, ildhal::RenderTarget & renderTarget);
+    bool LoadFromFile(
+        const std::string & filename,
+        ildhal::RenderTarget & renderTarget);
 
     /* getters and setters */
     priv::SoundBufferImpl & soundBufferImpl() const { return *_pimpl; }

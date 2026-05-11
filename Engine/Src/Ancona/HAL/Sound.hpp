@@ -26,6 +26,7 @@
 
 #pragma once
 
+#include <Ancona/HAL/Mixer.hpp>
 #include <Ancona/HAL/SoundSource.hpp>
 
 namespace ildhal
@@ -41,8 +42,9 @@ class SoundImpl;
 class Sound : public SoundSource
 {
   public:
-    Sound();
-    explicit Sound(const SoundBuffer & buffer);
+    explicit Sound(
+        const ildhal::Mixer& mixer, 
+        const SoundBuffer& buffer);
 
     void Play() override;
     void Pause() override;

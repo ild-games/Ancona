@@ -6,6 +6,7 @@
 #include <Ancona/HAL/SDL/DrawableImpl.hpp>
 #include <Ancona/HAL/SDL/EventImpl.hpp>
 #include <Ancona/HAL/SDL/FontImpl.hpp>
+#include <Ancona/HAL/SDL/MixerImpl.hpp>
 #include <Ancona/HAL/SDL/MusicImpl.hpp>
 #include <Ancona/HAL/SDL/RectangleShapeImpl.hpp>
 #include <Ancona/HAL/SDL/RenderStatesImpl.hpp>

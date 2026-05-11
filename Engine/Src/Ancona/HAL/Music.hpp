@@ -28,6 +28,7 @@
 
 #include <string>
 
+#include <Ancona/HAL/Mixer.hpp>
 #include <Ancona/HAL/SoundSource.hpp>
 #include <Ancona/HAL/Time.hpp>
 
@@ -47,7 +48,7 @@ class Music : public SoundSource
     void Play() override;
     void Pause() override;
     void Stop() override;
-    bool OpenFromFile(const std::string & filename);
+    bool OpenFromFile(const ildhal::Mixer& mixer, const std::string& filename);
 
     /* getters and setters */
     void loop(bool newLoop);
