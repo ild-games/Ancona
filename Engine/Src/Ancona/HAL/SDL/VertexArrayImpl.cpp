@@ -36,10 +36,20 @@ void priv::VertexArrayImpl::Draw(
         transformedVertices[i].position.x = transformed.x;
         transformedVertices[i].position.y = transformed.y;
         transformedVertices[i].color = _vertices[i].color;
+        transformedVertices[i].color.r /= 255.0;
+        transformedVertices[i].color.g /= 255.0;
+        transformedVertices[i].color.b /= 255.0;
+        transformedVertices[i].color.a /= 255.0;
         transformedVertices[i].tex_coord = _vertices[i].tex_coord;
     }
 
-    if (SDL_RenderGeometry(&sdlRenderer, &texture, transformedVertices, _numVertices, nullptr, 0) != 0)
+    if (!SDL_RenderGeometry(
+        &sdlRenderer,
+        &texture,
+        transformedVertices,
+        _numVertices,
+        nullptr,
+        0))
     {
         ILD_Log("Failed to render VertexArray! SDL error: " << std::string(SDL_GetError()));
     }

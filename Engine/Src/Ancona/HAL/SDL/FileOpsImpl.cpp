@@ -28,8 +28,7 @@ std::unique_ptr<std::istream> FileOps::GetInputFileStream(const std::string & fi
 
     delete buf;
 
-    auto close_error_code = SDL_CloseIO(rwops);
-    ILD_Assert(close_error_code == 0, "Failed to close file!: " << filename << "\nSDL error: " << SDL_GetError());
+    SDL_CloseIO(rwops);
     return return_stream;
 }
 

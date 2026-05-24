@@ -56,7 +56,7 @@ void priv::SpriteImpl::Draw(
         _sdlTexture,
         &src,
         &dest,
-        (double) transform.rotation(),
+        transform.rotation(),
         &sdlOrigin,
         (SDL_FlipMode) flip);
 }

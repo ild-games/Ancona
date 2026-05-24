@@ -14,13 +14,13 @@ priv::SoundBufferImpl::SoundBufferImpl() :
 bool priv::SoundBufferImpl::LoadSDLAudioFromFile(
     const std::string & filename)
 {
-    SDL_IOStream * rwops = SDL_IOFromFile(filename.c_str(), "rb");
-    if (rwops == nullptr)
+    SDL_IOStream * iostream = SDL_IOFromFile(filename.c_str(), "rb");
+    if (iostream == nullptr)
     {
         ILD_Log("Failed to SDL_IOStream for sound!: " << filename << "\nSDL error: " << SDL_GetError());
         return false;
     }
-    _sdlIOStream = std::unique_ptr<SDL_IOStream, SDL_IOStreamDestructor>(rwops);
+    _sdlIOStream = std::unique_ptr<SDL_IOStream, SDL_IOStreamDestructor>(iostream);
 
     return true;
 }

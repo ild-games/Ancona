@@ -23,7 +23,7 @@ bool priv::MusicImpl::LoadSDLAudioFromFile(
     // TODO maybe `false` for 3rd param, predecode as it will increase load 
     // times and increase RAM usage by predecoding it upon load instead of
     // on demand
-    MIX_Audio * loadedAudio = MIX_LoadAudio_IO(&sdlMixer, rwops, true, true);
+    MIX_Audio * loadedAudio = MIX_LoadAudio_IO(&sdlMixer, rwops, false, true);
 
     if (!loadedAudio)
     {

@@ -35,7 +35,13 @@ void priv::TextImpl::Draw(
         transformedVertices[i].tex_coord = _vertices[i].tex_coord;
     }
 
-    if (SDL_RenderGeometry(&sdlRenderer, _texture, transformedVertices, NUM_VERTICES, nullptr, 0) != 0)
+    if (!SDL_RenderGeometry(
+        &sdlRenderer,
+        _texture,
+        transformedVertices,
+        NUM_VERTICES,
+        nullptr,
+        0))
     {
         ILD_Log("Failed to render VertexArray for text! SDL error: " << SDL_GetError());
     }
@@ -43,9 +49,9 @@ void priv::TextImpl::Draw(
 
 bool priv::TextImpl::SetupTexture(TTF_Font & sdlFont, SDL_Renderer & renderer)
 {
-    // Super weird situation here... SDL_ttf considers an alpha value of 0 to be OPAQUE and changes it to 255.
-    // Don't understand why, but for now just return false so nothing gets rendered when the color is fully
-    // transparent.
+    // Super weird situation here... SDL_ttf considers an alpha value of 0 to be OPAQUE and changes 
+    // it to 255. Don't understand why, but for now just return false so nothing gets rendered when 
+    // the color is fully transparent.
     if ((int) _fillColor.a == 0)
     {
         return false;
@@ -117,15 +123,15 @@ void priv::TextImpl::AddVertexArrayVert(int index, const ild::Vector2f & vertexN
     vertexTexPosition.y = vertexNormalizedPosition.y;
 
     // TODO maybe not needed, but it doesn't work going from SDL2 -> SDL3?
-    // SDL_Color sdlColor;
-    // sdlColor.r = 255;
-    // sdlColor.g = 255;
-    // sdlColor.b = 255;
-    // sdlColor.a = 255;
+    SDL_FColor sdlColor;
+    sdlColor.r = 1.0f;
+    sdlColor.g = 1.0f;
+    sdlColor.b = 1.0f;
+    sdlColor.a = 1.0f;
 
     _vertices[index].position = vertexPosition;
     _vertices[index].tex_coord = vertexTexPosition;
-    // _vertices[index].color = sdlColor;
+    _vertices[index].color = sdlColor;
 }
 
 /* HAL Interface Implementation */

@@ -38,8 +38,8 @@ class SoundImpl : public SoundSourceImpl
     const ildhal::SoundBuffer * _soundBuffer;
     std::unique_ptr<MIX_Audio, MIX_SoundAudioDestructor> _sdlAudio =
         std::unique_ptr<MIX_Audio, MIX_SoundAudioDestructor>(nullptr);
-    std::unique_ptr<MIX_Track, MIX_SoundTrackDestructor> _sdlTrack 
-    = std::unique_ptr<MIX_Track, MIX_SoundTrackDestructor>(nullptr);
+    std::unique_ptr<MIX_Track, MIX_SoundTrackDestructor> _sdlTrack = 
+        std::unique_ptr<MIX_Track, MIX_SoundTrackDestructor>(nullptr);
 };
 
 } // namespace priv

@@ -6,6 +6,8 @@
 #include <Ancona/HAL/SDL/SoundBufferImpl.hpp>
 #include <Ancona/HAL/SDL/SoundImpl.hpp>
 #include <Ancona/HAL/SoundBuffer.hpp>
+#include <Ancona/System/Log.hpp>
+#include <Ancona/Util/Assert.hpp>
 
 namespace ildhal
 {
@@ -19,22 +21,23 @@ priv::SoundImpl::SoundImpl(
     MIX_Track* track = MIX_CreateTrack(&sdlMixer);
     if (!track) {
         SDL_Log("Couldn't create a mixer track: %s", SDL_GetError());
-        // TODO throw error?
+        ILD_Assert(false, "SDL3_Mixer MIX_CreateTrack failed"); 
     }
 
-    // TODO maybe `false` for 3rd param, predecode as it will increase load 
-    // times and increase RAM usage by predecoding it upon load instead of
-    // on demand
+    bool predecode = true;
+    bool sdlClosesIo = false;
+    SDL_SeekIO(&soundBuffer.soundBufferImpl().sdlIOStream(), 0, SDL_IO_SEEK_SET);
     MIX_Audio* loadedAudio = MIX_LoadAudio_IO(
         &sdlMixer,
         &soundBuffer.soundBufferImpl().sdlIOStream(),
-        true,
-        true);
+        predecode,
+        sdlClosesIo);
 
     if (!loadedAudio)
     {
-        SDL_Log("Failed to load wav sfx!\nSDL_mixer error: %s", SDL_GetError());
-        // TODO throw error?
+        ILD_Log("Failed to load wav sfx! SDL_mixer error: " << SDL_GetError());
+        ILD_Log("filename: " << soundBuffer.soundBufferImpl().filename());
+        ILD_Assert(false, "SDL3_Mixer MIX_LoadAudio_IO failed"); 
     }
     MIX_SetTrackAudio(track, loadedAudio);
 
